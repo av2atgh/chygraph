@@ -7,7 +7,7 @@ name = "chygraph"
 version = "0.1.0"
 description = "Symbolic calculation of percolation in chygraphs, hypergraphs, and higher-order networks"
 readme = "README.md"
-license = { file = "LICENSE" }
+license-files = ["LICENSE"]
 requires-python = ">=3.9"
 dependencies = [
     "sympy",
