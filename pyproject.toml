@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chygraph"
+version = "0.1.0"
+description = "Symbolic calculation of percolation in chygraphs, hypergraphs, and higher-order networks"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.9"
+dependencies = [
+    "sympy",
+    "numpy",
+    "pandas",
+    "matplotlib",
+]
+
+[project.urls]
+Paper   = "https://doi.org/10.1093/comnet/cnae047"
+Preprint = "https://arxiv.org/abs/2308.00987"
+
+[tool.setuptools.packages.find]
+where = ["src"]
