@@ -6,7 +6,7 @@ References:
     https://arxiv.org/abs/2308.00987
 """
 
-from sympy import zeros, symbols
+from sympy import zeros, symbols, Rational
 
 
 # ---------------------------------------------------------------------------
@@ -49,14 +49,29 @@ class PercolationMatrix:
                                         delta(m, n) * delta(l, o) - s[n, o] * delta(n, l)
                                     )
         self.A = A
+        self._theta = None
+        self._eigenvals = None
 
     def theta(self):
-        """Return the percolation threshold expression det(-A)."""
-        return -self.A.det()
+        """Return the percolation threshold expression det(-A).
+
+        The determinant is computed once and cached on the instance.
+        """
+        if self._theta is None:
+            self._theta = -self.A.det()
+        return self._theta
 
     def eigenvals(self):
-        """Return the eigenvalues of -A as a list."""
-        return list((-self.A).eigenvals().keys())
+        """Return the eigenvalues of -A as a list.
+
+        The (symbolic) eigendecomposition is the expensive step, so it is
+        computed once and cached on the instance. Note that the ordering is
+        whatever ``sympy`` produces; ``Lambda`` (the percolation-relevant
+        eigenvalue) is the largest one — see the tests, which pin it by value.
+        """
+        if self._eigenvals is None:
+            self._eigenvals = list((-self.A).eigenvals().keys())
+        return self._eigenvals
 
 
 # Backward-compatibility alias
@@ -109,7 +124,7 @@ class InteractingHypergraphs:
     """
 
     def __init__(self, g=2, graph=False, poisson=False):
-        L = int(g + (g * (g + 1)) / 2)
+        L = int(g + (g * (g + 1)) // 2)
         k, K, s, S = zeros(L, L), zeros(L, L), zeros(L, L), zeros(L, L)
         for l in range(g):
             for m in range(l, g):
@@ -152,7 +167,7 @@ class GraphWithTriangles:
         k[0, 1] = symbols('k_L')
         k[0, 2] = symbols('k_T')
         s[1, 0] = 1 + q
-        s[2, 0] = 3 * (q**3 + 3*q**2*(1 - q)) + (3/2)*3*q*(1 - q)**2 + (1 - q)**3
+        s[2, 0] = 3 * (q**3 + 3*q**2*(1 - q)) + Rational(3, 2)*3*q*(1 - q)**2 + (1 - q)**3
         S[1, 0] = q
         S[2, 0] = 2 * q * (1 + q - q**2)
         if poisson:

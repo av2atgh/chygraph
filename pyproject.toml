@@ -11,9 +11,15 @@ license-files = ["LICENSE"]
 requires-python = ">=3.9"
 dependencies = [
     "sympy",
+]
+
+[project.optional-dependencies]
+examples = [
     "numpy",
-    "pandas",
     "matplotlib",
+]
+test = [
+    "pytest",
 ]
 
 [project.urls]

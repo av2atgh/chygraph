@@ -9,16 +9,16 @@ https://arxiv.org/abs/2308.00987
 
 ## Installation
 
-Install from the source distribution:
-
-```bash
-pip install chygraph-0.1.0.tar.gz
-```
-
-Or install in editable mode from the repository:
+Install in editable mode from the repository:
 
 ```bash
 pip install -e .
+```
+
+To also install the dependencies used by the plotting examples and the tests:
+
+```bash
+pip install -e ".[examples,test]"
 ```
 
 ## Usage
