@@ -14,6 +14,31 @@ from chygraph.percolation import (
     InteractingHypergraphs,
     GraphWithTriangles,
 )
+from chygraph.giant import (
+    GiantComponent,
+    poisson_pgf,
+    thin,
+    finite_pgf,
+    constant_pgf,
+    moment_pgf,
+    hypergraph_giant,
+    multiplex_hypergraph_giant,
+    graph_with_triangles_giant,
+)
+from chygraph.amplitude import CriticalAmplitude
+from chygraph.joint import JointGiantComponent
+from chygraph.applications import (
+    clique_cluster_distribution,
+    clique_excess_pgf,
+    clique_pgf,
+    size_biased,
+    and_or_hypergraph,
+    correlated_cardinality_hypergraph,
+    two_class_joint_degree,
+    household_epidemic,
+    clique_network,
+    stc_percolation,
+)
 
 __all__ = [
     "PercolationMatrix",
@@ -22,4 +47,25 @@ __all__ = [
     "MultiplexHypergraph",
     "InteractingHypergraphs",
     "GraphWithTriangles",
+    "GiantComponent",
+    "poisson_pgf",
+    "thin",
+    "finite_pgf",
+    "constant_pgf",
+    "moment_pgf",
+    "hypergraph_giant",
+    "multiplex_hypergraph_giant",
+    "graph_with_triangles_giant",
+    "CriticalAmplitude",
+    "JointGiantComponent",
+    "clique_cluster_distribution",
+    "clique_excess_pgf",
+    "clique_pgf",
+    "size_biased",
+    "and_or_hypergraph",
+    "correlated_cardinality_hypergraph",
+    "two_class_joint_degree",
+    "household_epidemic",
+    "clique_network",
+    "stc_percolation",
 ]
