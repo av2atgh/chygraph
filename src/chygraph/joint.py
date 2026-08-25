@@ -61,10 +61,10 @@ moment, and both the threshold and the order parameter change.
 
 from sympy import Symbol, diff, simplify, sympify
 
-from chygraph.giant import GiantComponent
+from chygraph.giant import Chygraph
 
 
-class JointGiantComponent(GiantComponent):
+class JointChygraph(Chygraph):
     """A chygraph whose layers may be statistically dependent.
 
     Args:
@@ -95,8 +95,9 @@ class JointGiantComponent(GiantComponent):
     """
 
     def __init__(self, Phi, G, Phibar=None, Gbar=None, occupation=None,
-                 root_occupation=None):
+                 root_occupation=None, perron_probe=None):
         L = len(Phi)
+        self.perron_probe = perron_probe
         if len(G) != L:
             raise ValueError("Phi and G must have the same length")
         self.occupation = [1] * L if occupation is None else list(occupation)
@@ -232,4 +233,8 @@ class JointGiantComponent(GiantComponent):
         return True
 
 
-__all__ = ["JointGiantComponent"]
+# Renamed with Chygraph; the old name is kept as an alias.
+JointGiantComponent = JointChygraph
+
+
+__all__ = ["JointChygraph", "JointGiantComponent"]

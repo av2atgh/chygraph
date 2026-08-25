@@ -92,7 +92,7 @@ def test_symbolic_matches_numeric_amplitude():
     for G, subs in cases:
         sym = float(CriticalAmplitude(G).amplitude(0).subs(
             {symbols(k): v for k, v in subs.items()}))
-        assert abs(sym - G.amplitude(subs)) < 1e-9, (subs, sym)
+        assert abs(sym - G.amplitude_numeric(subs)) < 1e-9, (subs, sym)
 
 
 def test_amplitude_predicts_the_order_parameter_near_threshold():

@@ -35,43 +35,44 @@ print(H.A.theta())
 print(H.A.eigenvals())
 ```
 
-### Giant component fraction
+### One object, three orders
 
 The threshold tensor `A` is the Jacobian, at its trivial fixed point, of a
-non-linear self-consistency map.  Solving that map instead of linearising it
-gives the order parameter.  The inputs are generating functions rather than
-their first derivatives; for Poisson distributions they are fixed by the same
-means used above.
+non-linear self-consistency map.  A chygraph is specified once, by its
+generating functions, and then answers all three questions:
 
 ```python
-from chygraph import hypergraph_giant, graph_with_triangles_giant
+from chygraph import hypergraph_giant
 
-G = hypergraph_giant()
-print(G.theta())                                        # same as above
-print(G.node_fraction({'k': 3, 'c': 3, 'p': 0.6, 'q': 0.8}))
+M = hypergraph_giant()
+
+M.theta()                 # c*k*p*q - 1              threshold, symbolic
+M.Lambda()                # sqrt(c*k*p*q) - 1        order parameter of the threshold
+M.amplitude()             # 4*p/(c*p + sqrt(c*k*p*q))  S = B*Lambda + O(Lambda^2)
+M.node_fraction({'k': 3, 'c': 3, 'p': 0.6, 'q': 0.8})   # 0.5082...  S itself
 ```
 
-### Critical amplitude
+`theta`, `Lambda` and `amplitude` are closed-form symbolic; `node_fraction`
+solves the map by monotone iteration from `Q = 0`, since the fixed point has no
+closed form in general.  `amplitude_at_threshold` reduces `B` on the critical
+manifold, `curvature` returns the `C` that must be finite and positive for `B`
+to mean anything, and `amplitude_numeric` re-derives `B` by numerical linear
+algebra on the full index set as an independent check.
 
-`S = B * Lambda + O(Lambda^2)` near the threshold, with `B` in closed form from
-second moments alone.
-
-```python
-from chygraph import CriticalAmplitude
-from sympy import symbols
-
-C = CriticalAmplitude(hypergraph_giant())
-print(C.amplitude_at_threshold(0, symbols('q')))        # 4*p/(c*p + 1)
-```
+The input is four tables of generating functions -- the same data the threshold
+needs, as functions rather than as their first derivatives at 1.  For Poisson
+distributions they are fixed by the means already in use.
 
 ### Dependent layers
 
-When a complex's participation in different layers is correlated, the excess
-generating functions are derivatives of the joint one and the threshold tensor
-picks up inclusion-biased second moments.
+When a complex's participation in different layers is correlated, specify the
+chygraph by joint generating functions instead.  `JointChygraph` derives the
+excess functions from them and carries inclusion-biased second moments where the
+published tensor carries unconditional first moments; the rest of the surface
+above is unchanged.
 
 ```python
-from chygraph import JointGiantComponent
+from chygraph import JointChygraph
 ```
 
 ### Constructions from the literature

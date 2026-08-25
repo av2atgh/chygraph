@@ -97,12 +97,12 @@ def test_triangle_model_matches_reference_values():
 
 def test_er_critical_amplitude_is_four():
     """S ~ 2(k-1) and Lambda = sqrt(k)-1 ~ (k-1)/2, so B = 4."""
-    assert abs(hypergraph_giant(graph=True).amplitude({'k': 1, 'p': 1, 'q': 1}) - 4) < 1e-9
+    assert abs(hypergraph_giant(graph=True).amplitude_numeric({'k': 1, 'p': 1, 'q': 1}) - 4) < 1e-9
 
 
 def test_amplitude_predicts_the_approach_to_the_threshold():
     G = hypergraph_giant()
-    B = G.amplitude({'k': 2, 'c': 2, 'p': 1, 'q': 0.25})
+    B = G.amplitude_numeric({'k': 2, 'c': 2, 'p': 1, 'q': 0.25})
     q = 0.2501
     S = G.node_fraction({'k': 2, 'c': 2, 'p': 1, 'q': q}, tol=1e-16, maxiter=4_000_000)
     assert abs(S / (math.sqrt(4 * q) - 1) - B) < 1e-3

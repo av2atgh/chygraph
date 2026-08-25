@@ -25,7 +25,7 @@ def example_er_graph():
         S = G.node_fraction({'k': k, 'p': 1, 'q': 1})
         print(f"  k={k}: S={S:.8f}   1-exp(-kS)={1 - math.exp(-k * S):.8f}")
     print("  critical amplitude B =",
-          G.amplitude({'k': 1, 'p': 1, 'q': 1}), "(exact: 4)")
+          G.amplitude_numeric({'k': 1, 'p': 1, 'q': 1}), "(exact: 4)")
 
 
 def example_triangles():
@@ -36,7 +36,7 @@ def example_triangles():
     base = {kL: 1, kT: 0.5}
     qc = float(nsolve(T.theta().subs(base), q, 0.4))
     print(f"  bond percolation threshold q_c = {qc:.6f}")
-    print(f"  critical amplitude B = {T.amplitude({'k_L': 1, 'k_T': 0.5, 'q': qc}):.6f}")
+    print(f"  critical amplitude B = {T.amplitude_numeric({'k_L': 1, 'k_T': 0.5, 'q': qc}):.6f}")
     for qq in (0.5, 0.7, 1.0):
         print(f"  q={qq}: S = {T.node_fraction({'k_L': 1, 'k_T': 0.5, 'q': qq}):.6f}")
 

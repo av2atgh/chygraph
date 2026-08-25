@@ -8,7 +8,7 @@ sees only the marginals and predicts the independent case for all three.
 
 from sympy import Rational, symbols, nsolve
 
-from chygraph import JointGiantComponent, CriticalAmplitude
+from chygraph import JointChygraph
 
 q = symbols('q')
 HALF = Rational(1, 2)
@@ -45,12 +45,11 @@ def main():
     G, Gbar = triangle_parts()
     print(f"{'model':<17}{'<kbar^(1)>_0T':>15}{'q_c':>10}{'S(q=1)':>10}{'B':>10}")
     for name, Phi in PHI.items():
-        M = JointGiantComponent(Phi=[Phi, None, None], G=G, Gbar=Gbar)
-        C = CriticalAmplitude(M)
+        M = JointChygraph(Phi=[Phi, None, None], G=G, Gbar=Gbar)
         qc = float(nsolve(M.theta(), q, 0.3))
         print(f'{name:<17}{str(M.kappa_bar(1, 0, 2)):>15}{qc:>10.5f}'
               f'{M.node_fraction({"q": 1.0}):>10.5f}'
-              f'{float(C.amplitude(0).subs(q, qc)):>10.5f}')
+              f'{float(M.amplitude().subs(q, qc)):>10.5f}')
     print('\n<kappa>_0T = 1 for all three: the published tensor uses that value '
           'in\nthe off-diagonal slot and cannot distinguish them.')
 

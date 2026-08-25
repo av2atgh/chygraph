@@ -10,7 +10,7 @@ from sympy import Rational, exp, expand, nsolve, simplify, symbols
 from chygraph import (and_or_hypergraph, correlated_cardinality_hypergraph,
                       two_class_joint_degree, household_epidemic,
                       clique_network, clique_cluster_distribution,
-                      stc_percolation, CriticalAmplitude)
+                      stc_percolation)
 
 p, q, pH, T, k, c = symbols('p q p_H T k c')
 

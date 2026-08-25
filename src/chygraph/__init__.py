@@ -15,6 +15,7 @@ from chygraph.percolation import (
     GraphWithTriangles,
 )
 from chygraph.giant import (
+    Chygraph,
     GiantComponent,
     poisson_pgf,
     thin,
@@ -26,7 +27,7 @@ from chygraph.giant import (
     graph_with_triangles_giant,
 )
 from chygraph.amplitude import CriticalAmplitude
-from chygraph.joint import JointGiantComponent
+from chygraph.joint import JointChygraph, JointGiantComponent
 from chygraph.applications import (
     clique_cluster_distribution,
     clique_excess_pgf,
@@ -47,6 +48,7 @@ __all__ = [
     "MultiplexHypergraph",
     "InteractingHypergraphs",
     "GraphWithTriangles",
+    "Chygraph",
     "GiantComponent",
     "poisson_pgf",
     "thin",
@@ -57,6 +59,7 @@ __all__ = [
     "multiplex_hypergraph_giant",
     "graph_with_triangles_giant",
     "CriticalAmplitude",
+    "JointChygraph",
     "JointGiantComponent",
     "clique_cluster_distribution",
     "clique_excess_pgf",

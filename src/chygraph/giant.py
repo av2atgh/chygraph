@@ -86,7 +86,7 @@ def constant_pgf(c):
 # Core map
 # ---------------------------------------------------------------------------
 
-class GiantComponent:
+class Chygraph:
     """Non-linear self-consistency map whose fixed point gives the giant component.
 
     Args:
@@ -100,9 +100,11 @@ class GiantComponent:
             With it, ``S_l`` is the fraction of all layer-``l`` complexes.
     """
 
-    def __init__(self, phi, phibar, g, gbar, root_occupation=None):
+    def __init__(self, phi, phibar, g, gbar, root_occupation=None,
+                 perron_probe=None):
         self.L = L = len(phi)
         self.root_occupation = root_occupation
+        self.perron_probe = perron_probe
         self.phi, self.phibar, self.g, self.gbar = phi, phibar, g, gbar
         self.n = 2 * L * L
         self.Q = [Symbol(f'Q{i}_{m}_{l}')
@@ -237,8 +239,59 @@ class GiantComponent:
 
     # -- critical behaviour -------------------------------------------------
 
-    def amplitude(self, subs, layer=0):
-        """Critical amplitude ``B`` in ``S_layer ~ B * Lambda`` at the threshold.
+    # -- the linearisation and its next order ------------------------------
+    #
+    # Implemented in chygraph.amplitude and exposed here so that one object
+    # answers all three questions about a chygraph: where the transition is,
+    # how steeply the order parameter rises out of it, and what it is away from
+    # the threshold.  The import is deferred to avoid a circular one.
+
+    @property
+    def _amplitude(self):
+        if getattr(self, '_amp_cache', None) is None:
+            from chygraph.amplitude import CriticalAmplitude
+            self._amp_cache = CriticalAmplitude(
+                self, probe=getattr(self, 'perron_probe', None))
+        return self._amp_cache
+
+    def perron_root(self):
+        """``lambda = 1 + Lambda``, the Perron root of the Jacobian."""
+        return self._amplitude.perron_root()
+
+    def Lambda(self):
+        """``max eig(-vec2 A)``, the order parameter of the threshold."""
+        return self._amplitude.Lambda()
+
+    def core(self):
+        """Indices of the coupled core of the map."""
+        return self._amplitude.core
+
+    def amplitude(self, layer=0):
+        """``B`` in ``S_layer = B Lambda + O(Lambda^2)``, in closed form."""
+        return self._amplitude.amplitude(layer)
+
+    def amplitude_at_threshold(self, layer=0, solve_for=None):
+        """``B`` reduced on the critical manifold ``Lambda = 0``."""
+        return self._amplitude.amplitude_at_threshold(layer, solve_for)
+
+    def curvature(self):
+        """``C = l . M[r, r]``; ``B`` holds when it is finite and positive."""
+        return self._amplitude.curvature()
+
+    def is_continuous(self):
+        """``False`` when the curvature vanishes identically."""
+        return self._amplitude.is_continuous()
+
+    def verify(self, subs=None, tol=1e-9):
+        """Check the core reduction against the full index set."""
+        return self._amplitude.verify(subs, tol)
+
+    def amplitude_numeric(self, subs, layer=0):
+        """``B`` at a point in parameter space, by numerical linear algebra.
+
+        An independent evaluation of :meth:`amplitude`, using numpy eigenvectors
+        on the full unreduced index set, kept as a cross-check of the symbolic
+        route, which works on the reduced core.
 
         Expanding ``Q = 1 - x`` gives ``x = J x - (1/2) M[x, x] + ...``.  With
         ``r`` and ``l`` the right and left Perron vectors of ``J`` normalised by
@@ -330,7 +383,7 @@ def hypergraph_giant(degree=None, excess_degree=None,
     phibar[0][1] = thin(excess_degree, p)
     g[1][0] = thin(cardinality, q)
     gbar[1][0] = thin(excess_cardinality, q)
-    return GiantComponent(phi, phibar, g, gbar)
+    return Chygraph(phi, phibar, g, gbar)
 
 
 def multiplex_hypergraph_giant(number_of_types=2, poisson=True, graph=False):
@@ -349,7 +402,7 @@ def multiplex_hypergraph_giant(number_of_types=2, poisson=True, graph=False):
         excess = constant_pgf(1) if graph else card
         g[l][0] = thin(card, ql)
         gbar[l][0] = thin(excess, ql)
-    return GiantComponent(phi, phibar, g, gbar)
+    return Chygraph(phi, phibar, g, gbar)
 
 
 def graph_with_triangles_giant(poisson=True):
@@ -380,10 +433,16 @@ def graph_with_triangles_giant(poisson=True):
            0: (1 - q)**3 + q * (1 - q)**2}
     gbar[2][0] = finite_pgf(tri)
     g[2][0] = lambda y: y * finite_pgf(tri)(y)
-    return GiantComponent(phi, phibar, g, gbar)
+    return Chygraph(phi, phibar, g, gbar)
+
+
+# The class was called GiantComponent before it also carried the threshold and
+# the amplitude; it is now simply a chygraph.
+GiantComponent = Chygraph
 
 
 __all__ = [
+    "Chygraph",
     "GiantComponent",
     "poisson_pgf", "thin", "finite_pgf", "constant_pgf", "moment_pgf",
     "hypergraph_giant", "multiplex_hypergraph_giant", "graph_with_triangles_giant",
