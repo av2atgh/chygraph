@@ -1,0 +1,14 @@
+*.aux
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+
+# figures.py writes both; track the vector figures the manuscript \includegraphics,
+# ignore the raster previews.  Overrides the repo-wide *.pdf rule.
+!fig_*.pdf
+*.png
+
+# REVTeX build artefact
+manuscriptNotes.bib
