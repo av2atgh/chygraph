@@ -120,3 +120,28 @@ def test_complexes_beat_the_degree_matched_graph():
         if 2 * k < E:
             assert matched == pytest.approx(0.0, abs=1e-9)
         assert tri > matched
+
+
+def test_a_triangle_is_not_automatically_core():
+    """Leaf removal deletes a leaf's *neighbour*, so a complex member can go.
+
+    Triangle abc with a pendant on each vertex: d-a fires, removing a; then
+    b and c are left with degree 1 and the triangle unravels completely.  The
+    'cardinality >= 3' statement is about the core-free branch not existing,
+    not about complexes surviving whole.
+    """
+    import sys
+    from pathlib import Path
+    sys.path.insert(0, str(Path.home() / 'av2atg' / 'computational_complexity' / 'code'))
+    import leafremoval as lr
+    from hrg import to_csr
+    s = np.array([0, 1, 2, 0, 1, 2])
+    d = np.array([1, 2, 0, 3, 4, 5])
+    assert lr.core(*to_csr(6, s, d))[0] == 0
+
+
+def test_core_positive_but_tiny_with_a_sparse_triangle_layer():
+    """No core-free branch, yet the core can be 1e-4.  Both halves matter."""
+    m = cp.CorePercolation([2, 3], poisson_phi([1.0, 0.001]))
+    assert not m.has_core_free_branch()
+    assert 0.0 < m.core_fraction() < 1e-3

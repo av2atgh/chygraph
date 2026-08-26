@@ -15,3 +15,15 @@ dist/
 
 # Generated figures
 *.pdf
+
+# LaTeX build products
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.synctex.gz
+mainNotes.bib
+
+# but keep probe results
+!probe/results/*.log

@@ -7,7 +7,7 @@ from graphs to higher-order structures, by way of the chygraph formalism
 ([Vázquez, PRE **107**, 024316 (2023)](https://arxiv.org/abs/2308.00987);
 `~/av2atg/chygraph`).
 
-Status: **WP1–WP4 done**, plus core percolation (`core.py`) (`src/chygraph_statmech`, 56 tests). WP4–WP6 and the
+Status: **WP1–WP5 done** (WP5 counting only, no GBP), plus core percolation (`src/chygraph_statmech`, 56 tests). WP4–WP6 and the
 HRG test of prediction 4 ([`TODO.md`](TODO.md)) are plan. Results:
 [WP1](#results-wp1) · [WP2](#results-wp2) · [WP3](#results-wp3).
 
@@ -160,10 +160,10 @@ modifying `chygraph`. See [Results (WP2)](#results-wp2).
 `P_l(h)` as a population of samples and solves the full non-linear problem at
 finite temperature. See [Results (WP4)](#results-wp4).
 
-**WP5 — Complexes as regions.** The Kikuchi reading. Exact solution inside a
-complex, full field vector emitted. This is where clustering-that-VW03-cannot-see
-actually gets computed, so it is the package that pays off Observation 1 of
-`computational_complexity` — and the one with the most ways to fail.
+**WP5 — Complexes as regions.** ✅ Done for the counting; GBP on the region
+graph is not implemented. `region.py` builds the region graph and measures how
+far a chygraph is from treelike; the cost of ignoring overlap is measured on
+HRGs. See [Results (WP5)](#results-wp5).
 
 **WP6 — Bethe free energy.** VW03 Eq. (12) has no chygraph counterpart. On a
 chygraph the counting is complex-terms minus inclusion-overcounting, i.e. a
@@ -449,6 +449,62 @@ The symbolic closed forms are gone, as the work package predicted: `theta`,
 nothing in it is a linearisation, so it can be run away from the threshold and
 at any temperature — which is what WP6 will need.
 
+## Results (WP5)
+
+Everything above treats a node's complexes as independent. That is the Bethe
+approximation *on the chygraph*, exact when complexes meet in at most **one**
+node. Two cliques sharing an edge are a loop the chygraph cannot see, just as a
+triangle is a loop an ordinary graph cannot see. **Chygraphs move the problem up
+one level; they do not remove it.**
+
+`region.py` closes the complexes under intersection and counts by Möbius
+inversion, `c_R = 1 − sum_{R' ⊃ R} c_{R'}`, so every node is counted once. When
+complexes meet in ≤ 1 node the family is the complexes plus the single nodes and
+`c_v = 1 − k_v` — exactly the Bethe counting WP1 and WP4 assume, so the Kikuchi
+construction *contains* them. Two triangles on a shared edge separate: Kikuchi
+puts `−1` on the **edge**, Bethe puts `−1` on each endpoint. Both count nodes
+correctly; only Kikuchi subtracts the correlation.
+
+### What ignoring overlap costs, on the HRG
+
+Maximal cliques as complexes, ensemble measured from the graph itself,
+`n = 3×10⁴`. "rewired" is that same clique ensemble arranged treelike:
+
+| τ | k̄ | chygraph | rewired | real HRG | overlap gap |
+|---:|---:|---:|---:|---:|---:|
+| 2.5 | 2.00 | 0.0786 | 0.0780 | 0.1203 | 0.042 |
+| 2.5 | 4.02 | 0.2040 | 0.1970 | 0.2993 | 0.102 |
+| 2.9 | 2.01 | 0.1688 | 0.1742 | 0.2309 | 0.057 |
+| 2.9 | 4.00 | 0.4298 | 0.4329 | 0.5167 | 0.084 |
+
+**chygraph = rewired to 0.001–0.007**, so `core.py` is right on its own terms —
+now checked on a measured, multi-layer, non-Poisson ensemble. The remaining
+`real − rewired` is *purely* clique overlap, with the ensemble held fixed. The
+chygraph accounts for **65–83%** of the HRG core; the rest is what region
+counting would have to supply. The degree-matched control sits at 0.0000
+throughout, chygraph and measured alike.
+
+So the qualitative separation prediction 4 is about is reproduced. Its
+**amount** is not, and the residual is now attributed to a named, measured
+mechanism rather than left as a gap. `probe/overlap_cost.py`.
+
+### A claim of mine that was too strong
+
+I wrote earlier that a complex of cardinality ≥ 3 "is a core by itself". That is
+wrong. Leaf removal deletes a leaf's *neighbour*, and that neighbour can be a
+complex member — a triangle with one pendant edge on each vertex has an **empty**
+core, every vertex removed (now a test). What the algebra actually gives is
+narrower: a chygraph with any layer of cardinality ≥ 3 has no core-free *branch*,
+so the core is strictly positive at every density — but it can be `1.8e-4`. The
+strong reading holds only when *every* layer has cardinality ≥ 3, where no vertex
+ever has degree 1, leaf removal never fires, and the core is exactly `1 − Φ(0)`.
+
+### Not done
+
+Generalised belief propagation on the region graph. `region.py` builds the
+object and measures the discrepancy; it does not pass messages between regions.
+That is what would close the 17–35% gap, and it is the natural next step.
+
 ## Falsifiable predictions
 
 1. ~~WP1's reweighted matrix reduces to `chygraph.percolation.PercolationMatrix`
@@ -519,9 +575,11 @@ src/chygraph_statmech/
   hittingset.py  WP3  minimum hitting set on a hypergraph
   core.py             leaf-removal core as a chygraph fixed point
   population.py  WP4  field distributions by population dynamics
-tests/           109 checks, each one a claim this README makes
+  region.py      WP5  region graph, Mobius counting, overlap profile
+tests/           116 checks, each one a claim this README makes
 examples/        clustering_raises_tc.py, vw03_figure1.py, hitting_set_rsb.py,
                  wp4_validates_wp1.py
+main.tex         manuscript in progress; results in place, prose to write
 TODO.md          open items; prediction 4 on hyperbolic random graphs
 probe/           HRG clique-moment measurement; see probe/RESULTS.md
 ```

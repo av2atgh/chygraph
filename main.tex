@@ -1,0 +1,294 @@
+\documentclass[aps,pre,twocolumn,superscriptaddress,floatfix]{revtex4-2}
+
+\usepackage{amsmath,amssymb,graphicx,hyperref}
+
+\newcommand{\ave}[1]{\langle #1 \rangle}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\kbar}{\bar\kappa}
+\newcommand{\sbar}{\bar s}
+
+\begin{document}
+
+\title{Statistical mechanics on chygraphs}
+
+\author{Alexei V\'azquez}
+\affiliation{}
+
+\date{\today}
+
+\begin{abstract}
+The Bethe--Peierls treatment of statistical-mechanics models on random graphs
+with arbitrary degree correlations [V\'azquez and Weigt, Phys.\ Rev.\ E
+\textbf{67}, 027101 (2003)] assumes the graph is locally treelike, and so cannot
+see clustering. Chygraphs remove that assumption by promoting dense motifs to
+complexes. I show that the chygraph percolation map is already a Bethe--Peierls
+cavity recursion specialised to a scalar message, and that the extension to
+general Hamiltonians is a single substitution: the argument of a generating
+function becomes a measure and the product becomes a convolution. Three
+consequences follow in closed form. The threshold tensor of the percolation
+calculation becomes a stability tensor once its first moments are reweighted by
+the mean derivative of the field update, giving the replica-symmetric and de
+Almeida--Thouless lines for higher-order structures. A triangle solved exactly
+inside itself transmits more per neighbour than an independent edge, so at
+matched mean degree clustering raises the Ising critical temperature by
+$14.5\%$ --- an effect invisible to the degree-and-correlation ensemble.
+Minimum hitting set on a hypergraph has a replica-symmetry-breaking point at
+$\ave{k}(c-1)=e$ for every fixed cardinality $c$, and cardinality heterogeneity
+postpones it while correlation across cardinalities brings it forward. Finally,
+leaf-removal core percolation is a chygraph fixed point with a three-state
+message, which quantifies the clustering that a degree-matched configuration
+model cannot reproduce.
+\end{abstract}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:intro}
+
+% TODO: motivate from VW03 and from the HRG measurement in
+% ~/av2atg/computational_complexity: hyperbolic random graphs have an extensive
+% leaf-removal core at every mean degree while their degree-matched
+% configuration model does not, and the separating feature is clustering, which
+% {p_d, e_dd'} does not encode and Bethe-Peierls assumes away.
+
+\section{The correspondence}
+\label{sec:correspondence}
+
+The cavity recursion of Ref.~\cite{VW03}, Eq.~(4),
+\begin{equation}
+  h^{(i|j)} = \mu + \sum_{k\neq j} u\!\left(h^{(k|i)}\right),
+  \label{eq:vw}
+\end{equation}
+and the chygraph self-consistency conditions of Ref.~\cite{vazquez2023pre},
+\begin{align}
+  Q^{ml}_- &= \prod_k \Phi^l_k\!\left(Q^{lk}_-\right)
+              \prod_k \Big[\bar G^l_k\Big]_{k=m}\!\!\left(Q^{lk}_+\right),
+  \label{eq:Qm}\\
+  Q^{ml}_+ &= \prod_k \Big[\bar\Phi^l_k\Big]_{k=m}\!\!\left(Q^{lk}_-\right)
+              \prod_k G^l_k\!\left(Q^{lk}_+\right),
+  \label{eq:Qp}
+\end{align}
+are the same object. Both carry a message on a directed link --- an edge in
+Eq.~\eqref{eq:vw}, an inclusion in Eqs.~\eqref{eq:Qm}--\eqref{eq:Qp} --- updated
+from every incoming message except the one it came from, the exclusion written
+as $k\neq j$ in one case and $[\bar F]_{k=m}$ in the other. Both are exact on a
+locally treelike structure and both assume replica symmetry.
+
+Table~\ref{tab:dictionary} gives the correspondence. The one substantive
+difference is the message itself: a probability generating function
+$\Phi(x)=\sum_n p_n x^n$ evaluated at a scalar becomes, when the argument is a
+measure on fields, $\sum_n p_n P^{*n}$, the $n$-fold convolution. That is
+Eq.~(10) of Ref.~\cite{VW03} written as a generating function, and it is the
+whole content of the extension.
+
+\begin{table}[t]
+\caption{\label{tab:dictionary}The correspondence.}
+\begin{ruledtabular}
+\begin{tabular}{ll}
+Ref.~\cite{VW03} & chygraph \\
+\colrule
+edge $(i,j)$, directed & inclusion, directed, with role $i=\pm$ \\
+excess degree class $d$ & layer index $l$ \\
+$p(d|d')$ & $\ave{\kappa}_{lk}$, $\ave{s}_{lk}$ \\
+$P_d(h)$, field distribution & $Q^{ml}_i$, scalar \\
+Eq.~(10), $\sum_{d_l}p(d_l|d)\int\prod dh_l$ & $\prod_k\Phi^l_k(\cdot)$ \\
+RS instability & $\Lambda=\max\mathrm{eig}(-A)$ \\
+Eq.~(12), free energy & absent \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+\section{The stability tensor}
+\label{sec:stability}
+
+% RESULT (WP1). A's entries are first moments because in percolation du/dh is
+% the occupation probability, folded in by thinning. For a general Hamiltonian
+% the same 2L^2 tensor works with
+%   <kappa> -> <kappa><u'>    ferromagnetic / RS instability
+%   <kappa> -> <kappa><u'^2>  de Almeida-Thouless line
+% The reweight is a pure elementwise multiply: the index structure, block
+% layout, theta = -det A and Lambda = max eig(-A) are unchanged. Weight goes on
+% the intra-complex channel (the interaction lives inside a complex); the
+% chy-degree step is a pure relay and carries weight 1.
+%
+% Recovered: <kbar> p = 1 (Molloy-Reed); <kbar> tanh(bJ) = 1 (Ising);
+% <kbar> tanh^2(bJ) = 1 (AT).
+
+\subsection{A triangle solved exactly inside itself}
+\label{sec:triangle}
+
+% RESULT. Exact enumeration inside a complex gives the emitted field
+%   u = (1/2) ln[ Z(sigma_0=+1) / Z(sigma_0=-1) ]
+% and for a 3-clique
+%   u_T' = t/(1 - t + t^2),  t = tanh(beta J),
+% which exceeds t on 0<t<1 and reduces to t at leading order. So a triangle is
+% two independent edges at high temperature and strictly better below.
+%
+% Threshold for links + triangles, the two-layer branching determinant with
+% u_T in place of t:
+%   K_L t + 2 K_T u_T + 2 t u_T (k_L k_T - K_L K_T) = 1.
+%
+% TABLE: at fixed neighbour count, moving neighbours from links into triangles
+% raises T_c. 4 nbrs +20.6%, 6 +14.5%, 8 +11.2%, 10 +9.1%, 20 +4.8%.
+% Effect is O(t^2), hence the 1/<k> decay. These configurations are IDENTICAL
+% in {p_d, e_dd'}: same degree distribution, same assortativity.
+
+\section{Stability of the non-trivial fixed point}
+\label{sec:fixedpoint}
+
+% RESULT (WP2). The published tensor is the Jacobian at Q=1, the trivial fixed
+% point, with Perron root 1 + Lambda. At the fixed point actually reached,
+%   rho = 1 - Lambda + O(Lambda^2)
+% verified to 0.15% at Lambda = 1.1e-3: the two roots move apart from 1 at the
+% same rate in opposite directions.
+%
+% CAVEAT worth stating: the sign of the leading eigenvalue does not diagnose
+% monotonicity. A chygraph core alternates between up and down message roles,
+% so J is a non-negative matrix of period 2 and Perron-Frobenius puts
+% eigenvalues at both +rho and -rho. Entry signs are the unambiguous test.
+%
+% Vertex cover, VW03 Eqs. (16)-(18): the map is order-REVERSING, so plain
+% iteration diverges past the RSB point -- which is how VW03 detects RSB.
+% Under Eq. (18) the map closes on one scalar, so bisecting on it reaches the
+% fixed point either way and stability is asked separately of the Jacobian.
+% Two instruments instead of one.
+% r_RSB = 0.70 (gamma=2.5, not converged past 2 decimals), 0.7802 (gamma=3.0).
+% Validated against Weigt-Hartmann 1-(2W+W^2)/(2c) to ten digits.
+
+\section{Minimum hitting set}
+\label{sec:hittingset}
+
+% RESULT (WP3). mu -> inf cavity recursion with hyperedges layered by
+% cardinality so hyperdegree and cardinality can correlate:
+%   sigma_m = Phibar^(m)(1 - sigma_1^{c_1-1}, ..., 1 - sigma_L^{c_L-1})
+%   x_c = 1 - Phi(1-tau) - (1/2) sum_m <k_m> tau_m sigma_m,  tau_l = sigma_l^{c_l-1}
+%
+% The map is order-reversing. For such F, G = F o F is order-preserving, so
+% iterating G from 0 and 1 gives least and greatest fixed points a <= b with
+% F(a) = b. a == b is RS; a < b is a period-2 orbit with the fixed point
+% strictly between, unstable. The bracket both finds the solution and
+% diagnoses it.
+%
+% Recovered: Weigt-Hartmann at c=2 to 11 digits; Bauer-Golinelli c = e.
+% NEW: k_RSB = e/(c-1) exactly, so k(c-1) = e for every fixed cardinality
+%   (12 digits, c = 2..20). Counted in neighbours, hyperedge size does not
+%   move the transition.
+% NEW: cardinality heterogeneity POSTPONES RSB. At fixed <cbar> = 2:
+%   all c=3 -> 2.72; half 2 half 4 -> 4.84; 3/4 2, 1/4 6 -> 6.83.
+%   Same direction as VW03's degree effect; the AND-structure does not offset.
+% NEW: negative correlation across cardinality layers brings RSB forward
+%   monotonically, 6.83 -> 6.50 -> 5.20 -> 3.76 -> 2.64. No counterpart in VW03.
+% CONFOUND to state: the naive positive-correlation construction empties one
+%   class and its shift is dilution, exactly half the independent value.
+%   Report Phi(0,...,0) alongside any such comparison.
+
+\section{Core percolation as a chygraph fixed point}
+\label{sec:core}
+
+% RESULT. Leaf removal needs THREE states, not a scalar: on the cavity branch a
+% node ends leaf-ready (L), deleted (D) or core-side (C). Percolation has two
+% answers, which is why it gets a scalar.
+%
+%   lambda_m = Phibar^(m)(zeta),   delta_m = 1 - Phibar^(m)(1 - kappa)
+%
+% Intra-complex step, exact inside a clique of cardinality c: with m the number
+% of live other members, every live member has clique-degree exactly m, so a
+% complex can force a node out only at m = 1 with that member having no outside
+% edge --
+%   zeta = delta^{c-1},   kappa = (c-1) delta^{c-2} lambda.
+% c = 2 collapses to lambda = Gbar(delta), delta = 1 - Gbar(1-lambda), threshold
+% Gbar'(1-lambda) = 1, i.e. Bauer-Golinelli c = e, recovered to ten digits.
+%
+% The map is order-PRESERVING, unlike hitting set: monotone iteration from zero.
+% Validated against pure leaf removal at n = 4e5 for cardinalities 2, 3, 4,
+% errors 1e-4 to 3e-3.
+%
+% A chygraph with any layer of cardinality >= 3 has no core-free branch, so its
+% core is strictly positive at every density while the degree-matched graph has
+% none until mean degree e. STATE PRECISELY: this does not mean a complex
+% survives whole -- a triangle with a pendant on each vertex has an empty core.
+% When EVERY layer has cardinality >= 3 no vertex ever has degree 1, leaf
+% removal never fires, and the core is exactly 1 - Phi(0).
+
+\section{Field distributions}
+\label{sec:population}
+
+% RESULT (WP4). The message becomes the distribution, carried as a population
+% of samples. Up step is a Poisson-compound convolution; down step is the exact
+% enumeration inside the complex, evaluated numerically.
+%
+% It re-derives Sec. III by a route sharing no code path. At six neighbours
+% either way, beta*J_c: graph 0.164628 vs closed form 0.168236 (2.14%);
+% triangles 0.144343 vs 0.146947 (1.77%). Both biased low by finite sweeps at
+% criticality, so the RATIO is far sharper: T_c gain 14.05% vs 14.49%.
+%
+% Exact bridge: d(emitted)/dh at zero field equals the symbolic cavity
+% derivative to 1e-8 for c = 2, 3 across beta*J = 0.2..2.0.
+
+\section{Complexes as regions}
+\label{sec:regions}
+
+% RESULT (WP5). Everything above treats a node's complexes as independent: the
+% Bethe approximation on the chygraph, exact when complexes meet in at most ONE
+% node. Two cliques sharing an edge are a loop the chygraph cannot see, just as
+% a triangle is a loop a graph cannot see. Chygraphs move the problem up one
+% level; they do not remove it.
+%
+% Region graph: close the complexes under intersection, count by Mobius
+% inversion c_R = 1 - sum_{R' > R} c_{R'} so every node is counted once. When
+% complexes meet in <= 1 node the family is complexes plus single nodes and
+% c_v = 1 - k_v: exactly the Bethe counting. Two triangles on a shared edge:
+% Kikuchi puts -1 on the EDGE, Bethe puts -1 on each endpoint. Both count nodes
+% correctly; only Kikuchi subtracts the correlation.
+%
+% MEASUREMENT on hyperbolic random graphs, n = 3e4, maximal cliques as
+% complexes, ensemble measured from the graph itself:
+%   tau  kbar  chygraph  rewired  real HRG
+%   2.5  2.00    0.0786   0.0780    0.1203
+%   2.5  4.02    0.2040   0.1970    0.2993
+%   2.9  2.01    0.1688   0.1742    0.2309
+%   2.9  4.00    0.4298   0.4329    0.5167
+% 'rewired' is the same clique ensemble arranged treelike. chygraph == rewired
+% to 0.001-0.007, so the map is right on its own terms; real HRG - rewired,
+% 0.042 to 0.102, is PURELY clique overlap. The chygraph accounts for 65-83% of
+% the HRG core and the remainder is what region counting would supply.
+% Degree-matched configuration model: 0.0000 throughout, chygraph and measured
+% alike. The separation prediction 4 is about is reproduced; its amount is not.
+
+\section{Conclusions}
+\label{sec:conclusions}
+
+% TODO
+
+\begin{acknowledgments}
+\end{acknowledgments}
+
+\begin{thebibliography}{99}
+
+\bibitem{VW03} A.\ V\'azquez and M.\ Weigt,
+  Phys.\ Rev.\ E \textbf{67}, 027101 (2003).
+
+\bibitem{vazquez2023pre} A.\ V\'azquez,
+  Phys.\ Rev.\ E \textbf{107}, 024316 (2023).
+
+\bibitem{vazquez2024comnet} A.\ V\'azquez,
+  J.\ Complex Netw.\ (2024), 10.1093/comnet/cnae047.
+
+\bibitem{WH00} M.\ Weigt and A.\ K.\ Hartmann,
+  Phys.\ Rev.\ Lett.\ \textbf{84}, 6118 (2000).
+
+\bibitem{BG01} M.\ Bauer and O.\ Golinelli,
+  Eur.\ Phys.\ J.\ B \textbf{24}, 339 (2001).
+
+\bibitem{MP01} M.\ M\'ezard and G.\ Parisi,
+  Eur.\ Phys.\ J.\ B \textbf{20}, 217 (2001).
+
+\bibitem{YFW05} J.\ S.\ Yedidia, W.\ T.\ Freeman, and Y.\ Weiss,
+  IEEE Trans.\ Inf.\ Theory \textbf{51}, 2282 (2005).
+
+\bibitem{FK15} T.\ Friedrich and A.\ Krohmer,
+  in \emph{Automata, Languages, and Programming} (Springer, 2015), p.\ 614.
+
+\end{thebibliography}
+
+\end{document}

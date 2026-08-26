@@ -89,6 +89,46 @@ class CorePercolation:
         self._phibar = [lambdify(self.x, di / di.subs(one), 'numpy')
                         for di in d]
 
+    @classmethod
+    def from_samples(cls, cardinalities, memberships):
+        """Build from a *measured* ensemble instead of a symbolic pgf.
+
+        ``memberships`` is ``(n, L)``: how many layer-``l`` complexes each
+        sampled node belongs to.  The generating function is the sample
+        average ``Phi(x) = mean_i prod_l x_l^{k_il}``, which is exact for the
+        empirical ensemble and needs no closed form.
+        """
+        obj = cls.__new__(cls)
+        obj.c = np.asarray(cardinalities, dtype=int)
+        obj.L = L = len(obj.c)
+        K = np.asarray(memberships, dtype=float)
+        if K.shape[1] != L:
+            raise ValueError("memberships must have one column per layer")
+        obj.means = K.mean(axis=0)
+        if (obj.means <= 0).any():
+            raise ValueError("every layer needs a positive mean chy-degree")
+
+        def prod(x, drop=None):
+            x = np.asarray(x, float)
+            terms = np.ones(K.shape[0])
+            for l in range(L):
+                k = K[:, l] - (1.0 if drop == l else 0.0)
+                if x[l] <= 0.0:
+                    terms = np.where(k > 0, 0.0, terms)
+                else:
+                    terms = terms * x[l] ** k
+            return terms
+
+        obj._phi = lambda *x: float(prod(np.array(x)).mean())
+        obj._dphi = [
+            (lambda l: (lambda *x: float((K[:, l] * prod(np.array(x), drop=l)).mean())))(l)
+            for l in range(L)]
+        obj._phibar = [
+            (lambda l: (lambda *x: float((K[:, l] * prod(np.array(x), drop=l)).mean()
+                                         / obj.means[l])))(l)
+            for l in range(L)]
+        return obj
+
     # -- the intra-complex step --------------------------------------------
 
     def zeta(self, delta):
@@ -202,10 +242,20 @@ class CorePercolation:
         ``lambda = 0``, which is not a fixed point of a chygraph with positive
         chy-degree.
 
-        **A complex of cardinality three or more is a core by itself.**  Every
-        member has clique-degree ``c-1 >= 2``, so leaf removal can never reach
-        it, and the core is extensive at *any* density.  Nothing analogous
-        happens on a graph, where the core needs ``Gbar'(1-lambda) > 1``.
+        So a chygraph carrying any layer of cardinality three or more has **no
+        core-free branch**: the core is strictly positive at every density,
+        where a graph needs ``Gbar'(1-lambda) > 1``.
+
+        Read that precisely.  It does *not* say a complex survives whole.  Leaf
+        removal deletes a leaf's *neighbour*, and that neighbour can be a
+        complex member: a triangle with one pendant edge on each vertex has an
+        empty core, every vertex removed.  What the algebra says is only that
+        the core cannot vanish identically, and it can be arbitrarily small --
+        with one layer of edges at mean chy-degree 1 and triangles at mean
+        0.001, the core fraction is ``1.8e-4``.  The strong reading is true only
+        when *every* layer has cardinality three or more, since then no vertex
+        ever has degree 1, leaf removal never fires, and the core is
+        ``1 - Phi(0)``.
         """
         return bool((self.c == 2).all())
 

@@ -85,11 +85,12 @@ sits at `sbar = 1.00` as it should.
 3. *The comparison.* Same `P(k)`, same assortativity, complexes on / complexes
    off, at `tau = 2.5` and `2.9` where both the core effect and the ensemble
    exist. **Step 2 already settles the qualitative half of this**: a complex of
-   cardinality three or more has *no core-free branch at all*. Every member has
-   clique-degree `c-1 >= 2`, so leaf removal can never reach it and the complex
-   is a core by itself. A chygraph of triangles is cored at every density —
-   core fraction exactly `1 - Phi(0)`, the probability of belonging to any
-   complex — while the degree-matched graph has no core until mean degree `e`.
+   cardinality three or more has *no core-free branch at all*, so its core is
+   strictly positive at every density while the degree-matched graph has none
+   until mean degree `e`. When *every* layer has cardinality >= 3 no vertex
+   ever has degree 1, leaf removal never fires, and the core is exactly
+   `1 - Phi(0)`. With edges present the statement is weaker — a triangle with a
+   pendant on each vertex has an empty core — but still strictly positive.
    That is the HRG-versus-configuration-model separation, analytically.
    What is left is quantitative: feed the *measured* HRG clique ensemble in and
    ask whether the predicted core fraction matches the measured one, rather
