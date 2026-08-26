@@ -169,6 +169,48 @@ HRGs. See [Results (WP5)](#results-wp5).
 transition thermodynamically, a third route independent of WP1 and WP4. See
 [Results (WP6)](#results-wp6).
 
+## Can it solve the Ising model, and vertex cover?
+
+**Ising, yes, generally.** `ising.py` gives `T_c` for any chygraph from
+`det(I − B) = 0` with the `L × L` branching matrix
+
+```
+B_{lm} = [<kbar>_m if m == l else <kappa>_m] (c_m - 1) u'_m
+```
+
+The linear algebra is `L × L` however large the complexes are; `u'_m` is exact
+by enumeration for any cardinality that can be enumerated. It reproduces every
+closed form in Results (WP1) to `1e-11` and extends to cardinalities WP1 never
+handled. Passing `squared=True` returns the AT line instead.
+
+**Vertex cover: on graphs and hypergraphs yes; on chygraphs of larger cliques
+the formalism computes a value and proves it untrustworthy.**
+
+| problem | status |
+|---|---|
+| graph VC, correlated `e_dd'` | `vertexcover.py` — VW03 Fig. 1, Weigt–Hartmann to 10 digits |
+| hypergraph hitting set | `hittingset.py` — `k(c−1) = e`, 12 digits |
+| VC of a chygraph's induced graph | `cover.py` — exact at `c = 2`, **never certified** at `c ≥ 3` |
+
+`cover.py` is the other end of `hittingset.py`'s family: a hyperedge needs one
+member taken, so `c−1` may be left out; a clique needs all but one, so **one**
+may. The cavity differs in one place, and it is inside the complex — taking `i`
+blocks the whole complex, but the complex could only ever have contributed one
+member, so the cost is the **max** over it, not the sum:
+
+```
+sigma_m = Phibar^(m)(tau),   tau_l = (1 - sigma_l)^{c_l - 1}
+```
+
+against `tau_l = sigma_l^{c_l-1}` for hitting set. Both collapse at `c = 2`.
+
+The `c ≥ 3` limitation is not an extra assumption — it is the core result: a
+cardinality-≥3 layer has no core-free branch, so leaf removal leaves an
+extensive core at every density and never proves a cover minimal. The symptom is
+visible: on isolated triangles every vertex sits at `z = 0`, the graph degeneracy
+rule returns `1/2`, and the truth is `2/3`. `certified()` reports this, and a
+test asserts it equals `core.has_core_free_branch()`.
+
 ## First target — done, see [Results (WP3)](#results-wp3)
 
 Minimal vertex cover / hitting set on a hypergraph with correlated hyperdegree
@@ -618,10 +660,12 @@ src/chygraph_statmech/
   population.py  WP4  field distributions by population dynamics
   region.py      WP5  region graph, Mobius counting, overlap profile
   freeenergy.py  WP6  Bethe free energy; the transition thermodynamically
-tests/           140 checks, each one a claim this README makes
+  ising.py            critical temperature for any chygraph
+  cover.py            vertex cover of the induced graph
+tests/           183 checks, each one a claim this README makes
 examples/        clustering_raises_tc.py, vw03_figure1.py, hitting_set_rsb.py,
                  wp4_validates_wp1.py
-main.tex         manuscript: intro and conclusions written, results sectioned
+main.tex         manuscript, complete draft: 7 pages, no TODOs left
 TODO.md          open items; prediction 4 on hyperbolic random graphs
 probe/           HRG clique-moment measurement; see probe/RESULTS.md
 ```

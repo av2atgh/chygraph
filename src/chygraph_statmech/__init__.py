@@ -13,7 +13,8 @@ from chygraph_statmech.fixedpoint import FixedPointStability
 from chygraph_statmech.population import CavityPopulation, critical_coupling
 from chygraph_statmech.models import (graph_ising, graph_percolation,
                                       graph_with_triangles_ising)
-from chygraph_statmech import antimonotone, core, hittingset, vertexcover
+from chygraph_statmech import (antimonotone, core, cover, freeenergy,
+                               hittingset, ising, region, vertexcover)
 from chygraph_statmech.stability import (StabilityMatrix, reweight,
                                          uniform_weights)
 
@@ -23,5 +24,6 @@ __all__ = [
     "ising_edge_derivative", "ising_triangle_derivative", "in_tanh", "tanh_of",
     "graph_percolation", "graph_ising", "graph_with_triangles_ising",
     "FixedPointStability", "vertexcover", "hittingset", "antimonotone",
-    "CavityPopulation", "critical_coupling", "core",
+    "CavityPopulation", "critical_coupling", "core", "cover", "ising",
+    "region", "freeenergy",
 ]
