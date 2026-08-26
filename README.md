@@ -7,7 +7,8 @@ from graphs to higher-order structures, by way of the chygraph formalism
 ([Vázquez, PRE **107**, 024316 (2023)](https://arxiv.org/abs/2308.00987);
 `~/av2atg/chygraph`).
 
-Status: **framing only.** No code yet. This README is the plan.
+Status: **WP1 done** (`src/chygraph_statmech`, 16 tests). Everything else is
+plan. See [Results](#results-wp1).
 
 ## The claim
 
@@ -142,10 +143,9 @@ is; it is orthogonal to the structural axis, and the two compose.
 
 ## Work packages
 
-**WP1 — Reweighted stability matrix.** Generalise `PercolationMatrix` to carry
-`<u'>`- and `<(u')^2>`-weighted moments. Sanity check: `u' = p` must return
-`chygraph`'s percolation threshold identically, and `L = 1` must return the
-known AT line for the Bethe lattice. *Cheapest path to a new result.*
+**WP1 — Reweighted stability matrix.** ✅ Done. `stability.StabilityMatrix`
+carries `<u'>`- and `<(u')^2>`-weighted moments; `cavity` solves a complex
+exactly inside itself to get `u'`. See [Results](#results-wp1).
 
 **WP2 — Fixed-point Jacobian.** Parameterise `Chygraph.jacobian` off `Q = 1`.
 Gives local stability at the non-trivial fixed point — the RSB detector — and
@@ -187,10 +187,79 @@ heterogeneity make hitting set easy the way degree heterogeneity makes vertex
 cover easy — or does the AND-structure of a hyperedge constraint push the
 ensemble into RSB earlier?
 
+## Results (WP1)
+
+`StabilityMatrix` is `PercolationMatrix` with the four moment tables multiplied
+elementwise: `wkappa` on the inclusion channel, `ws` on the intra-complex one.
+The `2L^2` index structure, the block layout, `theta = -det(A)` and
+`Lambda = max eig(-A)` are untouched. Weight placement follows the two kinds of
+step: going *up* a chy-degree a complex relays its own field (weight 1); going
+*down* into a complex the interaction transforms it (weight `u'`).
+
+`cavity.py` computes `u'` by exact enumeration inside the complex —
+`u = ½ ln[Z(σ₀=+1)/Z(σ₀=−1)]`, differentiated at the trivial fixed point. That
+is the step percolation does not need, and WP5 at the smallest scale.
+
+### Recovered
+
+| model | `theta = 0` | status |
+|---|---|---|
+| bond percolation, graph | `<kbar> p = 1` | Molloy–Reed; `A` identical to `chygraph` entry-for-entry |
+| Ising, graph | `<kbar> tanh(beta J) = 1` | textbook |
+| Ising AT line, graph | `<kbar> tanh²(beta J) = 1` | textbook |
+
+### New
+
+A triangle solved exactly inside itself transmits, per neighbour,
+
+```
+u_T = t / (1 - t + t²),      t = tanh(beta J)
+```
+
+which **exceeds `t` for all `0 < t < 1`** and reduces to `t` at leading order.
+So a triangle is two independent edges at high temperature and strictly better
+than two independent edges below that. For a graph with links and triangles the
+threshold is the two-layer branching determinant with `u_T` in place of `t`:
+
+```
+K_L t + 2 K_T u_T + 2 t u_T (k_L k_T − K_L K_T) = 1
+```
+
+the third term vanishing for Poisson layers. Holding the mean number of
+neighbours fixed and moving them from links into triangles raises `T_c`
+(`examples/clustering_raises_tc.py`):
+
+| excess neighbours | as links | as triangles | `t_c` links | `t_c` tri | `T_c` gain |
+|---:|---:|---:|---:|---:|---:|
+| 4 | 4 | 2 | 0.25000 | 0.20871 | +20.6% |
+| 6 | 6 | 3 | 0.16667 | 0.14590 | +14.5% |
+| 8 | 8 | 4 | 0.12500 | 0.11252 | +11.2% |
+| 10 | 10 | 5 | 0.10000 | 0.09167 | +9.1% |
+| 20 | 20 | 10 | 0.05000 | 0.04773 | +4.8% |
+
+These configurations are **identical** in `{p_d, e_dd'}`: same degree
+distribution, same assortativity. The effect is `O(t²)`, hence the `1/<k>` decay.
+
+### What this does and does not establish
+
+It confirms the mechanical claim — the reweight is a pure elementwise multiply,
+no structural change — and shows the machinery returns known answers where
+known answers exist. Prediction 1 is true *by construction* once the reweight is
+written that way; what carries content is that the **same** multiply, with
+weights derived from a Hamiltonian rather than fitted, reproduces the Ising and
+AT lines and then extends to a clustered structure that the VW03 ensemble cannot
+represent at all.
+
+It does **not** yet touch the HRG question. The triangle result shows the
+formalism *can* see clustering the `{p_d, e_dd'}` ensemble cannot; whether it
+can see the *specific* clustering that cores hyperbolic random graphs is
+prediction 4, still open, still the thing most likely to fail.
+
 ## Falsifiable predictions
 
-1. WP1's reweighted matrix reduces to `chygraph.percolation.PercolationMatrix`
-   identically at `u' = p`. *(If not, the correspondence claim is wrong.)*
+1. ~~WP1's reweighted matrix reduces to `chygraph.percolation.PercolationMatrix`
+   identically at `u' = p`.~~ **Confirmed**, and with it the Ising and AT lines
+   on a configuration-model graph. See Results.
 2. Layer-refined `e_dd'` (free-transfer item 1) reproduces Fig. 1 of VW03 —
    `x_c(r)` at `gamma = 2.5` and `3.0` — from `chygraph` code with no new solver.
 3. The hypergraph hitting-set RSB threshold moves *down* in cardinality
@@ -226,6 +295,19 @@ it is the one that would kill the programme.
 | `~/av2atg/chygraph` | the percolation formalism, symbolic code, `manuscript_3` |
 | `~/av2atg/computational_complexity` | VW03 on hyperbolic random graphs; the clustering gap |
 | here | the statistical mechanics that would close it |
+
+## Layout
+
+```
+src/chygraph_statmech/
+  stability.py   StabilityMatrix: PercolationMatrix with reweighted moments
+  cavity.py      u' by exact enumeration inside a complex
+  models.py      graph_percolation, graph_ising, graph_with_triangles_ising
+tests/           16 checks, each one a claim this README makes
+examples/        clustering_raises_tc.py
+```
+
+Install with `pip install -e .` (needs `chygraph` on the path); `pytest tests`.
 
 ## References
 
