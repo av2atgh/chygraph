@@ -254,7 +254,8 @@ represent at all.
 It does **not** yet touch the HRG question. The triangle result shows the
 formalism *can* see clustering the `{p_d, e_dd'}` ensemble cannot; whether it
 can see the *specific* clustering that cores hyperbolic random graphs is
-prediction 4, still open, still the thing most likely to fail.
+prediction 4, still open. The measurement in [`probe/`](probe/RESULTS.md) has
+since removed the obstacle that looked most likely to stop it.
 
 ## Results (WP2)
 
@@ -421,6 +422,8 @@ the negative branch is quoted as a clean measurement above.
 4. A chygraph whose complexes are the HRG's clustered motifs has a non-empty
    core where the degree-matched configuration model does not — i.e. the
    formalism sees the effect the `{p_d, e_dd'}` ensemble misses.
+   *Still open, but no longer blocked: the ensemble exists for `tau >= 2.5`
+   ([`probe/RESULTS.md`](probe/RESULTS.md)), so the comparison can be run.*
 
 Prediction 4 is the whole motivating claim and the one to attack first, because
 it is the one that would kill the programme. It is written up as a work item in
@@ -429,12 +432,14 @@ without building anything.
 
 ## Risks
 
-- **The HRG may not admit a useful chygraph mapping.** Clustering there is
-  geometric and scale-dependent, not a finite catalogue of motifs. Chygraphs
-  need a complex *ensemble*; hyperbolic geometry may not give one with finite
-  moments. If so, prediction 4 fails and this repo reduces to WP1–3: a genuine
-  but narrower contribution about higher-order constraint satisfaction, with no
-  bearing on the geometry question.
+- ~~**The HRG may not admit a useful chygraph mapping.**~~ **Measured, and it
+  does** — for `tau >= 2.5`, where the maximal-clique second moment converges
+  and the HRG separates from its degree-matched control by a converged factor
+  of 1.8–4.8. See [`probe/RESULTS.md`](probe/RESULTS.md). The risk was real at
+  `tau = 2.1`, where the ensemble does diverge — but there the *control*
+  diverges faster, so that failure is the heavy tail, not the geometry. The
+  remaining risk moved to step 2 of [`TODO.md`](TODO.md): core percolation may
+  not be expressible as a chygraph fixed point at all.
 - **WP5 may not close.** Region-graph free energies are not variational bounds
   in general and can fail to converge. The threshold results (WP1–3) do not
   depend on WP5 landing.
@@ -466,6 +471,7 @@ src/chygraph_statmech/
 tests/           56 checks, each one a claim this README makes
 examples/        clustering_raises_tc.py, vw03_figure1.py, hitting_set_rsb.py
 TODO.md          open items; prediction 4 on hyperbolic random graphs
+probe/           HRG clique-moment measurement; see probe/RESULTS.md
 ```
 
 Install with `pip install -e .` (needs `chygraph`, `numpy`, `scipy` on the

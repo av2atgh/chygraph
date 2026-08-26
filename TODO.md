@@ -30,39 +30,53 @@ The HRG and its degree-matched configuration model have the same `P(k)` and
 essentially the same assortativity (τ=2.3: r = −0.05 vs −0.045). WP3 recovers
 `k̄_c = e` analytically, so the ER row is already reproduced here.
 
-**What has to be built.**
+**Step 1 is done, and it came out the other way.**
+`probe/` measures whether the maximal-clique ensemble converges; see
+[`probe/RESULTS.md`](probe/RESULTS.md). It does, for `tau >= 2.5`:
 
-1. *A complex ensemble for the HRG.* The blocker. Chygraphs need a distribution
-   over complexes with finite moments; HRG clustering is geometric and
-   scale-dependent, not a finite motif catalogue. Candidate reductions, in
-   increasing order of honesty:
-   - triangles only, with the measured triangle density → almost certainly too
-     weak, since `GraphWithTriangles` is already in `chygraph` and a triangle
-     ensemble is still locally treelike above the motif scale;
-   - complexes = the maximal cliques of the HRG, with their measured size
-     distribution and the joint (clique-size, membership) distribution as a
-     `JointChygraph`;
-   - complexes = the radial shells of the hyperbolic disk, which is where the
-     Thm-18 induced trees of arXiv:2607.09170 live.
-2. *Core percolation in the chygraph map.* The leaf-removal core is not the
-   giant component. WP3's `sigma = Gbar_k(1 - Gbar_c(sigma))` is the hitting-set
-   map; the core-percolation order parameter is a different fixed point of a
-   related anti-monotone map and needs writing down for chygraphs.
+| tau | HRG `sbar` beta | paired ratio HRG/control | ratio beta |
+|---:|---:|---:|---:|
+| 2.9 | 0.000 – 0.001 | 1.76 – 4.77 | +0.003 – +0.028 |
+| 2.5 | 0.009 – 0.024 | 1.79 – 3.52 | +0.009 – +0.015 |
+| 2.1 | 0.28 – 0.40 | decays to 1 | −0.12 – −0.18 |
+
+So the blocker this item was written around does not exist in the regime that
+matters. The HRG has a well-defined complex ensemble, and it is separated from
+its degree-matched control by a converged factor of 1.8–4.8 with `P(k)` and
+assortativity held fixed. That separation *is* clustering.
+
+`tau = 2.1` is the exception and fails for the tail, not the geometry: there the
+control's cliques diverge *faster* than the HRG's, so the paired ratio decays
+toward 1. Anything measured at `tau = 2.1` cannot distinguish the two
+mechanisms. Do not use it.
+
+Validation: the measured clique-number exponents (0.37 / 0.20 / 0.07 at
+`tau = 2.1 / 2.5 / 2.9`) track the `n^{(3-tau)/2}` of Friedrich & Krohmer across
+a 9x range, and the clustering-free baseline (ER, and the control at `tau > 3`)
+sits at `sbar = 1.00` as it should.
+
+**What is left to build.**
+
+1. ~~A complex ensemble for the HRG.~~ Done: maximal cliques, `tau >= 2.5`.
+   The measured inputs a chygraph needs — clique-size distribution and the
+   joint (clique-size, membership) distribution — come straight out of
+   `probe/clique_moments.py`; only the joint distribution still needs
+   recording, as a `JointChygraph`.
+2. *Core percolation in the chygraph map.* Unchanged and now the critical path.
+   The leaf-removal core is not the giant component; WP3's
+   `sigma = Gbar_k(1 - Gbar_c(sigma))` is the hitting-set map, and the
+   core-percolation order parameter is a different fixed point of a related
+   anti-monotone map that needs writing down for chygraphs.
+   `antimonotone.py` already supplies the solver.
 3. *The comparison.* Same `P(k)`, same assortativity, complexes on / complexes
-   off. If the core fraction does not separate, prediction 4 is dead.
+   off, at `tau = 2.5` and `2.9` where both the core effect and the ensemble
+   exist. If the core fraction does not separate, prediction 4 is dead.
 
-**How it fails.** Most likely at step 1: no HRG complex ensemble with finite
-moments. If so, say so in print — "chygraphs cannot represent hyperbolic
-clustering" is a real result about the limits of the formalism, and it closes
-Observation 1 of `computational_complexity/plan.tex` negatively rather than
-leaving it open. The fallback framing for this repo is then WP1–3 alone:
-higher-order constraint satisfaction, no bearing on geometry.
-
-**Cheap first probe before any of the above.** Measure the maximal-clique size
-distribution of the HRG at τ = 2.1/2.5/2.9 and `k̄ = 1..8` and check whether its
-second moment converges with `n`. One afternoon with
-`computational_complexity/code/hrg.py`. If it diverges, step 1 is already
-answered and the item can be closed without building anything.
+**How it fails now.** Not at the ensemble. Either at step 2 — core percolation
+may not be a chygraph fixed point at all, in which case the formalism cannot
+express the order parameter the question is about — or at step 3, where the
+chygraph may reproduce the control's core rather than the HRG's, meaning
+cliques are the wrong complexes even though they are a valid ensemble.
 
 **Literature.**
 - `~/av2atg/computational_complexity/plan.tex`, Observations 1–2, Conjectures.
