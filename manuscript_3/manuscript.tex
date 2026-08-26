@@ -23,33 +23,30 @@ automated generating function calculations}
 
 \begin{abstract}
 Complex hypergraphs (chygraphs) contain graphs, hypergraphs, multiplex and
-interacting higher order networks as special cases, and the percolation
-threshold of all of them follows from one symbolic calculation: the spectrum of
-a tensor $A$ assembled from four matrices of first moments. That calculation
-stops at the threshold. Here I show that $A$ is the Jacobian, at its trivial
-fixed point, of a non-linear self-consistency map whose non-trivial fixed point
-is the giant component fraction, so that threshold and order parameter are two
-orders of one object on one index set. Carrying the expansion one order further
-gives the critical amplitude $B$ in $S=B\Lambda+O(\Lambda^2)$ in closed form
-and exposes a hierarchy: the threshold is fixed by the first moments of the
-chy-degrees and intra-complex component sizes, the amplitude by their second
-moments, and the order parameter away from the threshold only by the generating
-functions themselves. Dropping the assumption that a complex's participation in
-different layers is independent generalises the tensor further, replacing
-unconditional first moments by inclusion-biased second moments; joint
-distributions with identical marginals are shown to have different thresholds
-and different order parameters. Six constructions from the literature are then
-solved by substitution, among them AND- against OR-logic hypergraph percolation,
-which share a chygraph and differ in a single generating function, and SIR
-epidemics with two levels of mixing, whose household reproduction number falls
-out of the tensor. A recently reported failure of mean-field theory for
-percolation on strongly clustered graphs is shown to be a failure of applying it
-to the wrong object: mapped onto the treelike backbone rather than onto the
-clustered graph, the same calculation reproduces the exact threshold, order
-parameter and critical exponents. All results are implemented as symbolic
-calculations in a single class, in which a chygraph is specified once by its
-generating functions and then returns its threshold, its amplitude and its order
-parameter, and are validated against Monte Carlo simulation.
+interacting networks as special cases, and the percolation threshold of all of
+them follows from one symbolic calculation: the spectrum of a tensor $A$ built
+from four matrices of first moments. That calculation stops at the threshold.
+Here I show that $A$ is the Jacobian, at its trivial fixed point, of a
+non-linear self-consistency map whose non-trivial fixed point is the giant
+component fraction, so threshold and order parameter are two orders of one
+object on one index set. Carrying the expansion one order further gives the
+critical amplitude $B$ in $S=B\Lambda+O(\Lambda^2)$ in closed form, and exposes
+a hierarchy: first moments fix the threshold, second moments the amplitude, and
+only the generating functions themselves the order parameter away from it.
+Dropping the assumption that a complex's participation in different layers is
+independent generalises the tensor again, replacing unconditional first moments
+by inclusion-biased second moments: distributions with identical marginals have
+different thresholds and different order parameters. Six constructions from the
+literature are then solved by substitution, among them AND- against OR-logic
+hypergraph percolation, which share a chygraph and differ in one generating
+function, and SIR epidemics with two levels of mixing, whose household
+reproduction number falls out of the tensor. A reported failure of mean-field
+theory on strongly clustered graphs is shown to be a failure of applying it to
+the wrong object: mapped onto the treelike backbone rather than the clustered
+graph, the same calculation reproduces the exact threshold, order parameter and
+critical exponents. Everything is implemented in one class, in which a chygraph
+is specified once by its generating functions and then returns all three, and
+validated against Monte Carlo simulation.
 \end{abstract}
 
 \maketitle
@@ -1214,8 +1211,22 @@ applying it to the clustered graph rather than to the object that is treelike.
 Finding the representation in which the complexes do not overlap is the work,
 and it need not be the obvious one.
 
-The code for the symbolic calculations reported here is available at
-\href{https://github.com/av2atgh/chygraph}{github.com/av2atgh/chygraph}.
+\section*{Code availability}
+
+All symbolic calculations reported here, the Monte Carlo simulations used to
+validate them, and the scripts that generate every figure are available in the
+\code{chygraph} package \cite{chygraphcode}. The methods named throughout the
+text and collected in Table~\ref{tab:code} are those of that package, and the
+constructors of Fig.~\ref{fig:code} are in its \code{applications} module. The
+results reported here are covered by its test suite.
+
+\begin{acknowledgments}
+The calculations were assisted by Claude Opus~5, an AI assistant developed by
+Anthropic. Nodes \& Links Ltd provided support in the form of salary for Alexei
+Vazquez but did not have any additional role in the conceptualization of the
+study, the analysis, the decision to publish or the preparation of the
+manuscript.
+\end{acknowledgments}
 
 \begin{thebibliography}{99}
 
@@ -1259,6 +1270,9 @@ The code for the symbolic calculations reported here is available at
 \bibitem{buldyrev2010} S. V. Buldyrev, R. Parshani, G. Paul, H. E. Stanley, and
   S. Havlin, Nature \textbf{464}, 1025 (2010).
 \bibitem{radicchi2015} F. Radicchi, Nat. Phys. \textbf{11}, 597 (2015).
+\bibitem{chygraphcode} A. Vazquez, \emph{chygraph}: symbolic percolation
+  calculations for complex hypergraphs,
+  \url{https://github.com/av2atgh/chygraph} (2026).
 
 \end{thebibliography}
 
