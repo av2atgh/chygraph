@@ -9,6 +9,8 @@
 \newcommand{\kb}{\bar{k}}
 \newcommand{\cb}{\bar{c}}
 \newcommand{\vecA}{\mathrm{vec}^2 A}
+\newcommand{\code}[1]{\texttt{#1}}
+
 
 \begin{document}
 
@@ -44,7 +46,9 @@ percolation on strongly clustered graphs is shown to be a failure of applying it
 to the wrong object: mapped onto the treelike backbone rather than onto the
 clustered graph, the same calculation reproduces the exact threshold, order
 parameter and critical exponents. All results are implemented as symbolic
-calculations and validated against Monte Carlo simulation.
+calculations in a single class, in which a chygraph is specified once by its
+generating functions and then returns its threshold, its amplitude and its order
+parameter, and are validated against Monte Carlo simulation.
 \end{abstract}
 
 \maketitle
@@ -107,10 +111,21 @@ second moments in the slots where it carried unconditional first moments. The
 correction is not small: three joint degree distributions with identical
 marginals give three different thresholds.
 
-Section~\ref{sec:constructions} puts all of this to work on constructions that have been solved
-separately in the literature. Each is handled by writing down its chygraph
-mapping and substituting, which is the point of the programme: the calculation
-is done once, in Secs.~\ref{sec:map}--\ref{sec:joint}, and reused.
+Section~\ref{sec:constructions} puts all of this to work on constructions that
+have been solved separately in the literature. Each is handled by writing down
+its chygraph mapping and substituting, which is the point of the programme: the
+calculation is done once, in Secs.~\ref{sec:map}--\ref{sec:joint}, and reused.
+
+The deliverable of that programme is a piece of software, so the exposition
+follows the order in which the software works rather than the order in which the
+theory was originally built. Section~\ref{sec:chygraphs} fixes the chygraph and
+the four moment matrices; Sec.~\ref{sec:map} writes the non-linear map, solves
+it, and obtains the giant component; Sec.~\ref{sec:threshold} linearises the map
+and recovers the published threshold tensor as its Jacobian; and
+Sec.~\ref{sec:amplitude} carries the expansion one order further. Every quantity
+reported below is named with the method that computes it, collected in
+Table~\ref{tab:code}, and every construction is shown as it is actually supplied
+to the code in Fig.~\ref{fig:code}.
 
 
 \begin{table}[b]
@@ -126,7 +141,7 @@ $S$ away from the threshold   & the generating functions \\
 \end{ruledtabular}
 \end{table}
 
-\section{Chygraphs and the threshold tensor}
+\section{Chygraphs}\label{sec:chygraphs}
 
 A chygraph is a set of complexes where complexes are hypergraphs with a vertex
 set in the set of complexes \cite{vazquez2023pre}. Complex $A$ \emph{includes}
@@ -137,31 +152,18 @@ properties. Graphs, hypergraphs, multiplex hypergraphs, network motifs and
 interacting hypergraphs all map onto this construction; the mappings are given
 in Ref.~\cite{vazquez2024comnet} and are used unchanged here.
 
-The threshold calculation rests on four $L\times L$ matrices.
+Four $L\times L$ matrices summarise a chygraph at the level of first moments.
 $\ave{\kappa}_{lk}$ is the expected number of layer-$k$ complexes that include a
 layer-$l$ complex, $\ave{s}_{lk}$ the expected number of layer-$k$ complexes in
 the intra-complex component of a layer-$l$ complex, and
 $\ave{\bar\kappa}_{lk}$, $\ave{\bar s}_{lk}$ are the corresponding excess
-averages. From these one assembles the six-index tensor
-\cite{vazquez2024comnet}
-\begin{align}
-  (A_{--})^{ml}_{nk} &= \delta_{mn}\delta_{lk}-\ave{\kappa}_{nk}\delta_{nl},
-  \nonumber\\
-  (A_{-+})^{ml}_{nk} &= -\left[\ave{\bar s}_{nk}\delta_{mk}
-                        +\ave{s}_{nk}(1-\delta_{mk})\right]\delta_{nl},
-  \nonumber\\
-  (A_{+-})^{ml}_{nk} &= -\left[\ave{\bar\kappa}_{nk}\delta_{mk}
-                        +\ave{\kappa}_{nk}(1-\delta_{mk})\right]\delta_{nl},
-  \nonumber\\
-  (A_{++})^{ml}_{nk} &= \delta_{mn}\delta_{lk}-\ave{s}_{nk}\delta_{nl},
-  \label{eq:A}
-\end{align}
-vectorised as $(\mathrm{vec}A)_{mL+l,\,nL+k}=A^{ml}_{nk}$ into the
-$2L^2\times2L^2$ matrix $\vecA$. The order parameter of the transition is
-$\Lambda=\max\mathrm{eig}(-\vecA)$, and $\theta=-\det(\vecA)$ is a
-pseudo-order parameter with a simpler algebraic form.
+averages. These four are the whole input of the published threshold calculation.
+The order of what follows is deliberate: Sec.~\ref{sec:map} builds the
+non-linear map that gives the giant component and solves it, and only then does
+Sec.~\ref{sec:threshold} linearise that map and recover the published tensor
+from it, which is the relation the rest of the paper rests on.
 
-\section{The self-consistency map}\label{sec:map}
+\section{The giant component}\label{sec:map}
 
 \subsection{Generating functions}
 
@@ -177,8 +179,9 @@ corresponding excess generating functions. By construction
   \bar G^{l\prime}_k(1)&=\ave{\bar s}_{lk},
   \label{eq:firstderiv}
 \end{align}
-so Eq.~\eqref{eq:A} uses exactly the first derivatives of these functions at
-$1$. In this section I take the generating functions to factorise over target
+so the four moment matrices of Sec.~\ref{sec:chygraphs} are exactly the first
+derivatives of these functions at $1$; that is the whole of the relation worked
+out in Sec.~\ref{sec:threshold}. In this section I take the generating functions to factorise over target
 layers, which covers every mapping in Ref.~\cite{vazquez2024comnet}.
 
 \subsection{The map}
@@ -237,29 +240,38 @@ It is then reinstated at the root alone,
 \end{equation}
 which again makes $S_l$ the fraction of \emph{all} layer-$l$ complexes.
 
-\subsection{$A$ is the Jacobian of the map}
-
-Differentiating Eqs.~\eqref{eq:Qm}--\eqref{eq:Qp} at $Q=1$, where every
-generating function equals $1$, leaves a single first derivative per term. Using
-Eq.~\eqref{eq:firstderiv} and comparing with Eq.~\eqref{eq:A},
-\begin{equation}
-  \boxed{\;\vecA = I - J,\qquad
-  J_{ab}=\left.\frac{\partial F_a}{\partial Q_b}\right|_{Q=1}\;}
-  \label{eq:AisJ}
-\end{equation}
-entry by entry, in the same index layout. The four blocks of Eq.~\eqref{eq:A}
-are the four ways of composing a step with the state it lands in, and the
-Kronecker deltas $\delta_{mk}$ that select the excess averages are exactly the
-$[\;\cdot\;]_{k=m}$ of Eqs.~\eqref{eq:Qm}--\eqref{eq:Qp}. Consequently
-\begin{equation}
-  \Lambda=\max\mathrm{eig}(-\vecA)=\lambda-1,
-\end{equation}
-where $\lambda$ is the Perron root of $J$: the threshold calculation is the
-statement that the trivial fixed point $Q=1$ loses stability. Everything already
-computed in Ref.~\cite{vazquez2024comnet} is recovered unchanged, and the order
-parameter is obtained by solving the map instead of linearising it.
-
 \subsection{Solving the map}
+
+\begin{table}[t]
+\caption{\label{tab:code}Where each quantity is computed. Methods are on
+\code{chygraph.Chygraph}; the constructors of Sec.~\ref{sec:constructions} are
+functions in \code{chygraph.applications}.}
+\begin{ruledtabular}
+\begin{tabular}{ll}
+quantity & method \\
+\colrule
+\multicolumn{2}{l}{\emph{closed form in the model parameters}}\\
+map $F$, Eqs.~\eqref{eq:Qm}--\eqref{eq:Qp} & \code{apply} \\
+$P^l$, Eq.~\eqref{eq:P}          & \code{root} \\
+Jacobian $J$                     & \code{jacobian} \\
+tensor $\vecA$, Eq.~\eqref{eq:A} & \code{A} \\
+$\theta$                         & \code{theta} \\
+$\Lambda$ and $\lambda$          & \code{Lambda}, \code{perron\_root} \\
+amplitude $B$, Eq.~\eqref{eq:B}  & \code{amplitude} \\
+$B$ on $\Lambda=0$               & \code{amplitude\_at\_threshold} \\
+curvature $C$                    & \code{curvature} \\
+core of the map                  & \code{core} \\
+\colrule
+\multicolumn{2}{l}{\emph{evaluated at a point in parameter space}}\\
+fixed point $Q$                  & \code{solve} \\
+$S_l$                            & \code{fractions} \\
+$S=S_0$                          & \code{node\_fraction} \\
+$B$, independent route           & \code{amplitude\_numeric} \\
+core reduction check             & \code{verify} \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
 
 The only input specific to a construction is the four tables of generating
 functions $\Phi^l_k$, $\bar\Phi^l_k$, $G^l_k$, $\bar G^l_k$: the same data the
@@ -270,12 +282,17 @@ set for every one of them, and no equation specific to an example is written at
 any point; each construction of Sec.~\ref{sec:constructions} is a dozen lines of
 generating function definitions and nothing else.
 
-The map is solved by iteration. $F$ carries $[0,1]^{2L^2}$ into itself and has
+The map is assembled by \code{Chygraph.apply} and \code{Chygraph.root} from the
+four tables, and solved by iteration in \code{Chygraph.solve}. $F$ carries
+$[0,1]^{2L^2}$ into itself and has
 non-negative Taylor coefficients, so it is monotone: started from $Q=0$ the
 iterates increase, are bounded above by $1$, and converge to the smallest fixed
 point. That is the physical solution --- the one giving the largest giant
 component consistent with the equations --- and it is $Q=1$ throughout the
-subcritical phase. Substituting it into Eq.~\eqref{eq:P} gives $S_l$.
+subcritical phase. Substituting it into Eq.~\eqref{eq:P} gives $S_l$, which is
+\code{Chygraph.fractions}; the fraction of nodes $S=S_0$ is
+\code{Chygraph.node\_fraction}. Table~\ref{tab:code} lists the method behind
+every quantity reported below.
 
 Three features of the procedure are worth recording. Convergence is geometric
 with a rate that tends to one as $\Lambda\to0$ from either side, so a tight
@@ -285,8 +302,9 @@ given construction; they are carried along harmlessly and do not affect $S_l$,
 which is why the generic system is larger than the two or four equations one
 would write by hand for a particular model. And the fixed point has no closed
 form in general: what the calculation delivers symbolically is the map, and from
-it $\theta$, $\Lambda$ and the amplitude $B$ of Sec.~\ref{sec:amplitude}, while
-$S$ at a given point in parameter space is evaluated numerically.
+it the threshold diagnostics $\theta$ and $\Lambda$ of Sec.~\ref{sec:threshold}
+and the amplitude $B$ of Sec.~\ref{sec:amplitude}, while $S$ at a given point in
+parameter space is evaluated numerically.
 
 This distinction is what separates the curves shown later. The solid lines in
 Figs.~\ref{fig:triangles}, \ref{fig:correlated} and \ref{fig:applications} are
@@ -297,12 +315,6 @@ dashed lines of Fig.~\ref{fig:degeneracy} and as the limit approached in
 Fig.~\ref{fig:amplitude}.
 
 \subsection{Checks}
-
-Equation~\eqref{eq:AisJ} has been verified entry by entry, symbolically, for
-every mapping considered here: the Jacobian of
-Eqs.~\eqref{eq:Qm}--\eqref{eq:Qp} reproduces the published $\vecA$ of
-Eq.~\eqref{eq:A} exactly, and the Perron root reproduces the published
-pseudo-order parameter through $\lambda^2=\theta+1$.
 
 The fixed point itself is checked against known closed forms and against direct
 simulation. For graphs it reproduces $S=1-e^{-\ave{k}S}$ to machine precision.
@@ -325,6 +337,63 @@ one standard deviation. The dotted line is the threshold $q_c=0.445042$ from
 $\Lambda=0$.}
 \end{figure}
 
+\section{The threshold as a linearisation}\label{sec:threshold}
+
+\subsection{The published tensor}
+
+From the four moment matrices of Sec.~\ref{sec:chygraphs} one assembles the
+six-index tensor \cite{vazquez2024comnet}
+\begin{align}
+  (A_{--})^{ml}_{nk} &= \delta_{mn}\delta_{lk}-\ave{\kappa}_{nk}\delta_{nl},
+  \nonumber\\
+  (A_{-+})^{ml}_{nk} &= -\left[\ave{\bar s}_{nk}\delta_{mk}
+                        +\ave{s}_{nk}(1-\delta_{mk})\right]\delta_{nl},
+  \nonumber\\
+  (A_{+-})^{ml}_{nk} &= -\left[\ave{\bar\kappa}_{nk}\delta_{mk}
+                        +\ave{\kappa}_{nk}(1-\delta_{mk})\right]\delta_{nl},
+  \nonumber\\
+  (A_{++})^{ml}_{nk} &= \delta_{mn}\delta_{lk}-\ave{s}_{nk}\delta_{nl},
+  \label{eq:A}
+\end{align}
+vectorised as $(\mathrm{vec}A)_{mL+l,\,nL+k}=A^{ml}_{nk}$ into the
+$2L^2\times2L^2$ matrix $\vecA$. The order parameter of the transition is
+$\Lambda=\max\mathrm{eig}(-\vecA)$, and $\theta=-\det(\vecA)$ is a
+pseudo-order parameter with a simpler algebraic form. In the code the tensor is
+\code{Chygraph.A} and the two diagnostics are \code{Chygraph.theta} and
+\code{Chygraph.Lambda}, all three symbolic in the model parameters.
+
+\subsection{$A$ is the Jacobian of the map}
+
+Differentiating Eqs.~\eqref{eq:Qm}--\eqref{eq:Qp} at $Q=1$, where every
+generating function equals $1$, leaves a single first derivative per term. Using
+Eq.~\eqref{eq:firstderiv} and comparing with Eq.~\eqref{eq:A},
+\begin{equation}
+  \boxed{\;\vecA = I - J,\qquad
+  J_{ab}=\left.\frac{\partial F_a}{\partial Q_b}\right|_{Q=1}\;}
+  \label{eq:AisJ}
+\end{equation}
+entry by entry, in the same index layout. The four blocks of Eq.~\eqref{eq:A}
+are the four ways of composing a step with the state it lands in, and the
+Kronecker deltas $\delta_{mk}$ that select the excess averages are exactly the
+$[\;\cdot\;]_{k=m}$ of Eqs.~\eqref{eq:Qm}--\eqref{eq:Qp}. Consequently
+\begin{equation}
+  \Lambda=\max\mathrm{eig}(-\vecA)=\lambda-1,
+\end{equation}
+where $\lambda$ is the Perron root of $J$: the threshold calculation is the
+statement that the trivial fixed point $Q=1$ loses stability. Everything already
+computed in Ref.~\cite{vazquez2024comnet} is recovered unchanged, and the order
+parameter is obtained by solving the map instead of linearising it.
+
+\subsection{Checks}
+
+Equation~\eqref{eq:AisJ} has been verified entry by entry, symbolically, for
+every mapping considered here, by comparing \code{Chygraph.A} against
+\code{PercolationMatrix}, the implementation of the published calculation: the
+Jacobian of
+Eqs.~\eqref{eq:Qm}--\eqref{eq:Qp} reproduces the published $\vecA$ of
+Eq.~\eqref{eq:A} exactly, and the Perron root reproduces the published
+pseudo-order parameter through $\lambda^2=\theta+1$.
+
 \section{What the first moments do not determine}
 
 
@@ -339,8 +408,9 @@ with degree distributions
 Both have $\ave{k}=2$ and $\ave{\kb}=\ave{k(k-1)}/\ave{k}=3$, hence identical
 $\theta=3pq-1$, identical $\Lambda$ and identical site percolation threshold
 $p_c=1/3$ at $q=1$, yet at $p=q=1$ they give $S=0.500$ and $S=0.673$
-(Fig.~\ref{fig:degeneracy}). They also differ in the critical amplitude derived
-below, $B=4/3$ against $B=8/9$, which is visible as the different initial slopes
+(Fig.~\ref{fig:degeneracy}); both are supplied to \code{hypergraph\_giant} as
+\code{finite\_pgf} tables and differ in no other input. They also differ in the
+critical amplitude derived below, $B=4/3$ against $B=8/9$, which is visible as the different initial slopes
 in Fig.~\ref{fig:degeneracy}.
 
 \begin{figure}[t]
@@ -449,17 +519,25 @@ directional derivative,
   M_a[r,r]=\left.\frac{d^2}{dt^2}F_a(1+tr)\right|_{t=0},
 \end{equation}
 a single-variable derivative of a product of generating functions, and likewise
-$\nabla P^l\cdot r$ is a first directional derivative. And the $2L^2$ unknowns
-reduce: discarding iteratively every index whose row or column of $J$ vanishes
+$\nabla P^l\cdot r$ is a first directional derivative. Equation~\eqref{eq:B} is
+\code{Chygraph.amplitude} and the contraction is done this way there. And the
+$2L^2$ unknowns reduce: discarding iteratively every index whose row or column of $J$ vanishes
 identically leaves the physically coupled \emph{core}, without changing the
 non-zero spectrum. For a hypergraph the core is $2$ of $8$ indices, for a graph
 with links and triangles $4$ of $18$, and in both cases the surviving indices
-are precisely the unknowns one would have written down by hand.
+are precisely the unknowns one would have written down by hand. The reduction is
+\code{Chygraph.core}, and \code{Chygraph.verify} checks it against the full
+index set by solving the Perron problem there numerically.
 
 \subsection{Closed forms}\label{sec:closedforms}
 
 Table~\ref{tab:amplitudes} collects $B\equiv B_0$ on the critical manifold
-$\lambda=1$ for the standard mappings. Two results are worth isolating. For a
+$\lambda=1$ for the standard mappings, as returned by
+\code{Chygraph.amplitude\_at\_threshold}. Only the first two derivatives of the
+generating functions at $1$ enter, so an arbitrary distribution can be handed to
+the calculation through \code{moment\_pgf}, a quadratic surrogate carrying its
+first two factorial moments; the amplitudes below for arbitrary $P(k)$ and
+$P(c)$ were obtained that way. Two results are worth isolating. For a
 graph with an arbitrary degree distribution, sites present with probability $p$
 and bonds with probability $q$,
 \begin{equation}
@@ -487,7 +565,8 @@ types, $\theta=\sum_l q_l\ave{k}_l\ave{c}_l-1$
   B=\frac{4}{1+\sum_l q_l\ave{k}_l\ave{c}_l^2},
   \label{eq:Bmultiplex}
 \end{equation}
-verified symbolically for $L=1,2,3$ hyperedge types: each layer contributes to
+verified symbolically with \code{multiplex\_hypergraph\_giant} for $L=1,2,3$
+hyperedge types: each layer contributes to
 the denominator its own contribution to $\theta$, weighted by one further factor
 of its cardinality.
 
@@ -531,7 +610,8 @@ When $C=0$ the map is affine along the critical direction and
 Eq.~\eqref{eq:epsilon} has no linear branch; the elementary example is a
 two-regular graph, where $\bar\Phi(x)=x$ and there is no transition of this
 type at all. $C$ is therefore a symbolic continuity criterion, computable
-alongside $\theta$ and $\Lambda$. Its non-negativity also settles, for anything
+alongside $\theta$ and $\Lambda$; it is \code{Chygraph.curvature}, with
+\code{Chygraph.is\_continuous} reporting whether it vanishes identically. Its non-negativity also settles, for anything
 that maps to a chygraph, the recent claim of Keating and H\'ebert-Dufresne
 \cite{keating2026} that group structure on its own produces only continuous
 transitions: a complex contributes to $C$ through second derivatives of its
@@ -553,10 +633,10 @@ The closed-form amplitudes are checked against the numerically solved map.
 Figure~\ref{fig:amplitude} shows $S/\Lambda$ approaching $B=2.8211$ from
 Eq.~\eqref{eq:Btriangle} as the threshold $q_c=0.445042$ is approached from
 above, for the same graph with over-represented triangles as
-Fig.~\ref{fig:triangles}. They are further
-cross-checked against an independent numerical evaluation of Eq.~\eqref{eq:B}
-using numerical eigenvectors on the full, unreduced index set, confirming that
-the core reduction is exact.
+Fig.~\ref{fig:triangles}. They are further cross-checked against
+\code{Chygraph.amplitude\_numeric}, an independent evaluation of
+Eq.~\eqref{eq:B} by numerical eigenvectors on the full, unreduced index set,
+confirming that the core reduction is exact.
 
 \begin{figure}[t]
 \includegraphics[width=\columnwidth]{fig_amplitude.pdf}
@@ -595,7 +675,11 @@ and likewise $\bar G^{l,(m)}$. The map becomes
   \label{eq:jointmap}
 \end{align}
 with $P^l=\Phi^l(Q^{l\cdot}_-)G^l(Q^{l\cdot}_+)$, reducing term by term to
-Eqs.~\eqref{eq:Qm}--\eqref{eq:Qp} when the generating functions factorise.
+Eqs.~\eqref{eq:Qm}--\eqref{eq:Qp} when the generating functions factorise. This
+is \code{JointChygraph}, which takes the joint functions in place of the four
+factorised tables and derives the excess ones; it shares the whole of
+Table~\ref{tab:code} with the factorised class, differing only in how the
+chygraph is specified.
 
 \subsection{The generalised threshold tensor}
 
@@ -647,7 +731,8 @@ elementary units as atoms. $\bar G_c$ is the excess cardinality generating
 function, $\bar\Phi_k$ the excess chy-degree generating function, and
 $\bar G_{K_n}$ the excess of the bond percolation cluster size in a complete
 graph $K_n$. Where a cell holds two entries they are the generating functions
-of the two complex layers, in the order the layers are listed.}
+of the two complex layers, in the order the layers are listed. The constructor
+that supplies each mapping is shown in Fig.~\ref{fig:code}.}
 \begin{ruledtabular}
 \begin{tabular}{llll}
 construction & layers & $\Phi^0$ & $\bar G^l_0$ \\
@@ -761,8 +846,51 @@ purpose-built calculation. The mappings are collected in
 Table~\ref{tab:mappings} and the resulting order parameters in
 Fig.~\ref{fig:applications}. In every case the only work is identifying
 $\Phi^l$ and $G^l$; the threshold, the order parameter and the amplitude then
-follow from Secs.~\ref{sec:map}--\ref{sec:joint} unchanged.
+follow from Secs.~\ref{sec:map}--\ref{sec:joint} unchanged. Figure~\ref{fig:code}
+shows the inputs as they are actually supplied: one constructor call per
+construction, returning a \code{Chygraph} that the methods of
+Table~\ref{tab:code} then act on without further work.
 
+
+\begin{figure*}[t]
+\small
+\begin{verbatim}
+from chygraph import *
+
+# AND- against OR-logic hypergraph percolation.  One chygraph, two intra-complex
+# generating functions; the degree and cardinality PGFs are the optional arguments.
+and_or_hypergraph('or')                        # Gbar = Gbar_c(1 - p + p y)
+and_or_hypergraph('and')                       # Gbar = 1 - Gbar_c(p) + Gbar_c(p y)
+
+# Hyperedges split into layers by cardinality class; the correlation between a node's
+# hyperdegree and the cardinalities it joins is the joint chy-degree generating function.
+Phi = two_class_joint_degree(1, Rational(3, 5), Rational(4, 5), w)
+correlated_cardinality_hypergraph([2, 5], Phi)  # cardinality classes c = 2 and c = 5
+
+# Households as complete graphs, global contacts as two-member complexes.  The argument
+# is the household size distribution; Gbar is built from K_n internally.
+household_epidemic({3: 1})                     # all households of size three
+household_epidemic({2: Rational(1,2), 4: Rational(1,2)})
+clique_network({3: 1}, p_bond=q)               # same complexes, many memberships per node
+
+# Static triadic closure: the chygraph lives on the backbone, not on the clustered graph.
+stc_percolation()                              # Poisson backbone; pass backbone_degree otherwise
+
+# Every one then answers the same three questions through the same methods.
+M = household_epidemic({3: 1})
+M.theta()                     # T*k*(2*p_H - 2*p_H**3 + 2*p_H**2 + 1) - 1,  i.e. R* - 1
+M.Lambda()                    # order parameter of the threshold, symbolic
+M.amplitude()                 # B in S = B*Lambda + O(Lambda**2), symbolic
+M.node_fraction({'p_H': 0.5, 'T': 0.3, 'k': 2.0})       # 0.41961, the final size
+\end{verbatim}
+\caption{\label{fig:code}How each construction is fed to the code. A constructor
+returns a \code{Chygraph}, whose only construction-specific content is the four
+tables of generating functions it was built from; the blocks follow the
+subsections of Sec.~\ref{sec:constructions} in order; every method in
+Table~\ref{tab:code} is then available on it without further work. The
+constructors themselves are ten to twenty lines of generating function
+definitions, with the mapping recorded in the docstring.}
+\end{figure*}
 
 \subsection{AND-logic against OR-logic}
 
@@ -789,6 +917,17 @@ Neither $\Phi^0_1$ nor $\bar\Phi^0_1$ is thinned: under either rule a node
 reached along a functioning hyperedge is present by construction. Node
 occupation reappears only at the root, through Eq.~\eqref{eq:rootocc}, so that
 $S$ is the fraction of all nodes and $S\le p$.
+
+Spelled out as input, the four tables are: $\Phi^0_1$ the hyperdegree generating
+function and $\bar\Phi^0_1$ its excess, neither thinned; $G^1_0$ the cardinality
+generating function; and $\bar G^1_0$ from Eq.~\eqref{eq:andor}, the one slot in
+which the two rules differ. Every other slot is empty, since hyperedges are
+included in nothing and nodes contain nothing. This is
+\code{and\_or\_hypergraph}, which takes the logic as its first argument and the
+degree and cardinality generating functions as optional ones, defaulting to
+Poisson. Nothing downstream is aware of which rule was chosen: the $2L^2=8$
+equations, the Jacobian, the determinant and the fixed point are the generic
+ones of Secs.~\ref{sec:map} and~\ref{sec:threshold}.
 
 Differentiating Eq.~\eqref{eq:andor} at $y=1$ gives the whole difference at the
 level of the threshold tensor:
@@ -834,8 +973,18 @@ mean in one class with the high or the low mean in the other with probability
 $w$ and $1-w$. Both marginal hyperdegree distributions, and hence every entry
 of the published threshold tensor, are the same for every $w$, while
 $\mathrm{Cov}(\kappa_1,\kappa_2)$ runs linearly from maximally negative at $w=0$
-through independent at $w=1/2$ to maximally positive at $w=1$. The site
-percolation thresholds are
+through independent at $w=1/2$ to maximally positive at $w=1$.
+
+The input is therefore a list of cardinalities, one per hyperedge layer, and a
+single joint generating function of the chy-degree vector; the excess functions
+are not supplied but derived from it by Eq.~\eqref{eq:excessderived}, and the
+intra-complex functions $\bar G^l_0(y)=(1-p+py)^{c_l-1}$ follow from the
+cardinality of each class. In the code the family is
+\code{two\_class\_joint\_degree} and the chygraph is
+\code{correlated\_cardinality\_hypergraph}; the inclusion-biased moments that
+separate its members are read off with \code{JointChygraph.kappa\_bar}, and
+\code{JointChygraph.layers\_independent} reports whether the published tensor
+would have sufficed. The site percolation thresholds are
 \begin{equation}
   p_c=0.2460,\qquad 0.2120,\qquad 0.1793
 \end{equation}
@@ -880,6 +1029,15 @@ one of its members. For $n=3$, Eq.~\eqref{eq:Kn} reproduces the triangle
 enumeration of Ref.~\cite{vazquez2024comnet}, Fig.~3, term by term: the
 household model and the over-represented-triangle model share their
 intra-complex generating function.
+
+The user supplies only the household size distribution: \code{household\_epidemic}
+takes a dictionary over sizes, together with the within-household and global
+transmission probabilities and the global degree generating function. From the
+size distribution it builds $\bar G^1_0$ through
+\code{clique\_excess\_pgf}, which evaluates Eq.~\eqref{eq:Kn} for each size and
+mixes them size-biased, and fills the remaining slots with $\Phi^0_1(x)=x$, the
+global degree functions in $\Phi^0_2$, and the Bernoulli $\bar G^2_0=1-T+Ty$. The
+epidemiology enters through one table entry and nothing else.
 
 Substituting into the tensor gives
 \begin{equation}
@@ -937,7 +1095,13 @@ edges, with $\Phi^0=\Phi^1=g_0(x_2)$ and
 The entire range-2 rule is the difference between these two lines: entering an
 edge from an unoccupied node, a second unoccupied node in a row kills the path.
 That the intra-complex generating function may depend on the layer the complex
-was entered from is the same freedom Sec.~\ref{sec:joint} required for motifs.
+was entered from is the same freedom Sec.~\ref{sec:joint} required for motifs,
+and it is why this construction is built with \code{JointChygraph} rather than
+the factorised class: \code{stc\_percolation} passes the two functions of
+Eq.~\eqref{eq:stc} as the $\bar G^{2,(0)}$ and $\bar G^{2,(1)}$ entries of the
+\code{Gbar} table, supplies $g_0$ for both node layers, and sets the root
+occupation of layer 0 to $p$. The backbone degree generating function is the
+only physical input.
 
 The tensor then returns
 \begin{equation}
