@@ -7,7 +7,7 @@ from graphs to higher-order structures, by way of the chygraph formalism
 ([Vázquez, PRE **107**, 024316 (2023)](https://arxiv.org/abs/2308.00987);
 `~/av2atg/chygraph`).
 
-Status: **WP1–WP3 done**, plus core percolation (`core.py`) (`src/chygraph_statmech`, 56 tests). WP4–WP6 and the
+Status: **WP1–WP4 done**, plus core percolation (`core.py`) (`src/chygraph_statmech`, 56 tests). WP4–WP6 and the
 HRG test of prediction 4 ([`TODO.md`](TODO.md)) are plan. Results:
 [WP1](#results-wp1) · [WP2](#results-wp2) · [WP3](#results-wp3).
 
@@ -156,9 +156,9 @@ modifying `chygraph`. See [Results (WP2)](#results-wp2).
 `antimonotone.py` solves order-reversing maps by `F∘F` bracketing;
 `hittingset.py` is the hypergraph problem. See [Results (WP3)](#results-wp3).
 
-**WP4 — Distributional messages.** Population dynamics for `Q^{ml}_i(h)`,
-finite temperature, general `w`. Only after WP1–3; the symbolic closed forms are
-lost here and the payoff is lower.
+**WP4 — Distributional messages.** ✅ Done. `population.py` carries
+`P_l(h)` as a population of samples and solves the full non-linear problem at
+finite temperature. See [Results (WP4)](#results-wp4).
 
 **WP5 — Complexes as regions.** The Kikuchi reading. Exact solution inside a
 complex, full field vector emitted. This is where clustering-that-VW03-cannot-see
@@ -400,6 +400,55 @@ constructions keep both classes populated, and `isolated_fraction()` reports
 extreme spread (0.47 at `s = 0.95` on the positive branch), which is why only
 the negative branch is quoted as a clean measurement above.
 
+## Results (WP4)
+
+`population.py` replaces the scalar message with the distribution itself:
+`P_l(h)` is the law of the field a node sends up into a layer-`l` complex,
+carried as a population of samples. The up step is a Poisson-compound
+convolution where the chygraph map has a generating-function product; the down
+step is the exact enumeration inside the complex, evaluated numerically. That
+is the README's substitution — *argument scalar → argument measure, product →
+convolution* — actually implemented.
+
+### It re-derives WP1 without sharing WP1's route
+
+WP1 gets `T_c` by symbolic linearisation and never represents a field
+distribution. WP4 solves the full non-linear stochastic problem and reads `T_c`
+off the order parameter. At matched neighbour count (6 either way):
+
+| system | WP1 closed form | WP4 population | rel err |
+|---|---:|---:|---:|
+| graph, `k_L = 6` | 0.168236 | 0.164628 | 2.14% |
+| triangles, `k_T = 3` | 0.146947 | 0.144343 | 1.77% |
+
+| | `T_c` gain from clustering |
+|---|---:|
+| WP1 closed form | 14.49% |
+| WP4 population | 14.05% |
+
+Both absolute values sit ~2% low for the same reason — with finite sweeps the
+bisection calls a slowly decaying magnetisation "ordered" and stops just below
+the true threshold. The bias is common to both systems, so the **ratio**, which
+is the physical claim, is an order of magnitude more accurate than either
+endpoint. `examples/wp4_validates_wp1.py`.
+
+### The sharp check
+
+The expensive comparison above is a few percent. The cheap one is exact: the
+derivative of WP4's numeric `emitted` at zero field must equal WP1's symbolic
+`cavity_derivative` for the same complex. It does to `1e-8` at `c = 2` and
+`c = 3` across `beta J = 0.2 .. 2.0` — two independent enumerations of the same
+object, pinned against each other. And `c = 2` reproduces
+`atanh(tanh(beta J) tanh(h))` to `1e-12` at *every* field, not only at zero.
+
+### What it cost
+
+The symbolic closed forms are gone, as the work package predicted: `theta`,
+`Lambda` and the amplitude hierarchy have no counterpart here, and a single
+`T_c` costs ~60s of bisection against a `sympy` one-liner. The payoff is that
+nothing in it is a linearisation, so it can be run away from the threshold and
+at any temperature — which is what WP6 will need.
+
 ## Falsifiable predictions
 
 1. ~~WP1's reweighted matrix reduces to `chygraph.percolation.PercolationMatrix`
@@ -469,8 +518,10 @@ src/chygraph_statmech/
   antimonotone.py WP3 order-reversing solver: F o F bracketing
   hittingset.py  WP3  minimum hitting set on a hypergraph
   core.py             leaf-removal core as a chygraph fixed point
-tests/           93 checks, each one a claim this README makes
-examples/        clustering_raises_tc.py, vw03_figure1.py, hitting_set_rsb.py
+  population.py  WP4  field distributions by population dynamics
+tests/           109 checks, each one a claim this README makes
+examples/        clustering_raises_tc.py, vw03_figure1.py, hitting_set_rsb.py,
+                 wp4_validates_wp1.py
 TODO.md          open items; prediction 4 on hyperbolic random graphs
 probe/           HRG clique-moment measurement; see probe/RESULTS.md
 ```
