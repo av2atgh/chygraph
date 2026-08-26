@@ -6,8 +6,9 @@ Sources:
 Alexei Vazquez, Percolation in higher order networks via mapping to chygraphs
 (percolation threshold), https://arxiv.org/abs/2308.00987
 
-Alexei Vazquez, The giant component of complex hypergraphs (order parameter,
-critical amplitude, dependent layers), `manuscript_3/`
+Alexei Vazquez, The giant component of complex hypergraphs: automated
+generating function calculations (order parameter, critical amplitude,
+dependent layers), `manuscript_3/`
 
 ## Installation
 
