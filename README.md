@@ -7,7 +7,7 @@ from graphs to higher-order structures, by way of the chygraph formalism
 ([Vázquez, PRE **107**, 024316 (2023)](https://arxiv.org/abs/2308.00987);
 `~/av2atg/chygraph`).
 
-Status: **WP1–WP3 done** (`src/chygraph_statmech`, 56 tests). WP4–WP6 and the
+Status: **WP1–WP3 done**, plus core percolation (`core.py`) (`src/chygraph_statmech`, 56 tests). WP4–WP6 and the
 HRG test of prediction 4 ([`TODO.md`](TODO.md)) are plan. Results:
 [WP1](#results-wp1) · [WP2](#results-wp2) · [WP3](#results-wp3).
 
@@ -468,7 +468,8 @@ src/chygraph_statmech/
   vertexcover.py WP2  VW03 Eqs. (16)-(18): the anti-monotone branch
   antimonotone.py WP3 order-reversing solver: F o F bracketing
   hittingset.py  WP3  minimum hitting set on a hypergraph
-tests/           56 checks, each one a claim this README makes
+  core.py             leaf-removal core as a chygraph fixed point
+tests/           93 checks, each one a claim this README makes
 examples/        clustering_raises_tc.py, vw03_figure1.py, hitting_set_rsb.py
 TODO.md          open items; prediction 4 on hyperbolic random graphs
 probe/           HRG clique-moment measurement; see probe/RESULTS.md

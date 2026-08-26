@@ -62,21 +62,49 @@ sits at `sbar = 1.00` as it should.
    joint (clique-size, membership) distribution — come straight out of
    `probe/clique_moments.py`; only the joint distribution still needs
    recording, as a `JointChygraph`.
-2. *Core percolation in the chygraph map.* Unchanged and now the critical path.
-   The leaf-removal core is not the giant component; WP3's
-   `sigma = Gbar_k(1 - Gbar_c(sigma))` is the hitting-set map, and the
-   core-percolation order parameter is a different fixed point of a related
-   anti-monotone map that needs writing down for chygraphs.
-   `antimonotone.py` already supplies the solver.
+2. ~~*Core percolation in the chygraph map.*~~ **Done**, `core.py`. It is a
+   chygraph fixed point with a **three-state** message: run leaf removal on the
+   cavity branch and a node ends leaf-ready (`L`), deleted (`D`) or core-side
+   (`C`). Percolation needs only two states, which is why a scalar sufficed
+   there. The node step is an ordinary chy-degree generating function,
+
+       lambda_m = Phibar^(m)(zeta),   delta_m = 1 - Phibar^(m)(1 - kappa)
+
+   and the intra-complex step is solved exactly inside the complex: for a
+   clique of cardinality `c`, every live member has clique-degree equal to the
+   number `m` of live others, so a complex can force a node out only through
+   the single configuration `m = 1` with that member having no outside edge —
+
+       zeta = delta^{c-1},   kappa = (c-1) delta^{c-2} lambda.
+
+   At `c = 2` this collapses to `lambda = Gbar(delta)`, `delta = 1 - Gbar(1-lambda)`
+   and the threshold `Gbar'(1-lambda) = 1`, i.e. `c = e`, recovered to ten
+   digits. The map is order-*preserving*, so it needs monotone iteration, not
+   `antimonotone.py`. Validated against pure leaf removal at `n = 4x10^5` for
+   cardinalities 2, 3 and 4 (`probe/validate_core.py`).
 3. *The comparison.* Same `P(k)`, same assortativity, complexes on / complexes
    off, at `tau = 2.5` and `2.9` where both the core effect and the ensemble
-   exist. If the core fraction does not separate, prediction 4 is dead.
+   exist. **Step 2 already settles the qualitative half of this**: a complex of
+   cardinality three or more has *no core-free branch at all*. Every member has
+   clique-degree `c-1 >= 2`, so leaf removal can never reach it and the complex
+   is a core by itself. A chygraph of triangles is cored at every density —
+   core fraction exactly `1 - Phi(0)`, the probability of belonging to any
+   complex — while the degree-matched graph has no core until mean degree `e`.
+   That is the HRG-versus-configuration-model separation, analytically.
+   What is left is quantitative: feed the *measured* HRG clique ensemble in and
+   ask whether the predicted core fraction matches the measured one, rather
+   than merely being positive.
 
-**How it fails now.** Not at the ensemble. Either at step 2 — core percolation
-may not be a chygraph fixed point at all, in which case the formalism cannot
-express the order parameter the question is about — or at step 3, where the
-chygraph may reproduce the control's core rather than the HRG's, meaning
-cliques are the wrong complexes even though they are a valid ensemble.
+**How it fails now.** Not at the ensemble, and not at the map. The remaining
+risk is entirely quantitative, and it is real: "cardinality >= 3 implies a
+core" is *too* strong a statement to be the whole story. It predicts a core for
+any graph with a positive density of triangles, including the degree-matched
+configuration model at `tau < 3`, which also has triangles — just fewer. So the
+question is no longer whether the chygraph is cored but whether it gets the
+*amount* right, and whether the measured clique ensemble reproduces the HRG's
+`core ~ kbar^beta` power law with `beta = 1.22-1.63`. A chygraph of independent
+cliques predicts `1 - Phi(0)`, which is not a power law in `kbar`, so something
+about clique *overlap* is missing and that gap is now the interesting part.
 
 **Literature.**
 - `~/av2atg/computational_complexity/plan.tex`, Observations 1–2, Conjectures.
