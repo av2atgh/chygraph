@@ -145,3 +145,49 @@ def test_dilution_confound_is_visible():
     hi = _matched(cs, m, +1, 0.95)(hs.rsb_scale(_matched(cs, m, +1, 0.95)))
     assert lo.isolated_fraction() < 0.15
     assert hi.isolated_fraction() > 0.35
+
+
+# ---------------------------------------------------------------------------
+# Known limitations, pinned against the literature
+# ---------------------------------------------------------------------------
+
+def test_cover_size_is_certified_only_at_cardinality_two():
+    assert hs.poisson([2], [3.0]).certified()
+    for c in (3, 4, 6):
+        assert not hs.poisson([c], [1.0]).certified()
+
+
+def test_disjoint_triples_expose_the_degeneracy_rule():
+    """One 3-hyperedge per vertex and nothing else: no interaction between
+    complexes, so replica symmetry is trivially valid.  One of every three
+    vertices must be taken, so the truth is 1/3.  The graph degeneracy rule
+    returns 1/2.  The bracket is honest; the midpoint is not."""
+    from sympy import Symbol
+    m = hs.HittingSet([3], Symbol('x0'))
+    assert m.cover_size() == pytest.approx(0.5, abs=1e-9)
+    lo, hi = m.cover_bracket()
+    assert lo <= 1 / 3 <= hi
+    assert abs(m.cover_size() - 1 / 3) > 0.15
+
+
+def test_against_mezard_tarzia_regular_benchmark():
+    """Mezard & Tarzia, PRE 76, 041124 (2007), Fig. 5: a random regular
+    hypergraph with L = 4 tests per variable and K = 6 variables per test has
+    rho_cov = 0.178.  The hard-field ansatz here returns 0.252, and its own
+    stability test already refuses to certify that value."""
+    from sympy import Symbol
+    m = hs.HittingSet([6], Symbol('x0') ** 4)
+    assert m.cover_size() == pytest.approx(0.252, abs=2e-3)
+    assert not m.certified()
+    assert m.is_unstable()
+    lo, hi = m.cover_bracket()
+    assert lo <= 0.178 <= hi
+
+
+def test_cardinality_two_regular_breaks_for_every_degree():
+    """Mezard & Tarzia: 'for K = 2 the solution of VC exhibits higher order RSB
+    for every value of L'.  The hard-field criterion agrees from L = 3 up."""
+    from sympy import Symbol
+    x = Symbol('x0')
+    for L in (3, 4, 6, 10):
+        assert hs.HittingSet([2], x ** L).is_unstable()

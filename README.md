@@ -189,7 +189,7 @@ the formalism computes a value and proves it untrustworthy.**
 | problem | status |
 |---|---|
 | graph VC, correlated `e_dd'` | `vertexcover.py` — VW03 Fig. 1, Weigt–Hartmann to 10 digits |
-| hypergraph hitting set | `hittingset.py` — `k(c−1) = e`, 12 digits |
+| hypergraph hitting set | `hittingset.py` — `k(c−1) = e`, 12 digits; **cover size exact only at `c = 2`** |
 | VC of a chygraph's induced graph | `cover.py` — exact at `c = 2`, **never certified** at `c ≥ 3` |
 
 `cover.py` is the other end of `hittingset.py`'s family: a hyperedge needs one
@@ -430,6 +430,33 @@ participation in small and large hyperedges, at identical marginals, brings RSB
 forward monotonically: `6.83 -> 6.50 -> 5.20 -> 3.76 -> 2.64` as the spread
 grows. That axis has no counterpart in VW03, whose ensemble has one edge type.
 
+
+### Checked against Mézard–Tarzia (2007), and two things were wrong
+
+Mézard & Tarzia, [PRE **76**, 041124](https://doi.org/10.1103/PhysRevE.76.041124),
+solve hitting set on random regular hypergraphs with the full cavity method.
+Comparing exposed two limits of the `mu -> inf` **hard-field** ansatz here
+(warning propagation — the VW03 limit, which drops the `O(1)` part of the fields):
+
+**1. The cover size is wrong at `c ≥ 3`.** The `1/2` weight VW03 gives a
+degenerate `z = 0` vertex is right for a two-fold degeneracy only. Disjoint
+3-hyperedges, one per vertex — *no interaction between complexes at all*, so RS
+is trivially valid — need one vertex of every three taken, so the truth is `1/3`.
+The rule returns `1/2`. Against MT Fig. 5, a regular hypergraph with 4 hyperedges
+per vertex and 6 per hyperedge has `rho_cov ≃ 0.178`; this gives `0.252`.
+`cover_bracket()` now brackets it honestly and `certified()` is False at `c ≥ 3`.
+
+**2. The stability point is not the phase boundary at `c ≥ 3`.** `k(c−1) = e` is
+a property of the hard-field map. At `c = 2` that coincides with the accepted RSB
+point, which is why it returns `e`. On regular hypergraphs it reports broken
+symmetry across almost the whole `(L, K)` grid where MT Fig. 4 finds a genuine RS
+region. It *does* reproduce their result that `K = 2` breaks for every `L`.
+
+Read `k(c−1) = e` as **where leaf-removal-style certification stops**, not where
+the phase boundary lies. The σ recursion, the order-reversing structure, the
+`F∘F` bracket, and every heterogeneity/correlation *threshold* result are
+unaffected — they depend on the map, not on the degeneracy rule.
+
 ### A confound worth naming
 
 The obvious "positive correlation" construction — half the nodes at double the
@@ -662,10 +689,10 @@ src/chygraph_statmech/
   freeenergy.py  WP6  Bethe free energy; the transition thermodynamically
   ising.py            critical temperature for any chygraph
   cover.py            vertex cover of the induced graph
-tests/           183 checks, each one a claim this README makes
+tests/           187 checks, each one a claim this README makes
 examples/        clustering_raises_tc.py, vw03_figure1.py, hitting_set_rsb.py,
                  wp4_validates_wp1.py
-main.tex         manuscript, complete draft: 7 pages, no TODOs left
+main.tex         manuscript: general theory -> structures -> models
 TODO.md          open items; prediction 4 on hyperbolic random graphs
 probe/           HRG clique-moment measurement; see probe/RESULTS.md
 ```

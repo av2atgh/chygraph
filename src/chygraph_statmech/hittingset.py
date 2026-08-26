@@ -120,18 +120,42 @@ class HittingSet:
         """
         return float(self._phi(*np.zeros(self.L)))
 
-    def cover_size(self, sigma=None):
-        """``x_c``, the fraction of vertices in a minimum hitting set.
+    def cover_size(self, sigma=None, degeneracy=0.5):
+        """Fraction of vertices in a minimum hitting set, VW03 Eq. (17).
 
-        ``z > 0`` fixes a vertex outside the cover and ``z < 0`` inside;
-        ``z = 0`` is degenerate and contributes one half, which is the
-        ``(d-2)/2`` term of Vazquez & Weigt Eq. (17) in the graph case.
+        ``z > 0`` leaves a vertex out of the cover, ``z < 0`` puts it in, and
+        ``z = 0`` is degenerate and counted with weight ``degeneracy``.
+
+        **Exact only at cardinality two**, where it reduces to Weigt-Hartmann
+        ``1 - (2W + W^2)/(2c)`` with ``W = LambertW(c)``.  At ``c >= 3`` the
+        ``1/2`` inherited from the graph is wrong: the ``mu -> inf`` hard-field
+        ansatz drops the ``O(1)`` entropic part of the fields and the degeneracy
+        of a ``z = 0`` vertex is no longer two-fold.  Disjoint 3-hyperedges, one
+        per vertex, make the point -- no interaction between complexes at all,
+        so replica symmetry is trivially valid, one of every three vertices must
+        be taken, the truth is ``1/3``, and this returns ``1/2``.  Against
+        Mezard & Tarzia, Phys. Rev. E 76, 041124 (2007), Fig. 5, a random
+        regular hypergraph with 4 tests per variable and 6 per test has
+        ``rho_cov = 0.178``; this returns ``0.252``.
+
+        Use :meth:`cover_bracket` at ``c >= 3``, and see :meth:`certified`.
         """
         sigma = self.solve() if sigma is None else sigma
         tau = self.tau(sigma)
         return float(1.0 - self._phi(*(1.0 - tau))
-                     - 0.5 * float((self.means * tau * sigma).sum()))
+                     - degeneracy * float((self.means * tau * sigma).sum()))
 
+    def cover_bracket(self, sigma=None):
+        """``(lower, upper)`` from counting ``z = 0`` vertices either way.
+
+        Honest at every cardinality, where :meth:`cover_size` is honest only at
+        two.
+        """
+        return (self.cover_size(sigma, 1.0), self.cover_size(sigma, 0.0))
+
+    def certified(self):
+        """Whether :meth:`cover_size` can be trusted: cardinality two only."""
+        return bool((self.c == 2).all())
 
 # ---------------------------------------------------------------------------
 # Generating functions
