@@ -38,7 +38,9 @@ hard-field limit gives $\ave{k}(c-1)=e$ at fixed cardinality, exact at $c=2$
 where it returns the Bauer--Golinelli value, but comparison with M\'ezard and
 Tarzia [Phys.\ Rev.\ E \textbf{76}, 041124 (2007)] shows that at $c\geq3$ it
 drops an $O(1)$ contribution and is neither the cover size nor the phase
-boundary. Finally, a chygraph is treelike only when its complexes meet in at
+boundary. Keeping those fields repairs both: the resulting belief propagation
+reproduces their regular-hypergraph solution and, unlike it, carries arbitrary
+chy-degree distributions, mixed cardinalities and correlated layers. Finally, a chygraph is treelike only when its complexes meet in at
 most one node; measured on hyperbolic random graphs, where maximal cliques share
 edges, the construction accounts for $65$--$83\%$ of the leaf-removal core.
 \end{abstract}
@@ -412,34 +414,98 @@ Both collapse to the same map at $c=2$, and both are order-reversing.
 \label{sec:hardfield}
 
 Equation~\eqref{eq:zhs} is warning propagation: the $\mu\to\infty$ limit taken
-with hard fields, dropping the $O(1)$ part that survives it. At cardinality two
-that is harmless and the results above are exact where replica symmetry holds.
-At cardinality three or more it is not, and the comparison with the full
-replica-symmetric treatment of Mézard and Tarzia \cite{MT07} is the place to say
-so plainly.
+with \emph{hard} fields, scaling $h=\mu z$ and keeping only the integer $z$.
+That discards an $O(1)$ contribution which survives the limit. At cardinality
+two the discard is harmless. Above it, it is not, and two failures show it.
 
-Two failures, both diagnostic. First the cover size. A vertex at $z=0$ is
-degenerate, and Ref.~\cite{VW03} counts it as half covered, which is right when
-the degeneracy is two-fold. Take disjoint $3$-hyperedges, one per vertex: there
-is no interaction between complexes at all, replica symmetry is trivially valid,
-one of every three vertices must be taken, the truth is $1/3$ --- and the rule
-returns $1/2$. Against Fig.~5 of Ref.~\cite{MT07}, a random regular hypergraph
-with four hyperedges per vertex and six vertices per hyperedge has
-$\rho_{\mathrm{cov}}\simeq0.178$, where Eq.~\eqref{eq:hs} with the half rule
-gives $0.252$. Counting the degenerate vertices both ways brackets the truth and
-is what should be quoted at $c\geq3$.
+First the cover size. A vertex at $z=0$ is degenerate and Ref.~\cite{VW03}
+counts it as half covered, right when the degeneracy is two-fold. Take disjoint
+$3$-hyperedges, one per vertex: there is no interaction between complexes at
+all, replica symmetry is trivially valid, one of every three vertices must be
+taken, the truth is $1/3$ --- and the rule returns $1/2$. Second, the stability
+point of Eq.~\eqref{eq:kc} is a property of the hard-field map and not of the
+full replica-symmetric solution; the two coincide only at cardinality two, which
+is why $c=2$ returns $e$. On random regular hypergraphs the hard-field criterion
+reports broken symmetry across almost the whole $(L,K)$ grid where Fig.~4 of
+Ref.~\cite{MT07} finds a genuine replica-symmetric region, though it does
+reproduce their result that cardinality two breaks for every degree.
 
-Second the stability point itself. Equation~\eqref{eq:kc} and the results around
-it are properties of the hard-field map, not of the full replica-symmetric
-solution, and the two coincide only at cardinality two --- which is why $c=2$
-returns $e$. On random regular hypergraphs the hard-field criterion reports
-broken symmetry across almost the whole $(L,K)$ grid where Fig.~4 of
-Ref.~\cite{MT07} finds a genuine replica-symmetric region. It does reproduce
-their statement that cardinality two breaks for every degree. The honest reading
-of Eq.~\eqref{eq:kc} is therefore \emph{where leaf-removal-style certification
-stops}, not where the phase boundary lies; Ref.~\cite{MT07} is the reference for
-the latter, and combining its $O(1)$ fields with the chygraph structure is the
-natural next step.
+\subsection{Keeping the fields}
+\label{sec:soft}
+
+Both failures are repaired by not scaling the fields at all. Writing $x_i=1$ for
+a vertex \emph{in} the hitting set and weighting by $e^{-\mu\sum_i x_i}$, belief
+propagation on the chygraph reads
+\begin{align}
+  v_{a\to i}&=-\ln\Big[1-\prod_{j\in a\setminus i}\big(1+e^{h_{j\to a}}\big)^{-1}\Big],
+  \nonumber\\
+  h_{i\to a}&=-\mu+\sum_{b\ni i,\,b\neq a}v_{b\to i},
+  \label{eq:soft}
+\end{align}
+with $\rho=\sigma\big(-\mu+\sum_{b\ni i}v_{b\to i}\big)$. The chy-degree step is
+again the convolution of Sec.~\ref{sec:theory}; the complex step is again a sum
+over the interior, here over the single forbidden configuration in which no
+member is taken. Nothing is scaled by $\mu$, so the $O(1)$ parts survive and
+$\rho$ emerges as a genuine $O(1)$ number rather than a count of integers.
+
+For a regular hypergraph, $L$ complexes per node of cardinality $K$, symmetry
+closes Eq.~\eqref{eq:soft}:
+\begin{equation}
+  h_{\mathrm{RS}}=-\frac{\mu}{L}-\frac{L-1}{L}\ln(K-1),
+  \qquad \rho=\frac1K,
+  \label{eq:hRS}
+\end{equation}
+which is Eq.~(11) of Ref.~\cite{MT07}, reproduced here to four decimals by
+population dynamics. Note that $h$ carries a fraction of $\mu$, not an integer
+multiple: that is precisely the structure the hard-field ansatz cannot
+represent. The full field is $O(1)$, $H=-\ln(K-1)$, and $\rho=1/K$ says the
+counting bound is saturated --- one member of every complex and no waste.
+
+Table~\ref{tab:soft} collects the repair. Disjoint $3$-hyperedges return $1/3$;
+the graph at $K=2$ returns the Weigt--Hartmann cover size, as it must since hard
+and soft fields agree there; and the correction grows with the weight the
+ensemble puts on complexes of cardinality three or more, reaching $56\%$ for
+$c=4$ alone and falling below $1\%$ once ordinary edges dominate.
+
+\begin{table}[t]
+\caption{\label{tab:soft}Minimum hitting set density. ``hard'' is
+Eq.~\eqref{eq:hs} with the half rule, ``soft'' is Eq.~\eqref{eq:soft}. Poisson
+chy-degrees unless marked regular.}
+\begin{ruledtabular}
+\begin{tabular}{llrrl}
+cardinalities & $\ave{k}$ & hard & soft & exact \\
+\colrule
+$3$ (regular, $L=1$) & $1$ & 0.500 & 0.333 & $1/3$ \\
+$2$ & $1.0$ & 0.2720 & 0.2721 & $0.27203$ \\
+$2$ & $2.5$ & 0.4328 & 0.4324 & $0.43279$ \\
+$6$ (regular, $L=4$) & $4$ & 0.252 & 0.1667 & $0.178$ \cite{MT07} \\
+$3$ & $1.0$ & 0.208 & 0.162 & --- \\
+$4$ & $1.0$ & 0.172 & 0.110 & --- \\
+$\{2,3\}$ & $\{1.0,0.5\}$ & 0.310 & 0.300 & --- \\
+$\{2,6\}$ & $\{1.5,0.5\}$ & 0.344 & 0.342 & --- \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+Two things this does not do. It is still a replica-symmetric calculation, so
+where the entropy
+\begin{equation}
+  s(\mu\to\infty)=\frac{1}{K}\Big[a\ln(K-1)-(a-1)\ln K\Big],
+  \quad a=(L-1)(K-1),
+  \label{eq:entropy}
+\end{equation}
+turns negative the answer is unphysical and one-step replica symmetry breaking
+is required \cite{MT07}. At $L=4$, $K=6$ that entropy is $-0.157$ and the
+replica-symmetric $1/6$ sits below the $0.178$ of Ref.~\cite{MT07}, as an
+underestimate should; the hard-field $0.252$ sits above it and further away. At
+$L=6$, $K=12$ the entropy is $-0.192$ and the iteration does not settle at all,
+which is the visible form of the same failure. And Eq.~\eqref{eq:soft} inherits
+the treelike assumption of Sec.~\ref{sec:validity}, unchanged.
+
+What it adds beyond Ref.~\cite{MT07} is the chygraph structure. Equation
+\eqref{eq:soft} carries an arbitrary chy-degree distribution, mixed
+cardinalities and correlated layers, none of which the regular ansatz reaches,
+and the last four rows of Table~\ref{tab:soft} are outside it.
 
 \section{Core percolation}
 \label{sec:core}
@@ -552,15 +618,18 @@ $t/(1-t+t^2)$ rather than $t$, so clustering raises $T_c$ by $14.5\%$ at matched
 mean degree --- is invisible to $\{p_d,e_{dd'}\}$ and was confirmed by
 population dynamics and by the free energy, neither sharing the derivation.
 
-For hitting set it is complete only at cardinality two. The map,
-Eq.~\eqref{eq:hs}, and its order-reversing structure are general, and
-$\ave{k}(c-1)=e$ is exact for the hard-field problem it describes. But the
-$\mu\to\infty$ limit taken with hard fields drops an $O(1)$ contribution that
-matters as soon as complexes exceed cardinality two, and Sec.~\ref{sec:hardfield}
-shows both consequences against Ref.~\cite{MT07}: the cover size is wrong even
-where replica symmetry is trivially valid, and the stability point is not the
-phase boundary. Supplying those fields is the obvious next step, and
-Ref.~\cite{MT07} supplies them for regular hypergraphs.
+For hitting set the hard-field limit, Eq.~\eqref{eq:hs}, is complete only at
+cardinality two: its order-reversing structure is general and $\ave{k}(c-1)=e$
+is exact for the problem it describes, but the $O(1)$ part of the fields that it
+discards matters as soon as complexes exceed cardinality two. Keeping the fields,
+Eq.~\eqref{eq:soft}, repairs both symptoms --- disjoint $3$-hyperedges return
+$1/3$ rather than $1/2$, and the regular solution of Ref.~\cite{MT07} is
+recovered including the fractional $\mu/L$ in $h_{\mathrm{RS}}$ that no integer
+ansatz can carry --- while extending it to the chy-degree distributions, mixed
+cardinalities and correlated layers a regular ansatz cannot reach. It remains a
+replica-symmetric calculation: where Eq.~\eqref{eq:entropy} turns negative the
+answer is an underestimate and one-step breaking is required, and the iteration
+announces this by ceasing to converge.
 
 The construction has one further limit, and it is structural rather than
 technical. A chygraph is treelike only when its complexes meet in at most one

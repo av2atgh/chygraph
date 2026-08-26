@@ -189,7 +189,8 @@ the formalism computes a value and proves it untrustworthy.**
 | problem | status |
 |---|---|
 | graph VC, correlated `e_dd'` | `vertexcover.py` — VW03 Fig. 1, Weigt–Hartmann to 10 digits |
-| hypergraph hitting set | `hittingset.py` — `k(c−1) = e`, 12 digits; **cover size exact only at `c = 2`** |
+| hypergraph hitting set, thresholds | `hittingset.py` — `k(c−1) = e`, 12 digits |
+| hypergraph hitting set, density | `softfield.py` — MT Eq. (11), `rho = 1/K`, Weigt–Hartmann |
 | VC of a chygraph's induced graph | `cover.py` — exact at `c = 2`, **never certified** at `c ≥ 3` |
 
 `cover.py` is the other end of `hittingset.py`'s family: a hyperedge needs one
@@ -457,6 +458,51 @@ the phase boundary lies. The σ recursion, the order-reversing structure, the
 `F∘F` bracket, and every heterogeneity/correlation *threshold* result are
 unaffected — they depend on the map, not on the degeneracy rule.
 
+### Fixed: `softfield.py` keeps the O(1) fields
+
+Both symptoms above come from scaling `h = mu*z` and keeping only the integer
+`z`. Not scaling at all repairs them. Belief propagation on the chygraph,
+
+```
+v_{a->i} = -ln[ 1 - prod_{j in a\i} 1/(1 + e^{h_{j->a}}) ]
+h_{i->a} = -mu + sum_{b ni i, b != a} v_{b->i}
+```
+
+with `rho = sigmoid(-mu + sum_b v)`. For a regular hypergraph symmetry closes it:
+
+```
+h_RS = -mu/L - ((L-1)/L) ln(K-1),    rho = 1/K
+```
+
+which is **MT Eq. (11)**, reproduced to 4 decimals. Note `h` carries a *fraction*
+of `mu`, not an integer multiple — exactly what the hard ansatz cannot represent.
+
+| cardinalities | `<k>` | hard | soft | exact |
+|---|---|---:|---:|---|
+| 3 (regular, L=1) | 1 | 0.500 | **0.333** | 1/3 |
+| 2 | 1.0 | 0.2720 | 0.2721 | 0.27203 (Weigt–Hartmann) |
+| 6 (regular, L=4) | 4 | 0.252 | 0.1667 | 0.178 (MT 1RSB) |
+| 3 | 1.0 | 0.208 | 0.162 | — |
+| 4 | 1.0 | 0.172 | 0.110 | — |
+| {2,3} | {1.0,0.5} | 0.310 | 0.300 | — |
+
+The correction grows with the weight on `c ≥ 3` — 56% for `c=4` alone, under 1%
+once ordinary edges dominate. The last rows are outside MT's regular ansatz.
+
+Still replica-symmetric: where the RS entropy `s = [a ln(K-1) - (a-1) ln K]/K`
+with `a = (L-1)(K-1)` goes negative, the answer is an underestimate and 1RSB is
+needed. At (4,6) `s = -0.157` and RS gives 0.1667 below MT's 0.178, as an
+underestimate should; the hard-field 0.252 is above and further. At (6,12)
+`s = -0.192` and the iteration stops converging — the same failure, visible.
+
+**A bug worth recording.** Damping population dynamics by *averaging field
+values* (`h ← (1-λ)h + λh_new`) looks right and is not: the two entries are
+different messages, not two estimates of one, so averaging contracts the
+distribution and *moves the fixed point*. It returned 0.172 for ER at `k=1`
+where the truth is 0.272 (confirmed by exact leaf removal, empty core, `dx=0`).
+Replacing a random *subset* of the population fixes it. `population.py` does
+full parallel updates and was never affected.
+
 ### A confound worth naming
 
 The obvious "positive correlation" construction — half the nodes at double the
@@ -689,7 +735,8 @@ src/chygraph_statmech/
   freeenergy.py  WP6  Bethe free energy; the transition thermodynamically
   ising.py            critical temperature for any chygraph
   cover.py            vertex cover of the induced graph
-tests/           187 checks, each one a claim this README makes
+  softfield.py        hitting set with the O(1) fields kept (MT-validated)
+tests/           205 checks, each one a claim this README makes
 examples/        clustering_raises_tc.py, vw03_figure1.py, hitting_set_rsb.py,
                  wp4_validates_wp1.py
 main.tex         manuscript: general theory -> structures -> models
