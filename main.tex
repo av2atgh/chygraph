@@ -329,6 +329,98 @@ with Eq.~\eqref{eq:uprime} to $10^{-8}$ for $c=2,3$ across $\beta J=0.2$ to $2$,
 and at $c=2$ the emitted field reproduces $\mathrm{atanh}(\tanh\beta J\tanh h)$
 to $10^{-12}$ at every field.
 
+\subsection{A different interaction inside the complex}
+\label{sec:simplicial}
+
+Nothing in Sec.~\ref{sec:theory} fixed what is inside a complex. Equation
+\eqref{eq:emitted} sums whatever Hamiltonian is put there and the chy-degree
+step never sees it, so a different higher-order interaction is a substitution
+rather than a new theory. The simplicial Ising model of Son, Lee and Goh
+\cite{SLG26} is the test case: a hyperedge lowers the energy only when all its
+members agree,
+\begin{equation}
+  H=-\sum_e J_{|e|}\,\delta_{\{S_i\}_{i\in e}}-H\sum_i S_i,
+  \label{eq:sim}
+\end{equation}
+with $\delta$ equal to one on the two unanimous states and zero on the other
+$2^q-2$. Their Bethe--Peierls equation is Eq.~\eqref{eq:emitted} with
+Eq.~\eqref{eq:sim} substituted, on a chygraph of two layers with fixed
+chy-degree.
+
+The sum closes. With $a=\beta J_q$ and the other members at cavity field $h$,
+\begin{equation}
+  Z(S_0=\pm1)=(2\cosh h)^{q-1}+(e^{a}-1)\,e^{\pm h(q-1)},
+  \label{eq:simZ}
+\end{equation}
+so the emitted field is elementary at any cardinality, where the all-pairs
+clique of Sec.~\ref{sec:ising} needs an enumeration, and
+\begin{equation}
+  u'=\frac{(q-1)(e^{a}-1)}{2^{q-1}+e^{a}-1},
+  \label{eq:simu}
+\end{equation}
+which is $\tanh(\beta J/2)$ at $q=2$: a simplicial pair is an ordinary bond of
+half the coupling, since $\delta_{S_0S_1}=(1+S_0S_1)/2$.
+
+\emph{One caveat, and it is the substantive one.} The branching matrix
+\eqref{eq:branch} locates a linear instability of the paramagnet. Where the
+transition is discontinuous --- which for this model is most of the interesting
+range --- that is the spinodal and not the transition. The ordered branch must
+be found by iterating from a magnetised start, and the true temperature by
+comparing free energies as in Sec.~\ref{sec:ising}. Equation~\eqref{eq:branch}
+is still the right object; it answers a different question.
+
+Read that way, the construction reproduces their results and extends them. On a
+$q$-uniform Bethe hyperlattice of chy-degree $4$, Eq.~\eqref{eq:simu} with
+$3u'=1$ gives $e^{a}=2$ at $q=2$ and again at $q=4$, hence the same
+$T=1/\ln2=1.4427$, and $e^{a}=9/5$ at $q=3$, hence $T=1.7013$. The spinodal is
+therefore \emph{non-monotonic} in cardinality, peaking at $q=3$ --- the
+ambivalent effect of group size they report, here in closed form. At chy-degree $4$ the transition
+is continuous through $q=5$ and discontinuous from $q=6$, where Bragg--Williams
+places the tricritical cardinality at four. The two do not disagree. Repeating
+the calculation as a function of chy-degree, the boundary sits between five and
+six only at $k=3$ and $k=4$ and has moved to between four and five by $k=6$,
+where it stays out to $k=400$ --- the Bragg--Williams value, recovered as the
+connectivity grows. Low connectivity delays the discontinuity by one in
+cardinality, and that is a finite-connectivity effect in the regime an
+infinite-range theory cannot reach rather than a correction to it.
+
+Their Fig.~4, a double transition at $q=16$ with
+$(J_q,J_2,k_q,k_2)=(0.3,0.7,4,4)$, comes out in full, and it is worth doing
+properly rather than by hysteresis alone. The continuous transition sits at
+$T=1.0108$, which is the pairwise value $3\tanh(J_2/2T)=1$ to three digits
+because $u'$ of Eq.~\eqref{eq:simu} is $O(2^{-q})$ at $q=16$ and the
+higher-order layer contributes nothing to the linear instability. Between the
+two transitions the pairwise share of the magnetisation exceeds the
+higher-order share by two to three orders of magnitude.
+
+The second transition is genuinely first order, and locating it needs the free
+energy. Two solutions coexist on $0.9770<T<0.9810$, the lower limit being the
+spinodal of the weakly ordered branch and the upper the point where the
+strongly ordered one ceases to exist. Comparing Eq.~\eqref{eq:bethe} between
+them --- with $Z_i=2\cosh h$ and
+$Z_a=(2\cosh h_c)^q+(e^{a}-1)\,2\cosh(qh_c)$, $h_c=h-u_l$ --- the branches cross
+at
+\begin{equation}
+  T_{c}=0.9790,\qquad \Delta m=0.286,
+  \label{eq:simTc}
+\end{equation}
+with $m$ jumping from $0.548$ to $0.834$, and $T^\ast<T_c<T^{\ast\ast}$ as it
+must. Below it the two shares of the magnetisation become comparable, their
+ratio falling from several hundred to about three, and both jump, the
+higher-order one by a factor of forty. Each of those is a claim of
+Ref.~\cite{SLG26}, recovered without changing anything outside
+Eq.~\eqref{eq:simZ}.
+
+The same calculation on $q$-uniform hyperlattices at chy-degree $4$ gives
+$T_c=0.938$, $0.714$ and $0.480$ for $q=6$, $8$ and $12$, each strictly inside
+its metastability limits and each with $\Delta m>0.9$; at $q=3$ no coexistence
+window exists at all and the transition is continuous, as it should be. Two
+practical points. The spinodal is the \emph{lower} limit of metastability and
+not the transition, so quoting it as $T_c$ would be wrong by $10$--$50\%$ here.
+And just below a continuous transition the near-zero branch converges slowly
+enough that a finite iteration budget can mimic coexistence; that is critical
+slowing down, and a coexistence test has to be kept away from it.
+
 \section{The hitting set problem}
 \label{sec:hs}
 
@@ -637,6 +729,86 @@ passing messages between regions rather than between complexes;
 Eq.~\eqref{eq:mobius} says where the present counting is wrong without repairing
 the map.
 
+\section{Implementation}
+\label{sec:code}
+
+Everything above is one object. A chygraph is fixed by its complex layers, their
+cardinalities $c_l$ and the chy-degree distribution, and a single class
+\code{Chygraph} holds that structure; each calculation in this paper is one of
+its methods. Where a calculation needs the full generating function rather than
+its moments it is supplied as \code{phi}, and otherwise the independent-Poisson
+form is built from the mean chy-degrees; \code{regular=True} selects fixed
+chy-degree, for which the excess is $\ave{\kappa}_l-1$ rather than
+$\ave{\kappa}_l$.
+
+\begin{table}[t]
+\caption{\label{tab:methods}Where each result comes from. All methods are on
+\code{Chygraph}; those returning an object are followed by the call that
+produces the number.}
+\begin{ruledtabular}
+\begin{tabular}{lll}
+result & Eq. & method \\
+\colrule
+\multicolumn{3}{l}{\emph{structure}}\\
+emitted field & \eqref{eq:emitted} & \code{emitted\_field} \\
+branching matrix $B$ & \eqref{eq:branch} & \code{branching\_matrix} \\
+reweighted tensor & \eqref{eq:reweight} & \code{stability\_tensor} \\
+\colrule
+\multicolumn{3}{l}{\emph{Ising, Sec.~\ref{sec:ising}}}\\
+$u'$ of a complex & \eqref{eq:uprime} & \code{u\_prime} \\
+$T_c$, continuous & \eqref{eq:branch} & \code{critical\_coupling} \\
+de Almeida--Thouless & \eqref{eq:reweight} & \code{critical\_coupling(squared=True)} \\
+field distributions & --- & \code{population().magnetisation()} \\
+free energy & \eqref{eq:bethe} & \code{free\_energy().minus\_beta\_f()} \\
+paramagnetic $-\beta f$ & \eqref{eq:para} & \code{paramagnetic\_free\_energy} \\
+\colrule
+\multicolumn{3}{l}{\emph{simplicial interaction, Sec.~\ref{sec:simplicial}}}\\
+spinodal & \eqref{eq:simu} & \code{simplicial().spinodal()} \\
+metastability limits & --- & \code{simplicial().coexistence()} \\
+first-order $T_c$ & \eqref{eq:simTc} & \code{simplicial().transition()} \\
+\colrule
+\multicolumn{3}{l}{\emph{hitting set and vertex cover, Sec.~\ref{sec:hs}}}\\
+hard-field map & \eqref{eq:hs} & \code{hitting\_set().solve()} \\
+$\ave{k}(c-1)=e$ & \eqref{eq:kc} & \code{hitting\_set().is\_unstable()} \\
+cover size, $c=2$ & \eqref{eq:hs} & \code{hitting\_set().cover\_size()} \\
+cover size, any $c$ & \eqref{eq:soft} & \code{hitting\_set\_bp().run().density()} \\
+validity & \eqref{eq:sgen} & \code{hitting\_set\_bp().run().entropy()} \\
+induced-graph cover & \eqref{eq:vc} & \code{clique\_cover().cover\_size()} \\
+\colrule
+\multicolumn{3}{l}{\emph{core percolation, Sec.~\ref{sec:core}}}\\
+three-state map & \eqref{eq:core} & \code{core().solve()} \\
+core fraction & \eqref{eq:zk} & \code{core().core\_fraction()} \\
+measured ensemble & --- & \code{from\_samples(...).core\_from\_samples()} \\
+\colrule
+\multicolumn{3}{l}{\emph{overlap, Sec.~\ref{sec:regions}}}\\
+counting numbers & \eqref{eq:mobius} & \code{regions().counting} \\
+distance from treelike & --- & \code{overlap\_profile} \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+Table~\ref{tab:methods} lists them. Three points about the arrangement are
+worth making, because each corresponds to something the paper argues.
+
+First, \code{emitted\_field} is exposed rather than buried. Equation
+\eqref{eq:emitted} takes the interior Hamiltonian as an argument, so a new
+higher-order interaction is a function passed in, not a subclass: that is what
+made Sec.~\ref{sec:simplicial} a substitution rather than a rewrite.
+
+Second, the two hitting-set methods are deliberately separate.
+\code{hitting\_set} is the hard-field map and \code{hitting\_set\_bp} keeps the
+$O(1)$ fields; they answer different questions and agree only at cardinality
+two. \code{certified()} on the first reports whether its cover size can be
+believed, and it is not an independent assumption --- it returns true exactly
+when every cardinality is two, which by Sec.~\ref{sec:core} is when the
+leaf-removal core has a core-free branch.
+
+Third, \code{critical\_coupling} refuses the simplicial interaction and directs
+the caller to \code{simplicial().spinodal()}. The refusal is deliberate: for
+that model the transition is usually discontinuous, the Perron condition then
+locates the spinodal, and returning it under the name of a critical coupling
+would be wrong by ten to fifty per cent.
+
 \section{Conclusions}
 \label{sec:conclusions}
 
@@ -702,6 +874,10 @@ size, is the question these measurements pose and this work does not settle.
 
 \bibitem{YFW05} J.\ S.\ Yedidia, W.\ T.\ Freeman, and Y.\ Weiss,
   IEEE Trans.\ Inf.\ Theory \textbf{51}, 2282 (2005).
+
+\bibitem{SLG26} G.\ Son, D.-S.\ Lee, and K.-I.\ Goh,
+  Commun.\ Phys.\ (2026), \\ doi:10.1038/s42005-026-02724-2;
+  arXiv:2411.19080.
 
 \bibitem{MT07} M.\ M\'ezard and M.\ Tarzia,
   Phys.\ Rev.\ E \textbf{76}, 041124 (2007).

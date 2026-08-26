@@ -169,6 +169,115 @@ HRGs. See [Results (WP5)](#results-wp5).
 transition thermodynamically, a third route independent of WP1 and WP4. See
 [Results (WP6)](#results-wp6).
 
+## One class
+
+`Chygraph` holds the structure — layers, cardinalities, chy-degrees — and every
+calculation is a method on it, delegating to the modules below rather than
+reimplementing them.
+
+```python
+from chygraph_statmech import Chygraph
+
+g = Chygraph([2, 3], [4.0, 2.0])            # links and triangles, Poisson
+g.critical_coupling()                        # Ising T_c
+g.core().core_fraction()                     # leaf-removal core
+g.hitting_set_bp(mu=60).run().density()      # hitting set, O(1) fields
+Chygraph([2, 16], [4, 4], regular=True).simplicial([0.7, 0.3]).transition(scan=(0.96, 0.99))
+```
+
+| result | method |
+|---|---|
+| emitted field, any interior Hamiltonian | `emitted_field` |
+| branching matrix `B` | `branching_matrix` |
+| reweighted `2L²` tensor | `stability_tensor` |
+| `u'` of a complex | `u_prime` |
+| Ising `T_c` (continuous) | `critical_coupling` |
+| de Almeida–Thouless line | `critical_coupling(squared=True)` |
+| field distributions | `population().magnetisation()` |
+| Bethe free energy | `free_energy().minus_beta_f()` |
+| paramagnetic `−βf`, closed form | `paramagnetic_free_energy` |
+| simplicial spinodal | `simplicial().spinodal()` |
+| metastability limits `T*`, `T**` | `simplicial().coexistence()` |
+| **first-order `T_c`** | `simplicial().transition()` |
+| hard-field hitting set | `hitting_set()` |
+| cover size at any `c` | `hitting_set_bp().run().density()` |
+| RS validity | `hitting_set_bp().run().entropy()` |
+| induced-graph vertex cover | `clique_cover().cover_size()` |
+| core percolation | `core().core_fraction()` |
+| measured ensemble | `from_samples(...).core_from_samples()` |
+| Möbius counting numbers | `regions().counting` |
+| distance from treelike | `overlap_profile` |
+
+Three deliberate choices. `emitted_field` is **exposed**, so a new higher-order
+interaction is a function passed in rather than a subclass — that's why the
+simplicial model was a substitution. The two hitting-set methods are **separate**
+because they answer different questions and agree only at `c = 2`. And
+`critical_coupling` **refuses** the simplicial interaction, because there the
+Perron condition gives the spinodal and returning it as `T_c` would be 10–50%
+wrong.
+
+```python
+from chygraph import HypergraphPercolation, MultiplexHypergraph
+## Absorbing the simplicial Ising model
+
+[Son, Lee & Goh](https://doi.org/10.1038/s42005-026-02724-2) (arXiv:2411.19080)
+study an Ising model where a hyperedge lowers the energy only when **all** its
+members agree. It drops in without changing anything: `emitted_field` sums
+whatever Hamiltonian sits inside a complex, and the chy-degree step never sees
+it. Their Bethe–Peierls Eq. (9) *is* the intra-complex step with that energy.
+
+The sum closes, so `simplicial.py` needs no enumeration at any cardinality:
+
+```
+Z(S0 = ±1) = (2 cosh h)^{q-1} + (e^a - 1) e^{± h(q-1)},   a = beta*J_q
+u'         = (q-1)(e^a - 1) / (2^{q-1} + e^a - 1)
+```
+
+`u'` is `tanh(beta J/2)` at `q = 2` — a simplicial pair is an ordinary bond of
+half the coupling, since `delta_{S0 S1} = (1 + S0 S1)/2`.
+
+**The caveat that matters.** `det(I − B) = 0` locates a *linear* instability, so
+where the transition is discontinuous it is the **spinodal**, not `T_c`. The
+ordered branch has to be found by iterating from a magnetised start and the true
+temperature by comparing free energies.
+
+**Reproduced (their Fig. 4, `q=16`, `(J_q,J_2,k_q,k_2)=(0.3,0.7,4,4)`):**
+continuous transition at `T = 1.0108`, equal to the pairwise `3 tanh(J_2/2T)=1`
+to three digits because `u'` is `O(2^-q)`; `m_2` exceeds `m_q` by 2–3 orders of
+magnitude between the transitions; and a genuinely first-order second
+transition, located by free energy rather than hysteresis:
+
+| | |
+|---|---|
+| continuous transition | `T = 1.01081` |
+| coexistence window | `T* = 0.97701` … `T** = 0.98095` |
+| **first-order transition** | **`T_c = 0.97898`** (free energies cross) |
+| jump | `m: 0.548 → 0.834`, `Δm = 0.286` |
+
+with `T* < T_c < T**` as required. Below it the two shares become comparable
+(ratio ~3) and both jump. Every claim of theirs, recovered.
+
+q-uniform at `k=4`: `T_c = 0.938, 0.714, 0.480` for `q = 6, 8, 12`, each inside
+its metastability limits with `Δm > 0.9`; `q=3` has no coexistence window at all.
+
+**Two traps.** The spinodal is the *lower* limit of metastability, not `T_c` —
+quoting it would be wrong by 10–50% here. And just below a *continuous*
+transition the near-zero branch converges slowly enough to mimic coexistence;
+that's critical slowing down, and `branch_gap` documents it.
+
+**Extended:** on a `q`-uniform Bethe hyperlattice with `k=4`, `3u'=1` gives
+`e^a = 2` at both `q=2` and `q=4` (so `T = 1/ln2 = 1.4427`) and `e^a = 9/5` at
+`q=3` (`T = 1.7013`) — the spinodal is **non-monotonic**, peaking at `q=3`, which
+is their "ambivalent effect of group size", in closed form.
+
+**On the tricritical cardinality.** At `k = 3, 4` the transition is continuous
+through `q=5`; from `k = 6` onward it is continuous only through `q=4`, the
+Bragg–Williams value, and stays there to `k = 400`. The two treatments answer
+different questions — Bragg–Williams is exact at infinite connectivity, Bethe on
+a tree — and they agree in the limit where the first is exact. The shift is a
+finite-connectivity effect confined to very sparse hyperlattices, not a
+correction to their number.
+
 ## Can it solve the Ising model, and vertex cover?
 
 **Ising, yes, generally.** `ising.py` gives `T_c` for any chygraph from
@@ -746,12 +855,14 @@ src/chygraph_statmech/
   hittingset.py  WP3  minimum hitting set on a hypergraph
   core.py             leaf-removal core as a chygraph fixed point
   population.py  WP4  field distributions by population dynamics
+  api.py              Chygraph: the single class; every method delegates below
   region.py      WP5  region graph, Mobius counting, overlap profile
   freeenergy.py  WP6  Bethe free energy; the transition thermodynamically
   ising.py            critical temperature for any chygraph
   cover.py            vertex cover of the induced graph
   softfield.py        hitting set with the O(1) fields kept (MT-validated)
-tests/           212 checks, each one a claim this README makes
+  simplicial.py       the simplicial (unanimity) Ising model of Son-Lee-Goh
+tests/           287 checks, each one a claim this README makes
 examples/        clustering_raises_tc.py, vw03_figure1.py, hitting_set_rsb.py,
                  wp4_validates_wp1.py
 main.tex         manuscript: general theory -> structures -> models

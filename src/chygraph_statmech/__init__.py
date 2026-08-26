@@ -5,6 +5,7 @@ Extends the Bethe-Peierls treatment of Vazquez & Weigt, Phys. Rev. E 67, 027101
 programme; this package is WP1, the reweighted stability tensor.
 """
 
+from chygraph_statmech.api import Chygraph
 from chygraph_statmech.cavity import (cavity_derivative, emitted_field,
                                       in_tanh, ising_clique,
                                       ising_edge_derivative,
@@ -14,16 +15,18 @@ from chygraph_statmech.population import CavityPopulation, critical_coupling
 from chygraph_statmech.models import (graph_ising, graph_percolation,
                                       graph_with_triangles_ising)
 from chygraph_statmech import (antimonotone, core, cover, freeenergy,
-                               hittingset, ising, region, softfield, vertexcover)
+                               hittingset, ising, region, simplicial, softfield,
+                               vertexcover)
 from chygraph_statmech.stability import (StabilityMatrix, reweight,
                                          uniform_weights)
 
 __all__ = [
+    "Chygraph",
     "StabilityMatrix", "reweight", "uniform_weights",
     "emitted_field", "cavity_derivative", "ising_clique",
     "ising_edge_derivative", "ising_triangle_derivative", "in_tanh", "tanh_of",
     "graph_percolation", "graph_ising", "graph_with_triangles_ising",
     "FixedPointStability", "vertexcover", "hittingset", "antimonotone",
     "CavityPopulation", "critical_coupling", "core", "cover", "ising",
-    "region", "freeenergy", "softfield",
+    "region", "freeenergy", "softfield", "simplicial",
 ]
