@@ -299,6 +299,11 @@ RS breaking point, `p_d ~ d^-gamma`:
 
 `gamma = 3.0` is converged; `gamma = 2.5` still drifts at `d_max = 1600`
 because `<d>` itself converges slowly there — call it `0.70` and no more digits.
+The same caveat applies to `x_c` at `gamma = 2.5`, which is still moving in the
+third decimal at `d_max = 6400` (`~0.345`, drifting down by a factor `0.7` per
+doubling); at `gamma = 3.0` it is converged to `0.40574`. Two decimals are real
+at `gamma = 2.5`, four or five at `gamma = 3.0`. None of the *structural*
+claims — curve ordering, monotonicity in `r`, RS at `r = 0` — depend on this.
 The heavier tail breaks RS *earlier*, and both sit inside `(0,1)`, matching
 "the RS solution breaks at a certain value of `r` that depends on `gamma`".
 
@@ -313,7 +318,8 @@ structural, not numerical. The numerical validation is independent and exact:
 for uncorrelated Poisson graphs Eq. (17) must reduce to the Weigt–Hartmann
 closed form `x_c = 1 − (2W + W²)/(2c)` with `W = LambertW(c)`. It does, to
 **ten digits**, at `c = 1, 2, 3, 5, 10`. The rank-one secular criterion for the
-instability is separately cross-checked against a dense eigensolve.
+instability is separately cross-checked against a dense eigensolve, which
+reproduces every `r_RSB` digit above.
 
 ## Falsifiable predictions
 
