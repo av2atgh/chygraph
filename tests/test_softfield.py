@@ -101,3 +101,34 @@ def test_damping_replaces_population_and_does_not_average():
     mixed = m._mix(old, new)
     assert set(np.unique(mixed)) <= {-1.0, 1.0}      # no intermediate values
     assert 0.3 < float((mixed == 1.0).mean()) < 0.7  # about half replaced
+
+
+# ---------------------------------------------------------------------------
+# The validity criterion
+# ---------------------------------------------------------------------------
+
+@pytest.mark.parametrize('L,K', [(1, 3), (2, 6), (4, 6), (3, 4), (2, 4)])
+def test_bethe_entropy_matches_mezard_tarzia(L, K):
+    """The general Bethe form reproduces their Eq. (13) on regular ensembles.
+
+    Exact there because symmetry removes the sampling: every field is equal.
+    """
+    m = _run([K], [L], regular=True, size=60_000)
+    assert m.entropy() == pytest.approx(regular_entropy(L, K), abs=1e-5)
+
+
+def test_entropy_is_sufficient_not_necessary():
+    """A negative entropy proves the RS answer wrong; a positive one does not
+    prove it right.  Vertex cover on Erdos-Renyi breaks replica symmetry at
+    mean degree e, yet the entropy is still positive at 1 and at 3.
+    """
+    m = _run([2], [1.0], mu=20.0, size=100_000, sweeps=300)
+    s, err = m.entropy_averaged(keep=100)
+    assert s > 0 and err < 0.02
+    assert hs.poisson([2], [3.0]).is_unstable()      # RS broken at 3 > e
+
+
+def test_entropy_averaging_reduces_the_error():
+    m = _run([2], [1.0], mu=20.0, size=100_000, sweeps=300)
+    _, err = m.entropy_averaged(keep=100)
+    assert err < 0.05

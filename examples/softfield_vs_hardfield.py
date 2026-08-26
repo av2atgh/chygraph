@@ -51,6 +51,22 @@ if __name__ == '__main__':
         lab = f"c={cs}, <k>={ms}"
         print(f"{lab:>26}{hs.poisson(cs,ms).cover_size():>9.4f}"
               f"{run(cs,ms,sw=600,n=200_000).density():>9.4f}{'-':>9}")
+    print("\n4. The validity criterion: Bethe entropy (MT Eq. 13 generalised)\n")
+    print(f"{'ensemble':>26}{'s exact':>10}{'s pop':>10}")
+    for L, K in ((1, 3), (2, 6), (4, 6), (6, 12)):
+        m = run([K], [L], reg=True)
+        print(f"{f'regular L={L} K={K}':>26}{regular_entropy(L, K):>10.4f}"
+              f"{m.entropy():>10.4f}")
+    m = run([2], [1.0], sw=300, n=100_000)
+    m.mu = 20.0
+    s_, err = m.entropy_averaged(keep=100)
+    print(f"{'Poisson c=2, <k>=1':>26}{'-':>10}{s_:>10.4f}  +- {err:.4f}")
+    print("\n  Negative s proves the RS answer wrong.  Positive s does NOT"
+          "\n  prove it right: ER vertex cover breaks replica symmetry at mean"
+          "\n  degree e, yet s stays positive there.  Heterogeneous ensembles"
+          "\n  need entropy_averaged(): the estimator cancels two O(mu) terms"
+          "\n  to leave an O(1) answer.")
+
     print("\n  The correction tracks the weight on cardinality >= 3: 56% for"
           "\n  c = 4 alone, under 1% once ordinary edges dominate.  The last"
           "\n  rows carry Poisson chy-degrees and mixed cardinalities, neither"

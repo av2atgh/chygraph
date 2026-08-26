@@ -489,11 +489,26 @@ of `mu`, not an integer multiple — exactly what the hard ansatz cannot represe
 The correction grows with the weight on `c ≥ 3` — 56% for `c=4` alone, under 1%
 once ordinary edges dominate. The last rows are outside MT's regular ansatz.
 
-Still replica-symmetric: where the RS entropy `s = [a ln(K-1) - (a-1) ln K]/K`
-with `a = (L-1)(K-1)` goes negative, the answer is an underestimate and 1RSB is
-needed. At (4,6) `s = -0.157` and RS gives 0.1667 below MT's 0.178, as an
+**Its own validity criterion**, replacing the hard-field instability above
+`c = 2`. The Bethe free energy applies with `Z_i = 1 + e^H` and
+`Z_a = prod_i (1 + e^{h_i}) - 1`, giving
+
+```
+s = sum_l n_l <ln Z_a> + <(1-k) ln Z_i> + mu*rho
+```
+
+which reduces to MT Eq. (13) on regular ensembles and reproduces it **to nine
+digits**. At (4,6) `s = -0.157` and RS gives 0.1667 below MT's 0.178, as an
 underestimate should; the hard-field 0.252 is above and further. At (6,12)
 `s = -0.192` and the iteration stops converging — the same failure, visible.
+
+Two honest qualifications. The estimator cancels two `O(mu)` terms to leave an
+`O(1)` answer, so heterogeneous ensembles need `entropy_averaged()`; the regular
+case is exact only because symmetry removes the sampling. And **the criterion is
+sufficient, not necessary** — negative `s` proves RS wrong, positive `s` does not
+prove it right. ER vertex cover breaks RS at mean degree `e`, yet `s = +0.093(8)`
+at mean degree 1 and is still positive at 3. MT pair the entropy with a separate
+stability criterion for this reason; only the entropy is implemented here.
 
 **A bug worth recording.** Damping population dynamics by *averaging field
 values* (`h ← (1-λ)h + λh_new`) looks right and is not: the two entries are
@@ -736,7 +751,7 @@ src/chygraph_statmech/
   ising.py            critical temperature for any chygraph
   cover.py            vertex cover of the induced graph
   softfield.py        hitting set with the O(1) fields kept (MT-validated)
-tests/           205 checks, each one a claim this README makes
+tests/           212 checks, each one a claim this README makes
 examples/        clustering_raises_tc.py, vw03_figure1.py, hitting_set_rsb.py,
                  wp4_validates_wp1.py
 main.tex         manuscript: general theory -> structures -> models

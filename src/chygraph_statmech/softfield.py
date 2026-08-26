@@ -33,6 +33,14 @@ agree.  Both hold.
 What this buys beyond Ref. [MT] is the chygraph structure: arbitrary chy-degree
 distributions, mixed cardinalities and correlated layers, none of which the
 regular ansatz reaches.
+
+One caveat on the validity criterion.  A negative :meth:`entropy` proves the
+replica-symmetric answer wrong, but a positive one does not prove it right: the
+solution can be unstable while its entropy is still positive.  Vertex cover on
+Erdos-Renyi graphs is the example -- replica symmetry breaks at mean degree
+``e``, yet the entropy measured here is ``+0.09`` at mean degree 1 and still
+positive at 3.  Ref. [MT] pairs the entropy with a separate stability criterion
+for exactly this reason; only the entropy is implemented here.
 """
 
 import numpy as np
@@ -148,6 +156,69 @@ class HittingSetBP:
         n = samples or self.size
         H = -self.mu + self._sum_v(n)
         return float(np.mean(1.0 / (1.0 + np.exp(-H))))
+
+    def log_Z(self, samples=None):
+        """``(ln Z)/N`` from the Bethe free energy.
+
+        With ``nu_{i->a}(x) ~ e^{h x}`` normalised to ``nu(0) = 1``, the overlap
+        term collapses as in Sec. II -- ``h_{i->a} + v_{a->i}`` is the same full
+        field for every complex containing ``i`` -- and
+
+            Z_i = 1 + e^{H_i},
+            Z_a = prod_{i in a} (1 + e^{h_{i->a}}) - 1,
+
+        the complex term being the sum over its interior with the one forbidden
+        configuration, all members untaken, removed.  Then
+
+            ln Z / N = sum_l n_l <ln Z_a> + <(1 - k) ln Z_i>,  n_l = <k_l>/c_l.
+        """
+        n = samples or self.size
+        total = 0.0
+        for l in range(self.L):
+            idx = self.rng.integers(0, self.size, (n, int(self.c[l])))
+            S = np.logaddexp(0.0, self.P[l][idx]).sum(axis=1)
+            lnZa = np.log(np.expm1(S))          # ln(e^S - 1), accurate small S
+            total += (self.deg[l] / self.c[l]) * float(np.mean(lnZa))
+        k = np.zeros(n)
+        H = np.full(n, -self.mu)
+        for l in range(self.L):
+            d = self._draw(n, l, excess=False)
+            k += d
+            tot = int(d.sum())
+            if tot:
+                draws = self.Q[l][self.rng.integers(0, self.size, tot)]
+                ends = np.cumsum(d)
+                cs = np.concatenate(([0.0], np.cumsum(draws)))
+                H += cs[ends] - cs[ends - d]
+        total += float(np.mean((1.0 - k) * np.logaddexp(0.0, H)))
+        return total
+
+    def entropy(self, samples=None):
+        """``s = ln Z/N + mu rho``, the ground-state entropy density.
+
+        Positive means an extensive number of minimum hitting sets and a
+        replica-symmetric answer that can be believed; negative means the ansatz
+        has failed and one-step breaking is required.  This is the criterion
+        that replaces the hard-field instability, and unlike it, it holds for an
+        arbitrary chygraph rather than only for regular hypergraphs.
+        """
+        return self.log_Z(samples) + self.mu * self.density(samples)
+
+    def entropy_averaged(self, keep=200, samples=None):
+        """Time-average :meth:`entropy` over ``keep`` further sweeps.
+
+        Returns ``(mean, standard error)``.  Necessary for heterogeneous
+        ensembles: ``sum_l n_l <ln Z_a>`` and ``mu rho`` are each ``O(mu)``
+        while ``s`` is ``O(1)``, so a single snapshot carries the cancellation
+        error of both.  Symmetry removes the sampling entirely in the regular
+        case, which is why :meth:`entropy` is exact there.
+        """
+        vals = []
+        for _ in range(keep):
+            self.sweep()
+            vals.append(self.entropy(samples))
+        v = np.asarray(vals)
+        return float(v.mean()), float(v.std() / np.sqrt(len(v)))
 
     def cover_size(self, samples=None):
         """Alias for :meth:`density`, matching the hard-field module's name."""

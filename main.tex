@@ -377,15 +377,23 @@ $\sigma=e^{-k\sigma^{c-1}}$ and loses stability at
 \end{equation}
 verified to twelve digits for $c=2,\dots,20$. Counted in \emph{neighbours},
 hyperedge size does not move the point at all, and $c=2$ returns the
-Bauer--Golinelli value $e$ \cite{BG01}. Spread in cardinality does move it, and
-upward: at fixed mean excess cardinality $2$ the point runs from
+Bauer--Golinelli value $e$ \cite{BG01}.
+
+What Eq.~\eqref{eq:kc} locates is the loss of stability of the \emph{hard-field}
+map, which is where leaf-removal-style certification stops. At $c=2$ that
+coincides with the accepted replica-symmetry-breaking point, which is why $e$
+comes out; above $c=2$ it does not, for the reason given in
+Sec.~\ref{sec:hardfield}, and Sec.~\ref{sec:soft} gives the criterion that does.
+Read in those terms, two effects are worth recording. Spread in cardinality
+moves the point upward: at fixed mean excess cardinality $2$ it runs from
 $\ave{k}\bar c=2.72$ for uniform $c=3$ to $4.84$ for an equal mixture of $c=2$
-and $c=4$ and $6.83$ for a three-to-one mixture of $c=2$ and $c=6$.
-Heterogeneity keeps the problem easy longer, the same direction the degree
-heterogeneity of Ref.~\cite{VW03} acts. Correlation across cardinalities acts the
-other way: anti-correlating a node's participation in small and large hyperedges
-at fixed marginals brings the point forward monotonically, from $6.83$ to
-$2.64$. That axis has no counterpart in an ensemble with one edge type.
+and $c=4$ and $6.83$ for a three-to-one mixture of $c=2$ and $c=6$, so
+heterogeneity keeps certification working longer --- the same direction the
+degree heterogeneity of Ref.~\cite{VW03} acts. Correlation across cardinalities
+acts the other way: anti-correlating a node's participation in small and large
+hyperedges at fixed marginals brings the point forward monotonically, from
+$6.83$ to $2.64$. That axis has no counterpart in an ensemble with one edge
+type.
 
 A confound is worth naming. The obvious positive-correlation construction, half
 the nodes at double the chy-degree and half at zero, returns a point at exactly
@@ -408,7 +416,11 @@ cost is the \emph{maximum} over the complex and not the sum,
 \end{equation}
 giving $\sigma_m=\bar\Phi^{(m)}(\tau)$ with $\tau_l=(1-\sigma_l)^{c_l-1}$,
 against $\tau_l=\sigma_l^{c_l-1}$ and an outer complement in Eq.~\eqref{eq:hs}.
-Both collapse to the same map at $c=2$, and both are order-reversing.
+Both collapse to the same map at $c=2$, and both are order-reversing. Both are
+also hard-field maps, so Sec.~\ref{sec:hardfield} applies to
+Eq.~\eqref{eq:vcz} unchanged: the induced-graph cover size is exact at
+cardinality two and an approximation above it, and on isolated triangles, where
+every vertex sits at $z=0$, it returns $1/2$ against a true $2/3$.
 
 \subsection{What the hard-field ansatz misses}
 \label{sec:hardfield}
@@ -487,20 +499,43 @@ $\{2,6\}$ & $\{1.5,0.5\}$ & 0.344 & 0.342 & --- \\
 \end{ruledtabular}
 \end{table}
 
-Two things this does not do. It is still a replica-symmetric calculation, so
-where the entropy
+Equation~\eqref{eq:soft} also carries its own validity criterion, which is what
+replaces Eq.~\eqref{eq:kc} above cardinality two. The Bethe free energy of
+Sec.~\ref{sec:freeenergy} applies with
+$Z_i=1+e^{H_i}$ and $Z_a=\prod_{i\in a}(1+e^{h_{i\to a}})-1$, the complex term
+being the sum over its interior with the one forbidden configuration removed, so
+\begin{equation}
+  s=\sum_l n_l\ave{\ln Z_a}+\ave{(1-k)\ln Z_i}+\mu\rho .
+  \label{eq:sgen}
+\end{equation}
+For a regular hypergraph this reduces to
 \begin{equation}
   s(\mu\to\infty)=\frac{1}{K}\Big[a\ln(K-1)-(a-1)\ln K\Big],
   \quad a=(L-1)(K-1),
   \label{eq:entropy}
 \end{equation}
-turns negative the answer is unphysical and one-step replica symmetry breaking
-is required \cite{MT07}. At $L=4$, $K=6$ that entropy is $-0.157$ and the
+which is Eq.~(13) of Ref.~\cite{MT07} and is reproduced by
+Eq.~\eqref{eq:sgen} to nine digits. Where $s$ turns negative the answer is
+unphysical and one-step replica symmetry breaking is required.
+
+Equation~\eqref{eq:sgen} holds for an arbitrary chygraph, with two practical
+qualifications. It is not numerically cheap: $\sum_l n_l\ave{\ln Z_a}$ and
+$\mu\rho$ are each $O(\mu)$ while $s$ is $O(1)$, so a heterogeneous ensemble
+needs both to a relative precision of order $s/\mu$, and only time-averaging the
+estimator brings that within reach. The regular case is exact because symmetry
+removes the sampling entirely. And the criterion is sufficient but not
+necessary: a negative $s$ proves the replica-symmetric answer wrong, a positive
+one does not prove it right, since the solution can be unstable while its
+entropy is still positive. Vertex cover on Erd\H{o}s--R\'enyi graphs is the
+example --- replica symmetry breaks at mean degree $e$, yet
+Eq.~\eqref{eq:sgen} gives $s=+0.093(8)$ at mean degree $1$ and a value still
+positive at $3$. Reference~\cite{MT07} pairs the entropy with a separate
+stability criterion for exactly this reason. At $L=4$, $K=6$ the entropy is $-0.157$ and the
 replica-symmetric $1/6$ sits below the $0.178$ of Ref.~\cite{MT07}, as an
 underestimate should; the hard-field $0.252$ sits above it and further away. At
 $L=6$, $K=12$ the entropy is $-0.192$ and the iteration does not settle at all,
-which is the visible form of the same failure. And Eq.~\eqref{eq:soft} inherits
-the treelike assumption of Sec.~\ref{sec:validity}, unchanged.
+which is the visible form of the same failure. Equation~\eqref{eq:soft} also
+inherits the treelike assumption of Sec.~\ref{sec:validity}, unchanged.
 
 What it adds beyond Ref.~\cite{MT07} is the chygraph structure. Equation
 \eqref{eq:soft} carries an arbitrary chy-degree distribution, mixed
