@@ -7,8 +7,9 @@ from graphs to higher-order structures, by way of the chygraph formalism
 ([Vázquez, PRE **107**, 024316 (2023)](https://arxiv.org/abs/2308.00987);
 `~/av2atg/chygraph`).
 
-Status: **WP1 and WP2 done** (`src/chygraph_statmech`, 34 tests). Everything
-else is plan. See [Results](#results-wp1) and [Results (WP2)](#results-wp2).
+Status: **WP1–WP3 done** (`src/chygraph_statmech`, 56 tests). WP4–WP6 and the
+HRG test of prediction 4 ([`TODO.md`](TODO.md)) are plan. Results:
+[WP1](#results-wp1) · [WP2](#results-wp2) · [WP3](#results-wp3).
 
 ## The claim
 
@@ -151,9 +152,9 @@ exactly inside itself to get `u'`. See [Results](#results-wp1).
 evaluates the symbolic Jacobian at the fixed point actually reached, without
 modifying `chygraph`. See [Results (WP2)](#results-wp2).
 
-**WP3 — Hypergraph vertex cover / hitting set.** The named first target; see
-below. Needs an anti-monotone solver (iterate `F∘F`, or damped iteration) beside
-`Chygraph.solve`.
+**WP3 — Hypergraph vertex cover / hitting set.** ✅ Done.
+`antimonotone.py` solves order-reversing maps by `F∘F` bracketing;
+`hittingset.py` is the hypergraph problem. See [Results (WP3)](#results-wp3).
 
 **WP4 — Distributional messages.** Population dynamics for `Q^{ml}_i(h)`,
 finite temperature, general `w`. Only after WP1–3; the symbolic closed forms are
@@ -169,7 +170,7 @@ chygraph the counting is complex-terms minus inclusion-overcounting, i.e. a
 region-graph free energy. Needed for anything variational; not needed for
 thresholds.
 
-## First target
+## First target — done, see [Results (WP3)](#results-wp3)
 
 Minimal vertex cover / hitting set on a hypergraph with correlated hyperdegree
 and cardinality.
@@ -321,6 +322,83 @@ closed form `x_c = 1 − (2W + W²)/(2c)` with `W = LambertW(c)`. It does, to
 instability is separately cross-checked against a dense eigensolve, which
 reproduces every `r_RSB` digit above.
 
+## Results (WP3)
+
+`hittingset.py` derives and solves the `mu -> inf` cavity recursion for minimum
+hitting set. With hyperedges split into layers by cardinality so a node's
+participation can be correlated across them,
+
+```
+sigma_m = Phibar^(m)( 1 - sigma_1^{c_1-1}, ..., 1 - sigma_L^{c_L-1} )
+x_c     = 1 - Phi(1-tau) - (1/2) sum_m <k_m> tau_m sigma_m,   tau_l = sigma_l^{c_l-1}
+```
+
+`Phi` being the joint hyperdegree generating function and `Phibar^(m)` its
+inclusion-biased excess — the `JointChygraph` construction, with cardinality
+layering from `correlated_cardinality_hypergraph`.
+
+`antimonotone.py` supplies the solver the map needs. For order-reversing `F`,
+`G = F∘F` is order-preserving; iterating `G` from `0` and from `1` gives its
+least and greatest fixed points `a <= b`, with `F(a) = b`. If `a == b` there is
+one stable fixed point and RS holds; if `a < b` that is a period-2 orbit and the
+fixed point of `F` lies strictly between, unstable. **The bracket both finds the
+solution and diagnoses it** — VW03's "the program fails to converge" becomes two
+numbers saying by how much. It agrees with the Jacobian criterion at every point
+tested.
+
+### Recovered
+
+| | | |
+|---|---|---|
+| `c = 2`, Poisson | `x_c = 1 − (2W + W²)/(2k)` | Weigt–Hartmann, 11 digits |
+| `c = 2`, RSB point | `k = e = 2.718281828` | Bauer–Golinelli core percolation |
+
+`c = e` is the Erdős–Rényi control in `~/av2atg/computational_complexity`, so
+that repo's ER row is now reproduced analytically here.
+
+### New
+
+**Cardinality alone does nothing.** For fixed cardinality `c` and Poisson
+hyperdegree the RSB point is exactly
+
+```
+k_RSB = e / (c − 1),      i.e.   k (c − 1) = e   for every c
+```
+
+verified to 12 digits at `c = 2..20`. Counted in *neighbours*, hyperedge size
+does not move the transition at all.
+
+**Spread in cardinality postpones it.** At fixed mean excess cardinality `2`:
+
+| cardinality mix | `k <cbar>` at RSB |
+|---|---:|
+| all `c = 3` | 2.71828 |
+| half `c = 2`, half `c = 4` | 4.84 |
+| ¾ `c = 2`, ¼ `c = 6` | 6.83 |
+| 9/10 `c = 2`, 1/10 `c = 12` | 6.04 |
+
+So the README's open question — *does cardinality heterogeneity make hitting set
+easy the way degree heterogeneity makes vertex cover easy, or does the
+AND-structure of a hyperedge push into RSB earlier?* — answers **the first way.**
+Heterogeneity keeps the problem easy longer, the same direction VW03 found for
+degree, and the AND-structure does not offset it.
+
+**Correlation is the axis that makes it harder.** Anti-correlating a node's
+participation in small and large hyperedges, at identical marginals, brings RSB
+forward monotonically: `6.83 -> 6.50 -> 5.20 -> 3.76 -> 2.64` as the spread
+grows. That axis has no counterpart in VW03, whose ensemble has one edge type.
+
+### A confound worth naming
+
+The obvious "positive correlation" construction — half the nodes at double the
+hyperdegree, half at zero — gives an RSB point *exactly half* the independent
+one. That is not correlation, it is dilution: the zero class is isolated
+vertices, so the ensemble is the independent one at half density. Matched
+constructions keep both classes populated, and `isolated_fraction()` reports
+`Phi(0,...,0)` so the confound is visible rather than silent. It still grows at
+extreme spread (0.47 at `s = 0.95` on the positive branch), which is why only
+the negative branch is quoted as a clean measurement above.
+
 ## Falsifiable predictions
 
 1. ~~WP1's reweighted matrix reduces to `chygraph.percolation.PercolationMatrix`
@@ -334,14 +412,20 @@ reproduces every `r_RSB` digit above.
    cannot reach its fixed point at all. A new solver was required and is in
    `vertexcover.solve`. The prediction should have read: *reproduces Fig. 1
    once the anti-monotone solver of free-transfer item 3 is supplied.*
-3. The hypergraph hitting-set RSB threshold moves *down* in cardinality
-   heterogeneity, opposite to the degree-heterogeneity effect in VW03.
+3. ~~The hypergraph hitting-set RSB threshold moves *down* in cardinality
+   heterogeneity, opposite to the degree-heterogeneity effect in VW03.~~
+   **Wrong, and in the interesting direction.** It moves *up*: heterogeneity
+   keeps hitting set easy longer, same as VW03's degree effect. What moves it
+   down is *correlation* across cardinality layers, which the prediction did not
+   consider. See Results (WP3).
 4. A chygraph whose complexes are the HRG's clustered motifs has a non-empty
    core where the degree-matched configuration model does not — i.e. the
    formalism sees the effect the `{p_d, e_dd'}` ensemble misses.
 
 Prediction 4 is the whole motivating claim and the one to attack first, because
-it is the one that would kill the programme.
+it is the one that would kill the programme. It is written up as a work item in
+[`TODO.md`](TODO.md), including a cheap probe that could close it negatively
+without building anything.
 
 ## Risks
 
@@ -377,8 +461,11 @@ src/chygraph_statmech/
   models.py      WP1  graph_percolation, graph_ising, graph_with_triangles_ising
   fixedpoint.py  WP2  Jacobian at the fixed point actually reached
   vertexcover.py WP2  VW03 Eqs. (16)-(18): the anti-monotone branch
-tests/           34 checks, each one a claim this README makes
-examples/        clustering_raises_tc.py, vw03_figure1.py
+  antimonotone.py WP3 order-reversing solver: F o F bracketing
+  hittingset.py  WP3  minimum hitting set on a hypergraph
+tests/           56 checks, each one a claim this README makes
+examples/        clustering_raises_tc.py, vw03_figure1.py, hitting_set_rsb.py
+TODO.md          open items; prediction 4 on hyperbolic random graphs
 ```
 
 Install with `pip install -e .` (needs `chygraph`, `numpy`, `scipy` on the

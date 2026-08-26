@@ -12,7 +12,7 @@ from chygraph_statmech.cavity import (cavity_derivative, emitted_field,
 from chygraph_statmech.fixedpoint import FixedPointStability
 from chygraph_statmech.models import (graph_ising, graph_percolation,
                                       graph_with_triangles_ising)
-from chygraph_statmech import vertexcover
+from chygraph_statmech import antimonotone, hittingset, vertexcover
 from chygraph_statmech.stability import (StabilityMatrix, reweight,
                                          uniform_weights)
 
@@ -21,5 +21,5 @@ __all__ = [
     "emitted_field", "cavity_derivative", "ising_clique",
     "ising_edge_derivative", "ising_triangle_derivative", "in_tanh", "tanh_of",
     "graph_percolation", "graph_ising", "graph_with_triangles_ising",
-    "FixedPointStability", "vertexcover",
+    "FixedPointStability", "vertexcover", "hittingset", "antimonotone",
 ]
