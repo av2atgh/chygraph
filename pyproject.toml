@@ -12,6 +12,8 @@ requires-python = ">=3.9"
 dependencies = [
     "sympy",
     "chygraph",
+    "numpy",
+    "scipy",
 ]
 
 [project.optional-dependencies]

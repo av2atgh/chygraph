@@ -7,8 +7,8 @@ from graphs to higher-order structures, by way of the chygraph formalism
 ([Vázquez, PRE **107**, 024316 (2023)](https://arxiv.org/abs/2308.00987);
 `~/av2atg/chygraph`).
 
-Status: **WP1 done** (`src/chygraph_statmech`, 16 tests). Everything else is
-plan. See [Results](#results-wp1).
+Status: **WP1 and WP2 done** (`src/chygraph_statmech`, 34 tests). Everything
+else is plan. See [Results](#results-wp1) and [Results (WP2)](#results-wp2).
 
 ## The claim
 
@@ -147,9 +147,9 @@ is; it is orthogonal to the structural axis, and the two compose.
 carries `<u'>`- and `<(u')^2>`-weighted moments; `cavity` solves a complex
 exactly inside itself to get `u'`. See [Results](#results-wp1).
 
-**WP2 — Fixed-point Jacobian.** Parameterise `Chygraph.jacobian` off `Q = 1`.
-Gives local stability at the non-trivial fixed point — the RSB detector — and
-serves `chygraph/TODO.md` item 3 at the same time.
+**WP2 — Fixed-point Jacobian.** ✅ Done. `fixedpoint.FixedPointStability`
+evaluates the symbolic Jacobian at the fixed point actually reached, without
+modifying `chygraph`. See [Results (WP2)](#results-wp2).
 
 **WP3 — Hypergraph vertex cover / hitting set.** The named first target; see
 below. Needs an anti-monotone solver (iterate `F∘F`, or damped iteration) beside
@@ -255,13 +255,79 @@ formalism *can* see clustering the `{p_d, e_dd'}` ensemble cannot; whether it
 can see the *specific* clustering that cores hyperbolic random graphs is
 prediction 4, still open, still the thing most likely to fail.
 
+## Results (WP2)
+
+`FixedPointStability` takes any `chygraph.Chygraph` and evaluates
+`Matrix(F).jacobian(Q)` at the fixed point `solve` reaches, rather than at
+`Q = 1`. `chygraph` is used as given — no upstream edit.
+
+### Exchange of stability, made quantitative
+
+| | Perron root / spectral radius |
+|---|---|
+| trivial fixed point `Q = 1` | `1 + Lambda` — the WP1 threshold diagnostic |
+| physical fixed point `Q*` | `rho = 1 − Lambda + O(Lambda²)` |
+
+Verified to `0.15%` at `Lambda = 1.1e-3`. The two roots move apart from 1 at
+the *same rate*, in opposite directions. `rho < 1` everywhere in the percolating
+phase and decreases monotonically with occupation.
+
+One wart found and fixed: the sign of the leading eigenvalue does **not**
+diagnose monotonicity. A chygraph's coupled core alternates between up and down
+message roles, so `J` is a non-negative matrix of period 2 and Perron–Frobenius
+puts eigenvalues at both `+rho` and `−rho` (verified exactly). `monotonicity()`
+reads the entry signs instead, which is unambiguous: `J >= 0` for generating
+functions, `J <= 0` for the vertex-cover map.
+
+### The anti-monotone branch: VW03 Fig. 1
+
+`vertexcover.py` implements VW03 Eqs. (16)–(18). Under the correlation model
+`e_dd' = q_d[r delta + (1−r)q_d']` the map closes on a single scalar, so
+bisecting on it reaches the fixed point **whether or not it is stable** — and
+stability is then asked separately of the Jacobian there. That separation is
+what WP2 buys. VW03 detects RSB *by* the iteration failing to converge; here the
+fixed point is found and the diagnosis computed, two instruments instead of one.
+
+RS breaking point, `p_d ~ d^-gamma`:
+
+| `d_max` | `gamma = 2.5` | `gamma = 3.0` |
+|---:|---:|---:|
+| 200 | 0.7082 | 0.7805 |
+| 400 | 0.7059 | 0.7803 |
+| 800 | 0.7042 | 0.7802 |
+| 1600 | 0.7031 | 0.7802 |
+
+`gamma = 3.0` is converged; `gamma = 2.5` still drifts at `d_max = 1600`
+because `<d>` itself converges slowly there — call it `0.70` and no more digits.
+The heavier tail breaks RS *earlier*, and both sit inside `(0,1)`, matching
+"the RS solution breaks at a certain value of `r` that depends on `gamma`".
+
+Cover size `x_c(r)` reproduces the structure of Fig. 1: rising with `r`,
+`gamma = 2.5` the lower curve and `gamma = 3.0` the upper, uncorrelated
+scale-free graphs replica-symmetric. `examples/vw03_figure1.py`.
+
+### What validates it
+
+The published figure has not been digitised, so the agreement above is
+structural, not numerical. The numerical validation is independent and exact:
+for uncorrelated Poisson graphs Eq. (17) must reduce to the Weigt–Hartmann
+closed form `x_c = 1 − (2W + W²)/(2c)` with `W = LambertW(c)`. It does, to
+**ten digits**, at `c = 1, 2, 3, 5, 10`. The rank-one secular criterion for the
+instability is separately cross-checked against a dense eigensolve.
+
 ## Falsifiable predictions
 
 1. ~~WP1's reweighted matrix reduces to `chygraph.percolation.PercolationMatrix`
    identically at `u' = p`.~~ **Confirmed**, and with it the Ising and AT lines
    on a configuration-model graph. See Results.
-2. Layer-refined `e_dd'` (free-transfer item 1) reproduces Fig. 1 of VW03 —
-   `x_c(r)` at `gamma = 2.5` and `3.0` — from `chygraph` code with no new solver.
+2. ~~Layer-refined `e_dd'` reproduces Fig. 1 of VW03 — `x_c(r)` at
+   `gamma = 2.5` and `3.0` — from `chygraph` code with no new solver.~~
+   **Half right, and the wrong half was mine.** Fig. 1 is *reproduced* (see
+   Results, WP2), but "no new solver" contradicted free-transfer item 3 in this
+   same README: the vertex-cover map is anti-monotone, so `Chygraph.solve`
+   cannot reach its fixed point at all. A new solver was required and is in
+   `vertexcover.solve`. The prediction should have read: *reproduces Fig. 1
+   once the anti-monotone solver of free-transfer item 3 is supplied.*
 3. The hypergraph hitting-set RSB threshold moves *down* in cardinality
    heterogeneity, opposite to the degree-heterogeneity effect in VW03.
 4. A chygraph whose complexes are the HRG's clustered motifs has a non-empty
@@ -300,14 +366,17 @@ it is the one that would kill the programme.
 
 ```
 src/chygraph_statmech/
-  stability.py   StabilityMatrix: PercolationMatrix with reweighted moments
-  cavity.py      u' by exact enumeration inside a complex
-  models.py      graph_percolation, graph_ising, graph_with_triangles_ising
-tests/           16 checks, each one a claim this README makes
-examples/        clustering_raises_tc.py
+  stability.py   WP1  StabilityMatrix: PercolationMatrix, reweighted moments
+  cavity.py      WP1  u' by exact enumeration inside a complex
+  models.py      WP1  graph_percolation, graph_ising, graph_with_triangles_ising
+  fixedpoint.py  WP2  Jacobian at the fixed point actually reached
+  vertexcover.py WP2  VW03 Eqs. (16)-(18): the anti-monotone branch
+tests/           34 checks, each one a claim this README makes
+examples/        clustering_raises_tc.py, vw03_figure1.py
 ```
 
-Install with `pip install -e .` (needs `chygraph` on the path); `pytest tests`.
+Install with `pip install -e .` (needs `chygraph`, `numpy`, `scipy` on the
+path); `pytest tests`.
 
 ## References
 
