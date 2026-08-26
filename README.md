@@ -7,7 +7,7 @@ from graphs to higher-order structures, by way of the chygraph formalism
 ([Vázquez, PRE **107**, 024316 (2023)](https://arxiv.org/abs/2308.00987);
 `~/av2atg/chygraph`).
 
-Status: **WP1–WP5 done** (WP5 counting only, no GBP), plus core percolation (`src/chygraph_statmech`, 56 tests). WP4–WP6 and the
+Status: **WP1–WP6 done** (WP5 counting only, no GBP), plus core percolation (`src/chygraph_statmech`, 56 tests). WP4–WP6 and the
 HRG test of prediction 4 ([`TODO.md`](TODO.md)) are plan. Results:
 [WP1](#results-wp1) · [WP2](#results-wp2) · [WP3](#results-wp3).
 
@@ -165,10 +165,9 @@ graph is not implemented. `region.py` builds the region graph and measures how
 far a chygraph is from treelike; the cost of ignoring overlap is measured on
 HRGs. See [Results (WP5)](#results-wp5).
 
-**WP6 — Bethe free energy.** VW03 Eq. (12) has no chygraph counterpart. On a
-chygraph the counting is complex-terms minus inclusion-overcounting, i.e. a
-region-graph free energy. Needed for anything variational; not needed for
-thresholds.
+**WP6 — Bethe free energy.** ✅ Done. `freeenergy.py`; it locates the
+transition thermodynamically, a third route independent of WP1 and WP4. See
+[Results (WP6)](#results-wp6).
 
 ## First target — done, see [Results (WP3)](#results-wp3)
 
@@ -505,6 +504,48 @@ Generalised belief propagation on the region graph. `region.py` builds the
 object and measures the discrepancy; it does not pass messages between regions.
 That is what would close the 17–35% gap, and it is the natural next step.
 
+## Results (WP6)
+
+VW03 Eq. (12) is a site-plus-link sum with weight `d − 1` per vertex and has no
+chygraph counterpart. Parameterising the messages as `exp(h σ)` and `exp(u σ)`,
+the overlap term of the general Bethe free energy collapses — because
+`h_{i→a} + u_{a→i}` is the *same* full field `h_i` for every complex containing
+`i` — leaving one term per complex and `1 − k` per node:
+
+```
+-beta f = sum_l n_l <ln Z_a^(l)> + <(1-k) ln Z_i>,     n_l = <k_l> / c_l
+```
+
+with `Z_a` the exact partition function *inside* a complex given its members'
+cavity fields. **Those weights are WP5's Möbius counting numbers** in the
+treelike case — `1` per complex, `1 − k_v` per node. WP5 computes the counting;
+WP6 evaluates the free energy with it, and where complexes overlap both are
+wrong in the same way. That identity is a test.
+
+### Closed form and estimator
+
+At zero cavity field, `-beta f = ln 2 + sum_l (<k_l>/c_l) ln(Z_c/2^{c_l})`,
+which for a graph is the textbook `ln 2 + (c/2) ln cosh(beta J)`. The population
+estimator reproduces it **to machine precision** — but only after a fix worth
+recording: split `ln Z_i = ln 2 + ln cosh h` and take the `ln 2` piece exactly
+rather than sampling it. Sampling costs a bias `~sqrt(<k>/n) ln 2 ≈ 5e-3` at
+`<k> = 6`, `n = 8e4`, which is *larger than the free-energy differences the
+module exists to resolve*. I hit that bias before spotting it: the error was
+constant in `beta J`, which is what gave it away.
+
+### The transition, located thermodynamically
+
+Gap between the ordered and paramagnetic branches of `-beta f`:
+
+| system | 0.8 βJc | 0.95 βJc | 1.05 βJc | 1.2 βJc | 1.5 βJc |
+|---|---:|---:|---:|---:|---:|
+| graph, `k = 6` | 1e-15 | -4e-14 | 5.1e-4 | 1.5e-2 | 7.8e-2 |
+| triangles, `k = 3` | -1e-15 | 1e-16 | 2.2e-3 | 1.6e-2 | 6.4e-2 |
+
+Zero to machine precision below the transition, positive above, lifting off at
+WP1's `T_c` for both systems — using neither WP1's linearisation nor WP4's order
+parameter. **Three independent routes to the same number.**
+
 ## Falsifiable predictions
 
 1. ~~WP1's reweighted matrix reduces to `chygraph.percolation.PercolationMatrix`
@@ -576,10 +617,11 @@ src/chygraph_statmech/
   core.py             leaf-removal core as a chygraph fixed point
   population.py  WP4  field distributions by population dynamics
   region.py      WP5  region graph, Mobius counting, overlap profile
-tests/           116 checks, each one a claim this README makes
+  freeenergy.py  WP6  Bethe free energy; the transition thermodynamically
+tests/           140 checks, each one a claim this README makes
 examples/        clustering_raises_tc.py, vw03_figure1.py, hitting_set_rsb.py,
                  wp4_validates_wp1.py
-main.tex         manuscript in progress; results in place, prose to write
+main.tex         manuscript: intro and conclusions written, results sectioned
 TODO.md          open items; prediction 4 on hyperbolic random graphs
 probe/           HRG clique-moment measurement; see probe/RESULTS.md
 ```

@@ -45,11 +45,65 @@ model cannot reproduce.
 \section{Introduction}
 \label{sec:intro}
 
-% TODO: motivate from VW03 and from the HRG measurement in
-% ~/av2atg/computational_complexity: hyperbolic random graphs have an extensive
-% leaf-removal core at every mean degree while their degree-matched
-% configuration model does not, and the separating feature is clustering, which
-% {p_d, e_dd'} does not encode and Bethe-Peierls assumes away.
+A statistical-mechanics model on a random graph can be solved by the
+Bethe--Peierls scheme whenever the graph is locally treelike. Reference
+\cite{VW03} carried that programme to graphs with an arbitrary degree
+distribution \emph{and} arbitrary correlations between the degrees of adjacent
+vertices, and used it to show that such correlations change the solution
+structure of a hard optimisation problem qualitatively: minimal vertex covers
+on strongly assortative scale-free graphs sit behind a replica-symmetry-breaking
+transition, and simple heuristics stop finding them. The ensemble there is
+specified by two objects, the degree distribution $p_d$ and the joint
+edge-degree distribution $e_{dd'}$.
+
+That pair does not encode clustering, and the derivation assumes it away. The
+assumption is not innocuous. Hyperbolic random graphs, run through the same
+leaf-removal heuristic, retain an extensive core at \emph{every} mean degree,
+with no transition at all; their degree-matched configuration model --- the same
+$p_d$, the same assortativity to within a few percent --- is core-free until the
+mean degree reaches $4.5$--$10$, depending on the tail exponent. The feature
+that separates them is the clustering that hyperbolic geometry induces, and it
+lies outside $\{p_d,e_{dd'}\}$ by construction.
+
+Chygraphs \cite{vazquez2023pre,vazquez2024comnet} are built to remove exactly
+that assumption. A chygraph is a set of complexes whose vertices are themselves
+complexes; a dense motif --- a triangle, a clique, a hyperedge --- is promoted to
+a complex, its interior is solved exactly, and the chygraph \emph{over}
+complexes is treelike even when the underlying graph is not. Graphs,
+hypergraphs, multiplex hypergraphs and interacting hypergraphs all map onto the
+construction, and percolation on all of them reduces to one self-consistency
+map whose linearisation is a single tensor.
+
+This paper makes the connection precise and then uses it. Section
+\ref{sec:correspondence} shows that the chygraph percolation map \emph{is} a
+Bethe--Peierls cavity recursion, specialised to the one message type percolation
+needs, and that the extension to a general Hamiltonian is a single substitution:
+the argument of a generating function becomes a measure and the product becomes
+a convolution. The sections that follow are what that buys.
+
+The threshold tensor of the percolation calculation carries first moments
+because in percolation the derivative of the field update is a constant.
+Reweighting those moments by $\ave{u'}$ or $\ave{u'^2}$ turns it into the
+replica-symmetric or de Almeida--Thouless stability tensor of an arbitrary model
+on an arbitrary chygraph, with the index structure, the determinant and the
+Perron root unchanged (Sec.~\ref{sec:stability}). Solving a triangle exactly
+inside itself then gives a transmission $t/(1-t+t^2)$ per neighbour rather than
+$t$, so at matched mean degree clustering raises the Ising critical temperature
+by $14.5\%$ --- between two ensembles that are identical in $\{p_d,e_{dd'}\}$.
+
+Section \ref{sec:fixedpoint} moves the same Jacobian off the trivial fixed point,
+which separates finding a solution from diagnosing it, and recovers the
+replica-symmetry-breaking line of Ref.~\cite{VW03} as a computed quantity rather
+than as a failure to converge. Section \ref{sec:hittingset} lifts the vertex
+cover problem itself to hypergraphs. Section \ref{sec:core} writes leaf-removal
+core percolation --- the order parameter the hyperbolic measurement is about ---
+as a chygraph fixed point, which requires a three-state message rather than a
+scalar. Sections \ref{sec:population} and \ref{sec:freeenergy} carry the field
+distributions and the free energy, and Sec.~\ref{sec:regions} states the price:
+a chygraph is treelike only when its complexes meet in at most one node, and on
+a hyperbolic random graph the cliques do not. Measured against a control that
+holds the clique ensemble fixed, the chygraph accounts for $65$--$83\%$ of the
+core. Chygraphs move the loop problem up one level; they do not remove it.
 
 \section{The correspondence}
 \label{sec:correspondence}
@@ -225,6 +279,36 @@ Eq.~(12), free energy & absent \\
 % Exact bridge: d(emitted)/dh at zero field equals the symbolic cavity
 % derivative to 1e-8 for c = 2, 3 across beta*J = 0.2..2.0.
 
+\section{The free energy}
+\label{sec:freeenergy}
+
+% RESULT (WP6). VW03 Eq. (12) is a site-plus-link sum with weight d-1 per
+% vertex. On a chygraph, parameterising messages as exp(h sigma) and
+% exp(u sigma), the overlap term collapses -- because h_{i->a} + u_{a->i} is the
+% SAME full field h_i for every complex a containing i -- leaving
+%
+%   -beta f = sum_l n_l <ln Z_a^(l)> + <(1-k) ln Z_i>,   n_l = <k_l>/c_l
+%
+% with Z_a the exact partition function INSIDE a complex given its members'
+% cavity fields. Those weights are the Mobius counting numbers of Sec. VIII in
+% the treelike case: 1 per complex, 1 - k_v per node. WP5 computes the
+% counting, WP6 evaluates the free energy with it.
+%
+% Closed form at zero cavity field:
+%   -beta f_para = ln 2 + sum_l (<k_l>/c_l) ln( Z_c^(l) / 2^{c_l} )
+% which for a graph is the textbook ln 2 + (c/2) ln cosh(beta J).
+%
+% NUMERICAL NOTE worth keeping: split ln Z_i = ln 2 + ln cosh h and take the
+% ln 2 piece exactly. Sampling it costs a bias sqrt(<k>/n) ln 2 ~ 5e-3 at
+% <k>=6, n=8e4 -- larger than the free-energy differences at issue. With the
+% split the paramagnetic value is exact to machine precision.
+%
+% The transition, located thermodynamically: the gap between the ordered and
+% paramagnetic branches is 0 to machine precision at 0.8 and 0.95 beta*J_c and
+% lifts off positively above, for both the graph and the triangle network,
+% agreeing with Sec. III. This uses neither the linearisation of Sec. III nor
+% the order parameter of Sec. VII.
+
 \section{Complexes as regions}
 \label{sec:regions}
 
@@ -258,7 +342,55 @@ Eq.~(12), free energy & absent \\
 \section{Conclusions}
 \label{sec:conclusions}
 
-% TODO
+The chygraph self-consistency map and the Bethe--Peierls cavity recursion are
+the same object, and the difference between percolation and statistical
+mechanics on a chygraph is the difference between a scalar message and a
+measure. Everything above follows from taking that seriously.
+
+Three results are closed-form and cost nothing beyond the existing percolation
+machinery. The threshold tensor becomes a stability tensor under an elementwise
+reweighting of its moments, so replica-symmetric and de Almeida--Thouless lines
+for higher-order structures are available wherever percolation thresholds
+already were. A complex solved exactly inside itself transmits more than the
+sum of its edges, and the resulting $14.5\%$ shift in $T_c$ at matched mean
+degree is invisible to $\{p_d,e_{dd'}\}$. Minimum hitting set on a hypergraph
+breaks replica symmetry at $\ave{k}(c-1)=e$ for every fixed cardinality, so
+hyperedge size does not move the transition when it is counted in neighbours;
+cardinality \emph{heterogeneity} postpones it, in the same direction the degree
+heterogeneity of Ref.~\cite{VW03} does, while correlation across cardinalities
+brings it forward. That last axis has no counterpart in a single-edge-type
+ensemble.
+
+Two of these were checked by routes that share no derivation with the first.
+The critical temperatures of Sec.~\ref{sec:stability}, obtained by symbolic
+linearisation, are reproduced to a few percent by population dynamics on the
+full non-linear problem, and the ratio that carries the physical claim to
+better than half a percentage point; the free energy of Sec.~\ref{sec:freeenergy}
+locates the same transition thermodynamically, using neither the linearisation
+nor the order parameter.
+
+What the construction does not do is as definite. Leaf-removal core percolation
+is a chygraph fixed point, and on hyperbolic random graphs the chygraph built
+from the measured clique ensemble reproduces the qualitative separation from the
+degree-matched control --- the control has no core at all at these densities ---
+but only $65$--$83\%$ of the core fraction. The deficit is not a failure of the
+map: against a rewired control carrying the identical clique ensemble arranged
+treelike, the prediction is exact to $10^{-3}$. It is clique \emph{overlap},
+the loops that remain once motifs have been promoted to complexes. The region
+graph identifies precisely where the Bethe counting goes wrong --- two cliques
+sharing an edge want a counting number on the edge, not on its endpoints ---
+and closing the gap means passing messages between regions rather than between
+complexes, which is left open.
+
+The wider point is that clustering is not one obstruction but a hierarchy of
+them. Promoting triangles to complexes removes the triangles from the loop
+structure and exposes the loops between triangles. Whether that hierarchy
+terminates usefully for a geometric ensemble, where motifs have no
+characteristic size, is the question the hyperbolic measurement poses and this
+work does not settle. It does settle that the first step is worth taking: the
+effects it captures --- a $14.5\%$ shift in $T_c$, a core where the
+degree-matched ensemble has none --- are large, and they are exactly the effects
+the degree-and-correlation description was built to be unable to see.
 
 \begin{acknowledgments}
 \end{acknowledgments}
