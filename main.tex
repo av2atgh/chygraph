@@ -1,6 +1,16 @@
 \documentclass[aps,pre,twocolumn,superscriptaddress,floatfix]{revtex4-2}
 
 \usepackage{amsmath,amssymb,graphicx,hyperref}
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit,backgrounds,arrows.meta,calc}
+\tikzset{
+  nd/.style={circle,draw,fill=white,minimum size=3.1mm,inner sep=0pt,line width=.4pt},
+  hub/.style={circle,draw,fill=black!62,minimum size=3.4mm,inner sep=0pt},
+  cx/.style={rounded corners=2.4pt,draw=black!45,line width=.4pt,inner sep=2.6pt},
+  msg/.style={-{Latex[length=1.5mm,width=1.2mm]},line width=.6pt},
+  lb/.style={font=\scriptsize},
+  tb/.style={font=\scriptsize\itshape},
+}
 
 \newcommand{\ave}[1]{\langle #1 \rangle}
 \newcommand{\code}[1]{\texttt{#1}}
@@ -84,9 +94,123 @@ the part percolation does not need. Sections~\ref{sec:theory}
 and~\ref{sec:structures} give the general theory and its specialisation to
 particular structures. Sections~\ref{sec:ising} and~\ref{sec:hs} then work two
 models through it, the Ising model and the hitting set problem, general first
-and structure by structure after. Section~\ref{sec:regions} states the price of
+and structure by structure after. Figure~\ref{fig:schematic} sets out the
+construction, the structures it specialises to, and what distinguishes one
+problem from another: not the recursion, but what the message carries. Section~\ref{sec:regions} states the price of
 the whole construction: a chygraph is treelike only when its complexes meet in
 at most one node, and on a hyperbolic random graph the cliques do not.
+
+
+\begin{figure*}[t]
+\centering
+\begin{tikzpicture}[yscale=1.0]
+
+%% ================= (a) the construction =================
+\begin{scope}
+  \node[tb,anchor=west] at (-0.2,3.15) {(a) the construction};
+
+  \node[hub] (i) at (1.6,1.55) {};
+  \node[lb,right=0.6mm of i] {$i$};
+
+  % complex a (above)
+  \node[nd] (a1) at (0.85,2.55) {};
+  \node[nd] (a2) at (2.35,2.55) {};
+  \draw[line width=.4pt,black!50] (i)--(a1) (i)--(a2) (a1)--(a2);
+  \begin{scope}[on background layer]
+    \node[cx,fill=blue!12,fit=(i)(a1)(a2)] (A) {};
+  \end{scope}
+  \node[lb,blue!55!black,anchor=west] at (2.72,2.62) {complex $a$};
+
+  % complex b (below)
+  \node[nd] (b1) at (0.85,0.55) {};
+  \node[nd] (b2) at (2.35,0.55) {};
+  \draw[line width=.4pt,black!50] (i)--(b1) (i)--(b2);
+  \begin{scope}[on background layer]
+    \node[cx,fill=black!8,fit=(i)(b1)(b2)] (B) {};
+  \end{scope}
+  \node[lb,anchor=west] at (2.72,0.62) {complex $b$};
+
+  % messages
+  \draw[msg,blue!60!black] (1.28,1.82) -- (1.05,2.22);
+  \node[lb,blue!60!black,anchor=east] at (1.02,2.02) {$h_{i\to a}$};
+  \draw[msg,red!62!black] (2.02,2.22) -- (1.92,1.82);
+  \node[lb,red!62!black,anchor=west] at (2.06,2.02) {$u_{a\to i}$};
+
+  \node[lb,anchor=west,align=left] at (-0.2,-0.30)
+    {up: a convolution, Eq.~\eqref{eq:up}\\
+     down: an exact sum in $a$, Eq.~\eqref{eq:emitted}};
+\end{scope}
+
+%% ================= (b) structures =================
+\begin{scope}[xshift=6.25cm]
+  \node[tb,anchor=west] at (0,3.15) {(b) structures};
+
+  \node[nd] (g1) at (0.35,2.55) {}; \node[nd] (g2) at (1.15,2.55) {};
+  \draw[line width=.4pt,black!50] (g1)--(g2);
+  \begin{scope}[on background layer]\node[cx,fill=black!8,fit=(g1)(g2)]{};\end{scope}
+  \node[lb,anchor=west] at (1.85,2.55) {graph, $c=2$};
+
+  \node[nd] (t1) at (0.35,1.35) {}; \node[nd] (t2) at (1.15,1.35) {};
+  \node[nd] (t3) at (0.75,1.90) {};
+  \draw[line width=.4pt,black!50] (t1)--(t2)--(t3)--(t1);
+  \begin{scope}[on background layer]\node[cx,fill=black!8,fit=(t1)(t2)(t3)]{};\end{scope}
+  \node[lb,anchor=west] at (1.85,1.60) {clique, $c=3$};
+
+  \node[nd] (q1) at (0.35,0.60) {}; \node[nd] (q2) at (0.75,0.60) {};
+  \node[nd] (q3) at (1.15,0.60) {}; \node[nd] (q4) at (1.55,0.60) {};
+  \begin{scope}[on background layer]\node[cx,fill=black!8,fit=(q1)(q4)]{};\end{scope}
+  \node[lb,anchor=west] at (2.20,0.60) {hyperedge, $c=q$};
+
+  \node[lb,anchor=west,align=left] at (0,-0.25)
+    {one layer per cardinality; a joint $\Phi$\\
+     when a node's layers are correlated};
+\end{scope}
+
+%% ================= (c) problems =================
+\begin{scope}[xshift=11.9cm]
+  \node[tb,anchor=west] at (0,3.15) {(c) problems, by message};
+  \def\cA{0.05}\def\cB{1.95}\def\cC{3.20}
+  \node[lb,anchor=west] at (\cA,2.62) {percolation};
+    \node[lb,anchor=west] at (\cB,2.62) {$Q\in[0,1]$};
+    \node[lb,anchor=west] at (\cC,2.62) {scalar};
+  \node[lb,anchor=west] at (\cA,2.10) {Ising};
+    \node[lb,anchor=west] at (\cB,2.10) {$P(h)$};
+    \node[lb,anchor=west] at (\cC,2.10) {measure};
+  \node[lb,anchor=west] at (\cA,1.58) {simplicial};
+    \node[lb,anchor=west] at (\cB,1.58) {$P(h)$};
+    \node[lb,anchor=west] at (\cC,1.58) {measure};
+  \node[lb,anchor=west] at (\cA,1.06) {hitting set};
+    \node[lb,anchor=west] at (\cB,1.06) {$z\in\mathbb{Z}$};
+    \node[lb,anchor=west] at (\cC,1.06) {integer};
+  \node[lb,anchor=west] at (\cA,0.54) {\quad soft fields};
+    \node[lb,anchor=west] at (\cB,0.54) {$h=O(1)$};
+    \node[lb,anchor=west] at (\cC,0.54) {measure};
+  \node[lb,anchor=west] at (\cA,0.02) {core};
+    \node[lb,anchor=west] at (\cB,0.02) {$(\lambda,\delta,\gamma)$};
+    \node[lb,anchor=west] at (\cC,0.02) {three states};
+  \draw[black!35,line width=.4pt] (\cA,-0.32) -- (4.60,-0.32);
+  \node[lb,anchor=west,align=left] at (\cA,-0.64)
+    {only the interior changes;\\ Eqs.~\eqref{eq:up}--\eqref{eq:down} do not};
+\end{scope}
+
+\end{tikzpicture}
+\caption{\label{fig:schematic}The construction and what it is applied to.
+(a) A node $i$ belongs to several complexes, and a message runs on each directed
+inclusion. The upward step, Eq.~\eqref{eq:up}, is the percolation map with a
+convolution in place of a generating-function product; the downward step,
+Eq.~\eqref{eq:emitted}, sums the interior of one complex exactly. Only the
+second sees the Hamiltonian.
+(b) A structure is a choice of layers and cardinalities: a graph is one layer at
+$c=2$, a clique network or uniform hypergraph one layer at $c$, and mixed
+cardinalities one layer each.
+(c) A problem is a choice of what the message carries. Percolation needs only a
+scalar, which is why it is already solved; the models treated here --- Ising
+(Sec.~\ref{sec:ising}), the simplicial interaction
+(Sec.~\ref{sec:simplicial}), hitting set in its hard-field and soft-field forms
+(Sec.~\ref{sec:hs}) and core percolation (Sec.~\ref{sec:core}) --- need a field
+distribution, an integer, or three states, while
+Eqs.~\eqref{eq:up}--\eqref{eq:down} are unchanged throughout.}
+\end{figure*}
 
 \section{General theory}
 \label{sec:theory}
@@ -103,7 +227,7 @@ for the layer-$k$ complexes in the intra-complex component of a layer-$l$
 complex, with $\bar\Phi$, $\bar G$ the excess counterparts.
 
 A message lives on a directed inclusion and is updated from every incoming
-message except the one it came from. Percolation makes that message a scalar
+message except the one it came from (Fig.~\ref{fig:schematic}a). Percolation makes that message a scalar
 \cite{vazquez2023pre}; here it is a distribution $P^{ml}_i(h)$ of cavity fields,
 and the two steps are
 \begin{align}
@@ -246,7 +370,7 @@ it is assumed.
 \label{sec:structures}
 
 Everything above is fixed once the layers, their cardinalities and the
-chy-degree generating function are given. Table~\ref{tab:structures} lists the
+chy-degree generating function are given (Fig.~\ref{fig:schematic}b). Table~\ref{tab:structures} lists the
 specialisations used below. In each case Eq.~\eqref{eq:branch} is written out
 and only $u'_m$ remains to be supplied by Eq.~\eqref{eq:emitted}.
 
