@@ -88,9 +88,12 @@ motif is promoted to a complex, its interior is solved exactly, and the chygraph
 hypergraphs, multiplex hypergraphs and interacting hypergraphs all map onto the
 construction, and percolation on all of them reduces to one self-consistency map.
 
-Percolation is the $q\to1$ Potts limit, so that map is a cavity recursion and
-nothing needs to be argued about the correspondence; what has to be supplied is
-the part percolation does not need. Sections~\ref{sec:theory}
+Bond percolation is the $q\to1$ limit of the random-cluster model, which is the
+Fortuin--Kasteleyn representation of the $q$-state Potts model
+\cite{FK72}; the percolation map is therefore already a cavity recursion, and
+nothing has to be argued about that correspondence. Site occupation enters the
+same map by thinning the generating functions rather than as a separate limit.
+What has to be supplied is the part percolation does not need. Sections~\ref{sec:theory}
 and~\ref{sec:structures} give the general theory and its specialisation to
 particular structures. Sections~\ref{sec:ising} and~\ref{sec:hs} then work two
 models through it, the Ising model and the hitting set problem, general first
@@ -912,10 +915,29 @@ The magnitude is only half the question, and the weaker half. What the
 construction has to reproduce is the \emph{shape}: on these graphs the core is a
 pure power law, $\mathrm{core}\sim\ave{k}^{\beta}$, down to $\ave{k}=0.05$ and
 with no transition, where the degree-matched model has no core until
-$\ave{k}\simeq4.5$--$10$. Table~\ref{tab:pred4} runs the comparison over three
+$\ave{k}\simeq4.5$--$10$. Figure~\ref{fig:pred4} and Table~\ref{tab:pred4} run the comparison over three
 decades in density, the ensemble measured from each graph so that nothing is
 fitted. The exponents agree to $0.03$ and $0.06$ at $\tau=2.5$ and $2.9$, and
-the control has no core anywhere in the fitted range.
+the control has no core anywhere in the fitted range --- on logarithmic axes it
+does not appear at all.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_prediction4.pdf}
+\caption{\label{fig:pred4}Leaf-removal core of hyperbolic random graphs against
+mean degree, $n=2\times10^{5}$, two seeds per point. Filled circles are the core
+measured by leaf removal on the graph itself; open squares are the chygraph
+prediction of Eq.~\eqref{eq:core} evaluated on the maximal-clique ensemble
+measured from that same graph, so nothing is fitted; triangles are the
+degree-matched configuration model. Lines are power-law fits over
+$\ave{k}\leq1$, with the exponents quoted in each panel. The control has
+\emph{no} core over almost the whole range and its points are drawn on the axis
+floor, the sole exception being $\tau=2.9$, $\ave{k}=6$, where it does have one
+and the chygraph predicts it to two per cent. At $\tau=2.5$ and $2.9$ the
+predicted exponent matches the measured one to $0.03$ and $0.06$; at $\tau=2.1$,
+where the clique ensemble has no $n$-independent second moment
+(Sec.~\ref{sec:ensemble}), the prediction runs above the measurement instead.}
+\end{figure*}
 
 \begin{table}[t]
 \caption{\label{tab:pred4}Leaf-removal core of hyperbolic random graphs as a
@@ -1164,6 +1186,9 @@ manuscript.
 
 \bibitem{MT07} M.\ M\'ezard and M.\ Tarzia,
   Phys.\ Rev.\ E \textbf{76}, 041124 (2007).
+
+\bibitem{FK72} C.\ M.\ Fortuin and P.\ W.\ Kasteleyn,
+  Physica \textbf{57}, 536 (1972).
 
 \bibitem{FK15} T.\ Friedrich and A.\ Krohmer,
   in \emph{Automata, Languages, and Programming} (Springer, 2015), p.\ 614.

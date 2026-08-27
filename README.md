@@ -902,6 +902,7 @@ tests/           287 checks, each one a claim this README makes
 examples/        clustering_raises_tc.py, vw03_figure1.py, hitting_set_rsb.py,
                  wp4_validates_wp1.py
 main.tex         manuscript: general theory -> structures -> models
+figures.py       generates fig_prediction4.pdf from probe/results/
 TODO.md          open items; prediction 4 on hyperbolic random graphs
 probe/           HRG clique-moment measurement; see probe/RESULTS.md
 ```
