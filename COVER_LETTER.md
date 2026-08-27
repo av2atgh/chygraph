@@ -126,6 +126,30 @@ where the leading finite-connectivity correction vanishes and the approach is
 1/k^2. That is a stronger check than the manuscript previously contained, and it
 resolves what would otherwise have read as a disagreement.
 
+## The abstract, re-audited
+
+Rewriting it against the introduction's new positioning found three claims that
+the body no longer supports, and they have been removed or reattributed.
+
+The previous abstract advertised the three-state leaf-removal message as new;
+the introduction now credits it to Ref. [Liu12] and claims only the extension to
+cardinality >= 3, so the abstract says that instead. It also led with
+`⟨k⟩(c−1) = e`, which §4.6 asks to be demoted and whose relation to Ref. [Cou20]
+the introduction settles by locating novelty elsewhere; it no longer appears
+there. And it quoted the hyperbolic exponent agreement, which §4.7 shows to be
+weak — the predicted exponent has no τ dependence and disagrees at τ = 2.9 by
+four standard deviations — so the abstract now leads on the rewired control
+instead, which the report identifies as the stronger check and which is not
+subject to that objection.
+
+What it advertises now, in the order the report ranks them: the failure of the
+hard-field limit above cardinality two and its repair; the disappearance of the
+core-free branch at cardinality >= 3, with covering and core percolation sharing
+one threshold; the transmission of a complex in closed form and the resulting
+sign of the clustering effect, Monte Carlo confirmed; and the rewired control.
+The structural claim is stated as what distinguishes this from Ref. [Yoon11] —
+the interior Hamiltonian is left free, so one determinant serves several models.
+
 ## §4.15
 
 Each quantitative claim has been checked. The corrections above were reached by

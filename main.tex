@@ -29,37 +29,35 @@ Cambridge, CB1 2LA, UK}
 \date{\today}
 
 \begin{abstract}
-A chygraph is a set of complexes whose vertices are themselves complexes, a
-construction that promotes a dense motif to a complex and leaves the structure
-over complexes treelike where the underlying graph is not. Percolation on
-chygraphs is solved; here I carry the same map to statistical mechanics on
-hypergraphs and higher-order structures. The extension is a single
-substitution: in the chy-degree step the argument of a generating function
-becomes a measure and the product a convolution, while the intra-complex step is
-an exact sum over the interior of a complex. Critical points then follow from an
-$L\times L$ determinant, $L$ being the number of complex layers, however large
-the complexes. Known results --- Molloy--Reed, the Ising and
-de Almeida--Thouless lines, Weigt--Hartmann, Bauer--Golinelli, the
-regular-hypergraph hitting set of M\'ezard and Tarzia, and the simplicial Ising
-model --- are recovered as special cases. Beyond them, four results are new.
-Solving a complex exactly inside itself gives its transmission per neighbour in
-closed form, $t/(1-t+t^{2})$ for a triangle against $t=\tanh\beta J$ for an
-edge; because a traversed complex also removes a branch, the net effect at fixed
-degree distribution is that clustering \emph{lowers} the critical temperature,
-by $13.9\%$ for two triangles per vertex against the $4$-regular graph, which a
-Monte Carlo simulation confirms to $0.3\%$. Minimum hitting set loses its
-hard-field solution --- the point at which leaf-removal certification stops ---
-at $\ave{k}(c-1)=e$ for every cardinality, while spread in cardinality delays it
-and correlation across cardinalities advances it. Leaf-removal core percolation
-is a chygraph fixed point with a three-state message, and any layer of
-cardinality three or more removes its core-free branch entirely --- which is
-exactly the condition under which leaf removal certifies a minimum cover, so
-covering and core percolation share one threshold rather than two. On hyperbolic
-random graphs the construction gives a core where a degree-matched null model
-has none, with a growth exponent of the right size, though it recovers only
-$65$--$83\%$ of the magnitude and its predicted exponent shows no dependence on
-the degree tail where the measured one does. The limit is equally sharp: a
-chygraph is treelike only when its complexes meet in at most one node.
+A chygraph is a set of complexes whose vertices are themselves complexes, so
+promoting a dense motif to a complex leaves the structure over complexes
+treelike where the underlying graph is not. Percolation on chygraphs is solved;
+here I carry the same map to statistical mechanics. The extension is one
+substitution --- a generating function acts on a measure and the product becomes
+a convolution --- with an exact sum over the interior of a complex in which the
+Hamiltonian is left free. That freedom is what the paper turns on: one
+$L\times L$ determinant, $L$ the number of complex layers and independent of the
+size of the complexes, serves an Ising model, a unanimity interaction and a
+hard-core covering problem without rederivation, and returns results from
+Molloy--Reed to the regular-hypergraph hitting set as special cases. Four things
+do not follow. The zero-temperature limit standardly taken
+for hard-core problems is exact only at cardinality two: on disjoint
+$3$-hyperedges, where replica symmetry is trivially valid, it gives a cover of
+$1/2$ against a true $1/3$. Keeping the $O(1)$ cavity fields repairs it and
+carries the regular-hypergraph solution to arbitrary chy-degree distributions,
+mixed cardinalities and correlated layers. A complex of cardinality three or
+more removes the core-free branch of leaf removal, so covering and core
+percolation share one threshold and no cover is certified above cardinality two.
+A complex solved exactly inside itself transmits $t/(1-t+t^{2})$ per neighbour
+where an edge transmits $t=\tanh\beta J$, but also removes a branch, and the
+second effect wins: clustering \emph{lowers} the critical temperature at fixed
+degree distribution, by $13.9\%$ for two triangles per vertex against the
+$4$-regular graph, confirmed by Monte Carlo. Finally, on hyperbolic random graphs a
+control carrying the measured clique ensemble rearranged to be treelike
+separates the map from the independence assumption: the prediction is exact
+against it, so the $65$--$83\%$ of the core recovered on the real graph measures
+clique overlap and not the map --- a chygraph being treelike only when its
+complexes meet in at most one node.
 \end{abstract}
 
 \maketitle
