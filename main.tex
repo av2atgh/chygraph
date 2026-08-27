@@ -52,7 +52,9 @@ hard-field solution --- the point at which leaf-removal certification stops ---
 at $\ave{k}(c-1)=e$ for every cardinality, while spread in cardinality delays it
 and correlation across cardinalities advances it. Leaf-removal core percolation
 is a chygraph fixed point with a three-state message, and any layer of
-cardinality three or more removes its core-free branch entirely. On hyperbolic
+cardinality three or more removes its core-free branch entirely --- which is
+exactly the condition under which leaf removal certifies a minimum cover, so
+covering and core percolation share one threshold rather than two. On hyperbolic
 random graphs the construction gives a core where a degree-matched null model
 has none, with a growth exponent of the right size, though it recovers only
 $65$--$83\%$ of the magnitude and its predicted exponent shows no dependence on
@@ -479,10 +481,19 @@ joint $\Phi$ and $\ave{\kbar}$ by its inclusion-biased second moment.
 
 \subsection{General}
 
-Take a ferromagnetic coupling $J$ on every pair inside every complex and write
-$t=\tanh\beta J$. Equation~\eqref{eq:emitted} gives $u'$ and
-Eq.~\eqref{eq:branch} gives the transition; squaring $u'$ gives the de
-Almeida--Thouless line instead. Nothing else is needed, and the calculation is
+Put an Ising spin $\sigma_i=\pm1$ on every node and couple every pair inside
+every complex,
+\begin{equation}
+  \mathcal{H}=-J\sum_{a}\ \sum_{\{i,j\}\subset a}\sigma_i\sigma_j
+              \;-\;B\sum_i\sigma_i,
+  \label{eq:Hising}
+\end{equation}
+the first sum running over complexes and the second over nodes, with $B$ an
+external field set to zero below. A complex of cardinality $c$ therefore carries
+$\binom{c}{2}$ bonds, and a graph is the case $c=2$ where each complex carries
+one. Writing $t=\tanh\beta J$, Eq.~\eqref{eq:emitted} with
+Eq.~\eqref{eq:Hising} inside it gives $u'$ and Eq.~\eqref{eq:branch} gives the
+transition; squaring $u'$ gives the de Almeida--Thouless line instead. Nothing else is needed, and the calculation is
 $L\times L$ linear algebra with an enumeration of size $2^{c}$ behind each entry.
 
 \subsection{Structure by structure}
@@ -626,20 +637,22 @@ Nothing in Sec.~\ref{sec:theory} fixed what is inside a complex. Equation
 \eqref{eq:emitted} sums whatever Hamiltonian is put there and the chy-degree
 step never sees it, so a different higher-order interaction is a substitution
 rather than a new theory. The simplicial Ising model of Son, Lee and Goh
-\cite{SLG26} is the test case: a hyperedge lowers the energy only when all its
-members agree,
+\cite{SLG26} is the test case. Where Eq.~\eqref{eq:Hising} couples every pair
+inside a complex, here a hyperedge lowers the energy only when all its members
+agree,
 \begin{equation}
-  \mathcal{H}=-\sum_e J_{|e|}\,\delta_{\{S_i\}_{i\in e}}-B\sum_i S_i,
+  \mathcal{H}=-\sum_e J_{|e|}\,\delta_{\{\sigma_i\}_{i\in e}}-B\sum_i\sigma_i,
   \label{eq:sim}
 \end{equation}
-with $\delta$ equal to one on the two unanimous states and zero on the other
-$2^q-2$. Their Bethe--Peierls equation is Eq.~\eqref{eq:emitted} with
+with $\delta$ equal to one on the two unanimous states of a hyperedge and zero
+on the other $2^q-2$, and the same spins $\sigma_i=\pm1$ and external field $B$
+as Eq.~\eqref{eq:Hising}. Their Bethe--Peierls equation is Eq.~\eqref{eq:emitted} with
 Eq.~\eqref{eq:sim} substituted, on a chygraph of two layers with fixed
 chy-degree.
 
 The sum closes. With $a=\beta J_q$ and the other members at cavity field $h$,
 \begin{equation}
-  Z(S_0=\pm1)=(2\cosh h)^{q-1}+(e^{a}-1)\,e^{\pm h(q-1)},
+  Z(\sigma_0=\pm1)=(2\cosh h)^{q-1}+(e^{a}-1)\,e^{\pm h(q-1)},
   \label{eq:simZ}
 \end{equation}
 so the emitted field is elementary at any cardinality, where the all-pairs
@@ -649,7 +662,7 @@ clique of Sec.~\ref{sec:ising} needs an enumeration, and
   \label{eq:simu}
 \end{equation}
 which is $\tanh(\beta J/2)$ at $q=2$: a simplicial pair is an ordinary bond of
-half the coupling, since $\delta_{S_0S_1}=(1+S_0S_1)/2$. Equation
+half the coupling, since $\delta_{\sigma_0\sigma_1}=(1+\sigma_0\sigma_1)/2$. Equation
 \eqref{eq:simu} is the derivative with respect to \emph{one} other member's
 field, the same convention as Eq.~\eqref{eq:uprime}, so the multiplicity $q-1$
 is supplied by Eq.~\eqref{eq:branch} and not here. Differentiating instead with
@@ -766,10 +779,23 @@ slowing down, and a coexistence test has to be kept away from it.
 \subsection{General}
 
 A hitting set meets every hyperedge; minimising it generalises vertex cover to
-hypergraphs \cite{MT07}. In the hard-core representation $x_i=1$ leaves $i$ out,
-the constraint on a hyperedge is $e^{w}=1-\prod_{i\in e}x_i$, and minimum hitting
-sets are maximal packings reached as $\mu\to\infty$. In that limit the fields
-collapse onto integers, $h=\mu z$, and Eq.~\eqref{eq:up} becomes
+hypergraphs \cite{MT07}. Put $x_i=1$ when node $i$ is \emph{in} the set and
+$x_i=0$ when it is not, throughout this section, and take
+\begin{equation}
+  \mathcal{H}=\mu\sum_i x_i
+  \qquad\text{subject to}\qquad
+  \prod_{e}\Big[1-\prod_{i\in e}(1-x_i)\Big]=1,
+  \label{eq:Hhs}
+\end{equation}
+the constraint forbidding a hyperedge none of whose members is taken and the
+chemical potential $\mu$ penalising every member of the set, so that minimum
+hitting sets are the ground states reached as $\mu\to\infty$. It is often
+convenient to work with the complement $y_i=1-x_i$, which is a packing --- no
+hyperedge lies wholly inside it --- and the hard-field limit below is written
+that way, the cover being one minus the packing density.
+
+In that limit the fields collapse onto integers, $h=\mu z$, and
+Eq.~\eqref{eq:up} becomes
 \begin{equation}
   z_i=1-\#\big\{\,b\ni i:\ z_{j\to b}=1\ \ \forall\,j\in b\setminus i\,\big\},
   \label{eq:zhs}
@@ -856,9 +882,16 @@ $\Phi(0,\dots,0)$ should be reported alongside any such comparison.
 \subsection{Vertex cover of the induced graph}
 \label{sec:cover}
 
-Hitting set and vertex cover sit at two ends of one family. A hyperedge is
-satisfied once one member is taken, so $c-1$ may be left out; two members of a
-clique are adjacent, so at most \emph{one} may. The cavity differs in one place,
+Hitting set and vertex cover sit at two ends of one family. Both minimise
+$\mathcal{H}=\mu\sum_i x_i$ and differ only in the constraint: where
+Eq.~\eqref{eq:Hhs} forbids a hyperedge with no member taken, vertex cover of the
+induced graph forbids an \emph{edge} with neither endpoint taken,
+\begin{equation}
+  \prod_{a}\ \prod_{\{i,j\}\subset a}\Big[1-(1-x_i)(1-x_j)\Big]=1,
+  \label{eq:Hvc}
+\end{equation}
+so a hyperedge is satisfied once one member is taken and $c-1$ may be left out,
+while two members of a clique are adjacent and at most \emph{one} may. The cavity differs in one place,
 again inside the complex: taking $i$ blocks every other member of every complex
 containing it, but a complex could only ever have contributed one member, so the
 cost is the \emph{maximum} over the complex and not the sum,
@@ -884,8 +917,9 @@ every vertex sits at $z=0$, it returns $1/2$ against a true $2/3$.
 \subsection{What the hard-field ansatz misses}
 \label{sec:hardfield}
 
-Equation~\eqref{eq:zhs} is warning propagation: the $\mu\to\infty$ limit taken
-with \emph{hard} fields, scaling $h=\mu z$ and keeping only the integer $z$.
+Equation~\eqref{eq:zhs} is warning propagation: the $\mu\to\infty$ limit of
+Eq.~\eqref{eq:Hhs} taken with \emph{hard} fields, scaling $h=\mu z$ and keeping
+only the integer $z$.
 That discards an $O(1)$ contribution which survives the limit. At cardinality
 two the discard is harmless. Above it, it is not, and two failures show it.
 
@@ -904,9 +938,10 @@ reproduce their result that cardinality two breaks for every degree.
 \subsection{Keeping the fields}
 \label{sec:soft}
 
-Both failures are repaired by not scaling the fields at all. Writing $x_i=1$ for
-a vertex \emph{in} the hitting set and weighting by $e^{-\mu\sum_i x_i}$, belief
-propagation on the chygraph reads
+Both failures are repaired by not scaling the fields at all. Working directly
+with Eq.~\eqref{eq:Hhs} --- $x_i=1$ for a vertex in the set, weight
+$e^{-\mu\sum_ix_i}$, no change of variable to the packing --- belief propagation
+on the chygraph reads
 \begin{align}
   v_{a\to i}&=-\ln\Big[1-\prod_{j\in a\setminus i}\big(1+e^{h_{j\to a}}\big)^{-1}\Big],
   \nonumber\\
@@ -1008,9 +1043,26 @@ and the last four rows of Table~\ref{tab:soft} are outside it.
 \section{Core percolation}
 \label{sec:core}
 
-Certification in Sec.~\ref{sec:hardfield} is not a separate assumption. Leaf
-removal deletes a degree-one vertex with its neighbour and the residue is the
-core, empty below a threshold and extensive above, at $c=e$ for
+This section carries no new Hamiltonian, and that is worth stating precisely
+rather than leaving as an omission. Core percolation is defined by an algorithm,
+but the algorithm is the one that solves Eq.~\eqref{eq:Hvc}: leaf removal takes
+a degree-one vertex, puts its neighbour in the cover, and deletes both, which is
+an exact step for minimum vertex cover because some minimum cover contains that
+neighbour. The core is what the algorithm cannot decide. So core percolation is
+not a fifth model but the obstruction to solving the fourth, and
+Refs.~\cite{Liu12,Cou20} treat the two together for the same reason.
+
+The two are the same transition, not merely related ones. On a graph,
+Eq.~\eqref{eq:kc} places the loss of stability of the hard-field map at
+$\ave{k}(c-1)=e$, hence at $\ave{k}=e$; the core-percolation threshold below is
+the Bauer--Golinelli value $\ave{k}=e$ \cite{BG01}; and these agree to nine
+digits because they are one point computed twice. Above cardinality two the
+core-free branch disappears altogether, which is exactly why the certification
+invoked in Sec.~\ref{sec:hardfield} fails there --- the two statements are the
+same statement.
+
+Leaf removal deletes a degree-one vertex with its neighbour and the residue is
+the core, empty below a threshold and extensive above, at $c=e$ for
 Erd\H{o}s--R\'enyi \cite{BG01}. It is a chygraph fixed point, with a
 \emph{three}-state message: run the process on the cavity branch and a node ends
 leaf-ready ($L$), deleted ($D$), or core-side ($C$). Percolation has two answers
@@ -1044,8 +1096,11 @@ $3\times10^{-3}$.
 Setting $\gamma=0$ requires $\zeta=1-\kappa$ in every layer, an identity at
 $c=2$ and forcing $\lambda=0$ at $c\geq3$. A chygraph carrying any layer of
 cardinality three or more therefore has no core-free branch, so leaf removal
-never certifies a cover there --- which is the statement Sec.~\ref{sec:hardfield}
-uses. The strong reading of that is false and worth blocking: it does \emph{not}
+never certifies a cover there. That is the statement Sec.~\ref{sec:hardfield}
+uses, and it is now visible as a property of Eq.~\eqref{eq:zk} rather than an
+assumption imported from elsewhere: the cover size of Eq.~\eqref{eq:hs} can be
+believed exactly when Eq.~\eqref{eq:core} admits $\gamma=0$, and both hold only
+at cardinality two. The strong reading of that is false and worth blocking: it does \emph{not}
 say a complex survives whole, since leaf removal deletes a leaf's
 \emph{neighbour} and a triangle with one pendant edge per vertex has an empty
 core. What the algebra gives is only that the core cannot vanish identically,
@@ -1307,6 +1362,14 @@ for two triangles per vertex against the $4$-regular graph. Monte Carlo puts the
 shift at $-14.2\%$. What no configuration model on the same degree distribution
 reproduces is the magnitude, and Eq.~\eqref{eq:uprime} supplies it in closed
 form.
+
+The hard-core problems turn out to be one problem seen from three sides. Hitting
+set and vertex cover differ only in their constraint, Eq.~\eqref{eq:Hhs} against
+Eq.~\eqref{eq:Hvc}; core percolation is not a third model but the obstruction to
+solving the second by leaf removal; and on a graph its threshold and the
+hard-field instability of Eq.~\eqref{eq:kc} are the same point, $\ave{k}=e$.
+Above cardinality two the core-free branch disappears and certification fails
+with it.
 
 For hitting set the hard-field limit, Eq.~\eqref{eq:hs}, is complete only at
 cardinality two: its order-reversing structure is general and $\ave{k}(c-1)=e$

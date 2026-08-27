@@ -145,3 +145,28 @@ def test_core_positive_but_tiny_with_a_sparse_triangle_layer():
     m = cp.CorePercolation([2, 3], poisson_phi([1.0, 0.001]))
     assert not m.has_core_free_branch()
     assert 0.0 < m.core_fraction() < 1e-3
+
+
+def test_core_threshold_is_the_vertex_cover_instability():
+    """On a graph the two are one point, not two.
+
+    Eq. (19) puts the hard-field vertex-cover instability at <k>(c-1) = e, so at
+    <k> = e for c = 2; Bauer-Golinelli put the core-percolation threshold at the
+    same place.  The paper computes both, and they must agree.
+    """
+    import chygraph_statmech.hittingset as _hs
+    core_thr = cp.core_threshold(lambda k: cp.graph(mean=k))
+    hard_thr = _hs.rsb_point([2], [1.0])
+    assert core_thr == pytest.approx(E, rel=1e-9)
+    assert hard_thr == pytest.approx(E, rel=1e-9)
+    assert core_thr == pytest.approx(hard_thr, rel=1e-8)
+
+
+@pytest.mark.parametrize('cs', [[2], [3], [4], [2, 3]])
+def test_certification_is_the_core_free_branch(cs):
+    """The cover size of Eq. (18) can be believed exactly when Eq. (21) admits
+    gamma = 0.  Not two conditions that happen to coincide -- one condition."""
+    import chygraph_statmech.cover as _cv
+    means = [1.0] * len(cs)
+    assert (_cv.poisson(cs, means).certified()
+            == cp.CorePercolation(cs, poisson_phi(means)).has_core_free_branch())
