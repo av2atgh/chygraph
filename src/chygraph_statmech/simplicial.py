@@ -26,11 +26,12 @@ members at cavity field ``h``,
 so the emitted field is elementary at any cardinality, where the all-pairs
 clique of Sec. IV needs an enumeration.  Differentiating at zero field,
 
-    u' = (q - 1)(e^a - 1) / (2^{q-1} + e^a - 1),
+    u' = (e^a - 1) / (2^{q-1} + e^a - 1)      (per neighbour),
 
 which at ``q = 2`` is ``tanh(beta J / 2)`` -- the simplicial rule on a pair is
 an ordinary Ising bond of half the coupling, since
-``delta_{S_0 S_1} = (1 + S_0 S_1)/2``.
+``delta_{S_0 S_1} = (1 + S_0 S_1)/2``.  The multiplicity ``q-1`` is supplied
+once, by the branching matrix of Sec. III.
 
 **One caveat, and it is the important one.**  The branching matrix of
 Sec. III locates a *linear* instability of the paramagnet.  Where the transition
@@ -64,15 +65,22 @@ def emitted(q, beta_J, h):
 
 
 def uprime(q, beta_J):
-    """``du/dh`` at zero field: ``(q-1)(e^a - 1)/(2^{q-1} + e^a - 1)``.
+    """``du/dh_j`` at zero field for ONE other member,
 
-    Reduces to ``tanh(beta J / 2)`` at ``q = 2``.
+        u' = (e^a - 1) / (2^{q-1} + e^a - 1),
+
+    per neighbour, matching :func:`chygraph_statmech.ising.clique_derivative`
+    so that the multiplicity ``c-1`` is supplied once, by the branching matrix,
+    and not twice.  Differentiating instead with respect to a field common to
+    all ``q-1`` other members multiplies this by ``q-1``; that is the form which
+    enters a symmetric fixed point directly, and conflating the two double-counts
+    the multiplicity.  The two coincide at ``q = 2``, where ``u' = tanh(beta J/2)``.
     """
     # In log space: e^{beta J} - 1 overflows for beta J past ~700, which a
     # spinodal search reaches whenever it probes low temperature.
     a = float(beta_J)
     lnA = a + np.log1p(-np.exp(-a)) if a > 1e-8 else np.log(np.expm1(a))
-    return float((q - 1) * np.exp(lnA - np.logaddexp((q - 1) * np.log(2.0), lnA)))
+    return float(np.exp(lnA - np.logaddexp((q - 1) * np.log(2.0), lnA)))
 
 
 # ---------------------------------------------------------------------------
@@ -241,7 +249,7 @@ class SimplicialChygraph:
         for l in range(self.L):
             for m in range(self.L):
                 deg = self.k[m] - 1 if m == l else self.k[m]
-                B[l, m] = deg * up[m]
+                B[l, m] = deg * (self.q[m] - 1) * up[m]
         return B
 
     def spinodal(self, lo=1e-3, hi=50.0, iters=200):

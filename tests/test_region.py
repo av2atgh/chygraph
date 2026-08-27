@@ -47,3 +47,33 @@ def test_disjoint_complexes_have_trivial_counting():
     rg = RegionGraph([[0, 1], [2, 3]])
     assert rg.is_bethe() and rg.bethe_error() == 0
     assert all(rg.counting[frozenset({v})] == 0 for v in range(4))
+
+
+def test_kikuchi_beats_bethe_on_two_triangles():
+    """Enumerate ln Z for four spins, two triangles sharing an edge, and check
+    the Mobius counting is closer than the Bethe counting at every coupling.
+
+    Referee-requested: the correction is demonstrated, not asserted.
+    """
+    import itertools
+    import numpy as np
+    cx = [[0, 1, 2], [1, 2, 3]]
+    rg = RegionGraph(cx)
+    edges = sorted({tuple(sorted((a[i], a[j]))) for a in cx
+                    for i in range(len(a)) for j in range(i + 1, len(a))})
+
+    def lnZ(bJ, region):
+        R = sorted(region)
+        e = [(i, j) for i, j in edges if i in R and j in R]
+        tot = 0.0
+        for s in itertools.product((1, -1), repeat=len(R)):
+            d = dict(zip(R, s))
+            tot += np.exp(bJ * sum(d[i] * d[j] for i, j in e))
+        return np.log(tot)
+
+    for bJ in (0.2, 0.5, 1.0, 2.0):
+        exact = lnZ(bJ, range(4))
+        kik = sum(c * lnZ(bJ, R) for R, c in rg.counting.items() if c)
+        bet = sum(c * lnZ(bJ, R) for R, c in rg.bethe_counting().items() if c)
+        assert abs(kik - exact) < abs(bet - exact)      # Kikuchi is closer
+        assert bet > exact                              # Bethe overestimates

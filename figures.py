@@ -22,6 +22,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 HERE = Path(__file__).parent
 CSV = HERE / 'probe' / 'results' / 'prediction4.csv'
 OUT = HERE / 'fig_prediction4.pdf'
+OUT_SIM = HERE / 'fig_simplicial.pdf'
 
 MEAS, CHY, CTRL = '#0072B2', '#D55E00', '#8C6BB1'
 FLOOR = 3e-5                     # control is exactly zero; drawn on the floor
@@ -121,5 +122,51 @@ def main():
     print('wrote', OUT)
 
 
+def simplicial_panel():
+    """Fig. 3: the q=16 double transition, with the free energies that locate it."""
+    from chygraph_statmech.simplicial import SimplicialChygraph
+    M = SimplicialChygraph([2, 16], [4, 4], [0.7, 0.3])
+    lo, hi = M.coexistence(0.96, 0.99, n=200)
+    Tc = M.transition(scan=(0.96, 0.99), n=200)
+
+    fig, ax = plt.subplots(1, 2, figsize=(7.05, 2.45))
+
+    Ts = np.linspace(0.955, 1.02, 140)
+    for u0, col, mk, lab in ((8.0, MEAS, '-', 'from ordered'),
+                             (1e-8, CHY, '--', 'from disordered')):
+        m = [M.magnetisation(T, u0=u0)[0] for T in Ts]
+        ax[0].plot(Ts, m, mk, color=col, lw=1.4, label=lab)
+    ax[0].axvline(Tc, color='0.45', lw=0.8, ls=':')
+    ax[0].axvspan(lo, hi, color='0.88', zorder=0)
+    ax[0].set_xlabel('$T$'); ax[0].set_ylabel('$m$')
+    ax[0].set_title('order parameter', pad=3)
+    ax[0].legend(frameon=False, loc='center left', bbox_to_anchor=(0.30, 0.30))
+    ax[0].annotate('$T_c$', xy=(Tc, 0.70), xytext=(0.9655, 0.70), fontsize=7,
+                   color='0.35', va='center',
+                   arrowprops=dict(arrowstyle='-', lw=0.6, color='0.55'))
+    ax[0].text(1.0115, 0.05, 'continuous', fontsize=6.5, color='0.35', ha='right')
+
+    Tf = np.linspace(lo + 1e-4, hi - 1e-4, 60)
+    d = [M.minus_beta_f(T, u0=8.0) - M.minus_beta_f(T, u0=1e-8) for T in Tf]
+    ax[1].axhline(0, color='0.75', lw=0.6)
+    ax[1].plot(Tf, np.array(d) * 1e3, color=CTRL, lw=1.4)
+    ax[1].axvline(Tc, color='0.45', lw=0.8, ls=':')
+    ax[1].set_xlabel('$T$')
+    ax[1].set_ylabel(r'$10^{3}\,\Delta(-\beta f)$')
+    ax[1].set_title('free-energy difference', pad=3)
+    ax[1].text(Tc + 0.0002, min(np.array(d) * 1e3) * 0.75,
+               f'$T_c={Tc:.4f}$', fontsize=7, color='0.35')
+
+    for a in ax:
+        for sp in ('top', 'right'):
+            a.spines[sp].set_visible(False)
+        a.grid(True, lw=0.35, color='0.9')
+        a.set_axisbelow(True)
+    fig.tight_layout(pad=0.4, w_pad=1.2)
+    fig.savefig(OUT_SIM, bbox_inches='tight')
+    print('wrote', OUT_SIM, f'(T*={lo:.5f}, Tc={Tc:.5f}, T**={hi:.5f})')
+
+
 if __name__ == '__main__':
     main()
+    simplicial_panel()

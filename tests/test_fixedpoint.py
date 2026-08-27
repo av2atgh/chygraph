@@ -160,3 +160,17 @@ def test_cover_grows_with_assortativity():
             assert xs[gamma] > prev[gamma]
             prev[gamma] = xs[gamma]
         assert xs[2.5] < xs[3.0]
+
+
+def test_exchange_residual_is_quadratic(stab):
+    """1 - rho - Lambda divided by Lambda^2 converges, which is what makes the
+    O(Lambda^2) in the exchange relation a statement about the order rather
+    than a bound at one point (referee minor 6)."""
+    M = stab.model
+    ratios = []
+    for pv in (0.15, 0.145, 0.140, 0.1392):
+        lam = float(M.Lambda().subs(_sub(pv)))
+        ratios.append((1 - stab.spectral_radius(_sub(pv)) - lam) / lam**2)
+    assert all(r < 0 for r in ratios)
+    assert abs(ratios[-1] - ratios[-2]) < abs(ratios[1] - ratios[0])   # converging
+    assert ratios[-1] == pytest.approx(-0.61, abs=0.02)

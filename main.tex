@@ -36,27 +36,28 @@ chygraphs is solved; here I carry the same map to statistical mechanics on
 hypergraphs and higher-order structures. The extension is a single
 substitution: in the chy-degree step the argument of a generating function
 becomes a measure and the product a convolution, while the intra-complex step is
-an exact sum over the interior of a complex, whatever Hamiltonian is placed
-there. Critical points then follow from an $L\times L$ determinant, $L$ being
-the number of complex layers, however large the complexes. Known results ---
-Molloy--Reed, the Ising and de Almeida--Thouless lines, Weigt--Hartmann,
-Bauer--Golinelli, the regular-hypergraph hitting set of M\'ezard and Tarzia, and
-the simplicial Ising model --- are recovered as special cases. Beyond them, four
-results are new. A complex solved exactly inside itself transmits more than the
-sum of its edges: a triangle gives $t/(1-t+t^{2})$ per neighbour rather than
-$t=\tanh\beta J$, so at matched mean degree clustering raises the critical
-temperature by $14.5\%$ between ensembles of identical degree distribution and
-assortativity. Minimum hitting set loses its hard-field solution at
-$\ave{k}(c-1)=e$ for every cardinality, so hyperedge size does not move that
-point when counted in neighbours, while spread in cardinality delays it and
-correlation across cardinalities advances it --- an axis absent from any
-single-edge-type ensemble. Leaf-removal core percolation is a chygraph fixed
-point with a three-state message, and any layer of cardinality three or more
-removes its core-free branch entirely. On hyperbolic random graphs the
-construction reproduces the exponent with which the core grows with density,
-$1.55$ against $1.58$ measured, where a degree-matched null model has no core at
-all. The limit of the construction is equally sharp: a chygraph is treelike only
-when its complexes meet in at most one node, and what that costs is measured.
+an exact sum over the interior of a complex. Critical points then follow from an
+$L\times L$ determinant, $L$ being the number of complex layers, however large
+the complexes. Known results --- Molloy--Reed, the Ising and
+de Almeida--Thouless lines, Weigt--Hartmann, Bauer--Golinelli, the
+regular-hypergraph hitting set of M\'ezard and Tarzia, and the simplicial Ising
+model --- are recovered as special cases. Beyond them, four results are new.
+Solving a complex exactly inside itself gives its transmission per neighbour in
+closed form, $t/(1-t+t^{2})$ for a triangle against $t=\tanh\beta J$ for an
+edge; because a traversed complex also removes a branch, the net effect at fixed
+degree distribution is that clustering \emph{lowers} the critical temperature,
+by $13.9\%$ for two triangles per vertex against the $4$-regular graph, which a
+Monte Carlo simulation confirms to $0.3\%$. Minimum hitting set loses its
+hard-field solution --- the point at which leaf-removal certification stops ---
+at $\ave{k}(c-1)=e$ for every cardinality, while spread in cardinality delays it
+and correlation across cardinalities advances it. Leaf-removal core percolation
+is a chygraph fixed point with a three-state message, and any layer of
+cardinality three or more removes its core-free branch entirely. On hyperbolic
+random graphs the construction gives a core where a degree-matched null model
+has none, with a growth exponent of the right size, though it recovers only
+$65$--$83\%$ of the magnitude and its predicted exponent shows no dependence on
+the degree tail where the measured one does. The limit is equally sharp: a
+chygraph is treelike only when its complexes meet in at most one node.
 \end{abstract}
 
 \maketitle
@@ -81,12 +82,31 @@ assortativity to within a few percent --- is core-free until the mean degree
 reaches $4.5$ to $10$. What separates them is the clustering hyperbolic geometry
 induces, and it lies outside $\{p_d,e_{dd'}\}$ by construction.
 
-Chygraphs \cite{vazquez2023pre,vazquez2024comnet} remove that assumption. A
-chygraph is a set of complexes whose vertices are themselves complexes: a dense
-motif is promoted to a complex, its interior is solved exactly, and the chygraph
-\emph{over} complexes is treelike even when the underlying graph is not. Graphs,
-hypergraphs, multiplex hypergraphs and interacting hypergraphs all map onto the
-construction, and percolation on all of them reduces to one self-consistency map.
+The idea of restoring treelikeness by promoting a motif to a super-node is not
+new. Newman \cite{New09} and Karrer and Newman \cite{KN10} construct random
+graphs with arbitrary distributions of subgraphs and give the message-passing
+treatment; Yoon \textit{et al.} \cite{Yoon11} solve the Ising model on precisely
+that class of ensembles; and Cantwell and Newman \cite{CN19} reach the same
+problems from the other side, by message passing that keeps short loops
+explicitly. On the hard-core side Liu \textit{et al.} \cite{Liu12} give the
+three-state cavity treatment of leaf-removal core percolation on
+configuration-model networks, and Coutinho \textit{et al.} \cite{Cou20} treat
+covering problems and core percolation on hypergraphs.
+
+Chygraphs \cite{vazquez2023pre,vazquez2024comnet} carry that construction to
+arbitrary depth: a chygraph is a set of complexes whose vertices are themselves
+complexes, so graphs, hypergraphs, multiplex hypergraphs and interacting
+hypergraphs become one object with different layer data, and percolation on all
+of them reduces to one self-consistency map. What is added here is on the model
+side rather than the structural side. Reference~\cite{Yoon11} treats the Ising
+model with a fixed interior interaction; Eq.~\eqref{eq:emitted} below leaves the
+interior Hamiltonian free, which is what lets one $L\times L$ determinant serve
+the Ising model, the simplicial interaction, hitting set and core percolation
+without rederivation. Against Ref.~\cite{Liu12} the novelty is not the
+three-state message but its extension to complexes of cardinality three or more,
+where the core-free branch disappears altogether; against Ref.~\cite{Cou20}, the
+soft-field treatment of Sec.~\ref{sec:soft} and the arbitrary chy-degree
+distributions it carries.
 
 Bond percolation is the $q\to1$ limit of the random-cluster model, which is the
 Fortuin--Kasteleyn representation of the $q$-state Potts model
@@ -239,11 +259,33 @@ and the two steps are
   \text{down:}\quad & u_{a\to i}=\text{(field emitted by complex }a\text{)}.
   \label{eq:down}
 \end{align}
-Equation~\eqref{eq:up} is the chy-degree step. It is the generating-function
-product of the percolation map with one substitution: the argument of $\Phi$
-becomes a measure and the product becomes a convolution, so that
-$\Phi(x)=\sum_n p_n x^n$ acting on a field distribution reads $\sum_n p_n
-P^{*n}$. Nothing else about the chy-degree step changes.
+Equation~\eqref{eq:up} holds on one realisation. At the level of the ensemble it
+becomes a self-consistency condition on the distributions themselves. Let
+$Q^{lk}$ be the law of the field a layer-$k$ complex emits onto a layer-$l$
+complex, and let a generating function act on a measure by
+\begin{equation}
+  \Phi^l_k\!\ast\!Q=\sum_{n}p^{lk}_{n}\,Q^{\ast n},
+  \qquad \Phi^l_k(x)=\sum_n p^{lk}_n x^n,
+  \label{eq:conv}
+\end{equation}
+the $n$-fold convolution weighted by the chy-degree distribution. The law
+$P^{ml}$ of the field a layer-$l$ complex sends up into a layer-$m$ complex is
+then the convolution over target layers
+\begin{equation}
+  P^{ml}=\delta_{\mu}\ast\Big(\ast_{k}\,
+    \big[\bar\Phi^{l}_{k}\big]_{k=m}\!\ast\,Q^{lk}\Big),
+  \label{eq:ensemble}
+\end{equation}
+with $\delta_\mu$ the shift by the chemical potential and
+$[\bar\Phi]_{k=m}$ the excess generating function on the layer arrived through.
+Equation~\eqref{eq:ensemble} is the percolation map of
+Ref.~\cite{vazquez2023pre} with one substitution --- the argument of $\Phi$
+becomes a measure and the product a convolution --- and it is what the rest of
+this paper specialises. Putting $Q^{lk}=\delta_{u}$ for a scalar $u$ collapses
+every convolution to a product and returns the percolation map; and since the
+first moment of a convolution is the sum of the first moments of its factors,
+linearising Eq.~\eqref{eq:ensemble} about the trivial fixed point gives
+Eq.~\eqref{eq:linear}.
 
 \subsection{The intra-complex step}
 \label{sec:emitted}
@@ -279,14 +321,11 @@ percolation calculation \cite{vazquez2023pre} carries first moments precisely
 because there $u'$ is the constant occupation probability, already folded in by
 thinning. For any other model the same tensor applies with
 \begin{equation}
-  \begin{split}
-    \ave{\kappa}&\to\ave{\kappa}\ave{u'},\\
-    \ave{\kappa}&\to\ave{\kappa}\ave{u'^2},
-  \end{split}
+  \ave{\kappa}\;\longrightarrow\;\ave{\kappa}\ave{u'},
   \label{eq:reweight}
 \end{equation}
-the first giving the ferromagnetic or replica-symmetric instability and the
-second the de Almeida--Thouless line. The reweighting is an elementwise
+for the ferromagnetic or replica-symmetric instability; replacing $\ave{u'}$
+throughout by $\ave{u'^2}$ gives the de Almeida--Thouless line instead. The reweighting is an elementwise
 multiplication: the index structure, the block layout and the determinant are
 untouched. The weight sits on the intra-complex channel, since the interaction
 lives inside a complex; the chy-degree step is a relay and carries weight one.
@@ -303,11 +342,18 @@ matrix on the $L$ complex layers is therefore
 and the transition is at $\det(I-B)=0$. The linear algebra is $L\times L$
 however large the complexes are: cardinality enters only through $u'_m$.
 
-One caveat on the factorisation in Eq.~\eqref{eq:branch}. The correct entry is
-$\ave{\sbar\,u'}$, a joint average over the internal structure of the complex;
-writing $\ave{\sbar}\ave{u'}$ assumes $u'$ is common to the layer. That is less
-a restriction than a definition of what a layer is, and when $u'$ depends on
-cardinality the remedy is to split the layer by cardinality.
+Two caveats on Eq.~\eqref{eq:branch}. First, $c_m-1$ is the number of other
+members seen on arrival, which is that expression only when every complex in
+layer $m$ has the same cardinality. For a layer carrying a distribution of
+cardinalities the count is size-biased and the correct factor is
+$\ave{\sbar}_m=\ave{c^2}_m/\ave{c}_m-1$, the same quantity measured in
+Sec.~\ref{sec:ensemble}; $\ave{c}_m-1$ is not equal to it. Throughout this
+paper a layer is by construction a single cardinality --- the clique ensembles
+of Sec.~\ref{sec:regions} are split into one layer per clique size --- so
+Eq.~\eqref{eq:branch} is used with $c_m-1$ and no size-biasing is required.
+Second, the correct entry is $\ave{\sbar\,u'}$, a joint average over the
+interior of the complex, and writing $\ave{\sbar}\ave{u'}$ assumes $u'$ is
+common to the layer, which single-cardinality layers again guarantee.
 
 \subsection{Away from the trivial fixed point}
 \label{sec:fixedpoint}
@@ -321,9 +367,14 @@ the solution is stable --- and for percolation the answer is
   \rho\big(J(Q^{\ast})\big)=1-\Lambda+O(\Lambda^{2}),
   \label{eq:exchange}
 \end{equation}
-verified to $0.15\%$ at $\Lambda=1.1\times10^{-3}$. The two roots leave $1$ at
-the same rate in opposite directions: an exchange of stability, made
-quantitative.
+with the residual $1-\rho-\Lambda$ falling from $-2.9\times10^{-4}$ at
+$\Lambda=2.2\times10^{-2}$ to $-7.6\times10^{-7}$ at $\Lambda=1.1\times10^{-3}$.
+Divided by $\Lambda^{2}$ it converges, taking the values $-0.599$, $-0.604$,
+$-0.609$ and $-0.610$ as $\Lambda$ falls through
+$3.9\times10^{-2}$, $2.2\times10^{-2}$, $4.0\times10^{-3}$ and
+$1.1\times10^{-3}$, which is what fixes the order at quadratic rather than
+merely bounding it at one point. The two roots leave $1$ at the same rate in opposite
+directions: an exchange of stability, made quantitative.
 
 One diagnostic does not survive the move, and it is worth naming because it is
 the natural thing to reach for. The sign of the leading eigenvalue does
@@ -360,6 +411,18 @@ closes,
   \label{eq:para}
 \end{equation}
 $Z_c$ being the partition function of one isolated complex.
+
+\subsection{A note on the numbers quoted}
+\label{sec:numbers}
+
+Agreements quoted below to eight, ten or twelve digits are between two
+evaluations of the same analytic object --- a closed form against an
+enumeration, or a symbolic derivative against a numerical one. They establish
+that the implementation is faithful, not that the physics is right. Where a
+result is tested against something outside the formalism it is said so
+explicitly: the Monte Carlo of Sec.~\ref{sec:ising}, the leaf-removal
+simulations of Secs.~\ref{sec:core} and~\ref{sec:regions}, and the published
+values of Refs.~\cite{WH00,BG01,MT07,SLG26}.
 
 \subsection{Validity}
 \label{sec:validity}
@@ -441,60 +504,98 @@ $0.0940$, $0.0734$ for $c=2,\dots,6$, with the de Almeida--Thouless line at
 $0.8814$, $0.4024$, $0.2670$, $0.2015$, $0.1625$; the spin-glass instability
 always needs the stronger coupling, since $u'^{2}<u'$.
 
-The content of Eq.~\eqref{eq:uprime} is that $t/(1-t+t^2)>t$ on $0<t<1$ while
-reducing to $t$ at leading order: a triangle is two independent edges at high
-temperature and strictly better than two independent edges below it. Clustering
-helps ferromagnetic order, and Eq.~\eqref{eq:uprime} says by how much.
-Table~\ref{tab:tc} holds the mean number of neighbours fixed and moves them from
-links into triangles. $T_c$ rises, by $20.6\%$ at four neighbours and $4.8\%$ at
-twenty, the effect being $O(t^2)$ and so decaying as $1/\ave{k}$. The two
-ensembles compared in each row have the same degree distribution and the same
-assortativity; they are indistinguishable in $\{p_d,e_{dd'}\}$.
+Equation~\eqref{eq:uprime} gives $t/(1-t+t^2)>t$ on $0<t<1$, reducing to $t$ at
+leading order: \emph{per traversal}, a triangle transmits more than an
+independent edge. It does not follow that clustering favours order, and it does
+not. Equation~\eqref{eq:branch} carries a multiplicity as well as a
+transmission, and the two move in opposite directions. Arriving at a
+degree-$n$ vertex of a graph, $n-1$ further neighbours branch. Arriving at the
+same vertex through one of its $n/2$ triangles, only $n-2$ branch, because one
+of the two neighbours in the triangle just traversed is already accounted for
+and its influence sits inside $u'$ rather than being counted again. At $n=4$
+the condition is $3t=1$ for links against $2u'_T=1$ for triangles, so the
+enhancement would have to carry $u'_T$ from $1/3$ to $1/2$ to break even, and
+it reaches only $3/7$. The lost branch wins.
+
+Table~\ref{tab:tc} states the comparison against two null models. The
+unambiguous one is regular: an $n$-regular graph against a network of $n/2$
+triangles per vertex. These have identical degree distribution
+$p_d=\delta_{d,n}$, identically neutral $e_{dd'}$, and the same number of edges
+per vertex; they differ only in whether those edges close into triangles.
+Clustering \emph{lowers} $T_c$, by $13.9\%$ at four neighbours and $0.3\%$ at
+twenty, the effect being $O(t^2)$ and so decaying as $1/\ave{k}$. This is the
+sign familiar from percolation, where clustering raises the threshold at fixed
+degree sequence, and it arises here by the same redundancy.
+
+The Poisson comparison requires care and is included because it is the one that
+misleads. Taking a layer of $n$ links against a layer of $n/2$ triangles, both
+Poisson, matches the \emph{mean} degree and nothing else: the triangle
+construction gives $d=2X$ with $X\sim\mathrm{Poisson}(n/2)$, so the degree is
+even, its variance is $2n$ rather than $n$, and the excess degree that
+Eq.~\eqref{eq:branch} actually uses is $\ave{\kbar}=n+1$ rather than $n$. Read
+against a configuration model carrying that same excess degree, the sign is the
+same as in the regular case.
 
 \begin{table}[t]
-\caption{\label{tab:tc}Clustering raises $T_c$ at matched mean degree. Each row
-compares $n$ neighbours arranged as $n$ links against $n/2$ triangles, Poisson
-layers.}
+\caption{\label{tab:tc}Clustering lowers $T_c$ at fixed degree distribution.
+Left: an $n$-regular graph against $n/2$ triangles per vertex, which have
+identical $p_d$ and $e_{dd'}$. Right: Poisson layers, compared against a
+configuration model carrying the triangle ensemble's own excess degree
+$\ave{\kbar}=n+1$. Matching only the mean degree, as a Poisson link layer with
+$\ave{\kbar}=n$ does, reverses the apparent sign.}
 \begin{ruledtabular}
-\begin{tabular}{rrrr}
-neighbours & $t_c$ links & $t_c$ triangles & $T_c$ gain \\
+\begin{tabular}{rrrrrr}
+ & \multicolumn{3}{c}{regular} & \multicolumn{2}{c}{Poisson} \\
+$n$ & links & triangles & $\Delta T_c$ & matched null & $\Delta T_c$ \\
 \colrule
- 4 & 0.25000 & 0.20871 & $+20.6\%$ \\
- 6 & 0.16667 & 0.14590 & $+14.5\%$ \\
- 8 & 0.12500 & 0.11252 & $+11.2\%$ \\
-10 & 0.10000 & 0.09167 & $+9.1\%$ \\
-20 & 0.05000 & 0.04773 & $+4.8\%$ \\
+ 4 & 0.33333 & 0.38197 & $-13.9\%$ & 0.20000 & $-4.3\%$ \\
+ 6 & 0.20000 & 0.20871 & $-4.3\%$  & 0.14286 & $-2.1\%$ \\
+ 8 & 0.14286 & 0.14590 & $-2.1\%$  & 0.11111 & $-1.3\%$ \\
+10 & 0.11111 & 0.11252 & $-1.3\%$  & 0.09091 & $-0.8\%$ \\
+20 & 0.05263 & 0.05278 & $-0.3\%$  & 0.04762 & $-0.2\%$ \\
 \end{tabular}
 \end{ruledtabular}
 \end{table}
 
-\subsection{Independent checks}
+What is not visible to $\{p_d,e_{dd'}\}$ is therefore the \emph{magnitude} of
+the shift, not its existence: no configuration model on the same degree
+distribution reproduces the triangle ensemble's $T_c$, and
+Eq.~\eqref{eq:uprime} supplies the difference in closed form. The two ensembles
+themselves are of course distinguishable --- by their clustering coefficient, if
+by nothing else.
 
-Two calculations that share no derivation with Sec.~\ref{sec:stability} return
-the same transition. Carrying the message as the distribution itself and
-iterating a population of samples --- the up step a Poisson-compound
-convolution, the down step Eq.~\eqref{eq:emitted} evaluated numerically ---
-gives $\beta J_c=0.164628$ against $0.168236$ for the graph and $0.144343$
-against $0.146947$ for the triangle network at six neighbours either way, errors
-of $2.1\%$ and $1.8\%$. Both sit low for the same reason: with finitely many
-sweeps the bisection calls a slowly decaying magnetisation ordered. The bias is
-common, so the ratio, which is the physical claim, is an order of magnitude
-better than either endpoint: a $T_c$ gain of $14.05\%$ against the
-closed-form $14.49\%$.
+\subsection{Checks}
 
-Independently again, the gap between the ordered and paramagnetic branches of
-Eq.~\eqref{eq:bethe} is zero to machine precision at $0.8$ and $0.95$ of
-$\beta J_c$ and lifts off positively above, for both structures. That locates
-the transition thermodynamically, using neither the linearisation nor the order
-parameter. Evaluating Eq.~\eqref{eq:bethe} requires one numerical precaution:
-split $\ln Z_i=\ln2+\ln\cosh h$ and take the first piece exactly, since sampling
-it costs a bias of order $\sqrt{\ave{k}/n}\,\ln2$, larger than the free-energy
-differences at issue.
+Three calculations test Eqs.~\eqref{eq:branch} and~\eqref{eq:uprime}, and one
+tests the physics. The distinction matters and is drawn explicitly, because the
+first three share the paper's own equations and cannot by themselves establish
+that the ensemble comparison is the right one.
 
-Finally, the derivative of the numerically emitted field at zero field agrees
-with Eq.~\eqref{eq:uprime} to $10^{-8}$ for $c=2,3$ across $\beta J=0.2$ to $2$,
-and at $c=2$ the emitted field reproduces $\mathrm{atanh}(\tanh\beta J\tanh h)$
-to $10^{-12}$ at every field.
+Carrying the message as a distribution and iterating a population of samples ---
+the up step a Poisson-compound convolution, the down step Eq.~\eqref{eq:emitted}
+evaluated numerically --- gives $\beta J_c=0.164628$ against the closed-form
+$0.168236$ for a graph at six neighbours and $0.144343$ against $0.146947$ for
+the corresponding triangle network, errors of $2.1\%$ and $1.8\%$, both low
+because a finite sweep budget calls a slowly decaying magnetisation ordered.
+Independently, the gap between the ordered and paramagnetic branches of
+Eq.~\eqref{eq:bethe} is zero to machine precision below the transition and lifts
+off above it, at the same place. And the derivative of the numerically emitted
+field agrees with Eq.~\eqref{eq:uprime} to $10^{-8}$ for $c=2$ and $c=3$. All
+three are implementation checks: two evaluations of the same analytic object,
+or two solutions of the same fixed point.
+
+The physical test is a direct simulation, which uses no cavity equation.
+Wolff cluster updates on a $4$-regular random graph and on a network of two
+triangles per vertex --- the pair of Table~\ref{tab:tc}, every vertex at degree
+exactly $4$ in both --- give the Binder cumulant crossings
+\begin{equation}
+  T_c^{\mathrm{links}}=2.894,\qquad T_c^{\mathrm{tri}}=2.482,
+  \label{eq:mc}
+\end{equation}
+at $n=3000$ and $12000$, against $2.8854$ and $2.4853$ from
+Eq.~\eqref{eq:branch}: agreement to $0.29\%$ and $0.14\%$, and a shift of
+$-14.2\%$ against a predicted $-13.9\%$. Both the size and the sign of the
+clustering effect are therefore confirmed outside the formalism.
 
 \subsection{A different interaction inside the complex}
 \label{sec:simplicial}
@@ -506,7 +607,7 @@ rather than a new theory. The simplicial Ising model of Son, Lee and Goh
 \cite{SLG26} is the test case: a hyperedge lowers the energy only when all its
 members agree,
 \begin{equation}
-  H=-\sum_e J_{|e|}\,\delta_{\{S_i\}_{i\in e}}-H\sum_i S_i,
+  \mathcal{H}=-\sum_e J_{|e|}\,\delta_{\{S_i\}_{i\in e}}-B\sum_i S_i,
   \label{eq:sim}
 \end{equation}
 with $\delta$ equal to one on the two unanimous states and zero on the other
@@ -522,11 +623,17 @@ The sum closes. With $a=\beta J_q$ and the other members at cavity field $h$,
 so the emitted field is elementary at any cardinality, where the all-pairs
 clique of Sec.~\ref{sec:ising} needs an enumeration, and
 \begin{equation}
-  u'=\frac{(q-1)(e^{a}-1)}{2^{q-1}+e^{a}-1},
+  u'=\frac{e^{a}-1}{2^{q-1}+e^{a}-1},
   \label{eq:simu}
 \end{equation}
 which is $\tanh(\beta J/2)$ at $q=2$: a simplicial pair is an ordinary bond of
-half the coupling, since $\delta_{S_0S_1}=(1+S_0S_1)/2$.
+half the coupling, since $\delta_{S_0S_1}=(1+S_0S_1)/2$. Equation
+\eqref{eq:simu} is the derivative with respect to \emph{one} other member's
+field, the same convention as Eq.~\eqref{eq:uprime}, so the multiplicity $q-1$
+is supplied by Eq.~\eqref{eq:branch} and not here. Differentiating instead with
+respect to a field common to all $q-1$ others multiplies Eq.~\eqref{eq:simu} by
+$q-1$; that combination is what enters a symmetric fixed point directly, and
+using it in Eq.~\eqref{eq:branch} would count the multiplicity twice.
 
 \emph{One caveat, and it is the substantive one.} The branching matrix
 \eqref{eq:branch} locates a linear instability of the paramagnet. Where the
@@ -578,6 +685,26 @@ higher-order one by a factor of forty. Each of those is a claim of
 Ref.~\cite{SLG26}, recovered without changing anything outside
 Eq.~\eqref{eq:simZ}.
 
+Figure~\ref{fig:simplicial} shows both transitions and the comparison that
+locates the second: the two branches of the order parameter with the
+coexistence window between them, and the free-energy difference crossing zero
+inside it.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_simplicial.pdf}
+\caption{\label{fig:simplicial}The double transition of the simplicial Ising
+model at $q=16$ with $(J_q,J_2,k_q,k_2)=(0.3,0.7,4,4)$. Left: the order
+parameter continued from an ordered and from a disordered start. The continuous
+transition is at $T=1.0108$; the shaded band is the coexistence window
+$0.9770<T<0.9810$, inside which the two branches differ. Right: the difference
+of $-\beta f$ between the branches, Eq.~\eqref{eq:bethe} with the simplicial
+interior, across that window. It changes sign at $T_c=0.9790$, which is the
+first-order transition; the spinodal alone would have put it at the window's
+lower edge and been wrong by $0.2\%$ here and by ten to fifty per cent for
+$q$-uniform hyperlattices.}
+\end{figure*}
+
 The same calculation on $q$-uniform hyperlattices at chy-degree $4$ gives
 $T_c=0.938$, $0.714$ and $0.480$ for $q=6$, $8$ and $12$, each strictly inside
 its metastability limits and each with $\Delta m>0.9$; at $q=3$ no coexistence
@@ -614,9 +741,12 @@ $z=1$,
 The map is order-\emph{reversing}: raising any message lowers every message.
 Plain iteration therefore oscillates and, past the point where the map loses
 stability, never settles --- which is how Ref.~\cite{VW03} detects that point.
-It need not be. For an order-reversing $F$ the composition $F\circ F$ is
-order-preserving, so iterating it from $0$ and from $1$ returns its least and
-greatest fixed points $a\leq b$ with $F(a)=b$; $a=b$ is a single stable fixed
+It need not be. For an $F$ continuous and order-reversing on $[0,1]^{L}$ ---
+both hold for Eq.~\eqref{eq:hs}, since $\bar\Phi^{(m)}$ is a power series with
+non-negative coefficients and $\sigma\mapsto1-\sigma^{c-1}$ is decreasing ---
+the composition $F\circ F$ is continuous and order-preserving, so iterating it
+from $0$ and from $1$ returns its least and greatest fixed points $a\leq b$ with
+$F(a)=b$; $a=b$ is a single stable fixed
 point and $a<b$ is a period-two orbit with the fixed point of $F$ strictly
 between them, unstable. The bracket finds the solution and diagnoses it at once.
 
@@ -624,8 +754,8 @@ between them, unstable. The bracket finds the solution and diagnoses it at once.
 
 At cardinality two Eq.~\eqref{eq:hs} is the vertex cover problem of
 Ref.~\cite{VW03}, and for uncorrelated Poisson graphs the cover size reduces to
-the Weigt--Hartmann form $1-(2W+W^2)/(2c)$ with $W=\mathcal{W}(c)$, reproduced
-to ten digits. With the degree correlations $e_{dd'}=q_d[r\delta_{dd'}+(1-r)
+the Weigt--Hartmann form \cite{WH00} $1-(2W+W^2)/(2c)$ with $W=\mathcal{W}(c)$,
+reproduced to ten digits. With the degree correlations $e_{dd'}=q_d[r\delta_{dd'}+(1-r)
 q_{d'}]$ of Ref.~\cite{VW03} the map closes on a single scalar and the bracket
 above locates the loss of stability at $r=0.70$ for $\gamma=2.5$ and $r=0.7802$
 for $\gamma=3.0$; the first is quoted to two figures because with
@@ -647,9 +777,11 @@ coincides with the accepted replica-symmetry-breaking point, which is why $e$
 comes out; above $c=2$ it does not, for the reason given in
 Sec.~\ref{sec:hardfield}, and Sec.~\ref{sec:soft} gives the criterion that does.
 Read in those terms, two effects are worth recording. Spread in cardinality
-moves the point upward: at fixed mean excess cardinality $2$ it runs from
-$\ave{k}\bar c=2.72$ for uniform $c=3$ to $4.84$ for an equal mixture of $c=2$
-and $c=4$ and $6.83$ for a three-to-one mixture of $c=2$ and $c=6$, so
+moves the point upward. The quantity held fixed is the mean number of
+\emph{neighbours} a complex supplies, $\nu=\sum_l\ave{k_l}(c_l-1)/\sum_l\ave{k_l}$,
+set to $2$; the quantity reported is $\ave{k}\nu$, the mean number of neighbours
+per node. It runs from $2.72$ for uniform $c=3$ to $4.84$ for an equal mixture
+of $c=2$ and $c=4$ and $6.83$ for a three-to-one mixture of $c=2$ and $c=6$, so
 heterogeneity keeps certification working longer --- the same direction the
 degree heterogeneity of Ref.~\cite{VW03} acts. Correlation across cardinalities
 acts the other way: anti-correlating a node's participation in small and large
@@ -745,7 +877,7 @@ represent. The full field is $O(1)$, $H=-\ln(K-1)$, and $\rho=1/K$ says the
 counting bound is saturated --- one member of every complex and no waste.
 
 Table~\ref{tab:soft} collects the repair. Disjoint $3$-hyperedges return $1/3$;
-the graph at $K=2$ returns the Weigt--Hartmann cover size, as it must since hard
+the graph at $K=2$ returns the Weigt--Hartmann \cite{WH00} cover size, since hard
 and soft fields agree there; and the correction grows with the weight the
 ensemble puts on complexes of cardinality three or more, reaching $56\%$ for
 $c=4$ alone and falling below $1\%$ once ordinary edges dominate.
@@ -799,7 +931,7 @@ estimator brings that within reach. The regular case is exact because symmetry
 removes the sampling entirely. And the criterion is sufficient but not
 necessary: a negative $s$ proves the replica-symmetric answer wrong, a positive
 one does not prove it right, since the solution can be unstable while its
-entropy is still positive. Vertex cover on Erd\H{o}s--R\'enyi graphs is the
+entropy is still positive, the general cavity situation of Ref.~\cite{MP01}. Vertex cover on Erd\H{o}s--R\'enyi graphs is the
 example --- replica symmetry breaks at mean degree $e$, yet
 Eq.~\eqref{eq:sgen} gives $s=+0.093(8)$ at mean degree $1$ and a value still
 positive at $3$. Reference~\cite{MT07} pairs the entropy with a separate
@@ -883,6 +1015,32 @@ edge separate the two --- Möbius inversion puts $-1$ on the shared \emph{edge},
 Eq.~\eqref{eq:bethe} puts $-1$ on each endpoint. Both count nodes correctly; only
 one subtracts the correlation.
 
+That example is small enough to settle by enumeration, which is worth doing
+rather than asserting. Four spins, all pairs coupled inside each triangle, with
+$\ln Z$ evaluated exactly and under the two counting schemes, gives
+Table~\ref{tab:kikuchi}. The correction is a factor of three to eighty, and the
+two schemes err in opposite directions: Eq.~\eqref{eq:bethe} overestimates
+$\ln Z$ because it subtracts the two shared vertices independently and so never
+removes the correlation between them, while Eq.~\eqref{eq:mobius} removes it and
+slightly overshoots. That is the size of what the present treatment leaves on
+the table.
+
+\begin{table}[b]
+\caption{\label{tab:kikuchi}Two triangles sharing an edge: $\ln Z$ for four spins
+with all-pairs coupling inside each triangle, exactly and under the two counting
+schemes.}
+\begin{ruledtabular}
+\begin{tabular}{rrrr}
+$\beta J$ & exact & Kikuchi error & Bethe error \\
+\colrule
+0.2 & 2.8887 & $-1.4\times10^{-3}$ & $+1.8\times10^{-2}$ \\
+0.5 & 3.5907 & $-2.9\times10^{-2}$ & $+9.1\times10^{-2}$ \\
+1.0 & 5.7390 & $-6.6\times10^{-2}$ & $+3.7\times10^{-1}$ \\
+2.0 & 10.6938 & $-1.7\times10^{-2}$ & $+1.3$ \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
 Table~\ref{tab:overlap} measures the cost on the graphs that motivated this.
 Maximal cliques are taken as complexes and the chy-degree ensemble is measured
 from the graph itself, so the prediction uses no fitted quantity; the control
@@ -904,22 +1062,44 @@ $\tau$ & $\ave{k}$ & chygraph & rewired & measured \\
 \end{ruledtabular}
 \end{table}
 
-The prediction agrees with the rewired control to $10^{-3}$, so
-Eq.~\eqref{eq:core} is right on its own terms on a measured, multi-layer,
-non-Poisson ensemble; the remaining discrepancy against the real graph is
+The comparison with the rewired control is the sharpest check in this section
+and deserves saying plainly. It holds the clique ensemble fixed and changes only
+the arrangement, so it separates two things that would otherwise be confounded:
+whether Eq.~\eqref{eq:core} is right, and whether treating complexes as
+independent is. The prediction agrees with that control to $10^{-3}$ on a
+measured, multi-layer, non-Poisson ensemble --- so the map is right on its own
+terms, and every discrepancy against the real graph is attributable to overlap
+rather than shared between the two. the remaining discrepancy against the real graph is
 therefore overlap and nothing else, the ensemble being held fixed. The chygraph
 accounts for $65$ to $83\%$ of the core, and the degree-matched configuration
 model has none at all at these densities, predicted or measured.
 
 The magnitude is only half the question, and the weaker half. What the
 construction has to reproduce is the \emph{shape}: on these graphs the core is a
-pure power law, $\mathrm{core}\sim\ave{k}^{\beta}$, down to $\ave{k}=0.05$ and
+pure power law, $\mathrm{core}\sim\ave{k}^{\,\theta}$, down to $\ave{k}=0.05$ and
 with no transition, where the degree-matched model has no core until
 $\ave{k}\simeq4.5$--$10$. Figure~\ref{fig:pred4} and Table~\ref{tab:pred4} run the comparison over three
 decades in density, the ensemble measured from each graph so that nothing is
-fitted. The exponents agree to $0.03$ and $0.06$ at $\tau=2.5$ and $2.9$, and
-the control has no core anywhere in the fitted range --- on logarithmic axes it
-does not appear at all.
+fitted. The control has no core anywhere in the fitted range --- on logarithmic
+axes it does not appear at all --- and the chygraph does, which is the
+qualitative separation the construction was built for.
+
+How much that separation is worth should be stated plainly, because it is less
+than it looks. Section~\ref{sec:core} shows that \emph{any} layer of cardinality
+three or more removes the core-free branch, so a positive prediction follows
+from the algebra the moment one triangle enters the ensemble, whatever else the
+graph is doing. The exponent is the part that could have failed, and there the
+evidence is weaker than the central values suggest. Bootstrapping over seeds,
+the predicted exponent is $1.571\pm0.013$, $1.553\pm0.035$ and $1.573\pm0.011$
+at $\tau=2.1$, $2.5$ and $2.9$: a spread of $0.02$, consistent with no $\tau$
+dependence at all. The measured exponent spreads by $0.143$ and rises
+monotonically with $\tau$. The two agree at $\tau=2.5$ within errors and
+disagree at $\tau=2.9$ by roughly four standard deviations. What the comparison
+establishes is therefore that the chygraph produces a power law of about the
+right exponent, not that it tracks the exponent's dependence on the tail. A
+sharper test would need an ensemble in which the predicted exponent is made to
+move, and an analytic account of what fixes it near $1.57$ in
+Eq.~\eqref{eq:core}; neither is attempted here.
 
 \begin{figure*}[t]
 \centering
@@ -941,16 +1121,20 @@ where the clique ensemble has no $n$-independent second moment
 
 \begin{table}[t]
 \caption{\label{tab:pred4}Leaf-removal core of hyperbolic random graphs as a
-power law in mean degree, $\mathrm{core}\sim\ave{k}^{\beta}$, fitted on
-$\ave{k}\leq1$ at $n=2\times10^{5}$. ``chygraph'' uses the maximal-clique
-ensemble measured from each graph.}
+power law in mean degree, $\mathrm{core}\sim\ave{k}^{\,\theta}$, fitted on
+$\ave{k}\leq1$ at $n=2\times10^{5}$. Uncertainties are bootstrap over seeds.
+The predicted exponent does not move with $\tau$; the measured one does.
+$\theta$ is used for structural exponents throughout, $\beta$ being reserved for
+the inverse temperature.}
 \begin{ruledtabular}
 \begin{tabular}{lccc}
-$\tau$ & $\beta$ measured & $\beta$ chygraph & $\beta$ control \\
+$\tau$ & $\theta$ measured & $\theta$ chygraph & $\theta$ control \\
 \colrule
-2.5 & 1.584 & 1.551 & no core \\
-2.9 & 1.635 & 1.573 & no core \\
-2.1 & 1.491 & 1.571 & no core \\
+2.5 & $1.590\pm0.061$ & $1.553\pm0.035$ & no core \\
+2.9 & $1.635\pm0.008$ & $1.573\pm0.011$ & no core \\
+2.1 & $1.493\pm0.060$ & $1.571\pm0.013$ & no core \\
+\colrule
+spread & $0.143$ & $0.020$ & --- \\
 \end{tabular}
 \end{ruledtabular}
 \end{table}
@@ -976,13 +1160,13 @@ clustering-free baselines.
 
 \begin{table}[t]
 \caption{\label{tab:ensemble}Excess cardinality $\bar s$ of the maximal-clique
-distribution, and its growth exponent in $n$ over $10^{3}$--$3\times10^{5}$.
+distribution, and its growth exponent $\theta$ in $n$ over $10^{3}$--$3\times10^{5}$.
 ``control'' is the degree-matched configuration model; the paired ratio is taken
 at identical degree sequence and seed, so $P(k)$ and assortativity are held
 fixed and clustering is the only difference.}
 \begin{ruledtabular}
 \begin{tabular}{lcccc}
-$\tau$ & $\beta$ (HRG) & $\beta$ (control) & ratio & $\beta$ (ratio) \\
+$\tau$ & $\theta$ (HRG) & $\theta$ (control) & ratio & $\theta$ (ratio) \\
 \colrule
 2.9 & $0.000$--$0.001$ & $-0.03$--$0.00$ & 1.76--4.77 & $+0.003$--$0.028$ \\
 2.5 & $0.009$--$0.024$ & $-0.00$--$0.01$ & 1.79--3.52 & $+0.009$--$0.015$ \\
@@ -1018,92 +1202,33 @@ $n$-independent second moment below $\tau=2.5$: the measured ensemble is not
 converged there and neither is anything built on it. Closing the remaining
 deficit means passing messages between regions rather than between complexes;
 Eq.~\eqref{eq:mobius} says where the present counting is wrong without repairing
-the map.
+the map. That repair is generalised belief propagation \cite{YFW05}, for which
+Ref.~\cite{CN19} is the natural point of comparison.
 
 \section{Implementation}
 \label{sec:code}
 
 Everything above is one object. A chygraph is fixed by its complex layers, their
-cardinalities $c_l$ and the chy-degree distribution, and a single class
-\code{Chygraph} holds that structure; each calculation in this paper is one of
-its methods. Where a calculation needs the full generating function rather than
-its moments it is supplied as \code{phi}, and otherwise the independent-Poisson
-form is built from the mean chy-degrees; \code{regular=True} selects fixed
-chy-degree, for which the excess is $\ave{\kappa}_l-1$ rather than
-$\ave{\kappa}_l$.
+cardinalities and the chy-degree distribution, and a single class holds that
+structure while each calculation in this paper is one of its methods. The
+mapping from every numbered equation to the method that evaluates it is given in
+the Supplemental Material, and the code is available at the repository cited in
+the acknowledgments.
 
-\begin{table}[t]
-\caption{\label{tab:methods}Where each result comes from. All
-methods are on \code{Chygraph}; those returning an object are followed by the
-call that produces the number.}
-\begin{ruledtabular}
-\footnotesize
-\begin{tabular}{ll}
-result (Eq.) & method \\
-\colrule
-\multicolumn{2}{l}{\emph{structure}}\\
-emitted field \eqref{eq:emitted} & \code{emitted\_field} \\
-branching matrix $B$ \eqref{eq:branch} & \code{branching\_matrix} \\
-reweighted tensor \eqref{eq:reweight} & \code{stability\_tensor} \\
-stability at $Q^{\ast}$ \eqref{eq:exchange} & \code{fixed\_point\_stability()} \\
-order-reversing solver & \code{solve\_anti\_monotone} \\
-\colrule
-\multicolumn{2}{l}{\emph{Ising, Sec.~\ref{sec:ising}}}\\
-$u'$ of a complex \eqref{eq:uprime} & \code{u\_prime} \\
-$T_c$, continuous \eqref{eq:branch} & \code{critical\_coupling} \\
-de Almeida--Thouless \eqref{eq:reweight} & \code{critical\_coupling(squared=True)} \\
-field distributions & \code{population().magnetisation()} \\
-free energy \eqref{eq:bethe} & \code{free\_energy().minus\_beta\_f()} \\
-paramagnetic $-\beta f$ \eqref{eq:para} & \code{paramagnetic\_free\_energy} \\
-\colrule
-\multicolumn{2}{l}{\emph{simplicial interaction, Sec.~\ref{sec:simplicial}}}\\
-spinodal \eqref{eq:simu} & \code{simplicial().spinodal()} \\
-metastability limits & \code{simplicial().coexistence()} \\
-first-order $T_c$ \eqref{eq:simTc} & \code{simplicial().transition()} \\
-\colrule
-\multicolumn{2}{l}{\emph{hitting set and vertex cover, Sec.~\ref{sec:hs}}}\\
-hard-field map \eqref{eq:hs} & \code{hitting\_set().solve()} \\
-correlated $e_{dd'}$ \cite{VW03} & \code{vertex\_cover\_correlated()} \\
-$\ave{k}(c-1)=e$ \eqref{eq:kc} & \code{hitting\_set().is\_unstable()} \\
-cover size, $c=2$ \eqref{eq:hs} & \code{hitting\_set().cover\_size()} \\
-cover size, any $c$ \eqref{eq:soft} & \code{hitting\_set\_bp().run().density()} \\
-validity \eqref{eq:sgen} & \code{hitting\_set\_bp().run().entropy()} \\
-induced-graph cover \eqref{eq:vc} & \code{clique\_cover().cover\_size()} \\
-\colrule
-\multicolumn{2}{l}{\emph{core percolation, Sec.~\ref{sec:core}}}\\
-three-state map \eqref{eq:core} & \code{core().solve()} \\
-core fraction \eqref{eq:zk} & \code{core().core\_fraction()} \\
-measured ensemble & \code{from\_samples().core\_from\_samples()} \\
-\colrule
-\multicolumn{2}{l}{\emph{overlap, Sec.~\ref{sec:regions}}}\\
-counting numbers \eqref{eq:mobius} & \code{regions().counting} \\
-distance from treelike & \code{overlap\_profile} \\
-clique ensemble, Table~\ref{tab:ensemble} & \code{excess\_cardinality} \\
-\end{tabular}
-\end{ruledtabular}
-\end{table}
-
-Table~\ref{tab:methods} lists them. Three points about the arrangement are
-worth making, because each corresponds to something the paper argues.
-
-First, \code{emitted\_field} is exposed rather than buried. Equation
-\eqref{eq:emitted} takes the interior Hamiltonian as an argument, so a new
-higher-order interaction is a function passed in, not a subclass: that is what
-made Sec.~\ref{sec:simplicial} a substitution rather than a rewrite.
-
-Second, the two hitting-set methods are deliberately separate.
-\code{hitting\_set} is the hard-field map and \code{hitting\_set\_bp} keeps the
-$O(1)$ fields; they answer different questions and agree only at cardinality
-two. \code{certified()} on the first reports whether its cover size can be
-believed, and it is not an independent assumption --- it returns true exactly
-when every cardinality is two, which by Sec.~\ref{sec:core} is when the
-leaf-removal core has a core-free branch.
-
-Third, \code{critical\_coupling} refuses the simplicial interaction and directs
-the caller to \code{simplicial().spinodal()}. The refusal is deliberate: for
-that model the transition is usually discontinuous, the Perron condition then
-locates the spinodal, and returning it under the name of a critical coupling
-would be wrong by ten to fifty per cent.
+Three points about the arrangement carry physical content rather than
+bookkeeping. First, the intra-complex sum of Eq.~\eqref{eq:emitted} takes the
+interior Hamiltonian as an argument rather than hard-coding it, which is what
+made Sec.~\ref{sec:simplicial} a substitution rather than a rederivation.
+Second, the hard-field and soft-field hitting-set solvers are kept separate
+rather than unified behind one interface, because they answer different
+questions and agree only at cardinality two; the routine that reports whether
+the hard-field cover size can be believed returns true exactly when every
+cardinality is two, which by Sec.~\ref{sec:core} is exactly when the
+leaf-removal core has a core-free branch. Third, the routine that returns a
+critical coupling refuses the simplicial interaction and directs the caller to
+the spinodal instead, because for that model the transition is usually
+discontinuous and returning a spinodal under the name of a critical coupling
+would be wrong by ten to fifty per cent --- as Sec.~\ref{sec:simplicial} shows.
 
 \section{Conclusions}
 \label{sec:conclusions}
@@ -1116,10 +1241,14 @@ Eq.~\eqref{eq:branch}, however large the complexes are.
 
 For the Ising model this is complete. Critical temperatures and de
 Almeida--Thouless lines follow for any chygraph whose complexes can be
-enumerated, and the result they deliver --- a triangle transmits
-$t/(1-t+t^2)$ rather than $t$, so clustering raises $T_c$ by $14.5\%$ at matched
-mean degree --- is invisible to $\{p_d,e_{dd'}\}$ and was confirmed by
-population dynamics and by the free energy, neither sharing the derivation.
+enumerated. The result they deliver is that a complex transmits more per
+neighbour than an edge, $t/(1-t+t^2)$ against $t$ for a triangle, but also
+removes a branch from Eq.~\eqref{eq:branch}, and the second effect is the
+larger: at fixed degree distribution clustering \emph{lowers} $T_c$, by $13.9\%$
+for two triangles per vertex against the $4$-regular graph. Monte Carlo puts the
+shift at $-14.2\%$. What no configuration model on the same degree distribution
+reproduces is the magnitude, and Eq.~\eqref{eq:uprime} supplies it in closed
+form.
 
 For hitting set the hard-field limit, Eq.~\eqref{eq:hs}, is complete only at
 cardinality two: its order-reversing structure is general and $\ave{k}(c-1)=e$
@@ -1167,6 +1296,24 @@ manuscript.
 
 \bibitem{vazquez2024comnet} A.\ V\'azquez,
   J.\ Complex Netw.\ (2024), 10.1093/comnet/cnae047.
+
+\bibitem{New09} M.\ E.\ J.\ Newman,
+  Phys.\ Rev.\ Lett.\ \textbf{103}, 058701 (2009).
+
+\bibitem{KN10} B.\ Karrer and M.\ E.\ J.\ Newman,
+  Phys.\ Rev.\ E \textbf{82}, 066118 (2010).
+
+\bibitem{Yoon11} S.\ Yoon, A.\ V.\ Goltsev, S.\ N.\ Dorogovtsev, and
+  J.\ F.\ F.\ Mendes, Phys.\ Rev.\ E \textbf{84}, 041144 (2011).
+
+\bibitem{CN19} G.\ T.\ Cantwell and M.\ E.\ J.\ Newman,
+  Proc.\ Natl.\ Acad.\ Sci.\ U.S.A.\ \textbf{116}, 23398 (2019).
+
+\bibitem{Liu12} Y.-Y.\ Liu, E.\ Cs\'oka, H.\ Zhou, and M.\ P\'osfai,
+  Phys.\ Rev.\ Lett.\ \textbf{109}, 205703 (2012).
+
+\bibitem{Cou20} B.\ C.\ Coutinho, A.-K.\ Wu, H.-J.\ Zhou, and F.\ Radicchi,
+  Phys.\ Rev.\ Lett.\ \textbf{124}, 248301 (2020).
 
 \bibitem{WH00} M.\ Weigt and A.\ K.\ Hartmann,
   Phys.\ Rev.\ Lett.\ \textbf{84}, 6118 (2000).

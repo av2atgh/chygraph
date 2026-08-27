@@ -23,13 +23,40 @@ def test_pairwise_simplicial_is_a_half_coupling_bond(bJ, h):
         np.arctanh(np.tanh(bJ / 2) * np.tanh(h)), abs=1e-12)
 
 
+def _emit_independent(q, a, h):
+    """Emitted field with q-1 *independent* member fields, by enumeration."""
+    import itertools
+    Z = {}
+    for s0 in (1, -1):
+        tot = 0.0
+        for rest in itertools.product((1, -1), repeat=q - 1):
+            e = a if all(s == s0 for s in rest) else 0.0
+            tot += np.exp(e + sum(hi * si for hi, si in zip(h, rest)))
+        Z[s0] = tot
+    return 0.5 * np.log(Z[1] / Z[-1])
+
+
+@pytest.mark.parametrize('q', [2, 3, 5])
+@pytest.mark.parametrize('bJ', [0.2, 0.8, 3.0])
+def test_uprime_is_per_neighbour(q, bJ):
+    """u' = (e^a - 1)/(2^{q-1} + e^a - 1), the derivative with respect to ONE
+    other member's field, matching ising.clique_derivative's convention."""
+    eps = 1e-6
+    hp = [eps] + [0.0] * (q - 2)
+    hm = [-eps] + [0.0] * (q - 2)
+    num = (_emit_independent(q, bJ, hp) - _emit_independent(q, bJ, hm)) / (2 * eps)
+    assert uprime(q, bJ) == pytest.approx(num, abs=1e-7)
+
+
 @pytest.mark.parametrize('q', [2, 3, 5, 16])
 @pytest.mark.parametrize('bJ', [0.2, 0.8, 3.0])
-def test_uprime_closed_form(q, bJ):
-    """u' = (q-1)(e^a - 1)/(2^{q-1} + e^a - 1) against the derivative itself."""
+def test_common_field_derivative_is_q_minus_one_times_uprime(q, bJ):
+    """The multiplicity trap: differentiating with respect to a field common to
+    all q-1 members gives (q-1) u'.  Using that in the branching matrix, which
+    supplies c-1 itself, counts the multiplicity twice."""
     eps = 1e-6
-    num = float((emitted(q, bJ, eps) - emitted(q, bJ, -eps)) / (2 * eps))
-    assert uprime(q, bJ) == pytest.approx(num, abs=1e-7)
+    common = float((emitted(q, bJ, eps) - emitted(q, bJ, -eps)) / (2 * eps))
+    assert common == pytest.approx((q - 1) * uprime(q, bJ), rel=1e-5)
 
 
 @pytest.mark.parametrize('bJ', [1e-6, 0.8, 50.0, 900.0])
@@ -40,9 +67,23 @@ def test_uprime_survives_low_temperature(bJ):
     assert np.isfinite(u) and 0.0 <= u <= 4.0
 
 
-def test_uprime_saturates_at_q_minus_one():
+def test_uprime_saturates_at_one():
+    """Per neighbour, u' -> 1 at zero temperature for every cardinality."""
     for q in (2, 5, 16):
-        assert uprime(q, 900.0) == pytest.approx(q - 1, rel=1e-12)
+        assert uprime(q, 900.0) == pytest.approx(1.0, rel=1e-12)
+
+
+def test_both_routes_to_the_spinodal_agree():
+    """SimplicialChygraph supplies (q-1) itself; Chygraph.branching_matrix does
+    too.  Their Perron roots must both be 1 at the spinodal."""
+    from chygraph_statmech import Chygraph
+    for q, k in ((2, 4), (3, 4), (6, 4)):
+        M = SimplicialChygraph([q], [k], [1.0])
+        Ts = M.spinodal(lo=1e-2, hi=60.0)
+        g = Chygraph([q], [float(k)], excess=[float(k - 1)])
+        rho = float(np.max(np.abs(np.linalg.eigvals(
+            g.branching_matrix(1.0 / Ts, 'simplicial')))))
+        assert rho == pytest.approx(1.0, abs=1e-6)
 
 
 # ---------------------------------------------------------------------------
