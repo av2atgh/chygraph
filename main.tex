@@ -21,31 +21,32 @@ Cambridge, CB1 2LA, UK}
 \begin{abstract}
 A chygraph is a set of complexes whose vertices are themselves complexes, a
 construction that promotes a dense motif to a complex and leaves the structure
-over complexes treelike even where the underlying graph is not. Percolation on
-chygraphs is already solved and reduces to one self-consistency map. Here I
-carry that map to statistical mechanics on hypergraphs and higher-order
-structures. The extension is a single substitution: in the chy-degree step the
-argument of a generating function becomes a measure and the product a
-convolution, while the intra-complex step is an exact sum over the interior of a
-complex, whatever Hamiltonian is placed there. Critical points then follow from
-an $L\times L$ determinant, with $L$ the number of complex layers, however large
-the complexes. Four applications are worked through. For the Ising model a
-triangle solved exactly inside itself transmits $t/(1-t+t^{2})$ per neighbour
-rather than $t=\tanh\beta J$, so at matched mean degree clustering raises the
-critical temperature by $14.5\%$ between ensembles of identical degree
-distribution and assortativity, a shift confirmed independently by population
-dynamics and by the Bethe free energy. For the simplicial Ising model the same
-machinery returns the coexistence window and the first-order transition
-temperature, and makes the tricritical cardinality chy-degree dependent. For
-minimum hitting set the zero-temperature map is order-reversing, so iterating
-its square both finds the fixed point and diagnoses its stability; the
-hard-field limit is exact only at cardinality two, and keeping the $O(1)$ cavity
-fields repairs the cover size at every cardinality. For leaf-removal core
-percolation the message needs three states rather than one, and on hyperbolic
-random graphs the construction reproduces the power law by which the core grows
-with density, exponent $1.55$ against a measured $1.58$, where a degree-matched
-null model has no core at all. The limit of the construction is equally sharp:
-a chygraph is treelike only when its complexes meet in at most one node.
+over complexes treelike where the underlying graph is not. Percolation on
+chygraphs is solved; here I carry the same map to statistical mechanics on
+hypergraphs and higher-order structures. The extension is a single
+substitution: in the chy-degree step the argument of a generating function
+becomes a measure and the product a convolution, while the intra-complex step is
+an exact sum over the interior of a complex, whatever Hamiltonian is placed
+there. Critical points then follow from an $L\times L$ determinant, $L$ being
+the number of complex layers, however large the complexes. Known results ---
+Molloy--Reed, the Ising and de Almeida--Thouless lines, Weigt--Hartmann,
+Bauer--Golinelli, the regular-hypergraph hitting set of M\'ezard and Tarzia, and
+the simplicial Ising model --- are recovered as special cases. Beyond them, four
+results are new. A complex solved exactly inside itself transmits more than the
+sum of its edges: a triangle gives $t/(1-t+t^{2})$ per neighbour rather than
+$t=\tanh\beta J$, so at matched mean degree clustering raises the critical
+temperature by $14.5\%$ between ensembles of identical degree distribution and
+assortativity. Minimum hitting set loses its hard-field solution at
+$\ave{k}(c-1)=e$ for every cardinality, so hyperedge size does not move that
+point when counted in neighbours, while spread in cardinality delays it and
+correlation across cardinalities advances it --- an axis absent from any
+single-edge-type ensemble. Leaf-removal core percolation is a chygraph fixed
+point with a three-state message, and any layer of cardinality three or more
+removes its core-free branch entirely. On hyperbolic random graphs the
+construction reproduces the exponent with which the core grows with density,
+$1.55$ against $1.58$ measured, where a degree-matched null model has no core at
+all. The limit of the construction is equally sharp: a chygraph is treelike only
+when its complexes meet in at most one node, and what that costs is measured.
 \end{abstract}
 
 \maketitle
@@ -181,6 +182,33 @@ writing $\ave{\sbar}\ave{u'}$ assumes $u'$ is common to the layer. That is less
 a restriction than a definition of what a layer is, and when $u'$ depends on
 cardinality the remedy is to split the layer by cardinality.
 
+\subsection{Away from the trivial fixed point}
+\label{sec:fixedpoint}
+
+Equation~\eqref{eq:branch} is the Jacobian of the map at its \emph{trivial}
+fixed point, and its Perron root is $1+\Lambda$ with $\Lambda$ the threshold
+diagnostic of the percolation calculation. The same Jacobian evaluated at the
+fixed point the map actually reaches answers a different question --- whether
+the solution is stable --- and for percolation the answer is
+\begin{equation}
+  \rho\big(J(Q^{\ast})\big)=1-\Lambda+O(\Lambda^{2}),
+  \label{eq:exchange}
+\end{equation}
+verified to $0.15\%$ at $\Lambda=1.1\times10^{-3}$. The two roots leave $1$ at
+the same rate in opposite directions: an exchange of stability, made
+quantitative.
+
+One diagnostic does not survive the move, and it is worth naming because it is
+the natural thing to reach for. The sign of the leading eigenvalue does
+\emph{not} distinguish an order-preserving map from an order-reversing one. The
+coupled core of a chygraph alternates between the up and down message roles of
+Eqs.~\eqref{eq:up}--\eqref{eq:down}, so $J$ is a non-negative matrix of period
+two and Perron--Frobenius places eigenvalues at both $+\rho$ and $-\rho$. The
+signs of the \emph{entries} are the unambiguous test: non-negative for a map
+built from generating functions, non-positive for the hard-core maps of
+Sec.~\ref{sec:hs}. That distinction decides which solver applies, and
+Sec.~\ref{sec:hs} turns on it.
+
 \subsection{Free energy}
 \label{sec:freeenergy}
 
@@ -280,7 +308,11 @@ with no useful closed form beyond, but exact by enumeration at any cardinality.
 On a graph the transition is therefore $\ave{\kbar}\tanh\beta J=1$ and the de
 Almeida--Thouless line $\ave{\kbar}\tanh^2\beta J=1$, both textbook. On a
 triangle network it is $2\ave{\kbar}_T\,t/(1-t+t^2)=1$, and on links and
-triangles Eq.~\eqref{eq:LT}.
+triangles Eq.~\eqref{eq:LT}. Neither line needs a closed form to be evaluated:
+at chy-degree $2$ a clique layer gives $\beta J_c=0.5493$, $0.2118$, $0.1304$,
+$0.0940$, $0.0734$ for $c=2,\dots,6$, with the de Almeida--Thouless line at
+$0.8814$, $0.4024$, $0.2670$, $0.2015$, $0.1625$; the spin-glass instability
+always needs the stronger coupling, since $u'^{2}<u'$.
 
 The content of Eq.~\eqref{eq:uprime} is that $t/(1-t+t^2)>t$ on $0<t<1$ while
 reducing to $t$ at leading order: a triangle is two independent edges at high
@@ -787,10 +819,57 @@ $0.633$ against $0.621$. Same map, same pipeline, and cliques that barely
 overlap there. The deficit on the hyperbolic graph at the same density is
 therefore overlap and not the map.
 
-Two boundaries on this. At $\tau=2.1$ the chygraph \emph{over}-predicts, by up
+\subsection{When the clique ensemble exists}
+\label{sec:ensemble}
+
+Taking maximal cliques as complexes presumes the ensemble has a limit. What the
+threshold tensor needs is a finite excess cardinality seen from a member,
+$\bar s=\ave{c^{2}}/\ave{c}-1$, so the clique-size distribution needs a
+converged second moment. Table~\ref{tab:ensemble} measures it against two
+clustering-free baselines.
+
+\begin{table}[t]
+\caption{\label{tab:ensemble}Excess cardinality $\bar s$ of the maximal-clique
+distribution, and its growth exponent in $n$ over $10^{3}$--$3\times10^{5}$.
+``control'' is the degree-matched configuration model; the paired ratio is taken
+at identical degree sequence and seed, so $P(k)$ and assortativity are held
+fixed and clustering is the only difference.}
+\begin{ruledtabular}
+\begin{tabular}{lcccc}
+$\tau$ & $\beta$ (HRG) & $\beta$ (control) & ratio & $\beta$ (ratio) \\
+\colrule
+2.9 & $0.000$--$0.001$ & $-0.03$--$0.00$ & 1.76--4.77 & $+0.003$--$0.028$ \\
+2.5 & $0.009$--$0.024$ & $-0.00$--$0.01$ & 1.79--3.52 & $+0.009$--$0.015$ \\
+2.1 & $0.28$--$0.40$ & $0.42$--$0.58$ & $\to1$ & $-0.12$--$-0.18$ \\
+\colrule
+3.5 & flat & $\to1.00$ & 2.87--4.89 & flat \\
+4.5 & flat & $\to1.00$ & 2.93--5.06 & flat \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+For $\tau\geq2.5$ the moment converges and the paired ratio is a converged
+constant between $1.8$ and $4.8$: the clustering signal is a multiplicative
+factor, not a finite-size artefact. Erd\H{o}s--R\'enyi graphs, which have finite
+$\ave{k^{2}}$ and no clustering, sit at $\bar s=0.937$, $0.996$, $1.000$ for
+mean degree $2$, $4$, $8$, flat to three decimals across the same range, and the
+control above $\tau=3$ returns to that value. Those are the reference points.
+
+At $\tau=2.1$ both diverge and the control diverges \emph{faster}, so the paired
+ratio decays toward one. Nothing measured there separates clustering from the
+tail, which is why the last row of Table~\ref{tab:pred4} behaves differently
+from the first two and why $\tau>3$ has to be run at all: only where
+$\ave{k^{2}}$ is finite does a control with no geometry provide a clean
+baseline. That the clique number itself scales as $n^{0.37}$, $n^{0.20}$,
+$n^{0.07}$ at $\tau=2.1$, $2.5$, $2.9$, against the $n^{(3-\tau)/2}$ of
+Ref.~\cite{FK15}, is the check that the measurement reads the right quantity.
+
+\subsection{What is left}
+
+At $\tau=2.1$ the chygraph \emph{over}-predicts, by up
 to a third, which is consistent with the clique ensemble having no
 $n$-independent second moment below $\tau=2.5$: the measured ensemble is not
-converged there and neither is anything built on it. And closing the remaining
+converged there and neither is anything built on it. Closing the remaining
 deficit means passing messages between regions rather than between complexes;
 Eq.~\eqref{eq:mobius} says where the present counting is wrong without repairing
 the map.
@@ -820,6 +899,8 @@ result (Eq.) & method \\
 emitted field \eqref{eq:emitted} & \code{emitted\_field} \\
 branching matrix $B$ \eqref{eq:branch} & \code{branching\_matrix} \\
 reweighted tensor \eqref{eq:reweight} & \code{stability\_tensor} \\
+stability at $Q^{\ast}$ \eqref{eq:exchange} & \code{fixed\_point\_stability()} \\
+order-reversing solver & \code{solve\_anti\_monotone} \\
 \colrule
 \multicolumn{2}{l}{\emph{Ising, Sec.~\ref{sec:ising}}}\\
 $u'$ of a complex \eqref{eq:uprime} & \code{u\_prime} \\
@@ -836,6 +917,7 @@ first-order $T_c$ \eqref{eq:simTc} & \code{simplicial().transition()} \\
 \colrule
 \multicolumn{2}{l}{\emph{hitting set and vertex cover, Sec.~\ref{sec:hs}}}\\
 hard-field map \eqref{eq:hs} & \code{hitting\_set().solve()} \\
+correlated $e_{dd'}$ \cite{VW03} & \code{vertex\_cover\_correlated()} \\
 $\ave{k}(c-1)=e$ \eqref{eq:kc} & \code{hitting\_set().is\_unstable()} \\
 cover size, $c=2$ \eqref{eq:hs} & \code{hitting\_set().cover\_size()} \\
 cover size, any $c$ \eqref{eq:soft} & \code{hitting\_set\_bp().run().density()} \\
@@ -850,6 +932,7 @@ measured ensemble & \code{from\_samples().core\_from\_samples()} \\
 \multicolumn{2}{l}{\emph{overlap, Sec.~\ref{sec:regions}}}\\
 counting numbers \eqref{eq:mobius} & \code{regions().counting} \\
 distance from treelike & \code{overlap\_profile} \\
+clique ensemble, Table~\ref{tab:ensemble} & \code{excess\_cardinality} \\
 \end{tabular}
 \end{ruledtabular}
 \end{table}

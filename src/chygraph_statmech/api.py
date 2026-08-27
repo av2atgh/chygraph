@@ -239,6 +239,43 @@ class Chygraph:
             raise ValueError("build with Chygraph.from_samples first")
         return _core.CorePercolation.from_samples(self.c, self._samples)
 
+    def fixed_point_stability(self, model):
+        """Jacobian at the fixed point reached, not at ``Q = 1`` (Sec.~II D).
+
+        Takes a ``chygraph.giant.Chygraph`` and returns
+        :class:`~chygraph_statmech.fixedpoint.FixedPointStability`, whose
+        ``spectral_radius`` obeys ``rho = 1 - Lambda + O(Lambda^2)`` and whose
+        ``monotonicity`` reads entry signs rather than the eigenvalue sign.
+        """
+        from chygraph_statmech import fixedpoint as _fp
+        return _fp.FixedPointStability(model)
+
+    @staticmethod
+    def vertex_cover_correlated(gamma, r, dmax=800):
+        """Vertex cover on a scale-free graph with the degree correlations of
+        Ref. [VW03] Eq. (18) (Sec. V B).  Returns ``(cover_size, unstable)``."""
+        from chygraph_statmech import vertexcover as _vc
+        p = _vc.scale_free(gamma, dmax)
+        e, q, _ = _vc.excess(p)
+        pi = _vc.solve(r, e, q)
+        return _vc.cover_size(p, pi), _vc.is_unstable(r, e, q, pi)
+
+    @staticmethod
+    def excess_cardinality(complexes):
+        """``<c^2>/<c> - 1`` of a complex family (Sec. VIII B).
+
+        The quantity the threshold tensor needs to be finite, measured on an
+        explicit clique list rather than assumed.
+        """
+        import numpy as _np
+        from collections import Counter as _C
+        cnt = _C(len(a) for a in complexes)
+        c = _np.array(sorted(cnt), float)
+        w = _np.array([cnt[int(i)] for i in c], float)
+        w /= w.sum()
+        m1, m2 = (w * c).sum(), (w * c * c).sum()
+        return float(m2 / m1 - 1.0)
+
     # ======================================================================
     # solvers shared across sections
     # ======================================================================

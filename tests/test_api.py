@@ -165,3 +165,41 @@ def test_emitted_field_is_reachable_for_any_interior():
     h = [S('h1')]
     u = Chygraph.emitted_field(2, lambda s: 0.5 * s[0] * s[1], h)
     assert u.subs({h[0]: 0}) == 0
+
+
+# ---------------------------------------------------------------------------
+# The methods added so every module has a manuscript entry
+# ---------------------------------------------------------------------------
+
+def test_fixed_point_stability_gives_the_exchange_relation():
+    """rho(J(Q*)) = 1 - Lambda + O(Lambda^2), Sec. II D."""
+    import sympy as sp
+    from chygraph import hypergraph_giant
+    M = hypergraph_giant()
+    S = Chygraph([2], [1.0]).fixed_point_stability(M)
+    k, c, p, q = sp.symbols('k c p q')
+    for pv, tol in ((0.145, 2e-2), (0.140, 3e-3)):
+        sub = {k: 3, c: 3, p: pv, q: 0.8}
+        lam = float(M.Lambda().subs(sub))
+        assert abs((1 - S.spectral_radius(sub)) / lam - 1) < tol
+    assert S.monotonicity({k: 3, c: 3, p: 0.5, q: 0.8}) == 1
+
+
+def test_vertex_cover_correlated_reproduces_weigt_hartmann_shape():
+    """Sec. V B: x_c rises with r, and gamma=2.5 lies below gamma=3.0."""
+    prev = {2.5: -1.0, 3.0: -1.0}
+    for r in (0.0, 0.3, 0.6):
+        xs = {}
+        for gamma in (2.5, 3.0):
+            xs[gamma], _ = Chygraph.vertex_cover_correlated(gamma, r, dmax=300)
+            assert xs[gamma] > prev[gamma]
+            prev[gamma] = xs[gamma]
+        assert xs[2.5] < xs[3.0]
+    assert not Chygraph.vertex_cover_correlated(2.5, 0.0, dmax=300)[1]
+
+
+def test_excess_cardinality_matches_the_definition():
+    """<c^2>/<c> - 1 on an explicit complex list (Table III)."""
+    assert Chygraph.excess_cardinality([[0, 1], [2, 3]]) == pytest.approx(1.0)
+    assert Chygraph.excess_cardinality([[0, 1, 2], [2, 3]]) == pytest.approx(
+        (9 + 4) / 2 / ((3 + 2) / 2) - 1)
