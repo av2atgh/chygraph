@@ -557,6 +557,28 @@ $n$ & links & triangles & $\Delta T_c$ & matched null & $\Delta T_c$ \\
 \end{ruledtabular}
 \end{table}
 
+Figure~\ref{fig:clustering} runs the comparison continuously. A vertex is given
+$k_T=fn/2$ triangles and $k_L=(1-f)n$ links, so its degree is exactly $n$ for
+every $f$ and the whole family shares one degree distribution; $f$ is the
+fraction of its neighbours reached through a triangle, and the local clustering
+coefficient is $f/(n-1)$. $T_c$ falls monotonically with $f$ at every $n$, and
+the size of the fall decays as $1/n$ --- the redundancy costs one branch out of
+$n-1$. The right panel puts the Monte Carlo of Sec.~\ref{sec:ising} on the same
+axes at $n=4$.
+
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_clustering.pdf}
+\caption{\label{fig:clustering}Critical temperature against clustering at fixed
+degree. A vertex carries $k_T=fn/2$ triangles and $k_L=(1-f)n$ links, so every
+member of the family has degree exactly $n$ and the same $p_d$; only the
+clustering coefficient, $f/(n-1)$, varies. Left: $T_c(f)/T_c(0)$ from
+Eq.~\eqref{eq:branch}, for degrees $4$, $6$, $10$ and $20$. Clustering lowers
+$T_c$ at every degree, and by less as the degree grows. Right: the same curve at
+$n=4$ against absolute $T_c$, with the Wolff simulations of
+Eq.~\eqref{eq:mc} at $f=0$ and $f=1$.}
+\end{figure*}
+
 What is not visible to $\{p_d,e_{dd'}\}$ is therefore the \emph{magnitude} of
 the shift, not its existence: no configuration model on the same degree
 distribution reproduces the triangle ensemble's $T_c$, and
@@ -643,12 +665,30 @@ be found by iterating from a magnetised start, and the true temperature by
 comparing free energies as in Sec.~\ref{sec:ising}. Equation~\eqref{eq:branch}
 is still the right object; it answers a different question.
 
-Read that way, the construction reproduces their results and extends them. On a
-$q$-uniform Bethe hyperlattice of chy-degree $4$, Eq.~\eqref{eq:simu} with
-$3u'=1$ gives $e^{a}=2$ at $q=2$ and again at $q=4$, hence the same
-$T=1/\ln2=1.4427$, and $e^{a}=9/5$ at $q=3$, hence $T=1.7013$. The spinodal is
-therefore \emph{non-monotonic} in cardinality, peaking at $q=3$ --- the
-ambivalent effect of group size they report, here in closed form. At chy-degree $4$ the transition
+Read that way, the construction reproduces their results and extends them.
+Normalisation has to be stated first, because the two treatments fix different
+things. At fixed coupling $J$ and chy-degree $4$, Eq.~\eqref{eq:simu} with
+$3(q-1)u'=1$ gives $e^{a}=2$ at $q=2$ and again at $q=4$, hence the same
+$T=1/\ln2=1.4427$, and $e^{a}=9/5$ at $q=3$, hence $T=1.7013$: the spinodal is
+non-monotonic in cardinality and peaks at $q=3$. Reference~\cite{SLG26} instead
+fixes $\rho_qJ_q=1$ with $\rho_q$ the density of hyperedges, which for $k$
+complexes of size $q$ at every vertex means $J_q=q/k$. Imposing that
+normalisation on Eq.~\eqref{eq:branch} and letting the chy-degree grow,
+\begin{equation}
+  T^{\ast}\;\longrightarrow\;\frac{q(q-1)}{2^{\,q-1}}
+  \qquad (k\to\infty),
+  \label{eq:BWlimit}
+\end{equation}
+which is their Eq.~(8). The residual falls as $1/k$: at $q=3$ it is
+$1.5\times10^{-2}$, $3.8\times10^{-3}$ and $9.4\times10^{-4}$ for $k=50$, $200$
+and $800$, halving with each doubling of the chy-degree, and the same at
+$q=2,5,6,8$. The exception is $q=4$, where the residual falls as $1/k^{2}$ and
+reaches $1.4\times10^{-6}$ by $k=800$: the leading finite-connectivity
+correction vanishes at the cardinality which is tricritical in the mean-field
+theory, and Eq.~\eqref{eq:BWlimit} is reached faster there than anywhere else. Its maximum of $3/2$ is shared by $q=3$ and $q=4$, as they
+report; at finite chy-degree the degeneracy is lifted. The non-monotonicity is
+therefore common to the two treatments and the location of its maximum is not,
+which is a statement about connectivity rather than a disagreement. At chy-degree $4$ the transition
 is continuous through $q=5$ and discontinuous from $q=6$, where Bragg--Williams
 places the tricritical cardinality at four. The two do not disagree. Repeating
 the calculation as a function of chy-degree, the boundary sits between five and
@@ -668,9 +708,14 @@ two transitions the pairwise share of the magnetisation exceeds the
 higher-order share by two to three orders of magnitude.
 
 The second transition is genuinely first order, and locating it needs the free
-energy. Two solutions coexist on $0.9770<T<0.9810$, the lower limit being the
+energy. The two branches are obtained by iterating Eq.~\eqref{eq:soft}'s
+analogue for this model, $u_l=\,$Eq.~\eqref{eq:simZ} evaluated at
+$h-u_l$ with $h=\sum_l k_l u_l$, from a magnetised start and from a
+near-zero one; they differ on $0.9770<T<0.9810$, the lower limit being the
 spinodal of the weakly ordered branch and the upper the point where the
-strongly ordered one ceases to exist. Comparing Eq.~\eqref{eq:bethe} between
+strongly ordered one ceases to exist. Outside that window the two starts
+converge on the same fixed point and the free-energy difference is rounding
+noise, so the comparison has to be bracketed inside it. Comparing Eq.~\eqref{eq:bethe} between
 them --- with $Z_i=2\cosh h$ and
 $Z_a=(2\cosh h_c)^q+(e^{a}-1)\,2\cosh(qh_c)$, $h_c=h-u_l$ --- the branches cross
 at
@@ -761,8 +806,14 @@ above locates the loss of stability at $r=0.70$ for $\gamma=2.5$ and $r=0.7802$
 for $\gamma=3.0$; the first is quoted to two figures because with
 $p_d\sim d^{-2.5}$ the mean degree itself converges slowly.
 
-At fixed cardinality $c$ with Poisson chy-degree, Eq.~\eqref{eq:hs} reads
-$\sigma=e^{-k\sigma^{c-1}}$ and loses stability at
+At fixed cardinality $c$ with Poisson chy-degree the excess generating function
+is $\bar\Phi(x)=e^{\ave{k}(x-1)}$ and Eq.~\eqref{eq:hs} closes on one scalar,
+$\sigma=e^{-\ave{k}\sigma^{c-1}}$. Differentiating,
+$|F'(\sigma)|=\ave{k}(c-1)\sigma^{c-2}\,e^{-\ave{k}\sigma^{c-1}}
+=\ave{k}(c-1)\sigma^{c-1}$, so with $y=\ave{k}\sigma^{c-1}$ the fixed point is
+$\sigma=e^{-y}$, $y=\ave{k}e^{-(c-1)y}$ and the instability $|F'|=1$ is
+$(c-1)y=1$. Eliminating $y=1/(c-1)$ gives
+$\ave{k}=y\,e^{(c-1)y}=e/(c-1)$, that is
 \begin{equation}
   \ave{k}(c-1)=e,
   \label{eq:kc}
@@ -776,7 +827,14 @@ map, which is where leaf-removal-style certification stops. At $c=2$ that
 coincides with the accepted replica-symmetry-breaking point, which is why $e$
 comes out; above $c=2$ it does not, for the reason given in
 Sec.~\ref{sec:hardfield}, and Sec.~\ref{sec:soft} gives the criterion that does.
-Read in those terms, two effects are worth recording. Spread in cardinality
+Read in those terms, two effects are worth recording. The mixed-cardinality numbers follow from the same map with more than one layer.
+For layers of cardinality $c_l$ carrying Poisson chy-degrees $\ave{k_l}$,
+Eq.~\eqref{eq:hs} becomes
+$\sigma=\exp\!\big[-\sum_l\ave{k_l}\sigma^{c_l-1}\big]$, one scalar again
+because Poisson layers share an excess generating function, and the instability
+condition is $\sum_l\ave{k_l}(c_l-1)\sigma^{c_l-1}=1$. Solving the pair for the
+three-to-one mixture of $c=2$ and $c=6$, for instance, gives $\sigma=0.3777$ and
+$\ave{k}=3.415$, hence the $6.83$ quoted below. Spread in cardinality
 moves the point upward. The quantity held fixed is the mean number of
 \emph{neighbours} a complex supplies, $\nu=\sum_l\ave{k_l}(c_l-1)/\sum_l\ave{k_l}$,
 set to $2$; the quantity reported is $\ave{k}\nu$, the mean number of neighbours
@@ -1328,8 +1386,9 @@ manuscript.
   IEEE Trans.\ Inf.\ Theory \textbf{51}, 2282 (2005).
 
 \bibitem{SLG26} G.\ Son, D.-S.\ Lee, and K.-I.\ Goh,
-  Commun.\ Phys.\ (2026), \\ doi:10.1038/s42005-026-02724-2;
-  arXiv:2411.19080.
+  ``Phase transitions in the simplicial Ising model on hypergraphs'',
+  Commun.\ Phys.\ (2026), in press (accepted 5 June 2026),
+  \\ doi:10.1038/s42005-026-02724-2; arXiv:2411.19080.
 
 \bibitem{MT07} M.\ M\'ezard and M.\ Tarzia,
   Phys.\ Rev.\ E \textbf{76}, 041124 (2007).

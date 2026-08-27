@@ -191,3 +191,33 @@ def test_cardinality_two_regular_breaks_for_every_degree():
     x = Symbol('x0')
     for L in (3, 4, 6, 10):
         assert hs.HittingSet([2], x ** L).is_unstable()
+
+
+def test_mixed_cardinality_derivation_in_the_text():
+    """The worked example given in the manuscript for the three-to-one mixture
+    of c=2 and c=6: sigma = 0.3777, <k> = 3.415, <k> nu = 6.83."""
+    import numpy as np
+    from scipy.optimize import brentq
+    kL, kT, cs = 0.75, 0.25, (2, 6)
+
+    def cond(scale):
+        ks = (scale * kL, scale * kT)
+        s = brentq(lambda x: np.exp(-sum(k * x**(c - 1)
+                                         for k, c in zip(ks, cs))) - x, 1e-12, 1.0)
+        return sum(k * (c - 1) * s**(c - 1) for k, c in zip(ks, cs)) - 1, s
+
+    scale = brentq(lambda x: cond(x)[0], 1e-6, 50.0)
+    _, sigma = cond(scale)
+    nu = (kL * 1 + kT * 5) / (kL + kT)
+    assert sigma == pytest.approx(0.3777, abs=5e-4)
+    assert scale == pytest.approx(3.415, abs=5e-3)
+    assert scale * nu == pytest.approx(6.83, abs=1e-2)
+
+
+def test_fixed_cardinality_derivation_in_the_text():
+    """<k> = e/(c-1) follows from y = 1/(c-1) and <k> = y exp((c-1)y)."""
+    import numpy as np
+    for c in (2, 3, 5, 10):
+        y = 1.0 / (c - 1)
+        assert y * np.exp((c - 1) * y) == pytest.approx(np.e / (c - 1), rel=1e-12)
+        assert hs.rsb_point([c], [1.0]) == pytest.approx(np.e / (c - 1), rel=1e-10)

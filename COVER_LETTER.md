@@ -98,8 +98,33 @@ now shown converging to −0.61 over a range, rather than a bound at one point),
 8 (new figure: both branches, the coexistence window, and the free-energy
 crossing), 9 (Sec. IX compressed to a paragraph, method table to Supplemental),
 11 (continuity and monotonicity conditions stated), 12 (ensemble specified),
-13 (the rewired control given its own paragraph). 7 is partly addressed by the
-two new figures. 10 will be checked at proof stage.
+13 (the rewired control given its own paragraph). 7 is addressed by three new figures: the
+clustering fraction at fixed degree (which makes §4.1 visible at a glance, with
+the Monte Carlo on the same axes), the simplicial double transition with the
+free-energy difference that locates it, and the hyperbolic-random-graph
+comparison. 14: the derivations the report named as compressed past
+reproducibility are restored — the collapse of Eq. (18) to one scalar and the
+elimination giving `⟨k⟩ = e/(c−1)`, the multi-layer instability condition with
+the three-to-one mixture worked through to `σ = 0.3777`, `⟨k⟩ = 3.415`, and the
+branch construction behind the `q = 16` free-energy comparison. Each is now
+checked by a test as well as displayed.
+
+10: confirmed. The accepted manuscript carries "Article in Press", received
+21 December 2025 and accepted 5 June 2026, with the publisher's own recommended
+citation giving no volume or article number. The reference is now "Commun. Phys.
+(2026), in press (accepted 5 June 2026)" with the DOI; the volume should be
+filled at proof.
+
+Consulting the accepted version also improved Sec. IV C. The two treatments fix
+different normalisations --- Ref. [SLG26] sets rho_q J_q = 1, this paper had
+been quoting fixed J --- so the earlier statement that the Bethe spinodal peaks
+at q = 3, while correct at fixed J, was not comparable with their Eq. (8).
+Imposing their normalisation, J_q = q/k, the Bethe spinodal converges to
+T* = q(q-1)/2^(q-1) with a residual falling as 1/k, and their maximum of 3/2
+shared between q = 3 and q = 4 is recovered. The exception is q = 4 itself,
+where the leading finite-connectivity correction vanishes and the approach is
+1/k^2. That is a stronger check than the manuscript previously contained, and it
+resolves what would otherwise have read as a disagreement.
 
 ## §4.15
 

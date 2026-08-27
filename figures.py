@@ -23,6 +23,7 @@ HERE = Path(__file__).parent
 CSV = HERE / 'probe' / 'results' / 'prediction4.csv'
 OUT = HERE / 'fig_prediction4.pdf'
 OUT_SIM = HERE / 'fig_simplicial.pdf'
+OUT_CLUST = HERE / 'fig_clustering.pdf'
 
 MEAS, CHY, CTRL = '#0072B2', '#D55E00', '#8C6BB1'
 FLOOR = 3e-5                     # control is exactly zero; drawn on the floor
@@ -167,6 +168,65 @@ def simplicial_panel():
     print('wrote', OUT_SIM, f'(T*={lo:.5f}, Tc={Tc:.5f}, T**={hi:.5f})')
 
 
+def clustering_panel():
+    """Fig. 2: T_c against clustering fraction at genuinely fixed degree.
+
+    A vertex carries k_T = f n / 2 triangles and k_L = (1-f) n links, so its
+    degree is exactly n for every f and the whole family shares one p_d.  n is
+    an ordered magnitude, so the curves take a sequential ramp rather than
+    categorical hues.
+    """
+    from chygraph_statmech import Chygraph
+
+    def Tc(f, n):
+        kT, kL = f * n / 2.0, (1 - f) * n
+        cs, ks, ex = [], [], []
+        if kL > 1e-12:
+            cs.append(2); ks.append(kL); ex.append(kL - 1)
+        if kT > 1e-12:
+            cs.append(3); ks.append(kT); ex.append(kT - 1)
+        return 1.0 / Chygraph(cs, ks, excess=ex).critical_coupling()
+
+    ns = (4, 6, 10, 20)
+    ramp = ['#9ecae1', '#6baed6', '#3182bd', '#08519c']       # one hue, light->dark
+    fs = np.linspace(0, 1, 41)
+
+    fig, ax = plt.subplots(1, 2, figsize=(7.05, 2.45))
+
+    for n, col in zip(ns, ramp):
+        y = np.array([Tc(f, n) for f in fs])
+        ax[0].plot(fs, y / y[0], color=col, lw=1.6, label=f'$n={n}$')
+        ax[0].text(1.012, y[-1] / y[0], f'{n}', color=col, fontsize=6.5, va='center')
+    ax[0].axhline(1.0, color='0.75', lw=0.6, zorder=0)
+    ax[0].set_xlabel('fraction $f$ of neighbours inside triangles')
+    ax[0].set_ylabel(r'$T_c(f)\,/\,T_c(0)$')
+    ax[0].set_title('at fixed degree $d=n$', pad=3)
+    ax[0].set_xlim(0, 1.06)
+    ax[0].text(1.03, 1.0006, '$n$', fontsize=6.5, color='0.35', va='bottom')
+
+    y4 = np.array([Tc(f, 4) for f in fs])
+    ax[1].plot(fs, y4, color=ramp[2], lw=1.6, label='theory, Eq. (6)', zorder=2)
+    ax[1].errorbar([0.0, 1.0], [2.894, 2.482], yerr=[0.006, 0.006], fmt='o',
+                   ms=5, color=CHY, mec='white', mew=0.6, capsize=2, lw=1.0,
+                   label='Monte Carlo', zorder=3)
+    ax[1].set_xlabel('fraction $f$ of neighbours inside triangles')
+    ax[1].set_ylabel('$T_c$')
+    ax[1].set_title('$n=4$, with simulation', pad=3)
+    ax[1].legend(frameon=False, loc='upper right')
+    ax[1].set_xlim(-0.06, 1.06)
+
+    for a in ax:
+        for sp in ('top', 'right'):
+            a.spines[sp].set_visible(False)
+        a.grid(True, lw=0.35, color='0.9')
+        a.set_axisbelow(True)
+    fig.tight_layout(pad=0.4, w_pad=1.2)
+    fig.savefig(OUT_CLUST, bbox_inches='tight')
+    print('wrote', OUT_CLUST,
+          f'(n=4: {Tc(0,4):.4f} -> {Tc(1,4):.4f}, {(Tc(1,4)/Tc(0,4)-1)*100:.1f}%)')
+
+
 if __name__ == '__main__':
     main()
+    clustering_panel()
     simplicial_panel()

@@ -255,3 +255,40 @@ def test_branch_gap_is_zero_outside_the_window(fig4):
     """
     for T in (0.9840, 0.9760, 0.9700):
         assert abs(fig4.branch_gap(T)) < 1e-9
+
+
+# ---------------------------------------------------------------------------
+# Against the published mean-field result
+# ---------------------------------------------------------------------------
+
+@pytest.mark.parametrize('q', [2, 3, 4, 5, 6, 8])
+def test_bragg_williams_limit_is_recovered(q):
+    """Son, Lee & Goh Eq. (8): T* = q(q-1)/2^(q-1), under their normalisation
+    rho_q J_q = 1, i.e. J_q = q/k for k complexes of size q per vertex.
+
+    Tested as a *rate* rather than a tolerance: the residual halves with each
+    doubling of the chy-degree, so the limit is demonstrated rather than
+    asserted at one k.  At fixed J the two treatments are not comparable at all.
+    """
+    want = q * (q - 1) / 2.0 ** (q - 1)
+    res = []
+    for k in (200.0, 400.0, 800.0):
+        got = SimplicialChygraph([q], [k], [q / k]).spinodal(lo=1e-4, hi=200.0)
+        res.append(abs(got - want))
+    # 1/k everywhere except q = 4, where the leading correction vanishes and
+    # the approach is 1/k^2 -- the mean-field tricritical cardinality.
+    rate = 4.0 if q == 4 else 2.0
+    assert res[0] / res[1] == pytest.approx(rate, abs=0.05)
+    assert res[1] / res[2] == pytest.approx(rate, abs=0.05)
+    assert res[-1] < 5e-3
+
+
+def test_the_maximum_is_shared_at_q_three_and_four_in_the_limit():
+    """Their Eq. (8) attains 3/2 at both q = 3 and q = 4.  At finite chy-degree
+    the degeneracy is lifted, which is a connectivity effect and not a
+    disagreement."""
+    T = {q: SimplicialChygraph([q], [1600.0], [q / 1600.0]).spinodal(
+        lo=1e-4, hi=200.0) for q in (2, 3, 4, 5)}
+    assert T[3] == pytest.approx(1.5, abs=1e-3)
+    assert T[4] == pytest.approx(1.5, abs=1e-3)
+    assert T[2] < T[3] and T[5] < T[4]
