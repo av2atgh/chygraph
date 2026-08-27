@@ -203,3 +203,52 @@ def test_excess_cardinality_matches_the_definition():
     assert Chygraph.excess_cardinality([[0, 1], [2, 3]]) == pytest.approx(1.0)
     assert Chygraph.excess_cardinality([[0, 1, 2], [2, 3]]) == pytest.approx(
         (9 + 4) / 2 / ((3 + 2) / 2) - 1)
+
+
+# ---------------------------------------------------------------------------
+# A layer with a distribution of cardinalities (referee 4.4)
+# ---------------------------------------------------------------------------
+
+def test_excess_cardinality_is_size_biased():
+    """<sbar> = <c^2>/<c> - 1, not <c> - 1.  For p_3 = p_5 = 1/2 they are
+    3.25 and 3."""
+    g = Chygraph([{3: 0.5, 5: 0.5}], [2.0])
+    assert g.excess_cardinality_layer(0) == pytest.approx(3.25)
+    assert g._mean_c(g.cdist[0]) - 1 == pytest.approx(3.0)
+
+
+def test_single_cardinality_collapses():
+    """The general form must reduce to (c-1) u' for one cardinality."""
+    for c in (2, 3, 5):
+        g = Chygraph([c], [2.0])
+        assert g.excess_cardinality_layer(0) == pytest.approx(c - 1)
+        assert g.transmission(0, 0.4) == pytest.approx(
+            (c - 1) * g.u_prime(0, 0.4), rel=1e-12)
+
+
+def test_mixed_layer_equals_the_equivalent_split():
+    """A layer mixing cardinalities, and the same ensemble split into one layer
+    per cardinality with chy-degrees in the ratio c p_c, must give the same
+    transition.  This is what pins the size-biasing convention.
+    """
+    p, cbar, k = {3: 0.5, 5: 0.5}, 4.0, 2.0
+    mixed = Chygraph([p], [k])
+    split = Chygraph([3, 5], [k * 3 * 0.5 / cbar, k * 5 * 0.5 / cbar])
+    assert mixed.critical_coupling() == pytest.approx(
+        split.critical_coupling(), rel=1e-9)
+
+
+def test_mean_cardinality_substitution_is_wrong():
+    """Substituting <c> for the distribution gives a different answer, which is
+    why Eq. (9) averages the product rather than the factors."""
+    mixed = Chygraph([{3: 0.5, 5: 0.5}], [2.0])
+    naive = Chygraph([4], [2.0])
+    assert abs(mixed.critical_coupling() - naive.critical_coupling()) > 1e-3
+
+
+def test_transmission_is_not_the_product_of_averages():
+    """<sbar u'> != <sbar><u'> when u' varies across the layer."""
+    g = Chygraph([{3: 0.5, 5: 0.5}], [2.0])
+    joint = g.transmission(0, 0.6)
+    factored = g.excess_cardinality_layer(0) * g.u_prime(0, 0.6)
+    assert abs(joint - factored) > 1e-3

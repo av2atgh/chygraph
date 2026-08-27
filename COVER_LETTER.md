@@ -49,10 +49,29 @@ enumeration. It is now per-neighbour, matching Eq. (12), with the multiplicity
 supplied once by Eq. (6). A regression test pins the relation between the two
 conventions so the trap cannot reopen. No numerical result changes.
 
-**§4.4.** Stated: a layer is single-cardinality by construction throughout, so
-`c_m - 1` is correct as used; the size-biased `s̄_m = ⟨c²⟩/⟨c⟩ - 1` is given for
-the general case, and the clique ensembles of Sec. VIII are split into one layer
-per clique size.
+**§4.4 — implemented, not merely stated.** The branching matrix is now written
+in its general form, Eq. (8) with the size-biased
+
+    <sbar u'>_m = sum_c (c p_c / <c>_m) (c - 1) u'(c),
+
+and the single-cardinality collapse to `(c_m - 1) u'_m` is displayed separately
+as the form the specialisations use. Two points the report raises are made
+explicit: `<sbar>_m = <c²>/<c> - 1` is not `<c>_m - 1` (3.25 against 3 for a
+layer mixing c = 3 and c = 5 equally), and `<sbar u'>` is not `<sbar><u'>`
+unless `u'` is common to the layer, which is why the average is of the product.
+
+The code handles the general case too, which it previously did not: a layer's
+cardinality may be given as a distribution and the size-biased average is taken
+over it. Wiring this up exposed that `critical_coupling` had been bypassing the
+branching matrix and substituting a mean cardinality — it now goes through
+Eq. (8). The convention is pinned by a test: a mixed layer and the same ensemble
+split into one layer per cardinality, with chy-degrees in the ratio `c p_c`,
+give the same transition to 1e-9, while the mean-cardinality substitution does
+not.
+
+Also, following a reading of Sec. II C: `det(I - B) = 0` was stated inline and
+is now a displayed equation, since it is the result the rest of the paper
+applies.
 
 **§4.5.** The ensemble-level map is now displayed, Eqs. (3)–(4): the action of a
 generating function on a measure, and the convolution form of the chy-degree

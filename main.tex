@@ -332,28 +332,49 @@ lives inside a complex; the chy-degree step is a relay and carries weight one.
 
 Collecting the two steps, arriving at a node through a layer-$l$ complex it
 belongs to $\ave{\kbar}_m$ further layer-$m$ complexes when $m=l$ and
-$\ave{\kappa}_m$ otherwise, each offering $c_m-1$ other members. The branching
-matrix on the $L$ complex layers is therefore
+$\ave{\kappa}_m$ otherwise. Each such complex is reached by following one of its
+inclusions, so it is sampled in proportion to its cardinality, and the number of
+other members it offers together with the derivative they carry must be averaged
+that way. Writing $p^{(m)}_c$ for the cardinality distribution of layer $m$, the
+branching matrix on the $L$ complex layers is
 \begin{equation}
   B_{lm}=\Big[\ave{\kbar}_m\delta_{lm}+\ave{\kappa}_m(1-\delta_{lm})\Big]
-         (c_m-1)\,u'_m,
+         \Big\langle \sbar\,u'\Big\rangle_m ,
   \label{eq:branch}
 \end{equation}
-and the transition is at $\det(I-B)=0$. The linear algebra is $L\times L$
-however large the complexes are: cardinality enters only through $u'_m$.
+\begin{equation}
+  \Big\langle \sbar\,u'\Big\rangle_m
+    =\sum_{c}\frac{c\,p^{(m)}_c}{\ave{c}_m}\,(c-1)\,u'(c),
+  \label{eq:sbaru}
+\end{equation}
+the size-biased average of $(c-1)u'(c)$ over the layer. The transition is at
+\begin{equation}
+  \det\big(I-B\big)=0 .
+  \label{eq:det}
+\end{equation}
+The linear algebra is $L\times L$ however large the complexes are: cardinality
+enters only through Eq.~\eqref{eq:sbaru}.
 
-Two caveats on Eq.~\eqref{eq:branch}. First, $c_m-1$ is the number of other
-members seen on arrival, which is that expression only when every complex in
-layer $m$ has the same cardinality. For a layer carrying a distribution of
-cardinalities the count is size-biased and the correct factor is
-$\ave{\sbar}_m=\ave{c^2}_m/\ave{c}_m-1$, the same quantity measured in
-Sec.~\ref{sec:ensemble}; $\ave{c}_m-1$ is not equal to it. Throughout this
-paper a layer is by construction a single cardinality --- the clique ensembles
-of Sec.~\ref{sec:regions} are split into one layer per clique size --- so
-Eq.~\eqref{eq:branch} is used with $c_m-1$ and no size-biasing is required.
-Second, the correct entry is $\ave{\sbar\,u'}$, a joint average over the
-interior of the complex, and writing $\ave{\sbar}\ave{u'}$ assumes $u'$ is
-common to the layer, which single-cardinality layers again guarantee.
+When a layer carries a single cardinality $c_m$ --- which is how every layer in
+this paper is built, the clique ensembles of Sec.~\ref{sec:regions} being split
+into one layer per clique size --- Eq.~\eqref{eq:sbaru} collapses and
+Eq.~\eqref{eq:branch} reads
+\begin{equation}
+  B_{lm}=\Big[\ave{\kbar}_m\delta_{lm}+\ave{\kappa}_m(1-\delta_{lm})\Big]
+         (c_m-1)\,u'_m .
+  \label{eq:branchsingle}
+\end{equation}
+It is Eq.~\eqref{eq:branchsingle} that the specialisations of
+Secs.~\ref{sec:structures}--\ref{sec:core} use.
+
+Two things about Eq.~\eqref{eq:sbaru} are worth keeping in view. The mean number
+of other members on arrival is $\ave{\sbar}_m=\ave{c^2}_m/\ave{c}_m-1$, not
+$\ave{c}_m-1$: for a layer mixing $c=3$ and $c=5$ in equal proportion the two
+are $3.25$ and $3$. And $\ave{\sbar\,u'}_m$ is not $\ave{\sbar}_m\ave{u'}_m$
+unless $u'$ is common to the layer, which is why the average in
+Eq.~\eqref{eq:sbaru} is taken of the product. Splitting a mixed layer into one
+layer per cardinality, with chy-degrees in the ratio $c\,p_c$, gives the same
+transition, as it must.
 
 \subsection{Away from the trivial fixed point}
 \label{sec:fixedpoint}
@@ -445,7 +466,7 @@ and only $u'_m$ remains to be supplied by Eq.~\eqref{eq:emitted}.
 nodes; the layers listed are the complex layers.}
 \begin{ruledtabular}
 \begin{tabular}{lll}
-structure & layers & $\det(I-B)=0$ reads \\
+structure & layers & Eq.~\eqref{eq:det} reads \\
 \colrule
 graph & one, $c=2$ & $\ave{\kbar}\,u'=1$ \\[2pt]
 clique network & one, $c$ & $\ave{\kbar}(c-1)u'=1$ \\[2pt]

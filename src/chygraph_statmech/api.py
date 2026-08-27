@@ -55,13 +55,22 @@ class Chygraph:
 
     def __init__(self, cardinalities, degrees, excess=None, regular=False,
                  phi=None):
-        self.c = np.asarray(cardinalities, dtype=int)
+        # A layer's cardinality may be a single integer or a distribution given
+        # as {c: weight}.  The general branching matrix needs the size-biased
+        # average over that distribution; a single integer is the special case
+        # where it collapses to c - 1.
+        self.cdist = [self._as_dist(c) for c in cardinalities]
+        self.c = np.array([self._mean_c(d) if len(d) > 1
+                           else next(iter(d)) for d in self.cdist])
+        if len(self.cdist) == 1 and not isinstance(cardinalities, (list, tuple,
+                                                                   np.ndarray)):
+            raise ValueError("cardinalities must be a sequence, one per layer")
         self.k = np.asarray(degrees, dtype=float)
-        if self.c.shape != self.k.shape:
+        if len(self.cdist) != self.k.size:
             raise ValueError("one cardinality and one chy-degree per layer")
-        if (self.c < 2).any():
+        if any(min(d) < 2 for d in self.cdist):
             raise ValueError("cardinalities must be at least 2")
-        self.L = len(self.c)
+        self.L = len(self.cdist)
         self.regular = bool(regular)
         if excess is not None:
             self.kbar = np.asarray(excess, dtype=float)
@@ -70,6 +79,37 @@ class Chygraph:
         else:
             self.kbar = self.k.copy()
         self._phi = phi
+
+    @staticmethod
+    def _as_dist(c):
+        """Normalise a layer's cardinality to ``{c: probability}``."""
+        if isinstance(c, dict):
+            tot = float(sum(c.values()))
+            if tot <= 0:
+                raise ValueError("cardinality weights must be positive")
+            return {int(k): float(v) / tot for k, v in c.items() if v > 0}
+        return {int(c): 1.0}
+
+    @staticmethod
+    def _mean_c(d):
+        return sum(c * p for c, p in d.items())
+
+    def size_biased(self, layer, f):
+        """``sum_c (c p_c / <c>) f(c)``, the average over a complex reached by
+        following one of its inclusions.
+
+        Arriving at a complex from a member samples it in proportion to its
+        cardinality, so every per-complex quantity in Eq.~(8) is weighted this
+        way.  For a single-cardinality layer it is just ``f(c)``.
+        """
+        d = self.cdist[layer]
+        cbar = self._mean_c(d)
+        return sum(c * p / cbar * f(c) for c, p in d.items())
+
+    def excess_cardinality_layer(self, layer):
+        """``<sbar>_m = <c^2>_m/<c>_m - 1``: the mean number of *other* members
+        seen on arrival.  Equals ``c - 1`` when the layer has one cardinality."""
+        return self.size_biased(layer, lambda c: c - 1.0)
 
     def __repr__(self):
         kind = 'regular' if self.regular else 'Poisson'
@@ -102,42 +142,76 @@ class Chygraph:
     # Sec. IV: the Ising model
     # ======================================================================
 
+    def _u_of_c(self, c, beta_J, interaction):
+        if interaction == 'simplicial':
+            return _simp.uprime(int(c), beta_J)
+        return _ising.clique_derivative(int(c), beta_J)
+
     def u_prime(self, layer, beta_J, interaction='clique'):
-        """``u'``, the cavity derivative of a layer's complex (Sec. IV A).
+        """``u'``, the cavity derivative per neighbour (Sec. IV A).
 
         ``interaction='clique'`` couples every pair inside the complex;
-        ``'simplicial'`` is the unanimity rule of Sec. IV C.
+        ``'simplicial'`` is the unanimity rule of Sec. IV C.  For a layer with a
+        distribution of cardinalities this returns the size-biased average of
+        ``u'(c)``; the transmission that enters Eq.~(8) is
+        :meth:`transmission`, which weights by ``c-1`` as well.
         """
-        q = int(self.c[layer])
-        if interaction == 'simplicial':
-            return _simp.uprime(q, beta_J)
-        return _ising.clique_derivative(q, beta_J)
+        return self.size_biased(layer,
+                                lambda c: self._u_of_c(c, beta_J, interaction))
+
+    def transmission(self, layer, beta_J, interaction='clique', squared=False):
+        """``<sbar u'>_m``, the entry Eq.~(8) actually needs.
+
+        The size-biased average of ``(c-1) u'(c)`` over the layer's cardinality
+        distribution, which is *not* ``<sbar> <u'>`` unless ``u'`` is common to
+        the layer.  Collapses to ``(c-1) u'`` for a single cardinality.
+        """
+        def f(c):
+            u = self._u_of_c(c, beta_J, interaction)
+            return (c - 1.0) * (u * u if squared else u)
+        return self.size_biased(layer, f)
 
     def branching_matrix(self, beta_J, interaction='clique', squared=False):
-        """``B_{lm}`` of Eq. (5) (Sec. III).  ``squared`` gives the AT line."""
+        """``B_{lm}`` of Eq.~(8) (Sec. III).  ``squared`` gives the AT line.
+
+        General in the layer's cardinality distribution: the per-complex factor
+        is the size-biased ``<sbar u'>_m`` of :meth:`transmission`, which
+        reduces to ``(c_m - 1) u'_m`` when the layer carries one cardinality.
+        """
         bj = np.broadcast_to(np.asarray(beta_J, float), (self.L,))
-        u = np.array([self.u_prime(m, bj[m], interaction)
+        w = np.array([self.transmission(m, bj[m], interaction, squared)
                       for m in range(self.L)])
-        if squared:
-            u = u ** 2
         B = np.empty((self.L, self.L))
         for l in range(self.L):
             for m in range(self.L):
                 deg = self.kbar[m] if m == l else self.k[m]
-                B[l, m] = deg * (self.c[m] - 1) * u[m]
+                B[l, m] = deg * w[m]
         return B
 
-    def critical_coupling(self, interaction='clique', squared=False, **kw):
+    def critical_coupling(self, interaction='clique', squared=False,
+                          lo=1e-9, hi=20.0):
         """``beta J`` where the Perron root of ``B`` reaches 1 (Sec. IV B).
 
-        The transition when it is continuous; the spinodal when it is not ---
-        see :meth:`transition`.
+        Computed from :meth:`branching_matrix`, so a layer carrying a
+        distribution of cardinalities is handled by the size-biased
+        ``<sbar u'>`` and not by substituting a mean cardinality.
+
+        The transition when it is continuous; the spinodal when it is not.
         """
         if interaction != 'clique':
             raise NotImplementedError(
                 "use simplicial().spinodal() for the unanimity interaction")
-        return _ising.critical_coupling(self.c, self.k, excess=self.kbar,
-                                        squared=squared, **kw)
+
+        def gap(bj):
+            B = self.branching_matrix(bj, interaction, squared)
+            return float(np.max(np.abs(np.linalg.eigvals(B)))) - 1.0
+
+        if gap(lo) * gap(hi) > 0:
+            raise ValueError(
+                f"no transition on beta J in [{lo}, {hi}]: "
+                f"Perron root runs {gap(lo)+1:.4g} to {gap(hi)+1:.4g}")
+        from scipy.optimize import brentq
+        return brentq(gap, lo, hi, xtol=1e-14, rtol=8.9e-16)
 
     def critical_temperature(self, J=1.0, **kw):
         """``T_c / J`` for the continuous case (Sec. IV B)."""

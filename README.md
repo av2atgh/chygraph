@@ -7,9 +7,10 @@ from graphs to higher-order structures, by way of the chygraph formalism
 ([Vázquez, PRE **107**, 024316 (2023)](https://arxiv.org/abs/2308.00987);
 `~/av2atg/chygraph`).
 
-Status: **WP1–WP6 done** (WP5 counting only, no GBP), plus core percolation (`src/chygraph_statmech`, 56 tests). WP4–WP6 and the
-HRG test of prediction 4 ([`TODO.md`](TODO.md)) are plan. Results:
-[WP1](#results-wp1) · [WP2](#results-wp2) · [WP3](#results-wp3).
+Status: **manuscript under revision at PRE** (major revision returned, response
+in [`COVER_LETTER.md`](COVER_LETTER.md)). WP1–WP6 complete except generalised
+BP on the region graph; prediction 4 tested and confirmed. 321 tests.
+See [Where this stands](#where-this-stands--handoff) for what is next.
 
 ## The claim
 
@@ -168,6 +169,65 @@ HRGs. See [Results (WP5)](#results-wp5).
 **WP6 — Bethe free energy.** ✅ Done. `freeenergy.py`; it locates the
 transition thermodynamically, a third route independent of WP1 and WP4. See
 [Results (WP6)](#results-wp6).
+
+## Where this stands — handoff
+
+Manuscript submitted to PRE, **major revision** returned, revision essentially
+complete. `COVER_LETTER.md` answers the report point by point. `main.tex` is
+**14 pages, the stated limit**, 0 overfull boxes, 0 undefined references.
+
+### In flight at handoff
+
+- **Full test suite was running** on the last change (the size-biased branching
+  matrix). It had passed 89% with no failures when context ran out. **Re-run
+  `pytest tests -q` first** — expect ~321 passing, ~4.5 min.
+- **Four files uncommitted**: `main.tex`, `src/chygraph_statmech/api.py`,
+  `tests/test_api.py`, `COVER_LETTER.md`. They hold the last change: the general
+  (size-biased) branching matrix, `det(I-B)=0` promoted to a displayed equation,
+  and five new API tests. Commit once the suite is green.
+
+### What the last change was
+
+Referee §4.4 asked for the size-biased form; the paper had *stated* it and used
+`c_m - 1`. Now Eq. (8) is general,
+
+    <sbar u'>_m = sum_c (c p_c / <c>_m) (c - 1) u'(c),
+
+with the single-cardinality collapse displayed separately as Eq. (11). The code
+takes a cardinality *distribution* per layer. Wiring that up exposed that
+`critical_coupling` had been bypassing `branching_matrix` and substituting a
+mean cardinality — fixed. Pinned by a test: a mixed layer equals the same
+ensemble split one-layer-per-cardinality with chy-degrees in ratio `c p_c`
+(1e-9), while the mean-cardinality substitution does not.
+
+### Next, in priority order
+
+1. **Referee minors not yet done.** 2 is done (structural exponents renamed
+   `theta`); still open: **13** is done; **7** partly (three figures added, no
+   hitting-set-density figure comparing hard field, soft field and MT); **14**
+   partly (two derivations restored, the report also complains of the register
+   generally).
+2. **Supplemental Material does not exist yet.** Sec. IX was compressed per
+   minor 9 and now says the equation-to-method table is "given in the
+   Supplemental Material". That file must be written, or the sentence changed.
+   **This is a loose end that would be caught at submission.**
+3. **Repo is private.** The acknowledgments cite
+   `https://github.com/av2atgh/chygraph_statmech`. It must be made public before
+   submission or the URL will not resolve for a referee.
+4. **Open science, not review:** generalised BP on the region graph, which is
+   what would close the 17-35% overlap deficit on hyperbolic random graphs. The
+   counting is in `region.py` and the size of the correction is measured
+   (Table VIII, Kikuchi beats Bethe by 3-80x on two triangles); the messages are
+   not implemented. This is the standing item in the conclusions.
+
+### Standing caution
+
+Five claims in this paper were corrected during review, and every one had been
+reported as a number without a derivation behind it: the clustering sign, the
+`(q-1)` double count, the exponent agreement, `sigma` for the mixed-cardinality
+example, and a convergence rate. The referee's closing request — that each
+quantitative claim be independently checked — is the right instinct. Tests now
+cover the derivations, not just the outputs; keep it that way.
 
 ## One class
 
