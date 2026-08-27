@@ -218,6 +218,42 @@ wrong.
 
 ```python
 from chygraph import HypergraphPercolation, MultiplexHypergraph
+## Prediction 4, tested
+
+`probe/prediction4.py`, `n = 2×10⁵`, maximal cliques as complexes, ensemble
+measured from each graph so nothing is fitted.
+
+| τ | β measured | β chygraph | β control |
+|---:|---:|---:|---:|
+| 2.5 | 1.584 | **1.551** | no core |
+| 2.9 | 1.635 | **1.573** | no core |
+| 2.1 | 1.491 | 1.571 | no core |
+
+The chygraph reproduces the power law `core ∝ k̄^β` that
+`computational_complexity` measured (1.50, 1.63 at τ = 2.5, 2.9) to within 0.03
+and 0.06, while the degree-matched control has **no core at all** across the fit
+range. The sign was settled in WP5; the exponent is what this adds.
+
+Magnitude at τ=2.9: ratio prediction/measurement is 0.97–0.99 at `k̄ ≤ 0.1`,
+falls to 0.77 near `k̄ ~ 1.5–3`, recovers to 0.96 at `k̄ = 6` — tracking clique
+overlap, negligible when sparse and saturating when nearly everything is core.
+
+**The cleanest control:** at τ=2.9, `k̄=6` the configuration model *does* have a
+core, and the chygraph gets it to **2%** (0.633 vs 0.621). Same map, same
+pipeline, and its cliques barely overlap (`shared_2plus` 0.00–0.01 vs 0.08–0.32
+for the HRG). So the 23% deficit on the HRG at that density is overlap, not the
+map.
+
+**τ=2.1 should not be used** — the chygraph *over*-predicts by up to 33% there,
+consistent with the ensemble having no `n`-independent limit below τ=2.5.
+
+**A claim of mine that was wrong.** I had written that a chygraph of independent
+cliques predicts `1 − Φ(0)`, "which is not a power law in `k̄`". Both halves are
+false. `1 − Φ(0)` holds only when *every* layer has cardinality ≥ 3, so no vertex
+ever has degree 1 and leaf removal never fires. Real HRG ensembles have many
+cardinality-2 cliques, leaf removal does fire, and the fixed point is non-trivial
+— and it does give a power law, with nearly the right exponent.
+
 ## Absorbing the simplicial Ising model
 
 [Son, Lee & Goh](https://doi.org/10.1038/s42005-026-02724-2) (arXiv:2411.19080)
@@ -804,11 +840,11 @@ parameter. **Three independent routes to the same number.**
    keeps hitting set easy longer, same as VW03's degree effect. What moves it
    down is *correlation* across cardinality layers, which the prediction did not
    consider. See Results (WP3).
-4. A chygraph whose complexes are the HRG's clustered motifs has a non-empty
-   core where the degree-matched configuration model does not — i.e. the
-   formalism sees the effect the `{p_d, e_dd'}` ensemble misses.
-   *Still open, but no longer blocked: the ensemble exists for `tau >= 2.5`
-   ([`probe/RESULTS.md`](probe/RESULTS.md)), so the comparison can be run.*
+4. ~~A chygraph whose complexes are the HRG's clustered motifs has a non-empty
+   core where the degree-matched configuration model does not.~~ **Confirmed,
+   including the exponent.** `core ~ kbar^beta` with `beta = 1.55, 1.57`
+   predicted against `1.58, 1.64` measured at `tau = 2.5, 2.9`, where the
+   degree-matched control has no core at all. See below.
 
 Prediction 4 is the whole motivating claim and the one to attack first, because
 it is the one that would kill the programme. It is written up as a work item in

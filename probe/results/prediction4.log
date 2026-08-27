@@ -1,0 +1,57 @@
+tau=2.1 kbar=0.049 seed=1  HRG chy=0.00011 meas=0.00014   cfg chy=0.00000 meas=0.00000
+tau=2.1 kbar=0.050 seed=2  HRG chy=0.00011 meas=0.00009   cfg chy=0.00000 meas=0.00000
+tau=2.1 kbar=0.106 seed=1  HRG chy=0.00039 meas=0.00042   cfg chy=0.00000 meas=0.00000
+tau=2.1 kbar=0.099 seed=2  HRG chy=0.00042 meas=0.00061   cfg chy=0.00000 meas=0.00000
+tau=2.1 kbar=0.203 seed=1  HRG chy=0.00110 meas=0.00121   cfg chy=0.00001 meas=0.00000
+tau=2.1 kbar=0.204 seed=2  HRG chy=0.00116 meas=0.00141   cfg chy=0.00000 meas=0.00000
+tau=2.1 kbar=0.407 seed=1  HRG chy=0.00328 meas=0.00311   cfg chy=0.00002 meas=0.00000
+tau=2.1 kbar=0.407 seed=2  HRG chy=0.00346 meas=0.00363   cfg chy=0.00001 meas=0.00000
+tau=2.1 kbar=0.814 seed=1  HRG chy=0.00852 meas=0.00668   cfg chy=0.00006 meas=0.00000
+tau=2.1 kbar=0.805 seed=2  HRG chy=0.00916 meas=0.00903   cfg chy=0.00002 meas=0.00000
+tau=2.1 kbar=1.502 seed=1  HRG chy=0.01950 meas=0.01488   cfg chy=0.00017 meas=0.00000
+tau=2.1 kbar=1.495 seed=2  HRG chy=0.02068 meas=0.01843   cfg chy=0.00008 meas=0.00000
+tau=2.1 kbar=3.023 seed=1  HRG chy=0.04881 meas=0.03456   cfg chy=0.00069 meas=0.00000
+tau=2.1 kbar=2.950 seed=2  HRG chy=0.05083 meas=0.04201   cfg chy=0.00024 meas=0.00000
+tau=2.1 kbar=6.015 seed=1  HRG chy=0.11285 meas=0.07799   cfg chy=0.00165 meas=0.00000
+tau=2.1 kbar=5.917 seed=2  HRG chy=0.11797 meas=0.09614   cfg chy=0.00081 meas=0.00000
+tau=2.5 kbar=0.049 seed=1  HRG chy=0.00034 meas=0.00053   cfg chy=0.00000 meas=0.00000
+tau=2.5 kbar=0.050 seed=2  HRG chy=0.00025 meas=0.00030   cfg chy=0.00000 meas=0.00000
+tau=2.5 kbar=0.099 seed=1  HRG chy=0.00132 meas=0.00167   cfg chy=0.00000 meas=0.00000
+tau=2.5 kbar=0.099 seed=2  HRG chy=0.00105 meas=0.00138   cfg chy=0.00000 meas=0.00000
+tau=2.5 kbar=0.197 seed=1  HRG chy=0.00306 meas=0.00436   cfg chy=0.00000 meas=0.00000
+tau=2.5 kbar=0.198 seed=2  HRG chy=0.00328 meas=0.00470   cfg chy=0.00000 meas=0.00000
+tau=2.5 kbar=0.392 seed=1  HRG chy=0.00840 meas=0.01267   cfg chy=0.00000 meas=0.00000
+tau=2.5 kbar=0.395 seed=2  HRG chy=0.00938 meas=0.01329   cfg chy=0.00000 meas=0.00000
+tau=2.5 kbar=0.784 seed=1  HRG chy=0.02239 meas=0.03341   cfg chy=0.00000 meas=0.00000
+tau=2.5 kbar=0.792 seed=2  HRG chy=0.02372 meas=0.03449   cfg chy=0.00000 meas=0.00000
+tau=2.5 kbar=1.477 seed=1  HRG chy=0.05052 meas=0.07709   cfg chy=0.00002 meas=0.00000
+tau=2.5 kbar=1.478 seed=2  HRG chy=0.05356 meas=0.08336   cfg chy=0.00001 meas=0.00000
+tau=2.5 kbar=3.060 seed=1  HRG chy=0.13130 meas=0.19958   cfg chy=0.00006 meas=0.00000
+tau=2.5 kbar=2.954 seed=2  HRG chy=0.13132 meas=0.20171   cfg chy=0.00002 meas=0.00000
+tau=2.5 kbar=6.101 seed=1  HRG chy=0.40666 meas=0.48055   cfg chy=0.00020 meas=0.00000
+tau=2.5 kbar=5.908 seed=2  HRG chy=0.40793 meas=0.48785   cfg chy=0.00008 meas=0.00002
+tau=2.9 kbar=0.050 seed=1  HRG chy=0.00062 meas=0.00066   cfg chy=0.00000 meas=0.00000
+tau=2.9 kbar=0.049 seed=2  HRG chy=0.00067 meas=0.00068   cfg chy=0.00000 meas=0.00000
+tau=2.9 kbar=0.100 seed=1  HRG chy=0.00246 meas=0.00246   cfg chy=0.00000 meas=0.00000
+tau=2.9 kbar=0.099 seed=2  HRG chy=0.00225 meas=0.00232   cfg chy=0.00000 meas=0.00000
+tau=2.9 kbar=0.200 seed=1  HRG chy=0.00719 meas=0.00768   cfg chy=0.00000 meas=0.00000
+tau=2.9 kbar=0.199 seed=2  HRG chy=0.00721 meas=0.00756   cfg chy=0.00000 meas=0.00000
+tau=2.9 kbar=0.402 seed=1  HRG chy=0.02017 meas=0.02244   cfg chy=0.00000 meas=0.00000
+tau=2.9 kbar=0.399 seed=2  HRG chy=0.02083 meas=0.02319   cfg chy=0.00000 meas=0.00000
+tau=2.9 kbar=0.807 seed=1  HRG chy=0.05176 meas=0.06309   cfg chy=0.00000 meas=0.00000
+tau=2.9 kbar=0.799 seed=2  HRG chy=0.05368 meas=0.06574   cfg chy=0.00000 meas=0.00000
+tau=2.9 kbar=1.508 seed=1  HRG chy=0.11606 meas=0.15111   cfg chy=0.00000 meas=0.00002
+tau=2.9 kbar=1.503 seed=2  HRG chy=0.11812 meas=0.15312   cfg chy=0.00000 meas=0.00000
+tau=2.9 kbar=3.016 seed=1  HRG chy=0.28970 meas=0.37468   cfg chy=0.00000 meas=0.00005
+tau=2.9 kbar=2.994 seed=2  HRG chy=0.29246 meas=0.37759   cfg chy=0.00000 meas=0.00000
+tau=2.9 kbar=6.028 seed=1  HRG chy=0.73369 meas=0.76150   cfg chy=0.63509 meas=0.61412
+tau=2.9 kbar=5.983 seed=2  HRG chy=0.73608 meas=0.76702   cfg chy=0.63095 meas=0.62790
+
+power-law exponents on kbar <= 1.0: core ~ kbar^beta
+computational_complexity measured 1.22 / 1.50 / 1.63 at tau = 2.1 / 2.5 / 2.9
+  tau  beta measured  beta chygraph  beta control
+  2.1          1.491          1.571           nan
+  2.5          1.584          1.551           nan
+  2.9          1.635          1.573           nan
+
+wrote /Users/avazquez/av2atg/chygraph_statmech/probe/results/prediction4.csv (48 rows)
