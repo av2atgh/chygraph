@@ -1,0 +1,585 @@
+\documentclass[aps,pre,onecolumn,superscriptaddress,floatfix,nofootinbib]{revtex4-2}
+
+\usepackage{amsmath,amssymb,graphicx,hyperref}
+\usepackage{longtable}
+\usepackage{array}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\newcommand{\ave}[1]{\langle #1 \rangle}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\kbar}{\bar\kappa}
+\newcommand{\sbar}{\bar s}
+\renewcommand{\thesection}{S\arabic{section}}
+\renewcommand{\theequation}{S\arabic{equation}}
+\renewcommand{\thetable}{S\arabic{table}}
+
+\begin{document}
+
+\title{Supplemental Material:\\ Statistical mechanics on chygraphs}
+
+\author{Alexei V\'azquez}
+\email{alexei@nodeslinks.com}
+\affiliation{Nodes \& Links Ltd, Salisbury House, Station Road,
+Cambridge, CB1 2LA, UK}
+
+\date{\today}
+
+\maketitle
+
+This document carries three things the main text refers to but has no room for.
+Section~\ref{sec:map} is the map from every numbered equation of the manuscript
+to the routine that evaluates it and the test that checks it.
+Sections~\ref{sec:branching}--\ref{sec:core} write out the derivations that the
+main text compresses to a sentence, each one closed by hand and each one pinned
+by a test rather than by a quoted number --- the manuscript's own record is that
+every claim which had to be corrected during review was a number reported
+without a derivation behind it. Section~\ref{sec:gbp} reports the
+generalised-belief-propagation calculation that the conclusions name as the
+standing item, on the manuscript's own example.
+Section~\ref{sec:repro} says which script produces each table and figure.
+
+Equation numbers without an ``S'' refer to the main text. All code is at
+\url{https://github.com/av2atgh/chygraph_statmech}; a name written
+\code{module.thing} is \code{src/chygraph\_statmech/module.py}, and
+\code{Chygraph.thing} is a method of the single class in \code{api.py} that
+holds the structure and delegates to those modules.
+
+\section{Equation to method}
+\label{sec:map}
+
+{\footnotesize
+\begin{longtable}{@{}r L{0.29\textwidth} L{0.37\textwidth} L{0.17\textwidth}@{}}
+\caption{\label{tab:map}Every numbered equation of the manuscript, the routine
+that evaluates it, and the test file that checks it.}\\
+\hline\hline
+Eq. & what it is & evaluated by & checked in \\
+\hline
+\endfirsthead
+\hline\hline
+Eq. & what it is & evaluated by & checked in \\
+\hline
+\endhead
+\hline\hline
+\endfoot
+(1)  & up step, $h_{i\to a}$ & \code{population.CavityPopulation.sweep} & \code{test\_population} \\
+(2)  & down step, $u_{a\to i}$ & \code{cavity.emitted\_field} & \code{test\_ising} \\
+(3)  & generating function acting on a measure & \code{population.CavityPopulation.}\newline\code{\_sum\_over\_complexes} & \code{test\_population} \\
+(4)  & ensemble map for $P^{ml}$ & \code{population.CavityPopulation.sweep} & \code{test\_population} \\
+(5)  & field emitted by a complex & \code{cavity.emitted\_field}, \code{Chygraph.emitted\_field} & \code{test\_ising} \\
+(6)  & linearisation, $u'=\partial u/\partial h$ & \code{cavity.cavity\_derivative} & \code{test\_ising} \\
+(7)  & reweighting $\ave{\kappa}\to\ave{\kappa}\ave{u'}$ & \code{stability.reweight}, \code{Chygraph.stability\_tensor} & \code{test\_stability} \\
+(8)  & branching matrix $B_{lm}$ & \code{Chygraph.branching\_matrix} & \code{test\_api}, \code{test\_derivations} \\
+(9)  & size-biased $\ave{\sbar\,u'}_m$ & \code{Chygraph.transmission}, \code{Chygraph.size\_biased} & \code{test\_api}, \code{test\_derivations} \\
+(10) & $\det(I-B)=0$ & \code{Chygraph.critical\_coupling} & \code{test\_api}, \code{test\_ising} \\
+(11) & single-cardinality collapse of (8) & \code{ising.branching\_matrix} & \code{test\_ising} \\
+(12) & $\rho(J(Q^\ast))=1-\Lambda+O(\Lambda^2)$ & \code{fixedpoint.FixedPointStability.}\newline\code{spectral\_radius} & \code{test\_fixedpoint} \\
+(13) & Bethe free energy & \code{freeenergy.BetheFreeEnergy.minus\_beta\_f} & \code{test\_freeenergy} \\
+(14) & paramagnetic closed form & \code{freeenergy.paramagnetic} & \code{test\_freeenergy}, \code{test\_derivations} \\
+(15) & links and triangles, $L=2$ & \code{Chygraph.critical\_coupling} & \code{test\_derivations} \\
+(16) & Ising Hamiltonian & \code{cavity.ising\_clique} & \code{test\_ising} \\
+(17) & $u'$ for $c=2,3,4$ & \code{ising.clique\_derivative} & \code{test\_ising}, \code{test\_derivations} \\
+(18) & Monte Carlo $T_c$ & \code{probe/ising\_mc.py} & --- (simulation) \\
+(19) & simplicial Hamiltonian & \code{simplicial.emitted} & \code{test\_simplicial} \\
+(20) & $Z(\sigma_0)$ for the unanimity rule & \code{simplicial.emitted} & \code{test\_simplicial}, \code{test\_derivations} \\
+(21) & $u'$ for the unanimity rule & \code{simplicial.uprime} & \code{test\_simplicial}, \code{test\_derivations} \\
+(22) & Bragg--Williams limit $T^\ast$ & \code{simplicial.SimplicialChygraph.spinodal} & \code{test\_simplicial}, \code{test\_derivations} \\
+(23) & first-order $T_c$ and $\Delta m$ at $q=16$ & \code{simplicial.SimplicialChygraph.transition} & \code{test\_simplicial} \\
+(24) & hitting-set Hamiltonian and constraint & \code{hittingset.HittingSet} & \code{test\_hittingset} \\
+(25) & hard-field warning propagation & \code{hittingset.HittingSet.F} & \code{test\_hittingset} \\
+(26) & hard-field ensemble map & \code{hittingset.HittingSet.solve} & \code{test\_hittingset} \\
+(27) & $\ave{k}(c-1)=e$ & \code{hittingset.rsb\_point} & \code{test\_hittingset}, \code{test\_derivations} \\
+(28) & vertex-cover constraint & \code{cover.CliqueCover} & \code{test\_cover} \\
+(29) & the $\max$ rule inside a complex & \code{cover.CliqueCover.tau} & \code{test\_cover} \\
+(30) & vertex-cover ensemble map & \code{cover.CliqueCover.solve} & \code{test\_cover} \\
+(31) & soft-field belief propagation & \code{softfield.HittingSetBP.sweep} & \code{test\_softfield} \\
+(32) & $h_{\mathrm{RS}}$ and $\rho=1/K$ & \code{softfield.regular\_field}, \code{softfield.regular\_density} & \code{test\_softfield}, \code{test\_derivations} \\
+(33) & entropy $s$ for an arbitrary chygraph & \code{softfield.HittingSetBP.entropy} & \code{test\_softfield} \\
+(34) & regular-hypergraph entropy & \code{softfield.regular\_entropy} & \code{test\_softfield}, \code{test\_derivations} \\
+(35) & three-state leaf-removal messages & \code{core.CorePercolation.solve} & \code{test\_core} \\
+(36) & $\zeta$ and $\kappa$ inside a complex & \code{core.CorePercolation.zeta}, \code{.kappa} & \code{test\_core}, \code{test\_derivations} \\
+(37) & M\"obius counting numbers & \code{region.RegionGraph} & \code{test\_region} \\
+\end{longtable}
+}
+
+Two entries need a word. Equation~(2) is a placeholder for whatever the
+interior Hamiltonian is: the routine takes $-\beta H$ as a callable, and the
+four models of the manuscript differ only in what is passed to it.
+Equation~(18) is a direct simulation and is deliberately not covered by the test
+suite, because a test that reproduced it from the cavity equations would defeat
+its purpose; it is the one number in the paper obtained without them.
+
+The remaining routines are solvers shared across sections rather than
+equations: \code{antimonotone.fixed\_point} brackets the order-reversing maps of
+Eqs.~(26) and~(30) by iterating $F\circ F$ from $0$ and from $1$,
+\code{region.overlap\_profile} measures how far an explicit complex family is
+from treelike, and \code{gbp.GBP} is Sec.~\ref{sec:gbp} below.
+
+\section{The branching matrix}
+\label{sec:branching}
+
+\subsection{The size-biased average, Eq.~(9)}
+
+Arriving at a node through one of its complexes and asking what else branches
+means sampling a complex \emph{by following one of its inclusions}. A complex of
+cardinality $c$ has $c$ inclusions and so is reached $c$ times as often as one
+of cardinality $1$; the ensemble seen on arrival is therefore the size-biased
+one, $c\,p_c/\ave{c}$, and every per-complex quantity in Eq.~(8) is averaged
+that way. With $f(c)=(c-1)u'(c)$ this is Eq.~(9). Taking instead $f(c)=c-1$,
+\begin{equation}
+  \ave{\sbar}=\sum_c\frac{c\,p_c}{\ave{c}}(c-1)
+  =\frac{\ave{c^{2}}-\ave{c}}{\ave{c}}
+  =\frac{\ave{c^{2}}}{\ave{c}}-1 ,
+  \label{eq:sbar}
+\end{equation}
+which is not $\ave{c}-1$: for a layer mixing $c=3$ and $c=5$ equally the two are
+$3.25$ and $3$. And $\ave{\sbar\,u'}\neq\ave{\sbar}\ave{u'}$ unless $u'$ is
+common to the layer, which is why Eq.~(9) averages the product. Splitting a
+mixed layer into one layer per cardinality with chy-degrees in the ratio
+$c\,p_c$ reproduces the same transition, which is the check
+\code{test\_api} runs.
+
+\subsection{Links and triangles, Eq.~(15)}
+
+With $L$ the link layer ($c=2$) and $T$ the triangle layer ($c=3$), Eq.~(8) reads
+\begin{equation}
+  B=\begin{pmatrix}
+      \ave{\kbar}_L u'_L & 2\ave{\kappa}_T u'_T\\[2pt]
+      \ave{\kappa}_L u'_L & 2\ave{\kbar}_T u'_T
+    \end{pmatrix},
+\end{equation}
+the factors $c_m-1$ being $1$ and $2$. Then
+\begin{equation}
+  \begin{split}
+  \det(I-B)&=\big(1-\ave{\kbar}_Lu'_L\big)\big(1-2\ave{\kbar}_Tu'_T\big)
+             -2\ave{\kappa}_L\ave{\kappa}_Tu'_Lu'_T\\
+  &=1-\ave{\kbar}_Lu'_L-2\ave{\kbar}_Tu'_T
+     +2u'_Lu'_T\big(\ave{\kbar}_L\ave{\kbar}_T-\ave{\kappa}_L\ave{\kappa}_T\big),
+  \end{split}
+\end{equation}
+and setting it to zero is Eq.~(15). The cross term carries
+$\ave{\kappa}_L\ave{\kappa}_T-\ave{\kbar}_L\ave{\kbar}_T$ and so vanishes
+whenever both layers are Poisson, each being its own excess. It does not vanish
+for regular layers, where $\ave{\kbar}=\ave{\kappa}-1$, and that is the whole of
+the difference between the two null models of Table~I.
+
+\section{The Ising model}
+\label{sec:ising}
+
+\subsection{What a clique transmits, Eq.~(17)}
+
+Differentiating Eq.~(5) with respect to one incoming field and evaluating at
+$h=0$,
+\begin{equation}
+  u'=\frac{\partial}{\partial h_1}\,\tfrac12\big[\ln Z(+)-\ln Z(-)\big]\bigg|_{h=0}
+   =\tfrac12\Big[\ave{\sigma_1}_+-\ave{\sigma_1}_-\Big],
+  \label{eq:updef}
+\end{equation}
+the two averages being taken inside the complex at zero cavity field with
+$\sigma_0$ held at $+1$ and at $-1$. For $c=3$ with $a=\beta J$, the interior
+sum $\sigma_0\sigma_1+\sigma_0\sigma_2+\sigma_1\sigma_2$ takes the value $3$ on
+the one configuration where the other two agree with $\sigma_0$ and $-1$ on the
+other three, so
+\begin{equation}
+  \ave{\sigma_1}_+=\frac{e^{3a}-e^{-a}}{e^{3a}+3e^{-a}}
+                  =\frac{e^{4a}-1}{e^{4a}+3},
+  \qquad \ave{\sigma_1}_-=-\ave{\sigma_1}_+
+\end{equation}
+by spin-flip symmetry. Hence $u'=(e^{4a}-1)/(e^{4a}+3)$, and substituting
+$e^{2a}=(1+t)/(1-t)$ with $t=\tanh a$,
+\begin{equation}
+  u'=\frac{(1+t)^2-(1-t)^2}{(1+t)^2+3(1-t)^2}
+    =\frac{4t}{4-4t+4t^{2}}=\frac{t}{1-t+t^{2}} ,
+\end{equation}
+which is Eq.~(17). The same enumeration at $c=4$ gives
+$(t+t^{3})/(1-2t+3t^{2})$, and beyond that no useful closed form, though the sum
+remains exact at any cardinality small enough to enumerate. Since
+$t/(1-t+t^2)>t$ on $0<t<1$, a triangle transmits more per traversal than an
+edge; Sec.~V~B of the main text is the argument that it nevertheless lowers
+$T_c$, because Eq.~(8) also loses a branch.
+
+\subsection{Why the overlap term collapses, Eq.~(13)}
+
+The Bethe free energy of a factor model is a sum of one term per factor and one
+per variable, minus one per factor--variable pair,
+\begin{equation}
+  -\beta F=\sum_a\ln Z_a+\sum_i\ln Z_i-\sum_{(a,i)}\ln Z_{ai},
+\end{equation}
+with $Z_{ai}=\sum_\sigma\nu_{i\to a}(\sigma)\hat\nu_{a\to i}(\sigma)$ the
+overlap term. Parameterising $\nu_{i\to a}(\sigma)\propto e^{h_{i\to a}\sigma}$
+and $\hat\nu_{a\to i}(\sigma)\propto e^{u_{a\to i}\sigma}$ gives
+$Z_{ai}=2\cosh(h_{i\to a}+u_{a\to i})$, and by Eq.~(1)
+\begin{equation}
+  h_{i\to a}+u_{a\to i}
+  =\mu+\sum_{b\ni i,\,b\neq a}u_{b\to i}+u_{a\to i}
+  =\mu+\sum_{b\ni i}u_{b\to i}=h_i ,
+\end{equation}
+the \emph{full} field at $i$, which does not depend on $a$. So every one of the
+$k_i$ overlap terms at node $i$ equals $Z_i=2\cosh h_i$, and
+\begin{equation}
+  \sum_i\ln Z_i-\sum_{(a,i)}\ln Z_{ai}=\sum_i(1-k_i)\ln Z_i .
+\end{equation}
+Per node, with $n_l=\ave{k_l}/c_l$ layer-$l$ complexes --- each holds $c_l$
+members and each node sits in $\ave{k_l}$ of them --- this is Eq.~(13). It is
+the collapse that makes the free energy cost no more than the messages already
+computed, and it is special to the exponential parameterisation: for a general
+message shape the overlap term does not reduce to the node term.
+
+At zero cavity field $Z_i=2$ and $\ln Z_a$ becomes the isolated-complex
+$\ln Z_c$, so
+\begin{equation}
+  -\beta f_{\mathrm{para}}
+   =\sum_l n_l\ln Z^{(l)}_c+\Big(1-\sum_l\ave{k_l}\Big)\ln 2
+   =\ln 2+\sum_l\frac{\ave{k_l}}{c_l}\ln\!\big(Z^{(l)}_c/2^{c_l}\big),
+\end{equation}
+which is Eq.~(14). For a graph it is the textbook
+$\ln 2+(\ave{k}/2)\ln\cosh\beta J$.
+
+\section{The unanimity interaction}
+\label{sec:simplicial}
+
+\subsection{The interior sum, Eqs.~(20) and~(21)}
+
+The unanimity rule contributes $e^{a}$, $a=\beta J_q$, on the two configurations
+in which every member of the hyperedge agrees, and $1$ on the other $2^q-2$.
+Writing it as $1+(e^{a}-1)\delta$ splits the interior sum into a free part and
+one correction term. With independent cavity fields $h_1,\dots,h_{q-1}$ on the
+other members,
+\begin{equation}
+  Z(\sigma_0)=\prod_{j=1}^{q-1}\big(2\cosh h_j\big)
+              +(e^{a}-1)\,e^{\sigma_0\sum_j h_j},
+  \label{eq:simZgen}
+\end{equation}
+the correction surviving only where every $\sigma_j=\sigma_0$. Putting every
+$h_j=h$ gives Eq.~(20). Differentiating with respect to $h_1$,
+\begin{equation}
+  \frac{\partial Z(\sigma_0)}{\partial h_1}\bigg|_{h=0}
+  =2^{q-1}\tanh h_1\big|_{h_1=0}+\sigma_0(e^{a}-1)=\sigma_0(e^{a}-1),
+\end{equation}
+while $Z(\pm1)|_{h=0}=2^{q-1}+e^{a}-1$ for both signs, so by
+Eq.~\eqref{eq:updef}
+\begin{equation}
+  u'=\frac{e^{a}-1}{2^{q-1}+e^{a}-1},
+\end{equation}
+which is Eq.~(21). At $q=2$ this is $(e^{a}-1)/(e^{a}+1)=\tanh(a/2)$: a
+simplicial pair is an ordinary bond of half the coupling, as
+$\delta_{\sigma_0\sigma_1}=(1+\sigma_0\sigma_1)/2$ requires. Differentiating
+instead with respect to a field common to all $q-1$ other members sums $q-1$
+identical derivatives and so multiplies Eq.~(21) by $q-1$; that is the
+combination which enters a symmetric fixed point directly, and using it in
+Eq.~(8) --- which supplies the multiplicity itself --- counts $q-1$ twice.
+
+\subsection{The infinite-connectivity limit and its residual, Eq.~(22)}
+
+Take one layer of cardinality $q$ at fixed chy-degree $k$, so
+$\ave{\kbar}=k-1$, and impose the normalisation $\rho_qJ_q=1$ of
+Ref.~[SLG26], which for $k$ complexes per vertex is $J_q=q/k$. The spinodal is
+$(k-1)(q-1)u'=1$ with $a=q/(kT)$. Expanding in $\varepsilon=a$, which is $O(1/k)$,
+\begin{equation}
+  u'=\frac{\varepsilon+\tfrac12\varepsilon^{2}+O(\varepsilon^{3})}
+          {2^{q-1}+\varepsilon+O(\varepsilon^{2})}
+    =\frac{\varepsilon}{2^{q-1}}
+     \Big[1+\varepsilon\big(\tfrac12-2^{1-q}\big)+O(\varepsilon^{2})\Big].
+\end{equation}
+Substituting and writing $T^{\ast}=q(q-1)/2^{\,q-1}$,
+\begin{equation}
+  \frac{T^{\ast}}{T}\Big(1-\frac1k\Big)
+  \Big[1+\frac{q}{kT}\big(\tfrac12-2^{1-q}\big)\Big]=1 ,
+\end{equation}
+so that at leading order
+\begin{equation}
+  T=T^{\ast}-\frac{C_q}{k}+O(k^{-2}),
+  \qquad
+  C_q=T^{\ast}-q\big(\tfrac12-2^{1-q}\big)
+     =\frac{q\big(2q-2^{\,q-1}\big)}{2^{\,q}} .
+  \label{eq:residual}
+\end{equation}
+Two things follow, and the second is the one the main text states without
+deriving. The limit is $T^{\ast}=q(q-1)/2^{q-1}$, which is Eq.~(8) of
+Ref.~[SLG26]. And $C_q$ vanishes precisely when $2q=2^{\,q-1}$, that is at
+$q=4$ and nowhere else: the leading finite-connectivity correction is absent at
+the cardinality which is tricritical in the mean-field theory, and $T^\ast$ is
+approached there as $1/k^{2}$ rather than $1/k$. At $q=3$, $C_3=3/4$, which
+gives $1.5\times10^{-2}$, $3.8\times10^{-3}$ and $9.4\times10^{-4}$ at $k=50$,
+$200$ and $800$ --- the residuals quoted in the main text, now with the
+coefficient behind them. Table~\ref{tab:resid} runs the check across
+cardinality.
+
+\begin{table}[t]
+\caption{\label{tab:resid}Equation~\eqref{eq:residual} against the spinodal
+computed from Eq.~(8). $C_q$ changes sign between $q=4$ and $q=5$, and vanishes
+at $q=4$.}
+\begin{ruledtabular}
+\begin{tabular}{rrrrrr}
+$q$ & $T^{\ast}$ & $C_q$ & $T-T^{\ast}$ at $k=200$ & $-C_q/200$ & $T-T^{\ast}$ at $k=800$ \\
+\colrule
+2 & 1.00000 & $ 1.0000$ & $-5.008\times10^{-3}$ & $-5.000\times10^{-3}$ & $-1.251\times10^{-3}$ \\
+3 & 1.50000 & $ 0.7500$ & $-3.763\times10^{-3}$ & $-3.750\times10^{-3}$ & $-9.383\times10^{-4}$ \\
+4 & 1.50000 & $ 0$      & $-2.222\times10^{-5}$ & $0$                   & $-1.389\times10^{-6}$ \\
+5 & 1.25000 & $-0.9375$ & $+4.646\times10^{-3}$ & $+4.688\times10^{-3}$ & $+1.169\times10^{-3}$ \\
+6 & 0.93750 & $-1.8750$ & $+9.296\times10^{-3}$ & $+9.375\times10^{-3}$ & $+2.339\times10^{-3}$ \\
+8 & 0.43750 & $-3.5000$ & $+1.721\times10^{-2}$ & $+1.750\times10^{-2}$ & $+4.356\times10^{-3}$ \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+\section{Hitting set}
+\label{sec:hs}
+
+\subsection{The regular solution, Eq.~(32)}
+
+For $L$ complexes of cardinality $K$ at every node, symmetry makes every
+message equal and Eq.~(31) closes on the pair $(h,v)$,
+\begin{equation}
+  h=-\mu+(L-1)v,\qquad
+  v=-\ln\Big[1-\big(1+e^{h}\big)^{-(K-1)}\Big].
+\end{equation}
+As $\mu\to\infty$, $h\to-\infty$ and
+$(1+e^{h})^{-(K-1)}=1-(K-1)e^{h}+O(e^{2h})$, so the complex step becomes
+\begin{equation}
+  v=-\ln\big[(K-1)e^{h}\big]=-\ln(K-1)-h .
+  \label{eq:vstep}
+\end{equation}
+Substituting into the chy-degree step, $h=-\mu-(L-1)\ln(K-1)-(L-1)h$, that is
+$Lh=-\mu-(L-1)\ln(K-1)$, and
+\begin{equation}
+  h_{\mathrm{RS}}=-\frac{\mu}{L}-\frac{L-1}{L}\ln(K-1),
+\end{equation}
+the first line of Eq.~(32). The cavity field carries a \emph{fraction} $1/L$ of
+$\mu$, which is exactly what an ansatz restricted to integer multiples of $\mu$
+cannot represent, and is the reason Sec.~V~D fails above cardinality two. The
+full field is what the density is read from, and by
+Eq.~\eqref{eq:vstep} it is finite,
+\begin{equation}
+  H=h+v=-\ln(K-1),\qquad
+  \rho=\frac{1}{1+e^{-H}}=\frac{1}{1+(K-1)}=\frac1K ,
+\end{equation}
+independent of both $\mu$ and $L$: one member of every complex is taken and none
+is wasted, so the counting bound is saturated.
+
+\subsection{The entropy, Eq.~(34)}
+
+Equation~(33) evaluated on that solution has $n=L/K$ complexes per node and
+$k=L$. From $H=-\ln(K-1)$,
+\begin{equation}
+  Z_i=1+e^{H}=\frac{K}{K-1},
+  \qquad
+  Z_a=\big(1+e^{h}\big)^{K}-1=Ke^{h}+O(e^{2h}),
+\end{equation}
+so $\ln Z_a=\ln K+h$ as $\mu\to\infty$. Then
+\begin{equation}
+  \begin{split}
+  s&=\frac{L}{K}\big(\ln K+h_{\mathrm{RS}}\big)
+     +(1-L)\ln\frac{K}{K-1}+\frac{\mu}{K}\\
+   &=\frac{L}{K}\ln K-\frac{\mu}{K}-\frac{L-1}{K}\ln(K-1)
+     +(1-L)\ln K-(1-L)\ln(K-1)+\frac{\mu}{K}\\
+   &=\frac{1}{K}\Big[(L+K-LK)\ln K+(L-1)(K-1)\ln(K-1)\Big],
+  \end{split}
+\end{equation}
+the two $O(\mu)$ pieces cancelling exactly --- which is why the regular case is
+exact where a heterogeneous ensemble needs the estimator time-averaged. With
+$a=(L-1)(K-1)$ one has $L+K-LK=1-a$, so
+\begin{equation}
+  s=\frac{1}{K}\Big[a\ln(K-1)-(a-1)\ln K\Big],
+\end{equation}
+which is Eq.~(34).
+
+\subsection{The hard-field threshold, Eq.~(27)}
+
+At fixed cardinality $c$ with Poisson chy-degree, $\bar\Phi(x)=e^{\ave{k}(x-1)}$
+and Eq.~(26) closes on one scalar, $\sigma=e^{-\ave{k}\sigma^{c-1}}$.
+Differentiating and using the fixed-point relation,
+\begin{equation}
+  |F'(\sigma)|=\ave{k}(c-1)\sigma^{c-2}e^{-\ave{k}\sigma^{c-1}}
+             =\ave{k}(c-1)\sigma^{c-1},
+\end{equation}
+so with $y=\ave{k}\sigma^{c-1}$ the fixed point reads $\sigma=e^{-y}$,
+$y=\ave{k}e^{-(c-1)y}$ and the instability $|F'|=1$ is $(c-1)y=1$. Eliminating
+$y=1/(c-1)$ from the second,
+\begin{equation}
+  \ave{k}=y\,e^{(c-1)y}=\frac{e}{c-1},
+  \qquad\text{that is}\qquad \ave{k}(c-1)=e ,
+\end{equation}
+Eq.~(27). Counted in neighbours the point does not move with cardinality at all,
+and $c=2$ returns the Bauer--Golinelli value.
+
+\section{Core percolation}
+\label{sec:core}
+
+\subsection{The intra-complex step, Eq.~(36)}
+
+Run leaf removal on the cavity branch. A node reached along an inclusion is
+leaf-ready ($L$, probability $\lambda$), deleted ($D$, probability $\delta$) or
+core-side; a complex is traversed by entering through one member and looking at
+the other $c-1$. Two events matter.
+
+A complex leaves the entering node free to be a leaf only when it offers nothing
+at all, that is when every one of the other $c-1$ members is already deleted:
+$\zeta=\delta^{\,c-1}$. A complex forces the entering node out only when exactly
+one other member is live and leaf-ready --- with two or more live members the
+entering node is not a leaf of that complex and the complex decides nothing ---
+which happens in $c-1$ ways: $\kappa=(c-1)\delta^{\,c-2}\lambda$. Those are the
+two lines of Eq.~(36), and at $c=2$ they degenerate to $\zeta=\delta$,
+$\kappa=\lambda$, returning the graph recursion.
+
+\subsection{No core-free branch above cardinality two}
+
+A core-free branch is $\gamma=0$, that is $\lambda+\delta=1$. Substituting
+Eq.~(35), $\bar\Phi^{(m)}(\zeta)+1-\bar\Phi^{(m)}(1-\kappa)=1$, and since
+$\bar\Phi$ is a power series with non-negative coefficients and hence strictly
+increasing, this requires $\zeta=1-\kappa$ in every layer. With
+$\lambda=1-\delta$ that is
+\begin{equation}
+  f(\delta)\equiv(c-1)\delta^{\,c-2}-(c-2)\delta^{\,c-1}-1=0 .
+\end{equation}
+The polynomial factors,
+\begin{equation}
+  f(\delta)=-(1-\delta)^{2}\sum_{j=0}^{c-3}(j+1)\,\delta^{\,j},
+  \label{eq:factored}
+\end{equation}
+which is the whole argument. At $c=2$ the sum is empty and $f\equiv0$: the
+condition is an identity and the core-free branch exists at every chy-degree
+below threshold. At $c\geq3$ every coefficient of the sum is strictly positive,
+so $f(\delta)<0$ on $[0,1)$ and $f(1)=0$; the only root is $\delta=1$, forcing
+$\lambda=0$. A chygraph carrying any layer of cardinality three or more
+therefore has no core-free branch, which is why leaf removal never certifies a
+cover there, and it is a property of Eq.~(36) rather than an assumption imported
+from elsewhere.
+
+The strong reading is false and worth blocking again here: this does \emph{not}
+say a complex survives leaf removal whole. Leaf removal deletes a leaf's
+\emph{neighbour}, and a triangle carrying one pendant edge per vertex has an
+empty core. What Eq.~\eqref{eq:factored} gives is only that the core cannot
+vanish identically; it can be $1.8\times10^{-4}$.
+
+\section{Generalised belief propagation on the region graph}
+\label{sec:gbp}
+
+Section~VII of the main text closes the complex family under intersection and
+assigns M\"obius counting numbers, and stops there: the counting says where the
+Bethe treatment miscounts without repairing the messages, and Table~III evaluates
+it on \emph{isolated} regions, which is an estimate and not a fixed point. This
+section runs the messages. The algorithm is the parent-to-child form of
+generalised belief propagation [YFW05], implemented in \code{gbp.GBP}.
+
+A message lives on a directed edge of the region graph, from a region $P$ to a
+direct child $R$, and is a function of the child's variables. Writing
+$U_R=\{R\}\cup\mathrm{descendants}(R)$ and $f_R$ for the product of every factor
+whose scope lies inside $R$, the belief on a region is
+\begin{equation}
+  b_R(x_R)\;\propto\;f_R(x_R)\!\!\prod_{(I\to J):\,J\in U_R,\;I\notin U_R}\!\!
+  m_{I\to J}(x_J),
+\end{equation}
+and imposing $\sum_{x_P\setminus x_R}b_P=b_R$ cancels every message common to
+the two sides and leaves
+\begin{equation}
+  m_{P\to R}(x_R)=\frac{\displaystyle\sum_{x_P\setminus x_R}f_{P\setminus R}(x_P)
+    \prod_{N(P,R)}m}{\displaystyle\prod_{D(P,R)\setminus(P,R)}m},
+  \qquad
+  \begin{aligned}
+    N(P,R)&=\{(I,J):J\in U_P\setminus U_R,\ I\notin U_P\},\\
+    D(P,R)&=\{(I,J):J\in U_R,\ I\in U_P\setminus U_R\}.
+  \end{aligned}
+  \label{eq:p2c}
+\end{equation}
+On the two-layer region graph of a pairwise model --- one region per interaction
+plus one per variable --- $D(P,R)$ holds only the edge being updated, $N(P,R)$
+is the set of incoming messages to the interaction's other variables, and
+Eq.~\eqref{eq:p2c} is ordinary belief propagation. So generalised belief
+propagation contains belief propagation exactly as the M\"obius counting
+contains the Bethe counting, and \code{test\_gbp} checks that
+\code{gbp.GBP} run on that region graph reproduces an independently written
+belief propagation to $10^{-10}$ on a chain, a star, a four-cycle and a theta
+graph --- the loopy error included, so the two agree on the mistake as well as
+on the answer.
+
+Two conditions are enforced before anything is iterated. The counting numbers
+must cover every variable once, which \code{region.RegionGraph} already checks,
+and they must cover every \emph{factor} once. The second is not automatic and is
+exactly what fails for the Bethe treatment of overlapping complexes: two
+triangles sharing an edge count that bond in both complexes, so
+$\sum_{R\supseteq\{i,j\}}c_R=2$, and \code{gbp.GBP} refuses to run on it rather
+than returning a number. Under the M\"obius counting the same sum is
+$1+1-1=1$.
+
+\subsection{The two-triangle example}
+
+On the manuscript's own example the region family closes on
+$\{0,1,2\}$, $\{1,2,3\}$ and $\{1,2\}$ once the zero-counting singletons are
+dropped, and that is a junction tree; generalised belief propagation on a
+junction tree is exact. That is the last column of Table~III of the main text:
+the error in $\ln Z$ is at the level of double precision at every coupling,
+against $1.4\times10^{-3}$ to $6.6\times10^{-2}$ for the M\"obius counting
+evaluated on isolated regions and $1.8\times10^{-2}$ to $1.3$ for the Bethe
+counting. So the whole of what that table reports as left on the table is
+recovered, and the overshoot of the M\"obius column is a property of evaluating
+a counting on isolated regions rather than of the counting itself.
+
+
+\subsection{What it does and does not settle}
+
+Three limits are worth stating plainly, because the calculation is easy to
+over-read.
+
+It is exact when the closed complex family is a junction tree, which for
+maximal cliques means the graph is chordal. On $60$ maximal-clique region graphs
+of hyperbolic random graphs small enough to enumerate exactly --- $n=14$, $18$
+and $20$ at $\ave{k}=3.5$, $5$ and $7$, ten seeds each at $\beta J=0.3$ and
+$0.8$, with only the non-treelike instances kept --- every one of the $40$
+chordal runs comes out exact, the worst error being $3\times10^{-12}$.
+The $20$ non-chordal runs divide. Nine of them converge, at damping up to
+$0.995$, and there the error runs from $1.4\times10^{-9}$ to $5.4\times10^{-3}$
+against $0.48$--$1.1$ for the M\"obius counting and $0.32$--$22$ for the Bethe
+counting on the same instances --- two to eight orders of magnitude better ---
+with $\sum_{x_P\setminus x_R}b_P=b_R$ satisfied to $9\times10^{-8}$, so what is
+left is the approximation's error and not the solver's. The other eleven do not
+converge even at damping $0.999$; their residual says so and no number from them
+should be quoted. It is that instability, rather than the accuracy where it
+converges, that an ensemble treatment would inherit. \code{probe/gbp\_cliques.py}
+runs the comparison.
+
+It is not variationally bounded, and on a region graph built from complexes that
+contain one another it can be worse than the static estimate: covering $K_4$ by
+its four triangles rather than by $K_4$ itself gives an error of $10^{-2}$
+against the static $4\times10^{-3}$. That case does not arise for maximal
+cliques, which never nest.
+
+And it is an \emph{instance-level} calculation. It takes an explicit list of
+complexes and an explicit interaction; everything else in the manuscript works
+at the level of an ensemble, where a message is a distribution over a
+chy-degree class rather than a function on one region. Lifting
+Eq.~\eqref{eq:p2c} to ensembles --- messages indexed by region \emph{type}, with
+the intersection structure itself random --- is what would close the overlap
+deficit of Sec.~VII on hyperbolic random graphs, and it remains open.
+
+\section{Reproducing the tables and figures}
+\label{sec:repro}
+
+\begin{table}[ht]
+\caption{\label{tab:repro}What produces each display item.}
+\begin{ruledtabular}
+\begin{tabular}{ll}
+item & script \\
+\colrule
+Table~I   & \code{examples/clustering\_lowers\_tc.py} \\
+Table~II  & \code{examples/softfield\_vs\_hardfield.py} \\
+Table~III & \code{examples/gbp\_two\_triangles.py} \\
+Tables~IV, V & \code{probe/prediction4.py} \\
+Table~VI  & \code{probe/clique\_moments.py} \\
+Fig.~1 & \code{main.tex} (Ti\emph{k}Z) \\
+Fig.~2 & \code{figures.py:clustering\_panel} \\
+Fig.~3 & \code{figures.py:simplicial\_panel} \\
+Fig.~4 & \code{figures.py:hittingset\_panel}, from
+         \code{probe/hittingset\_density.py} \\
+Fig.~5 & \code{figures.py:main}, from \code{probe/prediction4.py} \\
+Eq.~(18) & \code{probe/ising\_mc.py} \\
+Table~S\ref{tab:resid} & \code{tests/test\_derivations.py} \\
+Sec.~\ref{sec:gbp} & \code{probe/gbp\_cliques.py}, \code{tests/test\_gbp.py} \\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+The test suite is \code{pytest tests}. It covers the derivations of
+Secs.~\ref{sec:branching}--\ref{sec:gbp} as well as the outputs, which is the
+practice the review established and the reason this document exists.
+
+\end{document}

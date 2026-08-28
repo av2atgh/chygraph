@@ -9,6 +9,10 @@ member to have a finite mean,
 sbar = <c^2>/<c> - 1
 ```
 
+> **Notation.** `beta` below is a *structural* growth exponent. The manuscript
+> renames these `theta` (referee minor 2), reserving `beta` for the inverse
+> temperature; the numbers are unchanged.
+
 so the maximal-clique size distribution needs a **converged second moment**.
 The TODO predicted this would fail and close the item negatively.
 

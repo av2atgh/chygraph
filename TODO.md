@@ -10,21 +10,30 @@ what is done lives in the README's Results sections.
 **The claim.** A chygraph whose complexes are the HRG's clustered motifs has a
 non-empty core where the degree-matched configuration model does not.
 
-**Answer: yes, and the shape as well as the sign.** `probe/prediction4.py`,
-`n = 2x10^5`, maximal cliques as complexes, ensemble measured from each graph so
-nothing is fitted.
+**Answer: yes — with the exponent claim stated more carefully than it was.**
+`probe/prediction4.py`, `n = 2x10^5`, maximal cliques as complexes, ensemble
+measured from each graph so nothing is fitted. `theta` throughout, `beta` being
+reserved for the inverse temperature (referee minor 2).
 
-| tau | beta measured | beta chygraph | beta control |
+| tau | theta measured | theta chygraph | theta control |
 |---:|---:|---:|---:|
-| 2.5 | 1.584 | 1.551 | no core |
-| 2.9 | 1.635 | 1.573 | no core |
-| 2.1 | 1.491 | 1.571 | no core |
+| 2.5 | 1.590 ± 0.061 | 1.553 ± 0.035 | no core |
+| 2.9 | 1.635 ± 0.008 | 1.573 ± 0.011 | no core |
+| 2.1 | 1.493 ± 0.060 | 1.571 ± 0.013 | no core |
 
-The chygraph reproduces the power law `core ~ kbar^beta` that
-`computational_complexity` measured (1.50 and 1.63 at tau = 2.5, 2.9), to within
-0.03 and 0.06 in the exponent, while the degree-matched control has **no core at
-all** over the whole fit range. That was the open half of the item: a nonzero
-prediction was never in doubt after WP5, the exponent was.
+The chygraph produces a power law `core ~ kbar^theta` of about the right
+exponent while the degree-matched control has **no core at all** over the fit
+range. What it does *not* do is track the exponent's dependence on the tail:
+bootstrapped over seeds the predicted exponent has spread 0.020, consistent with
+no `tau` dependence, while the measured one spreads by 0.143 and rises
+monotonically, and at `tau = 2.9` the two differ by roughly four standard
+deviations. The referee was right that the earlier "including the exponent"
+reading overstated it.
+
+The sharp check in this item is the **rewired control**, not the exponent: the
+same measured clique ensemble arranged treelike, which the prediction matches to
+`1e-3`. That separates whether the map is right from whether treating complexes
+as independent is, and it says the map is right on its own terms.
 
 Magnitude, tau = 2.9: the ratio prediction/measurement is 0.97-0.99 at
 `kbar <= 0.1`, falls to 0.77 near `kbar ~ 1.5-3`, and returns to 0.96 at
@@ -56,7 +65,36 @@ standing item in the paper's conclusions.
 
 ---
 
-## 2. WP4–WP6
+## 2. Generalised belief propagation at the level of the *ensemble*
 
-Distributional messages, complexes as regions, and the Bethe free energy.
-Stated in the README's Work packages; nothing to add here yet.
+**Done, at the level of one instance.** `gbp.py` passes parent-to-child messages
+on the region graph of an explicit complex list. It contains belief propagation
+exactly (checked against an independent implementation, loopy error included),
+it is exact on the manuscript's two-triangle example — recovering the whole of
+what Table III reports as left on the table — and where it is approximate its
+fixed point still satisfies `sum_{x_P \ x_R} b_P = b_R`.
+
+**Open: the ensemble.** Every other module here carries a message per chy-degree
+*class*, not per object. The lift needs a message indexed by region **type**,
+over a region graph that is itself a random object: what is the distribution of
+intersection patterns among the maximal cliques of an HRG, and what does the
+parent-to-child update become when averaged over it? That is what would close
+the 17–35% overlap deficit of Sec. VII, and it is the standing item in the
+manuscript's conclusions.
+
+Two facts to build on, both measured in `probe/gbp_cliques.py` over 60
+maximal-clique region graphs of HRGs at `n = 14, 18, 20`. The instance
+calculation is exact exactly when the clique structure is chordal — all 40
+chordal runs to `3e-12` — so the ensemble question is really about the
+distribution of chordality-violating motifs. And of the 20 non-chordal runs only
+**9 converge**, even at damping 0.999; where they do the error is `1.4e-9` to
+`5.4e-3` against `0.48–1.1` for the static Möbius counting, and where they do
+not the residual says so. An ensemble treatment inherits that instability, and
+damping will not be enough — it needs a schedule or a different message
+parameterisation.
+
+## 3. Repo visibility
+
+The manuscript's acknowledgments cite
+`https://github.com/av2atgh/chygraph_statmech`. The repo is private; the URL
+must resolve before resubmission.

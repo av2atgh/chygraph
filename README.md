@@ -8,8 +8,10 @@ from graphs to higher-order structures, by way of the chygraph formalism
 `~/av2atg/chygraph`).
 
 Status: **manuscript under revision at PRE** (major revision returned, response
-in [`COVER_LETTER.md`](COVER_LETTER.md)). WP1–WP6 complete except generalised
-BP on the region graph; prediction 4 tested and confirmed. 321 tests.
+in [`COVER_LETTER.md`](COVER_LETTER.md)). WP1–WP6 complete; prediction 4 tested
+and confirmed; generalised BP on the region graph implemented at the instance
+level (`gbp.py`) and exact on the manuscript's own example, with the ensemble
+lift still open. `main.tex` 14 pages, `supplement.tex` 8.
 See [Where this stands](#where-this-stands--handoff) for what is next.
 
 ## The claim
@@ -161,10 +163,11 @@ modifying `chygraph`. See [Results (WP2)](#results-wp2).
 `P_l(h)` as a population of samples and solves the full non-linear problem at
 finite temperature. See [Results (WP4)](#results-wp4).
 
-**WP5 — Complexes as regions.** ✅ Done for the counting; GBP on the region
-graph is not implemented. `region.py` builds the region graph and measures how
-far a chygraph is from treelike; the cost of ignoring overlap is measured on
-HRGs. See [Results (WP5)](#results-wp5).
+**WP5 — Complexes as regions.** ✅ Done. `region.py` builds the region graph
+and measures how far a chygraph is from treelike; `gbp.py` passes the
+parent-to-child messages on it. The cost of ignoring overlap is measured on
+HRGs, and on one instance it is now recovered rather than only measured. See
+[Results (WP5)](#results-wp5).
 
 **WP6 — Bethe free energy.** ✅ Done. `freeenergy.py`; it locates the
 transition thermodynamically, a third route independent of WP1 and WP4. See
@@ -172,53 +175,68 @@ transition thermodynamically, a third route independent of WP1 and WP4. See
 
 ## Where this stands — handoff
 
-Manuscript submitted to PRE, **major revision** returned, revision essentially
+Manuscript under revision at PRE, **major revision** returned, revision
 complete. `COVER_LETTER.md` answers the report point by point. `main.tex` is
-**14 pages, the stated limit**, 0 overfull boxes, 0 undefined references.
-
-### In flight at handoff
-
-- **Full test suite was running** on the last change (the size-biased branching
-  matrix). It had passed 89% with no failures when context ran out. **Re-run
-  `pytest tests -q` first** — expect ~321 passing, ~4.5 min.
-- **Four files uncommitted**: `main.tex`, `src/chygraph_statmech/api.py`,
-  `tests/test_api.py`, `COVER_LETTER.md`. They hold the last change: the general
-  (size-biased) branching matrix, `det(I-B)=0` promoted to a displayed equation,
-  and five new API tests. Commit once the suite is green.
+**14 pages, the stated limit**, 0 overfull boxes, 0 undefined references, no
+stuck floats; `supplement.tex` is 8 pages, same standard.
 
 ### What the last change was
 
-Referee §4.4 asked for the size-biased form; the paper had *stated* it and used
-`c_m - 1`. Now Eq. (8) is general,
+Four things, in the order they matter.
 
-    <sbar u'>_m = sum_c (c p_c / <c>_m) (c - 1) u'(c),
+**The Supplemental Material now exists** (`supplement.tex`). Sec. VIII of the
+manuscript refers to it and previously it did not. It carries three things: the
+map from all 37 numbered equations to the routine that evaluates each and the
+test file that checks it (referee minor 9); nine derivations written out in full
+(minor 14); and the region-graph calculation of `gbp.py` with its limits.
 
-with the single-cardinality collapse displayed separately as Eq. (11). The code
-takes a cardinality *distribution* per layer. Wiring that up exposed that
-`critical_coupling` had been bypassing `branching_matrix` and substituting a
-mean cardinality — fixed. Pinned by a test: a mixed layer equals the same
-ensemble split one-layer-per-cardinality with chy-degrees in ratio `c p_c`
-(1e-9), while the mean-cardinality substitution does not.
+**One of those derivations is new physics.** The manuscript stated that the
+simplicial spinodal approaches the Bragg–Williams limit as `1/k` except at
+`q = 4`, where it is `1/k²`, and gave residuals with no coefficient. Expanding
+the spinodal condition,
+
+    T = T* − C_q/k + O(1/k²),   T* = q(q−1)/2^(q−1),   C_q = q(2q − 2^(q−1))/2^q,
+
+and `C_q` vanishes exactly when `2q = 2^(q−1)`, i.e. at `q = 4` and nowhere
+else. At `q = 3` it is `3/4`, reproducing the quoted 1.5e-2, 3.8e-3, 9.4e-4 at
+`k = 50, 200, 800`. Pinned by `test_derivations.py`.
+
+**Fig. 4 is new** (referee minor 7): hitting-set density, hard field against
+soft field against Mézard–Tarzia, three panels. `probe/hittingset_density.py`
+produces the data, `figures.py:hittingset_panel` the figure.
+
+**GBP is implemented** (`gbp.py`), which was the standing item in the
+conclusions. Exact on the manuscript's own two-triangle example; see
+[Results (WP5)](#passing-the-messages--gbppy) for what it does and does not
+settle.
+
+Two defects surfaced while doing this and are fixed: Sec. VI wrote the
+chy-degree generating function as `Ḡ` at cardinality two, where `Ḡ` is the
+*intra-complex* function defined in Sec. II (it is `Φ̄`); and the rewired-control
+paragraph carried a duplicated clause with a sentence restarting in lower case.
+Table I of the previous version was removed — the paragraph after it stated
+every row in prose, and the page was needed for Fig. 4.
+
+Renumbering, since it changed: tables are now I `tab:tc`, II `tab:soft`,
+III `tab:kikuchi`, IV `tab:overlap`, V `tab:pred4`, VI `tab:ensemble`; figures
+1 schematic, 2 clustering, 3 simplicial, 4 hitting set, 5 prediction 4.
+Equation numbers are unchanged.
 
 ### Next, in priority order
 
-1. **Referee minors not yet done.** 2 is done (structural exponents renamed
-   `theta`); still open: **13** is done; **7** partly (three figures added, no
-   hitting-set-density figure comparing hard field, soft field and MT); **14**
-   partly (two derivations restored, the report also complains of the register
-   generally).
-2. **Supplemental Material does not exist yet.** Sec. IX was compressed per
-   minor 9 and now says the equation-to-method table is "given in the
-   Supplemental Material". That file must be written, or the sentence changed.
-   **This is a loose end that would be caught at submission.**
-3. **Repo is private.** The acknowledgments cite
+1. **Repo is private.** The acknowledgments cite
    `https://github.com/av2atgh/chygraph_statmech`. It must be made public before
-   submission or the URL will not resolve for a referee.
-4. **Open science, not review:** generalised BP on the region graph, which is
-   what would close the 17-35% overlap deficit on hyperbolic random graphs. The
-   counting is in `region.py` and the size of the correction is measured
-   (Table VIII, Kikuchi beats Bethe by 3-80x on two triangles); the messages are
-   not implemented. This is the standing item in the conclusions.
+   submission or the URL will not resolve for a referee. This is the only thing
+   between the manuscript and resubmission.
+2. **Referee minor 14 is now answered in the Supplemental Material rather than
+   the body.** If the referee wanted the derivations in the main text, the
+   page budget does not allow it and the cover letter says so.
+3. **Open science, not review:** the *ensemble* lift of generalised BP — a
+   message per region type over a region graph that is itself random. The
+   instance-level calculation is done and exact where the clique structure is
+   chordal; the ensemble average of it is what would close the 17–35% overlap
+   deficit on hyperbolic random graphs. This is the standing item in the
+   conclusions and it is stated that way there.
 
 ### Standing caution
 
@@ -227,7 +245,8 @@ reported as a number without a derivation behind it: the clustering sign, the
 `(q-1)` double count, the exponent agreement, `sigma` for the mixed-cardinality
 example, and a convergence rate. The referee's closing request — that each
 quantitative claim be independently checked — is the right instinct. Tests now
-cover the derivations, not just the outputs; keep it that way.
+cover the derivations, not just the outputs; `tests/test_derivations.py` exists
+for exactly that. Keep it that way.
 
 ## One class
 
@@ -283,16 +302,29 @@ from chygraph import HypergraphPercolation, MultiplexHypergraph
 `probe/prediction4.py`, `n = 2×10⁵`, maximal cliques as complexes, ensemble
 measured from each graph so nothing is fitted.
 
-| τ | β measured | β chygraph | β control |
-|---:|---:|---:|---:|
-| 2.5 | 1.584 | **1.551** | no core |
-| 2.9 | 1.635 | **1.573** | no core |
-| 2.1 | 1.491 | 1.571 | no core |
+`θ` for structural exponents throughout, `β` being reserved for the inverse
+temperature (referee minor 2). Uncertainties are bootstrap over seeds.
 
-The chygraph reproduces the power law `core ∝ k̄^β` that
-`computational_complexity` measured (1.50, 1.63 at τ = 2.5, 2.9) to within 0.03
-and 0.06, while the degree-matched control has **no core at all** across the fit
-range. The sign was settled in WP5; the exponent is what this adds.
+| τ | θ measured | θ chygraph | θ control |
+|---:|---:|---:|---:|
+| 2.5 | 1.590 ± 0.061 | **1.553 ± 0.035** | no core |
+| 2.9 | 1.635 ± 0.008 | **1.573 ± 0.011** | no core |
+| 2.1 | 1.493 ± 0.060 | 1.571 ± 0.013 | no core |
+| spread | 0.143 | 0.020 | — |
+
+The chygraph produces a power law `core ∝ k̄^θ` of about the right exponent
+while the degree-matched control has **no core at all** across the fit range.
+That is the qualitative separation the construction was built for — but two
+qualifications, both the referee's and both right.
+
+The predicted exponent **does not move with τ** (spread 0.020, consistent with
+none) while the measured one spreads by 0.143 and rises monotonically; at
+τ = 2.9 the two differ by roughly four standard deviations. So this establishes
+that the chygraph gives a power law of about the right exponent, not that it
+tracks the exponent's dependence on the tail. And a *positive* prediction
+follows from the algebra the moment one triangle enters the ensemble — any layer
+of cardinality ≥ 3 removes the core-free branch — so the qualitative half was
+never really at risk. The sharp check is the rewired control below.
 
 Magnitude at τ=2.9: ratio prediction/measurement is 0.97–0.99 at `k̄ ≤ 0.1`,
 falls to 0.77 near `k̄ ~ 1.5–3`, recovers to 0.96 at `k̄ = 6` — tracking clique
@@ -326,11 +358,21 @@ The sum closes, so `simplicial.py` needs no enumeration at any cardinality:
 
 ```
 Z(S0 = ±1) = (2 cosh h)^{q-1} + (e^a - 1) e^{± h(q-1)},   a = beta*J_q
-u'         = (q-1)(e^a - 1) / (2^{q-1} + e^a - 1)
+u'         = (e^a - 1) / (2^{q-1} + e^a - 1)              per neighbour
 ```
 
 `u'` is `tanh(beta J/2)` at `q = 2` — a simplicial pair is an ordinary bond of
 half the coupling, since `delta_{S0 S1} = (1 + S0 S1)/2`.
+
+**The convention, and a bug the referee found.** `u'` above is the derivative
+with respect to **one** other member's field, matching `ising.clique_derivative`,
+so the multiplicity `q − 1` is supplied once by the branching matrix and not
+here. Differentiating instead with respect to a field *common* to all `q − 1`
+others multiplies it by `q − 1`; that combination is what enters a symmetric
+fixed point directly, and this file used to quote it while also feeding it to
+Eq. (8), which counts the multiplicity twice. `test_simplicial.py` pins the
+relation between the two conventions so the trap cannot reopen. No numerical
+result changed — the code was consistent; the formula written here was not.
 
 **The caveat that matters.** `det(I − B) = 0` locates a *linear* instability, so
 where the transition is discontinuous it is the **spinodal**, not `T_c`. The
@@ -361,10 +403,26 @@ quoting it would be wrong by 10–50% here. And just below a *continuous*
 transition the near-zero branch converges slowly enough to mimic coexistence;
 that's critical slowing down, and `branch_gap` documents it.
 
-**Extended:** on a `q`-uniform Bethe hyperlattice with `k=4`, `3u'=1` gives
-`e^a = 2` at both `q=2` and `q=4` (so `T = 1/ln2 = 1.4427`) and `e^a = 9/5` at
-`q=3` (`T = 1.7013`) — the spinodal is **non-monotonic**, peaking at `q=3`, which
-is their "ambivalent effect of group size", in closed form.
+**Extended, and the normalisation has to be stated.** At *fixed* `J` on a
+`q`-uniform Bethe hyperlattice with `k=4`, `3(q−1)u'=1` gives `e^a = 2` at both
+`q=2` and `q=4` (so `T = 1/ln2 = 1.4427`) and `e^a = 9/5` at `q=3`
+(`T = 1.7013`): the spinodal is **non-monotonic**, peaking at `q=3`. That is
+their "ambivalent effect of group size" in closed form — but it is *not*
+comparable with their Eq. (8), which fixes `rho_q J_q = 1` instead, i.e.
+`J_q = q/k`. Imposing that normalisation and letting `k` grow,
+
+```
+T* -> q(q-1) / 2^(q-1)                        (their Eq. 8)
+T   = T* - C_q/k + O(1/k^2),  C_q = q(2q - 2^(q-1)) / 2^q
+```
+
+so their maximum of `3/2` shared between `q = 3` and `q = 4` is recovered, and
+at finite chy-degree the degeneracy is lifted. `C_q` vanishes exactly when
+`2q = 2^(q-1)` — **at `q = 4` and nowhere else** — which is why the limit is
+approached as `1/k^2` there and `1/k` everywhere else, and why `q = 4` is the
+cardinality that is tricritical in the mean-field theory. At `q = 3`,
+`C_3 = 3/4`, giving residuals `1.5e-2, 3.8e-3, 9.4e-4` at `k = 50, 200, 800`.
+Derived in `supplement.tex` S4 B, checked in `test_derivations.py`.
 
 **On the tricritical cardinality.** At `k = 3, 4` the transition is continuous
 through `q=5`; from `k = 6` onward it is continuous only through `q=4`, the
@@ -473,20 +531,46 @@ threshold is the two-layer branching determinant with `u_T` in place of `t`:
 K_L t + 2 K_T u_T + 2 t u_T (k_L k_T − K_L K_T) = 1
 ```
 
-the third term vanishing for Poisson layers. Holding the mean number of
-neighbours fixed and moving them from links into triangles raises `T_c`
-(`examples/clustering_raises_tc.py`):
+the third term vanishing for Poisson layers.
 
-| excess neighbours | as links | as triangles | `t_c` links | `t_c` tri | `T_c` gain |
+**The sign, and a claim of mine that was wrong.** This section used to say that
+moving neighbours from links into triangles at fixed mean degree *raises* `T_c`,
+by +20.6% at four neighbours, and that the two configurations are identical in
+`{p_d, e_dd'}`. Both halves are false, and the referee caught it. Matching the
+*mean* degree is not matching the degree distribution: `k_T` Poisson triangles
+give `d = 2X` with `X ~ Poisson(k_T)`, so the degree is even, its variance is
+twice a Poisson's, and the excess degree the branching matrix uses is `n + 1`
+rather than `n`. The +20.6% was a degree effect wearing a clustering label.
+
+Against a null that really is matched, clustering **lowers** `T_c`
+(`examples/clustering_lowers_tc.py`, Table I of the manuscript):
+
+| n | `t_c` links | `t_c` tri | `T_c` links | `T_c` tri | ΔT_c |
 |---:|---:|---:|---:|---:|---:|
-| 4 | 4 | 2 | 0.25000 | 0.20871 | +20.6% |
-| 6 | 6 | 3 | 0.16667 | 0.14590 | +14.5% |
-| 8 | 8 | 4 | 0.12500 | 0.11252 | +11.2% |
-| 10 | 10 | 5 | 0.10000 | 0.09167 | +9.1% |
-| 20 | 20 | 10 | 0.05000 | 0.04773 | +4.8% |
+| 4 | 0.33333 | 0.38197 | 2.8854 | 2.4853 | **−13.9%** |
+| 6 | 0.20000 | 0.20871 | 4.9326 | 4.7209 | −4.3% |
+| 8 | 0.14286 | 0.14590 | 6.9521 | 6.8052 | −2.1% |
+| 10 | 0.11111 | 0.11252 | 8.9628 | 8.8498 | −1.3% |
+| 20 | 0.05263 | 0.05278 | 18.9824 | 18.9296 | −0.3% |
 
-These configurations are **identical** in `{p_d, e_dd'}`: same degree
-distribution, same assortativity. The effect is `O(t²)`, hence the `1/<k>` decay.
+an `n`-regular graph against `n/2` triangles per vertex — identical
+`p_d = δ_{d,n}`, identically neutral `e_dd'`, same edges per vertex. A Poisson
+comparison against a configuration model carrying the triangle ensemble's own
+excess degree `<kbar> = n + 1` gives the same sign.
+
+**Why, mechanically.** A triangle transmits more *per traversal*, `u_T > t`. But
+arriving at a degree-`n` vertex through one of its triangles leaves `n − 2`
+branches rather than `n − 1`: one of the two neighbours in the triangle just
+traversed is already accounted for, and its influence sits inside `u_T` rather
+than being counted again. At `n = 4` the enhancement would have to carry `u_T`
+from `1/3` to `1/2` to break even and reaches only `3/7`. **The lost branch
+wins.** The effect is `O(t²)`, hence the `1/<k>` decay.
+
+**Confirmed outside the formalism.** Wolff cluster updates on a 4-regular random
+graph and on a network of two triangles per vertex, every vertex at degree
+exactly 4 in both, put the Binder crossings at `2.894` and `2.482` against
+`2.8854` and `2.4853` from the branching matrix — a shift of −14.2% against a
+predicted −13.9%. `probe/ising_mc.py`; no cavity equation enters it.
 
 ### What this does and does not establish
 
@@ -833,11 +917,68 @@ so the core is strictly positive at every density — but it can be `1.8e-4`. Th
 strong reading holds only when *every* layer has cardinality ≥ 3, where no vertex
 ever has degree 1, leaf removal never fires, and the core is exactly `1 − Φ(0)`.
 
-### Not done
+### Passing the messages — `gbp.py`
 
-Generalised belief propagation on the region graph. `region.py` builds the
-object and measures the discrepancy; it does not pass messages between regions.
-That is what would close the 17–35% gap, and it is the natural next step.
+`region.py` builds the object and measures the discrepancy. `gbp.py` passes the
+messages: generalised belief propagation in the parent-to-child form of
+[Yedidia–Freeman–Weiss (2005)](https://doi.org/10.1109/TIT.2005.850085).
+
+Three things had to hold before any number it produces was worth quoting, and
+`tests/test_gbp.py` checks all three.
+
+**It contains BP.** On the two-layer region graph of a pairwise model — one
+region per interaction plus one per variable — the denominator `D(P,R)` holds
+only the edge being updated and the update *is* belief propagation. `gbp.GBP`
+reproduces an independently written BP to `1e-10` on a chain, a star, a
+four-cycle and a theta graph: the loopy error included, so the two agree on the
+mistake as well as the answer.
+
+**It is exact on a junction tree.** Two triangles sharing an edge — the
+manuscript's own Table III — closes on `{0,1,2}, {1,2,3}, {1,2}` once the
+zero-counting singletons are pruned, and that is a junction tree.
+
+| βJ | exact ln Z | Bethe | Kikuchi (static) | GBP |
+|---:|---:|---:|---:|---:|
+| 0.2 | 2.8887 | +1.8e-2 | −1.4e-3 | <1e-13 |
+| 0.5 | 3.5907 | +9.1e-2 | −2.9e-2 | <1e-13 |
+| 1.0 | 5.7390 | +3.7e-1 | −6.6e-2 | <1e-13 |
+| 2.0 | 10.6938 | +1.3 | −1.7e-2 | <1e-13 |
+
+So the whole of what the Kikuchi column reports as left on the table is
+recovered, and the residual overshoot of that column is an artefact of
+evaluating a counting on *isolated* regions rather than of the counting itself.
+
+**Its fixed point is a fixed point.** Where the region graph is not a junction
+tree GBP is approximate, but the converged solution still satisfies
+`sum_{x_P \ x_R} b_P = b_R`, so the residual error is the approximation's and
+not the solver's. `GBP.consistency()` reports it.
+
+**On real clique structures** (`probe/gbp_cliques.py`): 60 maximal-clique region
+graphs of HRGs small enough to enumerate exactly, `n = 14, 18, 20`.
+
+| | runs | GBP error | Kikuchi (static) | Bethe (static) |
+|---|---:|---|---|---|
+| chordal | 40 | ≤ 3e-12 | — | — |
+| non-chordal, converged | 9 | 1.4e-9 – 5.4e-3 | 0.48 – 1.1 | 0.32 – 22 |
+| non-chordal, did not converge | 11 | — | — | — |
+
+Exact on every chordal instance, since there the maximal cliques and their
+intersections *are* a junction tree. On the non-chordal ones it converges less
+than half the time even at damping 0.999; where it does, it beats either static
+counting by two to eight orders of magnitude and its marginals agree to `9e-8`;
+where it does not, the residual says so and no number from it is worth quoting.
+**That instability, not the accuracy, is what an ensemble treatment inherits** —
+which is the useful thing this measurement says about the open problem.
+
+**Two limits, stated rather than glossed.** It is not variationally bounded: on
+a region graph built from complexes that *contain* one another — K4 covered by
+its four triangles — it errs by `1e-2` where the static counting errs by
+`4e-3`. That case does not arise for maximal cliques, which never nest. And it
+is an *instance-level* calculation: every other module here works at the level
+of an ensemble, where a message is a distribution over a chy-degree class rather
+than a function on one region. Lifting the parent-to-child update to a message
+per region **type**, over a region graph that is itself random, is what would
+close the 17–35% gap on hyperbolic random graphs, and it is not done.
 
 ## Results (WP6)
 
@@ -901,10 +1042,20 @@ parameter. **Three independent routes to the same number.**
    down is *correlation* across cardinality layers, which the prediction did not
    consider. See Results (WP3).
 4. ~~A chygraph whose complexes are the HRG's clustered motifs has a non-empty
-   core where the degree-matched configuration model does not.~~ **Confirmed,
-   including the exponent.** `core ~ kbar^beta` with `beta = 1.55, 1.57`
-   predicted against `1.58, 1.64` measured at `tau = 2.5, 2.9`, where the
-   degree-matched control has no core at all. See below.
+   core where the degree-matched configuration model does not.~~ **Confirmed —
+   but read the exponent claim carefully.** `core ~ kbar^theta` (θ for
+   structural exponents; β is the inverse temperature) with `1.553 ± 0.035` and
+   `1.573 ± 0.011` predicted against `1.590 ± 0.061` and `1.635 ± 0.008`
+   measured at `tau = 2.5, 2.9`, where the degree-matched control has no core at
+   all. The qualitative separation is real; the *exponent* agreement is weaker
+   than the central values suggest. Bootstrapped over seeds the predicted
+   exponent does not move with `tau` at all (spread 0.020) while the measured
+   one spreads by 0.143 and rises monotonically, and at `tau = 2.9` the two
+   differ by roughly four standard deviations. And a positive prediction follows
+   from the algebra the moment one triangle enters the ensemble — Sec. VI shows
+   any layer of cardinality ≥ 3 removes the core-free branch — so the
+   qualitative half carries less weight than it looks. The **rewired control**,
+   not the exponent, is the sharp check here. See below.
 
 Prediction 4 is the whole motivating claim and the one to attack first, because
 it is the one that would kill the programme. It is written up as a work item in
@@ -953,18 +1104,23 @@ src/chygraph_statmech/
   population.py  WP4  field distributions by population dynamics
   api.py              Chygraph: the single class; every method delegates below
   region.py      WP5  region graph, Mobius counting, overlap profile
+  gbp.py         WP5  parent-to-child generalised belief propagation on it
   freeenergy.py  WP6  Bethe free energy; the transition thermodynamically
   ising.py            critical temperature for any chygraph
   cover.py            vertex cover of the induced graph
   softfield.py        hitting set with the O(1) fields kept (MT-validated)
   simplicial.py       the simplicial (unanimity) Ising model of Son-Lee-Goh
-tests/           287 checks, each one a claim this README makes
-examples/        clustering_raises_tc.py, vw03_figure1.py, hitting_set_rsb.py,
-                 wp4_validates_wp1.py
+tests/           347 checks, each one a claim this README makes;
+                 test_derivations.py covers the Supplemental Material's algebra
+examples/        clustering_lowers_tc.py, vw03_figure1.py, hitting_set_rsb.py,
+                 wp4_validates_wp1.py, softfield_vs_hardfield.py,
+                 gbp_two_triangles.py
 main.tex         manuscript: general theory -> structures -> models
-figures.py       generates fig_prediction4.pdf from probe/results/
+supplement.tex   equation-to-method map, the derivations, the GBP calculation
+figures.py       generates the four data figures from probe/results/
 TODO.md          open items; prediction 4 on hyperbolic random graphs
-probe/           HRG clique-moment measurement; see probe/RESULTS.md
+probe/           HRG clique moments, prediction 4, hitting-set density,
+                 GBP on clique region graphs; see probe/RESULTS.md
 ```
 
 Install with `pip install -e .` (needs `chygraph`, `numpy`, `scipy` on the

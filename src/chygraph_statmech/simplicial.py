@@ -31,14 +31,14 @@ clique of Sec. IV needs an enumeration.  Differentiating at zero field,
 which at ``q = 2`` is ``tanh(beta J / 2)`` -- the simplicial rule on a pair is
 an ordinary Ising bond of half the coupling, since
 ``delta_{S_0 S_1} = (1 + S_0 S_1)/2``.  The multiplicity ``q-1`` is supplied
-once, by the branching matrix of Sec. III.
+once, by the branching matrix of Sec. II C.
 
 **One caveat, and it is the important one.**  The branching matrix of
-Sec. III locates a *linear* instability of the paramagnet.  Where the transition
+Sec. II C locates a *linear* instability of the paramagnet.  Where the transition
 is discontinuous -- which for this model is most of the interesting range --
 that is the spinodal and not the transition.  The ordered branch has to be
 found by iterating from a magnetised start and the true temperature by
-comparing free energies, exactly as in Sec. VII.  ``det(I - B) = 0`` is still
+comparing free energies, exactly as in Sec. II E.  ``det(I - B) = 0`` is still
 the right object; it just answers a different question.
 """
 
@@ -146,7 +146,7 @@ class SimplicialChygraph:
     def minus_beta_f(self, T, u0=None, **kw):
         """``-beta f`` per node on the branch reached from ``u0``.
 
-        The Bethe form of Sec. VI with the simplicial interior:
+        The Bethe form of Sec. II E with the simplicial interior:
 
             Z_i = 2 cosh h,
             Z_a = (2 cosh h_cav)^q + (e^{beta J} - 1) 2 cosh(q h_cav),
@@ -238,7 +238,7 @@ class SimplicialChygraph:
     # -- the linear instability --------------------------------------------
 
     def branching_matrix(self, T):
-        """``B_{lm}`` of Sec. III with the simplicial ``u'``.
+        """``B_{lm}`` of Sec. II C with the simplicial ``u'``.
 
         Fixed chy-degree, so the excess is ``k_l - 1``.
         """

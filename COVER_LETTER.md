@@ -13,14 +13,14 @@ triangles per vertex — identical `p_d = δ_{d,n}`, identical `e_dd'`, identica
 edge count — the transition is at `t_c = 1/(n-1)` for links and at
 `(n-2) u'_T = 1` for triangles, giving `T_c` **lower** by 13.9% at `n = 4`.
 
-The diagnosis is the referee's. Table II compared a Poisson link layer against a
+The diagnosis is the referee's. The table compared a Poisson link layer against a
 Poisson triangle layer. In the latter the node degree is `d = 2X` with
 `X ~ Poisson(n/2)`, so `⟨d²⟩ = n² + 2n` and the excess degree that Eq. (6)
 actually uses is `κ̄ = n+1` rather than `n`. The +14.5% was a degree effect
 mislabelled as clustering, and "identical degree distribution and assortativity"
 was false: the construction forces even degrees with twice the variance.
 
-Changes: Table II is recomputed against both nulls, the regular one (which is
+Changes: Table I is recomputed against both nulls, the regular one (which is
 unambiguous) and a Poisson null carrying the triangle ensemble's own excess
 degree. Sec. V B now derives the mechanism the referee identifies — the
 traversed complex removes a branch, so `u'_T` would have to reach 1/2 and
@@ -81,7 +81,7 @@ step, with the reductions to the percolation map and to Eq. (5) stated.
 over seeds gives a predicted exponent of 1.571 ± 0.013, 1.553 ± 0.035,
 1.573 ± 0.011 at τ = 2.1, 2.5, 2.9: spread 0.020, consistent with no τ
 dependence. The measured exponent spreads by 0.143 and rises monotonically, and
-at τ = 2.9 the two differ by roughly four standard deviations. Table IV now
+at τ = 2.9 the two differ by roughly four standard deviations. Table V now
 carries uncertainties, and the text states that the comparison shows the
 chygraph produces a power law of about the right exponent and *not* that it
 tracks the exponent's dependence on the tail — together with the referee's point
@@ -106,6 +106,67 @@ YFW05 are now cited in the text.
 loss of stability of warning propagation, i.e. of leaf-removal certification —
 in the same sentence, and the caveat is stated where the mixed-cardinality and
 correlation results are presented rather than only afterwards.
+
+## What changed since the first revision
+
+**Minor 9 — the Supplemental Material now exists.** Sec. IX referred to a
+method table that had not been written. `supplement.tex` carries it: every
+numbered equation of the manuscript against the routine that evaluates it and
+the test file that checks it, all thirty-seven of them.
+
+**Minor 14 — the derivations, in full.** The report's complaint was of a
+register compressed past reproducibility, and three derivations were restored
+in the body at the first pass. The Supplemental Material now writes out nine,
+each closed by hand and each pinned by a test in `tests/test_derivations.py`:
+the size-biased average and `<sbar> = <c^2>/<c> - 1`; the two-layer determinant
+behind Eq. (15); `u'` for the triangle in closed form; why the overlap term of
+the Bethe free energy collapses; the interior sum and `u'` for the unanimity
+rule; the infinite-connectivity limit **with its 1/k coefficient**; the regular
+hitting-set solution and its entropy; the elimination giving `<k>(c-1) = e`; and
+the intra-complex step of core percolation with a closed proof that no
+core-free branch survives above cardinality two.
+
+One of those is new physics rather than restored bookkeeping. The manuscript
+stated that the approach to the Bragg-Williams limit is `1/k` except at `q = 4`,
+where it is `1/k^2`, and gave residuals without a coefficient. Expanding the
+spinodal condition gives
+
+    T = T* - C_q/k + O(1/k^2),   C_q = q(2q - 2^(q-1)) / 2^q,
+
+and `C_q` vanishes exactly when `2q = 2^(q-1)`, that is at `q = 4` and nowhere
+else. At `q = 3` it is `3/4`, which reproduces the quoted 1.5e-2, 3.8e-3 and
+9.4e-4 at `k = 50, 200, 800`. What was an observation is now a one-line
+consequence.
+
+**Minor 7 — the fourth figure.** New Fig. 4 makes Table II visible: the two
+treatments against chy-degree at cardinality 2, 3 and 4; the regular
+hypergraphs against Ref. [MT07], with the ensembles whose entropy is negative
+marked and the one whose iteration does not settle drawn hollow; and the
+relative correction against the weight the ensemble puts on cardinality three
+or more.
+
+**The standing item in the conclusions is now half done.** Generalised belief
+propagation on the region graph is implemented (`gbp.py`, parent-to-child form).
+It reproduces an independently written belief propagation exactly on the
+two-layer region graph, loopy error included, which is the reduction that makes
+it the right generalisation; and on the manuscript's own two-triangle example it
+returns ln Z to machine precision, so the whole of what Table III reported as
+left on the table is recovered. Table III gains a column saying so. The limits
+are stated rather than glossed: it is exact where the clique structure is
+chordal and needs heavy damping otherwise, and it is an instance-level
+calculation, so the ensemble lift — a message per region *type* over a region
+graph that is itself random — remains the open problem. The conclusions say
+that instead of naming GBP as untried.
+
+**Two defects found while doing this.** Sec. VI wrote the chy-degree generating
+function as `Gbar` at cardinality two, where `Gbar` is the intra-complex
+function defined in Sec. II; it is `Phibar`. And the paragraph on the rewired
+control carried a duplicated clause with a sentence restarting in lower case.
+Both fixed.
+
+Table I of the previous version, which listed six structures and the form
+Eq. (10) takes for each, is removed: the paragraph that follows it states every
+row in prose, and the page is needed for Fig. 4.
 
 ## Minor points
 

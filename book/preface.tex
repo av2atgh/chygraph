@@ -1,0 +1,105 @@
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+\markboth{Preface}{Preface}
+
+Statistical physics learned to solve models on networks by pretending the
+networks were trees. That is not a criticism; it is the whole trick, and it is a
+very good one. If a network has no short loops, then cutting one node out of it
+leaves the pieces that hang off that node independent of one another, and a
+problem defined over the whole network --- every spin coupled to every
+neighbour, every constraint tangled with every other --- collapses into a single
+equation for what one branch tells the node above it. That equation is the
+cavity recursion, or belief propagation, or the Bethe--Peierls approximation,
+depending on which decade and which field one learned it in. From it come
+critical temperatures, percolation thresholds, the size of a minimal vertex
+cover, the number of solutions of a random satisfiability problem. It is,
+without much competition, the most productive idea in the statistical mechanics
+of disordered systems.
+
+Real networks have short loops. Your friends know each other. Proteins act in
+complexes of four and five, not in pairs. A paper has six authors, and all
+fifteen of the pairs among them are ``co-authorship'' links that the paper
+created in one act. A chemical reaction consumes three species and produces
+two. In each case the pairwise picture --- the graph, dots joined by lines ---
+records the shadow of an interaction rather than the interaction itself, and it
+records it in the form of a small dense knot of links that is exactly what the
+tree assumption forbids. So the field has had, for twenty-five years, a
+beautiful method and a systematic reason why it should not apply to the objects
+it is applied to.
+
+This book is about a way out that turns out to be almost embarrassingly simple
+once stated. If the trouble is a dense knot, stop treating it as many links and
+start treating it as one thing. Call that thing a \emph{complex}, let a complex
+contain nodes, and then --- this is the step that does the work --- let a
+complex contain other complexes, to any depth one likes. The resulting object is
+a \emph{complex hypergraph}, or chygraph: a set of complexes whose vertices are
+themselves complexes. It is a very plain definition and it swallows a
+surprising amount. A graph is a chygraph whose complexes all have two vertices.
+A hypergraph is a chygraph with one layer of larger complexes. A multiplex
+network, an interacting collection of hypergraphs, a graph decorated with
+triangles and squares: all of them are chygraphs, differing only in what one
+writes in the layer data. And a clustered graph becomes a chygraph by promoting
+its dense motifs to complexes --- after which the structure \emph{over}
+complexes can be treelike even though the graph underneath is not.
+
+That is the bargain the book explores. Give up the graph as the fundamental
+object, keep the tree, and the whole apparatus comes back. What comes back with
+it is more than a rederivation. Percolation on every one of those structures
+reduces to a single self-consistency map, and its threshold to the spectrum of
+one tensor built from first moments. Push the same map one order further and the
+critical amplitude follows in closed form. Replace the scalar message with a
+measure and the Ising model follows; with an integer, the hitting set problem;
+with three states, core percolation and the leaf-removal algorithm behind minimal
+vertex covers. Through all of it the recursion does not change. Only what the
+message carries changes, and what happens inside one complex, where the
+Hamiltonian is summed exactly over an interior that may be as large and as
+strongly coupled as one pleases. One $L\times L$ determinant, with $L$ the number
+of layers and no dependence on the size of the complexes at all, serves every
+model in this book.
+
+The results this buys are worth stating in advance, because several of them are
+not what one would have guessed. A triangle transmits more magnetisation per
+neighbour than an edge does, and yet clustering \emph{lowers} the critical
+temperature of the Ising model at fixed degree distribution --- because the
+triangle also removes a branch, and the second effect is the larger. The
+zero-temperature limit that everyone takes for hard-core covering problems is
+exact on graphs and wrong on hypergraphs, giving a cover of one half where the
+answer is one third, on an example so simple it can be checked by hand. A
+complex of three or more nodes destroys the core-free phase of leaf removal
+entirely, so that above cardinality two no minimal cover is ever certified. And
+hyperbolic random graphs, whose clustering has defeated degree-based mean-field
+theory for a decade, are predicted correctly once one stops applying the theory
+to the graph and applies it to the chygraph of its cliques.
+
+The book is also honest about where the bargain fails, and the failure is
+structural rather than technical, so it cannot be patched by working harder. A
+chygraph is treelike only when its complexes meet in at most one node. Cliques
+in a geometric graph share edges; promoting them to complexes removes the loops
+\emph{inside} motifs and exposes the loops \emph{between} them. Clustering, it
+turns out, is not one obstruction but a hierarchy of them. The last technical
+chapter measures the price, shows what a region-graph treatment recovers on a
+single instance, and states plainly what is not yet done at the level of the
+ensemble.
+
+Who is this for? Anyone who has met the cavity method and wondered what to do
+about clustering, and anyone who works with data whose interactions are
+genuinely group-level --- proteins in complexes, papers with many authors,
+reactions with many substrates, projects with many dependencies --- and has been
+told to make a graph of it. The technical prerequisites are modest and are built
+up in the first chapter: what percolation is, what a generating function does,
+what the Ising model and vertex cover and the hitting set problem ask, and what
+mean-field, cavity and replica theory mean. Readers who already know all of that
+can start at Chapter~2. As in this author's earlier books, the longer
+calculations are set in boxes that can be skipped without losing the thread, and
+the argument in the running text is meant to be followed without them. There are
+a great many pictures, deliberately: nearly every idea here is about which
+things are grouped with which, and that is a fact about a drawing before it is a
+fact about an equation.
+
+Two of the chapters draw on published work \citep{vazquez2023pre,%
+vazquez2024comnet}; the rest is newer and in one case still being refereed as
+this is written. All of the calculations can be reproduced from a single
+software package, and every number quoted in the book comes out of it.
+
+\vspace{1em}
+\noindent Alexei Vazquez

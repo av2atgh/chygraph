@@ -22,8 +22,12 @@ dist/
 *.out
 *.bbl
 *.blg
+*.toc
+*.fls
+*.fdb_latexmk
 *.synctex.gz
 mainNotes.bib
+supplementNotes.bib
 
 # but keep probe results
 !probe/results/*.log

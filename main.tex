@@ -457,26 +457,9 @@ it is assumed.
 \label{sec:structures}
 
 Everything above is fixed once the layers, their cardinalities and the
-chy-degree generating function are given (Fig.~\ref{fig:schematic}b). Table~\ref{tab:structures} lists the
-specialisations used below. In each case Eq.~\eqref{eq:branch} is written out
-and only $u'_m$ remains to be supplied by Eq.~\eqref{eq:emitted}.
-
-\begin{table}[t]
-\caption{\label{tab:structures}Structures as chygraphs. Layer $0$ holds the
-nodes; the layers listed are the complex layers.}
-\begin{ruledtabular}
-\begin{tabular}{lll}
-structure & layers & Eq.~\eqref{eq:det} reads \\
-\colrule
-graph & one, $c=2$ & $\ave{\kbar}\,u'=1$ \\[2pt]
-clique network & one, $c$ & $\ave{\kbar}(c-1)u'=1$ \\[2pt]
-hypergraph, fixed $c$ & one, $c$ & $\ave{\kbar}(c-1)u'=1$ \\[2pt]
-links and triangles & two, $c=2,3$ & Eq.~\eqref{eq:LT} \\[2pt]
-hypergraph, mixed $c$ & one per $c$ & Eq.~\eqref{eq:branch} \\[2pt]
-correlated layers & joint $\Phi$ & $\ave{\kbar}\to$ biased \\
-\end{tabular}
-\end{ruledtabular}
-\end{table}
+chy-degree generating function are given (Fig.~\ref{fig:schematic}b). The
+specialisations used below follow by writing Eq.~\eqref{eq:branch} out, with
+only $u'_m$ left to be supplied by Eq.~\eqref{eq:emitted}.
 
 A graph is one layer of cardinality two, and Eq.~\eqref{eq:branch} collapses to
 the scalar $\ave{\kbar}u'=1$. A clique network or a hypergraph of fixed
@@ -994,6 +977,22 @@ and soft fields agree there; and the correction grows with the weight the
 ensemble puts on complexes of cardinality three or more, reaching $56\%$ for
 $c=4$ alone and falling below $1\%$ once ordinary edges dominate.
 
+\begin{figure*}[t]
+\centering
+\includegraphics[width=\textwidth]{fig_hittingset.pdf}
+\caption{\label{fig:hs}Minimum hitting-set density: the hard-field limit of
+Eq.~\eqref{eq:hs} against Eq.~\eqref{eq:soft}, which keeps the $O(1)$ fields.
+Left: Poisson layers of one cardinality, with the Weigt--Hartmann closed form
+\cite{WH00} drawn behind the $c=2$ curves, which the two treatments share. Centre:
+regular hypergraphs, $L$ complexes of cardinality $K$ per node; crosses mark a
+negative Eq.~\eqref{eq:entropy}, so a replica-symmetric value that is an
+underestimate, the star is the one-step result of Ref.~\cite{MT07}, and the
+hollow square is an iteration that does not settle. Right: the relative
+correction against the fraction of a node's complexes carrying cardinality three
+or more, at $\ave{k}=1$; each curve's right-hand end is a row of
+Table~\ref{tab:soft}.}
+\end{figure*}
+
 \begin{table}[t]
 \caption{\label{tab:soft}Minimum hitting set density. ``hard'' is
 Eq.~\eqref{eq:hs} with the half rule, ``soft'' is Eq.~\eqref{eq:soft}. Poisson
@@ -1059,6 +1058,15 @@ What it adds beyond Ref.~\cite{MT07} is the chygraph structure. Equation
 cardinalities and correlated layers, none of which the regular ansatz reaches,
 and the last four rows of Table~\ref{tab:soft} are outside it.
 
+Figure~\ref{fig:hs} runs the comparison continuously and separates the three
+claims Table~\ref{tab:soft} makes at eight points: that the two treatments
+coincide at cardinality two and separate above it by a margin growing with
+cardinality at every chy-degree; that on regular hypergraphs the soft field
+returns $\rho=1/K$ and the hard field does not, the two bracketing the one-step
+value of Ref.~\cite{MT07} at $L=4$, $K=6$; and that the correction rises
+monotonically with the weight on cardinality three or more, reaching $103\%$ at
+$c=6$.
+
 \section{Core percolation}
 \label{sec:core}
 
@@ -1105,8 +1113,8 @@ can force a node out only when its single live member also has no outside edge:
   \end{split}
   \label{eq:zk}
 \end{equation}
-At $c=2$ this is $\lambda=\bar G(\delta)$, $\delta=1-\bar G(1-\lambda)$ with
-threshold $\bar G'(1-\lambda)=1$, returning $c=e$ to ten digits. Unlike
+At $c=2$ this is $\lambda=\bar\Phi(\delta)$, $\delta=1-\bar\Phi(1-\lambda)$
+with threshold $\bar\Phi'(1-\lambda)=1$, returning $c=e$ to ten digits. Unlike
 Eq.~\eqref{eq:hs} this map is order-\emph{preserving}, so monotone iteration
 from zero suffices. Against pure leaf removal at $n=4\times10^5$ for
 cardinalities two, three and four the agreement is $10^{-4}$ to
@@ -1157,18 +1165,34 @@ removes the correlation between them, while Eq.~\eqref{eq:mobius} removes it and
 slightly overshoots. That is the size of what the present treatment leaves on
 the table.
 
-\begin{table}[b]
-\caption{\label{tab:kikuchi}Two triangles sharing an edge: $\ln Z$ for four spins
-with all-pairs coupling inside each triangle, exactly and under the two counting
-schemes.}
+The overshoot of the Möbius column is an artefact of evaluating a counting on
+isolated regions rather than of the counting itself, and running the messages
+removes it. Generalised belief propagation in its parent-to-child form
+\cite{YFW05} needs the shared bond counted once, which Eq.~\eqref{eq:mobius}
+achieves and Eq.~\eqref{eq:bethe} does not, and returns $\ln Z$ to machine
+precision here because the region family $\{0,1,2\},\{1,2,3\},\{1,2\}$ is a
+junction tree once the zero-counting singletons are dropped. The whole of what
+Table~\ref{tab:kikuchi} leaves on the table is therefore recoverable on one
+instance --- exactly where the clique structure is chordal, and with heavy
+damping otherwise, as the Supplemental Material reports. What that does not give
+is the ensemble: every other calculation here carries a message per chy-degree
+class, and lifting the update to a message per region \emph{type}, over a region
+graph that is itself random, is the open step.
+
+\begin{table}[htb]
+\caption{\label{tab:kikuchi}Two triangles sharing an edge: error in $\ln Z$ for
+four spins with all-pairs coupling inside each triangle, the shared bond counted
+once. The two counting columns are evaluated on isolated regions; ``GBP'' is
+Eq.~\eqref{eq:mobius}'s region graph with the messages iterated to a fixed
+point.}
 \begin{ruledtabular}
-\begin{tabular}{rrrr}
-$\beta J$ & exact & Kikuchi error & Bethe error \\
+\begin{tabular}{rrrrr}
+$\beta J$ & exact & Bethe & Kikuchi & GBP \\
 \colrule
-0.2 & 2.8887 & $-1.4\times10^{-3}$ & $+1.8\times10^{-2}$ \\
-0.5 & 3.5907 & $-2.9\times10^{-2}$ & $+9.1\times10^{-2}$ \\
-1.0 & 5.7390 & $-6.6\times10^{-2}$ & $+3.7\times10^{-1}$ \\
-2.0 & 10.6938 & $-1.7\times10^{-2}$ & $+1.3$ \\
+0.2 & 2.8887 & $+1.8\times10^{-2}$ & $-1.4\times10^{-3}$ & $<10^{-13}$ \\
+0.5 & 3.5907 & $+9.1\times10^{-2}$ & $-2.9\times10^{-2}$ & $<10^{-13}$ \\
+1.0 & 5.7390 & $+3.7\times10^{-1}$ & $-6.6\times10^{-2}$ & $<10^{-13}$ \\
+2.0 & 10.6938 & $+1.3$ & $-1.7\times10^{-2}$ & $<10^{-13}$ \\
 \end{tabular}
 \end{ruledtabular}
 \end{table}
@@ -1178,7 +1202,7 @@ Maximal cliques are taken as complexes and the chy-degree ensemble is measured
 from the graph itself, so the prediction uses no fitted quantity; the control
 labelled ``rewired'' carries that identical ensemble arranged treelike.
 
-\begin{table}[t]
+\begin{table}[htb]
 \caption{\label{tab:overlap}Leaf-removal core of hyperbolic random graphs,
 $n=3\times10^4$. ``rewired'' is the same measured clique ensemble arranged so
 that complexes meet in at most one node.}
@@ -1200,11 +1224,10 @@ the arrangement, so it separates two things that would otherwise be confounded:
 whether Eq.~\eqref{eq:core} is right, and whether treating complexes as
 independent is. The prediction agrees with that control to $10^{-3}$ on a
 measured, multi-layer, non-Poisson ensemble --- so the map is right on its own
-terms, and every discrepancy against the real graph is attributable to overlap
-rather than shared between the two. the remaining discrepancy against the real graph is
-therefore overlap and nothing else, the ensemble being held fixed. The chygraph
-accounts for $65$ to $83\%$ of the core, and the degree-matched configuration
-model has none at all at these densities, predicted or measured.
+terms, and the remaining discrepancy against the real graph is overlap and
+nothing else, the ensemble being held fixed. The chygraph accounts for $65$ to
+$83\%$ of the core, and the degree-matched configuration model has none at all
+at these densities, predicted or measured.
 
 The magnitude is only half the question, and the weaker half. What the
 construction has to reproduce is the \emph{shape}: on these graphs the core is a
@@ -1220,18 +1243,17 @@ How much that separation is worth should be stated plainly, because it is less
 than it looks. Section~\ref{sec:core} shows that \emph{any} layer of cardinality
 three or more removes the core-free branch, so a positive prediction follows
 from the algebra the moment one triangle enters the ensemble, whatever else the
-graph is doing. The exponent is the part that could have failed, and there the
-evidence is weaker than the central values suggest. Bootstrapping over seeds,
-the predicted exponent is $1.571\pm0.013$, $1.553\pm0.035$ and $1.573\pm0.011$
-at $\tau=2.1$, $2.5$ and $2.9$: a spread of $0.02$, consistent with no $\tau$
-dependence at all. The measured exponent spreads by $0.143$ and rises
-monotonically with $\tau$. The two agree at $\tau=2.5$ within errors and
-disagree at $\tau=2.9$ by roughly four standard deviations. What the comparison
-establishes is therefore that the chygraph produces a power law of about the
-right exponent, not that it tracks the exponent's dependence on the tail. A
-sharper test would need an ensemble in which the predicted exponent is made to
-move, and an analytic account of what fixes it near $1.57$ in
-Eq.~\eqref{eq:core}; neither is attempted here.
+graph is doing. The exponent is the part that could have failed, and
+Table~\ref{tab:pred4} shows the evidence to be weaker than the central values
+suggest: bootstrapped over seeds the predicted exponent does not move with
+$\tau$ at all, while the measured one spreads by seven times as much and rises
+monotonically, the two agreeing at $\tau=2.5$ within errors and differing at
+$\tau=2.9$ by roughly four standard deviations. What the comparison establishes
+is that the chygraph produces a power law of about the right exponent, not that
+it tracks the exponent's dependence on the tail. A sharper test would need an
+ensemble in which the predicted exponent is made to move, and an analytic
+account of what fixes it near $1.57$ in Eq.~\eqref{eq:core}; neither is
+attempted here.
 
 \begin{figure*}[t]
 \centering
@@ -1332,10 +1354,11 @@ At $\tau=2.1$ the chygraph \emph{over}-predicts, by up
 to a third, which is consistent with the clique ensemble having no
 $n$-independent second moment below $\tau=2.5$: the measured ensemble is not
 converged there and neither is anything built on it. Closing the remaining
-deficit means passing messages between regions rather than between complexes;
-Eq.~\eqref{eq:mobius} says where the present counting is wrong without repairing
-the map. That repair is generalised belief propagation \cite{YFW05}, for which
-Ref.~\cite{CN19} is the natural point of comparison.
+deficit means passing messages between regions rather than between complexes.
+On one instance that is done and exact, as above; what is missing is the
+ensemble average of it, where the region graph is itself a random object and a
+message is indexed by region type. Reference~\cite{CN19} is the natural point of
+comparison for that step.
 
 \section{Implementation}
 \label{sec:code}
@@ -1343,8 +1366,10 @@ Ref.~\cite{CN19} is the natural point of comparison.
 Everything above is one object. A chygraph is fixed by its complex layers, their
 cardinalities and the chy-degree distribution, and a single class holds that
 structure while each calculation in this paper is one of its methods. The
-mapping from every numbered equation to the method that evaluates it is given in
-the Supplemental Material, and the code is available at the repository cited in
+mapping from every numbered equation to the method that evaluates it and the
+test that checks it is given in the Supplemental Material, together with the
+derivations compressed out of the sections above and the region-graph
+calculation of Sec.~\ref{sec:regions}; the code is at the repository cited in
 the acknowledgments.
 
 Three points about the arrangement carry physical content rather than
@@ -1415,7 +1440,14 @@ rarely meet and when it is dense enough that almost everything is core. Clusteri
 a hierarchy of them --- promoting triangles removes triangles from the loop
 structure and exposes the loops between triangles --- and whether that hierarchy
 terminates usefully for a geometric ensemble, where motifs have no characteristic
-size, is the question these measurements pose and this work does not settle.
+size, is the question these measurements pose and this work does not settle. On
+a single instance the next level is available and exact where the clique
+structure is chordal: generalised belief propagation on the region graph
+recovers the whole of the discrepancy Table~\ref{tab:kikuchi} measures. What is
+open is the ensemble average of it --- a message per region \emph{type} rather
+than per region, over a region graph that is itself random --- which is what
+would turn the $65$--$83\%$ of Table~\ref{tab:overlap} into a closed
+calculation.
 
 \begin{acknowledgments}
 All code is available at \url{https://github.com/av2atgh/chygraph_statmech}.

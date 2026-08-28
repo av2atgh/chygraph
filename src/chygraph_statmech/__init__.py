@@ -15,8 +15,9 @@ from chygraph_statmech.population import CavityPopulation, critical_coupling
 from chygraph_statmech.models import (graph_ising, graph_percolation,
                                       graph_with_triangles_ising)
 from chygraph_statmech import (antimonotone, core, cover, freeenergy,
-                               hittingset, ising, region, simplicial, softfield,
-                               vertexcover)
+                               gbp, hittingset, ising, region, simplicial,
+                               softfield, vertexcover)
+from chygraph_statmech.gbp import GBP
 from chygraph_statmech.stability import (StabilityMatrix, reweight,
                                          uniform_weights)
 
@@ -28,5 +29,5 @@ __all__ = [
     "graph_percolation", "graph_ising", "graph_with_triangles_ising",
     "FixedPointStability", "vertexcover", "hittingset", "antimonotone",
     "CavityPopulation", "critical_coupling", "core", "cover", "ising",
-    "region", "freeenergy", "softfield", "simplicial",
+    "region", "freeenergy", "softfield", "simplicial", "gbp", "GBP",
 ]

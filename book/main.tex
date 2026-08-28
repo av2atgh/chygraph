@@ -1,0 +1,244 @@
+\documentclass[10pt]{book}
+
+\usepackage[paperwidth=5in,paperheight=8in,includehead,
+            inner=0.55in,outer=0.4in,top=0.56in,bottom=0.64in]{geometry}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{adjustbox}
+\usepackage[round,authoryear]{natbib}
+\usepackage[hidelinks]{hyperref}
+\usepackage{microtype}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage[most]{tcolorbox}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,bending,shapes.geometric,positioning,fit,backgrounds,decorations.pathreplacing}
+
+% ---------------------------------------------------------------------------
+% Drawing vocabulary for the book. Every picture in it is built from four
+% things: a node, a complex drawn around a set of nodes, a message running
+% along a directed inclusion, and a label. Fixing them here rather than in each
+% chapter is what makes the figures read as one system: a reader who has
+% learned the first schematic can read the twentieth without a caption.
+% ---------------------------------------------------------------------------
+\tikzset{
+  nd/.style={circle,draw=black!70,fill=white,minimum size=3.1mm,inner sep=0pt,line width=.45pt},
+  ndf/.style={circle,draw=black!70,fill=black!25,minimum size=3.1mm,inner sep=0pt,line width=.45pt},
+  hub/.style={circle,draw=black!70,fill=black!62,minimum size=3.6mm,inner sep=0pt,line width=.45pt},
+  cx/.style={rounded corners=2.6pt,draw=black!45,fill=black!7,line width=.45pt,inner sep=2.8pt},
+  cxb/.style={rounded corners=2.6pt,draw=black!60,fill=black!14,line width=.6pt,inner sep=2.8pt},
+  lnk/.style={draw=black!45,line width=.6pt},
+  msg/.style={-{Latex[length=1.6mm,width=1.3mm]},line width=.6pt,draw=black!75},
+  lb/.style={font=\scriptsize},
+  tb/.style={font=\scriptsize\itshape},
+  % An inclusion diagram draws a complex as a node in its own right rather than
+  % as a box around its members: atoms are filled circles, complexes are
+  % rectangles, and a line is an inclusion. Sec. 2.7 shows that this and the
+  % spatial drawing above are the same object.
+  atm/.style={circle,draw=black!75,fill=black!75,minimum size=2.2mm,inner sep=0pt},
+  cpx/.style={rectangle,draw=black!75,fill=white,minimum size=2.9mm,inner sep=0pt,line width=.5pt},
+  cpxb/.style={rectangle,draw=black!75,fill=black!35,minimum size=2.9mm,inner sep=0pt,line width=.5pt},
+  cpxc/.style={rectangle,draw=black!75,fill=black!75,minimum size=2.9mm,inner sep=0pt,line width=.5pt},
+  inc/.style={draw=black!60,line width=.5pt},
+  incd/.style={draw=black!60,line width=.5pt,dashed},
+  pub/.style={rounded corners=1.6pt,draw=black!70,line width=.6pt,inner sep=1.6pt},
+}
+
+% Inline glyph for a complex of cardinality #1, so the text can name a
+% structure by the thing it is rather than by a number: \cx{3} sets a small
+% shaded triangle on the text line.
+\newcommand{\cxg}[1]{\tikz[baseline=-0.75ex]{\node[regular polygon,
+  regular polygon sides=#1, draw=black!60, fill=black!10, minimum size=2.5ex,
+  inner sep=0pt, line width=0.5pt] {};}}
+
+% Compact running heads that fit the narrow 5x8 page.
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\small\thepage}
+\fancyhead[RE]{\small\nouppercase{\leftmark}}
+\fancyhead[LO]{\small\nouppercase{\rightmark}}
+\renewcommand{\headrulewidth}{0.3pt}
+\fancypagestyle{plain}{\fancyhf{}\renewcommand{\headrulewidth}{0pt}\fancyfoot[C]{\small\thepage}}
+
+% Make the blank verso pages inserted before each chapter truly blank.
+\makeatletter
+\def\cleardoublepage{\clearpage\if@twoside\ifodd\c@page\else
+  \hbox{}\thispagestyle{empty}\newpage\if@twocolumn\hbox{}\newpage\fi\fi\fi}
+\makeatother
+
+% Grayscale palette (the book is printed in black and white).
+\colorlet{accent}{black!80}
+\colorlet{accentB}{black!50}
+
+% Looser float placement so figures do not leave near-empty pages on the small trim.
+\renewcommand{\topfraction}{0.9}
+\renewcommand{\bottomfraction}{0.8}
+\renewcommand{\textfraction}{0.07}
+\renewcommand{\floatpagefraction}{0.7}
+\setcounter{topnumber}{2}
+\setcounter{totalnumber}{3}
+
+% Skippable "calculation" box. Usage: \begin{calculation}{what is being computed} ... \end{calculation}
+\newtcolorbox{calculation}[1]{%
+  breakable,
+  enhanced,
+  colback=black!4,
+  colframe=black!45,
+  boxrule=0.5pt,
+  arc=2pt,
+  left=6pt,right=6pt,top=6pt,bottom=6pt,
+  fonttitle=\bfseries\small,
+  fontupper=\small,
+  coltitle=black,
+  title={The mathematics behind it: #1 \hfill\textnormal{\itshape(this box can be skipped)}},
+}
+
+% Notation carried over from the papers, so that a reader who goes from the book
+% to them finds the same symbols.
+\newcommand{\ave}[1]{\langle #1 \rangle}
+\newcommand{\kbar}{\bar\kappa}
+\newcommand{\sbar}{\bar s}
+\newcommand{\code}[1]{\texttt{#1}}
+
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\hyphenation{chy-graph chy-graphs hy-per-graph hy-per-graphs per-co-la-tion}
+
+\pagenumbering{gobble}
+
+\begin{document}
+
+\title{Phase transitions on complex hypergraphs}
+
+\author{Alexei Vazquez}
+\maketitle
+
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{center}
+{\itshape Dedication to come.}
+\end{center}
+\vspace*{\fill}
+\clearpage
+
+\include{preface}
+
+\include{software}
+
+% The contents lists parts and chapters only: with fourteen chapters, breaking
+% each one down into its sections turns the front matter into an index of its
+% own. Set here rather than in the preamble so it wins over the packages.
+\setcounter{tocdepth}{0}
+\tableofcontents
+
+\part{Foundations}
+
+\include{introduction}
+
+% sources
+% - Bethe-Peierls background: Vazquez & Weigt, Phys. Rev. E 67, 027101 (2003)
+% - textbook background: Mezard & Montanari; Newman
+% - the closing section (why real networks break treelikeness) motivates the book
+
+\include{chygraphs}
+
+% sources
+% - manuscript 1 (Phys. Rev. E 107, 024316), Sec. II "Key definitions"
+% - manuscript 2 (J. Complex Netw. 2024, cnae047), Sec. 2 "Chygraphs"
+
+\include{data}
+
+% sources
+% - manuscript 1's publications figure and fig_inclusion
+% - ../probe/prediction4.py, ../probe/gbp_cliques.py (clique ensembles, overlap)
+% - ../TODO.md item 1 (what the HRG clique ensemble does and does not converge to)
+
+\part{Percolation}
+
+\include{percolation}
+
+% sources
+% - manuscript 1, Secs. III-IV (with and without intra-layer inclusions)
+% - manuscript 2, Secs. 3-6 (order parameter, graphs/hypergraphs, multiplex,
+%   interacting graphs and hypergraphs)
+
+\include{giant}
+
+% sources
+% - ~/av2atg/chygraph/manuscript_3/manuscript.tex (the whole of it)
+
+\include{epidemics}
+
+% sources
+% - manuscript_3, "Epidemics with two levels of mixing"
+% - manuscript 2, interacting graphs and hypergraphs
+% - the discontinuous-onset material connects forward to Ch. 9's unanimity
+%   interaction; keep the two consistent
+
+\part{Statistical mechanics}
+
+\include{potts}
+
+% sources
+% - ../main.tex Sec. I, the Fortuin-Kasteleyn paragraph. Keep the statement
+%   exact: bond percolation is the q -> 1 limit of the RANDOM-CLUSTER model,
+%   FK's kappa = 1; kappa = 2 Ising; kappa = 3, 4, ... Potts. Site occupation
+%   enters by thinning the generating functions, not as a separate limit.
+
+\include{statmech}
+
+% sources
+% - ../main.tex Sec. II "General theory", Sec. III "Structures"
+% - ../supplement.tex Secs. I-II
+
+\include{ising}
+
+% sources
+% - ../main.tex Sec. IV; ../supplement.tex Secs. III-IV
+% - ../examples/clustering_lowers_tc.py
+
+\include{hittingset}
+
+% sources
+% - ../main.tex Sec. V; ../supplement.tex Sec. V
+% - ../examples/softfield_vs_hardfield.py, ../examples/hitting_set_rsb.py
+
+\include{cover}
+
+% sources
+% - ../main.tex Sec. VI "Core percolation"; ../supplement.tex Sec. VI
+% - ../probe/prediction4.py (hyperbolic random graphs)
+
+\include{colouring}
+
+% sources
+% - no manuscript: the calculations are done in figs/colouring.py
+% - benchmarks: Mulet et al. PRL 89, 268701 (2002), Table I (ER thresholds);
+%   Zdeborova & Krzakala PRE 76, 031131 (2007), Eq. (18) (RS local stability,
+%   c = (q-1)^2 for ER and (q-1)^2 + 1 for regular)
+% - references under ~/Downloads/chygraph_references/
+
+\include{satisfiability}
+
+% sources
+% - no manuscript. Mezard, Parisi & Zecchina Science 297, 812 (2002);
+%   Mezard & Zecchina PRE 66, 056126 (2002); Montanari, Ricci-Tersenghi &
+%   Semerjian (2008); Franz & Leone (2003)
+% - references under ~/Downloads/chygraph_references/
+
+\part{Limits}
+
+\include{overlap}
+
+% sources
+% - ../main.tex Sec. VII "Overlapping complexes"; ../supplement.tex Sec. VII
+% - ../examples/gbp_two_triangles.py; ../TODO.md item 2
+
+\include{outlook}
+
+\bibliographystyle{plainnat}
+\bibliography{references}
+
+\end{document}

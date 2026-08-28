@@ -1,0 +1,312 @@
+\chapter{Colouring}
+\label{ch:colouring}
+
+This chapter and the next complete Part~III's third family. Chapter~\ref{ch:hittingset}
+minimised a set subject to a covering constraint; Chapter~\ref{ch:cover}
+tightened the constraint and found the algorithm that solves it. Colouring
+keeps the hard constraint and drops the minimisation: there is nothing to
+optimise, only a question of whether a configuration exists at all.
+
+It is also the place where a promise made in Chapter~\ref{ch:potts} comes due.
+Proper colouring is the antiferromagnetic $q$-state Potts model at zero
+temperature --- this book's own model at the opposite sign --- so if the
+machinery is what it has been claimed to be, the colouring calculation should be
+a substitution and not a new theory. It is, and the substitution produces two
+closed forms that are worth the chapter on their own.
+
+One is a surprise. For proper colouring, the transmission of a complex does not
+depend on its cardinality at all: a clique of nine members transmits exactly what
+a single edge does. The other is the opposite: for the weaker hypergraph
+constraint the transmission collapses like $q^{-c}$, and by cardinality four a
+complex has almost stopped constraining anything. Identical at cardinality two,
+these two problems diverge violently above it, and
+Sec.~\ref{sec:twoconstraints-col} is why.
+
+\section{Colouring as a hard-core problem}
+\label{sec:colouringdef}
+
+Give every node one of $q$ colours and forbid an edge whose endpoints agree.
+There is no chemical potential and no ground-state energy to minimise: a
+colouring either exists or it does not, and the question is at what density of
+constraints it stops existing.
+
+In the language of Chapter~\ref{ch:statmech} this is
+Eq.~\eqref{eq:emitted} with an interior that assigns weight zero to forbidden
+configurations and weight one to the rest. Nothing else changes. What does
+change, and it is worth flagging before the algebra, is the \emph{message}. Up
+to now a message has been one number --- a probability, a field, an integer, or
+at worst three states. Here it is a distribution over $q$ colours,
+$\eta_{i\to a}(\sigma)$, and there is no ferromagnetic direction to project it
+onto. That is the sense in which colouring is heavier than anything before it,
+and Sec.~\ref{sec:colouring-scalar} is the observation that rescues it.
+
+\paragraph{Two constraints, not one.} On a graph there is only one way to
+forbid, but on a chygraph a complex of $c$ members admits two natural rules and
+they are not the same.
+
+\emph{Proper colouring} of the induced graph: every pair inside a complex is an
+edge, so all $c$ members must take \emph{distinct} colours. This needs $q\ge c$
+and is what one means by colouring a clustered graph whose motifs have been
+promoted to complexes.
+
+\emph{Hypergraph colouring}: only a \emph{monochromatic} complex is forbidden.
+Two members may agree as long as not all of them do. This is the standard
+higher-order generalisation, and it is strictly weaker.
+
+At $c=2$ the two coincide, which is exactly why the distinction has no
+counterpart on a graph. Above it they are different problems, and
+Chapter~\ref{ch:cover}'s pairing of hitting set with vertex cover was the same
+distinction one family earlier: how much of a complex may be left alone.
+
+\section{What a complex transmits}
+\label{sec:colouring-scalar}
+
+The uniform assignment $\eta\equiv1/q$ is always a fixed point --- every colour
+equally likely everywhere, which is the replica-symmetric solution. Linearise
+about it and one number governs the result.
+
+\begin{calculation}{one number, because the colours are interchangeable}
+Write $\eta_{j}=1/q+w_{j}$ with $\sum_{\sigma}w_{j}(\sigma)=0$, which is forced
+because both $\eta$ and $1/q$ are normalised. The perturbations therefore live
+in the $(q-1)$-dimensional traceless subspace, and permuting the colours is a
+symmetry of the whole problem. By Schur's lemma the linearised map acts on that
+subspace as a \emph{scalar}. So although the message carries $q-1$ numbers, its
+linearisation carries one, and Chapter~\ref{ch:statmech}'s branching matrix
+applies unchanged with that scalar in place of $u'$. This is checked directly:
+three different traceless directions return one number.
+
+\emph{Proper colouring.} The emitted quantity is
+\[
+  Z(\sigma_{0})=\!\!\sum_{\substack{\sigma_{1}\dots\sigma_{c-1}\ \text{distinct}\\
+    \text{and all}\ \ne\sigma_{0}}}\ \prod_{j}\eta_{j}(\sigma_{j}).
+\]
+Differentiate with respect to $\eta_{1}(s)$. The result is zero unless
+$s\ne\sigma_{0}$, and when $s\ne\sigma_{0}$ it is the same quantity $A$ for
+every such $s$, because the remaining sum depends only on how many colours have
+been excluded and not on which. So the linear response is
+\[
+  \sum_{s}w_{1}(s)\,A\,\mathbf{1}[s\ne\sigma_{0}]
+  =A\Bigl(\sum_{s}w_{1}(s)-w_{1}(\sigma_{0})\Bigr)=-A\,w_{1}(\sigma_{0}),
+\]
+the first sum vanishing by tracelessness. With
+$A=q^{2-c}(q-2)!/(q-c)!$ and $Z_{0}=q^{1-c}(q-1)!/(q-c)!$ at the uniform point,
+the ratio $A/Z_{0}=q/(q-1)$, and after normalising,
+\begin{equation}
+  \tau_{c}(q)=-\frac{1}{q-1}.
+  \label{eq:taucol}
+\end{equation}
+Every combinatorial factor cancels. The cardinality has gone.
+
+\emph{Hypergraph colouring.} Here the constraint removes a single configuration,
+so
+\[
+  Z(\sigma_{0})=1-\prod_{j}\eta_{j}(\sigma_{0}),
+\]
+and expanding the product to first order gives, after the same normalisation,
+\begin{equation}
+  \tau^{\mathrm{hyp}}_{c}(q)=-\frac{1}{q^{\,c-1}-1}.
+  \label{eq:tauhyp}
+\end{equation}
+At $c=2$ this is Eq.~\eqref{eq:taucol}, as it must be.
+\end{calculation}
+
+Both forms are confirmed by enumerating the interior exactly, in rational
+arithmetic, so the agreement is an identity rather than a numerical
+coincidence.
+
+\paragraph{Why the cardinality cancels, in words.} It is worth saying without
+the algebra, because the result is the chapter's least expected. What one member
+of a clique learns from another is a single fact: \emph{not that colour}. It
+learns the same fact from every other member. Because the perturbation is
+traceless --- the colours have to keep summing to one --- excluding one colour
+is the whole of the information, and excluding it again from a second member
+adds nothing to the linear response. A clique of nine transmits what an edge
+transmits.
+
+The negative sign is not decoration either. Colouring is an
+\emph{antiferromagnet}: raising the probability of a colour at one node lowers
+it at the next. Chapter~\ref{ch:statmech} warned that the sign of the entries,
+not of the leading eigenvalue, is what classifies a map, and this is the third
+map in the book whose entries are negative --- after the hard-field maps of
+Chapters~\ref{ch:hittingset} and~\ref{ch:cover}.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig-colouring.pdf}
+\caption{\textbf{Two constraints, identical at cardinality two.} Left: the
+transmission of a complex, Eqs.~\eqref{eq:taucol} and~\eqref{eq:tauhyp}. For
+proper colouring (solid) the three cardinalities fall exactly on top of one
+another; for hypergraph colouring (dashed) the transmission collapses like
+$q^{-c}$. Right: the resulting local-stability threshold in neighbours per
+node. Proper colouring sits at $(q-1)^{2}$ whatever the cardinality --- the
+graph value; hypergraph colouring runs away as $(q^{c-1}-1)^{2}$. Stars are the
+published colourability thresholds for Erd\H{o}s--R\'enyi graphs
+\citep{mulet2002}, which lie \emph{below} the stability line for $q\ge4$: see
+Sec.~\ref{sec:colouring-rsb}. Generated by \code{figs/colouring.py}.}
+\label{fig:colouring}
+\end{figure}
+
+\section{The threshold, and what it is}
+\label{sec:colouringthreshold}
+
+Substituting into Eq.~\eqref{eq:branch} needs one decision, and it is the
+decision Chapter~\ref{ch:ising} already made in Sec.~\ref{sec:atline}.
+
+There is no ordered phase to look for here: the uniform solution \emph{is} the
+replica-symmetric solution, and what one asks is whether a perturbation of
+\emph{random sign} grows. That perturbation is transmitted with $\tau$ and its
+effect measured by squaring, so the operative condition is the de
+Almeida--Thouless form --- $\ave{u'}$ replaced by $\ave{u'^{2}}$ everywhere,
+which by Eq.~\eqref{eq:reweight} is an elementwise reweighting and nothing more.
+For a single layer,
+\begin{equation}
+  \ave{\kbar}\,(c-1)\,\tau_{c}^{2}=1.
+  \label{eq:colthresh}
+\end{equation}
+
+\paragraph{The graph case, against the literature.} Put $c=2$. For a Poisson
+chy-degree, $\ave{\kbar}=\ave{k}$ and Eq.~\eqref{eq:colthresh} gives
+$\ave{k}=(q-1)^{2}$. For a regular chy-degree, $\ave{\kbar}=\ave{k}-1$ and it
+gives $\ave{k}=(q-1)^{2}+1$. Both are
+Ref.~\citep{zdeborova2007}'s Eq.~(18), which reads
+$c_{\mathrm{RS}}^{\mathrm{ER}}=q^{2}-2q+1$ and
+$c_{\mathrm{RS}}^{\mathrm{reg}}=q^{2}-2q+2$.
+
+Two published expressions from one $\tau$, and the difference between them is
+exactly the excess-degree convention this book has been carrying since
+Sec.~\ref{sec:map}. That is the check the chapter needed, and it is a stronger
+one than a single number would have been, because a formalism that had the
+excess bookkeeping wrong would reproduce at most one of the two lines.
+
+\paragraph{Cardinality, and the two constraints.} Now raise it. Counting in
+\emph{neighbours} per node --- a complex of cardinality $c$ supplies $c-1$ of
+them --- Eq.~\eqref{eq:colthresh} gives
+\begin{equation}
+  \text{proper: } (q-1)^{2},
+  \qquad
+  \text{hypergraph: } \bigl(q^{\,c-1}-1\bigr)^{2}.
+  \label{eq:coltwo}
+\end{equation}
+The first does not move. A network of $c$-cliques loses stability at exactly the
+same number of neighbours per node as a graph does, for every cardinality and
+every $q$: promoting motifs to complexes changes nothing at all here. The second
+runs away --- at $q=4$ it is $9$, $225$, $3969$ for $c=2,3,4$.
+
+The first of these is the same phenomenon as Eq.~\eqref{eq:kc}, which found
+$\ave{k}(c-1)=e$ for hitting set: counted in neighbours, hyperedge size does not
+move the point. Two hard-core problems, two different constants, one structure.
+The reason is the same both times --- what a complex transmits and how many
+neighbours it supplies move in exactly compensating ways --- and it is worth
+noticing that this is the \emph{opposite} of what happened for the Ising model,
+where Sec.~\ref{sec:clustering} found the two effects failing to compensate and
+the multiplicity winning.
+
+\section{The two constraints diverge above cardinality two}
+\label{sec:twoconstraints-col}
+
+Equation~\eqref{eq:coltwo} is the sharpest statement in the chapter, so it is
+worth being explicit about what it says.
+
+Proper colouring of a clique network is, at this level of description,
+indistinguishable from colouring a graph with the same number of neighbours.
+Hypergraph colouring of the same object is not remotely the same problem: a
+cardinality-four complex over four colours tolerates $3969$ neighbours per node
+where the proper constraint tolerates $9$.
+
+The gap is entirely a matter of how much a complex forbids. A clique of four
+rules out all but $q(q-1)(q-2)(q-3)$ of $q^{4}$ assignments; the monochromatic
+rule leaves all but $q$ of them. At $c=2$ those are the same statement and the
+distinction is invisible --- which is why it has no name in the graph
+literature, and why it needed a formalism with cardinality in it to become
+visible.
+
+This is the third time Part~III has found a distinction that exists only above
+cardinality two. Section~\ref{sec:hardfail} found the hard-field limit exact at
+$c=2$ and wrong above it; Sec.~\ref{sec:corefree} found the core-free branch
+present at $c=2$ and absent above it; and here two constraints coincide at $c=2$
+and separate by three orders of magnitude above it. The pattern is not a
+coincidence. Cardinality two is degenerate in a specific way --- a complex with
+two members has no room for a partial violation --- and a great deal of what
+looks like general theory is an artefact of working there.
+
+\section{Where replica symmetry goes}
+\label{sec:colouring-rsb}
+
+Now the qualification, and it is a large one. Colouring is the classic
+one-step replica-symmetry-breaking problem, and this book does not do that
+calculation. So it is important to say precisely what Eq.~\eqref{eq:colthresh}
+is and, more importantly, what it is not.
+
+It is the point where the replica-symmetric solution loses \emph{local}
+stability --- where the spin-glass susceptibility diverges. It is not the
+colourability threshold. Comparing with the published Erd\H{o}s--R\'enyi values
+\citep{mulet2002}:
+\begin{center}\small
+\begin{tabular}{rrrr}
+\hline\hline
+$q$ & $(q-1)^{2}$ & clustering $c_{d}$ & colourable to $c_{q}$\\
+\hline
+$3$ & $4$ & $4.42$ & $4.69$\\
+$4$ & $9$ & $8.27$ & $8.90$\\
+$5$ & $16$ & $12.67$ & $13.69$\\
+\hline\hline
+\end{tabular}
+\end{center}
+
+Read that table carefully, because it says something uncomfortable. At $q=3$ the
+local instability sits inside the colourable phase, below both the clustering
+transition and the colourability threshold. At $q=4$ and above it sits
+\emph{above} the colourability threshold --- the graph has long since stopped
+being colourable by the time the replica-symmetric solution notices anything is
+wrong. The criterion is not merely loose there; it is on the wrong side.
+
+That is not a defect of the chygraph construction. It is the known behaviour of
+replica-symmetric colouring, and Ref.~\citep{zdeborova2007} records it in the
+same words: the instability threshold lies in the colourable phase only for
+$q=3$. What this chapter contributes is that the same statement, with the same
+constants, comes out of the general branching matrix; and that it extends to
+complexes, where Eq.~\eqref{eq:coltwo} says a clique network behaves exactly like
+a graph and a hypergraph does not.
+
+\paragraph{What would be needed.} The colourability threshold requires the
+one-step calculation --- survey propagation, a complexity function, and the
+condensation and rigidity transitions that Ref.~\citep{zdeborova2007} maps out.
+Chapter~\ref{ch:hittingset} built the tool that would detect the failure, the
+Bethe entropy of Eq.~\eqref{eq:sgen}, and also showed that a positive entropy
+proves nothing. Applying it here, and then doing the one-step calculation on a
+chygraph rather than a graph, is not attempted in this book and is on
+Chapter~\ref{ch:outlook}'s list.
+
+Until it is done, the honest reading of Eq.~\eqref{eq:coltwo} is as a statement
+about the stability of a particular solution, not about when colourings run out
+--- and the interesting part of it, that cardinality drops out of the proper
+constraint and dominates the hypergraph one, is a statement about the interior
+sum that a one-step treatment would inherit unchanged, because
+Eqs.~\eqref{eq:taucol} and~\eqref{eq:tauhyp} are properties of a complex and not
+of an ansatz.
+
+\section{Checks}
+\label{sec:colouring-checks}
+
+\emph{Against enumeration, exactly.} Equations~\eqref{eq:taucol}
+and~\eqref{eq:tauhyp} are checked against a direct enumeration of the interior
+of a complex, in rational arithmetic so that the agreement is exact rather than
+numerical: proper colouring for $q=3,\dots,7$ at every cardinality from $2$ to
+$\min(q,5)$, and hypergraph colouring for $q=3,4,5$ at cardinalities $2$, $3$
+and $4$.
+
+\emph{That one number suffices.} The claim that the linearised map acts as a
+scalar on the traceless subspace is checked by perturbing along three different
+traceless directions and requiring the same answer, for both rules.
+
+\emph{Against the literature.} Equation~\eqref{eq:colthresh} at $c=2$ returns
+$(q-1)^{2}$ for Poisson and $(q-1)^{2}+1$ for regular chy-degree, which are the
+two lines of Ref.~\citep{zdeborova2007}'s Eq.~(18). The published thresholds of
+Ref.~\citep{mulet2002} are quoted alongside, and the chapter states that they
+lie below the stability line for $q\ge4$ rather than leaving that to be
+discovered.
+
+\emph{What is not checked, because it is not claimed.} Nothing here is a
+colourability threshold. This chapter computes where a replica-symmetric
+solution stops being locally stable, and Sec.~\ref{sec:colouring-rsb} is the
+account of the difference.

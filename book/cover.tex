@@ -1,0 +1,392 @@
+\chapter{Vertex cover and core percolation}
+\label{ch:cover}
+
+Three things in this chapter turn out to be one thing, and saying which three
+is most of the work.
+
+There is an \emph{algorithm}, leaf removal, which sometimes solves minimum
+vertex cover exactly and sometimes gets stuck. There is a \emph{structure}, the
+core, which is what it gets stuck on --- and which has a percolation transition
+of its own, at mean degree $e$. And there is the \emph{instability} of
+Chapter~\ref{ch:hittingset}'s hard-field map, Eq.~\eqref{eq:kc}, which also sits
+at $e$. These are not three results that happen to share a number. They are one
+point computed three ways, and Sec.~\ref{sec:onepoint} says so with the digits.
+
+Then the chapter does what Chapter~\ref{ch:hittingset} did: raises the
+cardinality and watches something break. Above cardinality two the core-free
+branch disappears entirely, so leaf removal never certifies anything --- which
+is precisely why the hard-field cover size stopped being trustworthy there.
+Section~\ref{sec:corefree} proves it in three lines, and blocks the reading of
+it that is too strong.
+
+Section~\ref{sec:hrg} is the empirical payoff, and the one place in the book
+where a chygraph prediction is tested against a network nobody designed to suit
+it.
+
+\section{Leaf removal, and what it certifies}
+\label{sec:leafremoval}
+
+Minimum vertex cover was introduced in Sec.~\ref{sec:cover-intro}: choose as few
+nodes as possible so that every link has at least one endpoint chosen. It is
+NP-hard, and yet on sparse random graphs there is an algorithm that solves it
+exactly, most of the time, in linear time.
+
+\emph{Leaf removal.} Find a vertex of degree one --- a leaf. Its single
+neighbour can be put in the cover with no loss: some minimum cover contains that
+neighbour, because covering the leaf's edge costs one vertex either way and the
+neighbour may cover others besides. So take the neighbour, delete both, and
+repeat.
+
+Two things about this. It is exact --- every step is forced, not heuristic --- so
+if the graph is consumed entirely, the cover produced is provably minimum. And
+it is a purely local rule, which is why a cavity treatment can follow it.
+
+What it cannot do is proceed once no leaf is left. The residue at that point is
+the \emph{core}, and on the core the algorithm has nothing to say: covering it
+is back to being hard. So core percolation is not a fifth model in this book. It
+is the obstruction to solving the fourth, and that is why it belongs in the same
+chapter.
+
+\section{Two constraints, one family}
+\label{sec:twoconstraints}
+
+Chapter~\ref{ch:hittingset} deferred a comparison; here it is, because it
+locates the problem this chapter solves.
+
+Hitting set and vertex cover minimise the same thing, $\mathcal{H}=\mu\sum_ix_i$,
+and differ only in the constraint. Where Eq.~\eqref{eq:Hhs} forbids a hyperedge
+with \emph{no} member taken, vertex cover of the induced graph forbids an
+\emph{edge} with neither endpoint taken:
+\begin{equation}
+  \prod_{a}\ \prod_{\{i,j\}\subset a}
+    \bigl[1-(1-x_{i})(1-x_{j})\bigr]=1.
+  \label{eq:Hvc}
+\end{equation}
+The difference is a matter of how much of a complex may be left out. A hyperedge
+is satisfied once one member is taken, so $c-1$ may be left out. Two members of
+a clique are adjacent, so at most \emph{one} may.
+
+The cavity equations differ in exactly one place, and it is again inside the
+complex. Taking $i$ blocks every other member of every complex containing it ---
+but a complex could only ever have contributed one member, so the cost is the
+\emph{maximum} over the complex rather than the sum:
+\begin{equation}
+  z_{i\to a}=1-\sum_{b\ne a}\max\Bigl(0,\max_{j\in b\setminus i}z_{j\to b}\Bigr),
+  \label{eq:vcz}
+\end{equation}
+giving
+\begin{equation}
+  \sigma_{m}=\bar\Phi^{(m)}(\tau),
+  \qquad
+  \tau_{l}=(1-\sigma_{l})^{\,c_{l}-1},
+  \label{eq:vc}
+\end{equation}
+against $\tau_{l}=\sigma_{l}^{\,c_{l}-1}$ and an outer complement in
+Eq.~\eqref{eq:hs}. At $c=2$ the two collapse to the same map, as they must ---
+both return the Weigt--Hartmann cover size, to nine digits, along code paths
+that share nothing.
+
+And both are hard-field maps, so Sec.~\ref{sec:hardfail} applies to
+Eq.~\eqref{eq:vcz} unchanged. On isolated triangles, where every vertex sits at
+$z=0$, it returns $1/2$ against a true $2/3$. That is the mirror image of
+Chapter~\ref{ch:hittingset}'s counterexample: the same defect, a different
+problem, a different true answer --- and the same wrong one, because $1/2$ is
+what the half rule always returns when everything is degenerate.
+
+\section{The core as an obstruction}
+\label{sec:coreobstruction}
+
+Run leaf removal on the cavity branch and ask what a node reached along an
+inclusion ends up as. There are three answers, not two: leaf-ready ($L$),
+deleted ($D$), or core-side ($C$). Percolation had two answers and got a scalar;
+this has three, and needs a message with three components
+(Fig.~\ref{fig:leafremoval}).
+
+Writing $(\lambda,\delta,\gamma)$ for their probabilities, the chy-degree step is
+\begin{equation}
+  \lambda_{m}=\bar\Phi^{(m)}(\zeta),
+  \qquad
+  \delta_{m}=1-\bar\Phi^{(m)}(1-\kappa),
+  \label{eq:core}
+\end{equation}
+and the intra-complex step is solved exactly, as Sec.~\ref{sec:downstep} always
+does.
+
+\begin{calculation}{what a complex does to a leaf}
+Enter a complex through one member and look at the other $c-1$. With $m$ of them
+still live, every live member has clique-degree exactly $m$ inside the complex,
+so two events matter and no others.
+
+\emph{The complex leaves the entering node free to be a leaf} only when it
+offers nothing at all --- when every one of the other $c-1$ members is already
+deleted:
+\[
+  \zeta=\delta^{\,c-1}.
+\]
+
+\emph{The complex forces the entering node out} only when exactly one other
+member is live and leaf-ready. With two or more live members the entering node
+is not a leaf of that complex and the complex decides nothing. There are $c-1$
+ways to choose which member is the live one:
+\[
+  \kappa=(c-1)\,\delta^{\,c-2}\lambda.
+\]
+
+At $c=2$ these degenerate to $\zeta=\delta$ and $\kappa=\lambda$, returning the
+graph recursion $\lambda=\bar\Phi(\delta)$,
+$\delta=1-\bar\Phi(1-\lambda)$.
+\end{calculation}
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}[x=1cm,y=1cm]
+% Leaf removal, three frames. A leaf's NEIGHBOUR is taken; both are deleted.
+\foreach \f/\lab in {0/{a leaf, and\\ its neighbour},
+                     1/{take the neighbour,\\ delete both},
+                     2/{no leaf left:\\ the residue is the core}}{
+  \node[lb,anchor=north,align=center,text width=3.0cm]
+    at (\f*3.9+0.9,-1.25) {\lab};
+}
+% --- frame 1
+\begin{scope}
+  \node[nd] (p0) at (0,0.75) {};
+  \node[hub] (q0) at (0.9,0.35) {};
+  \node[nd] (r0) at (1.8,0.75) {};
+  \node[nd] (s0) at (1.35,-0.45) {};
+  \node[nd] (t0) at (0.45,-0.45) {};
+  \draw[lnk] (p0)--(q0) (q0)--(r0) (r0)--(s0) (s0)--(t0) (t0)--(r0);
+  \node[lb,anchor=east] at (-0.12,0.75) {leaf};
+\end{scope}
+% --- frame 2
+\begin{scope}[xshift=3.9cm]
+  \node[nd,draw=black!25] (p1) at (0,0.75) {};
+  \node[nd,draw=black!25] (q1) at (0.9,0.35) {};
+  \node[nd] (r1) at (1.8,0.75) {};
+  \node[nd] (s1) at (1.35,-0.45) {};
+  \node[nd] (t1) at (0.45,-0.45) {};
+  \draw[lnk,draw=black!18] (p1)--(q1) (q1)--(r1);
+  \draw[lnk] (r1)--(s1) (s1)--(t1) (t1)--(r1);
+\end{scope}
+% --- frame 3
+\begin{scope}[xshift=7.8cm]
+  \node[hub] (r2) at (1.8,0.75) {};
+  \node[hub] (s2) at (1.35,-0.45) {};
+  \node[hub] (t2) at (0.45,-0.45) {};
+  \draw[lnk] (r2)--(s2) (s2)--(t2) (t2)--(r2);
+  \begin{scope}[on background layer]
+    \node[cx,fit=(r2)(s2)(t2)] {};
+  \end{scope}
+\end{scope}
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{Leaf removal, and what stops it.} A vertex of degree one is a
+leaf; some minimum cover contains its \emph{neighbour}, so the neighbour is
+taken (dark) and both are deleted. Repeating consumes the graph, and if it
+consumes all of it the cover produced is provably minimum. Here it does not: the
+triangle has no leaf, and the residue is the core. A node on the cavity branch
+therefore ends as one of three things --- leaf-ready, deleted, or core-side ---
+which is why Eq.~\eqref{eq:core} carries three numbers where
+Chapter~\ref{ch:percolation} carried one.}
+\label{fig:leafremoval}
+\end{figure}
+
+Unlike Eq.~\eqref{eq:hs} this map is order-\emph{preserving}, so monotone
+iteration from zero suffices and none of Sec.~\ref{sec:hard}'s bracketing
+apparatus is needed. That is the distinction Sec.~\ref{sec:fixedpoint} drew, put
+to use: the two maps live on the same chygraph and differ in the signs of their
+entries, and the sign decides which solver applies.
+
+\section{On a graph: one point, three names}
+\label{sec:onepoint}
+
+At $c=2$, Eq.~\eqref{eq:core} has threshold $\bar\Phi'(1-\lambda)=1$, which for
+Poisson chy-degree is
+\begin{equation}
+  \ave{k}=e.
+\end{equation}
+Below it the core is empty and leaf removal certifies a minimum cover; above it
+the core is extensive and the algorithm stalls. This is the Bauer--Golinelli
+threshold \citep{bauer2001}.
+
+It is also Eq.~\eqref{eq:kc} at $c=2$: the loss of stability of
+Chapter~\ref{ch:hittingset}'s hard-field map. And it is the accepted
+replica-symmetry-breaking point for vertex cover on Poisson graphs
+\citep{weigt2000}. Computed independently, the first two agree to
+$2.5\times10^{-10}$ --- which is not a coincidence to be admired but a
+consistency check to be passed, since they are the same point reached by two
+routes.
+
+The identification is worth stating in words, because it is the reason this
+book puts the three subjects in one chapter. \emph{Leaf removal certifies a
+cover exactly when there is no core; there is no core exactly when the
+hard-field map is stable; and the hard-field map is stable exactly where the
+integer messages carry the whole answer.} Three statements, one condition.
+
+\section{Above cardinality two the core-free branch disappears}
+\label{sec:corefree}
+
+Now raise the cardinality, and something abrupt happens.
+
+\begin{calculation}{no core-free branch above cardinality two}
+A core-free branch means $\gamma=0$, that is $\lambda+\delta=1$. Substituting
+Eq.~\eqref{eq:core},
+\[
+  \bar\Phi^{(m)}(\zeta)+1-\bar\Phi^{(m)}(1-\kappa)=1,
+\]
+and since $\bar\Phi$ is a power series with non-negative coefficients, hence
+strictly increasing, this requires $\zeta=1-\kappa$ in every layer. With
+$\lambda=1-\delta$ that is
+\[
+  f(\delta)\equiv(c-1)\delta^{\,c-2}-(c-2)\delta^{\,c-1}-1=0.
+\]
+The polynomial factors, and the factorisation is the whole argument:
+\begin{equation}
+  f(\delta)=-(1-\delta)^{2}\sum_{j=0}^{c-3}(j+1)\,\delta^{\,j}.
+  \label{eq:factored}
+\end{equation}
+At $c=2$ the sum is empty and $f\equiv0$: the condition is an \emph{identity},
+and the core-free branch exists at every chy-degree below threshold. At $c\ge3$
+every coefficient of the sum is strictly positive, so $f(\delta)<0$ on $[0,1)$
+and $f(1)=0$. The only root is $\delta=1$, forcing $\lambda=0$.
+\end{calculation}
+
+So a chygraph carrying any layer of cardinality three or more has no core-free
+branch at all, at any density. Leaf removal never certifies a cover there.
+
+Figure~\ref{fig:core} draws it. At $c=2$ there is a transition at $e$; at $c=3$
+and above there is no transition, and the two curves lie exactly on top of each
+other because for a pure clique network of cardinality three or more the core is
+$1-e^{-\ave{k}}$ --- every vertex that is in any complex at all. Cardinality
+past three changes nothing, which is the sort of degeneracy worth noticing: the
+obstruction is not a matter of degree.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.88\linewidth]{figs/fig-core.pdf}
+\caption{\textbf{The core-free branch, and its disappearance.} Leaf-removal core
+against chy-degree for pure clique networks. At cardinality two there is a
+transition at $\ave{k}=e$, below which the core is empty and leaf removal
+certifies a minimum cover. At cardinality three and above there is no
+transition: Eq.~\eqref{eq:factored} forbids the core-free branch, and the core
+is $1-e^{-\ave{k}}$, every non-isolated vertex. The $c=3$ and $c=4$ curves
+coincide exactly. Generated by \code{figs/cover.py}.}
+\label{fig:core}
+\end{figure}
+
+This closes a loop. Section~\ref{sec:hardfail} said the hard-field cover size is
+exact at cardinality two and an approximation above it, and appealed to
+certification without proving it. Equation~\eqref{eq:factored} is the proof, and
+it is a property of Eq.~\eqref{eq:core} rather than an assumption imported from
+elsewhere: the cover size of Eq.~\eqref{eq:hs} can be believed exactly when
+Eq.~\eqref{eq:core} admits $\gamma=0$, and both hold only at $c=2$.
+
+\paragraph{A reading to block.} The result does \emph{not} say that a complex
+survives leaf removal whole. Leaf removal deletes a leaf's \emph{neighbour}, and
+a triangle carrying one pendant edge per vertex has an empty core. What the
+algebra gives is only that the core cannot vanish identically --- not that it is
+large. Add a triangle layer of chy-degree $10^{-3}$ to a Poisson link layer of
+chy-degree $1$ and the predicted core is $1.8\times10^{-4}$: non-zero, as
+Eq.~\eqref{eq:factored} requires, and of no practical consequence whatever. The
+statement is about a branch of a fixed point, and a statement about a branch is
+not a statement about a magnitude.
+
+\section{Hyperbolic random graphs}
+\label{sec:hrg}
+
+Everything so far is internal. This section is the one place where the
+construction meets a network that was not built to suit it.
+
+Hyperbolic random graphs are the standing example of a clustered ensemble: they
+have a heavy-tailed degree distribution and a great deal of clustering, both
+induced by the geometry rather than imposed. Run leaf removal on one and it
+finds an extensive core at \emph{every} mean degree, down to $\ave{k}=0.05$,
+with no transition. Run it on the degree-matched configuration model --- same
+degree distribution, same assortativity to within a few per cent --- and there is
+no core at all until $\ave{k}$ reaches $4.5$ to $10$. Whatever separates them is
+not in $\{p_{d},e_{dd'}\}$, and that gap is the motivation
+Chapter~\ref{ch:introduction} opened with.
+
+The chygraph treatment is: take the maximal cliques of the graph as complexes,
+\emph{measure} the chy-degree ensemble from the graph itself, and evaluate
+Eq.~\eqref{eq:core}. Nothing is fitted. Figure~\ref{fig:hrg} runs that over
+three decades in density.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig-hrg.pdf}
+\caption{\textbf{The one test against a network nobody designed.} Leaf-removal
+core of hyperbolic random graphs against mean degree, $n=2\times10^{5}$, two
+seeds per point. Filled circles are the core measured by running leaf removal on
+the graph; open squares are Eq.~\eqref{eq:core} evaluated on the maximal-clique
+ensemble measured from that same graph, so nothing is fitted; triangles are the
+degree-matched configuration model, which has no core over almost the whole
+range and is drawn on the axis floor where it has none. Lines are power-law fits
+over $\ave{k}\le1$. Data from \code{probe/prediction4.py}; plotted by
+\code{figs/cover.py}.}
+\label{fig:hrg}
+\end{figure}
+
+\paragraph{What it gets right.} The qualitative separation is complete: the
+chygraph has a core everywhere the real graph does, and the degree-matched
+control has none. Quantitatively the chygraph accounts for $77$ to $100$ per
+cent of the measured core, the shortfall tracking the clique overlap --- small
+in a sparse graph, irrelevant once almost everything is core, worst in between.
+And the core is a power law, $\mathrm{core}\sim\ave{k}^{\,\theta}$, with the
+predicted exponent matching the measured one to $0.04$ at $\tau=2.5$ and $0.06$
+at $\tau=2.9$.
+
+\paragraph{The cleanest control, and why it is the cleanest.} There is one place
+where the configuration model \emph{does} have a core: $\tau=2.9$, $\ave{k}=6$.
+There the chygraph predicts $0.633$ against a measured $0.621$, two per cent ---
+same map, same pipeline, and cliques that barely overlap at that density. So the
+deficit on the hyperbolic graph at the same density is overlap, and not the map.
+That comparison separates two things that would otherwise be confounded:
+whether Eq.~\eqref{eq:core} is right, and whether treating complexes as
+independent is. It says the map is right and the independence is not, which is
+exactly the diagnosis Chapter~\ref{ch:overlap} takes up.
+
+\paragraph{How much this is worth, stated plainly.} Less than it looks, and the
+book had better say so. Section~\ref{sec:corefree} shows that \emph{any} layer of
+cardinality three or more removes the core-free branch, so a positive prediction
+follows from the algebra the moment one triangle enters the ensemble, whatever
+else the graph is doing. The existence of the core was never in doubt once the
+mapping was chosen.
+
+The exponent is the part that could have failed. And there the evidence is
+weaker than the central values suggest. Bootstrapped over seeds, the predicted
+exponent does not move with $\tau$ at all --- $1.55$, $1.57$, $1.57$ across
+$\tau=2.5$, $2.9$, $2.1$ --- while the measured one spreads by seven times as
+much and rises monotonically, $1.59$, $1.64$, $1.49$. The two agree within
+errors at $\tau=2.5$ and differ at $\tau=2.9$ by roughly four standard
+deviations. What the comparison establishes is that the chygraph produces a
+power law of about the right exponent; not that it tracks the exponent's
+dependence on the tail. A sharper test would need an ensemble in which the
+predicted exponent is made to move, and an analytic account of what fixes it
+near $1.57$ in Eq.~\eqref{eq:core}. Neither is attempted here, and both are on
+Chapter~\ref{ch:outlook}'s list.
+
+\section{Checks}
+\label{sec:cover-checks}
+
+\emph{Against known results.} The $c=2$ threshold returns $e$ to ten digits,
+which is Bauer--Golinelli. Equation~\eqref{eq:vc} at $c=2$ returns the
+Weigt--Hartmann cover size, agreeing with Eq.~\eqref{eq:hs} to nine digits along
+a different code path.
+
+\emph{Against arithmetic.} Equation~\eqref{eq:factored} is an identity, checked
+symbolically; the numerical map agrees, reporting a core-free branch at $c=2$
+and none at $c=3,4,5,8$. That the core is exactly $1-e^{-\ave{k}}$ above
+cardinality two is checked against the closed form at three cardinalities and
+three densities.
+
+\emph{Against simulation.} Equation~\eqref{eq:core} is compared with pure leaf
+removal on graphs built to match it, at $n=4\times10^{5}$, over eleven
+ensembles at cardinalities two, three and four. The error runs from
+$8.7\times10^{-5}$ to $3.1\times10^{-3}$.
+
+\emph{Against a network nobody designed.} Section~\ref{sec:hrg}. Two
+qualifications carried with it: the existence of the core follows from the
+algebra rather than from the data, and the exponent comparison is weaker than
+its central values suggest. Both are stated there rather than in a footnote,
+because a reader who takes away only the figure will have taken away too much.

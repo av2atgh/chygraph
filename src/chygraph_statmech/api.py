@@ -130,13 +130,33 @@ class Chygraph:
 
     def regions(self, complexes):
         """Region graph and Mobius counting numbers for an explicit complex
-        list (Sec. VIII).  Returns :class:`~chygraph_statmech.region.RegionGraph`."""
+        list (Sec. VII).  Returns :class:`~chygraph_statmech.region.RegionGraph`."""
         return _region.RegionGraph(complexes)
 
     @staticmethod
     def overlap_profile(complexes):
-        """How far an explicit complex family is from treelike (Sec. VIII)."""
+        """How far an explicit complex family is from treelike (Sec. VII)."""
         return _region.overlap_profile(complexes)
+
+    @staticmethod
+    def region_gbp(complexes, beta_J, damping=0.5, field=0.0, **kw):
+        """Generalised belief propagation on the region graph (Sec. VII).
+
+        Takes an explicit list of complexes and the Ising coupling of Eq. (16),
+        builds the closed region family and its Mobius counting numbers, and
+        returns a :class:`~chygraph_statmech.gbp.GBP` ready to ``run()``.  Each
+        pair inside a complex is counted once however many complexes contain
+        it, so overlapping complexes do not double the coupling on a shared
+        bond.
+
+        This is the instance-level calculation; every other method on this
+        class works at the level of an ensemble.
+        """
+        from chygraph_statmech import gbp as _gbp
+        rg = _region.RegionGraph(complexes)
+        factors = _gbp.ising_factors(_gbp.clique_edges(complexes), beta_J,
+                                     field=field)
+        return _gbp.GBP(rg, factors, damping=damping, **kw)
 
     # ======================================================================
     # Sec. IV: the Ising model
@@ -151,7 +171,7 @@ class Chygraph:
         """``u'``, the cavity derivative per neighbour (Sec. IV A).
 
         ``interaction='clique'`` couples every pair inside the complex;
-        ``'simplicial'`` is the unanimity rule of Sec. IV C.  For a layer with a
+        ``'simplicial'`` is the unanimity rule of Sec. IV D.  For a layer with a
         distribution of cardinalities this returns the size-biased average of
         ``u'(c)``; the transmission that enters Eq.~(8) is
         :meth:`transmission`, which weights by ``c-1`` as well.
@@ -172,7 +192,7 @@ class Chygraph:
         return self.size_biased(layer, f)
 
     def branching_matrix(self, beta_J, interaction='clique', squared=False):
-        """``B_{lm}`` of Eq.~(8) (Sec. III).  ``squared`` gives the AT line.
+        """``B_{lm}`` of Eq.~(8) (Sec. II C).  ``squared`` gives the AT line.
 
         General in the layer's cardinality distribution: the per-complex factor
         is the size-biased ``<sbar u'>_m`` of :meth:`transmission`, which
@@ -218,7 +238,7 @@ class Chygraph:
         return 1.0 / (J * self.critical_coupling(**kw))
 
     def stability_tensor(self, k, K, s, S, wkappa=None, ws=None):
-        """The symbolic ``2L^2`` tensor of Sec. III, reweighted (Eq. 4).
+        """The symbolic ``2L^2`` tensor of Sec. II C, reweighted (Eq. 7).
 
         Takes the four moment tables directly, as
         :class:`~chygraph_statmech.stability.StabilityMatrix` does.
@@ -226,14 +246,14 @@ class Chygraph:
         return _stab.StabilityMatrix(k, K, s, S, wkappa=wkappa, ws=ws)
 
     def population(self, beta_J, **kw):
-        """Field distributions by population dynamics (Sec. IV D).
+        """Field distributions by population dynamics (Sec. IV C).
 
         Returns :class:`~chygraph_statmech.population.CavityPopulation`.
         """
         return _pop.CavityPopulation(self.c, self.k, beta_J, **kw)
 
     def free_energy(self, beta_J, sweeps=250, **kw):
-        """Bethe free energy of the Ising model (Sec. VII).
+        """Bethe free energy of the Ising model, Eq. (13) (Sec. II E).
 
         Returns :class:`~chygraph_statmech.freeenergy.BetheFreeEnergy` on a
         converged population.
@@ -241,15 +261,15 @@ class Chygraph:
         return _fe.BetheFreeEnergy(self.population(beta_J, **kw).run(sweeps))
 
     def paramagnetic_free_energy(self, beta_J):
-        """``-beta f`` at zero cavity field, in closed form (Sec. VII)."""
+        """``-beta f`` at zero cavity field, Eq. (14) (Sec. II E)."""
         return _fe.paramagnetic(self.c, self.k, beta_J)
 
     # ======================================================================
-    # Sec. IV C: the simplicial (unanimity) interaction
+    # Sec. IV D: the simplicial (unanimity) interaction
     # ======================================================================
 
     def simplicial(self, couplings):
-        """The simplicial Ising model on this chygraph (Sec. IV C).
+        """The simplicial Ising model on this chygraph (Sec. IV D).
 
         Returns :class:`~chygraph_statmech.simplicial.SimplicialChygraph`,
         which carries ``spinodal``, ``coexistence``, ``transition`` and
@@ -262,7 +282,7 @@ class Chygraph:
     # ======================================================================
 
     def hitting_set(self):
-        """Hard-field hitting set, Eq. (13) (Sec. V A).
+        """Hard-field hitting set, Eq. (26) (Sec. V A).
 
         Thresholds are exact; the cover size only at cardinality two --- see
         :meth:`hitting_set_bp`.
@@ -270,7 +290,7 @@ class Chygraph:
         return _hs.HittingSet(self.c, self.phi())
 
     def hitting_set_bp(self, mu=60.0, **kw):
-        """Hitting set with the ``O(1)`` fields kept, Eq. (16) (Sec. V E).
+        """Hitting set with the ``O(1)`` fields kept, Eq. (31) (Sec. V E).
 
         Returns :class:`~chygraph_statmech.softfield.HittingSetBP`; call
         ``.run()`` before reading ``density`` or ``entropy``.
@@ -279,7 +299,7 @@ class Chygraph:
                                   **kw)
 
     def clique_cover(self):
-        """Vertex cover of the induced graph, Eq. (15) (Sec. V C)."""
+        """Vertex cover of the induced graph, Eq. (30) (Sec. V C)."""
         return _cover.CliqueCover(self.c, self.phi())
 
     # ======================================================================
@@ -287,7 +307,7 @@ class Chygraph:
     # ======================================================================
 
     def core(self):
-        """Leaf-removal core as a chygraph fixed point, Eq. (17) (Sec. VI).
+        """Leaf-removal core as a chygraph fixed point, Eq. (35) (Sec. VI).
 
         Returns :class:`~chygraph_statmech.core.CorePercolation`.
         """
@@ -295,7 +315,7 @@ class Chygraph:
 
     @classmethod
     def from_samples(cls, cardinalities, memberships):
-        """Build from a *measured* chy-degree ensemble (Sec. VIII).
+        """Build from a *measured* chy-degree ensemble (Sec. VII).
 
         ``memberships`` is ``(n, L)``: how many layer-``l`` complexes each
         sampled node belongs to.  Only :meth:`core` uses the empirical
@@ -336,7 +356,7 @@ class Chygraph:
 
     @staticmethod
     def excess_cardinality(complexes):
-        """``<c^2>/<c> - 1`` of a complex family (Sec. VIII B).
+        """``<c^2>/<c> - 1`` of a complex family (Sec. VII A).
 
         The quantity the threshold tensor needs to be finite, measured on an
         explicit clique list rather than assumed.
@@ -362,5 +382,5 @@ class Chygraph:
 
     @staticmethod
     def emitted_field(c, minus_betaH, hs):
-        """Eq. (3): the field a complex emits, for any interior Hamiltonian."""
+        """Eq. (5): the field a complex emits, for any interior Hamiltonian."""
         return _cavity.emitted_field(c, minus_betaH, hs)

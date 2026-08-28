@@ -1,8 +1,9 @@
-"""Manuscript figures generated from probe results.
+"""Manuscript figures.
 
-Fig. 2: leaf-removal core of hyperbolic random graphs against mean degree, on
-log-log axes, with the chygraph prediction from each graph's own measured
-clique ensemble and the degree-matched configuration model as control.
+Fig. 2  clustering_panel   T_c against clustering at fixed degree
+Fig. 3  simplicial_panel   the q=16 double transition and the free energies
+Fig. 4  hittingset_panel   hitting-set density: hard field, soft field, MT
+Fig. 5  main               leaf-removal core of hyperbolic random graphs
 
 Palette validated for colour-vision deficiency (categorical, three slots);
 identity is carried by marker shape as well as hue so the figure survives
@@ -22,6 +23,8 @@ import matplotlib.pyplot as plt  # noqa: E402
 HERE = Path(__file__).parent
 CSV = HERE / 'probe' / 'results' / 'prediction4.csv'
 OUT = HERE / 'fig_prediction4.pdf'
+OUT_HS = HERE / 'fig_hittingset.pdf'
+HS_JSON = HERE / 'probe' / 'results' / 'hittingset.json'
 OUT_SIM = HERE / 'fig_simplicial.pdf'
 OUT_CLUST = HERE / 'fig_clustering.pdf'
 
@@ -72,6 +75,7 @@ def slope(k, y):
 
 
 def main():
+    """Fig. 5: the leaf-removal core of hyperbolic random graphs."""
     d = load()
     taus = sorted(d)
     fig, axes = plt.subplots(1, 3, figsize=(7.05, 2.45), sharey=True)
@@ -106,8 +110,8 @@ def main():
         ax.set_title(rf'$\tau={tau}$', pad=3)
         # direct labels rather than a colour key: identity must not rest on hue
         ax.text(0.045, 0.90,
-                rf'measured  $\beta={bm[0]:.2f}$' + '\n'
-                + rf'chygraph  $\beta={bc[0]:.2f}$',
+                rf'measured  $\theta={bm[0]:.2f}$' + '\n'
+                + rf'chygraph  $\theta={bc[0]:.2f}$',
                 transform=ax.transAxes, fontsize=6.4, va='top',
                 linespacing=1.6, color='0.30')
         for s in ('top', 'right'):
@@ -205,7 +209,7 @@ def clustering_panel():
     ax[0].text(1.03, 1.0006, '$n$', fontsize=6.5, color='0.35', va='bottom')
 
     y4 = np.array([Tc(f, 4) for f in fs])
-    ax[1].plot(fs, y4, color=ramp[2], lw=1.6, label='theory, Eq. (6)', zorder=2)
+    ax[1].plot(fs, y4, color=ramp[2], lw=1.6, label='theory, Eq. (8)', zorder=2)
     ax[1].errorbar([0.0, 1.0], [2.894, 2.482], yerr=[0.006, 0.006], fmt='o',
                    ms=5, color=CHY, mec='white', mew=0.6, capsize=2, lw=1.0,
                    label='Monte Carlo', zorder=3)
@@ -226,7 +230,110 @@ def clustering_panel():
           f'(n=4: {Tc(0,4):.4f} -> {Tc(1,4):.4f}, {(Tc(1,4)/Tc(0,4)-1)*100:.1f}%)')
 
 
+def hittingset_panel():
+    """Fig. 4: minimum hitting-set density, hard field against soft field.
+
+    Referee-requested: Table III made visible.  Three panels answer three
+    separate questions.  Left, how the two treatments separate as cardinality
+    grows at fixed chy-degree -- they agree at ``c = 2``, where both reproduce
+    the Weigt-Hartmann cover size, and diverge above it.  Centre, the regular
+    hypergraphs of Mezard & Tarzia, where the soft field returns their
+    ``rho = 1/K`` and the hard field does not, and where the 1RSB answer sits
+    between the two.  Right, that the size of the correction tracks the weight
+    the ensemble puts on complexes of cardinality three or more.
+
+    Data from ``probe/results/hittingset.json``; regenerate with
+    ``python probe/hittingset_density.py``.
+    """
+    import json
+    d = json.load(HS_JSON.open())
+    HARD, SOFT, EXACT = CHY, MEAS, '0.35'
+
+    fig, ax = plt.subplots(1, 3, figsize=(7.05, 2.35))
+
+    # -- A: rho against <k> at cardinality 2, 3, 4 -------------------------
+    A = d['A']
+    marks = {'2': 'o', '3': 's', '4': '^'}
+    for c in ('2', '3', '4'):
+        k = np.asarray(A[c]['k'])
+        ax[0].plot(k, A[c]['hard'], marks[c] + '--', color=HARD, ms=3.6,
+                   lw=1.0, mfc='none', mew=1.0)
+        ax[0].plot(k, A[c]['soft'], marks[c] + '-', color=SOFT, ms=3.6,
+                   lw=1.3, mec='white', mew=0.4)
+        ax[0].text(k[-1] * 1.03, A[c]['soft'][-1], f'$c={c}$', fontsize=6.5,
+                   color='0.3', va='center')
+    ax[0].plot(A['2']['k'], A['WH'], '-', color=EXACT,
+               lw=2.6, alpha=0.25, zorder=0)
+    ax[0].set_xlabel(r'chy-degree $\langle k\rangle$')
+    ax[0].set_ylabel(r'hitting-set density $\rho$')
+    ax[0].set_title('Poisson layers', pad=3)
+    ax[0].set_xlim(0.35, 3.55)
+    ax[0].plot([], [], '--', color=HARD, lw=1.0, label='hard field, Eq. (26)')
+    ax[0].plot([], [], '-', color=SOFT, lw=1.3, label='soft field, Eq. (31)')
+    ax[0].plot([], [], '-', color=EXACT, lw=2.6, alpha=0.25,
+               label='Weigt--Hartmann')
+    ax[0].legend(frameon=False, loc='lower right', handlelength=1.6,
+                 borderaxespad=0.2, labelspacing=0.2)
+
+    # -- B: regular hypergraphs against Mezard & Tarzia --------------------
+    B = d['B']
+    xs = np.arange(len(B))
+    ax[1].plot(xs, [b['hard'] for b in B], 'o', color=HARD, ms=4.6,
+               mfc='none', mew=1.2, label='hard field')
+    settled = [b['spread'] < 1e-6 for b in B]
+    ax[1].plot(xs[settled], [b['soft'] for b, ok in zip(B, settled) if ok], 's',
+               color=SOFT, ms=4.0, mec='white', mew=0.5, label='soft field')
+    if not all(settled):                     # drawn hollow: did not settle
+        ax[1].plot(xs[[not v for v in settled]],
+                   [b['soft'] for b, ok in zip(B, settled) if not ok], 's',
+                   color=SOFT, ms=4.0, mfc='none', mew=1.1)
+    ax[1].plot(xs, [b['mt'] for b in B], '_', color=EXACT, ms=11, mew=1.4,
+               label=r'MT, $\rho=1/K$')
+    ax[1].plot([4], [0.178], '*', color=CTRL, ms=8, mec='white', mew=0.4,
+               label='MT 1RSB', zorder=4)
+    for i, b in enumerate(B):                       # entropy sign: RS validity
+        if b['s'] < 0:
+            ax[1].plot([i], [b['soft']], 'x', color='0.55', ms=6, mew=1.0,
+                       zorder=5)
+    ax[1].set_xticks(xs)
+    ax[1].set_xticklabels([f"{b['L']},{b['K']}" for b in B], fontsize=6.2)
+    ax[1].set_xlabel(r'regular hypergraph $(L,K)$')
+    ax[1].set_title('regular, against Ref. [MT07]', pad=3)
+    ax[1].set_xlim(-0.6, len(B) - 0.4)
+    ax[1].legend(frameon=False, loc='upper right', handletextpad=0.3,
+                 borderaxespad=0.2, labelspacing=0.2)
+    ax[1].text(0.02, 0.10, r'$\times$: $s<0$, RS invalid', fontsize=6.2,
+               color='0.45', transform=ax[1].transAxes)
+    ax[1].text(0.02, 0.02, 'hollow: iteration does not settle', fontsize=6.2,
+               color='0.45', transform=ax[1].transAxes)
+
+    # -- C: the correction tracks the weight on cardinality >= 3 -----------
+    ramp = {'3': '#6baed6', '4': '#2171b5', '6': '#08306b'}
+    for c in ('3', '4', '6'):
+        x = np.asarray(d['C'][c]['x'])
+        y = 100.0 * np.asarray(d['C'][c]['rel'])
+        ax[2].plot(x, y, '-o', color=ramp[c], ms=3.2, lw=1.4, mec='white',
+                   mew=0.4)
+        ax[2].text(1.02, y[-1], f'$c={c}$', fontsize=6.5, color=ramp[c],
+                   va='center')
+    ax[2].axhline(0, color='0.8', lw=0.6, zorder=0)
+    ax[2].set_xlabel('fraction of complexes with $c\\geq3$')
+    ax[2].set_ylabel(r'$(\rho_{\rm hard}-\rho_{\rm soft})/\rho_{\rm soft}$  (%)')
+    ax[2].set_title(r'at $\langle k\rangle=1$', pad=3)
+    ax[2].set_xlim(-0.04, 1.14)
+
+    for a in ax:
+        for sp in ('top', 'right'):
+            a.spines[sp].set_visible(False)
+        a.grid(True, lw=0.35, color='0.9')
+        a.set_axisbelow(True)
+    fig.tight_layout(pad=0.4, w_pad=1.1)
+    fig.savefig(OUT_HS, bbox_inches='tight')
+    print('wrote', OUT_HS)
+
+
 if __name__ == '__main__':
     main()
     clustering_panel()
     simplicial_panel()
+    hittingset_panel()
