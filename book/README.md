@@ -48,7 +48,7 @@ numbered chapters, all with prose, figures and checks.
 `software.tex` sits after the preface and is unnumbered, like the preface. It
 carries the two repository URLs and **Table 1: every computed equation, the
 routine that evaluates it, and the test or script that checks it** — the book's
-version of `../supplement.tex` Sec. I. Every one of its 58 equation labels and
+version of the retired supplement's Sec. I. Every one of its 58 equation labels and
 49 code names was verified to resolve before the table was written; if a routine
 is renamed, that table is where it has to be fixed.
 
@@ -59,7 +59,7 @@ The remaining work is revision, not drafting:
 | | what |
 |---|---|
 | 1 | **A read-through for continuity.** Nobody has yet read 1–15 in order. Watch for the two running threads being restated more often than they need to be, and for the "cardinality two is degenerate" observation, which now appears in Chs. 10, 11, 12 and 13 and should be stated once properly and referred back to. |
-| 2 | **Fix the three things the book found wrong in the manuscripts** (listed below): `../main.tex`'s tricritical cardinality, `../supplement.tex`'s GBP convergence count, and the Ch. 5 arithmetic slip already recorded in a calculation box. |
+| 2 | ~~Fix the manuscripts~~ — **done by deletion.** The three errors the book found (the tricritical cardinality, the GBP convergence count, the Ch. 5 arithmetic slip) were in `main.tex`/`supplement.tex`, which no longer exist. The book carries the corrected values and says so; the entries below are kept as a record of what was wrong, in case either file is ever resurrected from git. |
 | 3 | **Chs. 12 and 13 are the only chapters whose results are not backed by a manuscript.** If either is to be published separately, the calculations in `figs/colouring.py` and `figs/satisfiability.py` are the starting point. |
 | 4 | Front matter: the dedication is still `\itshape Dedication to come.` in `main.tex`. |
 | 5 | **Make the repositories public.** `software.tex` prints both URLs as if they resolve; `chygraph_statmech` is still private. This is `../TODO.md` item 3 and now blocks the book as well as the manuscript. |
@@ -110,7 +110,7 @@ that mapping does not have to be reconstructed.
   class that proof is about, and the chapter says so in as many words. Keep the
   two statements aligned if either is edited.
 - **Chapter 7 in its entirety.** The manuscripts carry the Fortuin–Kasteleyn
-  correspondence as one paragraph of `../main.tex` Sec. I. The chapter turns it
+  correspondence as one paragraph of the retired manuscript's Sec. I. The chapter turns it
   into a proved statement about chygraphs: `lim_{q->1}` of the Potts interior
   sum on a complex **is** Ch. 4's `Gbar`, and at `q = 2` it is Ch. 9's Ising
   cavity field. Both directions are verified in `figs/potts.py` by summing the
@@ -158,8 +158,8 @@ that mapping does not have to be reconstructed.
   needed. Also worth guarding: SAT has **no** uniform fixed point, because a
   clause forbids a *particular* assignment; that asymmetry is the whole reason
   Ch. 12 gets a closed form and Ch. 13 does not.
-- **Sec. 14.5's convergence count differs from `../supplement.tex`.** The
-  supplement says 9 of the 20 non-chordal GBP runs converge and 11 do not, with
+- **Sec. 14.5's convergence count differed from the retired supplement.** It
+  said 9 of the 20 non-chordal GBP runs converge and 11 do not, with
   errors `1.4e-9`–`5.4e-3` against Möbius `0.48`–`1.1` and Bethe `0.32`–`22`.
   Recomputed from the cached `../probe/results/gbp_cliques.json`, the residuals
   fall into two clusters separated by four orders of magnitude — everything at
@@ -167,9 +167,9 @@ that mapping does not have to be reconstructed.
   gap at `1e-4` and gives **14 converge, 6 do not**, with Möbius `0.48`–`1.8`
   and Bethe `0.26`–`30`. The GBP error range is unchanged. The book states the
   recomputed counts and says what criterion produced them.
-  **`../supplement.tex` should be checked against the current JSON**; the
-  supplement's numbers look like an earlier run of the probe.
-- **Ch. 11 pairs two counterexamples that `../main.tex` keeps apart.** Sec. 10.3
+  The supplement's numbers looked like an earlier run of the probe. It has since
+  been deleted, so the book's values stand; this entry is the record.
+- **Ch. 11 pairs two counterexamples that the retired manuscript kept apart.** Sec. 10.3
   (disjoint 3-hyperedges, hitting set, truth 1/3) and Sec. 11.2 (isolated
   triangles, induced-graph cover, truth 2/3) are the same hard-field defect
   producing the *same* wrong answer 1/2, because the half rule always returns
@@ -183,7 +183,7 @@ that mapping does not have to be reconstructed.
 - **Sec. 10.3's counterexample is the book's only proof.** Disjoint
   3-hyperedges: no complex touches another, so the cavity equations are exact
   and replica symmetry cannot break, the density is 1/3 by counting, and the
-  hard-field limit returns 1/2. It is in `../main.tex` as one sentence; the book
+  hard-field limit returns 1/2. It was one sentence of the manuscript; the book
   makes it the hinge of the chapter, because it settles the question by
   arithmetic rather than by numerics and its bracket `(0,1)` shows the
   hard-field scheme cannot self-diagnose. The mechanism to keep straight if this
@@ -191,8 +191,8 @@ that mapping does not have to be reconstructed.
   left out, the distinction sitting in the `O(1)` part that was scaled away —
   and Eq. (10.6)'s `h_RS = -mu/L - ((L-1)/L) ln(K-1)` carries a *fraction* of
   `mu`, which is precisely what an integer ansatz cannot hold.
-- **Sec. 9.6 corrects `../main.tex` on the tricritical cardinality.** The
-  manuscript says the continuous/discontinuous boundary for the unanimity
+- **Sec. 9.6 corrects the retired manuscript on the tricritical cardinality.**
+  It said the continuous/discontinuous boundary for the unanimity
   interaction "sits between five and six only at k = 3 and k = 4 and has moved
   to between four and five by k = 6". Recomputed with a criterion that demands a
   coexistence window of non-negligible width **and** a free-energy crossing
@@ -203,7 +203,7 @@ that mapping does not have to be reconstructed.
   manuscript's own warning is what explains the discrepancy: just above a
   continuous transition the ordered branch decays slowly enough that a finite
   iteration budget reports coexistence. The book states the corrected boundary
-  and the reason. **`../main.tex` should be fixed to match.** Probe:
+  and the reason; the manuscript has since been deleted. Probe:
   `figs/ising.py:check_tricritical`.
 - **Ch. 8's cross-chapter identification.** `u'` of Eq. (8.5) and Ch. 7's
   `tau_c` are the same number; `figs/statmech.py` checks it for `c = 2, 3, 4` by
@@ -251,7 +251,10 @@ the four consistent; they are one statement.
 - `~/Dropbox/submissions/hyperabs.2022/hyperabs_v3.tex` — Phys. Rev. E **107**, 024316 (2023)
 - `~/Dropbox/submissions/chygraph.2023/chygraph.tex` — J. Complex Netw. (2024), cnae047
 - `~/av2atg/chygraph/manuscript_3/manuscript.tex` — the percolation extension
-- `../main.tex`, `../supplement.tex` — statistical mechanics on chygraphs
+- the manuscript this book supersedes (`../main.tex`, `../supplement.tex`) —
+  **deleted**, recoverable from git at commit `5ebd892`, the last commit before
+  the deletion. Everything in it is in the book; the section numbers named in
+  `main.tex`'s `\include` comments refer to that retired file.
 - `../src/chygraph_statmech/`, `../examples/`, `../probe/` — every number in the book comes out of these
 
 ## Building

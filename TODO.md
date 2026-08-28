@@ -70,8 +70,8 @@ standing item in the paper's conclusions.
 **Done, at the level of one instance.** `gbp.py` passes parent-to-child messages
 on the region graph of an explicit complex list. It contains belief propagation
 exactly (checked against an independent implementation, loopy error included),
-it is exact on the manuscript's two-triangle example — recovering the whole of
-what Table III reports as left on the table — and where it is approximate its
+it is exact on the two-triangle example — recovering the whole of
+what the book's Sec. 14.4 reports as left on the table — and where it is approximate its
 fixed point still satisfies `sum_{x_P \ x_R} b_P = b_R`.
 
 **Open: the ensemble.** Every other module here carries a message per chy-degree
@@ -95,6 +95,12 @@ parameterisation.
 
 ## 3. Repo visibility
 
-The manuscript's acknowledgments cite
-`https://github.com/av2atgh/chygraph_statmech`. The repo is private; the URL
-must resolve before resubmission.
+The book's *The software* chapter prints
+`https://github.com/av2atgh/chygraph` and
+`https://github.com/av2atgh/chygraph_statmech` as if both resolve, and tells the
+reader that every number in the book comes out of them. The second is private.
+It must be public before the book goes anywhere.
+
+(This was the manuscript's acknowledgments requirement; the manuscript has been
+retired, and the book inherits the obligation in a stronger form, since it gives
+the reader an equation-to-routine table to follow.)

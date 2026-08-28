@@ -7,11 +7,25 @@ from graphs to higher-order structures, by way of the chygraph formalism
 ([Vázquez, PRE **107**, 024316 (2023)](https://arxiv.org/abs/2308.00987);
 `~/av2atg/chygraph`).
 
-Status: **manuscript under revision at PRE** (major revision returned, response
-in [`COVER_LETTER.md`](COVER_LETTER.md)). WP1–WP6 complete; prediction 4 tested
+Status: **the manuscript has been retired in favour of the book**, `book/` —
+*Phase transitions on complex hypergraphs*, 202 pages, which carries everything
+`main.tex` and `supplement.tex` did and a good deal more. Those two files, the
+cover letter and the manuscript figures were deleted on 2026-08-28 and are
+recoverable from git at commit `5ebd892`. WP1–WP6 complete; prediction 4 tested
 and confirmed; generalised BP on the region graph implemented at the instance
-level (`gbp.py`) and exact on the manuscript's own example, with the ensemble
-lift still open. `main.tex` 14 pages, `supplement.tex` 8.
+level (`gbp.py`) and exact on the two-triangle example, with the ensemble lift
+still open.
+
+**Where to look now.** `book/README.md` is the live working document:
+what is drafted, what is open, and which figure script generates which number.
+The book's own *The software* chapter maps every computed equation to the
+routine that evaluates it and the test that checks it — the successor to the
+supplement's Sec. I.
+
+Sections of this file that discuss `main.tex`, `supplement.tex` or the referee
+response describe the retired submission. They are kept as a record of how the
+results were arrived at; where a number in them disagrees with the book, **the
+book is right** — it recomputed three of them and found the manuscript wrong.
 See [Where this stands](#where-this-stands--handoff) for what is next.
 
 ## The claim
@@ -1115,9 +1129,8 @@ tests/           347 checks, each one a claim this README makes;
 examples/        clustering_lowers_tc.py, vw03_figure1.py, hitting_set_rsb.py,
                  wp4_validates_wp1.py, softfield_vs_hardfield.py,
                  gbp_two_triangles.py
-main.tex         manuscript: general theory -> structures -> models
-supplement.tex   equation-to-method map, the derivations, the GBP calculation
-figures.py       generates the four data figures from probe/results/
+book/            the book that supersedes the manuscript; book/README.md is
+                 the live working document, book/figs/ one script per chapter
 TODO.md          open items; prediction 4 on hyperbolic random graphs
 probe/           HRG clique moments, prediction 4, hitting-set density,
                  GBP on clique region graphs; see probe/RESULTS.md

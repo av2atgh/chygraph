@@ -3,7 +3,7 @@
 The referee's closing request was that each quantitative claim be independently
 checked, and the paper's own record is that the claims which turned out wrong
 were the ones reported as a number with no derivation behind them.  So each
-step restored in ``supplement.tex`` gets a test here: the closed form against
+step restored in the book's calculation boxes gets a test here: the closed form against
 the code that the manuscript actually runs, or against an independent
 enumeration, whichever is the stronger check.
 
