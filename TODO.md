@@ -105,7 +105,11 @@ It must be public before the book goes anywhere.
 retired, and the book inherits the obligation in a stronger form, since it gives
 the reader an equation-to-routine table to follow.)
 
-## 4. Boolean networks — assessment, 2026-08-28
+## 4. Boolean networks — assessed and **not pursued**, 2026-08-28
+
+**Decision: skipped.** Kept as a record of what was checked, so the question
+does not have to be reopened from scratch. The findings below stand; what is
+missing is the directed extension of item 7, which everything else waits on.
 
 **Question.** Would the chygraph construction help with random Boolean networks
 (Kauffman): the order–chaos transition, canalyzing rules, attractor scaling?
