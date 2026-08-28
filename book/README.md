@@ -58,7 +58,7 @@ The remaining work is revision, not drafting:
 
 | | what |
 |---|---|
-| 1 | **A read-through for continuity.** Nobody has yet read 1–15 in order. Watch for the two running threads being restated more often than they need to be, and for the "cardinality two is degenerate" observation, which now appears in Chs. 10, 11, 12 and 13 and should be stated once properly and referred back to. |
+| 1 | ~~A read-through for continuity~~ — **a mechanical consistency pass was done 2026-08-28** (see below). What it could not check is prose quality: nobody has yet *read* 1–15 in order. |
 | 2 | ~~Fix the manuscripts~~ — **done by deletion.** The three errors the book found (the tricritical cardinality, the GBP convergence count, the Ch. 5 arithmetic slip) were in `main.tex`/`supplement.tex`, which no longer exist. The book carries the corrected values and says so; the entries below are kept as a record of what was wrong, in case either file is ever resurrected from git. |
 | 3 | **Chs. 12 and 13 are the only chapters whose results are not backed by a manuscript.** If either is to be published separately, the calculations in `figs/colouring.py` and `figs/satisfiability.py` are the starting point. |
 | 4 | Front matter: the dedication is still `\itshape Dedication to come.` in `main.tex`. |
@@ -251,6 +251,40 @@ that mapping does not have to be reconstructed.
   it at a fixed contact budget of four contacts per person (`T_c` 0.2500 ->
   0.2929, and 5.6% vs 31.4% infected at `T = 0.3`). Same running thread as
   Ch. 3, Sec. 4.5 and Sec. 5.5.
+
+### Consistency pass, 2026-08-28
+
+A mechanical check of the whole book. What it found and fixed:
+
+- **Ch. 13 miscounted the "a linear instability is not the transition" thread** —
+  said four, listing interdependent networks, threshold contagion, Potts above
+  `q = 2` and satisfiability, but omitting Ch. 9's unanimity interaction. It is
+  the fifth. The Outlook's version was stale for the same reason. **If a sixth
+  instance is ever added, three places need updating: Secs. 7.4, 9.6, 13.4 and
+  the Outlook's Sec. 15.2.**
+- **The "cardinality two is degenerate" thread was unconnected across chapters.**
+  Ch. 12 counts it to three (Secs. 10.3, 11.5, 12.4); Ch. 13's `k = 2` is a
+  fourth in a different currency — a clause of two literals rather than a
+  complex of two members — and now says so.
+- **The software table had 13 computed equations missing**, all the Part II
+  structure-by-structure thresholds and everything added after it was written
+  (Chs. 12, 13's nested sections, 14's parent-to-child update). Its rows were
+  also out of numeric order. Both fixed; coverage is now 70 of 98 equation
+  labels, the remaining 28 being definitional or introductory.
+- **Seven figures and tables were never referenced in the prose** (Chs. 1, 3 and
+  12) while every other figure in the book is. All now have a pointer.
+- The preface said "two of the chapters draw on published work", written when
+  the book was shorter; it now names Part II as the published part and says
+  Chs. 12–13 have no paper behind them.
+- Five references added for Chs. 12–13 were never cited, and two pre-existing
+  ones (Liu *et al.* on core percolation, Yoon *et al.* on Ising with motifs)
+  belonged in Chs. 11 and 9. All now cited.
+
+Checked and clean: terminology (no variant spellings of chy-degree, treelike,
+hyperedge, higher-order), all `\ref`/`\eqref` resolve, no figure declared
+without a file or present without a use, and the numbers repeated across
+chapters agree — `u' = t/(1-t+t^2)` in Chs. 7, 8, 9; `-13.9%`/`-14.2%` in
+Chs. 1, 4, 9, 15; the 77–100% HRG core in Chs. 11, 14, 15.
 
 ### The two running threads
 

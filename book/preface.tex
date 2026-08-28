@@ -50,7 +50,9 @@ one tensor built from first moments. Push the same map one order further and the
 critical amplitude follows in closed form. Replace the scalar message with a
 measure and the Ising model follows; with an integer, the hitting set problem;
 with three states, core percolation and the leaf-removal algorithm behind minimal
-vertex covers. Through all of it the recursion does not change. Only what the
+vertex covers; with a distribution over $q$ colours, graph colouring. And once a
+complex is allowed to hold other complexes rather than only nodes, formulas that
+no flat encoding can hold without damage. Through all of it the recursion does not change. Only what the
 message carries changes, and what happens inside one complex, where the
 Hamiltonian is summed exactly over an interior that may be as large and as
 strongly coupled as one pleases. One $L\times L$ determinant, with $L$ the number
@@ -89,17 +91,20 @@ told to make a graph of it. The technical prerequisites are modest and are built
 up in the first chapter: what percolation is, what a generating function does,
 what the Ising model and vertex cover and the hitting set problem ask, and what
 mean-field, cavity and replica theory mean. Readers who already know all of that
-can start at Chapter~2. As in this author's earlier books, the longer
+can start at Chapter~\ref{ch:chygraphs}. As in this author's earlier books, the longer
 calculations are set in boxes that can be skipped without losing the thread, and
 the argument in the running text is meant to be followed without them. There are
 a great many pictures, deliberately: nearly every idea here is about which
 things are grouped with which, and that is a fact about a drawing before it is a
 fact about an equation.
 
-Two of the chapters draw on published work \citep{vazquez2023pre,%
-vazquez2024comnet}; the rest is newer and in one case still being refereed as
-this is written. All of the calculations can be reproduced from a single
-software package, and every number quoted in the book comes out of it.
+Part~II draws on published work \citep{vazquez2023pre,vazquez2024comnet}.
+Part~III is newer, and two of its chapters --- colouring and satisfiability ---
+have no paper behind them at all: their calculations were done for this book and
+are checked here against the published thresholds. All of them can be reproduced
+from two software packages, and every number quoted in the book comes out of
+them; the chapter that follows this preface says which routine computes which
+equation, and which test checks it.
 
 \vspace{1em}
 \noindent Alexei Vazquez

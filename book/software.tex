@@ -102,13 +102,19 @@ Eq. & what it is & evaluated by & checked in\\
 \eqref{eq:Qminus} & the map, arriving from below & \code{giant.\allowbreak Chygraph.\allowbreak apply} & \code{test\_\allowbreak giant}\\
 \eqref{eq:Qplus} & the map, arriving from above & \code{giant.\allowbreak Chygraph.\allowbreak apply} & \code{test\_\allowbreak giant}\\
 \eqref{eq:Sl} & the order parameter & \code{giant.\allowbreak Chygraph.\allowbreak node\_\allowbreak fraction} & \code{test\_\allowbreak giant}\\
+\eqref{eq:thetaH} & hypergraphs & \code{percolation.\allowbreak HypergraphPercolation} & \code{test\_\allowbreak percolation}\\
 \eqref{eq:thetaG} & the graph threshold & \code{giant.\allowbreak Chygraph.\allowbreak theta} & \code{test\_\allowbreak percolation}\\
+\eqref{eq:thetaMP} & multiplex networks & \code{percolation.\allowbreak MultiplexHypergraph} & \code{test\_\allowbreak percolation}\\
+\eqref{eq:thetaNM} & links and triangles & \code{percolation.\allowbreak GraphWithTriangles} & \code{test\_\allowbreak percolation}\\
+\eqref{eq:qc} & triangles at fixed degree & \code{figs/\allowbreak triangles\_\allowbreak vs\_\allowbreak regular.\allowbreak py} & same file\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:giant}, beyond the threshold}}\\
 \eqref{eq:AisJ} & the tensor is a Jacobian & \code{giant.\allowbreak Chygraph.\allowbreak jacobian}, \code{.\allowbreak A} & \code{test\_\allowbreak amplitude}\\
 \eqref{eq:tripgf} & the bond-percolated triangle & \code{figs/\allowbreak triangles\_\allowbreak vs\_\allowbreak regular.\allowbreak py} & same file\\
 \eqref{eq:Bgraph} & the critical amplitude & \code{amplitude.\allowbreak CriticalAmplitude} & \code{test\_\allowbreak amplitude}\\
+\eqref{eq:Bhyper} & the same, hypergraphs & \code{amplitude.\allowbreak CriticalAmplitude} & \code{test\_\allowbreak amplitude}\\
 \eqref{eq:jointmap} & correlated layers & \code{joint.\allowbreak JointGiantComponent} & \code{test\_\allowbreak joint}\\
 \eqref{eq:biased} & inclusion-biased moments & \code{joint.\allowbreak JointGiantComponent} & \code{test\_\allowbreak joint}\\
+\eqref{eq:qc3} & identical marginals, three thresholds & \code{joint.\allowbreak JointGiantComponent} & \code{figs/\allowbreak beyond\_\allowbreak threshold.\allowbreak py}\\
 \eqref{eq:andor} & AND- against OR-logic & \code{applications.\allowbreak and\_\allowbreak or\_\allowbreak hypergraph} & \code{test\_\allowbreak applications}\\
 \eqref{eq:stc} & triadic closure & \code{applications.\allowbreak stc\_\allowbreak percolation} & \code{test\_\allowbreak applications}\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:epidemics}, epidemics}}\\
@@ -120,6 +126,7 @@ Eq. & what it is & evaluated by & checked in\\
 \eqref{eq:qonelimit} & the $q\to1$ limit & \code{figs/\allowbreak potts.\allowbreak py:\allowbreak percolation\_\allowbreak limit} & same file\\
 \eqref{eq:tau2} & the link transmission & \code{figs/\allowbreak potts.\allowbreak py:\allowbreak transmission} & same file\\
 \eqref{eq:tau3} & the triangle transmission & \code{figs/\allowbreak potts.\allowbreak py:\allowbreak transmission} & same file\\
+\eqref{eq:branchcond} & one layer, both thresholds & \code{figs/\allowbreak potts.\allowbreak py:\allowbreak check\allowbreak \_thresholds} & same file\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:statmech}, the general theory}}\\
 \eqref{eq:conv} & a generating function on a measure & \code{population.\allowbreak CavityPopulation.\allowbreak sweep} & \code{test\_\allowbreak population}\\
 \eqref{eq:ensemblemap} & the ensemble map & \code{population.\allowbreak CavityPopulation.\allowbreak sweep} & \code{test\_\allowbreak population}\\
@@ -137,6 +144,7 @@ Eq. & what it is & evaluated by & checked in\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:ising}, the Ising model}}\\
 \eqref{eq:Hising} & the Hamiltonian & \code{cavity.\allowbreak ising\_\allowbreak clique} & \code{test\_\allowbreak ising}\\
 \eqref{eq:uclique} & $u'$ for $c=2,3,4$ & \code{ising.\allowbreak clique\_\allowbreak derivative} & \code{test\_\allowbreak derivations}\\
+\eqref{eq:tcgraph} & the graph $T_{c}$ & \code{api.\allowbreak Chygraph.\allowbreak critical\_\allowbreak coupling} & \code{test\_\allowbreak ising}\\
 \eqref{eq:mc} & Monte Carlo $T_{c}$ & \code{probe/\allowbreak ising\_\allowbreak mc.\allowbreak py} & --- (simulation)\\
 \eqref{eq:simH} & the unanimity rule & \code{simplicial.\allowbreak emitted} & \code{test\_\allowbreak simplicial}\\
 \eqref{eq:BW} & its infinite-connectivity limit & \code{simplicial.\allowbreak SimplicialChygraph.\allowbreak spinodal} & \code{test\_\allowbreak derivations}\\
@@ -160,13 +168,17 @@ Eq. & what it is & evaluated by & checked in\\
 \eqref{eq:taucol} & proper colouring, $-1/(q-1)$ & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak tau\_\allowbreak closed} & same file\\
 \eqref{eq:tauhyp} & hypergraph colouring & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak tau\_\allowbreak closed} & same file\\
 \eqref{eq:colthresh} & the stability threshold & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak stability\_\allowbreak threshold} & same file\\
+\eqref{eq:coltwo} & proper against hypergraph & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak check\_\allowbreak cardinality} & same file\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:satisfiability}, satisfiability}}\\
 \eqref{eq:satZ} & the clause interior & \code{figs/\allowbreak satisfiability.\allowbreak py:\allowbreak clause\_\allowbreak Z} & same file\\
 \eqref{eq:wp} & the warning map & \code{figs/\allowbreak satisfiability.\allowbreak py:\allowbreak wp\_\allowbreak map} & same file\\
 \eqref{eq:satslope} & $\alpha=1$ at $k=2$, zero above & \code{figs/\allowbreak satisfiability.\allowbreak py} & same file\\
+\eqref{eq:nested} & a clause whose member is a clause & \code{figs/\allowbreak satisfiability.\allowbreak py:\allowbreak nested\allowbreak \_G} & same file\\
+\eqref{eq:flatten} & what CNF flattening costs & \code{figs/\allowbreak satisfiability.\allowbreak py:\allowbreak check\allowbreak \_nested\allowbreak \_flatten} & same file\\
+\eqref{eq:nestedwp} & its warning map & \code{figs/\allowbreak satisfiability.\allowbreak py:\allowbreak nested\allowbreak \_G} & same file\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:overlap}, overlapping complexes}}\\
 \eqref{eq:mobius} & M\"obius counting numbers & \code{region.\allowbreak RegionGraph} & \code{test\_\allowbreak region}\\
---- & generalised belief propagation & \code{gbp.\allowbreak GBP} & \code{test\_\allowbreak gbp}\\
+\eqref{eq:p2c} & the parent-to-child update & \code{gbp.\allowbreak GBP} & \code{test\_\allowbreak gbp}\\
 \end{longtable}
 }
 
