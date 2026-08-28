@@ -88,8 +88,17 @@ def tau_enumerated(c, q, rule, eps=F(1, 10**7)):
 
 
 def tau_closed(c, q, rule):
-    """The closed forms derived in the chapter."""
-    return F(-1, q - 1) if rule == 'proper' else F(-1, q**(c - 1) - 1)
+    """The closed forms derived in the chapter.
+
+    Proper colouring of a c-clique needs at least c colours; below that the
+    interior sum is identically zero and the closed form is a formal
+    continuation with no meaning, so it is refused rather than returned.
+    """
+    if rule == 'proper':
+        if q < c:
+            raise ValueError(f'a {c}-clique has no proper {q}-colouring')
+        return F(-1, q - 1)
+    return F(-1, q**(c - 1) - 1)
 
 
 def check_closed_forms():
@@ -106,6 +115,21 @@ def check_closed_forms():
             got, want = tau_enumerated(c, q, 'hyper'), tau_closed(c, q, 'hyper')
             assert got == want, (c, q, got, want)
         print(f'    q = {q}: c = 2, 3, 4   OK')
+
+
+def check_feasibility():
+    """The proper rule is undefined below q = c, and says so."""
+    for q, c in ((3, 4), (4, 5), (2, 3)):
+        Z = emitted(c, q, [[F(1, q)] * q] * (c - 1), 'proper')
+        assert all(z == 0 for z in Z), (q, c)
+        try:
+            tau_closed(c, q, 'proper')
+        except ValueError:
+            pass
+        else:
+            raise AssertionError(f'q={q}, c={c} should have been refused')
+        print(f'    q = {q}, c = {c}: interior sum is identically zero, '
+              f'closed form refused')
 
 
 def check_scalar():
@@ -198,7 +222,8 @@ def figure_colouring():
         ax.semilogy(qs, [abs(float(tau_closed(c, q, 'hyper'))) for q in qs],
                     mk + '--', ms=3.4, lw=1.0, color=col, dashes=(3, 2),
                     mfc='white', mew=0.9)
-        ax.semilogy(qs, [abs(float(tau_closed(c, q, 'proper'))) for q in qs],
+        feas = qs[qs >= c]                     # proper colouring needs q >= c
+        ax.semilogy(feas, [abs(float(tau_closed(c, q, 'proper'))) for q in feas],
                     mk + '-', ms=3.4, lw=1.4, color=col, label=f'$c={c}$')
     ax.set_xlabel(r'colours $q$', fontsize=8.5)
     ax.set_ylabel(r'$|\tau_{c}(q)|$', fontsize=8.5)
@@ -213,7 +238,8 @@ def figure_colouring():
         ax.semilogy(qs, [stability_threshold(c, q, 'hyper') for q in qs],
                     mk + '--', ms=3.4, lw=1.0, color=col, dashes=(3, 2),
                     mfc='white', mew=0.9)
-        ax.semilogy(qs, [stability_threshold(c, q, 'proper') for q in qs],
+        feas = qs[qs >= c]
+        ax.semilogy(feas, [stability_threshold(c, q, 'proper') for q in feas],
                     mk + '-', ms=3.4, lw=1.4, color=col)
     ax.plot([3, 4, 5], [MULET[q][1] for q in (3, 4, 5)], '*', ms=7,
             color=DARK, mfc='white', mew=0.9)
@@ -234,6 +260,8 @@ def figure_colouring():
 if __name__ == '__main__':
     print('the interior sum, enumerated against the closed forms:')
     check_closed_forms()
+    print('below q = c there is no proper colouring:')
+    check_feasibility()
     print('the Jacobian is a scalar on the traceless subspace:')
     check_scalar()
     print('the graph case, against the literature:')

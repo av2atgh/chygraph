@@ -218,13 +218,16 @@ $(t+t^{3})/(1-2t+3t^{2})$ with $t=\tanh\beta J$.
 per traversal, the whole apparatus of Sec.~\ref{sec:threshold} applies to any
 model with one substitution,
 \begin{equation}
-  \ave{\kappa}\ \longrightarrow\ \ave{\kappa}\,\ave{u'},
+  \ave{s}\ \longrightarrow\ \ave{s\,u'},
+  \qquad
+  \ave{\sbar}\ \longrightarrow\ \ave{\sbar\,u'},
   \label{eq:reweight}
 \end{equation}
 an elementwise reweighting that leaves the index structure, the block layout
 and the determinant untouched. The weight belongs on the intra-complex channel,
 because the interaction lives inside a complex; the chy-degree step is a relay
-and carries weight one. Replacing $\ave{u'}$ by $\ave{u'^{2}}$ throughout gives
+and carries weight one, so $\ave{\kappa}$ and $\ave{\kbar}$ are left alone.
+Replacing $u'$ by $u'^{2}$ throughout gives
 the de Almeida--Thouless line instead of the ferromagnetic one, which is
 Chapter~\ref{ch:ising}'s spin-glass boundary for the price of a square.
 
@@ -349,8 +352,11 @@ and so vanishes whenever both layers are Poisson, each being its own excess. It
 does not vanish for regular layers, where $\ave{\kbar}=\ave{\kappa}-1$ and the
 coefficient is $\ave{\kappa}_{|}+\ave{\kappa}_{\triangle}-1$. At
 $\ave{\kappa}_{|}=4$ and $\ave{\kappa}_{\triangle}=2$ that is $5$, and the two
-ensembles have $T_{c}=8.4256$ and $6.8801$. The whole difference between the two
-natural null models is one term that is easy to drop.
+ensembles have $T_{c}=8.4256$ and $6.8801$. Most of that gap is the excess
+chy-degrees, a regular layer having $\ave{\kbar}=\ave{\kappa}-1$ where a Poisson
+one is its own excess. The cross term is the rest, and it is not a small
+correction: deleting it from the regular case moves $T_{c}$ from $6.8801$ to
+$5.2951$, a further $23$ per cent. It is one term, and it is easy to drop.
 
 \emph{Correlated layers} are Sec.~\ref{sec:joint} unchanged: replace the
 marginals by a joint $\Phi$ and $\ave{\kbar}$ by the inclusion-biased second

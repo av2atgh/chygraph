@@ -187,10 +187,17 @@ reaches for first. Take a Poisson layer of $n$ links
 against a Poisson layer of $n/2$ triangles. This matches the \emph{mean} degree
 and nothing else. The triangle construction gives degree $d=2X$ with
 $X\sim\mathrm{Poisson}(n/2)$, so $d$ is even, its variance is $2n$ rather than
-$n$, and the excess degree that Eq.~\eqref{eq:branch} actually uses is
-$\ave{\kbar}=n+1$ rather than $n$. Read against a link layer at
-$\ave{\kbar}=n$, the apparent sign reverses. Read against a configuration model
-carrying the triangle ensemble's own excess degree, it does not.
+$n$, and its excess degree is $\ave{\bar k}=n+1$ rather than $n$: the control is
+the less heterogeneous of the two, not the matched one.
+Equation~\eqref{eq:branch} sees that through the multiplicity. A Poisson layer
+is its own excess, so the triangle layer carries
+$(c-1)\ave{\kbar}_{\triangle}=2\cdot n/2=n$, which is exactly the link layer's
+$\ave{\kbar}_{|}=n$. The branch that was lost in the regular comparison is not
+lost here, only the transmission enhancement survives, and the apparent sign
+reverses --- at $n=4$, $T_{c}=4.7209$ for the triangles against $3.9152$ for the
+links. Read instead against a configuration model carrying the triangle
+ensemble's own excess degree $n+1$, the link layer gives $4.9326$ and the sign
+is the one the regular comparison found.
 
 Figure~\ref{fig:clustering} runs the comparison continuously rather than at two
 points. Give a vertex $k_{\triangle}=fn/2$ triangles and $k_{|}=(1-f)n$ links,
@@ -368,7 +375,7 @@ them inside that window, they cross at
 \begin{equation}
   T_{c}=0.9790,\qquad \Delta m=0.286,
 \end{equation}
-with $m$ jumping from $0.548$ to $0.834$, and $T^{*}<T_{c}<T^{**}$ as it must.
+with $m$ jumping from $0.548$ to $0.833$, and $T^{*}<T_{c}<T^{**}$ as it must.
 
 \paragraph{A test that has to be done carefully.} Whether the transition at a
 given $(q,k)$ is continuous or discontinuous is the sort of question that

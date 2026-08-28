@@ -39,7 +39,7 @@ the references are under `~/Downloads/chygraph_references/`.
 
 ## Status
 
-Last updated 2026-08-28. `main.pdf` builds clean: **196 pages, 0 errors, 0
+Last updated 2026-08-28. `main.pdf` builds clean: **214 pages, 0 errors, 0
 undefined references, 0 overfull boxes.**
 
 **The book is drafted end to end.** Preface, the software chapter, and fifteen
@@ -48,9 +48,10 @@ numbered chapters, all with prose, figures and checks.
 `software.tex` sits after the preface and is unnumbered, like the preface. It
 carries the two repository URLs and **Table 1: every computed equation, the
 routine that evaluates it, and the test or script that checks it** — the book's
-version of the retired supplement's Sec. I. Every one of its 58 equation labels and
-49 code names was verified to resolve before the table was written; if a routine
-is renamed, that table is where it has to be fixed.
+version of the retired supplement's Sec. I. Every one of its equation labels and
+all 92 of its `\code` names were re-verified to resolve on 2026-08-28 (the code
+names across *both* repositories); if a routine is renamed, that table is where
+it has to be fixed.
 
 ### What to do next
 
@@ -124,8 +125,13 @@ that mapping does not have to be reconstructed.
   Ch. 9 is now written and Eqs. (7.7), (8.5) and (9.2) do agree; keep them
   consistent if any is edited. The
   chapter also records that above `q = 2` the transition is first order, so the
-  linear condition is a spinodal (numbers from iterating the recursion, in the
-  script).
+  linear condition is a spinodal. The chapter gives all three points of the
+  coexistence window: the disordered spinodal `v_c = q`, the fold (ordered
+  spinodal) at exactly `2 sqrt(q-1)`, and the transition itself, from a Bethe
+  free-energy crossing between them (`figs/potts.py:check_transition_point`).
+  `v_c` overstates the **transition** by 5.1 / 11.9 / 22.8% at `q = 3 / 4 / 6`;
+  the window is wider, 5.7 / 13.4 / 25.5%. Quote the first set --- the second
+  bounds the error rather than measuring it.
 - **Chapter 12 in its entirety.** No manuscript; the calculations are in
   `figs/colouring.py` and are done twice, by exact enumeration of a complex's
   interior in rational arithmetic and from a closed form. Two results worth
@@ -252,6 +258,79 @@ that mapping does not have to be reconstructed.
   0.2929, and 5.6% vs 31.4% infected at `T = 0.3`). Same running thread as
   Ch. 3, Sec. 4.5 and Sec. 5.5.
 
+### Technical-correctness pass, 2026-08-28
+
+A chapter-by-chapter check of the mathematics, not the prose: every closed form
+re-derived independently where that was possible, every quoted number re-run
+against the scripts. Chapters 1, 4, 5, 6 came through clean. What the rest
+needed:
+
+- **Ch. 2** contradicted itself five lines apart on `s` vs `sbar` — line 393
+  says cardinality and component size coincide on ubergraphs (right), line 398
+  told the hypergraph reader to read *s* as "cardinality minus the one I arrived
+  by" (that is `sbar`). Fig. 2.5's caption miscounted reachable members the same
+  way. Both fixed.
+- **Ch. 3** attributed Friedrich & Krohmer's `n^((3-tau)/2)` to *the number of
+  maximal cliques*. It is the **clique number**, which is what `probe/analyze.py`
+  measures (`c_max`) and where the quoted 0.37/0.20/0.07 come from. The number of
+  maximal cliques grows like `n^1.0` (881 -> 280848 over the range), so the
+  sentence as written claimed ~12 maximal cliques at n = 3e5 — and it is the
+  chapter's only independent check that the measurement reads the right thing.
+  Fixed. Also "excess degree `<k^2>/<k>`" -> "degree heterogeneity" (Eq. 1.1
+  defines the excess degree as `<k^2>/<k> - 1`).
+- **Ch. 8, Eq. (8.6)** put the `u'` reweighting on the **wrong channel**:
+  `<kappa> -> <kappa><u'>`, contradicting its own next sentence, Eq. (8.7), and
+  the code (`stability.py`: "wkappa = 1 and ws carries the physics"; every
+  constructor in `models.py` passes `ws=`). Now `<s> -> <s u'>`,
+  `<sbar> -> <sbar u'>`. **The same slip was in `stability.py`'s docstring
+  summary** — fixed at the source too. Also, "the whole difference between the
+  two natural null models is one term that is easy to drop" was wrong: the
+  Poisson/regular gap is mostly `<kbar>`, and deleting the cross term from the
+  regular case moves T_c 6.8801 -> 5.2951 (the other way). Text now says so.
+- **Ch. 9, Sec. 9.4** called the triangle construction's `n+1` a **chy-degree**
+  excess. `n+1` is the *graph* excess degree `<kbar>`; the triangle layer's
+  `<kappabar>` is `n/2`, and that is what Eq. (8.7) uses. Rewritten to give the
+  real mechanism (a Poisson layer is its own excess, so
+  `(c-1)<kappabar> = 2(n/2) = n` matches the link layer exactly and the lost
+  branch is not lost), with the three T_c values added and a new
+  `figs/ising.py:check_misleading_comparison` behind them. The Outlook repeated
+  the same symbol error; fixed there too.
+- **Ch. 10** claimed the negative-correlation branch is "clean everywhere" in a
+  paragraph that had just said the isolated fraction must be reported. It runs
+  0.033, 0.047, 0.198, **0.321**. Fixed. And "56% for c = 4 alone, under 1% once
+  ordinary edges dominate" named no ensemble (the c = 4 gap runs 37–74% over the
+  plotted range); traced to the retired manuscript's table — c = 4 Poisson at
+  `<k> = 1` and the {2,6} mixture at `{1.5, 0.5}` — re-measured at 55.0% and
+  0.77%, and the ensembles are now named.
+- **Ch. 11** listed the measured HRG exponents as "rises monotonically, 1.59,
+  1.64, 1.49" in tau order 2.5, 2.9, 2.1 — not monotone as printed. Both lists
+  now run in ascending tau.
+- **Ch. 12** had a botched edit in "What would be needed" (doubled em-dash,
+  "survey propagation" twice). Fixed. **Both of its central results were
+  re-derived from scratch** in exact rational arithmetic and are correct.
+- **Ch. 13**: typo "and it little had to be added". The three-level warning map,
+  the k1 = 1 reduction and the k2 = 1 identity were all re-derived by hand and
+  are right.
+- **Ch. 14**: "Couple every pair inside each triangle" would, under Eq. (9.1)'s
+  convention, double the shared bond and give lnZ = 2.9607 at bJ = 0.2 rather
+  than the table's 2.8887. The code deduplicates (`gbp.py:clique_edges`); the
+  text now says the shared bond carries one coupling.
+- **Ch. 15** omitted satisfiability from the "a linear instability is not the
+  transition" thread (Ch. 13 enumerates five), and said the threads "turned up
+  in three or four independent places" where the chapter itself says five twice.
+  Both fixed, and the README's own count reconciled.
+
+**Sec. 7.4 now quotes the transition, not just the spinodals.** Added
+`figs/potts.py:check_transition_point`, a Bethe free-energy crossing on the
+d-regular graph; at q = 2 all three points coincide, which is the check that the
+free energy is right. `v_c` overstates the **transition** by 5.1/11.9/22.8% at
+q = 3/4/6; the coexistence window is wider (5.7/13.4/25.5%). The ordered
+spinodal is exactly `2 sqrt(q-1)`.
+
+Verified and unchanged: all `\ref`/`\eqref` resolve; all 92 `\code` names in
+`software.tex` resolve across both repositories; the numbers repeated across
+chapters agree.
+
 ### Consistency pass, 2026-08-28
 
 A mechanical check of the whole book. What it found and fixed:
@@ -260,7 +339,7 @@ A mechanical check of the whole book. What it found and fixed:
   said four, listing interdependent networks, threshold contagion, Potts above
   `q = 2` and satisfiability, but omitting Ch. 9's unanimity interaction. It is
   the fifth. The Outlook's version was stale for the same reason. **If a sixth
-  instance is ever added, three places need updating: Secs. 7.4, 9.6, 13.4 and
+  instance is ever added, four places need updating: Secs. 7.4, 9.6, 13.4 and
   the Outlook's Sec. 15.2.**
 - **The "cardinality two is degenerate" thread was unconnected across chapters.**
   Ch. 12 counts it to three (Secs. 10.3, 11.5, 12.4); Ch. 13's `k = 2` is a
@@ -322,20 +401,25 @@ clustering.** Ch. 3 (a degree-matched control manufactures clustering), Ch. 4
 marginals, three different transitions), Ch. 6 (households help at a fixed
 global network and hurt at a fixed contact budget), Ch. 9 (a Poisson link layer
 matched only on mean degree reverses the sign of the clustering effect, because
-the triangle construction carries `<kbar> = n + 1`, not `n`).
+the triangle construction carries graph excess degree `<k_bar> = n + 1`, not
+`n`, while its Poisson chy-degree layer loses none of its branches).
 
-The second thread appeared four times: **a linear instability is not always the
+The second thread appears five times: **a linear instability is not always the
 transition.** Sec. 5.4
 (interdependent networks appear by saddle-node while `Q = 1` is still stable),
 Sec. 6.4 (threshold contagion, same exclusion, no invasion from one seed),
 Sec. 7.4 (the ferromagnetic Potts transition is first order above `q = 2`, so
-the branching condition is a spinodal — 5.7% to 25.5% off at `q = 3` to `6`),
-and Sec. 9.6 (the unanimity interaction, where the free energy of Sec. 8.6 is
+the branching condition is a spinodal — the transition is 5.1% to 22.8% below
+it at `q = 3` to `6`),
+Sec. 9.6 (the unanimity interaction, where the free energy of Sec. 8.6 is
 finally *used*: the q = 16 double transition has its first-order point at
-`T_c = 0.9790` inside a window whose lower edge is the spinodal). Sec. 9.6 also
+`T_c = 0.9790` inside a window whose lower edge is the spinodal), and Sec. 13.4
+(satisfiability above `k = 2`, the extreme case — the warning map's derivative
+at the trivial fixed point is *exactly zero at every clause density*, so there
+is no linear instability anywhere to mistake for a transition). Sec. 9.6 also
 carries the practical corollary — critical slowing down mimics a coexistence
 window, so the test needs a free-energy crossing, not a surviving branch. Keep
-the four consistent; they are one statement.
+the five consistent; they are one statement.
 
 
 ## Underlying material

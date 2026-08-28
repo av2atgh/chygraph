@@ -120,6 +120,40 @@ def check_clustering():
           f'2u\' = 1, so u\' must reach 1/2 and reaches {u3:.4f} = 3/7')
 
 
+def check_misleading_comparison():
+    """Sec. 9.4's "comparison that misleads", and why the sign flips.
+
+    A Poisson triangle layer matched to a Poisson link layer on *mean degree*
+    is not a matched control.  The triangle construction gives degree d = 2X
+    with X ~ Poisson(n/2), so Var[d] = 2n rather than n and the excess degree
+    is <kbar> = <d^2>/<d> - 1 = n + 1, not n.
+
+    Eq. (8.7) sees that through the multiplicity rather than through the degree:
+    a Poisson layer is its own excess, so the triangle layer carries
+    (c-1)<kappabar> = 2 (n/2) = n, exactly the link layer's <kappabar> = n.  The
+    branch lost in the regular comparison is not lost here, only the
+    transmission enhancement survives, and T_c comes out *higher* for the
+    triangles.  Matching the control on the triangle ensemble's own excess
+    degree n + 1 restores the sign the regular comparison found.
+    """
+    print('    n   links (mean-matched)   triangles   links (excess-matched)')
+    for n in (4, 6, 8):
+        TL = Tc_family(n, 0.0, regular=False)
+        TT = Tc_family(n, 1.0, regular=False)
+        # a link layer whose excess chy-degree is the triangle ensemble's own
+        # graph excess degree, n + 1
+        TC = 1.0 / Chygraph([2], [n + 1.0], excess=[n + 1.0]).critical_coupling()
+        # the analytic moments of d = 2X, X ~ Poisson(n/2)
+        lam = n / 2.0
+        d1, d2 = 2 * lam, 4 * (lam + lam * lam)
+        assert abs(d2 / d1 - 1 - (n + 1)) < 1e-12, n
+        assert abs((d2 - d1 ** 2) - 2 * n) < 1e-12, n
+        assert TT > TL and TT < TC, n          # sign reverses, then is restored
+        print(f'   {n:>2}   {TL:18.4f}   {TT:9.4f}   {TC:20.4f}')
+    print('  mean-degree matching reverses the sign; excess-degree matching '
+          'does not   OK')
+
+
 MC = {'links': (2.894, [(2.600, .6627, .6656), (2.750, .6466, .6610),
                         (2.850, .5604, .6052), (2.890, .4745, .4803),
                         (2.950, .3204, .2333), (3.100, .0947, .0428)]),
@@ -207,6 +241,13 @@ def check_unanimity():
           '1/k^2 there')
 
 
+def _window_edges(q, k, scan=1.5, n=60):
+    """The coexistence window itself, for the one case the chapter quotes."""
+    m = SimplicialChygraph([q], [k], [1.0])
+    Ts = m.spinodal()
+    return m.coexistence(Ts * 1.0001, Ts * scan, n=n)
+
+
 def _window(q, k, scan=1.5, n=60):
     """(relative width of the coexistence window, first-order T_c or nan)."""
     m = SimplicialChygraph([q], [k], [1.0])
@@ -234,6 +275,9 @@ def check_tricritical():
             w, Tc = _window(q, k)
             first = np.isfinite(Tc) and w > 1e-3
             assert first == (q == (6 if k == 3 else 5)), (k, q, w, Tc)
+            lo_hi = _window_edges(q, k) if (q == 5 and k == 4) else None
+            if lo_hi:
+                print(f'       window {lo_hi[0]:.4f} to {lo_hi[1]:.4f}')
             print(f'  {k:>3}  {q:>2}   {w:.5f}      '
                   f'{"none" if not np.isfinite(Tc) else f"{Tc:.4f}"}'
                   f'   {"first order" if first else "continuous"}')
@@ -287,11 +331,12 @@ def figure_unanimity():
 
     fig.tight_layout()
     fig.savefig(OUT / 'fig-unanimity.pdf')
-    jump = (m.magnetisation(Tc - 1e-5, u0=8.0)[0]
-            - m.magnetisation(Tc - 1e-5, u0=1e-8)[0])
+    mo = m.magnetisation(Tc - 1e-5, u0=8.0)[0]
+    md = m.magnetisation(Tc - 1e-5, u0=1e-8)[0]
+    jump = mo - md
     print(f'  q = 16 double transition: continuous at T = {m.spinodal():.4f}, '
           f'coexistence {lo:.4f}-{hi:.4f}, first order at T_c = {Tc:.4f}')
-    print(f'    m jumps by {jump:.3f}; quoting the spinodal instead of T_c '
+    print(f'    m jumps from {md:.3f} to {mo:.3f}, by {jump:.3f}; quoting the spinodal instead of T_c '
           f'would be wrong by {100*abs(lo-Tc)/Tc:.1f}%')
     print(f'  wrote {OUT / "fig-unanimity.pdf"}')
 
@@ -301,6 +346,8 @@ if __name__ == '__main__':
     check_uprime()
     print('clustering lowers T_c:')
     check_clustering()
+    print('the comparison that misleads:')
+    check_misleading_comparison()
     print('the de Almeida-Thouless line:')
     check_at_line()
     print('the unanimity interaction:')

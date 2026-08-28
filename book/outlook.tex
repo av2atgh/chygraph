@@ -84,8 +84,8 @@ Sec.~\ref{sec:notdone} states it as such.
 \section{Two things the book kept discovering}
 \label{sec:threads}
 
-Neither of these was planned. Both turned up in three or four independent
-places, which is the only reason to trust them.
+Neither of these was planned. Each turned up in five independent places, which
+is the only reason to trust them.
 
 \paragraph{Name what is held fixed.} A comparison between a clustered structure
 and an unclustered one is not a statement about clustering until one says what
@@ -104,7 +104,8 @@ households help an epidemic when added on top of an unchanged global network and
 hurt it at a fixed contact budget, $T_{c}$ going from $0.2500$ to $0.2929$ the
 wrong way. And Sec.~\ref{sec:clustering} found that a Poisson link layer matched
 only on \emph{mean} degree reverses the sign of the Ising result, because the
-triangle construction carries $\ave{\kbar}=n+1$ rather than $n$.
+triangle construction carries excess degree $\ave{\bar k}=n+1$ rather than $n$
+and a Poisson triangle layer loses none of its branches.
 
 Five settings, one lesson, and it is not a lesson about chygraphs. It is a
 lesson about null models, and the reason it recurs here is that promoting motifs
@@ -122,10 +123,14 @@ so $\Lambda=0$ does not locate anything. Section~\ref{sec:groupcontagion} met
 the same exclusion for threshold contagion --- with $r\ge2$ a single seed
 infects nobody, so the trivial fixed point is stable at every coupling.
 Section~\ref{sec:transmission} met it for the Potts model above $q=2$, where the
-branching condition sits $5.7$ to $25.5$ per cent above the fold at $q=3$ to
-$6$. And Sec.~\ref{sec:unanimity} met it where it does real damage, in the
+branching condition sits $5.1$ to $22.8$ per cent above the transition at
+$q=3$ to $6$. Section~\ref{sec:unanimity} met it where it does real damage, in the
 unanimity interaction, and there the free energy built in
-Sec.~\ref{sec:freeenergy} finally had to be used.
+Sec.~\ref{sec:freeenergy} finally had to be used. And
+Sec.~\ref{sec:twosat} is the extreme of the same statement: above $k=2$ the
+warning map's derivative at the trivial fixed point is exactly zero at every
+clause density, so there is no linear instability anywhere on the axis to
+mistake for a transition.
 
 The practical corollary is easy to get wrong in the direction that flatters the
 calculation: critical slowing down mimics a coexistence window. An ordered branch that survives a finite iteration

@@ -327,24 +327,29 @@ line evaluated at two points.
 \paragraph{Where the analogy stops, and it stops sharply.} Above $q=2$ the
 ferromagnetic transition on a random graph is \emph{discontinuous}, and
 Eq.~\eqref{eq:branchcond} then locates the loss of stability of the disordered
-state rather than the transition. The ordered branch exists below it. Iterating
-the graph recursion at excess degree $2$ from an ordered start, the branch first
-survives at
+state rather than the transition. The ordered branch already exists below it,
+and the transition is neither edge of that coexistence window but the point
+inside it where the two branches exchange which has the lower free energy. At
+excess degree $2$, iterating the graph recursion from an ordered start finds the
+lower edge and comparing the two branches' Bethe free energies finds the
+crossing:
 \begin{center}\small
 \begin{tabular}{lcccc}
 \hline\hline
 $q$ & $2$ & $3$ & $4$ & $6$\\
 \hline
 Eq.~\eqref{eq:branchcond} & $2.000$ & $3.000$ & $4.000$ & $6.000$\\
+transition & $2.000$ & $2.847$ & $3.522$ & $4.634$\\
 ordered branch from & $2.000$ & $2.828$ & $3.464$ & $4.472$\\
-$v_{c}$ too high by & --- & $5.7\%$ & $13.4\%$ & $25.5\%$\\
+$v_{c}$ too high by & --- & $5.1\%$ & $11.9\%$ & $22.8\%$\\
 \hline\hline
 \end{tabular}
 \end{center}
-At $q=2$ the two coincide and the transition is continuous, which is why
+At $q=2$ all three coincide and the transition is continuous, which is why
 Chapter~\ref{ch:ising} may use the linear condition and why
-Chapter~\ref{ch:percolation} may at $q=1$. Above it they do not, and the true
-transition needs a free-energy comparison inside the coexistence window. This
+Chapter~\ref{ch:percolation} may at $q=1$. Above it they do not: the linear
+condition overstates the transition by $5.1$ per cent at $q=3$ and by $22.8$ per
+cent at $q=6$, and the window it sits at the top of is wider still. This
 is the third time the book has met that distinction --- Sec.~\ref{sec:breakdown}
 for interdependent networks, Sec.~\ref{sec:groupcontagion} for threshold
 contagion --- and it will be met a fourth time in

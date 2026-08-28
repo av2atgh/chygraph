@@ -24,7 +24,8 @@ from sympy import Rational, nsolve, symbols
 
 sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph' / 'src'))
 from chygraph import (CriticalAmplitude, JointGiantComponent,  # noqa: E402
-                      and_or_hypergraph, finite_pgf, hypergraph_giant)
+                      and_or_hypergraph, correlated_cardinality_hypergraph,
+                      finite_pgf, hypergraph_giant, two_class_joint_degree)
 
 OUT = Path(__file__).resolve().parent
 RNG = np.random.default_rng(5)
@@ -170,6 +171,29 @@ def figure_correlated(mc=True):
     _tidy(ax); fig.tight_layout(); fig.savefig(OUT / 'fig-correlated.pdf')
 
 
+def check_cardinality_correlation():
+    """Sec. 5.6.2: hyperdegree-cardinality correlation at fixed marginals.
+
+    Two cardinality classes, c = 2 and c = 5, and a one-parameter family in
+    which a node is one of two equally likely types; ``w`` pairs the high mean
+    in one class with the high or the low mean in the other.  Every marginal,
+    and so every entry of the published threshold tensor, is the same for every
+    ``w``.
+    """
+    from sympy import Rational, nsolve
+    p_ = symbols('p')
+    card, ma, mb, sp = [2, 5], Rational(1), Rational(3, 5), Rational(4, 5)
+    print('    w      p_c      S(1/2)    S(1)')
+    for w in (0, Rational(1, 2), 1):
+        M = correlated_cardinality_hypergraph(card,
+                                              two_class_joint_degree(ma, mb, sp, w))
+        pc = float(nsolve(M.theta(), p_, 0.2))
+        print(f'  {float(w):<5}  {pc:.4f}   {M.node_fraction({"p": 0.5}):.4f}'
+              f'    {M.node_fraction({"p": 1.0}):.4f}')
+    print('    positive correlation lowers the threshold; the order parameter')
+    print('    is not ordered the same way at every p, so the curves cross')
+
+
 def _tidy(ax):
     ax.tick_params(labelsize=8)
     for sp in ('top', 'right'):
@@ -177,6 +201,7 @@ def _tidy(ax):
 
 
 if __name__ == '__main__':
+    print('cardinality correlation:'); check_cardinality_correlation()
     print('degeneracy:');   figure_degeneracy()
     print('AND/OR:');       figure_andor()
     print('correlation:');  figure_correlated()

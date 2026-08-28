@@ -218,6 +218,14 @@ def check_entropy_is_not_necessary():
           f'RS value 1/6 is an\n  underestimate of the 0.178 of Mezard and '
           f'Tarzia -- and the hard field\'s\n  0.252 is an overestimate, '
           f'further away')
+    # the case the chapter quotes for the third signal: the closed form is
+    # negative and the iteration does not settle, so no population number is
+    # quoted for it and check_regular deliberately excludes it
+    s6 = regular_entropy(6, 12)
+    assert s6 < 0
+    print(f'  regular L = 6, K = 12: s = {s6:+.4f}, and there the iteration does'
+          f'\n  not settle at all -- Sec. 1.6\'s third signal, in place of a '
+          f'number')
 
 
 if __name__ == '__main__':

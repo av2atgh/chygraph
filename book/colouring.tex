@@ -138,8 +138,9 @@ Chapters~\ref{ch:hittingset} and~\ref{ch:cover}.
 \caption{\textbf{Two constraints, identical at cardinality two.} Left: the
 transmission of a complex, Eqs.~\eqref{eq:taucol} and~\eqref{eq:tauhyp}. For
 proper colouring (solid) the three cardinalities fall exactly on top of one
-another; for hypergraph colouring (dashed) the transmission collapses like
-$q^{-c}$. Right: the resulting local-stability threshold in neighbours per
+another, each curve starting at $q=c$ since a smaller palette admits no proper
+colouring at all; for hypergraph colouring (dashed) the transmission collapses
+like $q^{-c}$. Right: the resulting local-stability threshold in neighbours per
 node. Proper colouring sits at $(q-1)^{2}$ whatever the cardinality --- the
 graph value; hypergraph colouring runs away as $(q^{c-1}-1)^{2}$. Stars are the
 published colourability thresholds for Erd\H{o}s--R\'enyi graphs
@@ -270,10 +271,10 @@ complexes, where Eq.~\eqref{eq:coltwo} says a clique network behaves exactly lik
 a graph and a hypergraph does not.
 
 \paragraph{What would be needed.} The colourability threshold requires the
-one-step calculation --- with survey propagation and the iterative algorithms
-built on it \citep{braunstein2003}, and, for the rigorous side of the same
-question, Ref.~\citep{cojaoghlan2016} --- --- survey propagation, a complexity function, and the
-condensation and rigidity transitions that Ref.~\citep{zdeborova2007} maps out.
+one-step calculation --- survey propagation and the iterative algorithms
+built on it \citep{braunstein2003}, a complexity function, and the condensation
+and rigidity transitions that Ref.~\citep{zdeborova2007} maps out --- and, for
+the rigorous side of the same question, Ref.~\citep{cojaoghlan2016}.
 Chapter~\ref{ch:hittingset} built the tool that would detect the failure, the
 Bethe entropy of Eq.~\eqref{eq:sgen}, and also showed that a positive entropy
 proves nothing. Applying it here, and then doing the one-step calculation on a

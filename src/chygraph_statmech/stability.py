@@ -19,8 +19,8 @@ this module fourteen lines of arithmetic rather than a rewrite.
 
 Two instabilities, same tensor, different weight:
 
-    <kappa> -> <kappa> <u'>       ferromagnetic / RS instability
-    <kappa> -> <kappa> <u'^2>     de Almeida-Thouless / spin-glass line
+    <s>, <sbar> -> <s u'>, <sbar u'>       ferromagnetic / RS instability
+    <s>, <sbar> -> <s u'^2>, <sbar u'^2>   de Almeida-Thouless / spin-glass line
 
 Where the weights go.  A chygraph has two kinds of step.  Going *up* through a
 chy-degree, a complex reports its own cavity field to a complex that includes

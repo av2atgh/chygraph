@@ -337,6 +337,76 @@ def check_first_order(b=2):
               f'ordered branch from v = {hi:.4f}   ({kind})')
 
 
+def check_transition_point(b=2):
+    """Where the first-order transition actually is, from the Bethe free energy.
+
+    ``check_first_order`` brackets the coexistence window: the paramagnet loses
+    stability at ``v_c = q/(b-1)`` and the ordered branch first exists at the
+    lower ordered spinodal.  The transition itself is neither of those.  It is
+    where the two branches exchange which has the lower free energy, strictly
+    inside the window, and locating it needs the Bethe free energy rather than
+    a fixed point.
+
+    On a d-regular graph with d = b + 1, parameterise the (unnormalised) cavity
+    message as weight 1 on one distinguished state and ``y`` on each of the
+    other q - 1.  With
+
+        A = (1 + v) + (q - 1) y     the incoming weight at a distinguished site
+        B = 1 + y (q - 1 + v)       the incoming weight at a fixed other site
+
+    the message fixed point is ``y = (B/A)^b`` and
+
+        -beta f = ln[A^d + (q-1) B^d] - (d/2) ln[(1 + (q-1)y)^2 + v(1 + (q-1)y^2)]
+
+    which is invariant under rescaling the messages, as it must be.  The
+    transition is the crossing of that quantity on the ordered and disordered
+    (y = 1) branches.  At q = 2 the window has zero width and the crossing sits
+    on top of both spinodals, which is the check that the free energy is right.
+    """
+    import numpy as np
+    from scipy.optimize import brentq
+
+    d = b + 1
+
+    def AB(y, q, v):
+        return (1 + v) + (q - 1) * y, 1 + y * (q - 1 + v)
+
+    def ordered_y(q, v):
+        """Smallest fixed point of y = (B/A)^b below 1, or None if there is none."""
+        f = lambda y: (lambda A, B: (B / A)**b - y)(*AB(y, q, v))
+        ys = np.linspace(1e-12, 1 - 1e-9, 200001)
+        vals = np.array([f(y) for y in ys])
+        s = np.where(np.diff(np.sign(vals)) != 0)[0]
+        return None if len(s) == 0 else brentq(f, ys[s[0]], ys[s[0] + 1])
+
+    def minus_beta_f(y, q, v):
+        A, B = AB(y, q, v)
+        Zi = A**d + (q - 1) * B**d
+        Zij = (1 + (q - 1) * y)**2 + v * (1 + (q - 1) * y**2)
+        return np.log(Zi) - 0.5 * d * np.log(Zij)
+
+    for q in (2, 3, 4, 6):
+        vc = q / (b - 1)
+        lo, hi = 0.0, vc                      # the ordered spinodal
+        for _ in range(200):
+            mid = 0.5 * (lo + hi)
+            if ordered_y(q, mid) is not None:
+                hi = mid
+            else:
+                lo = mid
+        spin = hi
+        if vc - spin < 1e-6:                  # continuous: no window to search
+            vt = vc
+        else:
+            g = lambda v: (minus_beta_f(ordered_y(q, v), q, v)
+                           - minus_beta_f(1.0, q, v))
+            vt = brentq(g, spin * (1 + 1e-9), vc * (1 - 1e-9))
+        print(f'  q = {q}:  ordered spinodal {spin:.4f} < transition {vt:.4f} '
+              f'< linear instability {vc:.4f}    '
+              f'v_c high by {100 * (vc - vt) / vc:.1f}% '
+              f'(window {100 * (vc - spin) / vc:.1f}%)')
+
+
 def figure_transmission():
     """One transmission factor, with q as a dial."""
     import numpy as np
@@ -393,5 +463,7 @@ if __name__ == '__main__':
     check_thresholds()
     print('order of the transition:')
     check_first_order()
+    print('where the transition actually is:')
+    check_transition_point()
     print('figure:')
     figure_transmission()

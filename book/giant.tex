@@ -497,7 +497,9 @@ backbone edge $u\sim v$ then creates a four-cycle $u-C(v)-v-C(u)-u$ in the
 incidence structure, and a chygraph is exact only when \emph{that} is locally
 treelike --- Sec.~\ref{sec:treelike} again, one level up. For a Poisson backbone
 with $\ave{k}=3$ this mapping gives $p_{c}=0.0711$ against the exact $0.0893$,
-no improvement on heterogeneous mean field's $0.0635$.
+no improvement on heterogeneous mean field's $0.0635$. The last two are
+Ref.~\citep{cirigliano2025}'s; the exact value is recovered below,
+Eq.~\eqref{eq:stcthresh}, by a mapping that does work.
 
 The formalism does cover the problem, but on the \emph{backbone} rather than on
 $G_{1}$. Site percolation on $G_{1}$ is equivalent to extended-range percolation
@@ -521,6 +523,7 @@ The tensor then returns
   \theta=-b^{2}p^{2}+b(1+b)p-1,
   \qquad
   p_{c}=\frac{(1+b)-\sqrt{(1+b)^{2}-4}}{2b},
+  \label{eq:stcthresh}
 \end{equation}
 with $b=\ave{k(k-1)}/\ave{k}$, which is Cirigliano's exact result, and an order
 parameter agreeing with it to machine precision at every $p$. The exponents
