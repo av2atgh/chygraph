@@ -1,18 +1,15 @@
 \chapter{The Ising model}
 \label{ch:ising}
 
-This is the first model through the machinery of Chapter~\ref{ch:statmech},
-worked end to end, and it is here rather than later for two reasons. It is the
-one model in the book whose answer the reader already knows on a graph, so
-every step can be checked against something familiar. And it produces the
-book's most counterintuitive result, which is worth having early because the
-argument behind it recurs.
+The Ising model is the first model through the machinery of
+Chapter~\ref{ch:statmech}, worked end to end. It comes first for two reasons:
+its answer on a graph is already known, so every step can be checked against it;
+and its result here is a sign that goes the other way from the obvious one.
 
-That result is a sign. Clustering \emph{lowers} the critical temperature at
-fixed degree --- and it does so even though a triangle transmits \emph{more} per
-traversal than a link does. Both halves are true, they pull in opposite
-directions, and Sec.~\ref{sec:clustering} is the accounting that decides between
-them.
+Clustering \emph{lowers} the critical temperature at fixed degree, and it does
+so even though a triangle transmits \emph{more} per traversal than a link does.
+Both halves hold. They pull in opposite directions, and
+Sec.~\ref{sec:clustering} is the accounting between them.
 
 \section{Spins inside complexes}
 \label{sec:spins}
@@ -185,8 +182,8 @@ Fig.~\ref{fig:transmit} shows: the transmission enhancement is $O(t^{2})$, and
 $t\sim1/n$ at the transition, while the branch that was lost is one out of
 $n-1$.
 
-\paragraph{The comparison that misleads.} It is worth keeping, because it is the
-one a careful person reaches for first. Take a Poisson layer of $n$ links
+\paragraph{The comparison that misleads.} It is the one a careful person
+reaches for first. Take a Poisson layer of $n$ links
 against a Poisson layer of $n/2$ triangles. This matches the \emph{mean} degree
 and nothing else. The triangle construction gives degree $d=2X$ with
 $X\sim\mathrm{Poisson}(n/2)$, so $d$ is even, its variance is $2n$ rather than
@@ -330,7 +327,7 @@ which is their mean-field result, approached with residual
 \end{equation}
 Equation~\eqref{eq:BW} is non-monotonic in cardinality, peaking at $q=3$ and
 $q=4$ together (Fig.~\ref{fig:unanimity}), and at finite chy-degree the
-degeneracy is lifted. What is worth pausing on is $C_{q}$: it vanishes when
+degeneracy is lifted. The coefficient $C_{q}$ vanishes when
 $2q=2^{\,q-1}$, that is at $q=4$ and nowhere else. The leading
 finite-connectivity correction is absent at exactly the cardinality that is
 tricritical in the mean-field theory, so $T^{*}$ is approached there as $1/k^{2}$
@@ -365,8 +362,7 @@ The right-hand panel of Fig.~\ref{fig:unanimity} is the calculation done
 properly. At $q=16$ with $(J_{q},J_{2},k_{q},k_{2})=(0.3,0.7,4,4)$ there are two
 transitions. The upper one is continuous, at $T=1.0108$, and it is essentially
 the pairwise value: $u'$ is $O(2^{-q})$ at $q=16$, so the higher-order layer
-contributes nothing at all to the linear instability. The lower one is genuinely
-first order. Iterating from a magnetised start and from a near-zero one, the two
+contributes nothing to the linear instability. The lower one is first order. Iterating from a magnetised start and from a near-zero one, the two
 branches differ on $0.9770<T<0.9810$; comparing Eq.~\eqref{eq:bethe} between
 them inside that window, they cross at
 \begin{equation}
@@ -416,7 +412,7 @@ Poisson-compound convolution, the down step Eq.~\eqref{eq:emitted} evaluated
 numerically --- gives $\beta J_{c}=0.164628$ against the closed-form $0.168236$
 for a graph at six neighbours, and $0.144343$ against $0.146947$ for the
 corresponding triangle network: errors of $2.1\%$ and $1.8\%$, both low, and low
-for a reason worth naming --- a finite sweep budget calls a slowly decaying
+for a definite reason --- a finite sweep budget calls a slowly decaying
 magnetisation ordered, which is the same effect as the trap in
 Sec.~\ref{sec:unanimity}. Independently, the gap between the ordered and
 paramagnetic branches of Eq.~\eqref{eq:bethe} is zero to machine precision below

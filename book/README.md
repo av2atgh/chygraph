@@ -58,7 +58,7 @@ The remaining work is revision, not drafting:
 
 | | what |
 |---|---|
-| 1 | ~~A read-through for continuity~~ — **a mechanical consistency pass was done 2026-08-28** (see below). What it could not check is prose quality: nobody has yet *read* 1–15 in order. |
+| 1 | ~~A read-through for continuity~~ — a mechanical consistency pass and a language pass were both done 2026-08-28 (see below). What neither could do is judge the argument: nobody has yet *read* 1–15 end to end for whether it persuades. |
 | 2 | ~~Fix the manuscripts~~ — **done by deletion.** The three errors the book found (the tricritical cardinality, the GBP convergence count, the Ch. 5 arithmetic slip) were in `main.tex`/`supplement.tex`, which no longer exist. The book carries the corrected values and says so; the entries below are kept as a record of what was wrong, in case either file is ever resurrected from git. |
 | 3 | **Chs. 12 and 13 are the only chapters whose results are not backed by a manuscript.** If either is to be published separately, the calculations in `figs/colouring.py` and `figs/satisfiability.py` are the starting point. |
 | 4 | Front matter: the dedication is still `\itshape Dedication to come.` in `main.tex`. |
@@ -285,6 +285,30 @@ hyperedge, higher-order), all `\ref`/`\eqref` resolve, no figure declared
 without a file or present without a use, and the numbers repeated across
 chapters agree — `u' = t/(1-t+t^2)` in Chs. 7, 8, 9; `-13.9%`/`-14.2%` in
 Chs. 1, 4, 9, 15; the 77–100% HRG core in Chs. 11, 14, 15.
+
+### Language pass, 2026-08-28
+
+The register is: report what is done or achieved, no decoration around it,
+without compromising understanding. Sixty-odd edits across all nineteen files,
+removing three classes of construction:
+
+- **"It is worth X-ing, because Y"** — 34 instances, now 8, and the survivors are
+  literal uses (`two chapters' worth of argument`, `k1 alpha worth of clauses`).
+  The fix is always the same: state the thing and drop the recommendation to
+  find it interesting.
+- **Staging and salesmanship in chapter openings** — "this is the chapter the
+  whole book has been deferring to", "the reader is entitled to ask", "worth the
+  chapter on their own", "saying which three is most of the work". Openings now
+  state what the chapter does in its first sentence.
+- **Evaluation standing in for statement** — "the sharpest statement in the
+  chapter", "something uncomfortable", "the cleanest control and why it is the
+  cleanest", "Stop and look at that", "Read that table carefully". Replaced by
+  the statement itself.
+
+**Keep this register when editing.** The distinction that matters: explanation
+of *why* a step works is not decoration and should stay; instruction to the
+reader on how to feel about it is. Connective tissue that makes an argument
+followable was left alone.
 
 ### The two running threads
 

@@ -25,7 +25,7 @@ well past the point where the formula has stopped being satisfiable.
 
 Those three are about $k$-SAT as the literature has it: a flat object, variables
 below and clauses above. Sections~\ref{sec:nested}
-and~\ref{sec:flatteningcost} are the reason a chygraph was worth introducing.
+and~\ref{sec:flatteningcost} use the depth a chygraph allows.
 A complex may contain other complexes, so a clause may have clauses among its
 members --- and the resulting formulas are ones that CNF cannot hold without
 manufacturing exactly the overlap Chapter~\ref{ch:overlap} is about. That is
@@ -75,7 +75,7 @@ same shape, with the product taken at a fixed assignment rather than along the
 diagonal. Satisfiability really is colouring at $q=2$ with the symmetry broken,
 and Eq.~\eqref{eq:satZ} is where the breaking enters.
 
-The consequence is worth seeing before any analysis. Put every incoming message
+The consequence shows before any analysis. Put every incoming message
 at $\eta=1/2$. Then Eq.~\eqref{eq:satZ} emits $1-2^{1-k}$ on the falsifying
 value and $1$ on the other: at $k=3$, $3/4$ against $1$. The emitted message is
 \emph{not} uniform, so the uniform message is not a fixed point.
@@ -127,7 +127,7 @@ forcing. Putting the two steps together with $\ave{\kbar}=k\alpha$,
 \end{calculation}
 
 Equation~\eqref{eq:wp} is Chapter~\ref{ch:hittingset}'s
-Eq.~\eqref{eq:hs} with two changes, and both are worth naming.
+Eq.~\eqref{eq:hs} with two changes.
 
 The first is the factor $1/2$, and it is the whole of what negatable variables
 buy. A hyperedge in Chapter~\ref{ch:hittingset} constrains its members in one
@@ -240,7 +240,7 @@ discards the same kind of information and the answer is not merely wrong but
 uninformative over a wide range of densities.
 
 \paragraph{How much of that number to believe.} Less than the table's digits
-suggest, and the chapter had better say which parts are solid.
+suggest. Which parts are solid:
 
 The two results of Sec.~\ref{sec:twosat} are linearisations, so they do not
 depend on how a variable receiving contradictory warnings is counted. The fold
@@ -292,7 +292,7 @@ variable} --- Eq.~\eqref{eq:satZ} unchanged, with one of its literals happening
 to be a complex rather than an atom.
 
 That is the whole content of ``a complex whose vertices are complexes'', and it
-is worth pausing on how little had to be added. Nothing in
+little had to be added. Nothing in
 Chapter~\ref{ch:statmech} distinguished a member that is an atom from a member
 that is a complex; Chapter~\ref{ch:percolation}'s bracket already handled
 arriving from below and from above. The formalism was built for this and has
@@ -508,11 +508,10 @@ $\Phi$ --- none of which a fixed-$k$, Poisson treatment reaches. It does not add
 the one-step calculation, and for this problem that is where the subject
 begins rather than ends.
 
-The honest summary is that satisfiability is the model in this book that most
-needs what this book does not do. It is included because the mapping is exact
-and instructive, because $2$-SAT comes out right, and because the way it fails
-is the same way Chapter~\ref{ch:hittingset} failed --- which is worth knowing
-about a method one intends to apply elsewhere.
+Satisfiability is the model here that most needs what this book does not do. It
+is included because the mapping is exact, because $2$-SAT comes out right, and
+because it fails in the same way Chapter~\ref{ch:hittingset} fails --- which
+bears on applying the method elsewhere.
 
 \section{Checks}
 \label{sec:sat-checks}

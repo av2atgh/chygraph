@@ -1,20 +1,17 @@
 \chapter{When complexes overlap}
 \label{ch:overlap}
 
-This is the chapter the whole book has been deferring to, and it is the honest
-one.
-
 Every calculation in Parts~II and~III rests on one assumption, stated in
 Sec.~\ref{sec:treelike} and repeated whenever it mattered: complexes meet in at
 most one node. Chapter~\ref{ch:statmech} located it precisely, in the step where
 a node adds what its complexes have told it as though they were independent.
-The assumption is what buys the whole apparatus, and on the networks
-Chapter~\ref{ch:data} measured, it is false.
+The assumption buys the whole apparatus, and on the networks
+Chapter~\ref{ch:data} measured it is false.
 
-So this chapter asks three questions in order. How much does the violation
-cost? What would repair it? And why is the repair not simply the next chapter of
-this book rather than an open problem? The answers are: less than one might
-fear but not nothing; a region graph with messages on it; and because the repair
+Three questions follow. How much does the violation cost? What would repair it?
+And why is the repair not simply the next chapter rather than an open problem?
+The answers: less than one might fear but not nothing; a region graph with
+messages on it; and because the repair
 is known at the level of one network and not at the level of an ensemble, which
 is the level everything else here works at.
 
@@ -106,8 +103,7 @@ unambiguous.
 \paragraph{A prior question: does the ensemble exist?} Taking maximal cliques as
 complexes presumes the clique-size distribution has a limit --- specifically that
 the excess cardinality $\ave{\sbar}=\ave{c^{2}}/\ave{c}-1$ of
-Eq.~\eqref{eq:sbaru} converges. It is worth checking rather than assuming, and
-the check separates two things.
+Eq.~\eqref{eq:sbaru} converges. The check separates two things.
 
 Measured against a degree-matched control at identical degree sequence and seed,
 so that $P(k)$ and assortativity are held fixed and clustering is the only
@@ -250,8 +246,8 @@ graph is chordal, and a hyperbolic random graph is not.
 One more thing this calculation settles. Generalised belief propagation refuses
 to run on a region graph whose counting numbers do not cover every factor once,
 and the Bethe counting on two overlapping triangles is exactly such a graph. The
-failure is detected rather than silently absorbed, which is worth having: the
-scheme knows the shape of its own assumption.
+failure is detected rather than silently absorbed: the scheme knows the shape of
+its own assumption.
 \end{calculation}
 
 \section{Sixty instances, and where it stops}
@@ -310,9 +306,8 @@ rather than a function on one region.
 \section{Merging the offenders}
 \label{sec:merging}
 
-There is a repair more direct than a region graph, and it is worth working out
-because it is the first thing anyone proposes on seeing
-Fig.~\ref{fig:sharededge}: if two complexes share more than one atom, stop
+There is a repair more direct than a region graph, and it is the first thing
+anyone proposes on seeing Fig.~\ref{fig:sharededge}: if two complexes share more than one atom, stop
 treating them as two. Merge them into a single \emph{meta-complex} holding the
 union of their atoms, and sum its interior exactly.
 
@@ -413,8 +408,8 @@ approximate. Where to sit on that dial is an ensemble-by-ensemble question, and
 Fig.~\ref{fig:merge} is how one answers it.
 
 \paragraph{A practical note.} Between those extremes lies a range where merging
-is worth doing on the instances one actually has, rather than on an ensemble.
-Finding which complexes to merge is a mechanical, checkable operation: build the
+works on the instances one actually has, rather than on an ensemble. Finding
+which complexes to merge is a mechanical, checkable operation: build the
 overlap graph, take components, verify no two survivors share two atoms, verify
 each is small enough to enumerate. It is exactly the kind of bookkeeping that is
 tedious by hand, easy to get subtly wrong, and well suited to being automated.
@@ -469,8 +464,8 @@ so damping will not be enough. It needs a schedule, or a different
 parameterisation of the message, and finding one is part of the problem rather
 than an implementation detail.
 
-Until that is done, the position is the one this chapter opened with, and it is
-worth stating without softening. The chygraph is exact when complexes meet in at
+Until that is done the position is the one this chapter opened with. The
+chygraph is exact when complexes meet in at
 most one node. On the networks that motivated it they do not, and it recovers
 most but not all of the answer. The size of the shortfall is measured, its cause
 is identified by a control that holds the ensemble fixed, and the repair is

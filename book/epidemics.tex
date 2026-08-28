@@ -1,16 +1,15 @@
 \chapter{Epidemics and higher-order spreading}
 \label{ch:epidemics}
 
-This chapter is the payoff of the two before it, and it is the one place in the
-book where the reader is entitled to ask what any of it is for. An epidemic is
+This chapter applies the two before it. An epidemic is
 a percolation problem; a population that mixes both inside households and
 across a wider contact network is a chygraph with three layers and nothing
 else; and the household reproduction number of mathematical epidemiology drops
 out of Chapter~\ref{ch:percolation}'s threshold tensor with no epidemiology
 supplied.
 
-Sections~\ref{sec:sirperc}--\ref{sec:rstar} do that, and they are exposition of
-solved work. Section~\ref{sec:groupcontagion} is the step past it. If catching
+Sections~\ref{sec:sirperc}--\ref{sec:rstar} are exposition of solved work.
+Section~\ref{sec:groupcontagion} is the step past it. If catching
 the disease requires \emph{several} infected members of a group rather than
 one, the problem leaves the class of Chapter~\ref{ch:percolation} altogether ---
 and it leaves it in exactly the way Sec.~\ref{sec:breakdown} said such a thing
@@ -213,8 +212,7 @@ further global infections, having used one contact to arrive; each of the
 $\mu_{H}$ secondary cases makes $T\ave{k}$, having used none. An outbreak grows
 when the total exceeds one.
 
-It is worth being clear about what has and has not happened here. The
-epidemiological literature derives $R^{\ast}$ by constructing a branching
+What has and has not happened here. The epidemiological literature derives $R^{\ast}$ by constructing a branching
 process of households and computing its mean offspring number, which is a
 purpose-built argument. Here it is a substitution into a tensor that knows
 nothing about disease, and the derivation is the same one that produced
@@ -241,8 +239,7 @@ $S$ at $T=1$   & $0.7968$ & $0.9560$ & $0.9975$\\
 \hline\hline
 \end{tabular}
 \end{center}
-Households do two separable things, and it is worth naming them separately.
-They lower the threshold, by a factor of three here. And they steepen the
+Households do two separable things. They lower the threshold, by a factor of three here. And they steepen the
 approach to it: $B$ rises from $4$ to $6.667$, so just above threshold the
 outbreak is not merely more likely but larger. The first fact is $R^{\ast}$'s;
 the second is not, and it needs one more order of moments.
@@ -310,14 +307,13 @@ this exclusion when it arose for interdependent networks: the transition, if
 there is one, happens by a saddle-node bifurcation while the trivial fixed
 point is still stable, so $\Lambda=0$ does not locate it. The same sentence
 covers threshold contagion. Section~\ref{sec:breakdown}'s proof that group
-structure alone gives continuous transitions is untouched by this and is worth
-restating precisely, because the two are easily confused: within the percolation
+structure alone gives continuous transitions is untouched by this, and the two
+are easily confused, so: within the percolation
 class every group interaction contributes non-negatively to the curvature $C$
 and the onset is continuous; a threshold rule is not in the class.
 
-\paragraph{What replaces it.} Since the tensor cannot be used, the honest move
-is to write the simplest self-consistent equation that keeps the mechanism and
-solve it. Take a population with two kinds of connection: Poisson-many pairwise
+\paragraph{What replaces it.} The tensor cannot be used, so what follows is the
+simplest self-consistent equation that keeps the mechanism. Take a population with two kinds of connection: Poisson-many pairwise
 contacts, mean $\ave{k}_{|}$, each transmitting with probability $T$; and
 Poisson-many three-member groups, mean $\ave{k}_{\triangle}$, each transmitting
 to a member with probability $T_{\triangle}$ but only when \emph{both} others
@@ -402,8 +398,8 @@ invasion threshold disappears rather than moving. No seed can ever start
 anything, at any $\beta_{2}$. Yet an outbreak, once present, sustains itself for
 all $\beta_{2}>2.4554$, at which point $\rho$ jumps to $0.7153$. A population
 with only reinforced transmission cannot be invaded and can be saturated, which
-is a statement worth having in a public-health argument and one that no
-threshold calculation would ever produce.
+is a statement no threshold calculation would produce, and one a public-health
+argument can use.
 
 \paragraph{The equilibrium version of the same thing.} A group that acts only
 when all its members agree is Chapter~\ref{ch:ising}'s unanimity interaction:

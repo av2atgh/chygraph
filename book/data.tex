@@ -4,8 +4,8 @@
 Chapter~\ref{ch:chygraphs} defined an object. This chapter asks where one gets
 hold of it. There are exactly two routes, they behave very differently, and
 which one you are on decides in advance how well the theory of the next nine
-chapters will work on your data --- so it is worth knowing before any of that
-theory is developed rather than after.
+chapters will work on your data, so it comes before the theory rather than
+after.
 
 The first route is the easy one. Some systems record their groups. A paper
 lists its authors, a purification recovers a set of proteins together, a
@@ -160,8 +160,7 @@ with \emph{identical} marginals can have different thresholds. So this decision
 is not cosmetic, and the way to make it is to measure the correlation between
 layer memberships before assuming it away.
 
-One rule of thumb is worth stating in bold, because Sec.~\ref{sec:promoting}
-will supply the evidence for it: \textbf{if you have the group data, use it. Do
+One rule of thumb, with the evidence for it in Sec.~\ref{sec:promoting}: \textbf{if you have the group data, use it. Do
 not flatten it to a graph and then try to recover the groups.} The flattening
 is not invertible, and the object you get back is worse than either the graph or
 the groups.
@@ -239,7 +238,7 @@ intersecting clique pair in forty-five shares an edge. For these networks the
 chygraph of maximal cliques is treelike for practical purposes, and the theory
 of the next nine chapters applies to them essentially without correction. That
 is a better result than the framing of Sec.~\ref{sec:treelike} would have led
-one to expect, and it is worth saying so plainly: the obstruction that
+one to expect: the obstruction that
 Chapter~\ref{ch:overlap} is about is not a generic obstruction. It is specific,
 and one can tell in advance whether one has it.
 
@@ -412,8 +411,7 @@ $\ave{\sbar}$ of Sec.~\ref{sec:ensembles} and no further structure --- in
 particular, complexes meet in at most one atom with probability approaching one
 as the chygraph grows, which is exactly the regime the theory assumes.
 
-That last clause is worth noticing, because it is the reason simulation
-agreement is a weaker test than it looks. A random chygraph built this way
+That last clause is why simulation agreement is a weaker test than it looks. A random chygraph built this way
 satisfies the treelike condition by construction, so a Monte Carlo check on it
 tests the recursion and \emph{not} the assumption that the recursion rests on.
 Testing the assumption needs an object whose complexes really do overlap, which
@@ -433,5 +431,5 @@ project constructions of Sec.~\ref{sec:systems}. Building those objects from
 real records, measuring their layer structure and the correlations between
 layers, and running the machinery of the following chapters on them, is the most
 obvious piece of work this book leaves undone, and Sec.~\ref{sec:promoting} is
-the argument that it would be worth doing: the one dataset here that began as
+the argument for doing it: the one dataset here that began as
 group data is the one where the graph representation fails hardest.

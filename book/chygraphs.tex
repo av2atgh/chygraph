@@ -175,8 +175,8 @@ demand only barely --- a hyperedge is a flat set, with no internal organisation
 not contain hyperedges. Our paper cannot cite.
 
 The first demand was met by Joslyn and Nowak, who defined \emph{ubergraphs}
-\citep{joslyn2017}, and it is worth stating their construction in the language
-this book will use throughout. Begin by dividing the things in a system into
+\citep{joslyn2017}. Their construction, in the language this book uses
+throughout. Begin by dividing the things in a system into
 those we have chosen not to decompose any further --- call them \emph{atoms} ---
 and those that are made of other things --- call them \emph{complexes}. Which is
 which is a modelling decision, not a fact about the world: an author is an atom
@@ -298,7 +298,7 @@ includes no complexes. The \emph{cardinality} of a complex is the number of
 complexes it includes. The \emph{chy-degree} of a complex is the number of
 complexes that include it.
 
-Two conventions are worth flagging now. First, quantities defined at the
+Two conventions. First, quantities defined at the
 chygraph level get Greek letters, to keep them separate from the same quantities
 computed on some graph made out of the chygraph; so the chy-degree is $\kappa$
 and never $k$. Second, ``cardinality'' counts what is inside and ``chy-degree''
@@ -328,9 +328,8 @@ something and having something inside you.
 
 \subsection{The two ways out of a complex}
 
-Here is the sentence the rest of the book runs on, and it is worth stopping over
-because every recursion in Chapters~\ref{ch:percolation} to~\ref{ch:overlap} is
-a formalisation of it.
+Here is the sentence the rest of the book runs on. Every recursion in
+Chapters~\ref{ch:percolation} to~\ref{ch:overlap} formalises it.
 
 \begin{quote}
 Standing at a complex, there are exactly two ways to leave it: \emph{up},
@@ -444,8 +443,7 @@ choosing what counts as an atom was.
 \section{Everything is a chygraph}
 \label{sec:everything}
 
-Now the payoff, and it is the reason the construction is worth the definitions.
-Each structure below is obtained by writing down its layers and their
+What the definitions buy. Each structure below is obtained by writing down its layers and their
 cardinalities, and nothing else changes. Figure~\ref{fig:mappings} draws them in
 a single vocabulary.
 
@@ -564,9 +562,8 @@ carries that out.
 Figures~\ref{fig:publications} and~\ref{fig:mappings} draw a complex as a
 \emph{node} of its own, with lines running to what it includes. Every figure
 after this chapter draws a complex as a \emph{box around} what it includes.
-These are the same object and it is worth seeing the two side by side once, in
-Fig.~\ref{fig:twodrawings}, because readers who do not are liable to think a new
-construction has been introduced somewhere around Chapter~\ref{ch:statmech}.
+These are the same object. Figure~\ref{fig:twodrawings} puts the two side by
+side once, so that neither reads as a new construction later.
 
 The inclusion drawing is honest and scales badly: it puts every complex and
 every inclusion on the page, and it becomes unreadable at a couple of dozen
@@ -652,8 +649,7 @@ with the excess averages given, as usual for a size-biased count, by
 \end{equation}
 
 Four $L\times L$ matrices, then, summarise a chygraph at the level of first
-moments: $\ave{\kappa}$, $\ave{\kbar}$, $\ave{s}$, $\ave{\sbar}$. It is worth
-registering how little that is. Whatever the sizes of the complexes, whatever
+moments: $\ave{\kappa}$, $\ave{\kbar}$, $\ave{s}$, $\ave{\sbar}$. Whatever the sizes of the complexes, whatever
 the depth of the inclusion hierarchy, the first-moment description of the
 ensemble is four matrices whose dimension is the number of \emph{layers} --- two
 for a graph, three for a two-layer multiplex --- and not the number of complexes

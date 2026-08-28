@@ -1,16 +1,15 @@
 \chapter{Vertex cover and core percolation}
 \label{ch:cover}
 
-Three things in this chapter turn out to be one thing, and saying which three
-is most of the work.
+Three things in this chapter are one thing.
 
-There is an \emph{algorithm}, leaf removal, which sometimes solves minimum
-vertex cover exactly and sometimes gets stuck. There is a \emph{structure}, the
-core, which is what it gets stuck on --- and which has a percolation transition
-of its own, at mean degree $e$. And there is the \emph{instability} of
-Chapter~\ref{ch:hittingset}'s hard-field map, Eq.~\eqref{eq:kc}, which also sits
-at $e$. These are not three results that happen to share a number. They are one
-point computed three ways, and Sec.~\ref{sec:onepoint} says so with the digits.
+An \emph{algorithm}, leaf removal, which sometimes solves minimum vertex cover
+exactly and sometimes gets stuck. A \emph{structure}, the core, which is what it
+gets stuck on, and which has a percolation transition of its own at mean degree
+$e$. And the \emph{instability} of Chapter~\ref{ch:hittingset}'s hard-field map,
+Eq.~\eqref{eq:kc}, which also sits at $e$. They are not three results sharing a
+number but one point computed three ways, and Sec.~\ref{sec:onepoint} gives the
+digits.
 
 Then the chapter does what Chapter~\ref{ch:hittingset} did: raises the
 cardinality and watches something break. Above cardinality two the core-free
@@ -220,8 +219,7 @@ $2.5\times10^{-10}$ --- which is not a coincidence to be admired but a
 consistency check to be passed, since they are the same point reached by two
 routes.
 
-The identification is worth stating in words, because it is the reason this
-book puts the three subjects in one chapter. \emph{Leaf removal certifies a
+In words, and this is why the three subjects share a chapter. \emph{Leaf removal certifies a
 cover exactly when there is no core; there is no core exactly when the
 hard-field map is stable; and the hard-field map is stable exactly where the
 integer messages carry the whole answer.} Three statements, one condition.
@@ -261,8 +259,7 @@ Figure~\ref{fig:core} draws it. At $c=2$ there is a transition at $e$; at $c=3$
 and above there is no transition, and the two curves lie exactly on top of each
 other because for a pure clique network of cardinality three or more the core is
 $1-e^{-\ave{k}}$ --- every vertex that is in any complex at all. Cardinality
-past three changes nothing, which is the sort of degeneracy worth noticing: the
-obstruction is not a matter of degree.
+past three changes nothing: the obstruction is not a matter of degree.
 
 \begin{figure}[t]
 \centering
@@ -339,7 +336,7 @@ And the core is a power law, $\mathrm{core}\sim\ave{k}^{\,\theta}$, with the
 predicted exponent matching the measured one to $0.04$ at $\tau=2.5$ and $0.06$
 at $\tau=2.9$.
 
-\paragraph{The cleanest control, and why it is the cleanest.} There is one place
+\paragraph{The control that isolates the map.} There is one place
 where the configuration model \emph{does} have a core: $\tau=2.9$, $\ave{k}=6$.
 There the chygraph predicts $0.633$ against a measured $0.621$, two per cent ---
 same map, same pipeline, and cliques that barely overlap at that density. So the
@@ -349,8 +346,8 @@ whether Eq.~\eqref{eq:core} is right, and whether treating complexes as
 independent is. It says the map is right and the independence is not, which is
 exactly the diagnosis Chapter~\ref{ch:overlap} takes up.
 
-\paragraph{How much this is worth, stated plainly.} Less than it looks, and the
-book had better say so. Section~\ref{sec:corefree} shows that \emph{any} layer of
+\paragraph{How much this establishes.} Less than it looks.
+Section~\ref{sec:corefree} shows that \emph{any} layer of
 cardinality three or more removes the core-free branch, so a positive prediction
 follows from the algebra the moment one triangle enters the ensemble, whatever
 else the graph is doing. The existence of the core was never in doubt once the

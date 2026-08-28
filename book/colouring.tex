@@ -12,7 +12,7 @@ Proper colouring is the antiferromagnetic $q$-state Potts model at zero
 temperature --- this book's own model at the opposite sign --- so if the
 machinery is what it has been claimed to be, the colouring calculation should be
 a substitution and not a new theory. It is, and the substitution produces two
-closed forms that are worth the chapter on their own.
+closed forms.
 
 One is a surprise. For proper colouring, the transmission of a complex does not
 depend on its cardinality at all: a clique of nine members transmits exactly what
@@ -33,8 +33,7 @@ constraints it stops existing.
 In the language of Chapter~\ref{ch:statmech} this is
 Eq.~\eqref{eq:emitted} with an interior that assigns weight zero to forbidden
 configurations and weight one to the rest. Nothing else changes. What does
-change, and it is worth flagging before the algebra, is the \emph{message}. Up
-to now a message has been one number --- a probability, a field, an integer, or
+change, before any algebra, is the \emph{message}. Up to now a message has been one number --- a probability, a field, an integer, or
 at worst three states. Here it is a distribution over $q$ colours,
 $\eta_{i\to a}(\sigma)$, and there is no ferromagnetic direction to project it
 onto. That is the sense in which colouring is heavier than anything before it,
@@ -118,8 +117,7 @@ Figure~\ref{fig:colouring} draws both, and the contrast is the chapter in one
 picture: three cardinalities lying exactly on top of one another for the proper
 rule, and fanning out over three decades for the hypergraph one.
 
-\paragraph{Why the cardinality cancels, in words.} It is worth saying without
-the algebra, because the result is the chapter's least expected. What one member
+\paragraph{Why the cardinality cancels, in words.} What one member
 of a clique learns from another is a single fact: \emph{not that colour}. It
 learns the same fact from every other member. Because the perturbation is
 traceless --- the colours have to keep summing to one --- excluding one colour
@@ -202,16 +200,14 @@ The first of these is the same phenomenon as Eq.~\eqref{eq:kc}, which found
 $\ave{k}(c-1)=e$ for hitting set: counted in neighbours, hyperedge size does not
 move the point. Two hard-core problems, two different constants, one structure.
 The reason is the same both times --- what a complex transmits and how many
-neighbours it supplies move in exactly compensating ways --- and it is worth
-noticing that this is the \emph{opposite} of what happened for the Ising model,
-where Sec.~\ref{sec:clustering} found the two effects failing to compensate and
+neighbours it supplies move in exactly compensating ways. This is the
+\emph{opposite} of the Ising model, where Sec.~\ref{sec:clustering} found the two effects failing to compensate and
 the multiplicity winning.
 
 \section{The two constraints diverge above cardinality two}
 \label{sec:twoconstraints-col}
 
-Equation~\eqref{eq:coltwo} is the sharpest statement in the chapter, so it is
-worth being explicit about what it says.
+Equation~\eqref{eq:coltwo} says the following.
 
 Proper colouring of a clique network is, at this level of description,
 indistinguishable from colouring a graph with the same number of neighbours.
@@ -259,8 +255,7 @@ $5$ & $16$ & $12.67$ & $13.69$\\
 \end{tabular}
 \end{center}
 
-Read that table carefully, because it says something uncomfortable. At $q=3$ the
-local instability sits inside the colourable phase, below both the clustering
+At $q=3$ the local instability sits inside the colourable phase, below both the clustering
 transition and the colourability threshold. At $q=4$ and above it sits
 \emph{above} the colourability threshold --- the graph has long since stopped
 being colourable by the time the replica-symmetric solution notices anything is
@@ -285,7 +280,7 @@ proves nothing. Applying it here, and then doing the one-step calculation on a
 chygraph rather than a graph, is not attempted in this book and is on
 Chapter~\ref{ch:outlook}'s list.
 
-Until it is done, the honest reading of Eq.~\eqref{eq:coltwo} is as a statement
+Until it is done, Eq.~\eqref{eq:coltwo} is a statement
 about the stability of a particular solution, not about when colourings run out
 --- and the interesting part of it, that cardinality drops out of the proper
 constraint and dominates the hypergraph one, is a statement about the interior
