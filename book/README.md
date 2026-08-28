@@ -26,7 +26,7 @@ language in the running text with the algebra boxed off.
 | 10 | `hittingset.tex` | **Drafted.** Hard fields, where they fail off the graph, soft fields, RSB |
 | 11 | `cover.tex` | **Drafted.** Vertex cover, leaf removal, core percolation; hyperbolic random graphs |
 | 12 | `colouring.tex` | **Drafted.** Proper against hypergraph colouring; `tau = -1/(q-1)` independent of cardinality; `(q-1)^2` |
-| 13 | `satisfiability.tex` | **Drafted.** Clauses as complexes; warning propagation; `alpha = 1` exact at `k = 2`, no linear instability above it |
+| 13 | `satisfiability.tex` | **Drafted.** Clauses as complexes; `alpha = 1` exact at `k = 2`, no linear instability above it; **clauses whose members are clauses**, and what CNF flattening costs |
 | **IV** | | **Limits** |
 | 14 | `overlap.tex` | **Drafted.** The price of treelikeness; region graphs and GBP; what is open |
 | 15 | `outlook.tex` | **Drafted.** One recursion, many models; the two running threads; what is not done |
@@ -158,6 +158,26 @@ that mapping does not have to be reconstructed.
   needed. Also worth guarding: SAT has **no** uniform fixed point, because a
   clause forbids a *particular* assignment; that asymmetry is the whole reason
   Ch. 12 gets a closed form and Ch. 13 does not.
+- **Secs. 13.6–13.7, clauses of clauses.** The only place in the book where a
+  complex contains another complex, which is the freedom the chygraph
+  definition exists for. Layer 2 clauses are implications `C => (l_1 v ... v
+  l_k2)` whose antecedent `C` is a layer-1 clause; the layer-1 complex
+  compresses its `2^k1` interior states into one number and the layer-2 complex
+  consumes it exactly as it would a variable. Three results, all in
+  `figs/satisfiability.py`:
+  **(i)** at `k1 = 1` the middle layer is a relay and the system reduces to
+  flat `(k2+1)`-SAT *identically, to the last digit* — the check that the
+  degree bookkeeping is right, and the thing to re-run first if these equations
+  are ever edited;
+  **(ii)** distributing `NOT C` gives `k1` clauses that pairwise share all `k2`
+  plain literals, so for `k2 >= 2` the flattening manufactures exactly Sec. 14.1's
+  non-treelike condition — the overlap is created by the *encoding*, not found
+  in the data;
+  **(iii)** thresholds agree *exactly* at `k2 = 1` (both give `k1 alpha = 1`,
+  as an identity, not numerically) and the folds differ by 7–22% at `k2 >= 2`,
+  monotonically in `k1`. The agreement at `k2 = 1` is what makes (iii) evidence
+  for (ii) rather than a coincidence: it is the rewired-control logic of
+  Ch. 11 applied to an encoding instead of an ensemble.
 - **Sec. 14.5's convergence count differed from the retired supplement.** It
   said 9 of the 20 non-chordal GBP runs converge and 11 do not, with
   errors `1.4e-9`–`5.4e-3` against Möbius `0.48`–`1.1` and Bethe `0.32`–`22`.

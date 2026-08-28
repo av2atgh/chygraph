@@ -23,6 +23,15 @@ is stable at \emph{every} clause density, so there is no linear instability at
 all. The failure is that the hard field then goes on reporting nothing wrong
 well past the point where the formula has stopped being satisfiable.
 
+Those three are about $k$-SAT as the literature has it: a flat object, variables
+below and clauses above. Sections~\ref{sec:nested}
+and~\ref{sec:flatteningcost} are the reason a chygraph was worth introducing.
+A complex may contain other complexes, so a clause may have clauses among its
+members --- and the resulting formulas are ones that CNF cannot hold without
+manufacturing exactly the overlap Chapter~\ref{ch:overlap} is about. That is
+the part of this chapter with no counterpart in the satisfiability literature,
+and it is where the chapter stops being an exercise.
+
 \section{Clauses as complexes}
 \label{sec:clauses}
 
@@ -237,6 +246,229 @@ $\alpha_{s}$ at every $k$ tried: $4.667$ against $4.267$ at $k=3$, $11.83$
 against $9.93$ at $k=4$, $27.91$ against $21.12$ at $k=5$. So the qualitative
 statement is robust and the number is a bookkeeping choice, and the table above
 should be read as the first and not the second.
+
+\section{Clauses of clauses}
+\label{sec:nested}
+
+Everything so far has been a two-layer object: variables at the bottom,
+clauses above them, and that is where the satisfiability literature stops.
+It is also where this book would stop if a chygraph were only a hypergraph
+with a better name. It is not. A complex may contain other complexes, to any
+depth, and satisfiability is a good place to see what that buys, because the
+answer turns out to be a class of formulas that flat CNF cannot hold without
+damage.
+
+\paragraph{Three levels.} Layer $0$ is the variables. Layer $1$ is clauses
+$C_{a}$, each a disjunction of $k_{1}$ literals. Layer $2$ is clauses $D_{b}$
+whose members are a \emph{mix}: $k_{2}$ variables and one layer-1 clause, the
+latter appearing negated,
+\begin{equation}
+  D_{b}=\neg C_{a}\ \vee\ \ell_{1}\vee\cdots\vee\ell_{k_{2}},
+  \label{eq:nested}
+\end{equation}
+and the formula is the conjunction of the $D_{b}$. The layer-1 clauses are
+sub-expressions, not constraints in their own right.
+
+Equation~\eqref{eq:nested} has a reading that needs no logic at all: it is an
+\emph{implication}. ``If any of these $k_{1}$ things holds, then at least one of
+these $k_{2}$ others must.'' Conditional requirements of exactly that shape are
+what dependency, configuration and scheduling problems are made of, and they are
+what a CNF encoding has to be talked into.
+
+\paragraph{What the layers do.} The mechanism is the book's, in miniature. A
+layer-1 complex takes the messages from its $k_{1}$ variables and emits one
+number: the probability that it is false, $\prod_{i}\eta_{i\to a}(u_{i})$. Its
+$2^{k_{1}}$ interior configurations are summed and never mentioned again. The
+layer-2 complex then consumes that number \emph{exactly as it would a
+variable} --- Eq.~\eqref{eq:satZ} unchanged, with one of its literals happening
+to be a complex rather than an atom.
+
+That is the whole content of ``a complex whose vertices are complexes'', and it
+is worth pausing on how little had to be added. Nothing in
+Chapter~\ref{ch:statmech} distinguished a member that is an atom from a member
+that is a complex; Chapter~\ref{ch:percolation}'s bracket already handled
+arriving from below and from above. The formalism was built for this and has
+been waiting.
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}
+% left: the three-level chygraph. right: what flattening it to CNF produces.
+\begin{scope}
+  \node[lb,anchor=south] at (1.15,2.15) {\emph{nested}};
+  \node[cpxb,minimum size=3.2mm] (D) at (1.15,1.45) {};
+  \node[lb,anchor=west] at (1.35,1.45) {$D$};
+  \node[cpx,minimum size=2.8mm] (C) at (0.0,0.65) {};
+  \node[lb,anchor=east] at (-0.18,0.65) {$C$};
+  \node[atm] (l1) at (1.55,0.65) {}; \node[atm] (l2) at (2.30,0.65) {};
+  \node[atm] (x1) at (-0.72,-0.30) {}; \node[atm] (x2) at (0.0,-0.30) {};
+  \node[atm] (x3) at (0.72,-0.30) {};
+  \draw[inc] (D)--(C) (D)--(l1) (D)--(l2);
+  \draw[inc] (C)--(x1) (C)--(x2) (C)--(x3);
+  \node[lb,anchor=north,align=center] at (0.85,-0.62)
+    {complexes meet in\\ at most one atom};
+\end{scope}
+% right: the CNF flattening
+\begin{scope}[xshift=4.9cm]
+  \node[lb,anchor=south] at (1.25,2.15) {\emph{flattened}};
+  \node[cpxb,minimum size=3.2mm] (E1) at (0.1,1.45) {};
+  \node[cpxb,minimum size=3.2mm] (E2) at (1.25,1.45) {};
+  \node[cpxb,minimum size=3.2mm] (E3) at (2.40,1.45) {};
+  \node[atm] (y1) at (-0.35,0.35) {}; \node[atm] (y2) at (0.55,0.35) {};
+  \node[atm] (y3) at (1.45,0.35) {};
+  \node[atm] (m1) at (2.25,0.35) {}; \node[atm] (m2) at (3.05,0.35) {};
+  \draw[inc] (E1)--(y1) (E2)--(y2) (E3)--(y3);
+  \draw[inc,line width=.8pt] (E1)--(m1) (E1)--(m2) (E2)--(m1) (E2)--(m2)
+                             (E3)--(m1) (E3)--(m2);
+  \node[lb,anchor=north,align=center] at (1.35,-0.62)
+    {every pair shares $k_{2}$ atoms:\\ Sec.~\ref{sec:price}'s condition, broken};
+\end{scope}
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{A clause whose members are clauses.} Left: the three-level
+chygraph of Eq.~\eqref{eq:nested}, drawn as an inclusion diagram --- $D$
+contains two variables and the complex $C$, which contains three variables of
+its own. Right: the same formula distributed into CNF, which turns one clause
+into $k_{1}$ clauses that pairwise share all $k_{2}$ plain literals (heavy
+lines). For $k_{2}\ge2$ that is two complexes meeting in two or more atoms,
+which is exactly the condition Chapter~\ref{ch:overlap} says a chygraph must
+not violate. The nested object satisfies it and the flattened one does not.}
+\label{fig:nested}
+\end{figure}
+
+\paragraph{Why this is not CNF.} Distribute Eq.~\eqref{eq:nested}. Since
+$\neg C_{a}=\bigwedge_{i\in a}\neg\ell_{i}$,
+\begin{equation}
+  D_{b}\ \equiv\ \bigwedge_{i\in a}
+    \bigl(\neg\ell_{i}\vee\ell_{1}\vee\cdots\vee\ell_{k_{2}}\bigr),
+  \label{eq:flatten}
+\end{equation}
+one clause of length $k_{2}+1$ for each variable of the sub-clause. So the
+formula \emph{is} expressible in CNF --- and the encoding does something the
+book has a name for. Any two of those $k_{1}$ clauses share all $k_{2}$ plain
+literals. For $k_{2}\ge2$ they share two or more variables, which is precisely
+Sec.~\ref{sec:price}'s condition for a chygraph to stop being treelike
+(Fig.~\ref{fig:nested}). Flattening a nested clause manufactures exactly the
+overlap that Chapter~\ref{ch:overlap} is about.
+
+The alternative encoding, a Tseitin auxiliary variable $y\leftrightarrow C_{a}$,
+does no better: it needs $k_{1}+1$ clauses all containing $y$, and the resulting
+factor graph has four-cycles through $y$. Either way the CNF form has short
+loops that the nested form does not.
+
+\section{What flattening costs}
+\label{sec:flatteningcost}
+
+That is an argument about structure. Here is the number.
+
+Warning propagation on the three-level chygraph carries two kinds of warning
+where the flat problem carries one. A layer-2 clause can force a plain variable
+member, as before; or it can force its \emph{sub-clause} member to be false ---
+and a sub-clause forced false forces all $k_{1}$ of its variables at once. That
+second channel has no counterpart in a flat encoding, where the $k_{1}$
+forcings arrive as $k_{1}$ separate and supposedly independent events.
+
+\begin{calculation}{the three-level warning map}
+Take each sub-clause to be the antecedent of exactly one layer-2 clause, so
+$\alpha_{1}=\alpha_{2}=\alpha$ and a sub-clause is forced false exactly when its
+single parent says so. Write $\pi$ for the probability that a variable on the
+cavity branch is forced to a given value, as in Sec.~\ref{sec:sat-wp}. Four
+quantities close the system:
+\[
+  \begin{aligned}
+    \mu&=\pi^{k_{2}}, &\qquad \gamma&=1-(1-\pi)^{k_{1}},\\
+    \delta&=\mu, &\qquad \eta&=\pi^{\,k_{2}-1}\gamma.
+  \end{aligned}
+\]
+Reading them across: $D$ forces its sub-clause false, $\mu$, when all $k_{2}$ of
+its plain variables are forced; the sub-clause \emph{is} false, $\delta$, when
+its one parent says so; it is true, $\gamma$, when some member of it is forced
+the other way; and $D$ forces a plain variable member, $\eta$, when the other
+$k_{2}-1$ are forced and the antecedent holds.
+
+Warnings then arrive at a variable from both levels --- from layer-2 clauses
+directly, and from layer-1 clauses that have been forced false and are passing
+the forcing down to all of their members:
+\begin{equation}
+  \lambda=k_{2}\alpha\,\eta+k_{1}\alpha\,\delta,
+  \qquad
+  \pi=\bigl(1-e^{-\lambda/2}\bigr)e^{-\lambda/2},
+  \label{eq:nestedwp}
+\end{equation}
+which closes the system on $\pi$ alone.
+
+\emph{The check that the bookkeeping is right} is $k_{1}=1$. A sub-clause with
+one member is a relay: $\neg C$ is then a single literal and
+Eq.~\eqref{eq:nested} is an ordinary $(k_{2}+1)$-clause. The three-level system
+must therefore reduce to the two-level one at $k=k_{2}+1$, and it does ---
+identically, to the last digit of a double, at $k_{2}=2,3,4$ and every density
+tried. A middle layer that holds nothing costs nothing.
+\end{calculation}
+
+Now compare. The flat treatment of the same formula reads
+Eq.~\eqref{eq:flatten} as $k_{1}\alpha$ worth of independent
+$(k_{2}+1)$-clauses. It should agree with the nested calculation where the
+flattening is harmless and disagree where it is not, and
+Sec.~\ref{sec:nested} says where the boundary is: at $k_{2}=1$ the distributed
+clauses share one variable and the factor graph is still a tree; at $k_{2}\ge2$
+they share two or more and it is not.
+
+That is exactly what happens.
+
+\emph{At $k_{2}=1$ the two agree, and agree as an identity.} Both are linear at
+the origin, and both give the threshold $k_{1}\alpha=1$: the nested map because
+$\lambda\simeq k_{1}\alpha(k_{2}+1)\pi^{k_{2}}$ reduces to $2k_{1}\alpha\pi$ at
+$k_{2}=1$, the flat one because $k_{1}\alpha$ independent $2$-clauses reach the
+$2$-SAT threshold of Sec.~\ref{sec:twosat} at $k_{1}\alpha=1$. No approximation
+has been made on either side.
+
+\emph{At $k_{2}\ge2$ they part company}, and by an amount that grows with the
+size of the sub-clause:
+\begin{center}\small
+\begin{tabular}{rrrrr}
+\hline\hline
+$k_{1}$ & $k_{2}$ & nested fold & flattened & ratio\\
+\hline
+$2$ & $2$ & $2.888$ & $2.693$ & $0.932$\\
+$3$ & $2$ & $2.052$ & $1.795$ & $0.875$\\
+$4$ & $2$ & $1.631$ & $1.346$ & $0.825$\\
+$2$ & $3$ & $9.985$ & $9.118$ & $0.913$\\
+$3$ & $3$ & $7.235$ & $6.079$ & $0.840$\\
+$4$ & $3$ & $5.857$ & $4.559$ & $0.778$\\
+\hline\hline
+\end{tabular}
+\end{center}
+Flattening moves the fold down by seven to twenty-two per cent, monotonically in
+$k_{1}$ --- which is the right dependence, since $k_{1}$ is how many
+perfectly correlated clauses the flattening pretends are independent
+(Fig.~\ref{fig:nestedfig}).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig-nested.pdf}
+\caption{\textbf{What a flat encoding loses.} Left: the forced fraction against
+clause density for the three-level formula (solid) and for its CNF flattening
+treated as independent clauses (dashed), at $k_{2}=2$. Right: the ratio of the
+two folds. At $k_{2}=1$ it is exactly one --- the distributed clauses share a
+single variable and the flattening is harmless. At $k_{2}\ge2$ they share two or
+more, and the ratio falls away from one, faster the larger the sub-clause.
+Generated by \code{figs/satisfiability.py}.}
+\label{fig:nestedfig}
+\end{figure}
+
+\paragraph{What this is an instance of.} The discrepancy is not a new
+phenomenon; it is Chapter~\ref{ch:overlap}'s, arriving from an unexpected
+direction. There, a clustered graph's maximal cliques overlapped and the
+chygraph could not see the loops between them. Here the overlap is not a
+property of the data at all --- it is \emph{manufactured by the encoding}. The
+formula has a perfectly treelike three-level representation; writing it in CNF
+throws that away and creates the loops, and a flat treatment then pays for them.
+
+The moral is Chapter~\ref{ch:giant}'s, sharpened: the tree-based calculation is
+not wrong, it is being applied to the wrong object. What is unusual about
+satisfiability is that here one gets to \emph{choose} the object, and the
+conventional choice is the bad one.
 
 \section{Where replica symmetry goes}
 \label{sec:sat-rsb}

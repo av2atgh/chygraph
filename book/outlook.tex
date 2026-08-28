@@ -40,7 +40,7 @@ chapter & the message is & the interior sum is & and one gets\\
   & the leaf-removal rule & $\ave{k}=e$, the core\\
 \ref{ch:colouring} & a distribution over $q$
   & a hard colour constraint & $\ave{k}=(q-1)^{2}$\\
-\ref{ch:satisfiability} & a warning
+\ref{ch:satisfiability} & a warning, at two levels
   & one forbidden assignment & $\alpha=1$ at $k=2$\\
 \ref{ch:overlap} & a function on a region
   & a region-graph enumeration & what the rest costs\\
@@ -65,6 +65,16 @@ evaluated at two points. So the two halves of the book are not two subjects
 sharing a method. Percolation came first because at $q=1$ the message is a
 probability and probabilities multiply, which is arithmetic a reader already
 has --- and for no deeper reason than that.
+
+Chapter~\ref{ch:satisfiability}'s row is the only one where a complex contains
+another complex, which is the freedom the definition was built for and the one
+the rest of the book barely uses. Section~\ref{sec:flatteningcost} measures what
+it is worth: a nested clause has a treelike three-level representation, its CNF
+flattening does not, and a flat treatment misplaces the transition by seven to
+twenty-two per cent. That the deficit is manufactured by the \emph{encoding}
+rather than found in the data is the sharpest form of
+Chapter~\ref{ch:giant}'s moral --- the tree calculation applied to the wrong
+object.
 
 And Chapter~\ref{ch:overlap}'s row is the one that breaks the pattern
 deliberately. Its message is a function on a region rather than a distribution

@@ -2,10 +2,13 @@
 
 Like Chapter 12 this has no manuscript behind it, so the calculations are here.
 
-  fig-sat   the warning-propagation map. At k = 2 the trivial fixed point loses
-            stability at alpha = 1, the exact 2-SAT threshold; at k >= 3 the
-            linearisation vanishes identically and the non-trivial branch
-            arrives by a fold instead.
+  fig-sat    the warning-propagation map. At k = 2 the trivial fixed point
+             loses stability at alpha = 1, the exact 2-SAT threshold; at k >= 3
+             the linearisation vanishes identically and the non-trivial branch
+             arrives by a fold instead.
+  fig-nested three levels: variables, clauses of variables, and clauses whose
+             members are variables *and* clauses. What flattening one to CNF
+             costs.
 
 Two of the three results are exact and convention-free, being linearisations:
 alpha = 1 at k = 2, and the vanishing of the derivative for k >= 3. The fold is
@@ -271,6 +274,143 @@ def figure_sat():
     print(f'  wrote {OUT / "fig-sat.pdf"}')
 
 
+# ---------------------------------------------------------------------------
+# three levels: a clause whose members are clauses
+# ---------------------------------------------------------------------------
+# Layer 0  variables.
+# Layer 1  C = OR of k1 literals -- a sub-expression, not a constraint.
+# Layer 2  D = (NOT C) OR (k2 variable literals), i.e. "if C holds then one of
+#          these k2 literals must".  The formula is the conjunction of the
+#          layer-2 clauses.  Each C is the antecedent of exactly one D, so
+#          alpha_1 = alpha_2 = alpha and a sub-clause is forced false exactly
+#          when its single parent says so.
+#
+# Warning propagation carries two kinds of warning where the flat problem has
+# one: eta, a layer-2 clause forcing a plain variable member, and mu, a layer-2
+# clause forcing its *sub-clause* member to be false -- which forces every one
+# of that sub-clause's k1 variables at once.  The system closes on pi.
+
+
+def nested_G(pi, k1, k2, alpha):
+    """One step of the three-level warning map, reduced to a scalar in ``pi``."""
+    pi = np.asarray(pi, float)
+    mu = delta = pi**k2                  # D warns its sub-clause; one parent
+    gamma = 1.0 - (1.0 - pi)**k1         # some member of C forced to satisfy it
+    eta = pi**(k2 - 1) * gamma           # D warns a plain variable member
+    lam = k2 * alpha * eta + k1 * alpha * delta
+    z = np.exp(-lam / 2.0)
+    return (1.0 - z) * z
+
+
+def _branch(f, n=400001, **kw):
+    p = np.linspace(1e-12, 1.0, n)
+    g = f(p, **kw) - p
+    s = np.where(np.diff(np.sign(g)) != 0)[0]
+    return float(p[s[-1]]) if len(s) else 0.0
+
+
+def _flat_G(pi, k, alpha):
+    """Flat k-SAT, in the same variable, for comparison."""
+    pi = np.asarray(pi, float)
+    lam = k * alpha * pi**(k - 1)
+    z = np.exp(-lam / 2.0)
+    return (1.0 - z) * z
+
+
+def _fold(f, key, lo=1e-4, hi=800.0, iters=60, n=60001, **kw):
+    for _ in range(iters):
+        m = 0.5 * (lo + hi)
+        if _branch(f, n=n, **{**kw, key: m}) > 1e-8:
+            hi = m
+        else:
+            lo = m
+    return hi
+
+
+def check_nested_reduces():
+    """k1 = 1 makes the middle layer a relay: the three-level system must be
+    the two-level one at k = k2 + 1, exactly."""
+    for k2 in (2, 3, 4):
+        for a in (4.0, 10.0, 30.0, 80.0):
+            n = _branch(nested_G, k1=1, k2=k2, alpha=a)
+            f = _branch(_flat_G, k=k2 + 1, alpha=a)
+            assert n == f, (k2, a, n, f)
+        print(f'  k2 = {k2}: identical to flat {k2+1}-SAT at every density tried')
+    print('    so the middle layer costs nothing when it holds nothing')
+
+
+def check_nested_flatten():
+    """What the CNF flattening costs, and where it starts costing it.
+
+    Distributing NOT C over the k2 plain literals gives k1 clauses of length
+    k2 + 1 that pairwise share those k2 literals.  At k2 = 1 they share one
+    variable and the factor graph is still a tree; at k2 >= 2 they share two or
+    more, which is exactly Sec. 14.1's condition for a chygraph to stop being
+    treelike.  The thresholds agree in the first case and not in the second.
+    """
+    print('  k2 = 1: the distributed clauses share one variable, still treelike')
+    for k1 in (2, 3, 4):
+        # both are linear at the origin; the condition is k1 alpha = 1
+        for d, want in ((0.99, 0.0), (1.01, None)):
+            a = d / k1
+            n = _branch(nested_G, k1=k1, k2=1, alpha=a)
+            f = _branch(_flat_G, k=2, alpha=k1 * a)
+            assert (n > 0) == (f > 0), (k1, d, n, f)
+        print(f'    k1 = {k1}: both thresholds at alpha = 1/k1 = {1/k1:.4f}')
+    print('  k2 >= 2: they share k2 >= 2 variables, and the folds part company')
+    print('     k1  k2   nested    flattened    flat/nested')
+    for k1 in (2, 3, 4):
+        for k2 in (2, 3):
+            fn = _fold(nested_G, 'alpha', k1=k1, k2=k2)
+            ff = _fold(_flat_G, 'alpha', k=k2 + 1) / k1
+            assert ff < fn, (k1, k2, fn, ff)
+            print(f'    {k1:>3} {k2:>3}   {fn:>7.4f}   {ff:>9.4f}   {ff/fn:>11.3f}')
+    print('    flattening moves the fold down by 7 to 22 per cent, and the gap')
+    print('    grows with k1 -- the size of the sub-clause, which is how much')
+    print('    correlation the flattening throws away')
+
+
+def figure_nested():
+    plt = _mpl()
+    fig, axes = plt.subplots(1, 2, figsize=(4.6, 2.5))
+
+    ax = axes[0]
+    al = np.linspace(0.05, 6.0, 200)
+    for k1, col in ((2, LIGHT), (3, MID), (4, DARK)):
+        ax.plot(al, [_branch(nested_G, n=40001, k1=k1, k2=2, alpha=a)
+                     for a in al], '-', lw=1.4, color=col, label=f'$k_1={k1}$')
+        ax.plot(al, [_branch(_flat_G, n=40001, k=3, alpha=k1 * a) for a in al],
+                '--', lw=1.0, color=col, dashes=(3, 2))
+    ax.set_xlabel(r'$\alpha$   ($k_2=2$)', fontsize=8.5)
+    ax.set_ylabel(r'forced fraction $\pi$', fontsize=8.5)
+    ax.legend(frameon=False, fontsize=7, loc='center right')
+    ax.annotate('dashed:\nflattened to CNF', xy=(0.15, 0.185), fontsize=6.4,
+                color='0.35')
+    _tidy(ax)
+
+    ax = axes[1]
+    ks = (2, 3, 4, 5)
+    for k2, col, mk in ((1, LIGHT, '^'), (2, MID, 's'), (3, DARK, 'o')):
+        r = []
+        for k1 in ks:
+            if k2 == 1:
+                r.append(1.0)          # thresholds identical, ratio exactly one
+            else:
+                fn = _fold(nested_G, 'alpha', k1=k1, k2=k2)
+                r.append(_fold(_flat_G, 'alpha', k=k2 + 1) / k1 / fn)
+        ax.plot(ks, r, mk + '-', ms=3.6, lw=1.3, color=col, label=f'$k_2={k2}$')
+    ax.axhline(1.0, ls=':', lw=0.8, color='0.6')
+    ax.set_xticks(ks)
+    ax.set_xlabel(r'sub-clause size $k_1$', fontsize=8.5)
+    ax.set_ylabel('flattened / nested', fontsize=8.5)
+    ax.legend(frameon=False, fontsize=7, loc='lower left')
+    _tidy(ax)
+
+    fig.tight_layout()
+    fig.savefig(OUT / 'fig-nested.pdf')
+    print(f'  wrote {OUT / "fig-nested.pdf"}')
+
+
 if __name__ == '__main__':
     print('the interior sum:')
     check_interior()
@@ -282,5 +422,10 @@ if __name__ == '__main__':
     check_fold_against_alpha_s()
     print('how much of that depends on the convention:')
     check_conventions()
-    print('figure:')
+    print('three levels, reduction check:')
+    check_nested_reduces()
+    print('three levels, what flattening costs:')
+    check_nested_flatten()
+    print('figures:')
     figure_sat()
+    figure_nested()
