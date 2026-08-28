@@ -178,6 +178,20 @@ that mapping does not have to be reconstructed.
   monotonically in `k1`. The agreement at `k2 = 1` is what makes (iii) evidence
   for (ii) rather than a coincidence: it is the rewired-control logic of
   Ch. 11 applied to an encoding instead of an ensemble.
+- **Sec. 14.6, merging overlapping complexes.** Not in any manuscript. The
+  obvious repair for Fig. 14.1 — merge two complexes that share 2+ atoms into
+  one meta-complex and enumerate its interior — is *correct*, and legal because
+  a complex may contain complexes. What decides it is cost, and **the merge
+  closure is itself a percolation problem** on the graph whose nodes are
+  complexes and whose links are shared pairs: affordable exactly while that
+  graph has no giant component. So the feasibility of a Part IV repair is a
+  Part II calculation. Measured on HRGs at `tau = 2.5`, the largest
+  meta-complex is bounded (~5 atoms, flat in `n`) only below `<k> ~ 0.4`, and
+  reaches 28% of all vertices at `<k> = 3`. Two details to keep if this is
+  edited: the closure must be **iterated** (two meta-complexes from disjoint
+  components can still share 2 atoms between their unions), and a merged
+  complex inherits every inclusion of its parts, which is what makes the
+  component grow.
 - **Sec. 14.5's convergence count differed from the retired supplement.** It
   said 9 of the 20 non-chordal GBP runs converge and 11 do not, with
   errors `1.4e-9`–`5.4e-3` against Möbius `0.48`–`1.1` and Bethe `0.32`–`22`.
@@ -384,6 +398,10 @@ two-triangle table, recomputed here since it is a four-spin enumeration; the
 60-instance summary from `../probe/results/gbp_cliques.json` with the
 convergence threshold stated; and the clique-ensemble paired ratio read from
 `../probe/results/analysis.txt`. Figure 14.1 is TikZ in `overlap.tex`.
+`figs/merge.py` generates Figure 14.3 and measures Sec. 14.6: the merge closure
+on hyperbolic random graphs. It generates the graphs and enumerates their
+maximal cliques, so it is the slowest script in the book — a few minutes at
+`n = 8000`.
 
 ## Conventions
 
