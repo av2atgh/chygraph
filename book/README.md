@@ -430,7 +430,15 @@ distribution over distributions rather than over a finite alphabet.
 anything but flat `k`-SAT and flat `q`-COL. The nested clauses of Secs. 13.6–13.7
 are the case with no flat counterpart, and running SP on the three-level chygraph
 against SP on its CNF flattening is the experiment the machinery was built for.
-It is not done.
+It was attempted and is **unresolved** — see `../probe/NESTED_SP.md` and
+`../probe/nested_sp.py`. Two of three parts work and are worth keeping: the
+cross-level message passing and the cluster counting both validate against the
+`k1 = 1` relay identity, each confirmed by clean `1/sqrt(N)` decay, the second
+establishing that a layer-1 sub-expression contributes no factor of its own. The
+third does not: the nested complexity appears discontinuously at a finite value
+and has no usable zero before the `delta` channel saturates, so there is a
+threshold on the flattened side and only a sign on the nested one. Nothing from
+it is in the book.
 
 ### Editorial review, addressed 2026-08-30
 
