@@ -373,6 +373,38 @@ Chs. 1, 4, 9, 15; the 77–100% HRG core in Chs. 11, 14, 15. (The last of these
 was *not* in fact consistent — see the 2026-08-30 pass below, which found Chs. 2
 and 3 quoting 65–83% for the same quantity.)
 
+### Set-valued SP for triangles: gate passed, application did not, 2026-08-30
+
+Attempted after Sec. 12.5, to get the *colourability* threshold of a
+triangle-clustered graph — which nobody has, Mulet being graphs and Gabrié
+hypergraphs. See `../probe/SETVALUED_SP.md` and `../probe/setvalued_sp.py`.
+
+**Validated at cardinality two.** Both a two-term and a three-term complexity
+form reproduce Mulet's `c_q` to better than 0.5% — 4.684, 8.863, 13.636 against
+4.69, 8.90, 13.69 — and agree with the scalar code committed in
+`figs/colouring.py` (4.683, 8.901, 13.660). So the set-valued survey, the
+intersection update and the complexity are all sound where they can be checked.
+
+**Produced nothing at cardinality three.** `Sigma` is negative from the moment
+the branch appears and never crosses. Two signs it is the implementation and not
+the physics: magnitudes of 0.1–0.8 where the validated `c = 2` case sits at
+0.01, and an ordering unlike the graph's (branch onset at degree ~3 against
+Sec. 12.5's RS line at 6, where for graphs onset/crossing/RS line sit within
+13%). The `c = 3` interior is the one piece the `c = 2` gate cannot check.
+
+**Sec. 12.7's statement is unaffected and remains the book's position:** the
+proper rule does not carry over and no substitution repairs it. Nothing
+committed depends on this work.
+
+**Two things in that file are worth reading before any similar attempt.** Five
+bugs are recorded, all caught by gates rather than by reading code, including a
+diagnosis that the next run disproved within a minute and a `c = 2`-only
+complexity form reused where it does not hold. And the gate note: **use
+`Sigma = 0`, not the branch onset.** A crossing can be bisected; a fold cannot,
+and both implementations locate `c_d` to only a few per cent while disagreeing
+with each other by more — which briefly looked like a 5% conflict between them
+and was not.
+
 ### Sec. 12.5, a graph with triangles, 2026-08-30
 
 Author's suggestion, and it holds --- with a bound on it that the section states
