@@ -223,6 +223,56 @@ def check_cardinality():
     print('    hypergraph: (q^(c-1)-1)^2, which runs away with c')
 
 
+def triangle_family(q, f, regular=True):
+    """Degree at which proper colouring loses RS stability, links + triangles.
+
+    Two regular layers at fixed degree ``n``: links of chy-degree ``a``,
+    triangles of chy-degree ``b``, ``n = a + 2b``, and ``f = 2b/n`` the fraction
+    of degree carried by triangles. Eq. (8.9) with ``u' -> tau^2``, and tau the
+    same for both layers because it does not depend on cardinality:
+
+        s[(a-1) + 2(b-1)] + 2 s^2 [ab - (a-1)(b-1)] = 1,   s = 1/(q-1)^2
+
+    which in terms of n and f is  s(n-3) + 2 s^2 [n(1-f/2) - 1] = 1.  Exact in
+    rational arithmetic. For Poisson layers kbar = kappa, the cross term
+    vanishes, and n = (q-1)^2 at every f.
+    """
+    s = F(1, (q - 1) ** 2)
+    if not regular:
+        return F(1) / s
+    return (1 + 3 * s + 2 * s * s) / (s + 2 * s * s * (1 - F(f, 2)))
+
+
+def check_triangles_at_fixed_degree():
+    """A triangle-clustered graph, and where the graph calculation goes wrong."""
+    print('     q   all links   all triangles   graph formula   (q-1)^2')
+    for q in (3, 4, 5, 6, 10):
+        lo = triangle_family(q, F(0))
+        hi = triangle_family(q, F(1))
+        t = (q - 1) ** 2
+        # the endpoints come out of the ONE mixed formula, no layer dropped
+        assert lo == t + 1 and hi == t + 2, (q, lo, hi)
+        # monotone in f
+        vals = [triangle_family(q, F(j, 8)) for j in range(9)]
+        assert all(x < y for x, y in zip(vals, vals[1:])), (q, vals)
+        print(f'  {q:>4}   {str(lo):>9}   {str(hi):>13}   {str(t+1):>13}   {t:>7}')
+    print('    The first and last columns are the same formula at f = 0 and')
+    print('    f = 1, with no layer dropped, so the cross term does exactly the')
+    print('    interpolating work. Read the middle two: on a network of')
+    print('    triangles the answer is (q-1)^2 + 2, while treating that same')
+    print('    object as a graph of the same degree gives (q-1)^2 + 1. The')
+    print('    graph calculation is wrong by one in degree, at every q, because')
+    print('    it adds the three edges of a triangle as though they were')
+    print('    independent when they close a loop.')
+    for q in (3, 4, 5):
+        assert triangle_family(q, F(0), regular=False) == (q - 1) ** 2
+        assert triangle_family(q, F(1), regular=False) == (q - 1) ** 2
+    print('    And the size of it: for POISSON layers kbar = kappa, the cross')
+    print('    term vanishes identically and there is no difference at any f.')
+    print('    The effect is the regular ensemble\'s lost branch and nothing')
+    print('    else -- the same one that separates (q-1)^2 from (q-1)^2 + 1.')
+
+
 # ---------------------------------------------------------------------------
 # survey propagation
 # ---------------------------------------------------------------------------
@@ -501,6 +551,8 @@ if __name__ == '__main__':
     check_not_the_colourability_threshold()
     print('cardinality:')
     check_cardinality()
+    print('a graph with triangles, at fixed degree:')
+    check_triangles_at_fixed_degree()
     print('survey propagation, against the colourability thresholds:')
     check_survey_thresholds()
     print('and the clustering threshold, as a by-product:')

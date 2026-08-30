@@ -25,7 +25,7 @@ language in the running text with the algebra boxed off.
 | 9 | `ising.tex` | **Drafted.** Ising on chygraphs; clustering lowers $T_c$; the AT line; the unanimity interaction |
 | 10 | `hittingset.tex` | **Drafted.** Hard fields, where they fail off the graph, soft fields, RSB |
 | 11 | `cover.tex` | **Drafted.** Vertex cover, leaf removal, core percolation; hyperbolic random graphs |
-| 12 | `colouring.tex` | **Drafted.** Proper against hypergraph colouring; `tau = -1/(q-1)` independent of cardinality; `(q-1)^2`; survey propagation, and what the rule costs above cardinality two |
+| 12 | `colouring.tex` | **Drafted.** Proper against hypergraph colouring; `tau = -1/(q-1)` independent of cardinality; `(q-1)^2`; a graph with triangles, where the graph calculation is wrong by one; survey propagation, and what the rule costs above cardinality two |
 | 13 | `satisfiability.tex` | **Drafted.** Clauses as complexes; `alpha = 1` exact at `k = 2`, no linear instability above it; **clauses whose members are clauses**, and what CNF flattening costs |
 | **IV** | | **Limits** |
 | 14 | `overlap.tex` | **Drafted.** The price of treelikeness; region graphs and GBP; what is open |
@@ -372,6 +372,41 @@ chapters agree — `u' = t/(1-t+t^2)` in Chs. 7, 8, 9; `-13.9%`/`-14.2%` in
 Chs. 1, 4, 9, 15; the 77–100% HRG core in Chs. 11, 14, 15. (The last of these
 was *not* in fact consistent — see the 2026-08-30 pass below, which found Chs. 2
 and 3 quoting 65–83% for the same quantity.)
+
+### Sec. 12.5, a graph with triangles, 2026-08-30
+
+Author's suggestion, and it holds --- with a bound on it that the section states
+rather than hides.
+
+**The claim.** For *proper* colouring a triangle-clustered graph is an ordinary
+graph: a triangle forbids exactly what its three edges already forbid. So the
+graph calculation applies to it, and gets it wrong. On a regular network where
+every vertex sits in `kappa` triangles, degree `n = 2 kappa`,
+
+    chygraph:  n = (q-1)^2 + 2        graph reading of the same object:  n = (q-1)^2 + 1
+
+off by one in degree at every `q`, because the graph calculation adds a vertex's
+neighbours as independent when two of them are adjacent inside each triangle.
+The chygraph puts that loop inside the interior sum, where it is exact.
+
+**The internal check.** Both lines are one formula at its two ends. Links and
+triangles together at fixed degree, with `f` the fraction of degree through
+triangles, give `s(n-3) + 2 s^2 [n(1-f/2) - 1] = 1`, Eq. (12.6), which returns
+`(q-1)^2 + 1` at `f = 0` and `(q-1)^2 + 2` at `f = 1` **exactly, in rational
+arithmetic, with no layer dropped**. The cross term does all the interpolating.
+
+**The bound, and it is the reason the section is worth having.** One in degree,
+and *only for regular ensembles*. For Poisson layers `kbar = kappa`, the cross
+term vanishes identically, and Eq. (12.6) returns `(q-1)^2` at every `f` --
+no difference at all. So this is **not** "clustering moves the colouring
+threshold". It is the regular ensemble's lost branch, the same one separating
+`(q-1)^2` from `(q-1)^2 + 1` in Sec. 12.3, arriving where it could be mistaken
+for physics. Set beside Ch. 9's 13.9% in `T_c` and Sec. 4.5's fifth of `q_c`,
+this is the third and least dramatic sign the book has taken on that comparison,
+and the section says so. **Do not restate it as a clustering effect.**
+
+`check_triangles_at_fixed_degree` asserts all three: the endpoints exactly,
+monotonicity in `f`, and the Poisson null. Any of the three breaking fails it.
 
 ### Colouring: what is ours and what is not, 2026-08-30
 
