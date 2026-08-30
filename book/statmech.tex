@@ -78,6 +78,7 @@ and they are of quite different character (Fig.~\ref{fig:twosteps}).
 
 \subsection{Up: a convolution}
 \label{sec:upstep}
+\index{convolution}
 
 On one realisation, what a node tells a complex it belongs to is the sum of
 what its \emph{other} complexes have told it:
@@ -98,6 +99,7 @@ that costs and Chapter~\ref{ch:overlap} pays it.
 
 \subsection{Down: an exact sum inside the complex}
 \label{sec:downstep}
+\index{interior sum|textbf}
 
 The other half is where percolation and statistical mechanics part company. For
 a complex holding $c$ members with internal energy $-\beta H(\sigma)$, the field
@@ -195,6 +197,7 @@ each message.}
 
 \section{The branching matrix}
 \label{sec:branching}
+\index{branching matrix|textbf}
 
 Now the transition. Linearise the up step about the trivial fixed point, where
 every field vanishes:
@@ -300,6 +303,7 @@ summary of a layer, and Eq.~\eqref{eq:sbaru} is the right one.
 
 \section{Structures}
 \label{sec:structures}
+\index{threshold tensor}
 
 Everything above is fixed once the layers, their cardinalities and the
 chy-degree distribution are given. Each specialisation below is
@@ -352,11 +356,13 @@ and so vanishes whenever both layers are Poisson, each being its own excess. It
 does not vanish for regular layers, where $\ave{\kbar}=\ave{\kappa}-1$ and the
 coefficient is $\ave{\kappa}_{|}+\ave{\kappa}_{\triangle}-1$. At
 $\ave{\kappa}_{|}=4$ and $\ave{\kappa}_{\triangle}=2$ that is $5$, and the two
-ensembles have $T_{c}=8.4256$ and $6.8801$. Most of that gap is the excess
-chy-degrees, a regular layer having $\ave{\kbar}=\ave{\kappa}-1$ where a Poisson
-one is its own excess. The cross term is the rest, and it is not a small
-correction: deleting it from the regular case moves $T_{c}$ from $6.8801$ to
-$5.2951$, a further $23$ per cent. It is one term, and it is easy to drop.
+ensembles have $T_{c}=8.4256$ and $6.8801$. The gap of $1.55$ between them is a
+residue and not a sum. The excess chy-degrees alone --- a regular layer having
+$\ave{\kbar}=\ave{\kappa}-1$ where a Poisson one is its own excess --- would
+take $8.4256$ down to $5.2951$; the cross term carries it back up by $1.58$, and
+what survives is the difference. So deleting that one term from the regular case
+moves $T_{c}$ by $23$ per cent, more than the whole distance between the two
+ensembles it is a correction to. It is one term, and it is easy to drop.
 
 \emph{Correlated layers} are Sec.~\ref{sec:joint} unchanged: replace the
 marginals by a joint $\Phi$ and $\ave{\kbar}$ by the inclusion-biased second
@@ -420,6 +426,7 @@ Chapter~\ref{ch:hittingset} turns on it.
 
 \section{Free energy}
 \label{sec:freeenergy}
+\index{Bethe free energy|textbf}
 
 A linear instability locates a transition only when the transition is
 continuous. Chapter~\ref{ch:potts} met that limit at $q>2$,
@@ -461,6 +468,7 @@ diagnose the failure rather than merely observe it.
 
 \section{What the scheme assumes}
 \label{sec:assumes}
+\index{replica symmetry breaking}
 
 Three assumptions, of quite different weights.
 

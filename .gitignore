@@ -26,6 +26,9 @@ dist/
 *.fls
 *.fdb_latexmk
 *.synctex.gz
+*.idx
+*.ilg
+*.ind
 mainNotes.bib
 supplementNotes.bib
 

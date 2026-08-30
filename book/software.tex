@@ -72,7 +72,7 @@ And the routine that returns a critical coupling \emph{refuses} the unanimity
 interaction and directs the caller to the spinodal instead. For that model the
 transition is usually discontinuous, and returning a spinodal under the name of
 a critical coupling would be wrong by ten to fifty per cent, as
-Sec.~\ref{sec:unanimity} shows. A function that cannot be used incorrectly is
+Sec.~\ref{sec:unanimity} shows. A function that cannot be used incorrectly
 does more than a note in its documentation would.
 
 \section*{Equation to method}
@@ -117,6 +117,7 @@ Eq. & what it is & evaluated by & checked in\\
 \eqref{eq:qc3} & identical marginals, three thresholds & \code{joint.\allowbreak JointGiantComponent} & \code{figs/\allowbreak beyond\_\allowbreak threshold.\allowbreak py}\\
 \eqref{eq:andor} & AND- against OR-logic & \code{applications.\allowbreak and\_\allowbreak or\_\allowbreak hypergraph} & \code{test\_\allowbreak applications}\\
 \eqref{eq:stc} & triadic closure & \code{applications.\allowbreak stc\_\allowbreak percolation} & \code{test\_\allowbreak applications}\\
+\eqref{eq:stcthresh} & its threshold, against Cirigliano & \code{applications.\allowbreak stc\_\allowbreak percolation} & \code{test\_\allowbreak applications}\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:epidemics}, epidemics}}\\
 \eqref{eq:Kn} & the household outbreak & \code{applications.\allowbreak clique\_\allowbreak excess\_\allowbreak pgf} & \code{figs/\allowbreak epidemics.\allowbreak py}\\
 \eqref{eq:Rstar} & the household $R^{*}$ & \code{applications.\allowbreak household\_\allowbreak epidemic} & \code{figs/\allowbreak epidemics.\allowbreak py}\\
@@ -127,6 +128,7 @@ Eq. & what it is & evaluated by & checked in\\
 \eqref{eq:tau2} & the link transmission & \code{figs/\allowbreak potts.\allowbreak py:\allowbreak transmission} & same file\\
 \eqref{eq:tau3} & the triangle transmission & \code{figs/\allowbreak potts.\allowbreak py:\allowbreak transmission} & same file\\
 \eqref{eq:branchcond} & one layer, both thresholds & \code{figs/\allowbreak potts.\allowbreak py:\allowbreak check\allowbreak \_thresholds} & same file\\
+\eqref{eq:fold} & the ordered spinodal & \code{figs/\allowbreak potts.\allowbreak py:\allowbreak check\_\allowbreak transition\_\allowbreak point} & same file\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:statmech}, the general theory}}\\
 \eqref{eq:conv} & a generating function on a measure & \code{population.\allowbreak CavityPopulation.\allowbreak sweep} & \code{test\_\allowbreak population}\\
 \eqref{eq:ensemblemap} & the ensemble map & \code{population.\allowbreak CavityPopulation.\allowbreak sweep} & \code{test\_\allowbreak population}\\

@@ -1,8 +1,6 @@
 \chapter{Statistical physics on networks}
 \label{ch:introduction}
-
-\setcounter{page}{1}
-\pagenumbering{arabic}
+\index{branching process}
 
 Nothing in this chapter is new. Everything in it is used later, and the order is
 the order the book will need it in. A reader who already knows what a
@@ -18,6 +16,11 @@ Chapter~\ref{ch:chygraphs} is designed to solve.
 
 \section{Networks, and what we put on them}
 \label{sec:networks}
+\index{degree distribution}
+\index{excess degree|textbf}
+\index{clustering coefficient|textbf}
+\index{configuration model|textbf}
+\index{generating function|textbf}
 
 A \emph{network}, or graph, is a set of things together with a record of which
 pairs of them are joined. The things are drawn as dots and called \emph{nodes};
@@ -134,6 +137,9 @@ is the one this chapter is about.
 
 \section{Percolation}
 \label{sec:percolation-intro}
+\index{percolation!on a graph}
+\index{Molloy--Reed criterion|textbf}
+\index{giant component}
 
 Take a network and destroy it slowly. Keep each link with probability $p$ and
 delete it otherwise. For small $p$ what remains is a scatter of small fragments.
@@ -156,7 +162,8 @@ giant component exists. The threshold is
   p_{c}=\frac{\ave{k}}{\ave{k^{2}}-\ave{k}},
   \label{eq:molloyreed}
 \end{equation}
-which is the Molloy--Reed criterion \citep{molloy1995}. For a Poisson network,
+which is the Molloy--Reed criterion \citep{molloy1995}. The generating-function
+apparatus behind it is due to \citet{newman2001random}. For a Poisson network,
 $\ave{\bar k}=\ave{k}$ and the giant component appears at mean degree one. For a
 scale-free network with $\ave{k^{2}}$ divergent, $p_{c}=0$: such networks cannot
 be broken by random deletion at all.
@@ -263,6 +270,7 @@ visible.
 
 \subsection{The Ising model}
 \label{sec:ising-intro}
+\index{Ising model|textbf}
 
 Put a variable $\sigma_{i}=\pm1$ on every node --- historically a magnetic
 moment pointing up or down --- and let neighbouring nodes prefer to agree:
@@ -295,8 +303,19 @@ are the same branching process counted with a different weight. That is not a
 coincidence and it is not a metaphor; Chapter~\ref{ch:potts} shows the two are
 literally the same model at two values of one parameter.
 
+Equation~\eqref{eq:tc-intro} is exact on a random graph with any degree
+distribution, and the same replica calculation returns the critical exponents
+from the moments of $p(k)$ \citep{leone2002}. The parallel with percolation
+survives into the pathologies: where $\ave{k^{2}}$ diverges $\ave{\bar k}$ is
+infinite, Eq.~\eqref{eq:tc-intro} has no finite root and the system is ordered
+at every temperature, which is the counterpart of $p_{c}=0$ above; where
+$\ave{k^{2}}$ is finite but $\ave{k^{4}}$ is not, $T_{c}$ is finite and the
+exponents are not the mean-field ones.
+
 \subsection{Vertex cover}
 \label{sec:cover-intro}
+\index{vertex cover|textbf}
+\index{NP-hardness}
 
 Now a problem with no temperature in it at all. A \emph{vertex cover} of a graph
 is a set of nodes such that every link has at least one endpoint in the set ---
@@ -337,6 +356,7 @@ Chapter~\ref{ch:hittingset}.
 
 \subsection{The hitting set problem}
 \label{sec:hs-intro}
+\index{hitting set problem|textbf}
 
 Vertex cover generalises in the obvious direction. Instead of links --- sets of
 two nodes --- take a family of sets of any size, and ask for the smallest
@@ -431,6 +451,7 @@ is $1/3$.
 
 \section{Mean field}
 \label{sec:meanfield}
+\index{mean-field theory|textbf}
 
 The oldest way to solve a model like Eq.~\eqref{eq:ising-intro} is to assume
 each spin feels not its neighbours but their average. Replace
@@ -465,6 +486,10 @@ number becomes a message, and then a distribution of messages.
 
 \section{The cavity method}
 \label{sec:cavity}
+\index{cavity method|textbf}
+\index{belief propagation|textbf}
+\index{Bethe--Peierls approximation|textbf}
+\index{message passing}
 
 Here is the idea that the whole book rests on, and it is a geometric idea before
 it is a calculation.
@@ -494,7 +519,8 @@ function that says how much of a bias survives one link. This is the
 \emph{cavity recursion}. Under other names it is the Bethe--Peierls
 approximation \citep{bethe1935} and \emph{belief propagation}
 \citep{yedidia2005}; they are the same equations arrived at by physicists,
-statisticians and computer scientists independently.
+statisticians and computer scientists independently; \citet{mezard2009} set the
+three vocabularies side by side.
 
 \begin{figure}[t]
 \centering
@@ -598,6 +624,8 @@ book.
 
 \section{Replicas, and when the answer is wrong}
 \label{sec:replicas}
+\index{replica symmetry breaking|textbf}
+\index{de Almeida--Thouless line}
 
 The cavity method as just described contains an assumption that is easy to miss.
 In writing a single distribution $P(h)$ and asking it to be self-consistent, one
@@ -643,6 +671,9 @@ in hand is wrong. This book flags every place they fire.
 
 \section{The tree assumption, and why real networks break it}
 \label{sec:treebreaks}
+\index{tree assumption|textbf}
+\index{treelike}
+\index{clustering!and the tree assumption}
 
 Now the argument this chapter exists to make.
 

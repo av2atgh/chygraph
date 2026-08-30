@@ -3,7 +3,7 @@
 
 Chapter~\ref{ch:chygraphs} defined an object. This chapter asks where one gets
 hold of it. There are exactly two routes, they behave very differently, and
-which one you are on decides in advance how well the theory of the next nine
+which one you are on decides in advance how well the theory of the next ten
 chapters will work on your data, so it comes before the theory rather than
 after.
 
@@ -130,6 +130,7 @@ what is left after the grouping has been thrown away.}
 
 \section{Reading the layers off group data}
 \label{sec:layers-data}
+\index{group data}
 
 When the groups are given, building the chygraph is bookkeeping, and there are
 three decisions to make.
@@ -167,6 +168,9 @@ the groups.
 
 \section{Promoting the cliques of a real graph}
 \label{sec:promoting}
+\index{clique promotion|textbf}
+\index{configuration model}
+\index{clustering!manufactured by a null model}
 
 Now the other route. You have a graph and want a chygraph. The recipe of
 Sec.~\ref{sec:everything} says to promote the dense motifs, and with no
@@ -236,7 +240,7 @@ $1.01$ and $1.26$ --- within a quarter of the clustering-free reference --- and
 at $\mathrm{shared}_{2+}$ between $0.000$ and $0.022$. Fewer than one
 intersecting clique pair in forty-five shares an edge. For these networks the
 chygraph of maximal cliques is treelike for practical purposes, and the theory
-of the next nine chapters applies to them essentially without correction. That
+of the next ten chapters applies to them essentially without correction. That
 is a better result than the framing of Sec.~\ref{sec:treelike} would have led
 one to expect: the obstruction that
 Chapter~\ref{ch:overlap} is about is not a generic obstruction. It is specific,
@@ -302,11 +306,12 @@ Chapter~\ref{ch:cover} that the whole programme rests on. \emph{Degree-matched}
 does not mean \emph{unclustered}. On a heavy-tailed degree sequence the null
 model manufactures clustering, and a comparison that reads a difference between
 network and control as ``the effect of clustering'' is only valid once one has
-checked how much clustering the control has. Section~\ref{sec:hrg} is careful
+checked how much clustering the control has. Section~\ref{sec:hrg-data} is careful
 about this for exactly this reason.
 
 \section{Hyperbolic random graphs}
-\label{sec:hrg}
+\label{sec:hrg-data}
+\index{hyperbolic random graph|textbf}
 
 The real networks of Table~\ref{tab:real} have one drawback as a test bed: their
 clustering is whatever it is, and cannot be turned. For the quantitative work of
@@ -340,9 +345,11 @@ $4.5$ & flat & $\to1.00$ & $2.93$--$5.06$ & flat\\
 the excess cardinality $\bar s$ with $n$, over $n=10^{3}$ to $3\times10^{5}$,
 for hyperbolic random graphs and their degree-matched controls. The paired ratio
 is taken at identical degree sequence and seed, so $P(k)$ and assortativity are
-held fixed and clustering is the only difference. $\theta$ is used for
-structural exponents throughout, $\beta$ being reserved for the inverse
-temperature.}
+held fixed and clustering is the only difference. The same letter serves the
+core exponent of Chapter~\ref{ch:cover}, but in
+Chapters~\ref{ch:percolation} and~\ref{ch:giant} $\theta$ is the threshold
+determinant and $\beta$ the order parameter exponent, while in Part~III $\beta$
+is the inverse temperature.}
 \label{tab:ensemble}
 \end{table}
 
@@ -376,17 +383,18 @@ ninefold range in the exponent.
 
 \section{How much overlap, and what it buys}
 \label{sec:overlap-data}
+\index{overlap!between complexes}
 
 The single number to take away from this chapter is $\mathrm{shared}_{2+}$,
 because it is an advance warning. It costs a clique enumeration to compute, it
-requires no theory at all, and it says how much of the answer the next nine
+requires no theory at all, and it says how much of the answer the next ten
 chapters can be expected to get.
 
-At $\mathrm{shared}_{2+}\lesssim0.02$ --- eight of the ten networks of
+At $\mathrm{shared}_{2+}\lesssim0.02$ --- nine of the ten networks of
 Table~\ref{tab:real} --- the chygraph is treelike for practical purposes and the
 theory should be quantitative. On hyperbolic random graphs, where the maximal
 cliques share edges as a matter of course, it is not: there
-Chapter~\ref{ch:overlap} measures the chygraph recovering between $65$ and $83$
+Chapter~\ref{ch:overlap} measures the chygraph recovering between $77$ and $100$
 per cent of the leaf-removal core, with the deficit largest at intermediate
 density, where overlap is largest, and vanishing at both ends --- when the graph
 is sparse enough that cliques rarely meet, and when it is dense enough that
@@ -396,6 +404,7 @@ one should be going back for the purifications.
 
 \section{Sampling from an ensemble}
 \label{sec:sampling}
+\index{random chygraph}
 
 The last thing this chapter owes the rest of the book is a way of generating
 chygraphs to order, since every analytical result in
@@ -415,7 +424,7 @@ That last clause is why simulation agreement is a weaker test than it looks. A r
 satisfies the treelike condition by construction, so a Monte Carlo check on it
 tests the recursion and \emph{not} the assumption that the recursion rests on.
 Testing the assumption needs an object whose complexes really do overlap, which
-is what the hyperbolic random graphs of Sec.~\ref{sec:hrg} and the rewired
+is what the hyperbolic random graphs of Sec.~\ref{sec:hrg-data} and the rewired
 control of Chapter~\ref{ch:cover} are for. Both kinds of check appear throughout
 the book and they answer different questions; I have tried to say which is which
 at each point.

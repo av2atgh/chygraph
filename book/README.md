@@ -39,8 +39,10 @@ the references are under `~/Downloads/chygraph_references/`.
 
 ## Status
 
-Last updated 2026-08-28. `main.pdf` builds clean: **214 pages, 0 errors, 0
-undefined references, 0 overfull boxes.**
+Last updated 2026-08-30. `main.pdf` builds clean: **224 pages, 0 errors, 0
+undefined references, 0 multiply-defined labels, 0 overfull boxes, 0 underfull
+vboxes.** 41 figures, 17 numbered tables, 23 calculation boxes, 100 numbered
+equations, 69 references, an 82-term index.
 
 **The book is drafted end to end.** Preface, the software chapter, and fifteen
 numbered chapters, all with prose, figures and checks.
@@ -59,10 +61,10 @@ The remaining work is revision, not drafting:
 
 | | what |
 |---|---|
-| 1 | ~~A read-through for continuity~~ — a mechanical consistency pass and a language pass were both done 2026-08-28 (see below). What neither could do is judge the argument: nobody has yet *read* 1–15 end to end for whether it persuades. |
+| 1 | ~~A read-through for continuity~~ — mechanical consistency passes were done 2026-08-28 and 2026-08-30, and a language pass 2026-08-28 (see below). What none of them could do is judge the argument: nobody has yet *read* 1–15 end to end for whether it persuades. |
 | 2 | ~~Fix the manuscripts~~ — **done by deletion.** The three errors the book found (the tricritical cardinality, the GBP convergence count, the Ch. 5 arithmetic slip) were in `main.tex`/`supplement.tex`, which no longer exist. The book carries the corrected values and says so; the entries below are kept as a record of what was wrong, in case either file is ever resurrected from git. |
 | 3 | **Chs. 12 and 13 are the only chapters whose results are not backed by a manuscript.** If either is to be published separately, the calculations in `figs/colouring.py` and `figs/satisfiability.py` are the starting point. |
-| 4 | Front matter: the dedication is still `\itshape Dedication to come.` in `main.tex`. |
+| 4 | **Front matter: the dedication is still `\itshape Dedication to come.` in `main.tex`, and it prints.** The editorial review calls this a blocker. It needs the author's words; nothing else about the front matter is now outstanding. |
 | 5 | **Make the repositories public.** `software.tex` prints both URLs as if they resolve; `chygraph_statmech` is still private. This is `../TODO.md` item 3 and now blocks the book as well as the manuscript. |
 
 Each chapter's `\include` in `main.tex` carries a comment naming its sources, so
@@ -127,7 +129,9 @@ that mapping does not have to be reconstructed.
   chapter also records that above `q = 2` the transition is first order, so the
   linear condition is a spinodal. The chapter gives all three points of the
   coexistence window: the disordered spinodal `v_c = q`, the fold (ordered
-  spinodal) at exactly `2 sqrt(q-1)`, and the transition itself, from a Bethe
+  spinodal) at exactly `2 sqrt(q-1)` — **Eq. (7.11)** since 2026-08-30, proved by
+  eliminating the message between the fixed-point equation and its derivative,
+  which leaves `v^2 - 4q + 4 = 0` — and the transition itself, from a Bethe
   free-energy crossing between them (`figs/potts.py:check_transition_point`).
   `v_c` overstates the **transition** by 5.1 / 11.9 / 22.8% at `q = 3 / 4 / 6`;
   the window is wider, 5.7 / 13.4 / 25.5%. Quote the first set --- the second
@@ -363,7 +367,208 @@ Checked and clean: terminology (no variant spellings of chy-degree, treelike,
 hyperedge, higher-order), all `\ref`/`\eqref` resolve, no figure declared
 without a file or present without a use, and the numbers repeated across
 chapters agree — `u' = t/(1-t+t^2)` in Chs. 7, 8, 9; `-13.9%`/`-14.2%` in
-Chs. 1, 4, 9, 15; the 77–100% HRG core in Chs. 11, 14, 15.
+Chs. 1, 4, 9, 15; the 77–100% HRG core in Chs. 11, 14, 15. (The last of these
+was *not* in fact consistent — see the 2026-08-30 pass below, which found Chs. 2
+and 3 quoting 65–83% for the same quantity.)
+
+### Editorial review, addressed 2026-08-30
+
+`~/Downloads/chygraph_statmech_review.md` — an external editorial review of the
+214-page build. Its verdict was accept-subject-to-revision, with the revisions
+"almost entirely apparatus and production, not science"; it independently
+re-derived about thirty of the book's analytical results and found no errors.
+Every one of its line-specific claims that I checked was accurate, including a
+third "next nine chapters" in `data.tex:6` that the consistency pass above had
+missed. What was done:
+
+**Front matter (its §3.2–3.5).**
+- `\date{}` added. `\maketitle` had no date, so the title page was printing the
+  LaTeX run date and changing it on every build.
+- `\frontmatter` / `\mainmatter` / `\backmatter` added, and
+  `\pagenumbering{gobble}` plus `introduction.tex`'s `\setcounter{page}{1}`
+  removed — those two did the same job and would now fight. The preface, the
+  software chapter and its Table 1 have roman page numbers and appear in the
+  contents with them; Part I starts arabic 1.
+- **An index**, `makeidx` plus 116 `\index` entries giving 82 terms, with the
+  defining page in bold. Entries sit immediately after the `\label` of the
+  section that owns them, so they move with the text. The `theindex`
+  environment is redefined to one ragged-right column: the class default is two,
+  which on a 5-inch page leaves ~1.7in of measure and produced five overfull
+  lines on entries like "Fortuin--Kasteleyn correspondence".
+- **A Notation chapter** (`notation.tex`), the review's §4.1: three tables —
+  the structural symbols, the ten letters that carry more than one meaning with
+  the chapters each meaning is in force in, and the chapter-local letters.
+
+**Ch. 11's two symbol collisions (§4.1).** `\kappa` was the chy-degree
+everywhere in the book *and* the "complex forces the entering node out"
+probability in Eq. (11.4), which also contains `\bar\Phi`; `\lambda` was
+Ch. 5's Perron root and Ch. 11's leaf-ready probability, including in a
+displayed threshold condition. Renamed to `\xi` and `\psi` (neither was used
+anywhere in the book), with a sentence saying that Ref. [liu2012] writes them
+the other way.
+
+**The nine orphan result tables (§4.2)** are now numbered floats with captions,
+each with a pointer from the prose: Tables 6.1, 7.1, 9.1, 9.2, 12.1, 13.1,
+13.2, 14.1, 14.2. The `-13.9%` clustering result is Table 9.2. Captions are
+written to stand alone, since a float can drift from the paragraph that reads
+its rows aloud.
+
+**Bibliography (§4.4).** All twelve incomplete entries fixed, with nothing
+invented — four resolved from the PDFs under `~/Downloads/chygraph_references/`,
+three looked up against the published record, four were simply the wrong BibTeX
+type. Three corrections are substantive and worth knowing about:
+- **`cirigliano2025` had the wrong title.** The bib said "Percolation on
+  clustered networks with static triadic closure"; the paper the book actually
+  uses, and has on disk, is *How universal is the mean-field universality class
+  for percolation in complex networks?*, arXiv:2506.17175.
+- **`ha2025` had the wrong title.** Published as *Connected components in
+  networks with higher-order interactions*, J. Phys. Complex. **6**, 045006.
+- **`fujiki2024` is a 2018 paper** — Phys. Rev. E **97**, 062308. Key renamed
+  `fujiki2018` and the one citation updated.
+- `keating2026` had no identifier at all; it is arXiv:2511.15688, whose abstract
+  says "Group effects alone, without long cycles, produce standard continuous
+  phase transitions" — exactly what Sec. 5.4 attributes to it. Title corrected
+  to *Loops, not groups*.
+- `karp1972` was an `@article` carrying both `booktitle` and `journal`; it is an
+  `@incollection`. `bianconi2021` was an `@article` whose journal was its
+  publisher; it is a `@book`. `joslyn2017` and `leicht2009` had arXiv numbers in
+  the `journal` field; both are `@misc` with the identifier in `note`.
+- Left alone deliberately: `bianconi2017` and `montanari2008` have no volume
+  because J. Stat. Mech. cites by article ID (034001, P04004), and `son2026` has
+  no volume or pages because it is genuinely in press — its DOI is now recorded.
+
+**The three substantive points (§4.5).**
+- **Ch. 5's `5/3`.** The box said the published coefficient "should be 5/3" and
+  then displayed `5q(1-q)^2`, so a reader could not check the correction. Both
+  are right: 5/3 is the mean component size in the one-bond configuration (the
+  three members sit in components of sizes 2, 2, 1) and 5/3 x 3q(1-q)^2 =
+  5q(1-q)^2. The box now shows the uncollapsed form and says where the 5/3 comes
+  from. **Still open for the author: whether an erratum has been filed against
+  `vazquez2024comnet`.**
+- **Ch. 7's percentages** are a fraction of `v_c`, not of the transition. The
+  text now says so and gives the other normalisation (5.4 / 29.5% at q = 3 / 6)
+  so the convention cannot be misread. Unchanged otherwise — see the decision
+  above to quote the `v_c`-normalised set.
+- **The merge table's `<k> = 1.5` row** decreases from n = 2000 to n = 4000 while
+  labelled "grows". Text and caption now say that three seeds do not separate
+  trend from scatter at that density and that the classification rests on the
+  slope against n in Fig. 14.3, not on those three entries.
+
+**Copy-editing (§7).** `software.tex`'s "is does"; the Outlook's "Thirteen
+chapters" (it is Chapter 15, so fourteen precede it); `data.tex:6`'s third
+"next nine chapters"; `chygraphs.tex`'s `Sec.~\ref{ch:giant}` (a chapter label
+behind "Sec.", the book's only cross-reference type mismatch, now pointed at
+`sec:joint` which is what the sentence means); `main.tex`'s "fourteen chapters"
+comment; the orphan `figs/cl-1.png`. The preface now credits Ch. 2 as well as
+Part II to the two papers, which the review noted. The ~50 unused `\label`s were
+left as they are — they are defensive and harmless.
+
+**Not done, and why.**
+1. **`chygraph_statmech` is still private** — the review's one hard blocker, and
+   `../TODO.md` item 3. `software.tex` prints the URL as if it resolves and the
+   preface stakes the reproducibility claim on it. This needs the author: either
+   make the repository public or rewrite the software chapter and preface.
+2. **The dedication placeholder still prints.** It needs the author's words.
+3. **No list of figures, list of tables, half-title, copyright/CIP page,
+   acknowledgements or data-availability statement.** CIP and copyright are the
+   publisher's. A list of figures and tables would contradict the standing
+   decision that the contents lists parts and chapters only; that is the
+   author's call to reopen.
+4. **Chs. 12 and 13 have not been refereed** (§4.3). Informational; the review
+   suggests routing them to a specialist referee.
+
+### Consistency pass, 2026-08-30
+
+A second mechanical pass over the whole book, run after the technical-correctness
+pass. Everything below was found and fixed.
+
+- **`sec:hrg` was defined twice** — Sec. 3.4 and Sec. 11.6 are both called
+  "Hyperbolic random graphs" and both carried the label, so LaTeX resolved all
+  seven references to the later one. The two references in `data.tex` that meant
+  their own Sec. 3.4 printed **"Section 11.6"**. Ch. 3's copy is now
+  `sec:hrg-data`; the five references that really do mean 11.6 are unchanged.
+  Note that `main.log`'s `multiply defined` warning is **not** caught by the
+  build recipe's `grep -i undefined` — the verify block above now checks for it.
+- **The core-recovery headline was quoted at two values.** Chs. 11, 14 and 15
+  said the chygraph accounts for **77–100%** of the leaf-removal core; Chs. 2 and
+  3 said **65–83%** for the same quantity. Recomputed from
+  `probe/results/prediction4.csv`, the per-seed ratios are 0.77–1.00 at
+  `tau = 2.9`, 0.64–0.85 at `tau = 2.5` and 0.68–1.45 at `tau = 2.1` (excluded as
+  uninformative by Sec. 3.4). So 77–100 is the `tau = 2.9` slice — which is what
+  `figs/cover.py:check_hrg` prints, it hard-codes `tau - 2.9` — and 65–83 is
+  roughly the `tau = 2.5` slice. **Standardised on 77–100 everywhere.** Live
+  caveat: no site states the `tau`, and over both informative rows the range is
+  64–100%. If that scoping is ever tightened, five places carry the number —
+  `chygraphs.tex`, `data.tex`, `cover.tex`, `overlap.tex`, `outlook.tex`.
+- **Ch. 8 decomposed the null-model gap the wrong way.** It said "Most of that
+  gap is the excess chy-degrees ... The cross term is the rest ... a *further* 23
+  per cent". The two effects oppose. Poisson 8.4256, regular 6.8801, regular
+  without the cross term 5.2951: the gap is 1.55, the cross term alone is 1.58
+  and it pushes *back up*, so the excess-degree change is 203% of the gap and
+  the cross term −103% of it. The individual numbers and the 23% were right;
+  only the framing was wrong. Rewritten to say the gap is a residue, not a sum.
+- **Ch. 9 undercounted the "name what is held fixed" thread** — "three times
+  already" where the Outlook counts five with Ch. 9 as the fifth. Sec. 5.5's
+  identical-marginals demonstration was the one dropped. Now "four times".
+- **`data.tex` said "eight of the ten networks"** at `shared_2+ <~ 0.02`.
+  Table 3.2 has seven at `<= 0.020` and nine at `<= 0.022` (Vidal and Figeys both
+  sit at 0.022); the paragraph three pages earlier puts nine in the group. Now
+  nine.
+- **Two chapter counts stopped one short of Ch. 13.** `chygraphs.tex`'s "the next
+  ten chapters" (from Ch. 2) and `data.tex`'s "the next nine chapters" (from
+  Ch. 3, twice) both reached only Ch. 12, though both sentences contrast the span
+  with Ch. 14 as the obstruction. Now eleven and ten.
+- **The preface had an ungrammatical sentence**, introduced in commit `e29852d`
+  and never caught: "And once a complex is allowed to hold other complexes rather
+  than only nodes, formulas that no flat encoding can hold without damage." No
+  verb. Repaired, and satisfiability added to the list of models in the same
+  sentence, which had omitted it.
+- **Table 3.3's caption stated a notation convention the book breaks twice.** It
+  said "`theta` is used for structural exponents throughout, `beta` being reserved
+  for the inverse temperature." Ch. 5 uses `beta` for the order parameter exponent
+  four times, and `theta` in Chs. 4–5 is the threshold determinant, not an
+  exponent. The caption now says which letter means what where, rather than
+  claiming a convention that does not hold.
+- **Eq. (5.18) was missing from the software table**, whose caption is "every
+  computed equation". It is a closed-form threshold checked against Cirigliano's
+  exact result by `test_stc_threshold_is_cirigliano_eq12`, and it was the only
+  `\label{eq:` added by the technical-correctness pass. Added, in numeric order.
+- **`mezard2009` and `newman2001random` were in the bibliography and never
+  cited**, though `main.tex`'s `\include` comment names both as the
+  introduction's textbook background. Both now cited in Ch. 1 — Newman, Strogatz
+  and Watts at the Molloy–Reed criterion, Mézard and Montanari at the cavity
+  recursion.
+- **Ch. 1 now cites Leone, Vázquez, Vespignani and Zecchina**, *Eur. Phys. J. B*
+  **28**, 191 (2002), at the end of Sec. 1.3.1 — the exact Ising `T_c` and
+  critical exponents on a random graph with arbitrary degree distribution. Added
+  because Eq. (1.5) was stated with no source, and because the paper's divergent
+  `<k^2>` case (ordered at every temperature) is the exact counterpart of the
+  `p_c = 0` the chapter states for percolation two pages earlier, which is the
+  parallel Sec. 1.3.1 is built on. PDF under `~/Downloads/chygraph_references/`.
+- **Ch. 7 now states the fold in closed form.** The README already claimed the
+  chapter gave the ordered spinodal "at exactly `2 sqrt(q-1)`"; it gave only the
+  four numbers. The closed form is now **Eq. (7.11)**, proved by taking the
+  resultant of the fixed-point equation and its derivative, which factors as
+  `v^2 (q-1)^2 (q-v)^2 (q+v)^2 (v^2 - 4q + 4)` — the `(q-v)^2` factor being the
+  disordered spinodal and `v^2 - 4q + 4` the fold. Verified numerically to
+  1e-10 at `q = 2, 3, 4, 5, 6, 8, 10, 16`.
+
+Software-table coverage is now **72 of 100** equation labels (was 70 of 98), the
+remaining 28 being definitional or introductory.
+
+Checked and clean this pass: all 223 `\ref`/`\eqref` resolve, no duplicate
+labels of any kind, every one of the 49 figures and tables referenced in the
+prose, all 20 `\includegraphics` files present with no orphan PDFs in `figs/`,
+all 93 `\code` names in `software.tex` resolving across both repositories
+(`joint.JointGiantComponent` is an alias at `chygraph/src/chygraph/joint.py:237`,
+not a `def`, so a naive resolver will report it missing), no hardcoded internal
+cross-reference numbers anywhere in the prose, terminology still single-valued,
+and the remaining repeated numbers agreeing across chapters — `u'` in Chs. 7/8/9,
+−13.9%/−14.2% in Chs. 1/4/9/15, `q_c` 1/3 → 0.4030 in Chs. 4/15, `T_c`
+0.2500 → 0.2929 in Chs. 6/15, 5.1–22.8% in Chs. 7/15, six-of-twenty GBP
+non-convergence in Chs. 14/15, the tricritical boundary, and the `(q-1)^2`
+colouring thresholds. The three running counts in Secs. 7.4, 9.6 and 13.4 are
+correct as running counts, and Secs. 5.4 and 6.4 remain aligned on continuity.
 
 ### Language pass, 2026-08-28
 

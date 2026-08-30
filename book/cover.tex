@@ -1,5 +1,6 @@
 \chapter{Vertex cover and core percolation}
 \label{ch:cover}
+\index{vertex cover}
 
 Three things in this chapter are one thing.
 
@@ -24,6 +25,7 @@ it.
 
 \section{Leaf removal, and what it certifies}
 \label{sec:leafremoval}
+\index{leaf removal|textbf}
 
 Minimum vertex cover was introduced in Sec.~\ref{sec:cover-intro}: choose as few
 nodes as possible so that every link has at least one endpoint chosen. It is
@@ -94,6 +96,8 @@ what the half rule always returns when everything is degenerate.
 
 \section{The core as an obstruction}
 \label{sec:coreobstruction}
+\index{core|textbf}
+\index{core percolation|textbf}
 
 Run leaf removal on the cavity branch and ask what a node reached along an
 inclusion ends up as. There are three answers, not two: leaf-ready ($L$),
@@ -102,13 +106,17 @@ this has three, and needs a message with three components
 (Fig.~\ref{fig:leafremoval}).
 
 The three-state cavity treatment of core percolation on graphs is
-Ref.~\citep{liu2012}; what follows carries it to complexes.
+Ref.~\citep{liu2012}; what follows carries it to complexes. The letters here are
+this book's: $\psi$ and $\xi$ are written $\lambda$ and $\kappa$ in that paper,
+which are spoken for elsewhere in this book --- $\lambda$ is Chapter~\ref{ch:giant}'s
+Perron root and $\kappa$ is the chy-degree throughout.
 
-Writing $(\lambda,\delta,\gamma)$ for their probabilities, the chy-degree step is
+Writing $(\psi,\delta,\gamma)$ for the probabilities of the three states
+--- leaf-ready, deleted, core --- the chy-degree step is
 \begin{equation}
-  \lambda_{m}=\bar\Phi^{(m)}(\zeta),
+  \psi_{m}=\bar\Phi^{(m)}(\zeta),
   \qquad
-  \delta_{m}=1-\bar\Phi^{(m)}(1-\kappa),
+  \delta_{m}=1-\bar\Phi^{(m)}(1-\xi),
   \label{eq:core}
 \end{equation}
 and the intra-complex step is solved exactly, as Sec.~\ref{sec:downstep} always
@@ -131,12 +139,12 @@ member is live and leaf-ready. With two or more live members the entering node
 is not a leaf of that complex and the complex decides nothing. There are $c-1$
 ways to choose which member is the live one:
 \[
-  \kappa=(c-1)\,\delta^{\,c-2}\lambda.
+  \xi=(c-1)\,\delta^{\,c-2}\psi.
 \]
 
-At $c=2$ these degenerate to $\zeta=\delta$ and $\kappa=\lambda$, returning the
-graph recursion $\lambda=\bar\Phi(\delta)$,
-$\delta=1-\bar\Phi(1-\lambda)$.
+At $c=2$ these degenerate to $\zeta=\delta$ and $\xi=\psi$, returning the
+graph recursion $\psi=\bar\Phi(\delta)$,
+$\delta=1-\bar\Phi(1-\psi)$.
 \end{calculation}
 
 \begin{figure}[t]
@@ -202,7 +210,7 @@ entries, and the sign decides which solver applies.
 \section{On a graph: one point, three names}
 \label{sec:onepoint}
 
-At $c=2$, Eq.~\eqref{eq:core} has threshold $\bar\Phi'(1-\lambda)=1$, which for
+At $c=2$, Eq.~\eqref{eq:core} has threshold $\bar\Phi'(1-\psi)=1$, which for
 Poisson chy-degree is
 \begin{equation}
   \ave{k}=e.
@@ -226,18 +234,19 @@ integer messages carry the whole answer.} Three statements, one condition.
 
 \section{Above cardinality two the core-free branch disappears}
 \label{sec:corefree}
+\index{core}
 
 Now raise the cardinality, and something abrupt happens.
 
 \begin{calculation}{no core-free branch above cardinality two}
-A core-free branch means $\gamma=0$, that is $\lambda+\delta=1$. Substituting
+A core-free branch means $\gamma=0$, that is $\psi+\delta=1$. Substituting
 Eq.~\eqref{eq:core},
 \[
-  \bar\Phi^{(m)}(\zeta)+1-\bar\Phi^{(m)}(1-\kappa)=1,
+  \bar\Phi^{(m)}(\zeta)+1-\bar\Phi^{(m)}(1-\xi)=1,
 \]
 and since $\bar\Phi$ is a power series with non-negative coefficients, hence
-strictly increasing, this requires $\zeta=1-\kappa$ in every layer. With
-$\lambda=1-\delta$ that is
+strictly increasing, this requires $\zeta=1-\xi$ in every layer. With
+$\psi=1-\delta$ that is
 \[
   f(\delta)\equiv(c-1)\delta^{\,c-2}-(c-2)\delta^{\,c-1}-1=0.
 \]
@@ -249,7 +258,7 @@ The polynomial factors, and the factorisation is the whole argument:
 At $c=2$ the sum is empty and $f\equiv0$: the condition is an \emph{identity},
 and the core-free branch exists at every chy-degree below threshold. At $c\ge3$
 every coefficient of the sum is strictly positive, so $f(\delta)<0$ on $[0,1)$
-and $f(1)=0$. The only root is $\delta=1$, forcing $\lambda=0$.
+and $f(1)=0$. The only root is $\delta=1$, forcing $\psi=0$.
 \end{calculation}
 
 So a chygraph carrying any layer of cardinality three or more has no core-free
@@ -293,6 +302,7 @@ not a statement about a magnitude.
 
 \section{Hyperbolic random graphs}
 \label{sec:hrg}
+\index{hyperbolic random graph}
 
 Everything so far is internal. This section is the one place where the
 construction meets a network that was not built to suit it.

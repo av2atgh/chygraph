@@ -13,6 +13,25 @@
 \usepackage[round,authoryear]{natbib}
 \usepackage[hidelinks]{hyperref}
 \usepackage{microtype}
+\usepackage{makeidx}
+\makeindex
+
+% The index is set in one ragged-right column. The book-class default is two,
+% which on a 5-inch page leaves about 1.7in of measure -- too little to break
+% entries like "Fortuin--Kasteleyn correspondence" without overfull lines.
+\makeatletter
+\renewenvironment{theindex}
+  {\clearpage
+   \chapter*{\indexname}%
+   \addcontentsline{toc}{chapter}{\indexname}%
+   \markboth{\indexname}{\indexname}%
+   \thispagestyle{plain}%
+   \parindent\z@
+   \parskip\z@ \@plus .3\p@\relax
+   \raggedright
+   \let\item\@idxitem}
+  {\clearpage}
+\makeatother
 \usepackage{array}
 \usepackage{longtable}
 \usepackage[most]{tcolorbox}
@@ -110,13 +129,19 @@
 
 \hyphenation{chy-graph chy-graphs hy-per-graph hy-per-graphs per-co-la-tion}
 
-\pagenumbering{gobble}
-
 \begin{document}
+
+% Roman front matter, so the preface, the software chapter and its Table 1 have
+% page numbers and appear in the contents with them. Arabic numbering restarts at
+% \mainmatter, below, which is why introduction.tex no longer sets it itself.
+\frontmatter
 
 \title{Phase transitions on complex hypergraphs}
 
 \author{Alexei Vazquez}
+% Empty rather than absent: \maketitle would otherwise stamp the build date on
+% the title page and change it silently on every run.
+\date{}
 \maketitle
 
 \thispagestyle{empty}
@@ -131,11 +156,15 @@
 
 \include{software}
 
-% The contents lists parts and chapters only: with fourteen chapters, breaking
+% The contents lists parts and chapters only: with fifteen chapters, breaking
 % each one down into its sections turns the front matter into an index of its
 % own. Set here rather than in the preamble so it wins over the packages.
 \setcounter{tocdepth}{0}
 \tableofcontents
+
+\include{notation}
+
+\mainmatter
 
 \part{Foundations}
 
@@ -243,7 +272,11 @@
 
 \include{outlook}
 
+\backmatter
+
 \bibliographystyle{plainnat}
 \bibliography{references}
+
+\printindex
 
 \end{document}

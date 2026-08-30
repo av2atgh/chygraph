@@ -195,6 +195,10 @@ go into the same bag.
 
 \section{The definition}
 \label{sec:definition}
+\index{chygraph|textbf}
+\index{complex|textbf}
+\index{atom|textbf}
+\index{inclusion}
 
 The remaining step is small, and once seen it is hard to unsee. If the trouble
 is that a complex's interior is a flat set, give the interior the same treatment
@@ -289,6 +293,9 @@ them can recover any of the others.
 
 \section{The vocabulary}
 \label{sec:vocabulary}
+\index{cardinality|textbf}
+\index{chy-degree|textbf}
+\index{excess cardinality|textbf}
 
 A handful of words, all of them intended to be as flat-footed as they sound.
 
@@ -401,6 +408,7 @@ as the cardinality, and its excess $\bar s$ of Eq.~\eqref{eq:excess} as
 
 \section{Layers}
 \label{sec:layers}
+\index{layer|textbf}
 
 One more piece of bookkeeping, and it is the piece that makes the whole
 programme work computationally.
@@ -443,6 +451,9 @@ choosing what counts as an atom was.
 
 \section{Everything is a chygraph}
 \label{sec:everything}
+\index{hypergraph}
+\index{multiplex network}
+\index{graph, as a chygraph}
 
 What the definitions buy. Each structure below is obtained by writing down its layers and their
 cardinalities, and nothing else changes. Figure~\ref{fig:mappings} draws them in
@@ -559,6 +570,7 @@ carries that out.
 
 \section{Two ways to draw the same thing}
 \label{sec:drawing}
+\index{inclusion diagram}
 
 Figures~\ref{fig:publications} and~\ref{fig:mappings} draw a complex as a
 \emph{node} of its own, with lines running to what it includes. Every figure
@@ -616,6 +628,8 @@ message can reach. Neither adds anything to the other.}
 
 \section{Random chygraphs}
 \label{sec:ensembles}
+\index{random chygraph|textbf}
+\index{ensemble}
 
 The rest of the book computes averages over ensembles rather than properties of
 one object, so we need to say what specifying an ensemble amounts to. It amounts
@@ -663,12 +677,14 @@ Two caveats, stated here so they are not sprung later. Equation~\eqref{eq:moment
 takes the generating functions to factorise over target layers --- a complex's
 participation in one layer independent of its participation in another --- which
 covers every mapping in Sec.~\ref{sec:everything} but is a genuine restriction,
-lifted in Sec.~\ref{ch:giant}. And moments are moments: two ensembles can agree
+lifted in Sec.~\ref{sec:joint}. And moments are moments: two ensembles can agree
 on all four matrices and disagree about the shape of the transition, which is
 the subject of Chapter~\ref{ch:giant} and not a defect to be repaired.
 
 \section{Treelike over complexes, and what it costs}
 \label{sec:treelike}
+\index{treelike|textbf}
+\index{overlap!between complexes}
 
 I close with the property that motivates everything after
 Chapter~\ref{ch:percolation}, and with its price, because the price is
@@ -754,9 +770,9 @@ graph, which overlap along edges as a matter of course
 
 I have put this on the table in the chapter that defines the object, rather than
 in a remark at the end of the book, because it is the honest place for it. The
-next ten chapters develop what the construction buys, which is a great deal;
+next eleven chapters develop what the construction buys, which is a great deal;
 Chapter~\ref{ch:overlap} returns to Fig.~\ref{fig:price}b, measures the damage
-on hyperbolic random graphs --- between $65$ and $83$ per cent of the answer
+on hyperbolic random graphs --- between $77$ and $100$ per cent of the answer
 recovered --- and describes what would be needed to recover the rest. Clustering,
 it will turn out, is not one obstruction but a hierarchy of them: promoting
 triangles removes the loops within triangles and exposes the loops between them.
