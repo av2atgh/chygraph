@@ -692,7 +692,10 @@ the five consistent; they are one statement.
 
 - `~/Dropbox/submissions/hyperabs.2022/hyperabs_v3.tex` — Phys. Rev. E **107**, 024316 (2023)
 - `~/Dropbox/submissions/chygraph.2023/chygraph.tex` — J. Complex Netw. (2024), cnae047
-- `~/av2atg/chygraph/manuscript_3/manuscript.tex` — the percolation extension
+- `~/av2atg/chygraph/manuscript_3/manuscript.tex` — the percolation extension.
+  **Will not be submitted** (author, 2026-08-30): the book is the first place
+  Ch. 5's critical amplitude and moment hierarchy are reported, and Ch. 5's
+  opening says so. Do not add a citation to it.
 - the manuscript this book supersedes (`../main.tex`, `../supplement.tex`) —
   **deleted**, recoverable from git at commit `5ebd892`, the last commit before
   the deletion. Everything in it is in the book; the section numbers named in
