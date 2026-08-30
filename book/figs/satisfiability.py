@@ -15,10 +15,21 @@ alpha = 1 at k = 2, and the vanishing of the derivative for k >= 3. The fold is
 not: it depends on how a variable receiving contradictory warnings is counted,
 and the chapter says so.
 
+The survey-propagation section goes one level up, to 1RSB at m = 0, and is the
+only calculation here that reaches alpha_s instead of bracketing it: the
+complexity Sigma vanishes at the published thresholds for k = 3 and k = 4, to
+better than a per cent, with neither value used in getting there. It is also
+where the scalar closure of Sec. 13.5 stops working, which is measured rather
+than asserted.
+
 Benchmarks, from `~/Downloads/chygraph_references/`:
   Mezard, Parisi & Zecchina, Science 297, 812 (2002)
   Mezard & Zecchina, Phys. Rev. E 66, 056126 (2002)
   Montanari, Ricci-Tersenghi & Semerjian, Table I  (alpha_d, alpha_c, alpha_s)
+  Braunstein, Mezard & Zecchina, Random Struct. Algorithms 27, 201 (2005)
+    -- the SP update and the m = 0 complexity below follow its formulation;
+    the authors' reference implementation is at
+    https://staff.polito.it/alfredo.braunstein/code/2005/03/04/sp.html
 """
 
 import itertools
@@ -233,6 +244,151 @@ def check_fold_against_alpha_s():
     print('    above; see the docstring of pi_forced.')
 
 
+# ---------------------------------------------------------------------------
+# survey propagation
+# ---------------------------------------------------------------------------
+#
+# The warning map above keeps only whether a message is a warning.  The correct
+# object one level up is a *survey*: a distribution over warnings, taken over
+# the clusters of solutions.  Sec. 13.5's map is one term away from it --
+# `pi_forced` is exactly the weight of "forced to falsify", and survey
+# propagation divides it by the weight of the three non-contradictory states,
+#
+#     eta = [ Pi^u / (Pi^u + Pi^s + Pi^0) ]^(k-1),
+#
+# Pi^0 being the state the warning map has no room for, a variable left free.
+# What does *not* survive the step is the scalar closure: eta stops being a
+# probability and becomes a continuous variable whose distribution carries the
+# physics, so a single number no longer closes the system.  That is measured in
+# check_survey_needs_a_population, and it is why what follows is a population.
+
+
+def _prod_1m(eta, n, rng):
+    """``prod (1 - eta)`` over ``n[s]`` draws from the population, per sample."""
+    out = np.ones(n.size)
+    tot = int(n.sum())
+    if tot:
+        d = eta[rng.integers(0, eta.size, tot)]
+        c = np.concatenate(([0.0], np.cumsum(np.log1p(-d + 1e-300))))
+        ends = np.cumsum(n)
+        out = np.exp(c[ends] - c[ends - n])
+    return out
+
+
+def sp_cavity_piu(eta, lam, rng, size):
+    """``Pi^u / (Pi^u + Pi^s + Pi^0)`` for a variable reached along one inclusion.
+
+    Built from the variable's *other* clauses, which split by sign into two
+    Poisson(``lam``) groups: those that would force it to falsify the clause
+    being computed, and those that would force it to satisfy it.  Warnings both
+    ways are a contradiction and are excluded by the normalisation, which is
+    the whole difference from `wp_map`.
+    """
+    Pu_ = _prod_1m(eta, rng.poisson(lam, size), rng)
+    Ps_ = _prod_1m(eta, rng.poisson(lam, size), rng)
+    Pu, Ps, P0 = (1.0 - Ps_) * Pu_, (1.0 - Pu_) * Ps_, Pu_ * Ps_
+    return Pu / (Pu + Ps + P0)
+
+
+def sp_converge(k, alpha, size=20000, sweeps=150, seed=0):
+    """Population of clause-to-variable surveys at the SP fixed point."""
+    rng = np.random.default_rng(seed)
+    eta = rng.uniform(0.3, 0.5, size)
+    lam = k * alpha / 2.0
+    for _ in range(sweeps):
+        new = np.ones(size)
+        for _ in range(k - 1):
+            new *= sp_cavity_piu(eta, lam, rng, size)
+        eta = new
+    return eta, rng
+
+
+def sp_complexity(k, alpha, size=20000, sweeps=150, seed=0, nsamp=300000):
+    """``Sigma``, the Bethe count of clusters at ``m = 0``, per variable.
+
+        Sigma = <ln(w+ + w- + w0)>            over all clauses at a variable
+              + alpha <ln(1 - prod_j pi^u_j)>  over a clause's k members
+              - k alpha <ln(1 - eta pi^u)>     over inclusions
+
+    Every term vanishes identically when ``eta = 0``, so ``Sigma`` says nothing
+    on the trivial branch; it is the non-trivial branch whose clusters are being
+    counted, and ``Sigma = 0`` is where they run out.
+    """
+    eta, rng = sp_converge(k, alpha, size, sweeps, seed)
+    if eta.mean() < 1e-6:
+        return 0.0, 0.0
+    lam = k * alpha / 2.0
+
+    Pp = _prod_1m(eta, rng.poisson(lam, nsamp), rng)
+    Pm = _prod_1m(eta, rng.poisson(lam, nsamp), rng)
+    site = np.log((1 - Pp) * Pm + (1 - Pm) * Pp + Pp * Pm).mean()
+
+    prod = np.ones(nsamp)
+    for _ in range(k):
+        prod *= sp_cavity_piu(eta, lam, rng, nsamp)
+    clause = np.log1p(-prod + 1e-300).mean()
+
+    e = eta[rng.integers(0, eta.size, nsamp)]
+    edge = np.log1p(-(e * sp_cavity_piu(eta, lam, rng, nsamp)) + 1e-300).mean()
+
+    return site + alpha * clause - k * alpha * edge, float(eta.mean())
+
+
+def sp_threshold(k, lo, hi, seed=0, iters=9, **kw):
+    """``alpha`` at which ``Sigma`` vanishes: the satisfiability threshold."""
+    assert sp_complexity(k, lo, seed=seed, **kw)[0] > 0, (k, lo)
+    for _ in range(iters):
+        mid = 0.5 * (lo + hi)
+        if sp_complexity(k, mid, seed=seed, **kw)[0] > 0:
+            lo = mid
+        else:
+            hi = mid
+    return 0.5 * (lo + hi)
+
+
+def check_survey_needs_a_population():
+    """Why the survey is carried as a distribution and not as one number."""
+    from scipy.optimize import brentq
+
+    def scalar(k, a):
+        """The same normalised update with eta kept a single number."""
+        def f(e):
+            z = np.exp(-k * a * e / 2.0)
+            Pu = Ps = (1 - z) * z
+            return (Pu / (Pu + Ps + z * z)) ** (k - 1) - e
+        xs = np.linspace(1e-9, 1 - 1e-9, 200001)
+        v = f(xs)
+        s = np.where(np.diff(np.sign(v)) != 0)[0]
+        return 0.0 if len(s) == 0 else max(brentq(f, xs[i], xs[i + 1]) for i in s)
+
+    print('     k   alpha_s   scalar eta*   population <eta>   low by')
+    for k in (3, 4):
+        a = PUBLISHED[k][2]
+        sc, pop = scalar(k, a), sp_converge(k, a)[0].mean()
+        assert sc < pop, (k, sc, pop)
+        print(f'  {k:>4}   {a:>7.3f}   {sc:>11.4f}   {pop:>16.4f}'
+              f'   {100 * (pop - sc) / pop:>5.1f}%')
+    print('    The scalar closure that works for warnings does not survive the')
+    print('    step to surveys: eta stops being a probability and becomes a')
+    print('    continuous variable whose spread matters. Hence the population.')
+
+
+def check_survey_thresholds():
+    """Sigma = 0 against the published satisfiability thresholds."""
+    print('     k   Sigma = 0 at   alpha_s (published)   error')
+    for k, lo, hi in ((3, 4.0, 4.6), (4, 9.4, 10.4)):
+        a_s = PUBLISHED[k][2]
+        r = [sp_threshold(k, lo, hi, seed=s) for s in (0, 1, 2)]
+        m, sd = float(np.mean(r)), float(np.std(r))
+        assert abs(m - a_s) / a_s < 0.03, (k, m, a_s)
+        print(f'  {k:>4}   {m:>7.3f}({sd:.3f})   {a_s:>19.3f}'
+              f'   {100 * (m - a_s) / a_s:>+5.1f}%')
+    print('    The number in brackets is the spread over three seeds. This is')
+    print('    the one calculation in the chapter that reaches alpha_s rather')
+    print('    than bracketing it, and it reaches it from outside the book --')
+    print('    the two published values were not used in getting there.')
+
+
 def figure_sat():
     plt = _mpl()
     fig, axes = plt.subplots(1, 2, figsize=(4.6, 2.5))
@@ -422,6 +578,10 @@ if __name__ == '__main__':
     check_fold_against_alpha_s()
     print('how much of that depends on the convention:')
     check_conventions()
+    print('why a survey needs a population:')
+    check_survey_needs_a_population()
+    print('survey propagation, against the published thresholds:')
+    check_survey_thresholds()
     print('three levels, reduction check:')
     check_nested_reduces()
     print('three levels, what flattening costs:')

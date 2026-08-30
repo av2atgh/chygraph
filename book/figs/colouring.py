@@ -10,9 +10,17 @@ derived by hand, and the two are required to agree.
                   which only forbids a monochromatic complex. Identical at
                   cardinality two and violently different above it.
 
+The survey-propagation section goes one level up, to 1RSB at m = 0, and reaches
+the colourability threshold that Sec. 12.4's stability line is not: the
+complexity vanishes at Mulet's c_q for q = 3, 4 and 5, and the density at which
+the surveys stop being trivial is his c_d. Both columns of Table 12.1 out of one
+population, neither used in getting there.
+
 Benchmarks, from `~/Downloads/chygraph_references/`:
   Mulet, Pagnani, Weigt & Zecchina, Phys. Rev. Lett. 89, 268701 (2002), Table I
   Zdeborova & Krzakala, Phys. Rev. E 76, 031131 (2007), Eq. (18)
+  Braunstein, Mulet, Pagnani, Weigt & Zecchina, Phys. Rev. E 68, 036702 (2003)
+    -- survey propagation for colouring; the update below is its m = 0 form
 """
 
 import itertools
@@ -212,6 +220,129 @@ def check_cardinality():
     print('    hypergraph: (q^(c-1)-1)^2, which runs away with c')
 
 
+# ---------------------------------------------------------------------------
+# survey propagation
+# ---------------------------------------------------------------------------
+#
+# Sec. 12.4's threshold is where the replica-symmetric solution loses local
+# stability, and Sec. 12.5 says at length that this is not the colourability
+# threshold. Reaching that threshold needs one step of replica symmetry
+# breaking, which is what follows: survey propagation at m = 0, with the
+# complexity Sigma counting clusters and Sigma = 0 locating c_q.
+#
+# Colour symmetry does most of the work. A survey is a distribution over which
+# colour a node is forced to, and permutation symmetry makes it uniform, so one
+# scalar per inclusion suffices: e = P(forced at all), each colour carrying e/q.
+# What symmetry does NOT do is decouple the colours. One forced neighbour
+# forbids exactly one colour, so "every other colour forbidden" is a coverage
+# problem and not a product over colours -- hence the inclusion-exclusion:
+#
+#   P(available set = {c}) = sum_j (-1)^j C(q-1,j) prod_k (1 - e_k (1+j)/q)
+#   P(no colour available) = sum_j (-1)^j C(q,j)   prod_k (1 - e_k j/q)
+#
+# Treating the colours as independent instead is wrong, and wrong in a way that
+# a single threshold would hide; the check below is against three.
+
+
+def _sp_prods(e, deg, rng, q, size):
+    """``prod_k (1 - e_k t / q)`` for ``t = 0..q``, per sample."""
+    tot = int(deg.sum())
+    draws = e[rng.integers(0, e.size, tot)] if tot else np.empty(0)
+    ends = np.cumsum(deg)
+    out = np.ones((q + 1, size))
+    for t in range(1, q + 1):
+        v = np.log(np.maximum(1.0 - draws * t / q, 1e-300))
+        c = np.concatenate(([0.0], np.cumsum(v)))
+        out[t] = np.exp(c[ends] - c[ends - deg])
+    return out
+
+
+def sp_update(e, deg, rng, q, size):
+    """One survey update, and the weight of the contradictory state."""
+    from math import comb
+    P = _sp_prods(e, deg, rng, q, size)
+    w = sum((-1) ** j * comb(q - 1, j) * P[1 + j] for j in range(q))
+    contra = sum((-1) ** j * comb(q, j) * P[j] for j in range(q + 1))
+    return np.clip(q * w / np.maximum(1.0 - contra, 1e-300), 0.0, 1.0), contra
+
+
+def sp_converge(q, c, size=20000, sweeps=200, seed=0):
+    """Population of surveys at the SP fixed point, Erdos-Renyi mean degree c."""
+    rng = np.random.default_rng(seed)
+    e = rng.uniform(0.3, 0.6, size)
+    for _ in range(sweeps):
+        e, _ = sp_update(e, rng.poisson(c, size), rng, q, size)
+    return e, rng
+
+
+def sp_complexity(q, c, size=20000, sweeps=200, seed=0, nsamp=300000):
+    """``Sigma``, the Bethe count of clusters at ``m = 0``, per node.
+
+        Sigma = <ln(1 - P(no colour available))>   full degree, per node
+              - (c/2) <ln(1 - e_i e_j / q)>        per edge
+
+    the edge term being the weight of the two ends not forced to the same
+    colour. Both vanish at ``e = 0``, so Sigma says nothing on the trivial
+    branch; it counts the clusters of the non-trivial one.
+    """
+    e, rng = sp_converge(q, c, size, sweeps, seed)
+    if e.mean() < 1e-6:
+        return 0.0, 0.0
+    _, contra = sp_update(e, rng.poisson(c, nsamp), rng, q, nsamp)
+    site = np.log(np.maximum(1.0 - contra, 1e-300)).mean()
+    ei = e[rng.integers(0, e.size, nsamp)]
+    ej = e[rng.integers(0, e.size, nsamp)]
+    edge = np.log(np.maximum(1.0 - ei * ej / q, 1e-300)).mean()
+    return site - (c / 2.0) * edge, float(e.mean())
+
+
+def sp_threshold(q, lo, hi, seed=0, iters=9, **kw):
+    """Mean degree at which ``Sigma`` vanishes: the colourability threshold."""
+    assert sp_complexity(q, lo, seed=seed, **kw)[0] > 0, (q, lo)
+    for _ in range(iters):
+        mid = 0.5 * (lo + hi)
+        if sp_complexity(q, mid, seed=seed, **kw)[0] > 0:
+            lo = mid
+        else:
+            hi = mid
+    return 0.5 * (lo + hi)
+
+
+def check_survey_thresholds():
+    """Sigma = 0 against Mulet's colourability thresholds."""
+    print('     q   Sigma = 0 at   c_q (published)   error')
+    for q, lo, hi in ((3, 4.55, 4.95), (4, 8.65, 9.25), (5, 13.35, 14.05)):
+        c_q = MULET[q][1]
+        r = [sp_threshold(q, lo, hi, seed=s) for s in (0, 1, 2)]
+        m, sd = float(np.mean(r)), float(np.std(r))
+        assert abs(m - c_q) / c_q < 0.03, (q, m, c_q)
+        print(f'  {q:>4}   {m:>7.3f}({sd:.3f})   {c_q:>15.2f}'
+              f'   {100 * (m - c_q) / c_q:>+5.1f}%')
+    print('    Three thresholds from one calculation, none of them used in')
+    print('    getting there. This is the line Sec. 12.4 is not: the stability')
+    print('    threshold sits at 4, 9, 16 for these q, above c_q from q = 4 on.')
+
+
+def check_survey_branch_is_clustering():
+    """The survey branch appears at Mulet's clustering threshold c_d."""
+    print('     q   branch appears   c_d (published)')
+    for q, lo, hi in ((3, 4.0, 5.0), (4, 7.6, 8.8)):
+        c_d = MULET[q][0]
+        lo_, hi_ = lo, hi
+        for _ in range(9):
+            mid = 0.5 * (lo_ + hi_)
+            if sp_converge(q, mid)[0].mean() > 1e-4:
+                hi_ = mid
+            else:
+                lo_ = mid
+        r = 0.5 * (lo_ + hi_)
+        assert abs(r - c_d) / c_d < 0.05, (q, r, c_d)
+        print(f'  {q:>4}   {r:>14.3f}   {c_d:>15.2f}')
+    print('    A by-product: the density at which the surveys stop being')
+    print('    trivial is the clustering transition, so the same population')
+    print('    carries both columns of Table 12.1.')
+
+
 def figure_colouring():
     plt = _mpl()
     fig, axes = plt.subplots(1, 2, figsize=(4.6, 2.5))
@@ -270,5 +401,9 @@ if __name__ == '__main__':
     check_not_the_colourability_threshold()
     print('cardinality:')
     check_cardinality()
+    print('survey propagation, against the colourability thresholds:')
+    check_survey_thresholds()
+    print('and the clustering threshold, as a by-product:')
+    check_survey_branch_is_clustering()
     print('figure:')
     figure_colouring()

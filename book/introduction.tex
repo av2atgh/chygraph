@@ -644,9 +644,11 @@ graph it happens at mean degree $e$, the very point where leaf removal stalls
 
 The remedy is \emph{one-step replica symmetry breaking}: a distribution over
 valleys, and within each valley a distribution over messages --- a distribution
-of distributions \citep{mezard2001}. This book does not do that calculation. It
-does, however, need to know when the calculation it \emph{does} do has stopped
-being right, and there are three reliable signals.
+of distributions \citep{mezard2001}. This book does that calculation twice, in
+Secs.~\ref{sec:colouring-sp} and~\ref{sec:sat-sp}, and only where the messages
+are warnings and the distribution is over a finite alphabet; everywhere else it
+does not. So it needs to know when the calculation it \emph{does} do has
+stopped being right, and there are three reliable signals.
 
 \emph{The stability of the symmetric solution.} Perturb the messages and ask
 whether the perturbation grows. For the Ising model the relevant condition turns

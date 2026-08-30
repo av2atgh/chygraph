@@ -34,15 +34,17 @@ language in the running text with the algebra boxed off.
 **Chapters 12 and 13 have no manuscript behind them.** Every other chapter is
 exposition of work that exists elsewhere; for these two the calculations are
 done in the book's own figure scripts, `figs/colouring.py` and
-`figs/satisfiability.py`, and checked against the published thresholds. PDFs of
+`figs/satisfiability.py`, and checked against the published thresholds --- which
+since 2026-08-30 the last section of each chapter **computes** rather than
+quotes, by survey propagation at `m = 0`. PDFs of
 the references are under `~/Downloads/chygraph_references/`.
 
 ## Status
 
-Last updated 2026-08-30. `main.pdf` builds clean: **224 pages, 0 errors, 0
+Last updated 2026-08-30. `main.pdf` builds clean: **228 pages, 0 errors, 0
 undefined references, 0 multiply-defined labels, 0 overfull boxes, 0 underfull
-vboxes.** 41 figures, 17 numbered tables, 23 calculation boxes, 100 numbered
-equations, 69 references, an 82-term index.
+vboxes.** 41 figures, 19 numbered tables, 23 calculation boxes, 104 numbered
+equations, 70 references, an 85-term index.
 
 **The book is drafted end to end.** Preface, the software chapter, and fifteen
 numbered chapters, all with prose, figures and checks.
@@ -370,6 +372,65 @@ chapters agree — `u' = t/(1-t+t^2)` in Chs. 7, 8, 9; `-13.9%`/`-14.2%` in
 Chs. 1, 4, 9, 15; the 77–100% HRG core in Chs. 11, 14, 15. (The last of these
 was *not* in fact consistent — see the 2026-08-30 pass below, which found Chs. 2
 and 3 quoting 65–83% for the same quantity.)
+
+### Survey propagation, 2026-08-30
+
+Secs. 12.6 and 13.9, new. The book previously said in six places that it did not
+do the one-step calculation; it now does it at `m = 0` for the two chapters
+whose messages are warnings, and the disclaimers are revised rather than
+deleted, because for everything else they are still true.
+
+**What is computed.** A survey is a distribution over warnings, taken over
+clusters. Ch. 13's Eq. (13.4) already builds the numerator of the update — the
+weight of "forced to falsify" — and SP divides it by the weight of the three
+non-contradictory states. The threshold is not where the survey branch appears
+but where the clusters run out, so both sections compute the complexity `Sigma`
+as a Bethe count at `m = 0` and bisect `Sigma = 0`.
+
+| | computed | published | error |
+|---|---|---|---|
+| `alpha_s`, k = 3 | 4.281 (0.008) | 4.267 | +0.3% |
+| `alpha_s`, k = 4 | 9.906 (0.045) | 9.931 | −0.3% |
+| `c_q`, q = 3 | 4.683 (0.012) | 4.69 | −0.1% |
+| `c_q`, q = 4 | 8.901 (0.012) | 8.90 | +0.0% |
+| `c_q`, q = 5 | 13.660 (0.008) | 13.69 | −0.2% |
+
+Brackets are the spread over three seeds. No published value enters any of the
+calculations. Ch. 12 also gets `c_d` as a by-product (4.46 vs 4.42, 8.49 vs
+8.27) — a per cent and then three, against a tenth of a per cent for `c_q`,
+because a vanishing complexity is a crossing and a branch appearing is a fold.
+
+**Two things worth guarding.**
+
+- **The scalar closure does not survive the step to surveys.** This is the whole
+  reason the sections carry populations. Solving the SP equation with `eta` kept
+  a single number gives `eta* = 0.1316` at k = 3, `alpha = 4.267`, against
+  0.1828 for the distribution — 28% low, and 8% low at k = 4. `eta` stops being
+  a probability and becomes a continuous variable whose spread enters the next
+  update. Measured in `check_survey_needs_a_population`.
+- **Colour symmetry collapses the survey to one scalar but does NOT decouple the
+  colours.** A forced neighbour forbids exactly one colour, so "every other
+  colour forbidden" is a coverage problem and needs the inclusion–exclusion of
+  Eq. (12.5), not a product over colours. The independent-colour shortcut is
+  wrong and a single threshold would hide it; the check asks for three.
+
+**What is deliberately not claimed.** All three qualifications are stated in
+both sections: it is `m = 0`, so condensation (k >= 4, and the rigidity
+transitions) is outside it; Eq. (8.3)'s treelike condition is untouched, so
+Ch. 14's obstruction is unaffected; and that the flat graph case reproduces
+published constants is an implementation check, not a result. The Outlook's
+1RSB entry is rewritten around `m != 0` rather than deleted, and Ch. 10's
+disclaimer now says why a hitting-set field is the harder object — a
+distribution over distributions rather than over a finite alphabet.
+
+**Runtimes.** `figs/satisfiability.py`'s SP check is ~5 min, `figs/colouring.py`'s
+~3.5 min. These are now the two slowest scripts after `merge.py`.
+
+**Still open, and it is the honest gap:** nothing here is validated against
+anything but flat `k`-SAT and flat `q`-COL. The nested clauses of Secs. 13.6–13.7
+are the case with no flat counterpart, and running SP on the three-level chygraph
+against SP on its CNF flattening is the experiment the machinery was built for.
+It is not done.
 
 ### Editorial review, addressed 2026-08-30
 
@@ -728,8 +789,10 @@ forms against exact enumeration in rational arithmetic; that the linearised map
 is a scalar on the traceless subspace (three directions, one answer); the graph
 case against Zdeborová & Krzakala Eq. (18); and the comparison with Mulet's
 published thresholds that shows the stability line is not the colourability
-line. It is fast — everything is exact rational arithmetic over small
-complexes.
+line. All of that is fast — exact rational arithmetic over small complexes.
+The **survey-propagation section added 2026-08-30** is not: `sp_threshold`
+bisects the complexity over three seeds for q = 3, 4, 5 and takes about three
+and a half minutes.
 `figs/satisfiability.py` generates Figure 13.1 and runs Ch. 13's checks: the
 clause interior against enumeration in rational arithmetic (including the
 non-uniform emitted message that rules out a symmetric fixed point); the `k = 2`
@@ -737,7 +800,11 @@ linearisation and the branch appearing continuously at `alpha = 1`; that the
 `k >= 3` derivative is *exactly* zero, tested by the rate at which the finite
 difference falls (`eps^(k-2)`, checked by halving `eps`) rather than by an
 absolute bound, which would only show `eps` was small; and both conventions for
-a contradicted variable.
+a contradicted variable. It also carries the **survey-propagation
+section added 2026-08-30**: the SP update, the complexity `Sigma` as a Bethe
+count of clusters at `m = 0`, and `Sigma = 0` bisected against the published
+`alpha_s`. That check averages over three seeds and takes about five minutes,
+which makes this the slowest script in the book after `merge.py`.
 `figs/overlap.py` generates Figure 14.2 and runs Ch. 14's checks: the Möbius and
 Bethe counting numbers on two overlapping triangles, including the factor-coverage
 test that is the whole point (shared bond covered once against twice); the

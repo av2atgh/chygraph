@@ -504,7 +504,8 @@ invented, and the reason is visible in the gap just measured.
 
 The correct object is not a single warning probability but a \emph{distribution}
 over warnings --- a survey --- and propagating it is survey propagation
-\citep{mezard2002science,mezard2002pre}. That calculation returns
+\citep{mezard2002science,mezard2002pre}, in the form
+Ref.~\citep{braunstein2005} states as an algorithm. That calculation returns
 $\alpha_{s}=4.267$ for $k=3$, and the intermediate structure that this chapter
 cannot see: a clustering transition at $\alpha_{d}=3.86$ where the solutions
 shatter into exponentially many groups, and for $k\ge4$ a condensation
@@ -518,18 +519,111 @@ was a local stability threshold rather than a colourability one. Here even that
 is unavailable, because there is no symmetric fixed point to linearise about,
 and the hard-field substitute is blind over a range that grows with $k$.
 
-\paragraph{What the chygraph adds, and what it does not.} It adds the structure:
+\paragraph{What the chygraph adds.} It adds the structure:
 Eq.~\eqref{eq:wp} is written for an arbitrary chy-degree distribution, mixed
 clause lengths are one layer per length, and correlations between a variable's
 participation in short and long clauses are Sec.~\ref{sec:joint}'s joint
-$\Phi$ --- none of which a fixed-$k$, Poisson treatment reaches. It does not add
-the one-step calculation, and for this problem that is where the subject
-begins rather than ends.
+$\Phi$ --- none of which a fixed-$k$, Poisson treatment reaches. What it does
+not add is the hard field's blindness, which is the previous section, and
+Sec.~\ref{sec:sat-sp} is what removes it.
 
-Satisfiability is the model here that most needs what this book does not do. It
-is included because the mapping is exact, because $2$-SAT comes out right, and
-because it fails in the same way Chapter~\ref{ch:hittingset} fails --- which
-bears on applying the method elsewhere.
+\section{Surveys, and the threshold itself}
+\label{sec:sat-sp}
+\index{survey propagation|textbf}
+\index{replica symmetry breaking}
+
+The map of Sec.~\ref{sec:sat-wp} is one term away from the object that does
+work, and the last three sections have been about the gap that term leaves.
+
+A warning is a fact about one state. A \emph{survey} is a distribution over
+warnings, taken over the clusters, and the variable-to-clause object it needs
+has three components rather than two: forced to violate the clause, forced to
+satisfy it, and neither. Equation~\eqref{eq:wp} already computes the first,
+$\Pi^{u}=\pi$. Survey propagation divides it by the weight of all three,
+\begin{equation}
+  \eta=\Bigl[\frac{\Pi^{u}}{\Pi^{u}+\Pi^{s}+\Pi^{0}}\Bigr]^{k-1},
+  \qquad
+  \Pi^{0}=e^{-\ave{\kbar}\eta/2}\cdot e^{-\ave{\kbar}\eta/2},
+  \label{eq:sp}
+\end{equation}
+the normalisation discarding the contradictory state and $\Pi^{0}$ being the one
+the warning map has no room for --- a variable no cluster constrains.
+
+\paragraph{What does not survive the step.} The scalar closure does. Sections
+\ref{sec:sat-wp} to~\ref{sec:satblind} could write one number for $\eta$ and
+average over the ensemble, because a warning is present or absent and its mean
+is the whole of it. A survey is not: $\eta$ becomes a continuous variable on
+$(0,1)$ and its \emph{spread} enters the next update. Solving
+Eq.~\eqref{eq:sp} as a scalar gives $\eta^{*}=0.1316$ at $k=3$,
+$\alpha=4.267$, against $0.1828$ for the distribution --- $28$ per cent low, and
+$8$ per cent low at $k=4$. So the step from Sec.~\ref{sec:sat-wp} to here is not
+one of algebra but of what a message is, and it is why what follows is a
+population and not a fixed point.
+
+\paragraph{Counting the clusters.} The threshold is not where the survey branch
+appears. It is where the clusters run out, and that is a statement about the
+free energy of Sec.~\ref{sec:freeenergy} rather than about a branch. At $m=0$
+the Bethe expression counts clusters instead of configurations,
+\begin{equation}
+  \Sigma=\bigl\langle\ln Z_{i}\bigr\rangle
+        +\alpha\bigl\langle\ln Z_{a}\bigr\rangle
+        -k\alpha\bigl\langle\ln Z_{ia}\bigr\rangle,
+  \label{eq:sigma}
+\end{equation}
+with the same three terms Chapter~\ref{ch:statmech} builds --- a variable, a
+complex, and an inclusion --- evaluated on surveys. Every one of them vanishes
+identically at $\eta=0$, so $\Sigma$ says nothing about the trivial branch; it
+counts the clusters of the other one, and $\Sigma=0$ is where there are none
+left.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{rccr}
+\hline\hline
+$k$ & $\Sigma=0$ at & $\alpha_{s}$ published & error\\
+\hline
+$3$ & $4.281\,(0.008)$ & $4.267$ & $+0.3\%$\\
+$4$ & $9.906\,(0.045)$ & $9.931$ & $-0.3\%$\\
+\hline\hline
+\end{tabular}
+\caption{\textbf{The threshold, reached rather than bracketed.} Where the
+complexity of Eq.~\eqref{eq:sigma} vanishes, against the satisfiability
+thresholds of Ref.~\citep{montanari2008}. Bracketed figures are the spread over
+three seeds of the population. Neither published value enters the calculation.
+Generated by \code{figs/satisfiability.py}.}
+\label{tab:satsp}
+\end{table}
+
+Table~\ref{tab:satsp} is the result, and it is the one number in this chapter
+that comes from outside the book and lands. Sections~\ref{sec:twosat}
+and~\ref{sec:satblind} bracket $\alpha_{s}$ --- from below by an exact
+linearisation that stops at $k=2$, from above by a fold that overshoots by a
+factor approaching three. Equation~\eqref{eq:sigma} reaches it.
+
+\paragraph{What this does not settle.} Three things, and the chapter would be
+overstating itself without them.
+
+\emph{It is $m=0$.} Survey propagation is one-step replica symmetry breaking at
+a single value of the Parisi parameter, which is the right value for counting
+zero-energy clusters and the wrong one for the condensation transition that sits
+between $\alpha_{d}$ and $\alpha_{s}$ for $k\ge4$. That transition needs
+$m\ne0$, and this chapter does not do it.
+
+\emph{It is still treelike.} Equation~\eqref{eq:sp} inherits
+Eq.~\eqref{eq:up}'s assumption unchanged: surveys from a variable's clauses are
+combined as though those clauses met only at that variable.
+Chapter~\ref{ch:overlap}'s obstruction is untouched by anything here. The
+direction is favourable rather than otherwise --- Sec.~\ref{sec:flatteningcost}
+showed that the flattening \emph{creates} the overlap, so the nested formulation
+is the better founded of the two --- but a survey is no more exact on
+overlapping complexes than a field is.
+
+\emph{The structure is not what makes it work.} What
+Eq.~\eqref{eq:sigma} adds over the published calculation is that it is written
+for an arbitrary chy-degree distribution and an arbitrary interior, so the
+nested clauses of Sec.~\ref{sec:nested} are a substitution rather than a
+derivation. That the numbers come out right for flat $k$-SAT is a check on the
+implementation, not a result.
 
 \section{Checks}
 \label{sec:sat-checks}

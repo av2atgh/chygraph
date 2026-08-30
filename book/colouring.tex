@@ -240,9 +240,10 @@ looks like general theory is an artefact of working there.
 \index{replica symmetry breaking}
 
 Now the qualification, and it is a large one. Colouring is the classic
-one-step replica-symmetry-breaking problem, and this book does not do that
-calculation. So it is important to say precisely what Eq.~\eqref{eq:colthresh}
-is and, more importantly, what it is not.
+one-step replica-symmetry-breaking problem, and Eq.~\eqref{eq:colthresh} is not
+a one-step answer. So it is important to say precisely what it is and, more
+importantly, what it is not; Sec.~\ref{sec:colouring-sp} then does the
+calculation it is not.
 
 It is the point where the replica-symmetric solution loses \emph{local}
 stability --- where the spin-glass susceptibility diverges. It is not the
@@ -277,24 +278,109 @@ constants, comes out of the general branching matrix; and that it extends to
 complexes, where Eq.~\eqref{eq:coltwo} says a clique network behaves exactly like
 a graph and a hypergraph does not.
 
-\paragraph{What would be needed.} The colourability threshold requires the
-one-step calculation --- survey propagation and the iterative algorithms
-built on it \citep{braunstein2003}, a complexity function, and the condensation
-and rigidity transitions that Ref.~\citep{zdeborova2007} maps out --- and, for
-the rigorous side of the same question, Ref.~\citep{cojaoghlan2016}.
-Chapter~\ref{ch:hittingset} built the tool that would detect the failure, the
-Bethe entropy of Eq.~\eqref{eq:sgen}, and also showed that a positive entropy
-proves nothing. Applying it here, and then doing the one-step calculation on a
-chygraph rather than a graph, is not attempted in this book and is on
-Chapter~\ref{ch:outlook}'s list.
+\paragraph{What is needed instead.} The colourability threshold requires the
+one-step calculation --- survey propagation and the iterative algorithms built
+on it \citep{braunstein2003,mulet2002}, and a complexity function. The next
+section does that much. What it does not do is the condensation and rigidity
+transitions Ref.~\citep{zdeborova2007} maps out, or the rigorous side of the
+same question \citep{cojaoghlan2016}.
 
-Until it is done, Eq.~\eqref{eq:coltwo} is a statement
-about the stability of a particular solution, not about when colourings run out
---- and the interesting part of it, that cardinality drops out of the proper
-constraint and dominates the hypergraph one, is a statement about the interior
-sum that a one-step treatment would inherit unchanged, because
-Eqs.~\eqref{eq:taucol} and~\eqref{eq:tauhyp} are properties of a complex and not
-of an ansatz.
+Whatever it returns, Eq.~\eqref{eq:coltwo} remains a statement about the
+stability of a particular solution and not about when colourings run out --- and
+the interesting part of it, that cardinality drops out of the proper constraint
+and dominates the hypergraph one, is a statement about the interior sum that a
+one-step treatment inherits unchanged, because Eqs.~\eqref{eq:taucol}
+and~\eqref{eq:tauhyp} are properties of a complex and not of an ansatz.
+
+\section{Surveys, and colourability}
+\label{sec:colouring-sp}
+\index{survey propagation|textbf}
+\index{replica symmetry breaking}
+
+Table~\ref{tab:colpublished} has three columns and the chapter has so far
+produced one of them. This section produces the other two.
+
+The object one level up is a survey: a distribution, over the clusters of
+colourings, of the colour a node is forced to. Colour symmetry does most of the
+work of carrying it. A survey is uniform over colours, so one scalar per
+inclusion suffices --- $e$, the probability that a node is forced at all, with
+each colour taking $e/q$ of it.
+
+What symmetry does \emph{not} do is decouple the colours, and this is the whole
+of the calculation. A forced neighbour forbids exactly one colour, so ``every
+colour but one is forbidden'' is a question about whether $q-1$ colours are
+\emph{covered} by the forced neighbours, not a product of $q-1$ independent
+events. Inclusion--exclusion over which colours are missed gives
+\begin{equation}
+  \begin{split}
+    P(\text{only }c\text{ free})&=\sum_{j=0}^{q-1}(-1)^{j}\binom{q-1}{j}
+      \prod_{k}\Bigl(1-\frac{e_{k}(1+j)}{q}\Bigr),\\
+    P(\text{none free})&=\sum_{j=0}^{q}(-1)^{j}\binom{q}{j}
+      \prod_{k}\Bigl(1-\frac{e_{k}j}{q}\Bigr),
+  \end{split}
+  \label{eq:colsp}
+\end{equation}
+the product running over the other neighbours, and the survey update being the
+first divided by one minus the second --- the contradictory state discarded, as
+in Sec.~\ref{sec:sat-sp}. Treating the colours as independent instead is the
+obvious shortcut and it is wrong; it is caught by asking for three thresholds
+rather than one.
+
+The complexity is Eq.~\eqref{eq:sigma} with one term fewer, a graph having no
+complexes above cardinality two to sum over:
+\begin{equation}
+  \Sigma=\bigl\langle\ln\bigl(1-P(\text{none free})\bigr)\bigr\rangle
+        -\frac{\ave{k}}{2}\Bigl\langle\ln\Bigl(1-\frac{e_{i}e_{j}}{q}\Bigr)
+        \Bigr\rangle,
+  \label{eq:colsigma}
+\end{equation}
+the edge term being the weight of two ends not forced to the same colour.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{rccr}
+\hline\hline
+$q$ & $\Sigma=0$ at & $c_{q}$ published & error\\
+\hline
+$3$ & $4.683\,(0.012)$ & $4.69$ & $-0.1\%$\\
+$4$ & $8.901\,(0.012)$ & $8.90$ & $+0.0\%$\\
+$5$ & $13.660\,(0.008)$ & $13.69$ & $-0.2\%$\\
+\hline\hline
+\end{tabular}
+\caption{\textbf{The colourability threshold, computed.} Where the complexity of
+Eq.~\eqref{eq:colsigma} vanishes, against Mulet's $c_{q}$
+\citep{mulet2002}. Bracketed figures are the spread over three seeds. Compare
+the $(q-1)^{2}$ column of Table~\ref{tab:colpublished}: $4$, $9$ and $16$ against
+these. Generated by \code{figs/colouring.py}.}
+\label{tab:colsp}
+\end{table}
+
+Table~\ref{tab:colsp} is the result. Set beside Table~\ref{tab:colpublished} it
+says what Sec.~\ref{sec:colouringthreshold} could not: at $q=4$ the stability
+line sits at $9$ and the colourings run out at $8.90$, so the replica-symmetric
+solution is still locally stable after the problem has become unsolvable, and
+the size of that error is now a number rather than a direction.
+
+The clustering threshold arrives without further work, though less sharply. The
+density at which the surveys stop being trivial --- below which no cluster
+forces anything and $e$ collapses to zero --- is $c_{d}$, and it comes out of
+the same population that gives $\Sigma$: $4.46$ against a published $4.42$ at
+$q=3$, and $8.49$ against $8.27$ at $q=4$. That is a per cent and then three,
+against a tenth of a per cent for $c_{q}$, and the asymmetry is the expected
+one. A vanishing complexity is a crossing and can be bisected; a branch
+appearing is a fold, and a population of twenty thousand locates it less well.
+Both remaining columns of Table~\ref{tab:colpublished} nonetheless come from one
+calculation, with neither used in getting there.
+
+\paragraph{The same three qualifications.} They are
+Sec.~\ref{sec:sat-sp}'s and they apply here unchanged: this is $m=0$, so the
+condensation transition is outside it; the treelike condition of
+Eq.~\eqref{eq:up} is untouched; and what the chygraph adds is that
+Eqs.~\eqref{eq:colsp} and~\eqref{eq:colsigma} are written for an arbitrary
+chy-degree distribution, so that the cardinality result of
+Sec.~\ref{sec:twoconstraints-col} carries over as a substitution. That the
+graph case reproduces published constants is a check on the implementation, and
+it is the reason to trust the substitution rather than a result in itself.
 
 \section{Checks}
 \label{sec:colouring-checks}
