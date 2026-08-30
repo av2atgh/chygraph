@@ -25,7 +25,7 @@ language in the running text with the algebra boxed off.
 | 9 | `ising.tex` | **Drafted.** Ising on chygraphs; clustering lowers $T_c$; the AT line; the unanimity interaction |
 | 10 | `hittingset.tex` | **Drafted.** Hard fields, where they fail off the graph, soft fields, RSB |
 | 11 | `cover.tex` | **Drafted.** Vertex cover, leaf removal, core percolation; hyperbolic random graphs |
-| 12 | `colouring.tex` | **Drafted.** Proper against hypergraph colouring; `tau = -1/(q-1)` independent of cardinality; `(q-1)^2`; a graph with triangles, where the graph calculation is wrong by one; survey propagation, and what the rule costs above cardinality two |
+| 12 | `colouring.tex` | **Drafted.** Proper against hypergraph colouring; `tau = -1/(q-1)` independent of cardinality; `(q-1)^2`; a graph with triangles, where the graph calculation is wrong by one; survey propagation; and Sec. 12.9, where the proper rule closes the window `m = 0` needs |
 | 13 | `satisfiability.tex` | **Drafted.** Clauses as complexes; `alpha = 1` exact at `k = 2`, no linear instability above it; **clauses whose members are clauses**, and what CNF flattening costs |
 | **IV** | | **Limits** |
 | 14 | `overlap.tex` | **Drafted.** The price of treelikeness; region graphs and GBP; what is open |
@@ -404,6 +404,55 @@ complexity form reused where it does not hold. And the gate note: **use
 and both implementations locate `c_d` to only a few per cent while disagreeing
 with each other by more — which briefly looked like a 5% conflict between them
 and was not.
+
+### Sec. 12.9, the proper rule closes the window, 2026-08-30
+
+The author asked for survey propagation on a graph with triangles and, when I
+kept pointing at a failed attempt instead of doing it, told me to start over.
+The restart found the result. **Three of my earlier conclusions were wrong**,
+each to a check I should have run first:
+
+- "`q = c` is degenerate, hence the failure" — no: `q = 4, c = 3` behaves the same.
+- "the `c = 3` branch appears by a fold, unlike the graph" — no: **both** appear
+  discontinuously, 0 → 0.74 and 0 → 0.68.
+- "the `Sigma` magnitudes are too large, so it is a bug" — that compared `Sigma`
+  near a crossing with `Sigma` far from one. Not a comparison.
+
+**What is true.** A threshold needs an interval where a non-trivial survey
+exists *and* `Sigma` is still positive. The graph has one; a triangle network
+does not.
+
+| | q=3 graph | q=3 triangles | q=4 graph | q=4 triangles |
+|---|---|---|---|---|
+| branch appears at (degree) | 4.45 | 3.20 | 8.20 | 6.80 |
+| `Sigma` there | +0.026 | **−0.160** | +0.060 | **−0.216** |
+| window | to 4.69 | none | to 8.90 | none |
+
+**The gate that makes this physics and not a bug.** The set-valued apparatus is
+checked twice against published numbers: at `c = 2` against Mulet's `c_q`
+(three colour counts), and at `c = 3` against Gabrié's `l_col` with **only the
+constraint rule swapped** and every `c = 3`-specific piece held fixed — the
+interior tensor, the SDR tensor, the `kappa/c` count, the three-term `Sigma`.
+The hypergraph rule at cardinality three *has* a window and returns 26.92 and
+63.3. So the closure is the proper constraint, not the cardinality.
+
+**State it as a negative result, not a threshold.** `m = 0` cannot locate the
+colourability threshold of a triangle-clustered graph; it does not follow that
+there is none. Survey propagation counts clusters without regard to size, which
+is wrong once they have stopped being equally worth counting before any exist.
+The repair is `Sigma(m)` with `m != 0` and is not done.
+
+**Second occurrence of the same shape.** Sec. 13.9's nested clauses fail
+identically — branch at finite `Sigma`, no crossing (`../probe/NESTED_SP.md`).
+Two problems sharing nothing but a cardinality above two. **If a third turns
+up, that is a thread and belongs in the Outlook.**
+
+**Two traps, both of which cost real time.** The branch appears
+*discontinuously* in every case, graph included, so a coarse scan steps over the
+whole positive window — the graph's is about 8% wide in degree, and my `c = 3`
+grid was 30% wide. And `Sigma` is exactly `0.0` on the trivial branch, so a
+bracket below the onset is refused rather than bracketing. Both are in the
+module header of `figs/colouring.py`.
 
 ### Sec. 12.5, a graph with triangles, 2026-08-30
 

@@ -28,6 +28,8 @@ Benchmarks, from `~/Downloads/chygraph_references/`:
 
 import itertools
 import sys
+from itertools import combinations, product
+from math import comb
 from fractions import Fraction as F
 from pathlib import Path
 
@@ -493,6 +495,234 @@ def check_hypergraph_thresholds():
     print('    whole of what cardinality does to the one-step calculation.')
 
 
+# ---------------------------------------------------------------------------
+# set-valued survey propagation: Sec. 12.8
+# ---------------------------------------------------------------------------
+#
+# Sec. 12.7's substitution reaches the hypergraph rule and not the proper one,
+# because a complex of cardinality c can close up to c-1 colours at once. This
+# carries the survey as a SET and does the proper rule at c = 3.
+#
+# The apparatus is gated twice, both against published numbers:
+#   c = 2, proper       -> Mulet's c_q         (check_setvalued_gates)
+#   c = 3, hypergraph   -> Gabrie's l_col      (same, rule swapped and nothing
+#                                               else, which is what isolates the
+#                                               c = 3 scaffolding)
+# and then applied to the proper rule at c = 3, where it finds no window:
+# the branch arrives with Sigma already negative (check_window_closes).
+#
+# Two traps, both of which cost time here. The branch appears DISCONTINUOUSLY
+# in every case, graph included, so a coarse scan steps over the whole positive
+# window -- the graph's is only about 8% wide in degree. And Sigma is exactly
+# 0.0 on the trivial branch, so a bracket below the onset is refused rather
+# than bracketing.
+
+def _sv_subsets(q):
+    return [frozenset(T) for s in range(q + 1) for T in combinations(range(q), s)]
+
+def _sv_emit(others, q):
+    """Colours still open to member 0 (Hall's condition on the other members)."""
+    ok = set()
+    for g in range(q):
+        rest = [A - {g} for A in others]
+        if any(not A for A in rest):
+            continue
+        if len(rest) == 2 and len(rest[0]) == 1 and rest[0] == rest[1]:
+            continue
+        ok.add(g)
+    return ok
+
+def _sv_emithyper(others, q):
+    """Hypergraph rule: the complex forbids g only if ALL others are forced to g."""
+    bad = {next(iter(A)) for A in others if len(A) == 1}
+    if len(bad) == 1 and all(len(A) == 1 for A in others):
+        return set(range(q)) - bad
+    return set(range(q))
+
+
+def _sv_interior(q, c, rule='proper'):
+    """T[...] -> distribution of emitted size, given the other members' sizes."""
+    subs = _sv_subsets(q)
+    shape = (q + 1,) * (c - 1) + (q + 1,)
+    T = np.zeros(shape)
+    from itertools import product
+    for combo in product(subs, repeat=c - 1):
+        if any(len(A) == 0 for A in combo):
+            continue
+        w = 1.0
+        for A in combo:
+            w /= comb(q, len(A))
+        em = _sv_emit(combo, q) if rule == 'proper' else _sv_emithyper(combo, q)
+        T[tuple(len(A) for A in combo) + (len(em),)] += w
+    return T
+
+def _sv_contains(m, q):
+    """g[t] = P(the set contains a given t-subset)."""
+    C = np.array([[comb(q - t, s - t) / comb(q, s) if s >= t else 0.0
+                   for s in range(q + 1)] for t in range(q + 1)])
+    return m @ C.T
+
+def _sv_sweep(V, q, c, kappa, T, rng, yreweight=np.inf):
+    n = V.shape[0]
+    if c == 2:
+        M = np.einsum('ni,ij->nj', V[rng.integers(0, n, n)], T)
+    else:
+        M = np.einsum('ni,nj,ijk->nk', V[rng.integers(0, n, n)],
+                      V[rng.integers(0, n, n)], T)
+    G = _sv_contains(M, q)
+    d = rng.poisson(kappa, n)
+    tot = int(d.sum())
+    P = np.ones((n, q + 1))
+    if tot:
+        lg = np.log(np.maximum(G[rng.integers(0, n, tot)], 1e-300))
+        cs = np.concatenate([np.zeros((1, q + 1)), np.cumsum(lg, axis=0)])
+        e = np.cumsum(d)
+        P = np.exp(cs[e] - cs[e - d])
+    out = np.zeros_like(V)
+    for u in range(q + 1):
+        out[:, u] = comb(q, u) * sum((-1) ** j * comb(q - u, j) * P[:, u + j]
+                                     for j in range(q - u + 1))
+    out = np.clip(out, 0, None)
+    # Finite y: a member left with no colour is a violated complex, energy 1,
+    # so it survives with weight e^{-y} rather than being discarded. y = inf
+    # recovers the hard constraint and every result above it.
+    out[:, 0] *= np.exp(-yreweight)
+    z = out.sum(axis=1, keepdims=True)
+    return np.where(z > 0, out / np.maximum(z, 1e-300), 0.0), M
+
+def _sv_run(q, c, kappa, size=4000, sweeps=300, seed=0, rule='proper',
+            yreweight=np.inf):
+    rng = np.random.default_rng(seed)
+    T = _sv_interior(q, c, rule)
+    V = np.zeros((size, q + 1)); V[:, 1] = 0.9; V[:, 2] = 0.1
+    for _ in range(sweeps):
+        V, M = _sv_sweep(V, q, c, kappa, T, rng, yreweight)
+    return V, M, rng
+
+
+def _sv_sat(q, c, rule='proper'):
+    """S[...] = P(the complex is satisfiable), by size class."""
+    subs = _sv_subsets(q)
+    from itertools import product
+    S = np.zeros((q + 1,) * c)
+    for combo in product(subs, repeat=c):
+        if any(len(A) == 0 for A in combo):
+            continue
+        w = 1.0
+        for A in combo:
+            w /= comb(q, len(A))
+        found = False
+        for pick in product(*[sorted(A) for A in combo]):
+            if (len(set(pick)) == c) if rule == 'proper' else (len(set(pick)) > 1):
+                found = True
+                break
+        if found:
+            S[tuple(len(A) for A in combo)] += w
+    return S
+
+
+def _sv_sigma(q, c, kappa, size=4000, sweeps=300, seed=0, rule='proper',
+              yreweight=np.inf):
+    """Three-term Bethe count at m = 0, the form validated at c = 2."""
+    V, M, rng = _sv_run(q, c, kappa, size, sweeps, seed, rule, yreweight)
+    if V[:, 1].mean() < 1e-9:
+        return 0.0, 0.0
+    n = V.shape[0]
+    G = _sv_contains(M, q)
+    d = rng.poisson(kappa, n)
+    tot = int(d.sum())
+    P = np.ones((n, q + 1))
+    if tot:
+        lg = np.log(np.maximum(G[rng.integers(0, n, tot)], 1e-300))
+        cs = np.concatenate([np.zeros((1, q + 1)), np.cumsum(lg, axis=0)])
+        e = np.cumsum(d)
+        P = np.exp(cs[e] - cs[e - d])
+    P0 = sum((-1) ** j * comb(q, j) * P[:, j] for j in range(q + 1))
+    site = np.log(np.maximum(1.0 - P0, 1e-300)).mean()
+    Sm = _sv_sat(q, c, rule)
+    parts = [V[rng.integers(0, n, n)] for _ in range(c)]
+    Za = (np.einsum('ni,nj,ij->n', *parts, Sm) if c == 2
+          else np.einsum('ni,nj,nk,ijk->n', *parts, Sm))
+    g1 = G[:, 1]
+    Zia = 1.0 - (1.0 - g1[rng.integers(0, n, n)]) * V[rng.integers(0, n, n), 1]
+    return (site + (kappa / c) * np.log(np.maximum(Za, 1e-300)).mean()
+            - kappa * np.log(np.maximum(Zia, 1e-300)).mean()), V[:, 1].mean()
+
+
+def check_setvalued_gates():
+    """The set-valued apparatus, against Mulet at c = 2 and Gabrie at c = 3."""
+    print('    c = 2, proper rule, against Mulet c_q')
+    print('       q   Sigma < 0 first at   c_q')
+    for q, cq, lo, hi in ((3, 4.69, 4.45, 4.95), (4, 8.90, 8.20, 9.40),
+                          (5, 13.69, 12.60, 14.40)):
+        r = _sv_bisect(q, 2, lo, hi, 'proper')
+        assert abs(r - cq) / cq < 0.03, (q, r, cq)
+        print(f'    {q:>4}   {r:>17.3f}   {cq:>5.2f}')
+    print('    c = 3, hypergraph rule, against Gabrie l_col -- only the rule')
+    print('    is swapped, which is what isolates the c = 3 scaffolding')
+    print('       q   Sigma < 0 first at   l_col')
+    for q, ref, lo, hi in ((3, 26.92, 24.0, 30.0), (4, 63.3, 57.0, 70.0)):
+        r = _sv_bisect(q, 3, lo, hi, 'hyper')
+        assert abs(r - ref) / ref < 0.03, (q, r, ref)
+        print(f'    {q:>4}   {r:>17.3f}   {ref:>5.2f}')
+
+
+def check_window_closes():
+    """Sec. 12.8: on triangles the proper rule leaves no window for m = 0.
+
+    A threshold needs a range where a non-trivial survey exists AND Sigma is
+    still positive. The graph has one; the triangle network does not.
+    """
+    print('       q   c   branch at (degree)   best Sigma above it')
+    for q in (3, 4):
+        for c, lo, hi in ((2, 4.0, 10.0), (3, 1.2, 4.5)):
+            on = _sv_onset(q, c, lo, hi)
+            # The claim is that a positive-Sigma point EXISTS above the onset,
+            # not that Sigma is positive at one chosen place. Testing a single
+            # point is a knife edge: the q = 3 graph window is narrow and its
+            # Sigma runs to +0.001 near the edge. Scan the window instead.
+            grid = [on * (1 + 0.02 * j) for j in range(1, 8)]
+            sgs = [_sv_sigma(q, c, k)[0] for k in grid]
+            sg = max(sgs)
+            deg = on * (1 if c == 2 else 2)
+            # graphs open a window, triangles do not
+            assert (sg > 0) == (c == 2), (q, c, on, sgs)
+            print(f'    {q:>4}  {c}   {deg:>18.2f}   {sg:>+11.5f}')
+    print('    Both graph rows arrive with Sigma positive and cross zero at the')
+    print('    published c_q; both triangle rows arrive with Sigma already')
+    print('    negative -- fewer than one cluster -- and never return. Same')
+    print('    machinery, same q, same cardinality as the hypergraph gate')
+    print('    above, which does have a window. So this is the constraint and')
+    print('    not the cardinality, and it says m = 0 cannot locate the')
+    print('    threshold, not that there is none.')
+
+
+def _sv_onset(q, c, lo, hi, iters=14):
+    """Smallest chy-degree carrying a non-trivial survey. The branch appears
+    discontinuously in every case, so this is a fold and bisection on it is
+    the only reliable way to find the window's left edge."""
+    for _ in range(iters):
+        mid = 0.5 * (lo + hi)
+        if _sv_run(q, c, mid)[0][:, 1].mean() > 1e-4:
+            hi = mid
+        else:
+            lo = mid
+    return 0.5 * (lo + hi)
+
+
+def _sv_bisect(q, c, lo, hi, rule, iters=9):
+    """Where Sigma crosses zero. Requires Sigma(lo) > 0, so lo must sit inside
+    the window -- above the branch onset, below the crossing."""
+    assert _sv_sigma(q, c, lo, rule=rule)[0] > 0, (q, c, lo, rule)
+    for _ in range(iters):
+        mid = 0.5 * (lo + hi)
+        if _sv_sigma(q, c, mid, rule=rule)[0] > 0:
+            lo = mid
+        else:
+            hi = mid
+    return 0.5 * (lo + hi)
+
+
 def figure_colouring():
     plt = _mpl()
     fig, axes = plt.subplots(1, 2, figsize=(4.6, 2.5))
@@ -559,5 +789,9 @@ if __name__ == '__main__':
     check_survey_branch_is_clustering()
     print('above cardinality two, against Gabrie et al.:')
     check_hypergraph_thresholds()
+    print('the set-valued apparatus, gated twice:')
+    check_setvalued_gates()
+    print('and what it finds for the proper rule on triangles:')
+    check_window_closes()
     print('figure:')
     figure_colouring()
