@@ -25,7 +25,7 @@ language in the running text with the algebra boxed off.
 | 9 | `ising.tex` | **Drafted.** Ising on chygraphs; clustering lowers $T_c$; the AT line; the unanimity interaction |
 | 10 | `hittingset.tex` | **Drafted.** Hard fields, where they fail off the graph, soft fields, RSB |
 | 11 | `cover.tex` | **Drafted.** Vertex cover, leaf removal, core percolation; hyperbolic random graphs |
-| 12 | `colouring.tex` | **Drafted.** Proper against hypergraph colouring; `tau = -1/(q-1)` independent of cardinality; `(q-1)^2`; a graph with triangles, where the graph calculation is wrong by one; survey propagation; and Sec. 12.9, where the proper rule closes the window `m = 0` needs |
+| 12 | `colouring.tex` | **Drafted.** Proper against hypergraph colouring; `tau = -1/(q-1)` independent of cardinality; `(q-1)^2`; a graph with triangles, where the graph calculation is wrong by one; survey propagation; and **Sec. 12.9, extending Krzakala et al. to chygraphs to get `c_q` for a clustered graph** — the chapter's own result |
 | 13 | `satisfiability.tex` | **Drafted.** Clauses as complexes; `alpha = 1` exact at `k = 2`, no linear instability above it; **clauses whose members are clauses**, and what CNF flattening costs |
 | **IV** | | **Limits** |
 | 14 | `overlap.tex` | **Drafted.** The price of treelikeness; region graphs and GBP; what is open |
@@ -404,6 +404,63 @@ complexity form reused where it does not hold. And the gate note: **use
 and both implementations locate `c_d` to only a few per cent while disagreeing
 with each other by more — which briefly looked like a 5% conflict between them
 and was not.
+
+### Sec. 12.9: extending Krzakala et al. to chygraphs, 2026-08-30
+
+The author read Ch. 12 and said, correctly, that it had no new result beyond
+"for a graph with triangles the chygraph mapping is the way to go", then asked
+whether Krzakala's approach could locate the transition. It can, and it does.
+
+**The apparatus is theirs, verified against the arXiv source** (`cond-mat/0403725`,
+`coloring.tex`), not the PDF text. With `eta = e/q`:
+
+- `sp_update` **is** their Eq. (16), `eq_self_cons_q` — numerator, denominator,
+  term for term.
+- `sp_complexity` **is** their Eq. (20), `eq:sigma` — the site sum over the full
+  degree `p_d`, and the link term `-(c/2) ln(1 - q eta_1 eta_2)`.
+
+So Sec. 12.7 does not merely agree with the published calculation; it *is* the
+published calculation with a chygraph in place of a graph. Worth stating in the
+book, and now stated.
+
+**The result.** `Sigma(y=inf)` counts ZERO-ENERGY clusters, so negative means
+none exist and the colourable phase is bounded by where they run out. On a graph
+that is a crossing; on triangles the branch arrives already negative, so the
+phase ends at the lift-off.
+
+| q | graph `c_q` | triangles | change |
+|---|---|---|---|
+| 3 | 4.69 | **3.083** | −34.3% |
+| 4 | 8.90 | **6.771** | −23.9% |
+
+**And it points the opposite way from Sec. 12.5.** The RS stability line goes
+*up* with triangles (5 → 6, 10 → 11) while `c_q` goes *down*. On a graph the two
+sit within 6% and one proxies the other; on triangles `c_q` is half the RS line.
+**Anyone using the RS threshold as a proxy for colourability gets the SIGN of
+the clustering effect wrong** — concludes clustering helps, when it costs a
+third of the range.
+
+**Three figures**, all added on the author's reading that the section asserted a
+different technique without showing it. Fig. 12.2 draws what a survey *is*: one
+cluster and one message, against many clusters each sending their own.
+Fig. 12.3 draws `Sigma` against degree — the graph's arc above zero crossing at
+`c_q`, the triangle branch starting below zero with no arc. Fig. 12.4 draws the
+phase structure: a graph passes through one cluster, then exponentially many,
+then none; triangles skip the shattered phase.
+
+**The section was rewritten twice, both times on the author's reading, and the
+lesson is worth keeping.** First it did not say this *extends* Krzakala et al.
+to chygraphs — only that the apparatus was theirs, which understates it: their
+Eqs. (16) and (20) are for graphs and have nowhere to put a complex. Second, it
+still read as a recovery from confusion, because the original Sec. 12.9 was the
+failed reading written down. The two sections are now one, opening with what was
+done. **The discovery order is not the exposition order; do not restore the
+narration.**
+
+**What is still not done:** the energy above `c_q`. That is Krzakala's `e(y)` at
+finite `y`, and four attempts at it failed (see the note below and
+`../probe/FINITE_Y.md`). It answers *how badly* uncolourable, not *where* — the
+threshold needed only the `y = inf` endpoint, which is gated.
 
 ### Sec. 12.9, the proper rule closes the window, 2026-08-30
 

@@ -723,6 +723,106 @@ def _sv_bisect(q, c, lo, hi, rule, iters=9):
     return 0.5 * (lo + hi)
 
 
+# Mulet's colourability thresholds, the graph column of Table 12.5.
+MULET_CQ = {3: 4.69, 4: 8.90, 5: 13.69}
+
+
+def clustered_cq(q, lo=1.2, hi=4.5, iters=18):
+    """Degree at which a triangle-clustered graph stops being q-colourable.
+
+    Sigma(y=inf) is the complexity of ZERO-ENERGY clusters -- Krzakala, Pagnani
+    & Weigt Eq. (20), which Eq. (12.6) reproduces term for term. Negative means
+    none exist. On a graph the sequence is: trivial survey, then a branch with
+    Sigma > 0, then Sigma crossing zero at c_q. On triangles the middle step is
+    missing -- the branch arrives with Sigma already negative -- so the
+    colourable phase is exactly where the survey is still trivial, and c_q is
+    where the branch appears. Degree is 2*kappa.
+    """
+    return 2.0 * _sv_onset(q, 3, lo, hi, iters=iters)
+
+
+def check_clustered_cq():
+    """Sec. 12.10: c_q for triangles, against the graph, and against the RS line."""
+    print('     q   graph c_q   triangles c_q   change    RS line: graph -> tri')
+    for q in (3, 4):
+        cq = MULET_CQ[q]
+        tri = clustered_cq(q)
+        rs_g, rs_t = (q - 1) ** 2 + 1, (q - 1) ** 2 + 2
+        # the colourable phase must end below the RS stability line, as on a graph
+        assert tri < rs_t, (q, tri, rs_t)
+        # and triangles must be HARDER, which is the direction the RS line denies
+        assert tri < cq, (q, tri, cq)
+        print(f'  {q:>4}   {cq:>9.2f}   {tri:>13.3f}   {100*(tri-cq)/cq:>+6.1f}%'
+              f'    {rs_g:>6} -> {rs_t}')
+    print('    The two lines move in OPPOSITE directions. Promoting links into')
+    print('    triangles at fixed degree raises the replica-symmetric stability')
+    print('    line and lowers the density at which colourings actually run out.')
+    print('    On a graph the two sit within six per cent of each other, so one')
+    print('    proxies the other; on triangles c_q is half the RS line, and')
+    print('    taking the RS line as a proxy gets the SIGN of the clustering')
+    print('    effect wrong.')
+
+
+def figure_threshold():
+    """Sec. 12.10: how the threshold is located, and why triangles differ.
+
+    Left, a graph: the survey is trivial and Sigma is zero until the branch
+    lifts off, Sigma is POSITIVE over an arc, and the arc falls through zero at
+    c_q. The threshold is the crossing.
+
+    Right, a network of triangles at the same q: the branch lifts off already
+    BELOW zero. There is no arc, so there is no crossing, and the colourable
+    phase is the trivial region -- the threshold is the lift-off itself.
+
+    The vertical scales differ by a factor of six and the caption says so: the
+    graph's arc peaks at +0.07 while the triangle branch plunges to -0.4. A
+    shared axis makes the graph panel look flat and hides the crossing, which
+    is the thing the panel exists to show.
+    """
+    plt = _mpl()
+    q = 4
+    seeds = (0, 1, 2)
+
+    def curve(c, degs):
+        out = []
+        for d in degs:
+            k = d if c == 2 else d / 2.0
+            out.append(np.mean([_sv_sigma(q, c, k, seed=s)[0] for s in seeds]))
+        return np.array(out)
+
+    gdeg = np.array([8.10, 8.20, 8.40, 8.60, 8.80, 9.00, 9.20])
+    tdeg = np.array([6.80, 7.00, 7.20, 7.60, 8.00, 8.40])
+    gsig, tsig = curve(2, gdeg), curve(3, tdeg)
+
+    fig, axes = plt.subplots(1, 2, figsize=(4.6, 2.3))
+    for ax, deg, sig, on, cq, ttl, note in (
+            (axes[0], gdeg, gsig, 8.08, 8.90, 'graph',
+             'an arc above zero;\nit crosses at $c_q$'),
+            (axes[1], tdeg, tsig, 6.77, 6.77, 'triangles',
+             'no arc: the branch\nstarts below zero')):
+        ax.axhline(0.0, lw=0.8, color=MID, zorder=1)
+        ax.plot([deg[0] - 1.3, on], [0, 0], lw=2.4, color=LIGHT,
+                solid_capstyle='butt', zorder=2)
+        ax.plot(deg, sig, 'o-', ms=3.2, lw=1.0, color=DARK, zorder=3)
+        ax.plot([on, on], [0, sig[0]], ls=':', lw=0.9, color=DARK, zorder=3)
+        ax.axvline(cq, ls='--', lw=0.9, color=MID, zorder=1)
+        ax.set_title(ttl, fontsize=8.5)
+        ax.set_xlabel('degree', fontsize=8.5)
+        _tidy(ax)
+        lo, hi = min(sig.min(), 0.0), max(sig.max(), 0.0)
+        pad = 0.32 * (hi - lo) if hi > lo else 0.05
+        ax.set_ylim(lo - pad, hi + 1.5 * pad)
+        ax.annotate('$c_q$', xy=(cq, hi + 0.95 * pad), fontsize=8,
+                    color='0.25', ha='center')
+        ax.annotate(note, xy=(0.62, 0.06), xycoords='axes fraction',
+                    fontsize=6.6, color='0.30', ha='center')
+    axes[0].set_ylabel(r'$\Sigma$', fontsize=9)
+    axes[1].set_ylabel(r'$\Sigma$', fontsize=9)
+    fig.tight_layout()
+    fig.savefig(OUT / 'fig-threshold.pdf')
+    print(f'  wrote {OUT / "fig-threshold.pdf"}')
+
+
 def figure_colouring():
     plt = _mpl()
     fig, axes = plt.subplots(1, 2, figsize=(4.6, 2.5))
@@ -793,5 +893,8 @@ if __name__ == '__main__':
     check_setvalued_gates()
     print('and what it finds for the proper rule on triangles:')
     check_window_closes()
-    print('figure:')
+    print('the colourability threshold of a clustered graph:')
+    check_clustered_cq()
+    print('figures:')
     figure_colouring()
+    figure_threshold()

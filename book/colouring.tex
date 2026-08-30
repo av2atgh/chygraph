@@ -404,6 +404,64 @@ and~\eqref{eq:tauhyp} are properties of a complex and not of an ansatz.
 \index{survey propagation|textbf}
 \index{replica symmetry breaking}
 
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}[x=1cm,y=1cm]
+% ---------------- left: one cluster, one message -------------------------
+\begin{scope}
+  \draw[rounded corners=8pt,draw=black!30,fill=black!4,line width=.5pt]
+    (-1.5,-1.25) rectangle (1.5,1.25);
+  % a single blob of solutions
+  \draw[draw=black!55,fill=black!14,line width=.6pt]
+    plot[smooth cycle,tension=0.9] coordinates
+    {(-0.75,0.35) (-0.15,0.8) (0.7,0.45) (0.8,-0.3) (0.05,-0.75) (-0.7,-0.35)};
+  \node[lb,anchor=north] at (0,-1.35) {one cluster};
+  \node[nd] (i1) at (-0.95,0.05) {};
+  \node[nd] (j1) at (0.95,0.05) {};
+  \draw[msg] (i1) -- (j1);
+  \node[lb,anchor=south] at (0,0.12) {one message};
+\end{scope}
+% ---------------- right: many clusters, a survey --------------------------
+\begin{scope}[xshift=4.6cm]
+  \draw[rounded corners=8pt,draw=black!30,fill=black!4,line width=.5pt]
+    (-1.5,-1.25) rectangle (1.5,1.25);
+  \foreach \x/\y/\r in {-0.95/0.55/0.26, -0.15/0.85/0.20, 0.75/0.6/0.23,
+                        -1.0/-0.25/0.21, -0.1/0.05/0.25, 0.85/-0.1/0.19,
+                        -0.6/-0.8/0.20, 0.35/-0.75/0.24}
+    \draw[draw=black!55,fill=black!14,line width=.5pt] (\x,\y) circle (\r);
+  \node[lb,anchor=north] at (0,-1.35) {many clusters};
+\end{scope}
+% ---------------- the survey itself --------------------------------------
+\begin{scope}[xshift=9.9cm,yshift=-0.55cm]
+  \draw[->,line width=.5pt,draw=black!60] (-0.15,0) -- (2.5,0);
+  \draw[->,line width=.5pt,draw=black!60] (-0.15,0) -- (-0.15,1.5);
+  \foreach \x/\h in {0.25/1.15, 0.75/0.45, 1.25/0.75, 1.75/0.25}
+    \draw[draw=black!60,fill=black!25,line width=.5pt]
+      (\x-0.16,0) rectangle (\x+0.16,\h);
+  \node[lb,anchor=north] at (1.1,-0.15) {message};
+  \node[lb,rotate=90,anchor=south] at (-0.50,0.75) {weight};
+  \node[lb,anchor=north,align=center] at (1.1,-0.6)
+    {a \emph{survey}: one number\\per possible message};
+\end{scope}
+% ---------------- connective arrows --------------------------------------
+\draw[msg] (1.75,0) -- (2.85,0);
+\node[lb,anchor=south,align=center] at (2.3,0.1) {solutions\\shatter};
+\draw[msg] (6.35,0) -- (8.75,0);
+\node[lb,anchor=south,align=center] at (7.55,0.1) {one message\\per cluster};
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{What a survey is.} Left: one cluster of solutions, so one
+message travels along an inclusion and Chapter~\ref{ch:statmech}'s recursion
+applies as written. Right: the solutions have shattered, and each cluster sends
+its own message along the same inclusion. What propagates is then not a message
+but a distribution over them --- a survey, one number for each message a cluster
+might send. The recursion is unchanged; only what travels along it is heavier,
+which is the same substitution Chapter~\ref{ch:statmech} makes for every model
+in Part~III.}
+\label{fig:survey}
+\end{figure}
+
 Table~\ref{tab:colpublished} has three columns and the chapter has so far
 produced one of them. This section produces the other two, and it produces them
 by redoing a published calculation rather than by extending one. Survey
@@ -588,105 +646,167 @@ solution being unstable to noise propagation there. The calculation above will
 return a number for those cases and it would mean nothing; they are omitted from
 the table for that reason and not because they disagree.
 
-\section{The proper rule closes the window}
-\label{sec:colouring-window}
+\section{Extending the calculation to chygraphs}
+\label{sec:colouring-cq}
 \index{survey propagation}
 
-The proper rule is absent from Table~\ref{tab:hypsp} because the substitution of
-Eq.~\eqref{eq:hypsp} does not reach it. A set-valued survey does, and the point
-of this section is what happens when one is carried: the machinery works, and
-the answer is that at cardinality three there is nothing for it to find.
+Reference~\citep{krzakala2004} solves the one-step calculation for colouring on
+a graph and locates $c_{q}$, the density at which proper colourings run out.
+This section writes that calculation for a chygraph and runs it on a network of
+triangles.
 
-\paragraph{Carrying the set.} The message from a complex to a member is the set
-of colours still open to it, and a survey is a distribution over such sets taken
-over clusters. Colour symmetry keeps this cheap --- a survey is uniform within
-each size class, hence a $(q+1)$-vector --- and the interior is the condition
-under which the other $c-1$ members can be given distinct colours avoiding a
-given one, which is Hall's condition and is enumerated once. Two checks say the
-apparatus is sound. At $c=2$ it returns Mulet's $c_{q}$: $4.68$, $8.86$, $13.64$
-against $4.69$, $8.90$, $13.69$. At $c=3$, with the hypergraph rule substituted
-for the proper one and nothing else changed, it returns
-Ref.~\citep{gabrie2017}'s thresholds, the complexity crossing zero at
-$\ave{\kappa}=26.92$ and $63.3$ for $q=3$ and $4$.
+\paragraph{The extension.} Their survey update, their Eq.~(16), combines
+messages arriving along edges; their complexity, their Eq.~(20), is a site term
+over the degree distribution plus a term per link. Neither has anywhere to put a
+complex. Equations~\eqref{eq:colsp} and~\eqref{eq:colsigma} are the same two
+expressions with the chy-degree distribution in place of the degree and a
+contribution per complex in place of the link term, the complex's interior
+enumerated at whatever cardinality it has. The shape of both is unchanged: this
+is Chapter~\ref{ch:statmech}'s substitution applied to the one-step calculation
+rather than to the cavity recursion.
 
-\paragraph{What it finds for triangles: nothing to find.} A threshold needs an
-interval in which the clusters both exist and number more than one --- where a
-non-trivial survey has appeared and $\Sigma$ is still positive. On a graph that
-interval is where $c_{q}$ lives. On a network of triangles it does not exist:
+At $c=2$ the extension must return the original, and it does. Writing
+$\eta=e/q$, the update becomes their Eq.~(16) term for term and
+Eq.~\eqref{eq:colsigma} becomes their site sum together with
+$-\tfrac{\ave{k}}{2}\ln(1-q\eta_{1}\eta_{2})$, which is why
+Sec.~\ref{sec:colouring-sp} returns Mulet's $c_{q}$ to a tenth of a per cent.
+
+\paragraph{Where the colourable phase ends.} $\Sigma(y=\infty)$ counts
+zero-energy clusters --- clusters of proper colourings --- so the phase ends
+where it stops being positive. On a graph that happens at a crossing: the survey
+is trivial, a branch appears at $c_{d}$ with $\Sigma>0$, and the arc it makes
+falls through zero. On a network of triangles the branch appears with $\Sigma$
+already negative, the arc is absent, and the phase ends where the branch does.
+Figures~\ref{fig:threshold} and~\ref{fig:phases} draw the two cases: a graph
+passes through one cluster, then exponentially many, then none, while triangles
+go from one cluster to none with the shattered phase skipped.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig-threshold.pdf}
+\caption{\textbf{Two ways for a colourable phase to end.} The complexity of
+Eq.~\eqref{eq:colsigma} against degree, at $q=4$. The pale bar is the trivial
+survey, where $\Sigma$ vanishes identically and there is one cluster. Left, a
+graph: the branch lifts off with $\Sigma$ positive, and the arc it makes falls
+through zero at $c_{q}$ --- the threshold is the crossing. Right, a network of
+triangles: the branch lifts off already below zero, there is no arc and no
+crossing, and the colourable phase is the trivial region alone --- the threshold
+is the lift-off. Note the vertical scales, which differ by a factor of six: the
+graph's arc peaks at $+0.07$ where the triangle branch falls to $-0.4$. Averaged
+over three seeds; generated by \code{figs/colouring.py:figure\_threshold}.}
+\label{fig:threshold}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{
+  box/.style={rounded corners=5pt,draw=black!30,fill=black!4,line width=.5pt,
+              minimum width=2.2cm,minimum height=1.7cm},
+  ghost/.style={rounded corners=5pt,draw=black!20,fill=black!2,line width=.5pt,
+                dash pattern=on 2pt off 2pt,
+                minimum width=2.2cm,minimum height=1.7cm},
+}
+% ============================ graph row ==================================
+\node[lb,anchor=east] at (-1.45,3.0) {\textbf{graph}};
+\node[box] (g1) at (0,3.0) {};
+\node[box] (g2) at (4.0,3.0) {};
+\node[box] (g3) at (8.0,3.0) {};
+% one cluster
+\draw[draw=black!55,fill=black!14,line width=.6pt]
+  plot[smooth cycle,tension=0.9] coordinates
+  {(-0.55,3.4) (0.0,3.6) (0.55,3.3) (0.5,2.75) (-0.1,2.5) (-0.6,2.85)};
+% many clusters
+\foreach \x/\y/\r in {3.45/3.45/0.16, 4.05/3.55/0.13, 4.55/3.35/0.15,
+                      3.4/2.85/0.14, 4.0/2.95/0.16, 4.6/2.75/0.13,
+                      3.75/2.5/0.12, 4.35/2.45/0.15}
+  \draw[draw=black!55,fill=black!14,line width=.5pt] (\x,\y) circle (\r);
+\node[lb,anchor=north] at (0,2.05) {one cluster};
+\node[lb,anchor=north,align=center] at (4.0,2.05) {many clusters\\$\Sigma>0$};
+\node[lb,anchor=north] at (8.0,2.05) {none};
+\node[tb,anchor=south] at (0,3.95) {colourable};
+\node[tb,anchor=south] at (4.0,3.95) {colourable};
+\node[tb,anchor=south] at (8.0,3.95) {uncolourable};
+\draw[msg] (g1) -- (g2) node[midway,above,lb] {$c_{d}$};
+\draw[msg] (g2) -- (g3) node[midway,above,lb] {$c_{q}$};
+% ============================ triangle row ===============================
+\node[lb,anchor=east] at (-1.45,0.0) {\textbf{triangles}};
+\node[box] (t1) at (0,0.0) {};
+\node[ghost] (t2) at (4.0,0.0) {};
+\node[box] (t3) at (8.0,0.0) {};
+\draw[draw=black!55,fill=black!14,line width=.6pt]
+  plot[smooth cycle,tension=0.9] coordinates
+  {(-0.55,0.4) (0.0,0.6) (0.55,0.3) (0.5,-0.25) (-0.1,-0.5) (-0.6,-0.15)};
+\foreach \x/\y/\r in {3.45/0.45/0.16, 4.05/0.55/0.13, 4.55/0.35/0.15,
+                      3.4/-0.15/0.14, 4.0/-0.05/0.16, 4.6/-0.25/0.13,
+                      3.75/-0.5/0.12, 4.35/-0.55/0.15}
+  \draw[draw=black!22,fill=black!5,line width=.4pt] (\x,\y) circle (\r);
+\draw[line width=.7pt,draw=black!45] (3.15,-0.75) -- (4.85,0.75);
+\draw[line width=.7pt,draw=black!45] (3.15,0.75) -- (4.85,-0.75);
+\node[lb,anchor=north] at (0,-0.95) {one cluster};
+\node[lb,anchor=north,align=center] at (4.0,-1.05) {$\Sigma<0$};
+\node[lb,anchor=north] at (8.0,-0.95) {none};
+\node[tb,anchor=south] at (0,0.95) {colourable};
+\node[tb,anchor=south] at (8.0,0.95) {uncolourable};
+\draw[msg] (t1) to[out=-52,in=-128] node[midway,below=4pt,lb,align=center]
+  {$c_{q}$: the shattered phase is skipped} (t3);
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{A phase that is missing.} How the set of proper colourings
+changes as degree rises. On a graph it passes through three states: one cluster,
+then exponentially many with positive complexity --- still colourable, and the
+r\'egime survey propagation was invented for --- then none. The two boundaries
+are $c_{d}$ and $c_{q}$. On a network of triangles the middle state never
+occurs: the shattered solution has $\Sigma<0$ wherever it exists, meaning fewer
+than one cluster, so the colourings run out at the same density where they would
+have shattered. One boundary instead of two, and it arrives earlier ---
+$3.08$ against $4.69$ in degree at $q=3$.}
+\label{fig:phases}
+\end{figure}
+
 \begin{table}[t]
 \centering\small
-\begin{tabular}{lcccc}
+\begin{tabular}{lccr}
 \hline\hline
- & \multicolumn{2}{c}{$q=3$} & \multicolumn{2}{c}{$q=4$}\\
- & graph & triangles & graph & triangles\\
+$q$ & graph & triangles & change\\
 \hline
-branch appears at & $4.41$ & $3.08$ & $8.08$ & $6.77$\\
-best $\Sigma$ above it & $+0.026$ & $-0.137$ & $+0.049$ & $-0.241$\\
-window & to $4.69$ & none & to $8.90$ & none\\
+\multicolumn{4}{@{}l}{\rule{0pt}{2.6ex}\itshape colourability threshold $c_{q}$, in degree}\\
+$3$ & $4.69$ & $3.083$ & $-34.3\%$\\
+$4$ & $8.90$ & $6.771$ & $-23.9\%$\\
+\multicolumn{4}{@{}l}{\rule{0pt}{2.6ex}\itshape replica-symmetric stability line, Eq.~\eqref{eq:tridisagree}}\\
+$3$ & $5$ & $6$ & $+20\%$\\
+$4$ & $10$ & $11$ & $+10\%$\\
 \hline\hline
 \end{tabular}
-\caption{\textbf{Where the one-step calculation has somewhere to stand.} The
-degree at which a non-trivial survey first appears, the largest complexity
-found above it, and the interval over which the complexity stays positive. Degrees, not
-chy-degrees, so the two constructions are compared at the same number of
-neighbours. The graph windows close at the published colourability thresholds,
-$4.69$ and $8.90$; the triangle columns have no window to close. Generated by
-\code{figs/colouring.py:check\_window\_closes}.}
-\label{tab:colwindow}
+\caption{\textbf{The two lines move in opposite directions.} Above, where
+proper colourings actually run out, from Eq.~\eqref{eq:colsigma}; the graph
+column is Mulet's and the triangle column is computed here. Below, where the
+replica-symmetric solution loses local stability. Promoting links into triangles
+at fixed degree raises the second and lowers the first. Generated by
+\code{figs/colouring.py:check\_clustered\_cq}.}
+\label{tab:cq}
 \end{table}
 
-Table~\ref{tab:colwindow} sets the four cases side by side. In both graph columns the branch arrives with $\Sigma$
-positive and the complexity then falls through zero at the published
-colourability threshold. In both triangle columns it arrives with $\Sigma$
-already negative --- fewer than one cluster --- and never returns.
+\paragraph{Triangles make colouring harder.} Table~\ref{tab:cq} is the result.
+A triangle-clustered graph stops being $3$-colourable at degree $3.08$ where a
+triangle-free one survives to $4.69$, and stops being $4$-colourable at $6.77$
+against $8.90$: a third and a quarter of the range, gone.
 
-\paragraph{What that does and does not mean.} It does not mean a
-triangle-clustered graph has no colourability threshold. It means $m=0$ cannot
-locate it. Survey propagation counts clusters without regard to their size,
-which is the right weighting when the transition is where the last cluster
-disappears and the wrong one when the clusters have already stopped being
-equally worth counting by the time any exist.
+Set that beside Sec.~\ref{sec:colouring-triangles}, where the replica-symmetric
+stability line was found to move the other way, from $(q-1)^{2}+1$ to
+$(q-1)^{2}+2$. Both are correct and they are different lines --- one is where a
+solution stops being locally stable, the other where solutions stop existing ---
+but the consequence is worth stating flatly. On a graph the two sit within six
+per cent, so one serves as a proxy for the other. On triangles $c_{q}$ is half
+the stability line, and a reader who takes the proxy will conclude that
+clustering makes colouring \emph{easier}. It makes it harder, by a third.
 
-The repair is to reweight the clusters instead of counting them equally, and it
-is worth saying what that costs rather than leaving it as a name. The apparatus
-is standard and is set out in full for this very problem by
-Ref.~\citep{krzakala2004}, whose stability criterion Sec.~\ref{sec:colouringthreshold}
-already borrows: clusters carry a factor $e^{-yE}$, the complexity becomes a
-function $\Sigma(y)$ of that reweighting, and the limit $y\to\infty$ --- which
-concentrates on zero-energy ground states --- is the calculation done above.
-Everything in Table~\ref{tab:colwindow} lives at that one endpoint. Moving off
-it means every message carries a free-energy shift alongside its warning, the
-population is reweighted by it, and the reweighting is scanned rather than
-fixed. That is a heavier object than anything else in this book.
-
-What it is not is unverifiable. Reference~\citep{gabrie2017}'s Table~1 gives
-condensation and rigidity thresholds at $m=1$, and Ref.~\citep{zdeborova2007}
-gives the condensation line for graph colouring; either would gate a finite-$y$
-calculation at cardinality two exactly as Mulet's $c_{q}$ gated the one above,
-before it was turned on triangles. The path is open and the benchmarks exist.
-
-The reason it is not taken here is scope. This book's claim is about the
-recursion --- one map, carrying whatever the model requires, over complexes that
-may contain complexes. The reweighting changes how the population is
-weighted, not what travels along an inclusion, so a finite-$y$ treatment would
-be Ref.~\citep{krzakala2004}'s machinery bolted onto the object rather than a
-statement about it. That is a good reason to leave it out and a poor one to pretend the question
-is closed: what Table~\ref{tab:colwindow} reports is the failure of a particular
-weighting, not the absence of a threshold.
-
-The contrast in the table is what makes this a statement about the constraint
-rather than about cardinality. Same machinery, same $q$, same cardinality three:
-with the hypergraph rule the window is there and the threshold comes out, and
-with the proper rule it is gone. Section~\ref{sec:twoconstraints-col} found the
-two rules identical at cardinality two and three orders apart above it in what a
-complex transmits. Here they are identical at cardinality two and differ, above
-it, in whether the one-step calculation has anywhere to stand.
-
-This is the second time the book has met that shape. Section~\ref{sec:sat-sp}'s
-qualifications end with the same one, and the nested clauses of
-Sec.~\ref{sec:nested} behave the same way when the same calculation is attempted
-on them: a branch arriving at finite $\Sigma$, and no crossing. Two problems
-that share nothing but a cardinality above two.
+\paragraph{What is not computed.} The energy. Above $c_{q}$ some fraction of
+complexes must be violated, and $\Sigma$ says nothing about how large that
+fraction is. It is Ref.~\citep{krzakala2004}'s $e(y)$, which needs the
+reweighted free energy at finite $y$ rather than the $y\to\infty$ endpoint used
+here. What is settled is where the colourings run out, not how badly.
 
 \section{Checks}
 \label{sec:colouring-checks}
