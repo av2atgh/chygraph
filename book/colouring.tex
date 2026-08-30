@@ -170,10 +170,13 @@ For a single layer,
   \label{eq:colthresh}
 \end{equation}
 
-\paragraph{The graph case, against the literature.} Put $c=2$. For a Poisson
-chy-degree, $\ave{\kbar}=\ave{k}$ and Eq.~\eqref{eq:colthresh} gives
-$\ave{k}=(q-1)^{2}$. For a regular chy-degree, $\ave{\kbar}=\ave{k}-1$ and it
-gives $\ave{k}=(q-1)^{2}+1$. Both are
+\paragraph{The graph case, against the literature.} Put $c=2$, where a complex
+is an edge and the chy-degree is the ordinary degree. What is left to choose is
+the degree distribution. For a \emph{Poisson} one, $\ave{\kbar}=\ave{k}$ ---
+a Poisson distribution being its own excess --- and Eq.~\eqref{eq:colthresh}
+gives $\ave{k}=(q-1)^{2}$. For a \emph{regular} one, a node of degree $k$ has
+$k-1$ other edges, so $\ave{\kbar}=\ave{k}-1$ and it gives
+$\ave{k}=(q-1)^{2}+1$. Both are
 Ref.~\citep{zdeborova2007}'s Eq.~(18), which reads
 $c_{\mathrm{RS}}^{\mathrm{ER}}=q^{2}-2q+1$ and
 $c_{\mathrm{RS}}^{\mathrm{reg}}=q^{2}-2q+2$; the stability analysis and its
@@ -199,6 +202,17 @@ The first does not move. A network of $c$-cliques loses stability at exactly the
 same number of neighbours per node as a graph does, for every cardinality and
 every $q$: promoting motifs to complexes changes nothing at all here. The second
 runs away --- at $q=4$ it is $9$, $225$, $3969$ for $c=2,3,4$.
+
+The second is not new, and the agreement is a check rather than a result.
+Reference~\citep{gabrie2017} solves $q$-colouring of $K$-uniform random
+hypergraphs and its Eq.~(43) gives the same linear-stability bound,
+$\ell^{\mathrm{RS}}_{\mathrm{stab}}=(q^{K-1}-1)^{2}/(K-1)$ for a Poisson degree
+of mean $\ell$ --- which is $(q^{c-1}-1)^{2}$ neighbours per node, this
+chapter's Eq.~\eqref{eq:coltwo}. Its Appendix~B derives the transmission at
+finite temperature and Eq.~\eqref{eq:tauhyp} is that expression at
+$\beta\to\infty$. What is left to this chapter is the first line and the
+contrast: that the same substitution gives both rules, and that they part
+company only above cardinality two.
 
 The first of these is the same phenomenon as Eq.~\eqref{eq:kc}, which found
 $\ave{k}(c-1)=e$ for hitting set: counted in neighbours, hyperedge size does not
@@ -298,7 +312,14 @@ and~\eqref{eq:tauhyp} are properties of a complex and not of an ansatz.
 \index{replica symmetry breaking}
 
 Table~\ref{tab:colpublished} has three columns and the chapter has so far
-produced one of them. This section produces the other two.
+produced one of them. This section produces the other two, and it produces them
+by redoing a published calculation rather than by extending one. Survey
+propagation for colouring is Refs.~\citep{braunstein2003,mulet2002}', the
+thresholds it returns are theirs, and nothing below is a new result. It is here
+because a book that spends a chapter saying its own threshold is the wrong line
+should be able to compute the right one, and because the machinery is then in
+place for cardinalities above two, where Sec.~\ref{sec:colouring-sp-chy} takes
+it.
 
 The object one level up is a survey: a distribution, over the clusters of
 colourings, of the colour a node is forced to. Colour symmetry does most of the
@@ -374,13 +395,108 @@ calculation, with neither used in getting there.
 
 \paragraph{The same three qualifications.} They are
 Sec.~\ref{sec:sat-sp}'s and they apply here unchanged: this is $m=0$, so the
-condensation transition is outside it; the treelike condition of
-Eq.~\eqref{eq:up} is untouched; and what the chygraph adds is that
-Eqs.~\eqref{eq:colsp} and~\eqref{eq:colsigma} are written for an arbitrary
-chy-degree distribution, so that the cardinality result of
-Sec.~\ref{sec:twoconstraints-col} carries over as a substitution. That the
-graph case reproduces published constants is a check on the implementation, and
-it is the reason to trust the substitution rather than a result in itself.
+condensation and rigidity transitions are outside it; the treelike condition of
+Eq.~\eqref{eq:up} is untouched; and reproducing published constants is a check
+on the implementation, not a result. To say it once more, since a section that
+computes five-figure agreement can be mistaken for one that discovers
+something: every number in Table~\ref{tab:colsp} was already known. What the
+chygraph adds is that Eqs.~\eqref{eq:colsp} and~\eqref{eq:colsigma} are written
+for an arbitrary chy-degree distribution and an arbitrary interior, which is
+what makes the next section a substitution rather than a second derivation.
+
+\section{Above cardinality two, and what the rule costs}
+\label{sec:colouring-sp-chy}
+\index{survey propagation}
+
+The previous section stayed at $c=2$, where the chygraph is a graph and the
+answer was already known. This section raises the cardinality, and the interest
+is not in the numbers --- those are known too --- but in which of the two rules
+survives the step and which does not.
+
+\paragraph{What a complex has to tell a member.} In the hard-field limit the
+message from a complex is the set of colours it forbids the member it is
+speaking to. Everything about how that message combines with the others at a
+node turns on one question: \emph{how many colours can a single complex forbid
+at once?}
+
+For the hypergraph rule the answer is \textbf{at most one}. A complex is
+violated only when all of its members share a colour, so it can forbid $\gamma$
+to member $0$ only when every one of the other $c-1$ members is already forced
+to $\gamma$ --- and they cannot all be forced to two different colours at the
+same time. The message is therefore the same \emph{kind} of object as at
+cardinality two, a single forbidden colour or none, and Eq.~\eqref{eq:colsp}
+carries over with one substitution: the weight $e/q$ that a neighbour forbids a
+given colour becomes $h/q$, where
+\begin{equation}
+  h=q\prod_{j=1}^{c-1}\frac{e_{j}}{q}
+  \label{eq:hypsp}
+\end{equation}
+is the weight that the complex forbids anything at all. Nothing else in the
+node update changes, and the inclusion--exclusion of
+Sec.~\ref{sec:colouring-sp} is reused unaltered.
+
+For the proper rule the answer is \textbf{up to $c-1$}. Every member forced to a
+different colour removes a different colour from member $0$, so a complex of
+cardinality five can arrive carrying four prohibitions at once. The message is
+no longer a colour but a \emph{set} of them, the events ``$\gamma$ is
+forbidden'' and ``$\gamma'$ is forbidden'' are correlated within a single
+complex as well as across complexes, and the node update needs the joint
+distribution of the forbidden set rather than a scalar. Equation~\eqref{eq:colsp}
+does not carry over, and no substitution repairs it.
+
+That asymmetry is Sec.~\ref{sec:twoconstraints-col} again, one level up. There
+the two rules were found to coincide at cardinality two and to separate above
+it, in what they transmit. Here they coincide at cardinality two and separate
+above it in something harder: whether the one-step machinery can be reused at
+all. A complex with two members has no room for a partial violation, and it also
+has no room to forbid two things at once; both statements are the same
+degeneracy, and it is the second that decides how much work the next calculation
+is.
+
+\paragraph{Carrying it out.} Put Eq.~\eqref{eq:hypsp} into
+Eq.~\eqref{eq:colsp}. The complexity of Eq.~\eqref{eq:colsigma} gains the one
+term a graph does not have: a complex is violated when all $c$ of its members
+agree, so it contributes
+$\ln\bigl[1-q\prod_{j\le c}(e_{j}/q)\bigr]$, and there are
+$\ave{k}/c$ complexes per node.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{ccccr}
+\hline\hline
+$q$ & $c$ & $\Sigma=0$ at & published & error\\
+\hline
+$3$ & $3$ & $26.900\,(0.000)$ & $26.92$ & $-0.07\%$\\
+$4$ & $3$ & $63.276\,(0.024)$ & $63.30$ & $-0.04\%$\\
+$2$ & $5$ & $52.283\,(0.043)$ & $52.32$ & $-0.07\%$\\
+\hline\hline
+\end{tabular}
+\caption{\textbf{Hypergraph colouring above cardinality two.} Mean chy-degree at
+which the complexity vanishes, against the colourability thresholds of
+Ref.~\citep{gabrie2017}, Table~1. Bracketed figures are the spread over three
+seeds. The three errors agree in sign and size, which is a converged bias of the
+finite population rather than scatter. Generated by \code{figs/colouring.py}.}
+\label{tab:hypsp}
+\end{table}
+
+Table~\ref{tab:hypsp} is the result.
+
+The three rows are Ref.~\citep{gabrie2017}'s colourability thresholds, and the
+agreement is a check on the substitution and not a new result: that paper solves
+this problem, and Sec.~\ref{sec:colouringthreshold}'s hypergraph threshold is
+its Eq.~(43). What the check establishes is that Eq.~\eqref{eq:hypsp} is the
+whole of the difference --- that once a complex can forbid at most one colour,
+cardinality enters the one-step calculation through a single scalar and through
+nothing else.
+
+\paragraph{Two exclusions, both real.} At $q=2$ with $c=3$ and $c=4$
+Ref.~\citep{gabrie2017} marks its colourability threshold as invalid, the $m=0$
+solution being unstable to noise propagation there. The calculation above will
+return a number for those cases and it would mean nothing; they are omitted from
+the table for that reason and not because they disagree. And the proper rule is
+absent from the table because of the paragraph above, not because it was tried
+and failed: a set-valued survey is a different calculation, and this book does
+not do it.
 
 \section{Checks}
 \label{sec:colouring-checks}
@@ -397,8 +513,8 @@ scalar on the traceless subspace is checked by perturbing along three different
 traceless directions and requiring the same answer, for both rules.
 
 \emph{Against the literature.} Equation~\eqref{eq:colthresh} at $c=2$ returns
-$(q-1)^{2}$ for Poisson and $(q-1)^{2}+1$ for regular chy-degree, which are the
-two lines of Ref.~\citep{zdeborova2007}'s Eq.~(18). The published thresholds of
+$(q-1)^{2}$ for a Poisson degree distribution and $(q-1)^{2}+1$ for a regular
+one, which are the two lines of Ref.~\citep{zdeborova2007}'s Eq.~(18). The published thresholds of
 Ref.~\citep{mulet2002} are quoted alongside, and the chapter states that they
 lie below the stability line for $q\ge4$ rather than leaving that to be
 discovered.

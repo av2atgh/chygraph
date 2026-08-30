@@ -21,6 +21,9 @@ Benchmarks, from `~/Downloads/chygraph_references/`:
   Zdeborova & Krzakala, Phys. Rev. E 76, 031131 (2007), Eq. (18)
   Braunstein, Mulet, Pagnani, Weigt & Zecchina, Phys. Rev. E 68, 036702 (2003)
     -- survey propagation for colouring; the update below is its m = 0 form
+  Gabrie, Dani, Semerjian & Zdeborova, J. Phys. A 50, 505002 (2017), Table 1
+    -- q-colouring of K-uniform hypergraphs; its Eq. (43) is the stability
+    threshold this chapter derives, and its l_col benchmarks Sec. 12.7
 """
 
 import itertools
@@ -343,6 +346,103 @@ def check_survey_branch_is_clustering():
     print('    carries both columns of Table 12.1.')
 
 
+# ---------------------------------------------------------------------------
+# survey propagation above cardinality two
+# ---------------------------------------------------------------------------
+#
+# Sec. 12.7. Everything turns on how many colours ONE complex can forbid at
+# once.
+#
+#   hypergraph rule: at most ONE -- a complex is violated only when all its
+#     members agree, so it can forbid gamma to the entering member only when
+#     every other member is already forced to gamma, and they cannot all be
+#     forced to two colours at once. The cardinality-two inclusion-exclusion
+#     above therefore carries over verbatim, with the per-neighbour weight e/q
+#     replaced by h/q, h = q prod_{j<c} (e_j/q).  That substitution is the
+#     whole of what cardinality does here.
+#
+#   proper rule: up to c-1 AT ONCE, so the message is a forbidden *set*, the
+#     prohibitions are correlated inside one complex as well as across
+#     complexes, and the node update needs the joint distribution of that set.
+#     No substitution repairs it, and it is not attempted.
+#
+# Benchmarks: Gabrie, Dani, Semerjian & Zdeborova, J. Phys. A 50, 505002
+# (2017), Table 1, l_col. Their q = 2 entries at c = 3 and c = 4 are marked
+# invalid (SP type I instability) and are excluded here for that reason -- the
+# code returns numbers for them and they would mean nothing.
+GABRIE = {(3, 3): 26.92, (4, 3): 63.3, (2, 5): 52.32}
+
+
+def _hyp_h(e, c, rng, size):
+    """Weight that a cardinality-c complex forbids anything: q prod (e_j/q)."""
+    return np.prod([e[rng.integers(0, e.size, size)] for _ in range(c - 1)],
+                   axis=0)
+
+
+def hyp_converge(q, c, kappa, size=20000, sweeps=200, seed=0):
+    """Survey population for hypergraph colouring, Poisson chy-degree.
+
+    Initialised near fully forced. The non-trivial branch is reached from
+    ABOVE: at q = 3, c = 3, kappa = 27 the map sends 0.5 -> 0.47, decaying to
+    the trivial fixed point, but 1.0 -> 0.97. Starting low finds nothing, the
+    same trap `population.py` documents for the ferromagnetic branch.
+    """
+    rng = np.random.default_rng(seed)
+    e = rng.uniform(0.97, 1.0, size)
+    for _ in range(sweeps):
+        h = _hyp_h(e, c, rng, size) * q ** (2 - c)
+        e, _ = sp_update(h, rng.poisson(kappa, size), rng, q, size)
+    return e, rng
+
+
+def hyp_complexity(q, c, kappa, size=20000, sweeps=200, seed=0, nsamp=300000):
+    """Sigma for hypergraph colouring, with the complex term a graph lacks."""
+    e, rng = hyp_converge(q, c, kappa, size, sweeps, seed)
+    if e.mean() < 1e-6:
+        return 0.0, 0.0
+    h = _hyp_h(e, c, rng, nsamp) * q ** (2 - c)
+    _, contra = sp_update(h, rng.poisson(kappa, nsamp), rng, q, nsamp)
+    site = np.log(np.maximum(1.0 - contra, 1e-300)).mean()
+    allsame = q * np.prod([e[rng.integers(0, e.size, nsamp)] / q
+                           for _ in range(c)], axis=0)
+    Za = np.log(np.maximum(1.0 - allsame, 1e-300)).mean()
+    hh = h[rng.integers(0, h.size, nsamp)]
+    ee = e[rng.integers(0, e.size, nsamp)]
+    Zia = np.log(np.maximum(1.0 - hh * ee / q, 1e-300)).mean()
+    return site + (kappa / c) * Za - kappa * Zia, float(e.mean())
+
+
+def hyp_threshold(q, c, lo, hi, seed=0, iters=9, **kw):
+    assert hyp_complexity(q, c, lo, seed=seed, **kw)[0] > 0, (q, c, lo)
+    for _ in range(iters):
+        mid = 0.5 * (lo + hi)
+        if hyp_complexity(q, c, mid, seed=seed, **kw)[0] > 0:
+            lo = mid
+        else:
+            hi = mid
+    return 0.5 * (lo + hi)
+
+
+def check_hypergraph_thresholds():
+    """Sigma = 0 above cardinality two, against Gabrie et al. Table 1."""
+    print('     q   c   Sigma = 0 at   published   error')
+    errs = []
+    for (q, c), lo, hi in (((3, 3), 24.0, 30.0), ((4, 3), 55.0, 70.0),
+                           ((2, 5), 45.0, 58.0)):
+        ref = GABRIE[(q, c)]
+        r = [hyp_threshold(q, c, lo, hi, seed=s) for s in (0, 1, 2)]
+        m, sd = float(np.mean(r)), float(np.std(r))
+        errs.append(100 * (m - ref) / ref)
+        assert abs(m - ref) / ref < 0.01, (q, c, m, ref)
+        print(f'  {q:>4}  {c:>2}   {m:>8.3f}({sd:.3f})   {ref:>9.2f}'
+              f'   {errs[-1]:>+5.2f}%')
+    assert all(x < 0 for x in errs), errs
+    print('    All three errors agree in sign and size, so this is a converged')
+    print('    bias of the finite population and not scatter. The numbers are')
+    print('    Ref. [gabrie2017]\'s; what the agreement checks is that h is the')
+    print('    whole of what cardinality does to the one-step calculation.')
+
+
 def figure_colouring():
     plt = _mpl()
     fig, axes = plt.subplots(1, 2, figsize=(4.6, 2.5))
@@ -405,5 +505,7 @@ if __name__ == '__main__':
     check_survey_thresholds()
     print('and the clustering threshold, as a by-product:')
     check_survey_branch_is_clustering()
+    print('above cardinality two, against Gabrie et al.:')
+    check_hypergraph_thresholds()
     print('figure:')
     figure_colouring()

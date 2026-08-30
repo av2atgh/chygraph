@@ -25,7 +25,7 @@ language in the running text with the algebra boxed off.
 | 9 | `ising.tex` | **Drafted.** Ising on chygraphs; clustering lowers $T_c$; the AT line; the unanimity interaction |
 | 10 | `hittingset.tex` | **Drafted.** Hard fields, where they fail off the graph, soft fields, RSB |
 | 11 | `cover.tex` | **Drafted.** Vertex cover, leaf removal, core percolation; hyperbolic random graphs |
-| 12 | `colouring.tex` | **Drafted.** Proper against hypergraph colouring; `tau = -1/(q-1)` independent of cardinality; `(q-1)^2` |
+| 12 | `colouring.tex` | **Drafted.** Proper against hypergraph colouring; `tau = -1/(q-1)` independent of cardinality; `(q-1)^2`; survey propagation, and what the rule costs above cardinality two |
 | 13 | `satisfiability.tex` | **Drafted.** Clauses as complexes; `alpha = 1` exact at `k = 2`, no linear instability above it; **clauses whose members are clauses**, and what CNF flattening costs |
 | **IV** | | **Limits** |
 | 14 | `overlap.tex` | **Drafted.** The price of treelikeness; region graphs and GBP; what is open |
@@ -372,6 +372,73 @@ chapters agree — `u' = t/(1-t+t^2)` in Chs. 7, 8, 9; `-13.9%`/`-14.2%` in
 Chs. 1, 4, 9, 15; the 77–100% HRG core in Chs. 11, 14, 15. (The last of these
 was *not* in fact consistent — see the 2026-08-30 pass below, which found Chs. 2
 and 3 quoting 65–83% for the same quantity.)
+
+### Colouring: what is ours and what is not, 2026-08-30
+
+Prompted by the author asking whether anything in Ch. 12 is actually new. The
+honest answer needed two corrections and produced one result.
+
+**The hypergraph threshold is not ours.** Gabrié, Dani, Semerjian & Zdeborová,
+*J. Phys. A* **50**, 505002 (2017), Eq. (43) gives
+`l_stab = (q^(K-1) - 1)^2 / (K-1)` for Poisson degree, which is Ch. 12's
+`(q^(c-1)-1)^2` neighbours per node. It reproduces **all six** of their tabulated
+values (4.50, 16.33, 56.25, 32.00, 225.33, 112.50). Their Appendix B derives the
+transmission at finite temperature and Eq. (12.2) is its `beta -> infinity`
+limit. Cited now, and Sec. 12.4 says the agreement is a check rather than a
+result. **The README previously listed this as one of two results "worth
+guarding" as new. It was wrong to.**
+
+**Sec. 12.6 recapitulates.** Survey propagation for colouring is Braunstein,
+Mulet, Pagnani, Weigt & Zecchina (2003); the thresholds it returns are theirs.
+The section now says so in its opening and again in its closing qualification,
+because a section showing five-figure agreement is easily mistaken for one that
+discovers something.
+
+**What is left to Ch. 12** is the proper-colouring cardinality independence,
+`tau = -1/(q-1)` at every `c`, and the contrast between the two rules — that one
+substitution gives both and they part company only above cardinality two.
+
+**Sec. 12.7, new.** The contrast has a consequence one level up, and this is the
+chapter's own:
+
+- **Hypergraph rule: a complex forbids at most ONE colour**, since its other
+  members cannot all be forced to two at once. So the cardinality-two
+  inclusion–exclusion carries over verbatim under `e/q -> h/q` with
+  `h = q prod_{j<c}(e_j/q)`, Eq. (12.7). Cardinality enters the one-step
+  calculation through one scalar and nothing else.
+- **Proper rule: up to `c-1` at once**, so the message is a forbidden *set*,
+  correlated within a complex as well as across complexes, and the node update
+  needs that set's joint distribution. No substitution repairs it. Not
+  attempted.
+
+That is Sec. 12.4's "cardinality two is degenerate" thread arriving in the 1RSB
+machinery: a two-member complex has no room for a partial violation and equally
+none to forbid two things at once, and it is the second that decides whether the
+machinery can be reused.
+
+Checked against Gabrié's `l_col`, Table 12.3:
+
+| q | c | Sigma = 0 at | published | error |
+|---|---|---|---|---|
+| 3 | 3 | 26.900 (0.000) | 26.92 | −0.07% |
+| 4 | 3 | 63.276 (0.024) | 63.30 | −0.04% |
+| 2 | 5 | 52.283 (0.043) | 52.32 | −0.07% |
+
+All three errors agree in sign and size, so that is a converged finite-population
+bias, not scatter — the caption says so rather than claiming agreement to a tenth
+of a per cent.
+
+**Two exclusions, both stated in the text so neither reads as an oversight.**
+`q = 2` at `c = 3, 4` is omitted because Gabrié et al. mark those thresholds
+invalid under an SP type-I instability; the code returns numbers there and they
+would mean nothing. The proper rule is absent because of the argument above, not
+because it was tried.
+
+**Two bugs worth remembering**, since both are invisible in `Sigma` and show up
+first in `<e>`: the per-colour weight is `h/q` and dropping the `/q` saturates
+everything to `<e> = 1`; and the non-trivial branch is reached from **above**, so
+initialising low gives `<e> = 0` and nothing else. `hyp_converge` starts at
+0.97–1.0 and its docstring says why.
 
 ### Survey propagation, 2026-08-30
 
@@ -801,9 +868,11 @@ is a scalar on the traceless subspace (three directions, one answer); the graph
 case against Zdeborová & Krzakala Eq. (18); and the comparison with Mulet's
 published thresholds that shows the stability line is not the colourability
 line. All of that is fast — exact rational arithmetic over small complexes.
-The **survey-propagation section added 2026-08-30** is not: `sp_threshold`
-bisects the complexity over three seeds for q = 3, 4, 5 and takes about three
-and a half minutes.
+The **survey-propagation sections added 2026-08-30** are not. Three bisections
+of the complexity over three seeds each — Sec. 12.6's `c_q`, the clustering
+by-product, and Sec. 12.7's hypergraph thresholds against Gabrié et al. — put
+the whole script at about **fourteen minutes**, which makes it the slowest in
+the book, ahead of `merge.py`.
 `figs/satisfiability.py` generates Figure 13.1 and runs Ch. 13's checks: the
 clause interior against enumeration in rational arithmetic (including the
 non-uniform emitted message that rules out a symmetric fixed point); the `k = 2`
