@@ -252,68 +252,95 @@ looks like general theory is an artefact of working there.
 \section{A graph with triangles}
 \label{sec:colouring-triangles}
 
-Cardinality independence has a consequence the previous section did not draw,
-and it is the one case where the chapter's constraint and the book's running
-comparison meet.
+The previous section left cardinality out of the proper-colouring threshold
+entirely. This section asks what that means for a clustered graph, which is the
+one place in the chapter where the book's running question --- what does
+clustering do at fixed degree? --- can be put to colouring.
 
-For \emph{proper} colouring a triangle-clustered graph is not a new object at
-all. A triangle forbids its three members from agreeing pairwise, which is what
-its three edges already say, so the problem is ordinary $q$-colouring of an
-ordinary graph and the graph calculation applies to it. Put a regular network in
-which every vertex sits in $\kappa$ triangles, so that its degree is $n=2\kappa$
-and the triangles meet only at vertices. Then Eq.~\eqref{eq:colthresh} on the
-chygraph of triangles gives $\ave{\kbar}(c-1)=2(\kappa-1)=n-2$, while the same
-network read as a graph of degree $n$ gives $\ave{\bar k}=n-1$. The two answers
-are
+\paragraph{Two routes to the same object, giving different answers.} For proper
+colouring a triangle-clustered graph is not a new object. A triangle forbids its
+three members from agreeing pairwise, which is exactly what its three edges
+already forbid, so this is ordinary $q$-colouring of an ordinary graph and the
+graph formula applies to it unchanged.
+
+Take a regular network in which every vertex sits in $\kappa$ triangles, the
+triangles meeting only at vertices, so that a vertex has degree $n=2\kappa$.
+Two calculations are now available for it. Read it as a chygraph of triangles
+and Eq.~\eqref{eq:colthresh} gives $\ave{\kbar}(c-1)=2(\kappa-1)=n-2$. Read the
+same network as a graph of degree $n$ and the excess degree is $\ave{\bar
+k}=n-1$. Setting each equal to $(q-1)^{2}$,
 \begin{equation}
   \text{chygraph: } n=(q-1)^{2}+2,
   \qquad
-  \text{graph: } n=(q-1)^{2}+1,
+  \text{graph: } n=(q-1)^{2}+1 .
   \label{eq:tridisagree}
 \end{equation}
-and they disagree by one in degree at every $q$.
+They disagree by one in degree, at every $q$.
 
-The chygraph is the right one, for the reason the book has been giving since
-Sec.~\ref{sec:treelike}. The graph calculation adds the messages arriving at a
-vertex as though its neighbours were independent; inside a triangle two
-neighbours are adjacent, and the three edges close a loop. Promoting the
-triangle to a complex puts that loop inside Eq.~\eqref{eq:emitted}, where it is
-summed exactly, and leaves a structure over triangles that really is treelike.
-The graph answer is not an approximation that happens to be close --- it is off
-by exactly the one branch the loop costs.
+\paragraph{The chygraph is the right one.} The graph calculation adds the
+messages arriving at a vertex as though its neighbours were independent. Inside
+a triangle two neighbours are adjacent: the three edges close a loop, and that
+is the assumption failing. Promoting the triangle to a complex puts the loop
+inside the interior sum of Eq.~\eqref{eq:emitted}, where it is summed exactly,
+and what remains over triangles is treelike. So the graph answer is not an
+approximation that happens to land nearby. It is short by exactly the one branch
+the loop costs.
 
-\paragraph{Both ends of one formula.} Nothing above required dropping a layer.
-Take links and triangles together at fixed degree, with $a$ the link chy-degree,
-$b$ the triangle chy-degree, $n=a+2b$, and $f=2b/n$ the fraction of degree
-carried by triangles. Because $\tau$ does not depend on cardinality, both layers
-carry the same $s=\tau^{2}=(q-1)^{-2}$, and the two-layer determinant of
-Eq.~\eqref{eq:LT} reads
+\paragraph{Both answers are one formula at its two ends.} Neither line of
+Eq.~\eqref{eq:tridisagree} required dropping a layer. Take links and triangles
+together at fixed degree, with $a$ the link chy-degree, $b$ the triangle
+chy-degree, $n=a+2b$, and $f=2b/n$ the fraction of degree carried by triangles.
+Both layers transmit the same $s=\tau^{2}=(q-1)^{-2}$, since $\tau$ does not
+depend on cardinality, and the two-layer determinant of Eq.~\eqref{eq:LT}
+becomes
 \begin{equation}
   s\,(n-3)+2s^{2}\bigl[n(1-f/2)-1\bigr]=1 .
   \label{eq:trifamily}
 \end{equation}
-At $f=0$ this returns $(q-1)^{2}+1$ and at $f=1$ it returns $(q-1)^{2}+2$,
-exactly and in rational arithmetic, with the cross term doing all of the
-interpolating. The two lines of Eq.~\eqref{eq:tridisagree} are one formula at
-its two ends.
+At $f=0$ it returns $(q-1)^{2}+1$; at $f=1$ it returns $(q-1)^{2}+2$; both
+exactly, in rational arithmetic. The cross term does all of the interpolating.
 
-\paragraph{How big is it, honestly.} One in degree, and only for regular
-ensembles. For Poisson layers $\ave{\kbar}=\ave{\kappa}$, the cross term
+\paragraph{How large is the effect.} One in degree --- and only for regular
+ensembles. For Poisson layers $\ave{\kbar}=\ave{\kappa}$, so the cross term
 $\ave{\kappa}_{|}\ave{\kappa}_{\triangle}-\ave{\kbar}_{|}\ave{\kbar}_{\triangle}$
-vanishes identically, and Eq.~\eqref{eq:trifamily} returns $(q-1)^{2}$ at every
-$f$: there is no difference at all. So this is not a statement that clustering
-moves the colouring threshold. It is the regular ensemble's lost branch, the
-same one that separates $(q-1)^{2}$ from $(q-1)^{2}+1$ in
-Sec.~\ref{sec:colouringthreshold}, arriving where it can be mistaken for
-physics. Chapter~\ref{ch:ising} found clustering worth $13.9$ per cent in
-$T_{c}$ and Sec.~\ref{sec:helporhurt} found it worth a fifth of $q_{c}$; here it
-is worth one in degree, and for half the ensembles nothing.
+vanishes identically and Eq.~\eqref{eq:trifamily} returns $(q-1)^{2}$ at every
+$f$. There is no difference at all.
 
-That is the third sign the book has taken on this comparison, and the least
-dramatic of them. It is included because the cheap conclusion --- that a
-formalism built for higher-order structure must find higher-order structure
-mattering --- is wrong, and the arithmetic that shows it is wrong is three
-lines.
+So this is not a statement that clustering moves the colouring threshold. What
+moves is the excess-degree bookkeeping: a regular vertex reached through a
+triangle has one fewer triangle to pass the message on to, and that lost branch
+is the whole of the effect. It is the same lost branch that separates
+$(q-1)^{2}$ from $(q-1)^{2}+1$ in Sec.~\ref{sec:colouringthreshold}, arriving
+somewhere it is easy to mistake for physics.
+
+\paragraph{How large is the correction.} One in degree, and it is worth putting
+that as a fraction of the threshold it corrects, $1/[(q-1)^{2}+2]$: $17$ per
+cent at $q=3$, $9$ at $q=4$, $5.6$ at $q=5$, and about $1$ by $q=10$. The graph
+calculation is badly wrong when there are few colours and nearly right when
+there are many, which is what one should expect --- the branch it loses is one
+of $n$, and $n$ grows like $q^{2}$.
+
+\paragraph{Where the correction vanishes.} For Poisson layers there is none.
+There $\ave{\kbar}=\ave{\kappa}$: a Poisson graph is its own excess and so is a
+Poisson triangle layer, both routes return $(q-1)^{2}$, and the graph
+calculation gives the right answer. It does so by accident. Its independence
+assumption is exactly as false as before; what saves it is that the quantity it
+miscounts --- the excess-degree correction --- is one a Poisson degree
+distribution does not carry.
+
+\paragraph{Why only one branch.} Because proper colouring cannot see
+cardinality. A triangle transmits precisely what an edge transmits,
+Sec.~\ref{sec:colouring-scalar}, so absorbing its loop into a complex changes
+how many branches leave a vertex and leaves what travels along them alone. Only
+the count is corrected, and a count is worth one.
+
+Where the constraint \emph{does} see cardinality the same promotion is worth
+much more. For the hypergraph rule of Sec.~\ref{sec:twoconstraints-col} the
+threshold runs $9$, $225$, $3969$ at cardinalities $2$, $3$, $4$ with $q=4$:
+three orders of magnitude, from the identical operation on the identical
+structure. Promoting a motif to a complex is always the right treatment of its
+loop. What that treatment is worth in numbers is decided by the interaction
+inside the complex, and proper colouring is the case where it is worth least.
 
 \section{Where replica symmetry goes}
 \label{sec:colouring-rsb}

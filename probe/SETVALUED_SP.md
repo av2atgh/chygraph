@@ -79,6 +79,25 @@ Two signs that this is still the implementation rather than the physics:
 The `c = 3` interior is the one component the `c = 2` gate cannot validate, by
 construction, and it is where to look first.
 
+**One explanation is ruled out.** All the scans above are at `q = 3`, where the
+triangle is *saturated*: three members, three colours, so a proper colouring is
+a permutation and the complex is as rigid as it can be. `q = c` could plausibly
+be pathological rather than representative. It is not — `q = 4, c = 3` fails
+identically, the branch appearing between degree 6 and 8 with `Sigma = -0.38`
+already at degree 8 and no crossing below the RS line at 11:
+
+| kappa | degree | Sigma | ⟨forced⟩ |
+|---|---|---|---|
+| 3.00 | 6.00 | +0.00000 | 0.0000 (branch off) |
+| 4.00 | 8.00 | −0.37836 | 0.8022 |
+| 5.50 | 11.00 | −0.68343 | 0.9383 |
+
+So the fault is in the `c = 3` treatment itself, not in a degenerate choice of
+`q`. Note also what the `c = 2` gate does and does not cover: `site`, `Z_a` and
+`Z_ia` are each verified there, so the error is in what changes at `c = 3` --
+the SDR satisfiability tensor `_sat_tensor`, the interior tensor, or the
+`kappa/c` complex count.
+
 ## Five bugs, all caught by gates rather than by reading the code
 
 Recorded because every one of them is invisible in `Sigma` and would recur:
