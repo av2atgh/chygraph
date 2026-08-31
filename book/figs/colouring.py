@@ -815,10 +815,10 @@ def figure_threshold():
     BELOW zero. There is no arc, so there is no crossing, and the colourable
     phase is the trivial region -- the threshold is the lift-off itself.
 
-    The vertical scales differ by a factor of six and the caption says so: the
-    graph's arc peaks at +0.07 while the triangle branch plunges to -0.4. A
-    shared axis makes the graph panel look flat and hides the crossing, which
-    is the thing the panel exists to show.
+    The vertical scales differ by a factor of six and the caption says so: over
+    the degrees plotted here the graph's arc peaks at +0.064 while the triangle
+    branch plunges to -0.400. A shared axis makes the graph panel look flat and
+    hides the crossing, which is the thing the panel exists to show.
     """
     plt = _mpl()
     q = 4

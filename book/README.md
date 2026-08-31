@@ -41,21 +41,49 @@ the references are under `~/Downloads/chygraph_references/`.
 
 ## Status
 
-Last updated 2026-08-30. `main.pdf` builds clean: **228 pages, 0 errors, 0
-undefined references, 0 multiply-defined labels, 0 overfull boxes, 0 underfull
-vboxes.** 41 figures, 19 numbered tables, 23 calculation boxes, 104 numbered
-equations, 70 references, an 85-term index.
+Last updated 2026-08-31. `main.pdf` builds with **0 errors, 0 undefined
+references and 0 multiply-defined labels, across 252 pages.** Not box-clean: **one
+overfull hbox** (`cover.tex:239--249`, 1.98pt, "Which replica-symmetry-breaking
+point") and **27 underfull vboxes**, every one of them `while \output is
+active` — page-breaking around floats, not a line that runs into the margin.
+44 figures, 21 numbered tables, 23 calculation boxes, 120 numbered equations of
+which 111 carry labels, 73 references, an 87-term index. All 258 distinct
+`\ref`/`\eqref` targets resolve (1238 occurrences), all 21
+`\includegraphics` files are present with no orphan PDFs in `figs/`, and all
+105 `\code` names in `software.tex` resolve across both repositories.
+Software-table coverage is 82 of the 111 equation labels.
+
+These counts were re-measured on 2026-08-31 and several of them had drifted
+badly from what this section used to claim (228 pages, 0 overfull, 41 figures,
+104 equations). **Re-measure rather than trust them after any drafting pass** —
+the recipe is under Building, below. The numbers inside the dated pass sections
+further down are left as they were: they record what was true at the time.
 
 **The book is drafted end to end.** Preface, the software chapter, and fifteen
 numbered chapters, all with prose, figures and checks.
 
-`software.tex` sits after the preface and is unnumbered, like the preface. It
-carries the two repository URLs and **Table 1: every computed equation, the
-routine that evaluates it, and the test or script that checks it** — the book's
-version of the retired supplement's Sec. I. Every one of its equation labels and
-all 92 of its `\code` names were re-verified to resolve on 2026-08-28 (the code
-names across *both* repositories); if a routine is renamed, that table is where
-it has to be fixed.
+`software.tex` sits in the **back matter**, after Ch. 15 and before the index,
+and is unnumbered — "The software", page 219, arabic. (This section used to say
+it sits after the preface with roman page numbers; it has not since
+`\backmatter` was added.) It carries the two repository URLs and **Table 1:
+every computed equation, the routine that evaluates it, and the test or script
+that checks it** — the book's version of the retired supplement's Sec. I. Every
+one of its 82 equation labels and all 105 of its `\code` names were re-verified
+to resolve on 2026-08-31, the code names across *both* repositories; if a
+routine is renamed, that table is where it has to be fixed.
+
+**It is Table 1 again, as of 2026-08-31, and the fix is in `main.tex`.** It had
+been printing as **"Table 15.2"**: it is a `longtable` in the back matter, and
+`\backmatter` stops numbering chapters but neither resets the float counters nor
+clears `\thechapter`, so `\thetable` still expanded to `15.<n>`. The Outlook's
+own table is 15.1, so the software map took 15.2 and its three
+`Table~\ref{tab:map}` call-outs sent a reader into Chapter 15 to look for it.
+Immediately after `\backmatter`, `main.tex` now resets the `table` and `figure`
+counters and redefines `\thetable`/`\thefigure` to a plain `\arabic`, with a
+comment saying why. **Add a float to the back matter and it will number plainly
+— that is deliberate.** Ch. 12's caption cites `\citet{gabrie2017}, Table~1`,
+which is somebody else's Table 1 and is attributed in place, so the two do not
+collide.
 
 ### What to do next
 
@@ -264,6 +292,89 @@ that mapping does not have to be reconstructed.
   0.2929, and 5.6% vs 31.4% infected at `T = 0.3`). Same running thread as
   Ch. 3, Sec. 4.5 and Sec. 5.5.
 
+### Calculation-verification pass, 2026-08-31
+
+Every number in the book that a script produces re-checked against that script,
+and the closed forms behind them re-derived independently of both repositories.
+Run: all thirteen scripts in `figs/`, `chygraph_statmech/tests` (347 passed),
+`chygraph/tests` (68 passed), and `latexmk` into a scratch `-outdir`, which
+before the edits below reproduced the committed `main.log` exactly.
+**Every quoted number reproduced** — Table 3.2 exactly, the whole Potts
+coexistence window, the AT line, Tables 12.2--12.4, the merge table, Ch. 13's
+folds — except the five below, now fixed.
+
+*Scope, so the next pass knows what this one did not do.* Values the book
+**quotes from the literature** were checked for internal consistency and, where
+a formula was given, re-derived — Gabrié's six, Zdeborová--Krzakala's two lines,
+Mulet's `c_q`/`c_d`, Cirigliano's exact `p_c` from Eq. (5.18) — but a bare cited
+constant with no formula behind it was not chased to its paper, and
+Cirigliano's heterogeneous-mean-field `0.0635` is the one such number the book
+sets its own result against. Nor were the bootstrap claims re-run: Ch. 11's
+"roughly four standard deviations" at `tau = 2.9` rests on `probe` output that
+was read, not regenerated.
+
+**What was re-derived from scratch**, in sympy/mpmath, using neither repo:
+`tau_3(q,v)` by brute-force Potts enumeration at `q = 2..6`; the Potts fold by
+resultant, which factors as `v^2 (q-1)^2 (q-v)^2 (q+v)^2 (4q - v^2 - 4)` and so
+gives Eq. (7.11); `u'(c)` for `c = 2..5` by Ising enumeration; both colouring
+transmissions by symbolic perturbation of the interior up to `c = 6`; Gabrié's
+six `l_stab` values; **all five of Ch. 8's critical temperatures including
+5.2951, which no script prints**; `s_tri` with 5/3 (the published 3/2 fails);
+`B_hyper = 4p/(1 + p<c>)` by solving the map near threshold; Eq. (12.6) at
+`f = 0, 1` in exact arithmetic; `q_c = 0.403032`; Weigt--Hartmann; Eq. (5.18) at
+`b = 3`; the `beta_1 = 0` saddle node (2.45541, 0.71533); the tricritical
+coefficients; `T*` and `C_q` at `q = 2..8`. Also confirmed the unbacked "66% at
+`<k> = 6`" in Sec. 14.6 (it is 66.0%) and Fig. 12.3's caption extrema (+0.064
+and −0.400, so the caption's +0.06 is right and the script's docstring said
++0.07 — the docstring is what was wrong, and is fixed).
+
+**1. The clustering effect decays as `1/n^2`, not `1/n`.** Three places:
+`ising.tex`'s Table 9.2 caption and running text, and the Outlook's
+"decays as `1/<k>`". The book's own table said so — a factor of 46 between
+`n = 4` and `n = 20`, where `1/n` predicts 5 — and the stated reason was wrong
+too. Solving the two conditions exactly, `(n-1)t = 1` for links and
+`t^2 - (n-1)t + 1 = 0` for triangles (these reproduce the table's `T_c` column
+to the digit), gives `dT_c/T_c = -1/(n-1)^2 + O(n^-3)`: −4.0, −2.0, −1.2, −0.28%
+at `n = 6, 8, 10, 20` against the table's −4.3, −2.1, −1.3, −0.3. The mechanism
+is that the lost branch and the transmission gain are **each** `O(1/n)` and
+cancel at that order; the text now says so. It also now says that the
+*absolute* shift does die as `1/n`, since `T_c ~ n-1` — which is probably where
+the original claim came from, and separating the two is what stops it returning.
+
+**2. Ch. 3's clique-number check overstated its own agreement.** "Consistently a
+little below theory" for 0.37/0.20/0.07 against 0.45/0.25/0.05: the third is
+*above*. Rewritten to report the two heavy-tailed rows as below and the third as
+above, and to say why that row decides nothing — the predicted exponent (0.05)
+is smaller than the measurement's spread across mean degrees (0.06--0.09). The
+check still earns its place through the trend. **This is the chapter's only
+independent check that the measurement reads the right quantity**, so it is the
+one sentence there that has to be exactly right.
+
+**3. Sec. 9.6 disagreed with itself by a digit.** "`m` jumping from 0.548 to
+0.833" against the displayed `Delta m = 0.286`; `ising.py` prints 0.834.
+
+**4. Table 3.3's `tau = 4.5` ratio was not a ratio.** 2.93 is the raw HRG
+`sbar`; the column is `hrg/config` and the other three entries are ratios. Now
+2.95.
+
+**5. Ch. 1 called vertex cover "the third model"**, two lines after announcing
+three and one subsection after the first. Now "the second".
+
+**Checked and cleared, do not "fix" either side.** Ch. 12 cites Krzakala
+*et al.* Eqs. (20) and (21) where the entry below says (16) and (20). Both are
+right: the book cites the published PRE 70, 046705, whose numbering I confirmed
+from the PDF, and the entry below refers to the arXiv source. Likewise
+`giant.tex:597`'s "the map reports `S = 1` where simulation gives 1/2" does have
+its counterexample in Sec. 5.6, and it is correct — the
+`Phi = x_|^2/2 + x_tri^2/2` split leaves the link piece 2-regular, which is
+exactly the `C = 0` case Sec. 5.5 flags.
+
+**Two production defects surfaced by the re-measurement**, neither of them a
+calculation and neither changing a number. The software chapter's map table was
+printing as **Table 15.2**; that is fixed in `main.tex` and written up in the
+paragraph on `software.tex` above. The overfull hbox in `cover.tex:239--249`
+is **still open** and is recorded in Status.
+
 ### Technical-correctness pass, 2026-08-28
 
 A chapter-by-chapter check of the mathematics, not the prose: every closed form
@@ -380,10 +491,16 @@ triangle-clustered graph — which nobody has, Mulet being graphs and Gabrié
 hypergraphs. See `../probe/SETVALUED_SP.md` and `../probe/setvalued_sp.py`.
 
 **Validated at cardinality two.** Both a two-term and a three-term complexity
-form reproduce Mulet's `c_q` to better than 0.5% — 4.684, 8.863, 13.636 against
-4.69, 8.90, 13.69 — and agree with the scalar code committed in
-`figs/colouring.py` (4.683, 8.901, 13.660). So the set-valued survey, the
+form reproduce Mulet's `c_q` — 4.684, 8.863, 13.636 against 4.69, 8.90, 13.69 —
+and agree with the scalar code committed in `figs/colouring.py` (4.683, 8.901,
+13.660, which still reproduce exactly). So the set-valued survey, the
 intersection update and the complexity are all sound where they can be checked.
+**The tolerance originally claimed here, "better than 0.5%", was one run's
+luck**: re-run 2026-08-31 at population 4000 the same `threshold(q, 2, ...)`
+returns 4.691, 8.825, 13.620, that is +0.02 / −0.84 / −0.51%. The gate holds to
+about one per cent, which is all it needs to; nothing in the book depends on it.
+Re-running it needs the bracket trap below — `lo` must sit **above** the branch
+onset or the assertion refuses it, and `lo = 2.0` does.
 
 **Produced nothing at cardinality three.** `Sigma` is negative from the moment
 the branch appears and never crosses. Two signs it is the implementation and not
@@ -430,8 +547,13 @@ phase ends at the lift-off.
 
 | q | graph `c_q` | triangles | change |
 |---|---|---|---|
-| 3 | 4.69 | **3.083** | −34.3% |
-| 4 | 8.90 | **6.771** | −23.9% |
+| 3 | 4.69 | **3.078** | −34.4% |
+| 4 | 8.90 | **6.763** | −24.0% |
+
+(Re-run 2026-08-31; this entry previously recorded 3.083 / 6.771 and
+−34.3% / −23.9%, from an earlier run of the same code. The difference is
+population scatter at the third digit and the conclusion is untouched.
+**Table 12.4 of the book carries the values above** — keep the two in step.)
 
 **And it points the opposite way from Sec. 12.5.** The RS stability line goes
 *up* with triangles (5 → 6, 10 → 11) while `c_q` goes *down*. On a graph the two
@@ -959,11 +1081,28 @@ latexmk -pdf -interaction=nonstopmode main.tex     # -> main.pdf
 Verify a build with
 
 ```sh
-grep -c '^!' main.log                 # errors, must be 0
-grep -i 'undefined' main.log          # citations and refs, must be empty
-grep 'Overfull' main.log              # must be empty
-grep -o 'Output written.*' main.log   # page count
+grep -c '^!' main.log                    # errors, must be 0
+grep -i 'undefined' main.log             # citations and refs, must be empty
+grep -i 'multiply defined' main.log      # must be empty; NOT caught by the line above
+grep -c 'Overfull \\hbox' main.log       # 1 known (cover.tex:239--249); a 2nd is new
+grep -o 'Output written.*' main.log      # page count
 ```
+
+Underfull vboxes are not a defect here: all 27 are `while \output is active`,
+which is page-breaking around floats. An **overfull hbox** is, since it puts ink
+in the margin; the one that survives is recorded in Status.
+
+Build into a scratch directory --- `latexmk -pdf -interaction=nonstopmode
+-outdir=/tmp/bookbuild main.tex` --- when the point is to verify rather than to
+refresh `main.pdf`; the output is identical and the working tree is left alone.
+
+The counts in Status are re-measured, not maintained by hand. Figures, tables
+and calculation boxes are `grep -c '\\begin{figure}'` and friends over `*.tex`;
+numbered equations are `\begin{equation}` plus the numbered rows of `align`;
+`\ref`/`\eqref` resolution and `\code`-name resolution are worth scripting
+against both repositories, remembering that `joint.JointGiantComponent` is an
+alias rather than a `def` and that `\allowbreak` has to be stripped out of a
+`\code` argument before it is looked up.
 
 Two environment notes. `latexmk` will hang rather than stop on a TikZ error even
 under `-interaction=nonstopmode`; add `-halt-on-error`, or run `pdflatex`

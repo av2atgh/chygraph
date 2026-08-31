@@ -277,6 +277,16 @@
 
 \backmatter
 
+% \backmatter stops numbering chapters but neither resets the table and figure
+% counters nor clears \thechapter, so a float in here would inherit the last
+% chapter's number: the software chapter's map printed as "Table 15.2" and its
+% cross-references sent the reader into Chapter 15, whose own table is 15.1.
+% Number back-matter floats plainly instead, so the map is Table 1.
+\setcounter{table}{0}
+\setcounter{figure}{0}
+\renewcommand{\thetable}{\arabic{table}}
+\renewcommand{\thefigure}{\arabic{figure}}
+
 \include{software}
 
 \bibliographystyle{plainnat}
