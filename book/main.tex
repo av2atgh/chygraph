@@ -32,6 +32,22 @@
    \let\item\@idxitem}
   {\clearpage}
 \makeatother
+% Section headings ragged right. The class sets them justified, which on a
+% 4.05in measure makes a long title overflow rather than break: "Replica
+% symmetry and symmetry breaking" ran 15.5pt into the margin. Chapter heads are
+% already ragged in book.cls; these two were not. Definitions copied from
+% book.cls with \raggedright added and nothing else changed.
+\makeatletter
+\renewcommand\section{\@startsection{section}{1}{\z@}%
+  {-3.5ex \@plus -1ex \@minus -.2ex}%
+  {2.3ex \@plus.2ex}%
+  {\raggedright\normalfont\Large\bfseries}}
+\renewcommand\subsection{\@startsection{subsection}{2}{\z@}%
+  {-3.25ex\@plus -1ex \@minus -.2ex}%
+  {1.5ex \@plus .2ex}%
+  {\raggedright\normalfont\large\bfseries}}
+\makeatother
+
 \usepackage{array}
 \usepackage{longtable}
 \usepackage[most]{tcolorbox}

@@ -14,7 +14,7 @@ language in the running text with the algebra boxed off.
 | **I** | | **Foundations** |
 | 1 | `introduction.tex` | **Drafted.** Percolation; Ising, vertex cover, hitting set; mean field, cavity, replicas, BP; why real networks break treelikeness |
 | 2 | `chygraphs.tex` | **Drafted.** The object: complexes whose vertices are complexes; every higher-order structure as one thing |
-| 3 | `data.tex` | **Drafted.** Where chygraphs come from: papers, protein complexes, reactions, schedules; cliques of a clustered graph; how much overlap there is |
+| 3 | `data.tex` | **Drafted.** Chygraph representation of real systems: papers, protein complexes, reactions, schedules; cliques of a clustered graph; how much overlap there is |
 | **II** | | **Percolation** |
 | 4 | `percolation.tex` | **Drafted.** The self-consistency map and the threshold tensor, structure by structure |
 | 5 | `giant.tex` | **Drafted.** Order parameter, critical amplitude, the moment hierarchy, dependent layers, six constructions solved |
@@ -44,7 +44,7 @@ the references are under `~/Downloads/chygraph_references/`.
 Last updated 2026-08-31. `main.pdf` builds with **0 errors, 0 undefined
 references and 0 multiply-defined labels, across 252 pages.** Not box-clean: **one
 overfull hbox** (`cover.tex:239--249`, 1.98pt, "Which replica-symmetry-breaking
-point") and **27 underfull vboxes**, every one of them `while \output is
+point") and **26 underfull vboxes**, every one of them `while \output is
 active` — page-breaking around floats, not a line that runs into the margin.
 44 figures, 21 numbered tables, 23 calculation boxes, 120 numbered equations of
 which 111 carry labels, 73 references, an 87-term index. All 258 distinct
@@ -1088,7 +1088,7 @@ grep -c 'Overfull \\hbox' main.log       # 1 known (cover.tex:239--249); a 2nd i
 grep -o 'Output written.*' main.log      # page count
 ```
 
-Underfull vboxes are not a defect here: all 27 are `while \output is active`,
+Underfull vboxes are not a defect here: all 26 are `while \output is active`,
 which is page-breaking around floats. An **overfull hbox** is, since it puts ink
 in the margin; the one that survives is recorded in Status.
 
@@ -1224,5 +1224,12 @@ maximal cliques, so it is the slowest script in the book — a few minutes at
 - Overlapping complexes are drawn as two translucent boxes of the same grey, so
   the shared atoms show as a darker patch. Established in Fig. 2.7 and used
   wherever overlap matters.
+- **Section and subsection headings are ragged right**, patched in `main.tex`
+  from `book.cls`'s own definitions with nothing changed but the addition of
+  `\raggedright`. The class sets them justified, which on this 4.05in measure
+  makes a long title run into the margin instead of breaking — renaming Sec. 1.6
+  to "Replica symmetry and symmetry breaking" overflowed by 15.5pt. Chapter
+  heads were already ragged. Do not revert this to get "tidier" headings; a
+  single-line heading looks identical either way.
 - Figures must be checked at the 5×8 trim, not just for compilation: more than
   three panels side by side is illegible on this page width. Stack into rows.
