@@ -464,6 +464,88 @@ def check_ring():
     return rows
 
 
+# ------------------------------------------- (2c-ter) the leaf-removal core
+def _core():
+    f = PROBE / 'core_fraction.json'
+    return json.load(open(f)) if f.exists() else []
+
+
+def check_core_fraction():
+    """Atoms the propagation cannot strip, on the two chygraphs it runs on."""
+    d = _core()
+    if not d:
+        print('  (probe/results/core_fraction.json not present)')
+        return
+    print('  fraction of atoms the messages cannot remove by propagation:')
+    print(f'    {"":12}{"":>5}{"clique chygraph":>22}{"merged chygraph":>22}')
+    for ens in ('hyperbolic', 'karrer', 'real'):
+        sel = [r for r in d if r['ensemble'] == ens]
+        c = [r['clique_core_frac'] for r in sel]
+        m = [r['merged_core_frac'] for r in sel]
+        print(f'    {ens:<12}{len(sel):>5}   median {np.median(c):.2f}, '
+              f'{sum(1 for x in c if x < 1e-9):>2} core-free'
+              f'   median {np.median(m):.2f}, '
+              f'{sum(1 for x in m if x < 1e-9):>2} core-free')
+    assert all(r['clique_core_frac'] > 0 for r in d), \
+        'some clique chygraph was already core-free'
+    print('    not one clique chygraph is core-free: on every instance the')
+    print('    propagation is left with a core it cannot resolve, which is why')
+    print('    Ch. 14 finds an error everywhere')
+    z = [r for r in d if r['merged_core_frac'] < 1e-9]
+    print(f'    merging drives the core to zero on {len(z)} of {len(d)} '
+          f'instances, and those are')
+    print('    exactly the ones Sec. 16.2 finds exact')
+
+
+def _core_panel(ax, xkey, ykey, xlabel):
+    d = _core()
+    for name, ens, mk, col in (('hyperbolic', 'hyperbolic', 'o', DARK),
+                               ('Karrer--Newman', 'karrer', '^', MID),
+                               ('real', 'real', 's', LIGHT)):
+        sel = [r for r in d if r['ensemble'] == ens]
+        if not sel:
+            continue
+        ax.plot([r[xkey] for r in sel], [r[ykey] for r in sel], mk,
+                ms=3.4, mew=0.9, mfc='white', color=col,
+                label=f'{name} ({len(sel)})')
+    ax.set_xlabel(xlabel, fontsize=8)
+    ax.set_ylim(-0.05, 1.05)
+    ax.set_yticks([0, 0.5, 1])
+    _tidy(ax)
+
+
+def figure_core_bonds():
+    """Companion to Fig. 14.2: the core of the clique chygraph, same x-axis."""
+    plt = _mpl()
+    if not _core():
+        return
+    fig, ax = plt.subplots(figsize=(4.3, 2.2))
+    _core_panel(ax, 'doubled_frac', 'clique_core_frac',
+                'fraction of bonds lying inside two or more complexes')
+    ax.set_ylabel('core of the\nclique chygraph', fontsize=8.5)
+    ax.set_xlim(-0.03, 1.03)
+    ax.legend(fontsize=6.6, frameon=False, loc='lower right')
+    fig.tight_layout()
+    fig.savefig(OUT / 'fig-core-bonds.pdf')
+    print(f'  wrote {OUT / "fig-core-bonds.pdf"}')
+
+
+def figure_core_meta():
+    """Companion to Fig. 16.3: the core of the merged chygraph, same x-axis."""
+    plt = _mpl()
+    if not _core():
+        return
+    fig, ax = plt.subplots(figsize=(4.3, 2.2))
+    _core_panel(ax, 'n_meta', 'merged_core_frac',
+                'meta-complexes the closure leaves')
+    ax.set_ylabel('core of the\nmerged chygraph', fontsize=8.5)
+    ax.axvline(3.5, color='0.75', lw=0.7, ls=':')
+    ax.legend(fontsize=6.6, frameon=False, loc='upper left')
+    fig.tight_layout()
+    fig.savefig(OUT / 'fig-core-meta.pdf')
+    print(f'  wrote {OUT / "fig-core-meta.pdf"}')
+
+
 # ------------------------------------- (2d) the meta-complex error, Ch. 16
 def _mergelnz():
     f = PROBE / 'merge_lnz.json'
@@ -570,6 +652,8 @@ if __name__ == '__main__':
     check_gbp_real()
     print('the pairwise condition is not sufficient:')
     check_ring()
+    print('the leaf-removal core of each instance:')
+    check_core_fraction()
     print('the merged chygraph, and what it gets wrong:')
     check_merge_error()
     print('when the clique ensemble exists:')
@@ -579,3 +663,5 @@ if __name__ == '__main__':
     figure_gbp()
     figure_gbp_real()
     figure_merge_error()
+    figure_core_bonds()
+    figure_core_meta()
