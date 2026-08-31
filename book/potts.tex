@@ -1,20 +1,37 @@
-\chapter{Potts, and one recursion for both}
+\chapter{Random-cluster model on chygraphs}
 \label{ch:potts}
 \index{Potts model|textbf}
+\index{random-cluster model}
 
-Part~II solved percolation. Part~III solves the Ising model, the hitting set
-problem, vertex cover, colouring and satisfiability. They have been presented as
-two subjects sharing a method. The correspondence this chapter proves is new here; Fortuin and
-Kasteleyn's identity is not \citep{fortuin1972}. What is new is that
-it holds complex by complex on a chygraph, and the transmission factor that
-makes it do so is first computed in Sec.~\ref{sec:transmission}.
+Fortuin and Kasteleyn introduced the random-cluster model to establish the
+relations between a family of models that had been studied separately
+\citep{fortuin1972}. The Ising model, percolation, graph colouring and linear
+electrical networks belonged to different communities, and the resemblances
+between them had been noticed one pair at a time: percolation's likeness to the
+Ising model was remarked on in the 1950s and made precise only in 1968; the
+number of $n$-colourings of a graph is the ground-state degeneracy of the
+antiferromagnetic Potts model; and Tutte had shown that Kirchhoff's
+spanning-tree generating function and Birkhoff's chromatic polynomial are two
+faces of one two-variable polynomial. The random-cluster model was, in their
+words, the final step in establishing those relations, and it embodies the
+entire family: one measure on the edges of a graph, carrying one real parameter,
+with the members recovered by fixing it. At $q\to0$ it is the electrical
+network, at $q=1$ percolation, at $q=2$ Ising, and at $q=n\ge2$ the Potts model
+with $n$ states and the $n$-colouring problem. Fortuin and Kasteleyn write that
+parameter $\kappa$; this book keeps $\kappa$ for the chy-degree and writes the
+random-cluster parameter $q$ throughout.
 
-They are one subject: the
-percolation map of Chapter~\ref{ch:percolation} is the $q\to1$ limit of the
-cavity recursion for the $q$-state Potts model, complex by complex, and the
-Ising model of Chapter~\ref{ch:ising} is the same recursion at $q=2$. Not an
-analogy, not a shared structure --- the same equations, at two values of one
-parameter. Section~\ref{sec:qlimit} does the limit and
+This chapter has the same intent one level up. Part~II solved percolation on
+chygraphs and Part~III solves the Ising model, the hitting set problem, vertex
+cover, colouring and satisfiability on them, and the two have been presented as
+separate subjects sharing a method. They are one subject: the percolation map of
+Chapter~\ref{ch:percolation} is the $q\to1$ limit of the cavity recursion for
+the $q$-state Potts model, complex by complex, and the Ising model of
+Chapter~\ref{ch:ising} is the same recursion at $q=2$ --- the same equations, at
+two values of one parameter. The identity is Fortuin and Kasteleyn's and is not
+new; what is new is that it holds complex by complex on a chygraph, and the
+transmission factor that makes it do so is first computed in
+Sec.~\ref{sec:transmission}. Section~\ref{sec:qlimit} does the limit and
 Sec.~\ref{sec:transmission} exhibits the single function that both chapters
 have been computing without saying so.
 
@@ -102,10 +119,9 @@ on the other hand, needs nothing of the kind and is defined for every $q>0$.
 The random-cluster model is therefore the larger object, containing the spin
 models at the whole numbers and bond percolation at $q=1$ --- where there is no
 spin model at all, since a one-state Potts model has one configuration and no
-content. Fortuin and Kasteleyn's own numbering has $\kappa=1$ the percolation
-model, $\kappa=2$ the Ising model, $\kappa=3,4,\dots$ the Potts models, and it
-is the right way to keep this straight. \emph{Bond percolation is the $q\to1$
-limit of the random-cluster model, not of the Potts model.}
+content. Fortuin and Kasteleyn's own numbering, listed at the head of this
+chapter, is the right way to keep this straight. \emph{Bond percolation is the
+$q\to1$ limit of the random-cluster model, not of the Potts model.}
 
 \paragraph{Why a limit is mentioned at all.} At $q=1$ every configuration has
 weight $p^{|\omega|}(1-p)^{|E|-|\omega|}$ and these sum to one:
