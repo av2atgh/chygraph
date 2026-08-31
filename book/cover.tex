@@ -2,21 +2,20 @@
 \label{ch:cover}
 \index{vertex cover}
 
-Three things in this chapter are one thing. None of the three is new ---
-leaf removal is Ref.~\citep{bauer2001}'s, the core and its transition
-Ref.~\citep{liu2012}'s --- but the identification of all three at one point, and
-everything above cardinality two, is first done here.
-
-An \emph{algorithm}, leaf removal, which sometimes solves minimum vertex cover
-exactly and sometimes gets stuck. A \emph{structure}, the core, which is what it
-gets stuck on, and which has a percolation transition of its own at mean degree
-$e$. And the \emph{instability} of Chapter~\ref{ch:hittingset}'s hard-field map,
+In this chapter we show that three objects are one. An \emph{algorithm}, leaf
+removal, which sometimes solves minimum vertex cover exactly and sometimes gets
+stuck. A \emph{structure}, the core, which is what it gets stuck on, and which
+has a percolation transition of its own at mean degree $e$. And the
+\emph{instability} of Chapter~\ref{ch:hittingset}'s hard-field map,
 Eq.~\eqref{eq:kc}, which also sits at $e$. They are not three results sharing a
 number but one point computed three ways, and Sec.~\ref{sec:onepoint} gives the
-digits.
+digits. None of the three is new --- leaf removal is due to \citet{bauer2001}
+and the core and its transition to \citet{liu2012} --- but the identification
+of all three at one point, and everything above cardinality two, is first done
+here.
 
-Then the chapter does what Chapter~\ref{ch:hittingset} did: raises the
-cardinality and watches something break. Above cardinality two the core-free
+We then do what Chapter~\ref{ch:hittingset} did: raise the cardinality and
+watch something break. Above cardinality two the core-free
 branch disappears entirely, so leaf removal never certifies anything --- which
 is precisely why the hard-field cover size stopped being trustworthy there.
 Section~\ref{sec:corefree} proves it in three lines, and blocks the reading of
@@ -47,8 +46,8 @@ it is a purely local rule, which is why a cavity treatment can follow it.
 
 What it cannot do is proceed once no leaf is left. The residue at that point is
 the \emph{core}, and on the core the algorithm has nothing to say: covering it
-is back to being hard. So core percolation is not a fifth model in this book. It
-is the obstruction to solving the fourth, and that is why it belongs in the same
+is back to being hard. Core percolation is therefore the obstruction to solving
+the fourth model rather than a fifth one, and that is why it belongs in the same
 chapter.
 
 \section{Two constraints, one family}
@@ -108,11 +107,13 @@ deleted ($D$), or core-side ($C$). Percolation had two answers and got a scalar;
 this has three, and needs a message with three components
 (Fig.~\ref{fig:leafremoval}).
 
-The three-state cavity treatment of core percolation on graphs is
-Ref.~\citep{liu2012}; what follows carries it to complexes. The letters here are
-this book's: $\psi$ and $\xi$ are written $\lambda$ and $\kappa$ in that paper,
-which are spoken for elsewhere in this book --- $\lambda$ is Chapter~\ref{ch:giant}'s
-Perron root and $\kappa$ is the chy-degree throughout.
+The three-state cavity treatment of core percolation on graphs is due to
+\citet{liu2012}; what follows carries it to complexes. The letters here are
+this book's: $\psi$ and $\delta$ are written $\alpha$ and $\beta$ in that paper
+--- their $\alpha$-removable and $\beta$-removable --- and both letters are
+spoken for elsewhere in this book, $\alpha$ being
+Chapter~\ref{ch:satisfiability}'s clause density and $\beta$ the inverse
+temperature throughout Part~III.
 
 Writing $(\psi,\delta,\gamma)$ for the probabilities of the three states
 --- leaf-ready, deleted, core --- the chy-degree step is
@@ -226,20 +227,37 @@ It is also Eq.~\eqref{eq:kc} at $c=2$: the loss of stability of
 Chapter~\ref{ch:hittingset}'s hard-field map. And it is the accepted
 replica-symmetry-breaking point for vertex cover on Poisson graphs
 \citep{weigt2000}. Computed independently, the first two agree to
-$2.5\times10^{-10}$ --- which is not a coincidence to be admired but a
-consistency check to be passed, since they are the same point reached by two
-routes.
+$2.5\times10^{-10}$, which is a consistency check rather than a coincidence:
+they are the same point reached by two routes.
+
 
 In words, and this is why the three subjects share a chapter. \emph{Leaf removal certifies a
 cover exactly when there is no core; there is no core exactly when the
 hard-field map is stable; and the hard-field map is stable exactly where the
 integer messages carry the whole answer.} Three statements, one condition.
 
+\paragraph{Which replica-symmetry-breaking point.} The first of
+Sec.~\ref{sec:onestep}'s two, and it is worth being explicit because the
+distinction costs a chapter elsewhere. This is where the solution space
+\emph{shatters} --- where clusters appear and the core along with them --- and
+not where minimum covers run out; covers exist on both sides of $e$, and what
+changes is whether they form one cluster or many. Locating it here needs no
+survey: the core is a percolation problem and Eq.~\eqref{eq:core} solves it by
+algebra. Section~\ref{sec:colouring-sp} reaches the same class of point for
+colouring by the other route, as the density at which its surveys stop being
+trivial, and pays a population dynamics for it.
+
+What lies past $e$ this chapter does not compute. That is the complexity of
+Eq.~\eqref{eq:sigmagen}, and Chapters~\ref{ch:colouring}
+and~\ref{ch:satisfiability} are where the book carries it out --- for colouring
+and satisfiability, not for this family, whose own one-step answer
+Sec.~\ref{sec:hsrsb} states the cost of and leaves open.
+
 \section{Above cardinality two the core-free branch disappears}
 \label{sec:corefree}
 \index{core}
 
-Now raise the cardinality, and something abrupt happens.
+Raising the cardinality changes the picture abruptly.
 
 \begin{calculation}{no core-free branch above cardinality two}
 A core-free branch means $\gamma=0$, that is $\psi+\delta=1$. Substituting
@@ -382,24 +400,30 @@ Chapter~\ref{ch:outlook}'s list.
 \section{Checks}
 \label{sec:cover-checks}
 
-\emph{Against known results.} The $c=2$ threshold returns $e$ to ten digits,
-which is Bauer--Golinelli. Equation~\eqref{eq:vc} at $c=2$ returns the
-Weigt--Hartmann cover size, agreeing with Eq.~\eqref{eq:hs} to nine digits along
-a different code path.
+\checkhead{Known results}
+The $c=2$ threshold returns $e$ to ten digits, which is Bauer--Golinelli.
+Equation~\eqref{eq:vc} at $c=2$ returns the Weigt--Hartmann cover size, agreeing
+with Eq.~\eqref{eq:hs} to nine digits along a different code path.
 
-\emph{Against arithmetic.} Equation~\eqref{eq:factored} is an identity, checked
-symbolically; the numerical map agrees, reporting a core-free branch at $c=2$
-and none at $c=3,4,5,8$. That the core is exactly $1-e^{-\ave{k}}$ above
-cardinality two is checked against the closed form at three cardinalities and
-three densities.
-
-\emph{Against simulation.} Equation~\eqref{eq:core} is compared with pure leaf
-removal on graphs built to match it, at $n=4\times10^{5}$, over eleven
-ensembles at cardinalities two, three and four. The error runs from
+\checkhead{New results}
+The identification of the three points, everything above cardinality two, and
+the hyperbolic-graph test are new here. Equation~\eqref{eq:factored} is an
+identity, checked symbolically; the numerical map agrees, reporting a core-free
+branch at $c=2$ and none at $c=3,4,5,8$, and that the core is exactly
+$1-e^{-\ave{k}}$ above cardinality two is checked against the closed form at
+three cardinalities and three densities. The core-percolation threshold and the
+hard-field instability of Chapter~\ref{ch:hittingset}, computed independently,
+agree to $2.5\times10^{-10}$. Equation~\eqref{eq:core} is compared with pure
+leaf removal on graphs built to match it, at $n=4\times10^{5}$, over eleven
+ensembles at cardinalities two, three and four, with an error running from
 $8.7\times10^{-5}$ to $3.1\times10^{-3}$.
 
-\emph{Against a network nobody designed.} Section~\ref{sec:hrg}. Two
-qualifications carried with it: the existence of the core follows from the
-algebra rather than from the data, and the exponent comparison is weaker than
-its central values suggest. Both are stated there rather than in a footnote,
-because a reader who takes away only the figure will have taken away too much.
+\checkhead{Partial results}
+Section~\ref{sec:hrg} establishes less than the figure suggests, and both
+qualifications are carried in the text rather than in a footnote. The
+\emph{existence} of the core follows from the algebra the moment a single
+triangle enters the ensemble, so it was never at risk. Only the exponent could
+have failed, and there the predicted value does not move with the tail while the
+measured one does: they agree within errors at $\tau=2.5$ and differ at
+$\tau=2.9$ by roughly four standard deviations. What lies past $\ave{k}=e$ --- the
+complexity, and the one-step answer for this family --- is not computed here.

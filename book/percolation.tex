@@ -1,15 +1,14 @@
 \chapter{Percolation}
 \label{ch:percolation}
 
-Percolation on a chygraph was solved in
-Refs.~\citep{vazquez2023pre,vazquez2024comnet}, and this chapter is the account
-of it. It is placed first among the applications for a reason that will become
-clear only in Chapter~\ref{ch:statmech}: percolation is the case in which the
-message travelling along an inclusion is a single number. Everything harder in
-this book is the same recursion carrying something heavier.
+Percolation on a chygraph was solved by
+\citet{vazquez2023pre,vazquez2024comnet}, and this chapter is the account
+of it. It comes first among the applications because percolation is the case in
+which the message travelling along an inclusion is a single number, a point
+Chapter~\ref{ch:statmech} makes precise. Everything harder in this book is the
+same recursion carrying something heavier.
 
-The chapter has one main claim, and it is a claim about labour rather than about
-physics. The higher-order network literature has produced a separate percolation
+The chapter's main claim is about labour rather than physics. The higher-order network literature has produced a separate percolation
 calculation for hypergraphs, for multiplex networks, for interacting networks,
 for simplicial complexes and for graphs with motifs, and the derivations have
 been multiplying faster than anyone can hold them in one head
@@ -19,8 +18,9 @@ result is recovered by writing down four small matrices and substituting.
 Sections~\ref{sec:map} and~\ref{sec:threshold} give the calculation;
 Sec.~\ref{sec:structurebystructure} does the substituting.
 
-Section~\ref{sec:helporhurt} is not in the papers. It settles a question the
-chapter raises against itself.
+Section~\ref{sec:helporhurt} is not in the papers. It settles whether triangles
+help percolation or hurt it, a question Eq.~\eqref{eq:thetaNM} raises and
+Chapter~\ref{ch:ising} appears to answer the other way.
 
 \section{What percolation on a chygraph asks}
 \label{sec:whatasks}
@@ -171,7 +171,7 @@ every generating function by its first derivative there, which by
 Eq.~\eqref{eq:moments} is one of the four moment matrices $\ave{\kappa}$,
 $\ave{\kbar}$, $\ave{s}$, $\ave{\sbar}$. The result is a linear operator on the
 $2L^{2}$ unknowns, and the transition is where its largest eigenvalue passes
-through zero. That operator is the tensor $A$ of Ref.~\citep{vazquez2023pre}.
+through zero. That operator is the tensor $A$ of \citet{vazquez2023pre}.
 
 \begin{calculation}{the threshold tensor}
 Index the four blocks of $A$ by the direction of arrival at the complex and the
@@ -211,14 +211,14 @@ with the \emph{pseudo-order parameter}
   \theta=-\det\bigl(\mathrm{vec}^{2}A\bigr),
 \]
 which is a polynomial in the moments and usually has a far shorter closed form
-than $\Lambda$. One warning, and it is a real one: $\theta$ vanishes where
+than $\Lambda$. One warning: $\theta$ vanishes where
 $\Lambda$ does, but the \emph{sign} of $\theta$ does not determine the phase. A
 determinant vanishes whenever any eigenvalue does, not only the largest. Use
-$\theta$ to locate the transition and $\Lambda$ to say which side of it you are
-on.
+$\theta$ to locate the transition and $\Lambda$ to say which side of it the
+system is on.
 \end{calculation}
 
-Two features, before the examples.
+Two features of the tensor decide how it is used.
 
 The tensor is built \emph{only} from the four first-moment matrices. Whatever
 the cardinality of the complexes, whatever the depth of the inclusion hierarchy,
@@ -237,8 +237,7 @@ derivations.
 \index{percolation!structure by structure}
 
 Each of the following is one published result, obtained by writing the four
-matrices for the structure of Sec.~\ref{sec:everything} and substituting. The
-monotony is deliberate.
+matrices for the structure of Sec.~\ref{sec:everything} and substituting.
 
 \paragraph{Hypergraphs.} Layer $0$ the nodes, layer $1$ the hyperedges, present
 with probabilities $p$ and $q$. The only non-zero entries are
@@ -262,10 +261,10 @@ $\ave{s}_{10}=2q$ and $\ave{\sbar}_{10}=q$:
   \theta_{G}=pq\,\ave{\bar k}-1.
   \label{eq:thetaG}
 \end{equation}
-For $p=q=1$ this is Molloy and Reed \citep{molloy1995}; for general $p$ and $q$
-it is Callaway \emph{et al.} \citep{callaway2000}. It is also
-Eq.~\eqref{eq:molloyreed}, which is the reassurance one wants at this point:
-the machinery reproduces Chapter~\ref{ch:introduction} exactly.
+For $p=q=1$ this is \citet{molloy1995}; for general $p$ and $q$
+it is \citet{callaway2000}. It is also
+Eq.~\eqref{eq:molloyreed}: the machinery reproduces
+Chapter~\ref{ch:introduction} exactly.
 
 \paragraph{Multiplex networks.} One node layer and $L$ link-type layers, with
 $\ave{\kappa}_{0l}=p\ave{k}_{l}$ and so on for each $l$. For arbitrary degree
@@ -276,7 +275,7 @@ every excess average collapses to an ordinary one, it becomes
   \theta_{MP}=p\sum_{l=1}^{L}q_{l}\ave{k}_{l}\ave{c}_{l}-1,
   \label{eq:thetaMP}
 \end{equation}
-recovering Sun and Bianconi \citep{sun2021}. The contribution of the layers is
+recovering \citet{sun2021}. The contribution of the layers is
 \emph{additive}, and the comparison between the two cases identifies what makes
 the general expression long: it is the excess averages, and nothing else.
 
@@ -284,7 +283,7 @@ the general expression long: it is the excess averages, and nothing else.
 hyperedges containing nodes of both is a five-layer chygraph, and $g$
 interacting hypergraphs with pairwise interaction layers need
 $g+\binom{g+1}{2}$ layers under the indexing of
-Ref.~\citep{vazquez2024comnet}. The matrices are sparse and the substitution is
+\citet{vazquez2024comnet}. The matrices are sparse and the substitution is
 mechanical. Nothing further is required: interacting
 networks needed their own literature \citep{leicht2009,bianconi2017}, and here
 they are a choice of layer indices.
@@ -343,9 +342,9 @@ Eq.~\eqref{eq:thetaG}, as it must.
 \index{clustering!and percolation}
 \index{null model}
 
-Equation~\eqref{eq:thetaNM} invites an obvious question, and the published
-answer to it \citep{vazquez2024comnet} sits awkwardly beside a result this book
-reaches later. The tension is resolved here rather than left for the reader.
+Equation~\eqref{eq:thetaNM} raises an obvious question, and the published
+answer \citep{vazquez2024comnet} appears to conflict with a result this book
+reaches later. This section resolves the conflict.
 
 Take two Poisson networks with the same total number of links, one with
 triangles and one without. Since a node's degree gets $2$ from every triangle it
@@ -360,7 +359,7 @@ triangle-free network with $(\ave{k}_{|}+2\ave{k}_{\triangle},0)$. Then
 \end{equation}
 so at equal link count the clustered network percolates more easily and, since
 an epidemic is a bond percolation problem (Chapter~\ref{ch:epidemics}), spreads
-infection more easily too. This agrees with Newman \citep{newman2003}.
+infection more easily too. This agrees with \citet{newman2003}.
 
 Chapter~\ref{ch:ising} reaches the opposite conclusion for the Ising model: at
 fixed degree distribution, clustering \emph{lowers} the critical temperature, by
@@ -395,9 +394,10 @@ $4$-regular graph $\ave{\bar k}=3$ and Eq.~\eqref{eq:thetaG} gives
 $\theta=3q-1$. For the triangle network the chy-degree is $2$, its excess is
 $1$, and Eq.~\eqref{eq:thetaNM} gives $\theta=\bar s_{\triangle}(q)-1$. Hence
 \begin{equation}
-  q_{c}=\tfrac13=0.3333
-  \qquad\text{against}\qquad
-  2q_{c}\bigl(1+q_{c}-q_{c}^{2}\bigr)=1,\quad q_{c}=0.4030.
+  \begin{aligned}
+    q_{c}&=\tfrac13=0.3333,\\
+    2q_{c}\bigl(1+q_{c}-q_{c}^{2}\bigr)&=1,\quad q_{c}=0.4030.
+  \end{aligned}
   \label{eq:qc}
 \end{equation}
 Putting the same links into triangles raises the percolation threshold by $20.9$
@@ -427,34 +427,32 @@ $\bar s_{|}$ at every $q$. But a node of degree four spends its four links on
 two triangles rather than on four independent links, so it has \emph{two}
 branches to explore instead of four. More per branch, fewer branches --- and the
 second effect is the larger. That sentence, with $\bar s$ replaced by the
-transmission of a magnetisation, is the whole of Chapter~\ref{ch:ising}'s
-headline result.
+transmission of a magnetisation, is Chapter~\ref{ch:ising}'s headline result.
 
 \section{Checks}
 \label{sec:percolation-checks}
 
-Three kinds of check run through this chapter and the next, and they answer
-different questions.
+\checkhead{Known results}
+Every specialisation in Sec.~\ref{sec:structurebystructure} reproduces a
+published formula --- Molloy--Reed, Callaway \emph{et al.}, the hypergraph
+result, \citeauthor{sun2021}'s multiplex expression. This tests the algebra and
+nothing else.
 
-\emph{Against known results.} Every specialisation in
-Sec.~\ref{sec:structurebystructure} reproduces a published formula ---
-Molloy--Reed, Callaway \emph{et al.}, the hypergraph result, Sun and Bianconi's
-multiplex expression. This tests the algebra and nothing else.
+\checkhead{New results}
+Section~\ref{sec:helporhurt} is the only part of the chapter with no published
+counterpart. Its two thresholds, $q_{c}=1/3$ for the $4$-regular graph and
+$q_{c}=0.4030$ for the network of triangles, are confirmed by Monte Carlo on
+both structures at $n=3\times10^{4}$ (Fig.~\ref{fig:triangles}): the measured
+onsets sit on the predicted thresholds.
 
-\emph{Against Monte Carlo on a random chygraph.} Sample a chygraph from the
-configuration-model construction of Sec.~\ref{sec:sampling}, percolate it, and
-compare. This tests the map. It does not test the assumption the map rests on,
-because a chygraph built that way has complexes meeting in at most one atom by
-construction --- as Sec.~\ref{sec:sampling} warned.
-
-\emph{Against Monte Carlo on a structure built to have overlap.}
-Figure~\ref{fig:triangles} is halfway to this: the two-triangles-per-vertex
-network is a real graph, constructed with the triangles sharing at most one node
-so that the theory should be exact, and it is. Building one where they share
-more is Chapter~\ref{ch:overlap}'s business, and there the theory is not exact.
-
-Nothing in this chapter needed the complexes to be small, or the layers to be
-few, or the cardinality distribution to be narrow. What it needed was that the
-complexes meet in at most one atom. That single assumption is what
-Chapter~\ref{ch:overlap} has to pay for, and everything between here and there
-is what it buys.
+\checkhead{Partial results}
+Sampling a chygraph from the configuration-model construction of
+Sec.~\ref{sec:sampling} and percolating it tests the map, and not the assumption
+the map rests on, because a chygraph built that way has complexes meeting in at
+most one atom by construction. Figure~\ref{fig:triangles} is halfway past that:
+the two-triangles-per-vertex network is a real graph, but it too was built with
+the triangles sharing at most one node. Nothing in this chapter needed the
+complexes to be small, or the layers to be few, or the cardinality distribution
+to be narrow; what it needed was that single assumption, and no check here tests
+it. Building a structure where complexes share more is
+Chapter~\ref{ch:overlap}'s business, and there the theory is not exact.

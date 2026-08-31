@@ -125,6 +125,11 @@
 \newcommand{\sbar}{\bar s}
 \newcommand{\code}[1]{\texttt{#1}}
 
+% Every Checks section carries the same three headings, in the same order, each
+% on a line of its own: what reproduces published work, what is new here, and
+% what is incomplete or not fully right.
+\newcommand{\checkhead}[1]{\medskip\noindent\emph{#1}\par\nobreak\noindent}
+
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 
 \hyphenation{chy-graph chy-graphs hy-per-graph hy-per-graphs per-co-la-tion}
@@ -154,8 +159,6 @@
 
 \include{preface}
 
-\include{software}
-
 % The contents lists parts and chapters only: with fifteen chapters, breaking
 % each one down into its sections turns the front matter into an index of its
 % own. Set here rather than in the preamble so it wins over the packages.
@@ -179,7 +182,7 @@
 
 % sources
 % - manuscript 1 (Phys. Rev. E 107, 024316), Sec. II "Key definitions"
-% - manuscript 2 (J. Complex Netw. 2024, cnae047), Sec. 2 "Chygraphs"
+% - manuscript 2 (J. Complex Netw. 13, cnae047, 2025), Sec. 2 "Chygraphs"
 
 \include{data}
 
@@ -262,7 +265,7 @@
 %   Semerjian (2008); Franz & Leone (2003)
 % - references under ~/Downloads/chygraph_references/
 
-\part{Limits}
+\part{Limitations}
 
 \include{overlap}
 
@@ -273,6 +276,8 @@
 \include{outlook}
 
 \backmatter
+
+\include{software}
 
 \bibliographystyle{plainnat}
 \bibliography{references}

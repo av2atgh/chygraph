@@ -3,9 +3,9 @@
 \index{Potts model|textbf}
 
 Part~II solved percolation. Part~III solves the Ising model, the hitting set
-problem, vertex cover. They have been presented as two subjects sharing a
-method. The correspondence this chapter proves is new here. Fortuin and
-Kasteleyn's identity is of course not \citep{fortuin1972}; what is new is that
+problem, vertex cover, colouring and satisfiability. They have been presented as
+two subjects sharing a method. The correspondence this chapter proves is new here; Fortuin and
+Kasteleyn's identity is not \citep{fortuin1972}. What is new is that
 it holds complex by complex on a chygraph, and the transmission factor that
 makes it do so is first computed in Sec.~\ref{sec:transmission}.
 
@@ -39,7 +39,7 @@ a reward for being disconnected. At $q>1$ configurations that fall into many
 pieces are favoured, at $q<1$ they are penalised, and at $q=1$ the factor is
 $1$ and nothing is favoured at all.
 
-So the first statement of this chapter can be made before any machinery:
+The first statement of this chapter needs no machinery:
 
 \begin{center}
 \emph{At $q=1$ the random-cluster measure \textbf{is} bond percolation.}
@@ -172,7 +172,7 @@ is discontinuous, and the linear instability stops being the transition.}
 \section{The limit, on a chygraph}
 \label{sec:qlimit}
 
-Now the claim. Chapter~\ref{ch:percolation} wrote down
+Chapter~\ref{ch:percolation} wrote down
 Eqs.~\eqref{eq:Qminus}--\eqref{eq:Qplus} from a connectivity argument, with no
 Hamiltonian anywhere. Chapter~\ref{ch:statmech} will write down a cavity
 recursion for a general model on the same chygraph. The claim is that the first
@@ -247,7 +247,7 @@ message here is one number for all $q$, because the interaction singles out
 percolation limit does is not reduce the message but simplify its
 \emph{composition}: at $q=1$ the number is a probability and complexes combine
 by multiplying probabilities of failure, which is arithmetic a reader has
-already. That is the whole of why Part~II could come first.
+already. That is why Part~II could come first.
 
 \section{The transmission factor}
 \label{sec:transmission}
@@ -284,10 +284,11 @@ The interior earns its keep at $c=3$. There
 \end{equation}
 and the two values give
 \begin{equation}
-  \tau_{3}\big|_{q\to1}=p\,(1+p-p^{2}),
-  \qquad
-  \tau_{3}\big|_{q=2}=\frac{t}{1-t+t^{2}},
-  \quad t=\tanh\beta J_{\mathrm{I}}.
+  \begin{aligned}
+    \tau_{3}\big|_{q\to1}&=p\,(1+p-p^{2}),\\
+    \tau_{3}\big|_{q=2}&=\frac{t}{1-t+t^{2}},
+      \quad t=\tanh\beta J_{\mathrm{I}}.
+  \end{aligned}
   \label{eq:tau3limits}
 \end{equation}
 The first is half of $\bar s_{\triangle}(p)=2p(1+p-p^{2})$, the bond-percolated
@@ -331,7 +332,7 @@ $\tanh\beta J_{\mathrm{I}}=1/\ave{\bar k}$, the Bethe-lattice Ising critical
 temperature. The two most quoted results in the two halves of this book are one
 line evaluated at two points.
 
-\paragraph{Where the analogy stops, and it stops sharply.} Above $q=2$ the
+\paragraph{Where the analogy stops.} Above $q=2$ the
 ferromagnetic transition on a random graph is \emph{discontinuous}, and
 Eq.~\eqref{eq:branchcond} then locates the loss of stability of the disordered
 state rather than the transition. The ordered branch already exists below it,
@@ -416,7 +417,7 @@ structural idea in the book --- layers, chy-degrees, the excess bracket, the
 threshold tensor, what a complex's interior contributes --- is present at $q=1$
 and can be learned there for the price of arithmetic.
 
-What Part~III adds is not a new recursion. It is a heavier message. The
+What Part~III adds is a heavier message rather than a new recursion. The
 $q$-state ferromagnet keeps a single number all the way along
 Fig.~\ref{fig:qaxis}'s axis, which is why this chapter is short.
 Chapter~\ref{ch:hittingset} does not: its fields collapse onto integers in the
@@ -440,26 +441,38 @@ when the sentence stops being true.
 \section{Checks}
 \label{sec:potts-checks}
 
-Equation~\eqref{eq:qonelimit} is verified symbolically in the bond probability,
-with an independent $y_{j}$ on each member so that no symmetry is being relied
-on, for complexes that are $K_{2}$, $K_{3}$, $K_{4}$, $K_{5}$ and paths on
-three and four vertices, against the reachability generating function obtained
-by enumerating all $2^{|E|}$ bond configurations of the interior. In the
-symmetric case it is checked against the independent implementation of
-$\bar G$ used in Chapters~\ref{ch:percolation}--\ref{ch:epidemics}.
+\checkhead{Known results}
+The linear threshold $v_{c}=q/(\ave{\bar k}-1)$ is solved symbolically and
+confirmed to return $p_{c}=1/\ave{\bar k}$ at $q=1$, which is Molloy and Reed,
+and $\tanh\beta J=1/\ave{\bar k}$ at $q=2$, which is the Bethe-lattice Ising
+temperature. In Table~\ref{tab:pottswindow} the $q=2$ column agrees with
+Eq.~\eqref{eq:branchcond} to four digits, which is what says the iteration is
+right where the answer is independently known.
 
-The other end of the axis is checked the same way: at $q=2$, with
-$y_{j}=e^{-2h_{j}}$, the emitted ratio is $e^{-2u}$ with $u$ the Ising cavity
-field, verified against an independent enumeration of the Ising interior for
-$K_{2}$, $K_{3}$ and $K_{4}$. So the interior sum of this chapter reproduces
-Chapter~\ref{ch:percolation}'s at one end and Chapter~\ref{ch:ising}'s at the
-other, and neither of those two was written with the other in mind.
+\checkhead{New results}
+That the correspondence holds complex by complex, and the transmission factor
+that carries it, are new here. Equation~\eqref{eq:qonelimit} is verified
+symbolically in the bond probability, with an independent $y_{j}$ on each member
+so that no symmetry is being relied on, for complexes that are $K_{2}$, $K_{3}$,
+$K_{4}$, $K_{5}$ and paths on three and four vertices, against the reachability
+generating function obtained by enumerating all $2^{|E|}$ bond configurations of
+the interior. In the symmetric case it is checked against the independent
+implementation of $\bar G$ used in
+Chapters~\ref{ch:percolation}--\ref{ch:epidemics}. The other end of the axis is
+checked the same way: at $q=2$, with $y_{j}=e^{-2h_{j}}$, the emitted ratio is
+$e^{-2u}$ with $u$ the Ising cavity field, verified against an independent
+enumeration of the Ising interior for $K_{2}$, $K_{3}$ and $K_{4}$. So the
+interior sum reproduces Chapter~\ref{ch:percolation}'s at one end and
+Chapter~\ref{ch:ising}'s at the other, and neither of those two was written with
+the other in mind. Equations~\eqref{eq:tau2} and~\eqref{eq:tau3} are obtained by
+differentiating that interior sum, and their limits
+Eq.~\eqref{eq:tau3limits} are checked against the closed forms the two chapters
+quote.
 
-Equations~\eqref{eq:tau2} and~\eqref{eq:tau3} are obtained by differentiating
-that interior sum, and their limits Eq.~\eqref{eq:tau3limits} are checked
-against the closed forms the two chapters quote. The linear threshold
-$v_{c}=q/(\ave{\bar k}-1)$ is solved symbolically and confirmed to return
-$p_{c}=1/\ave{\bar k}$ at $q=1$ and $\tanh\beta J=1/\ave{\bar k}$ at $q=2$. The
-table in Sec.~\ref{sec:transmission} comes from iterating the recursion, and its
-$q=2$ column agreeing with Eq.~\eqref{eq:branchcond} to four digits is what
-says the iteration is right where the answer is independently known.
+\checkhead{Partial results}
+Above $q=2$ only the two spinodals are closed forms. The transition between them
+is located numerically, by comparing Bethe free energies across the coexistence
+window, and Table~\ref{tab:pottswindow} is that calculation at one excess degree
+and four values of $q$ --- not a general result. The errors in its last row are
+fractions of $v_{c}$, not of the transition, and the two conventions differ by
+enough to matter.

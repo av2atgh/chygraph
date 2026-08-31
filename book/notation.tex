@@ -5,8 +5,12 @@
 Symbols carried over from the papers this book draws on are kept as they are
 there, so that a reader moving between book and paper does not have to
 retranslate. The cost is that a few letters do more than one job. Every such
-letter is listed below with the chapters in which each meaning is in force; none
-of them carries two meanings in the same chapter.
+letter is listed below with the chapters in which each meaning is in force. Two
+of them carry two meanings within one chapter --- $m$ in
+Chapter~\ref{ch:statmech} and $\eta$ in Chapter~\ref{ch:colouring}. In both
+cases the second meaning is the standard symbol in the literature being matched,
+and renaming it would cost the reader more than the clash does; the text says so
+at the point where the second meaning enters.
 
 \medskip
 \noindent\textbf{The structure.}
@@ -30,18 +34,26 @@ $G$, $\bar G$ & intra-complex generating functions\\
 \noindent\textbf{Letters that do more than one job.}
 
 \begin{longtable}{@{}l@{\hspace{1.2em}}L{2.55in}@{}}
-$q$ & site occupation probability (Part~II); number of Potts states
-      (Ch.~\ref{ch:potts}) or colours (Ch.~\ref{ch:colouring}); number of
-      members of the unanimity complex (Sec.~\ref{sec:unanimity})\\[3pt]
-$p$ & bond occupation probability (Parts~II and~III)\\[3pt]
+$q$ & bond or hyperedge occupation probability (Part~II); number of Potts
+      states (Ch.~\ref{ch:potts}) or colours (Ch.~\ref{ch:colouring}); number
+      of members of the unanimity complex (Sec.~\ref{sec:unanimity})\\[3pt]
+$p$ & site occupation probability (Part~II), and the within-household
+      transmission probability $p_{H}$ of Ch.~\ref{ch:epidemics}; bond
+      occupation probability (Part~III)\\[3pt]
 $\tau$ & transmission factor $\tau_{c}(q,v)$ (Chs.~\ref{ch:potts},
          \ref{ch:statmech}, \ref{ch:colouring}); degree exponent of a
          hyperbolic random graph (Chs.~\ref{ch:data}, \ref{ch:cover},
          \ref{ch:overlap}); infectious period (Ch.~\ref{ch:epidemics});
-         hard-field message (Ch.~\ref{ch:hittingset})\\[3pt]
+         hard-field message (Chs.~\ref{ch:hittingset},
+         \ref{ch:cover})\\[3pt]
 $\theta$ & the threshold determinant $-\det(\mathrm{vec}^{2}A)$
            (Chs.~\ref{ch:percolation}, \ref{ch:giant}); a growth or core
            exponent (Chs.~\ref{ch:data}, \ref{ch:cover})\\[3pt]
+$\Lambda$, $\lambda$ & distance above threshold, and the Perron root of the
+                       Jacobian, $\Lambda=\lambda-1$ (Chs.~\ref{ch:percolation},
+                       \ref{ch:giant}); $\lambda$ is also the rate at which
+                       warnings arrive at a variable, Eq.~\eqref{eq:nestedwp}
+                       (Ch.~\ref{ch:satisfiability})\\[3pt]
 $\beta$ & inverse temperature (Part~III); order parameter exponent
           (Ch.~\ref{ch:giant}); infection rate and the contagion couplings
           $\beta_{1},\beta_{2}$ (Ch.~\ref{ch:epidemics})\\[3pt]
@@ -54,36 +66,64 @@ $C$, $c$ & cardinality (throughout); clustering coefficient
            denominator $C$ (Ch.~\ref{ch:giant}); the residual $C_{q}$
            (Sec.~\ref{sec:unanimity}); a counting number $c_{R}$
            (Ch.~\ref{ch:overlap}); a clause $C_{a}$
-           (Ch.~\ref{ch:satisfiability})\\[3pt]
+           (Ch.~\ref{ch:satisfiability}); the connectedness probability
+           $C_{j}(p)$ of Eq.~\eqref{eq:Kn} (Ch.~\ref{ch:epidemics}); the
+           colouring thresholds $c_{d}$, $c_{q}$
+           (Ch.~\ref{ch:colouring})\\[3pt]
 $\delta$ & Kronecker delta (Chs.~\ref{ch:percolation}, \ref{ch:statmech});
            probability that a vertex is deleted (Ch.~\ref{ch:cover})\\[3pt]
 $T$ & transmissibility (Ch.~\ref{ch:epidemics}); temperature (Part~III)\\[3pt]
-$m$ & a layer index (Chs.~\ref{ch:giant}, \ref{ch:statmech}); magnetisation
-      (Ch.~\ref{ch:ising})\\
+$\mu$ & chemical potential conjugate to the cover size
+        (Chs.~\ref{ch:hittingset}, \ref{ch:cover}); an external field, the
+        shift $\delta_{\mu}$ of Eq.~\eqref{eq:ensemblemap}
+        (Ch.~\ref{ch:statmech}); the mean number of further household
+        infections $\mu_{H}$ (Ch.~\ref{ch:epidemics}); the weight that a
+        layer-2 clause forces its sub-clause false
+        (Ch.~\ref{ch:satisfiability})\\[3pt]
+$\rho$ & density of the covering set (Chs.~\ref{ch:hittingset},
+         \ref{ch:cover}); the infected fraction
+         (Ch.~\ref{ch:epidemics}); the ratio $\rho_{a\to i}$ a complex emits,
+         Eq.~\eqref{eq:taudef} (Ch.~\ref{ch:potts}); the Perron root of the
+         Jacobian at the fixed point the map reaches, Eq.~\eqref{eq:exchange}
+         (Ch.~\ref{ch:statmech})\\[3pt]
+$\sigma$ & an Ising spin (Ch.~\ref{ch:ising}); a Potts state or colour
+           (Chs.~\ref{ch:potts}, \ref{ch:colouring},
+           \ref{ch:satisfiability}); the intermediate hard-field quantity of
+           Eq.~\eqref{eq:hs} (Ch.~\ref{ch:hittingset})\\[3pt]
+$m$ & a layer index (Chs.~\ref{ch:percolation}, \ref{ch:giant},
+      \ref{ch:statmech}); the Parisi
+      parameter (Sec.~\ref{sec:onestep} and Chs.~\ref{ch:colouring},
+      \ref{ch:satisfiability}, \ref{ch:outlook}, none of which carries a layer
+      index); magnetisation (Ch.~\ref{ch:ising})\\[3pt]
+$\eta$ & the replica-symmetric cavity message, a distribution over colours
+         (Secs.~\ref{sec:colouringdef}--\ref{sec:colouring-scalar}); a warning,
+         and then a survey (Ch.~\ref{ch:satisfiability}); the rescaled survey
+         $e/q$ of \citet{krzakala2004} (Sec.~\ref{sec:colouring-cq}
+         only, where their equations are matched term for term)\\[3pt]
+$e$ & the probability that a node is forced, the scalar a colouring survey
+      reduces to (Ch.~\ref{ch:colouring}); Euler's number elsewhere, and in
+      particular the vertex-cover threshold $\ave{k}=e$
+      (Chs.~\ref{ch:introduction}, \ref{ch:hittingset},
+      \ref{ch:cover})\\
 \end{longtable}
 
 \medskip
-\noindent\textbf{Letters used in one chapter only.}
+\noindent\textbf{Letters with a single meaning throughout.}
 
 \begin{longtable}{@{}l@{\hspace{1.2em}}L{2.55in}@{}}
-$\Lambda$, $\lambda$ & distance above threshold, and the Perron root of the
-                       Jacobian, $\Lambda=\lambda-1$ (Chs.~\ref{ch:percolation},
-                       \ref{ch:giant})\\[3pt]
 $u$, $u'$ & cavity field emitted by a complex, and its derivative at the trivial
             fixed point (Chs.~\ref{ch:statmech}, \ref{ch:ising})\\[3pt]
 $t$ & $\tanh\beta J$ (Part~III)\\[3pt]
-$\sigma$ & an Ising spin (Ch.~\ref{ch:ising}); the intermediate hard-field
-           quantity of Eq.~\eqref{eq:hs} (Ch.~\ref{ch:hittingset})\\[3pt]
-$\mu$ & chemical potential conjugate to the cover size
-        (Ch.~\ref{ch:hittingset})\\[3pt]
-$\rho$ & density of the covering set (Chs.~\ref{ch:epidemics},
-         \ref{ch:hittingset})\\[3pt]
 $\psi,\delta,\gamma$ & leaf-ready, deleted and core probabilities, with $\zeta$
                        and $\xi$ the two things a complex does to an entering
-                       node (Ch.~\ref{ch:cover}). Reference~\citep{liu2012}
-                       writes $\psi$ and $\xi$ as $\lambda$ and $\kappa$, which
-                       are spoken for here\\[3pt]
-$\eta$ & a warning (Ch.~\ref{ch:satisfiability})\\[3pt]
+                       node (Ch.~\ref{ch:cover}). \citet{liu2012} write
+                       $\psi$ and $\delta$ as $\alpha$ and $\beta$, both
+                       of which are spoken for here\\[3pt]
 $\alpha$ & clause density (Ch.~\ref{ch:satisfiability})\\[3pt]
-$v$ & random-cluster weight $e^{\beta J}-1$ (Ch.~\ref{ch:potts})\\
+$v$ & random-cluster weight $e^{\beta J}-1$ (Ch.~\ref{ch:potts})\\[3pt]
+$\Sigma$ & the complexity: the number of clusters of solutions, per node, on a
+           logarithmic scale (Sec.~\ref{sec:onestep} and
+           Chs.~\ref{ch:colouring}, \ref{ch:satisfiability})\\[3pt]
+$y$ & the reweighting conjugate to energy, $y\to\infty$ throughout
+      (Ch.~\ref{ch:colouring})\\
 \end{longtable}

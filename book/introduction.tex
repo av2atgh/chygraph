@@ -2,17 +2,27 @@
 \label{ch:introduction}
 \index{branching process}
 
-Nothing in this chapter is new. Everything in it is used later, and the order is
-the order the book will need it in. A reader who already knows what a
-generating function does to a degree distribution, what the cavity method is,
-and why replica symmetry sometimes fails, should skip to
-Chapter~\ref{ch:chygraphs} --- except perhaps for the last section, which is
-this chapter's own argument and the reason the rest of the book exists.
+Statistical physics is the natural framework for problems in and on networks
+\citep{martin2001,dorogovtsev2008}. It was built for systems with a great many
+interacting parts, where the question is never what any one part does but what
+the whole does on average --- and that is exactly the question a network poses.
+A degree distribution is an ensemble; a giant component is an order parameter; a
+percolation threshold is a phase transition. The correspondence is an identity
+rather than an analogy, and it means that a century of machinery built for
+magnets applies, with almost no translation, to questions
+about connectivity, spreading and constraint satisfaction.
 
-The argument is short enough to state now. Every method here works by pretending
-the network is a tree. Real networks are not trees, and the specific way they
-fail to be trees is that your friends know each other. That is the problem
-Chapter~\ref{ch:chygraphs} is designed to solve.
+In this chapter we assemble that machinery: what a generating function does to a
+degree distribution, what the cavity method is, and why replica symmetry
+sometimes fails. None of it is new, and a reader who has it already should skip
+to Chapter~\ref{ch:chygraphs} --- except for the last section, which is where
+the book's own argument begins.
+
+The argument runs as follows. Every method here works by pretending the network
+is a tree. Real networks are not trees, and the specific
+way they fail to be trees is that the neighbours of a node are neighbours of
+one another. That is the
+problem Chapter~\ref{ch:chygraphs} is designed to solve.
 
 \section{Networks, and what we put on them}
 \label{sec:networks}
@@ -34,14 +44,14 @@ $k$. Its first moment $\ave{k}$ is twice the number of links divided by the
 number of nodes, and its second moment $\ave{k^{2}}$ will turn out to matter
 just as much.
 
-Two more quantities, both of which recur on every page of this book.
+Two more quantities, both used throughout.
 
-\paragraph{The excess degree.} Pick a link at random and walk along it. You
-arrive at a node, and the question that matters for everything downstream is not
-how many links that node has but how many \emph{others} --- how many ways there
-are to keep going. Because a node with $k$ links is $k$ times more likely to be
-found at the end of a randomly chosen link than a node with one, the degree you
-arrive at is not drawn from $p(k)$ but from the size-biased distribution
+\paragraph{The excess degree.} Pick a link at random and follow it. It ends at
+a node, and the question that matters for everything downstream is not how many
+links that node has but how many \emph{others} --- how many ways there are to
+keep going. Because a node with $k$ links is $k$ times more likely to be found
+at the end of a randomly chosen link than a node with one, the degree reached is
+not drawn from $p(k)$ but from the size-biased distribution
 $k\,p(k)/\ave{k}$, and the number of onward links is one less than that. Its
 mean is the \emph{excess degree}
 \begin{equation}
@@ -69,8 +79,8 @@ $e_{i}$ of the $\binom{k_{i}}{2}$ possible links among them exist, then
 and $C$ is the average of $C_{i}$ over nodes of degree two or more. A high $C$
 means the network is full of triangles. Table~\ref{tab:real} in
 Chapter~\ref{ch:data} measures it for ten real networks; the values run from
-$0.006$ to $0.65$. Hold on to this quantity. Section~\ref{sec:treebreaks} is
-about it, and so, in the end, is the book.
+$0.006$ to $0.65$. Section~\ref{sec:treebreaks} is about this quantity, and so,
+in the end, is the book.
 
 \paragraph{The configuration model.} Throughout, ``a random network with degree
 distribution $p(k)$'' means the following construction. Give node $i$ a number
@@ -141,17 +151,17 @@ is the one this chapter is about.
 \index{Molloy--Reed criterion|textbf}
 \index{giant component}
 
-Take a network and destroy it slowly. Keep each link with probability $p$ and
-delete it otherwise. For small $p$ what remains is a scatter of small fragments.
+Take a network and dilute it. Keep each link with probability $p$ and delete it
+otherwise. For small $p$ what remains is a scatter of small fragments.
 For large $p$ a single component contains a finite fraction of all the nodes.
 Somewhere between the two the fragments merge into that giant component, and
 that abrupt change is the \emph{percolation transition}.
 
-The question is where. The argument follows in words before any algebra; the
-whole book generalises it.
+The question is where, and the answer follows from a counting argument that the
+whole book generalises.
 
-Start at a node and follow a surviving link. You arrive somewhere, and from
-there you can continue along $\bar k$ further links, of which a fraction $p$
+Start at a node and follow a surviving link. It ends somewhere, and from there
+the exploration continues along $\bar k$ further links, of which a fraction $p$
 survive. So one surviving branch begets, on average, $p\ave{\bar k}$ further
 surviving branches. If that number is less than one the exploration dies out and
 components stay finite; if it is greater than one it grows without bound and a
@@ -168,23 +178,23 @@ $\ave{\bar k}=\ave{k}$ and the giant component appears at mean degree one. For a
 scale-free network with $\ave{k^{2}}$ divergent, $p_{c}=0$: such networks cannot
 be broken by random deletion at all.
 
-Three things about this argument deserve flagging, because all three carry
-through to Chapter~\ref{ch:percolation} unchanged.
+Three features of this argument carry through to
+Chapter~\ref{ch:percolation} unchanged.
 
 First, it is a \emph{branching process}. The exploration is treated as a family
 tree in which each individual has an independent number of children, and the
 threshold is the point where the mean number of children reaches one. This is
-exact when the network has no short loops, and it is wrong when it does --- for
-the simple reason that on a loop the exploration comes back to somewhere it has
-already been, and a branching process has no way to know that.
+exact when the network has no short loops and wrong when it does, because on a
+loop the exploration comes back to somewhere it has already been and a branching
+process has no way to know that.
 
 Second, the only property of the network that entered was $\ave{\bar k}$, a
 ratio of the first two moments. Everything else about $p(k)$ is irrelevant to
 where the transition is. It is not irrelevant to how big the giant component is
-once you are past it, which is the subject of Chapter~\ref{ch:giant}.
+once past it, which is the subject of Chapter~\ref{ch:giant}.
 
 Third, deleting links at random and deleting nodes at random are the same
-calculation with a different bookkeeping, not two different problems.
+calculation with different bookkeeping.
 
 \begin{calculation}{the giant component, in full}
 The branching argument gives the threshold. Getting the size of the giant
@@ -218,8 +228,8 @@ made at a node rather than along a link, so the giant component fraction is
 The trivial solution $u=1$ always exists and gives $S=0$. It becomes unstable
 when the derivative of the right-hand side at $u=1$ exceeds one, that is when
 $p\,G_{1}'(1)>1$ --- Eq.~\eqref{eq:molloyreed} again. Threshold and order
-parameter are the linearisation and the full solution of one equation, a point
-Chapter~\ref{ch:giant} makes a great deal of.
+parameter are the linearisation and the full solution of one equation, which is
+the observation Chapter~\ref{ch:giant} is built on.
 \end{calculation}
 
 \begin{figure}[t]
@@ -264,9 +274,12 @@ than one branch, and why it is exact on a tree.
 
 Percolation asks about the network itself. The rest of the book puts something
 \emph{on} the network --- a variable at every node, and an energy that says which
-combinations of variables are cheap. Three such models run through the book, and
-all three appear now on the same small graph, so the family resemblance is
-visible.
+combinations of variables are cheap. Three of the models that run through the book are introduced here, and all
+three appear now on the same small graph, so the family resemblance is
+visible. For the wider map --- spin models, $k$-core percolation, epidemic
+thresholds and the rest, on equilibrium and growing networks alike ---
+\citet{dorogovtsev2008} is the review to read alongside this chapter, which
+takes only what the later chapters use.
 
 \subsection{The Ising model}
 \label{sec:ising-intro}
@@ -299,9 +312,9 @@ with which one spin transmits its bias to a neighbour. Then
 locates $T_{c}$. Compare Eq.~\eqref{eq:molloyreed}: the occupation probability
 $p$ has been replaced by $\tanh\beta J$ and nothing else has changed. A
 correlation propagating through the network and a cluster spreading through it
-are the same branching process counted with a different weight. That is not a
-coincidence and it is not a metaphor; Chapter~\ref{ch:potts} shows the two are
-literally the same model at two values of one parameter.
+are the same branching process counted with a different weight.
+Chapter~\ref{ch:potts} shows that the two are the same model at two values of
+one parameter.
 
 Equation~\eqref{eq:tc-intro} is exact on a random graph with any degree
 distribution, and the same replica calculation returns the critical exponents
@@ -317,7 +330,7 @@ exponents are not the mean-field ones.
 \index{vertex cover|textbf}
 \index{NP-hardness}
 
-Now a problem with no temperature in it at all. A \emph{vertex cover} of a graph
+The third model has no temperature in it at all. A \emph{vertex cover} of a graph
 is a set of nodes such that every link has at least one endpoint in the set ---
 guards posted at corridor junctions so that every corridor is watched. Covering
 everything is easy; covering everything with as few nodes as possible is the
@@ -429,9 +442,9 @@ Sec.~\ref{sec:cavity} has to carry.}
 \label{fig:threemodels}
 \end{figure}
 
-Figure~\ref{fig:threemodels} puts the three side by side on one graph, which
-is the point --- they differ in what decorates the nodes and what is paid for,
-not in the object underneath.
+Figure~\ref{fig:threemodels} puts the three side by side on one graph: they
+differ in what decorates the nodes and what is paid for, not in the object
+underneath.
 
 \subsection{What these have in common}
 
@@ -443,7 +456,7 @@ cover'' and ``take $T\to0$ in this model'' are the same instruction. The
 apparatus does not distinguish them, which is why one method can serve a
 magnet and an NP-hard optimisation problem.
 
-There is one caveat about that limit, and this book is largely about it. Taking
+One caveat about that limit runs through the book. Taking
 $T\to0$ inside an approximation is not the same as taking it in the exact
 answer, and Chapter~\ref{ch:hittingset} exhibits a case, simple enough to check
 by hand, where the standard zero-temperature treatment gives $1/2$ and the truth
@@ -464,12 +477,11 @@ effective field $Jkm$, giving the self-consistency condition
 For small $m$ the right-hand side is $\beta J\ave{k}m$, so a non-zero solution
 appears when $\beta J\ave{k}=1$.
 
-This is wrong, and the way it is wrong is instructive. Compare it with
-Eq.~\eqref{eq:tc-intro}: mean field gives $\beta J\ave{k}=1$ where the correct
+This is wrong. Compare it with Eq.~\eqref{eq:tc-intro}: mean field gives $\beta J\ave{k}=1$ where the correct
 treelike answer is $\tanh(\beta J)\ave{\bar k}=1$. Two errors, in opposite
 directions. Mean field uses $\ave{k}$ where it should use the excess degree
-$\ave{\bar k}$ --- it forgets that you arrived somewhere and cannot leave the
-way you came --- and it uses $\beta J$ where it should use $\tanh\beta J$,
+$\ave{\bar k}$ --- it forgets that the walk arrived along a link and cannot
+leave by it --- and it uses $\beta J$ where it should use $\tanh\beta J$,
 because it treats the neighbour's spin as a fixed number rather than a
 fluctuating variable that only partially transmits.
 
@@ -491,14 +503,13 @@ number becomes a message, and then a distribution of messages.
 \index{Bethe--Peierls approximation|textbf}
 \index{message passing}
 
-Here is the idea that the whole book rests on, and it is a geometric idea before
-it is a calculation.
+Our core idea is geometric before it is a calculation.
 
 Take a node $i$ and remove it, leaving a hole --- a \emph{cavity}. On a tree,
 removing $i$ disconnects its neighbours from one another completely: the
 branches that hung off $i$ are now separate networks with no path between them.
 Whatever is going on in one branch is therefore independent of whatever is going
-on in another. That independence is the whole trick, and it converts a problem
+on in another. That independence is the trick, and it converts a problem
 in which every variable is coupled to every other into a problem about one
 branch at a time.
 
@@ -629,8 +640,8 @@ book.
 
 The cavity method as just described contains an assumption that is easy to miss.
 In writing a single distribution $P(h)$ and asking it to be self-consistent, one
-has assumed that the system has essentially \emph{one} state --- that if you ran
-the model twice, the two runs would look statistically alike. This is
+has assumed that the system has essentially \emph{one} state --- that two runs
+of the model would look statistically alike. This is
 \emph{replica symmetry}, so called because in the older replica formalism
 \citep{mezard1987} it appears as a symmetry among $n$ copies of the system.
 
@@ -639,8 +650,9 @@ random signs of $J$, a spin glass, it is false below a certain temperature: the
 energy landscape breaks into exponentially many valleys separated by barriers,
 each valley a perfectly good ``state'', and no single $P(h)$ describes them all.
 The same happens in hard optimisation problems --- for vertex cover on a Poisson
-graph it happens at mean degree $e$, the very point where leaf removal stalls
-\citep{weigt2000,bauer2001}, which is not a coincidence.
+graph it happens at mean degree $e$, the point where leaf removal stalls
+\citep{weigt2000,bauer2001}; Chapter~\ref{ch:cover} shows that the two are one
+point.
 
 The remedy is \emph{one-step replica symmetry breaking}: a distribution over
 valleys, and within each valley a distribution over messages --- a distribution
@@ -655,7 +667,7 @@ whether the perturbation grows. For the Ising model the relevant condition turns
 out to be $t^{2}\ave{\bar k}=1$ rather than $t\ave{\bar k}=1$ --- the
 \emph{de Almeida--Thouless line} \citep{dealmeida1978} --- because a perturbation
 of \emph{random sign} is transmitted with $t$ and its effect measured by
-squaring. That squaring is the whole difference between the ferromagnetic
+squaring. That squaring is the difference between the ferromagnetic
 transition and the spin-glass one, and Chapter~\ref{ch:ising} obtains both from
 the same expression by squaring one factor.
 
@@ -668,8 +680,8 @@ and the answer it gives is an underestimate.
 wander. This is the practical signal and it is the one that usually arrives
 first.
 
-None of these tells you the right answer. All of them tell you that the answer
-in hand is wrong. This book flags every place they fire.
+None of these gives the right answer. All of them show that the answer in hand
+is wrong. This book flags every place they fire.
 
 \section{The tree assumption, and why real networks break it}
 \label{sec:treebreaks}
@@ -677,14 +689,16 @@ in hand is wrong. This book flags every place they fire.
 \index{treelike}
 \index{clustering!and the tree assumption}
 
-Now the argument this chapter exists to make.
+In this section we collect the tree assumption made by every method above and
+measure how badly real networks violate it, since that violation is what the
+rest of the book is written to repair.
 
-Look back over what has been done. The percolation threshold came from a
+The percolation threshold came from a
 branching process, which is exact when no branch ever meets another. The cavity
 recursion came from removing a node and finding its branches independent, which
 is true when the branches are not joined behind its back. Both statements are
 the same statement: \textbf{the network must be locally treelike}. Follow links
-away from a node and you must not come back.
+away from a node must not lead back to it.
 
 Real networks come back. The clustering coefficient of
 Eq.~\eqref{eq:clustering} measures exactly how often, and it is not small: in
@@ -749,14 +763,13 @@ on every quantity the theory of this chapter can see, and they are in different
 phases. Whatever separates them lies outside $p(k)$ by construction, and it is
 clustering.
 
-That second example is the one to keep in mind, because it rules out the obvious
-response. One cannot rescue the situation by measuring the degree distribution
+The second example rules out the obvious response. One cannot rescue the situation by measuring the degree distribution
 more carefully, or by correlating the degrees of adjacent nodes
 \citep{vazquez2003vw}, or by any refinement of a description whose atoms are
 nodes and links. The
 information that distinguishes the two graphs is not in that description at all.
 
-So the field has, and has had for twenty-five years, a beautiful method and a
+So the field has had, for twenty-five years, a method that works and a
 systematic reason why it should not apply to the objects it is applied to. The
 next chapter's response is not to patch the method. It is to change what the
 method is applied to: if a triangle is a problem when treated as three links,

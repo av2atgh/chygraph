@@ -2,11 +2,11 @@
 \label{ch:statmech}
 
 Chapter~\ref{ch:potts} claimed that percolation and the Ising model are one
-recursion at two values of a parameter, and checked it at both values. Nothing in
-this chapter has appeared elsewhere. That is
-a claim about two special cases. This chapter writes the recursion down for an
-arbitrary interaction inside a complex, so that the claim stops being about
-special cases and becomes the method.
+recursion at two values of a parameter, and checked it at both values. That is a
+claim about two special cases. In this chapter we write the recursion down for
+an arbitrary interaction inside a complex, so that the claim stops being about
+special cases and becomes the method. Nothing in the chapter has appeared
+elsewhere.
 
 The generalisation is one substitution, and Sec.~\ref{sec:substitution} states
 it before anything else, because everything afterwards is bookkeeping around
@@ -87,7 +87,7 @@ what its \emph{other} complexes have told it:
   h_{i\to a}=\mu+\sum_{b\ni i,\ b\ne a}u_{b\to i}.
   \label{eq:up}
 \end{equation}
-Fields add. That is the whole of the up step, and it is why the ensemble
+Fields add. That is the up step, and it is why the ensemble
 version, Eq.~\eqref{eq:ensemblemap}, is a convolution: the law of a sum of
 independent terms is the convolution of their laws, and the generating function
 supplies how many terms there are.
@@ -116,7 +116,7 @@ it emits onto member $0$ given the cavity fields of the others is
 That sum is done \emph{exactly}, at a cost exponential in $c$ and independent of
 everything outside the complex.
 
-Three things about Eq.~\eqref{eq:emitted} carry the chapter.
+Three properties of Eq.~\eqref{eq:emitted} carry the chapter.
 
 \emph{The Hamiltonian appears here and nowhere else.} Everything upstream and
 downstream is structure. Changing the model means passing a different
@@ -200,8 +200,8 @@ each message.}
 \label{sec:branching}
 \index{branching matrix|textbf}
 
-Now the transition. Linearise the up step about the trivial fixed point, where
-every field vanishes:
+The transition follows from linearising the up step about the trivial fixed
+point, where every field vanishes:
 \begin{equation}
   \delta h_{i\to a}=\sum_{b\ne a}u'\,\delta h_{b\to i},
   \qquad
@@ -467,6 +467,133 @@ graph in the treelike case. Where complexes overlap, the counting and the free
 energy are wrong in the same way, which is why Chapter~\ref{ch:overlap} can
 diagnose the failure rather than merely observe it.
 
+\section{One step of replica symmetry breaking}
+\label{sec:onestep}
+\index{replica symmetry breaking!one-step, on a chygraph|textbf}
+\index{survey propagation|textbf}
+\index{complexity|textbf}
+\index{Parisi parameter}
+
+Everything above carries one field per inclusion, and that is an assumption
+about the solution space and not a convention. A message can be a field because
+there is one thing to say. Where the space shatters into exponentially many
+clusters --- as it does for every hard constraint in Part~III, at a density
+below the one where solutions disappear --- each cluster would send its own
+field along the same inclusion, and no single field is right for all of them.
+
+\paragraph{The substitution, one level up.} The repair is
+Sec.~\ref{sec:substitution}'s move made a second time, and it is worth being
+exact about the difference, because the two produce the same kind of object for
+different reasons. There, a field became a \emph{measure over fields} to pass
+from one realisation to an ensemble: the spread in $P^{ml}$ is variation across
+the graphs in the ensemble. Here a field becomes a measure over fields at
+\emph{fixed} realisation: the spread is variation across the clusters of one
+graph. That object is a \emph{survey},
+\begin{equation}
+  S_{i\to a}(h)=\text{the law, over clusters, of the field }i\text{ sends }a,
+  \label{eq:survey}
+\end{equation}
+and the ensemble version stacks on top of it --- a distribution over surveys,
+which is what a population dynamics stores and why the populations of
+Chapters~\ref{ch:colouring} and~\ref{ch:satisfiability} are populations of
+distributions rather than of numbers.
+
+What does \emph{not} change is the recursion. The up step of
+Sec.~\ref{sec:upstep} still adds the incoming fields; the down step of
+Sec.~\ref{sec:downstep} still enumerates the interior of a complex exactly.
+Both now act on surveys rather than on fields, and each combination is
+reweighted by $e^{-m\Delta F}$, with $\Delta F$ the free-energy shift the
+combination costs and $m$ the Parisi parameter --- the one place in this chapter
+where $m$ is not a layer index. The index structure --- layers,
+the direction of arrival, the discounting of the inclusion one came in by ---
+survives this exactly as it survived the first substitution, and for the same
+reason: none of it was ever about what the message contained.
+
+\paragraph{Counting the clusters.} A branch of the survey recursion appearing is
+not a threshold. What decides whether solutions still exist is how many clusters
+there are, and that is a free energy rather than a branch. Reweighting
+Eq.~\eqref{eq:bethe} at $m=0$ turns the Bethe expression into a count of
+clusters --- the \emph{complexity}
+\begin{equation}
+  \Sigma=\ave{\ln Z_{i}}
+        +\sum_{l}\frac{\ave{k_{l}}}{c_{l}}\ave{\ln Z^{(l)}_{a}}
+        -\sum_{l}\ave{k_{l}}\ave{\ln Z^{(l)}_{ia}},
+  \label{eq:sigmagen}
+\end{equation}
+the same three objects the free energy is built from --- a node, a complex, an
+inclusion --- evaluated on surveys instead of on fields, with $\ave{k_{l}}/c_{l}$
+complexes and $\ave{k_{l}}$ inclusions per node in layer $l$. Where $\Sigma$
+falls to zero the clusters have run out, and that is the threshold. Note that
+the overlap term does not collapse here as it did in
+Eq.~\eqref{eq:bethe}: the argument that made $h_{i\to a}+u_{a\to i}$ the same
+full field for every complex is an argument about one field, and the
+reweighting is what breaks it. Three terms rather than two is the whole
+bookkeeping cost of the step.
+
+\paragraph{Two transitions, not one.} The survey recursion therefore carries two
+pieces of information and they should not be confused. The trivial survey ---
+every cluster sending the same field, which is the replica-symmetric solution
+--- is a fixed point at any density. Where a second branch appears, the state
+space has \emph{shattered}: there are now many clusters, and that density is the
+dynamical or clustering transition. Where $\Sigma$ then falls to zero the
+clusters have run out and solutions cease to exist. Solutions survive past the
+first and not past the second, and the gap between them is the r\'egime survey
+propagation was invented for.
+
+The first of the two is sometimes reachable without a survey at all. Where the
+shattering coincides with the appearance of a rigid structure, that structure
+can be found by an ordinary percolation calculation of the kind Part~II
+supplies: Chapter~\ref{ch:cover}'s core is exactly this, located by algebra
+rather than by a population, and Chapter~\ref{ch:colouring} finds the same class
+of point as the onset of its survey branch. The structural route is cheaper and
+exact, and it is model-specific --- it says where clusters appear and nothing
+about how many, which is what $\Sigma$ is for.
+
+\paragraph{$m=0$, and what it buys.} Setting $m=0$ weights every cluster
+equally, which is the right choice for counting clusters of \emph{zero-energy}
+solutions and the wrong one for anything finer. There the reweighting is trivial
+except at one place --- a combination that contradicts itself gets weight zero
+and is discarded --- and the recursion reduces to \emph{survey propagation}.
+This is the form Part~III uses, in Secs.~\ref{sec:colouring-sp}
+and~\ref{sec:sat-sp}, and Eq.~\eqref{eq:sigmagen} is the equation both of those
+sections instantiate. What $m=0$ does not reach is the condensation and rigidity
+transitions, which need $m\ne0$ and are outside this book.
+
+\paragraph{What the step costs.} Three things, and the last is the one a
+chygraph makes visible.
+
+\emph{The scalar closure goes.} Under replica symmetry a hard-field message is
+present or absent and its mean is all of it, so a single number closes the
+recursion over an ensemble. A survey is a continuous variable and its
+\emph{spread} enters the next update; solving for the mean alone is not an
+approximation but a different and wrong calculation.
+Section~\ref{sec:sat-sp} measures the error at $28$ per cent.
+
+\emph{The alphabet decides whether it is affordable at all.} Where the
+underlying message is a warning --- present or absent, or one of a few discrete
+states, which is what a hard constraint at zero temperature produces --- a
+survey is a distribution over a finite alphabet and can be carried as a handful
+of numbers. Where the message is a real field, a survey is a distribution over
+distributions, and the population becomes a population of populations. That is
+the line this book does not cross: Chapters~\ref{ch:colouring}
+and~\ref{ch:satisfiability} are the two problems whose messages are warnings,
+and Sec.~\ref{sec:hsrsb} is where the heavier object is met and declined.
+
+\emph{The interior sum grows, by an amount the model decides.} The cost of
+Eq.~\eqref{eq:emitted} was $2^{c}$ and depended on nothing but cardinality. The
+cost of the same sum on surveys depends on how much one complex can transmit at
+once. Where a complex can force at most one thing --- the hypergraph rule of
+Sec.~\ref{sec:colouring-sp-chy}, a $k$-SAT clause --- the message is the same
+kind of object it was at $c=2$ and cardinality enters through a single scalar.
+Where a complex can force up to $c-1$ things at once, as proper colouring can,
+the message becomes a \emph{set} and the interior must be summed over subsets;
+Sec.~\ref{sec:colouring-cq} is that calculation and the extra work is real.
+The distinction has no counterpart on a graph, where a complex with two members
+has no room to force two things at once --- one more instance of the pattern
+Sec.~\ref{sec:twoconstraints-col} collects, that cardinality two is degenerate
+and a good deal of what reads as general theory is an artefact of working
+there.
+
 \section{What the scheme assumes}
 \label{sec:assumes}
 \index{replica symmetry breaking}
@@ -480,16 +607,18 @@ pays for: Chapter~\ref{ch:overlap} is about what happens when the cliques of a
 real network share edges rather than vertices.
 
 \emph{Replica symmetry.} One field per inclusion presumes a single pure state.
-Where the state space shatters, a field is replaced by a distribution over
-fields and Eq.~\eqref{eq:ensemblemap} by its one-step-replica-symmetry-breaking
-analogue. Chapter~\ref{ch:hittingset} is where that becomes unavoidable, and it
-is also where the diagnostic of Sec.~\ref{sec:fixedpoint} is needed.
+Section~\ref{sec:onestep} is what replaces it where the state space shatters,
+and it is a repair rather than a limit --- but a partial one, since it is
+carried out at $m=0$ throughout this book.
+Chapter~\ref{ch:hittingset} is where the assumption first becomes unavoidable,
+and it is also where the diagnostic of Sec.~\ref{sec:fixedpoint} is needed.
 
 \emph{An enumerable interior.} Equation~\eqref{eq:emitted} costs $2^{c}$. For
 the motifs one finds in data that is nothing, and for a complex of thirty
 members it is fatal. The formalism does not degrade gracefully here: it either
 enumerates the interior or it does not apply. Cardinality is the one parameter
-of a chygraph that has a hard ceiling.
+of a chygraph that has a hard ceiling, and Sec.~\ref{sec:onestep} lowers it
+again wherever the interior has to be summed over surveys rather than fields.
 
 \paragraph{A note on the numbers quoted.} Agreements reported in this book to
 eight, ten or twelve digits are between two evaluations of the \emph{same}
@@ -506,30 +635,41 @@ wrong.
 \section{Checks}
 \label{sec:statmech-checks}
 
-That $u'$ is Chapter~\ref{ch:potts}'s $\tau_{c}$ is checked directly: the
-symbolic $q$-derivative of Sec.~\ref{sec:transmission}, evaluated at $q=2$ and
-rewritten in $t=\tanh\beta J$, agrees with the independent enumeration behind
-Eq.~\eqref{eq:emitted} for $c=2,3,4$ at every coupling tried, to machine
-precision. Two chapters written from different starting points return one
-number.
-
-Equation~\eqref{eq:sbaru} is checked by the two routes of the calculation box:
-a mixed-cardinality layer against the same layer split into one layer per
-cardinality, which must agree and do, to nine digits; and against the
-mean-cardinality substitution, which must not agree and does not, by
-$10.1\%$. Equation~\eqref{eq:LT} is checked against the numerical determinant
-of Eq.~\eqref{eq:branch} at the critical coupling for Poisson and for regular
-layers, so that the cross term is exercised in both the case where it vanishes
-and the case where it does not.
-
+\checkhead{Known results}
 Equation~\eqref{eq:bethe} is evaluated on populations produced by iterating
 Eq.~\eqref{eq:ensemblemap} itself, then compared with the closed form of
-Eq.~\eqref{eq:para} and with the textbook graph expression. The three agree to
-ten digits, and the outermost of them is a simulation of the distributions
-rather than an evaluation of a formula.
+Eq.~\eqref{eq:para} and with the textbook Bethe expression
+$\ln2+(\ave{k}/2)\ln\cosh\beta J$ for a graph. The three agree to ten digits, and the
+outermost of them is a simulation of the distributions rather than an evaluation
+of a formula.
 
-Equation~\eqref{eq:exchange} is checked as Sec.~\ref{sec:fixedpoint} describes,
-by taking the residual to zero along a sequence rather than at a point, with the
-sequence stopped where rounding would begin to dominate. That last qualification
-is not a formality. It is the difference between demonstrating an order and
-quoting a number that happens to be small.
+\checkhead{New results}
+Nothing else in this chapter has appeared elsewhere, so the checks are against
+independent evaluations of the same object. That $u'$ is
+Chapter~\ref{ch:potts}'s $\tau_{c}$ is checked directly: the symbolic
+$q$-derivative of Sec.~\ref{sec:transmission}, evaluated at $q=2$ and rewritten
+in $t=\tanh\beta J$, agrees with the independent enumeration behind
+Eq.~\eqref{eq:emitted} for $c=2,3,4$ at every coupling tried, to machine
+precision. Two chapters written from different starting points return one
+number. Equation~\eqref{eq:sbaru} is checked by the two routes of the
+calculation box: a mixed-cardinality layer against the same layer split into one
+layer per cardinality, which must agree and do, to nine digits; and against the
+mean-cardinality substitution, which must not agree and does not, by $10.1\%$.
+Equation~\eqref{eq:LT} is checked against the numerical determinant of
+Eq.~\eqref{eq:branch} at the critical coupling for Poisson and for regular
+layers, so that the cross term is exercised in both the case where it vanishes
+and the case where it does not. Equation~\eqref{eq:exchange} is checked by
+taking the residual to zero along a sequence rather than at a point, with the
+sequence stopped where rounding would begin to dominate; that qualification is
+the difference between demonstrating an order and quoting a number that happens
+to be small.
+
+\checkhead{Partial results}
+Agreements reported to eight, ten or twelve digits are between two evaluations
+of the \emph{same} analytic object, and establish that the implementation is
+faithful rather than that the physics is right. Nothing in this chapter is
+tested against experiment or against an object built to violate its assumptions:
+Sec.~\ref{sec:assumes}'s three --- treelikeness at the level of nodes, replica
+symmetry, and an enumerable interior --- are assumed throughout and checked
+nowhere here. The one-step scheme of Sec.~\ref{sec:onestep} is written at $m=0$
+only.

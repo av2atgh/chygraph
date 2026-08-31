@@ -3,8 +3,7 @@
 \markboth{Preface}{Preface}
 
 Statistical physics learned to solve models on networks by pretending the
-networks were trees. That is not a criticism; it is the whole trick, and it is a
-very good one. If a network has no short loops, then cutting one node out of it
+networks were trees. It is the trick that makes the subject work. If a network has no short loops, then cutting one node out of it
 leaves the pieces that hang off that node independent of one another, and a
 problem defined over the whole network --- every spin coupled to every
 neighbour, every constraint tangled with every other --- collapses into a single
@@ -12,29 +11,27 @@ equation for what one branch tells the node above it. That equation is the
 cavity recursion, or belief propagation, or the Bethe--Peierls approximation,
 depending on which decade and which field one learned it in. From it come
 critical temperatures, percolation thresholds, the size of a minimal vertex
-cover, the number of solutions of a random satisfiability problem. It is,
-without much competition, the most productive idea in the statistical mechanics
-of disordered systems.
+cover, the number of solutions of a random satisfiability problem. It is one of
+the most productive ideas in the statistical mechanics of disordered systems.
 
-Real networks have short loops. Your friends know each other. Proteins act in
-complexes of four and five, not in pairs. A paper has six authors, and all
+Real networks have short loops: the neighbours of a node are neighbours of one
+another. Proteins act in complexes of four and five, not in pairs. A paper has six authors, and all
 fifteen of the pairs among them are ``co-authorship'' links that the paper
 created in one act. A chemical reaction consumes three species and produces
 two. In each case the pairwise picture --- the graph, dots joined by lines ---
 records the shadow of an interaction rather than the interaction itself, and it
 records it in the form of a small dense knot of links that is exactly what the
-tree assumption forbids. So the field has had, for twenty-five years, a
-beautiful method and a systematic reason why it should not apply to the objects
-it is applied to.
+tree assumption forbids. So the field has had, for twenty-five years, a method
+that works and a systematic reason why it should not apply to the objects it is
+applied to.
 
-This book is about a way out that turns out to be almost embarrassingly simple
-once stated. If the trouble is a dense knot, stop treating it as many links and
+This book is about a way out that is simple once stated. If the trouble is a dense knot, stop treating it as many links and
 start treating it as one thing. Call that thing a \emph{complex}, let a complex
 contain nodes, and then --- this is the step that does the work --- let a
 complex contain other complexes, to any depth one likes. The resulting object is
 a \emph{complex hypergraph}, or chygraph: a set of complexes whose vertices are
-themselves complexes. It is a very plain definition and it swallows a
-surprising amount. A graph is a chygraph whose complexes all have two vertices.
+themselves complexes. The definition is plain, and it covers a surprising range
+of structures. A graph is a chygraph whose complexes all have two vertices.
 A hypergraph is a chygraph with one layer of larger complexes. A multiplex
 network, an interacting collection of hypergraphs, a graph decorated with
 triangles and squares: all of them are chygraphs, differing only in what one
@@ -61,8 +58,8 @@ strongly coupled as one pleases. One $L\times L$ determinant, with $L$ the numbe
 of layers and no dependence on the size of the complexes at all, serves every
 model in this book.
 
-Several of the results are not what one would guess. A triangle transmits more magnetisation per
-neighbour than an edge does, and yet clustering \emph{lowers} the critical
+Several of the results are counterintuitive. A triangle transmits more
+magnetisation per neighbour than an edge does, and yet clustering \emph{lowers} the critical
 temperature of the Ising model at fixed degree distribution --- because the
 triangle also removes a branch, and the second effect is the larger. The
 zero-temperature limit that everyone takes for hard-core covering problems is
@@ -78,8 +75,8 @@ Where the bargain fails, the failure is structural rather than technical, so it
 cannot be patched by working harder. A
 chygraph is treelike only when its complexes meet in at most one node. Cliques
 in a geometric graph share edges; promoting them to complexes removes the loops
-\emph{inside} motifs and exposes the loops \emph{between} them. Clustering, it
-turns out, is not one obstruction but a hierarchy of them. The last technical
+\emph{inside} motifs and exposes the loops \emph{between} them. Clustering is not one obstruction
+but a hierarchy of them. The last technical
 chapter measures the price, shows what a region-graph treatment recovers on a
 single instance, and states plainly what is not yet done at the level of the
 ensemble.
@@ -94,34 +91,57 @@ what the Ising model and vertex cover and the hitting set problem ask, and what
 mean-field, cavity and replica theory mean. Readers who already know all of that
 can start at Chapter~\ref{ch:chygraphs}. As in this author's earlier books, the longer
 calculations are set in boxes that can be skipped without losing the thread, and
-the argument in the running text is meant to be followed without them. There are
-a great many pictures, deliberately: nearly every idea here is about which
-things are grouped with which, and that is a fact about a drawing before it is a
+the argument in the running text is meant to be followed without them. The book has a great many
+pictures: nearly every idea here is about which things are grouped with which, and that is a fact about a drawing before it is a
 fact about an equation.
 
-A word on what is old and what is not, since the two are mixed and the reader
-is entitled to know which is which without reconstructing it.
+A word on what is old and what is not, since the two are mixed.
 Two papers stand behind parts of this book \citep{vazquez2023pre,vazquez2024comnet}:
 the definition of a chygraph in Chapter~\ref{ch:chygraphs}, the percolation map
 and threshold tensor of Chapter~\ref{ch:percolation}, and the interacting-network
 constructions Chapter~\ref{ch:epidemics} builds on. Those chapters are expositions,
 and they say so and cite as they go.
 
-Everything else appears here for the first time. That includes the critical
+Everything else appears here for the first time. That includes the
+clique-promotion measurements of Chapter~\ref{ch:data}; the critical
 amplitude and the moment hierarchy of Chapter~\ref{ch:giant}; the whole of
 Part~III --- the Potts correspondence, the general scheme, Ising, the hitting
 set problem, vertex cover, colouring and satisfiability; and the treatment of
 overlapping complexes in Chapter~\ref{ch:overlap}. Where a chapter or a section
 is new, it says so at its opening rather than leaving the reader to infer it,
-and where a result of mine is corrected here, the correction is stated as one.
-The published thresholds that Chapters~\ref{ch:colouring}
-and~\ref{ch:satisfiability} benchmark against are other people's, attributed at
-each use, and the last section of each of those chapters computes them rather
-than quoting them. All of them can be reproduced
-from two software packages. Every number the book computes comes out of them,
+and where a result of the two earlier papers is corrected here, the correction
+is stated as one.
+What is new in them is the formulation and not every number they return: where a chygraph calculation reproduces a published
+threshold for a graph or a flat hypergraph, the agreement is a check on the
+implementation and the chapter says so in those words. The thresholds that
+Chapters~\ref{ch:colouring} and~\ref{ch:satisfiability} benchmark against are
+other people's, attributed at each use, and the last sections of those chapters
+compute them rather than quoting them. That is the check behind the one place
+where the same machinery is turned on a clustered network and returns a number
+nobody has computed before. All of the results can be reproduced from two
+software packages. Every number the book computes comes out of them,
 and the handful quoted from published work for comparison is attributed where it
-appears; the chapter that follows this preface says which routine computes which
-equation, and which test checks it.
+appears; \emph{The software}, at the back of the book, says which routine
+computes which equation, and which test checks it.
+
+\medskip
+\noindent\textbf{Key new results:}
+
+\begin{itemize}\setlength{\itemsep}{2pt}
+\item Full generating-function formalism for percolation on chygraphs,
+  Chapter~\ref{ch:giant}.
+\item Epidemic spreading on higher-order structures,
+  Chapter~\ref{ch:epidemics}.
+\item General cavity recursion for models on a chygraph,
+  Chapter~\ref{ch:statmech}.
+\item One-step replica symmetry breaking on a chygraph,
+  Sec.~\ref{sec:onestep}.
+\item Ising model on graphs with triangles, Chapter~\ref{ch:ising}.
+\item Vertex covering on chygraphs, Chapters~\ref{ch:hittingset}
+  and~\ref{ch:cover}.
+\item Colourability of graphs with triangles, Chapter~\ref{ch:colouring}.
+\item Satisfiability with nested clauses, Chapter~\ref{ch:satisfiability}.
+\end{itemize}
 
 \vspace{1em}
 \noindent Alexei Vazquez

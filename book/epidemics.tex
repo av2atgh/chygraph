@@ -1,7 +1,7 @@
 \chapter{Epidemics and higher-order spreading}
 \label{ch:epidemics}
 
-This chapter applies the two before it. An epidemic is
+In this chapter we apply the two before it. An epidemic is
 a percolation problem; a population that mixes both inside households and
 across a wider contact network is a chygraph with three layers and nothing
 else; and the household reproduction number of mathematical epidemiology drops
@@ -30,8 +30,8 @@ contact ever carries the infection is then settled by a single number,
   T=1-e^{-\beta\tau},
   \label{eq:transmissibility}
 \end{equation}
-the \emph{transmissibility}, and --- this is Newman's observation
-\citep{newman2002} --- if $\tau$ is the same for everyone, the outcome on each
+the \emph{transmissibility}, and --- this is the observation of
+\citet{newman2002} --- if $\tau$ is the same for everyone, the outcome on each
 contact is decided independently of every other. So one may decide all of them
 in advance, before the epidemic runs: keep each contact with probability $T$,
 discard it otherwise. The set of people an initial case eventually infects is
@@ -73,8 +73,8 @@ Chapter~\ref{ch:percolation} with epidemiological vocabulary.
 
 Real populations do not mix uniformly. People live in households, where contact
 is intense and everyone meets everyone; they also meet a scattering of people
-outside, at work, on transport, at school. Ball, Mollison and Scalia-Tomba
-\citep{ball1997,ball2010} built the standard model of this --- \emph{two levels
+outside, at work, on transport, at school. \citet{ball1997,ball2010} built
+the standard model of this --- \emph{two levels
 of mixing} --- and it has an epidemiological literature of its own.
 
 It is a chygraph with three layers, and drawing it is most of the work
@@ -104,7 +104,7 @@ pass through. Households on their own therefore never percolate, whatever
 $p_{H}$: $\theta=-1$ for every value of it. The global layer is what connects
 one household to the next, and the household layer amplifies what arrives. The
 calculation is the one already done in Sec.~\ref{sec:structurebystructure};
-that single zero is the whole of what is different in the input.
+that single zero is the only difference in the input.
 
 \paragraph{A household outbreak is a percolated clique.} A Reed--Frost epidemic
 in a closed group of $n$ individuals, each pair transmitting with probability
@@ -112,8 +112,7 @@ $p_{H}$, is bond percolation on the complete graph $K_{n}$. So the
 within-household final size distribution --- the classical object of the
 epidemiological literature \citep{ball1986} --- is nothing other than the
 intra-complex generating function $\bar G^{1}_{0}$ of
-Sec.~\ref{sec:ensembles}. It is not an analogy. The two are the same
-calculation, done once.
+Sec.~\ref{sec:ensembles}. The two are the same calculation, done once.
 
 \begin{figure}[t]
 \centering
@@ -179,8 +178,10 @@ reached through one of its members and a large household has more of them.
 
 At $n=3$ Eq.~\eqref{eq:Kn} returns
 \[
-  \bar G^{1}_{0}(y)=(3p_{H}^{2}-2p_{H}^{3})y^{2}+2p_{H}(1-p_{H})^{2}y
-    +(1-p_{H})^{3}+p_{H}(1-p_{H})^{2},
+  \begin{aligned}
+    \bar G^{1}_{0}(y)&=(3p_{H}^{2}-2p_{H}^{3})y^{2}+2p_{H}(1-p_{H})^{2}y\\
+    &\quad+(1-p_{H})^{3}+p_{H}(1-p_{H})^{2},
+  \end{aligned}
 \]
 which is Eq.~\eqref{eq:tripgf} --- the bond-percolated triangle of
 Sec.~\ref{sec:structurebystructure}, term for term, with $p_{H}$ where $q$
@@ -199,9 +200,9 @@ epidemiology enters through one table entry and nothing else.
 \label{sec:rstar}
 \index{reproduction number|textbf}
 
-Now substitute into the threshold tensor of Sec.~\ref{sec:threshold} and turn
-the handle. With a Poisson global contact network of mean degree $\ave{k}$ and
-global transmissibility $T$, the result is
+Substituting into the threshold tensor of Sec.~\ref{sec:threshold}, with a
+Poisson global contact network of mean degree $\ave{k}$ and global
+transmissibility $T$, gives
 \begin{equation}
   \theta+1=T\bigl[\ave{\bar k}+\mu_{H}\ave{k}\bigr]\equiv R^{\ast},
   \label{eq:Rstar}
@@ -210,7 +211,7 @@ with $\mu_{H}=\bar G^{1\prime}_{0}(1)$ the mean number of \emph{additional}
 household members infected.
 
 Equation~\eqref{eq:Rstar} is the household reproduction number of
-Ref.~\citep{ball1997}. It has a plain reading, and the reading is the same
+\citet{ball1997}. It has a plain reading, and the reading is the same
 branching argument that has run through the book since
 Sec.~\ref{sec:percolation-intro}. A household reached by one global infection
 ends up containing $1+\mu_{H}$ cases. The index case makes $T\ave{\bar k}$
@@ -294,56 +295,88 @@ Everything so far has assumed that one infected member of a group is enough:
 the disease enters a household through a single case and spreads by pairwise
 contact inside it. Much of what people mean by \emph{higher-order} spreading is
 the denial of that assumption. A rumour, a behaviour, a decision to vaccinate
-may need reinforcement --- two of your three housemates, not one
+may need reinforcement --- two of three housemates, not one
 \citep{watts2002,iacopini2019,stonge2021}. Call it a threshold rule: a group
 transmits to a member only when at least $r$ of the others are already
 infected.
 
-This looks like a small change and it is not. It takes the problem out of
-Chapter~\ref{ch:percolation} entirely, and the reason is structural rather than
-technical.
+This looks like a small change and it is not, though the damage is narrower than
+it first appears. Chapter~\ref{ch:statmech}'s two steps carry the rule without
+modification. What does not carry over is the linear apparatus built on top of
+them.
 
-\paragraph{Why percolation cannot do it.} Equations~\eqref{eq:Qminus}
-and~\eqref{eq:Qplus} are a product over onward routes. That product is the
-mathematical form of an assumption: each route succeeds or fails on its own, so
-the state travelling along an inclusion can be one number. Under a threshold
-rule a group's behaviour depends on \emph{how many} of its members are infected
-at once, and there is no single number per inclusion that carries that. What has
-been lost is not accuracy but the class of problem.
+\paragraph{The recursion still closes on one number.} Let $\pi$ be the
+probability that a member reached along an inclusion is infected by everything
+else attached to it. On a tree the other $c-1$ members of a complex are
+independent given $\pi$, so the interior sum of Eq.~\eqref{eq:emitted} is a
+binomial tail: a complex of cardinality $c$ fires onto the member entered by
+exactly when at least $r$ of the others are infected,
+\begin{equation}
+  \tau_{c,r}(\pi)=T_{c}\sum_{m\ge r}\binom{c-1}{m}\pi^{m}(1-\pi)^{c-1-m},
+  \label{eq:threshtau}
+\end{equation}
+and the up step is the same product over inclusions as
+Eq.~\eqref{eq:Qminus}, with the same bracket: a member reached through layer $m$
+escapes only if every one of its other complexes fails to fire, the arriving
+inclusion discounted from layer $m$ alone, so
+\begin{equation}
+  \begin{aligned}
+    \pi^{m}&=1-\prod_{l}\bigl[\bar\Phi^{0}_{l}\bigr]_{l=m}
+             \bigl(1-\tau_{c_{l},r_{l}}(\pi^{l})\bigr),\\
+    \rho&=1-\prod_{l}\Phi^{0}_{l}
+          \bigl(1-\tau_{c_{l},r_{l}}(\pi^{l})\bigr),
+  \end{aligned}
+  \label{eq:threshmap}
+\end{equation}
+with $\rho$ the infected fraction. This is the two-step recursion of
+Sec.~\ref{sec:twosteps} with a threshold interior substituted for a
+percolating one, and it carries an arbitrary chy-degree distribution and an
+arbitrary mixture of cardinalities and thresholds.
 
-The consequence is visible without any calculation. With $r\ge2$ a single
-infected seed cannot activate any group, so it infects nobody, so $Q\equiv1$ ---
-nothing connected to anything --- is not merely a fixed point but a
-\emph{stable} one, at every parameter value. Section~\ref{sec:breakdown} named
-this exclusion when it arose for interdependent networks: the transition, if
-there is one, happens by a saddle-node bifurcation while the trivial fixed
-point is still stable, so $\Lambda=0$ does not locate it. The same sentence
-covers threshold contagion. Section~\ref{sec:breakdown}'s proof that group
-structure alone gives continuous transitions is untouched by this, and the two
-are easily confused, so: within the percolation
-class every group interaction contributes non-negatively to the curvature $C$
-and the onset is continuous; a threshold rule is not in the class.
+\paragraph{What is lost is the linearisation.} Differentiate
+Eq.~\eqref{eq:threshtau} at $\pi=0$. For $r=1$ it gives $T_{c}(c-1)$, the
+intra-complex factor of Chapter~\ref{ch:percolation}. For $r\ge2$ it gives
+\emph{zero}: $\tau_{c,r}(\pi)\sim\pi^{r}$, so a layer with $r\ge2$ contributes
+nothing to the Jacobian of Eq.~\eqref{eq:threshmap} at the trivial fixed point,
+whatever its chy-degree. The consequence is visible without any calculation.
+With $r\ge2$ a single infected seed cannot activate any group, so it infects
+nobody, so $\pi=0$ --- nothing connected to anything --- is not merely a fixed
+point but a \emph{stable} one, at every parameter value.
+Section~\ref{sec:breakdown} named this exclusion when it arose for
+interdependent networks: the transition, if there is one, happens by a
+saddle-node bifurcation while the trivial fixed point is still stable, so
+$\Lambda=0$ does not locate it, and the threshold tensor of
+Sec.~\ref{sec:threshold} --- which is that Jacobian --- reports only the
+pairwise layer.
 
-\paragraph{What replaces it.} The tensor cannot be used, so what follows is the
-simplest self-consistent equation that keeps the mechanism. Take a population with two kinds of connection: Poisson-many pairwise
-contacts, mean $\ave{k}_{|}$, each transmitting with probability $T$; and
-Poisson-many three-member groups, mean $\ave{k}_{\triangle}$, each transmitting
-to a member with probability $T_{\triangle}$ but only when \emph{both} others
-are infected. Write
+Section~\ref{sec:breakdown}'s proof that group structure alone gives continuous
+transitions is untouched by this, and the two are easily confused. That proof
+needs the intra-complex function to be a generating function in the
+\emph{failure} variable, where all derivatives are non-negative; a threshold
+rule is not one, since in $Q=1-\pi$ the failure probability $1-\pi^{r}$ of a
+group carries a negative coefficient. So: within the percolation class every
+group interaction contributes non-negatively to the curvature $C$ and the onset
+is continuous; a threshold rule is outside that class, while remaining inside
+the recursion.
+
+\paragraph{The simplest case.} Take a population with two kinds of connection:
+Poisson-many pairwise contacts, mean $\ave{k}_{|}$, each transmitting with
+probability $T$; and Poisson-many three-member groups, mean
+$\ave{k}_{\triangle}$, each transmitting to a member with probability
+$T_{\triangle}$ but only when \emph{both} others are infected. Write
 \begin{equation}
   \beta_{1}=T\ave{k}_{|},
   \qquad
   \beta_{2}=T_{\triangle}\ave{k}_{\triangle}.
 \end{equation}
-For Poisson degrees the excess distribution equals the ordinary one, so the
-cavity probability that a neighbour is infected is the population fraction
-$\rho$ itself, and the tree equation and the mean-field equation coincide. An
-individual escapes if no pairwise contact transmits and no group activates:
+A Poisson layer is its own excess, $\bar\Phi(x)=\Phi(x)=e^{\ave{k}(x-1)}$, so
+$\pi$ and $\rho$ coincide; $\tau_{2,1}=T\rho$ and $\tau_{3,2}=T_{\triangle}\rho^{2}$;
+and Eq.~\eqref{eq:threshmap} collapses to
 \begin{equation}
   \rho=1-e^{-\beta_{1}\rho-\beta_{2}\rho^{2}}.
   \label{eq:contagion}
 \end{equation}
-The $\rho^{2}$ is the whole of the higher-order physics --- two infected others
+The $\rho^{2}$ is the higher-order physics --- two infected others
 required, hence the square --- and everything below is a consequence of it.
 
 \begin{calculation}{where the onset stops being continuous}
@@ -415,15 +448,15 @@ argument can use.
 
 \paragraph{The equilibrium version of the same thing.} A group that acts only
 when all its members agree is Chapter~\ref{ch:ising}'s unanimity interaction:
-the simplicial Ising model of Ref.~\citep{son2026}, whose hyperedges lower the
+the simplicial Ising model of \citet{son2026}, whose hyperedges lower the
 energy only on their two unanimous configurations. There too the transition is
 continuous at small cardinality and discontinuous above a tricritical one, there
 too the linear instability of the disordered state is a spinodal rather than the
 transition, and there too quoting it as the transition is wrong by ten to fifty
 per cent. Chapter~\ref{ch:ising} does that calculation properly, with free
-energies. It is the same physics, and the reader who has followed this section
-has already met its difficulty: a rule that needs several participants at once
-cannot be carried by one number per inclusion.
+energies. It is the same physics, and the difficulty is the one this section has
+already met: a rule that needs several participants at once leaves no linear
+instability to locate the transition with.
 
 \section{What higher-order structure does to an outbreak}
 \label{sec:epidemics-lessons}
@@ -461,7 +494,7 @@ out of them.
 \emph{Percolation-type spread is always continuous; reinforced spread need not
 be.} If one infected contact suffices, the outbreak grows out of its
 threshold smoothly, and Sec.~\ref{sec:breakdown} proves this cannot be
-otherwise for anything that maps to a chygraph. If several are required, the
+otherwise for anything in the percolation class. If several are required, the
 outbreak can appear at full size or not at all, cannot be started by a single
 seed, and persists below the coupling at which it could have begun. Which regime
 a real spreading process is in is an empirical question, and the two make
@@ -470,28 +503,40 @@ completely different predictions about what an intervention does.
 \section{Checks}
 \label{sec:epidemics-checks}
 
+\checkhead{Known results}
 Equation~\eqref{eq:Rstar} is verified symbolically against
 $T[\ave{\bar k}+\mu_{H}\ave{k}]$ for several household size distributions,
 including mixtures of sizes, with $\mu_{H}$ computed independently from the
-connectivity recursion. Equation~\eqref{eq:Kn} at $n=3$ is checked term by term
+connectivity recursion; that expression is \citeauthor{ball1997}'s household
+reproduction number. Equation~\eqref{eq:Kn} at $n=3$ is checked term by term
 against the bond-percolated triangle of Sec.~\ref{sec:structurebystructure},
 Eq.~\eqref{eq:tripgf}, symbolically in $p_{H}$. The $p_{H}=0$ column of
 Sec.~\ref{sec:rstar}'s table reproduces bond percolation on a Poisson graph,
 $T_{c}=1/\ave{k}$ and $B=4$, along a code path that has never heard of
-households; the amplitudes are obtained by numerical eigenvectors on the full
+households.
+
+\checkhead{New results}
+The critical amplitude for households, and the threshold-rule recursion
+Eq.~\eqref{eq:threshmap} with its tricritical point, have no published
+counterpart. The amplitudes are obtained by numerical eigenvectors on the full
 index set, independently of the symbolic route of Sec.~\ref{sec:amplitude}.
+Equation~\eqref{eq:threshmap} is checked against forward simulation of the
+contagion on random chygraphs at $n=4\times10^{5}$, over eight combinations of
+$\beta_{1}$, $\beta_{2}$ and seed fraction, agreeing to $10^{-3}$ or better in
+every case. The tricritical condition Eq.~\eqref{eq:tricritical} is checked in
+two ways: symbolically, that the quadratic coefficient at $\beta_{1}=1$ is
+$\beta_{2}-\tfrac12$; and numerically, that the fold lies below $\beta_{1}=1$
+exactly when $\beta_{2}>\tfrac12$. The exponent $\beta=\tfrac12$ at the
+tricritical point is confirmed by solving Eq.~\eqref{eq:contagion} at three
+decades of $\beta_{1}-1$.
 
-For Sec.~\ref{sec:groupcontagion} the tricritical condition
-Eq.~\eqref{eq:tricritical} is checked in two ways: symbolically, that the
-quadratic coefficient at $\beta_{1}=1$ is $\beta_{2}-\tfrac12$; and
-numerically, that the fold lies below $\beta_{1}=1$ exactly when
-$\beta_{2}>\tfrac12$. The exponent $\beta=\tfrac12$ at the tricritical point is
-confirmed by solving Eq.~\eqref{eq:contagion} at three decades of
-$\beta_{1}-1$.
-
-Equation~\eqref{eq:contagion} is not a chygraph calculation and is not offered
-as one. It is a mean-field equation, exact on a tree with Poisson degrees and
-nothing more, and its role in this chapter is to establish that the qualitative
-change is real --- not to be the theory of threshold contagion. What that theory
-would need is a message that carries more than one number per inclusion, which
-is what the whole of Part~III is about.
+\checkhead{Partial results}
+Everything here is a final size and not a time course, and everything assumes
+one infectious period for everyone; Sec.~\ref{sec:sirperc} says what breaks when
+it is random. Equation~\eqref{eq:threshmap} inherits Chapter~\ref{ch:overlap}'s
+limitation unchanged, since a threshold rule is no more forgiving of overlapping
+complexes than a percolating one. And it comes without the apparatus that makes
+Chapter~\ref{ch:percolation} quick: with $r\ge2$ the threshold tensor reports
+only the pairwise layer, so every transition here is found by following the
+branch rather than by linearising, and the edges of a coexistence window are
+located one at a time.

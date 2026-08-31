@@ -1,12 +1,12 @@
 \chapter{Where chygraphs come from}
 \label{ch:data}
 
-Chapter~\ref{ch:chygraphs} defined an object. This chapter asks where one gets
-hold of it. Everything measured here is new; the
+Chapter~\ref{ch:chygraphs} defined an object. In this chapter we ask where to
+get hold of it. Everything measured here is new; the
 worked example of a publication as a complex is Chapter~\ref{ch:chygraphs}'s,
 and drawn rather than measured. There are exactly two routes, they behave very differently, and
-which one you are on decides in advance how well the theory of the next ten
-chapters will work on your data, so it comes before the theory rather than
+which of the two applies decides in advance how well the theory of the next ten
+chapters will work on the data, so it comes before the theory rather than
 after.
 
 The first route is the easy one. Some systems record their groups. A paper
@@ -74,7 +74,7 @@ network that was on route (a) before somebody flattened it.}
 Four families of system, chosen because between them they cover most of what
 anybody wants to do with this construction, and because they differ in exactly
 the way that matters --- how much of the group structure survives into the file
-you are handed.
+that is finally distributed.
 
 \paragraph{Papers and their authors.} Treated at length in
 Sec.~\ref{sec:paper}. Atoms are authors, complexes are publications, the
@@ -91,7 +91,7 @@ pulled down and everything bound to it comes with it. That is group-level data
 in the most literal sense, and the natural chygraph has proteins as atoms and
 purifications as complexes, with one layer per experiment type. Two-hybrid
 screening, by contrast, tests one pair at a time and produces genuinely pairwise
-data. The two kinds of experiment therefore hand you different objects, and
+data. The two kinds of experiment therefore produce different objects, and
 Sec.~\ref{sec:promoting} shows they behave completely differently under
 promotion.
 
@@ -137,7 +137,8 @@ what is left after the grouping has been thrown away.}
 When the groups are given, building the chygraph is bookkeeping, and there are
 three decisions to make.
 
-\emph{What is an atom.} Whatever you have decided not to decompose. This is a
+\emph{What is an atom.} Whatever the modelling declines to decompose further.
+This is a
 modelling choice and it should be made once, explicitly, because everything
 downstream inherits it.
 
@@ -153,7 +154,7 @@ determinant.
 
 \emph{Whether the layers are independent.} The theory of
 Chapters~\ref{ch:percolation} and~\ref{ch:statmech} assumes that a complex's
-participation in one layer tells you nothing about its participation in another,
+participation in one layer says nothing about its participation in another,
 so that the generating functions factorise. That is often false in data --- a
 protein in many purifications is usually also in many two-hybrid pairs --- and
 the repair is to replace the marginals by a joint $\Phi$, with the
@@ -163,10 +164,10 @@ with \emph{identical} marginals can have different thresholds. So this decision
 is not cosmetic, and the way to make it is to measure the correlation between
 layer memberships before assuming it away.
 
-One rule of thumb, with the evidence for it in Sec.~\ref{sec:promoting}: \textbf{if you have the group data, use it. Do
-not flatten it to a graph and then try to recover the groups.} The flattening
-is not invertible, and the object you get back is worse than either the graph or
-the groups.
+One rule of thumb, with the evidence for it in Sec.~\ref{sec:promoting}:
+\textbf{where the group data exists, use it; do not flatten it to a graph and
+then try to recover the groups.} The flattening is not invertible, and what
+comes back is worse than either the graph or the groups.
 
 \section{Promoting the cliques of a real graph}
 \label{sec:promoting}
@@ -174,7 +175,8 @@ the groups.
 \index{configuration model}
 \index{clustering!manufactured by a null model}
 
-Now the other route. You have a graph and want a chygraph. The recipe of
+On the other route a graph is given and a chygraph has to be built from it. The
+recipe of
 Sec.~\ref{sec:everything} says to promote the dense motifs, and with no
 information about which motifs are meaningful, the maximal cliques are the
 default choice: a maximal clique is a set of nodes all of which are joined, not
@@ -234,27 +236,25 @@ out to cardinality $33$ and no characteristic size.}
 \label{fig:realoverlap}
 \end{figure}
 
-Three things come out of it, and the third was not what I expected.
+Three findings follow, and the third is the least expected.
 
 \paragraph{Most real graphs promote almost perfectly.} The two-hybrid
 interactomes, the power grid and the road network all sit at $\bar s$ between
-$1.01$ and $1.26$ --- within a quarter of the clustering-free reference --- and
-at $\mathrm{shared}_{2+}$ between $0.000$ and $0.022$. Fewer than one
-intersecting clique pair in forty-five shares an edge. For these networks the
+$1.01$ and $1.26$ --- within about a quarter of the clustering-free reference
+--- and at $\mathrm{shared}_{2+}$ between $0.000$ and $0.022$. Fewer than one
+intersecting clique pair in forty-four shares an edge. For these networks the
 chygraph of maximal cliques is treelike for practical purposes, and the theory
-of the next ten chapters applies to them essentially without correction. That
-is a better result than the framing of Sec.~\ref{sec:treelike} would have led
-one to expect: the obstruction that
-Chapter~\ref{ch:overlap} is about is not a generic obstruction. It is specific,
-and one can tell in advance whether one has it.
+of the next ten chapters applies to them essentially without correction. The
+obstruction Chapter~\ref{ch:overlap} is about is therefore specific rather than
+generic, and one can tell in advance whether one has it.
 
-\paragraph{One network fails completely, and it is the informative one.} The
+\paragraph{One network fails completely.} The
 Collins yeast dataset sits at $\bar s=21.9$ against a control of $1.97$, at
 $\mathrm{shared}_{2+}=0.903$, and its average edge is covered by $114$ distinct
 maximal cliques. Nine intersecting clique pairs in ten share an edge or more.
-Promotion has failed, not marginally but categorically.
+Promotion has failed categorically.
 
-The reason is the point of this chapter. Collins \emph{et al.} measured
+Collins \emph{et al.} measured
 co-complex associations by affinity purification and mass spectrometry: a
 purification recovers a group of proteins together, and the public network
 records that group by joining all pairs within it. The graph is a union of
@@ -273,8 +273,8 @@ handful of layers and modest cardinalities. The flattened graph does not, and no
 amount of care in the promotion step will repair it, because the information was
 destroyed before the file was written.
 
-\paragraph{The control is not always the cleaner object.} I had assumed that
-destroying the clustering could only reduce the overlap, so that the
+\paragraph{The control is not always the cleaner object.} Destroying the
+clustering might be expected only to reduce the overlap, so that the
 configuration model would always sit below the real network in
 Figure~\ref{fig:realoverlap}a. In four of the ten it sits \emph{above}. For the
 Figeys human interactome the control's $\mathrm{shared}_{2+}$ is $0.155$ against
@@ -293,7 +293,7 @@ most, at $0.155$.
 
 Which of the two wins is then a race between the clustering a network really has
 and the clustering its degree sequence would manufacture anyway. The control
-wins on Stelzl ($C=0.006$), PDZ ($C=0.007$), Figeys ($C=0.040$) and, by a hair,
+wins on Stelzl ($C=0.006$), PDZ ($C=0.007$), Figeys ($C=0.040$) and, narrowly,
 the 2007 \emph{C. elegans} screen ($C=0.017$, $0.014$ against $0.010$): all
 networks with little real clustering and enough heterogeneity to manufacture
 some. It loses on Euroroad, which has almost no clustering either ($C=0.019$)
@@ -339,13 +339,15 @@ $2.9$ & $0.000$--$0.001$ & $-0.03$--$0.00$ & $1.76$--$4.77$ & $+0.003$--$0.028$\
 $2.5$ & $0.009$--$0.024$ & $-0.00$--$0.01$ & $1.79$--$3.52$ & $+0.009$--$0.015$\\
 $2.1$ & $0.28$--$0.40$ & $0.42$--$0.58$ & $\to1$ & $-0.12$--$-0.18$\\
 \hline
-$3.5$ & flat & $\to1.00$ & $2.87$--$4.89$ & flat\\
-$4.5$ & flat & $\to1.00$ & $2.93$--$5.06$ & flat\\
+$3.5$ & flat & flat & $2.87$--$4.89$ & flat\\
+$4.5$ & flat & flat & $2.93$--$5.06$ & flat\\
 \hline\hline
 \end{tabular}
 \caption{\textbf{When the clique ensemble exists.} Growth exponent $\theta$ of
 the excess cardinality $\bar s$ with $n$, over $n=10^{3}$ to $3\times10^{5}$,
-for hyperbolic random graphs and their degree-matched controls. The paired ratio
+for hyperbolic random graphs and their degree-matched controls. Every entry is
+an exponent; in the two light-tailed rows the control is not merely flat but
+flat at the Erd\H{o}s--R\'enyi value, $\bar s\to1.00$. The paired ratio
 is taken at identical degree sequence and seed, so $P(k)$ and assortativity are
 held fixed and clustering is the only difference. The same letter serves the
 core exponent of Chapter~\ref{ch:cover}, but in
@@ -360,9 +362,12 @@ constant between $1.8$ and $4.8$. The clustering signal is a multiplicative
 factor that does not wash out with size, which is what one needs: a finite-size
 artefact would have shrunk. Erd\H{o}s--R\'enyi graphs, which have finite
 $\ave{k^{2}}$ and no clustering, sit at $\bar s=0.937$, $0.996$ and $1.000$ for
-mean degree $2$, $4$ and $8$, flat to three decimals across the same range, and
+mean degree $2$, $4$ and $8$, flat to three decimals from $n=10^{4}$ upward, and
 the control above $\tau=3$ returns to that value. Those are the reference points
-that make the ratio meaningful.
+that make the ratio meaningful. They are computed counting an isolated vertex as
+a complex of cardinality one, which is what drags the mean-degree-two figure
+below one; Table~\ref{tab:real} works on a largest connected component, where
+the question does not arise.
 
 At $\tau=2.1$ it fails, and it fails in an instructive direction. Both the graph
 and its control diverge, and \emph{the control diverges faster}, so the paired
@@ -408,8 +413,8 @@ one should be going back for the purifications.
 \label{sec:sampling}
 \index{random chygraph}
 
-The last thing this chapter owes the rest of the book is a way of generating
-chygraphs to order, since every analytical result in
+The rest of the book needs a way of generating chygraphs to order, since every
+analytical result in
 Chapters~\ref{ch:percolation} to~\ref{ch:satisfiability} is checked against
 simulation on a finite instance.
 
@@ -428,8 +433,8 @@ tests the recursion and \emph{not} the assumption that the recursion rests on.
 Testing the assumption needs an object whose complexes really do overlap, which
 is what the hyperbolic random graphs of Sec.~\ref{sec:hrg-data} and the rewired
 control of Chapter~\ref{ch:cover} are for. Both kinds of check appear throughout
-the book and they answer different questions; I have tried to say which is which
-at each point.
+the book and they answer different questions; the text says which is which at
+each point.
 
 \medskip
 

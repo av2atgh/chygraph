@@ -1,12 +1,11 @@
 \chapter{Outlook}
 \label{ch:outlook}
 
-Fourteen chapters is a long way from the preface's claim, which was that giving
-up the graph as the fundamental object and keeping the tree brings the whole
-apparatus back. This chapter checks that claim against what was actually
-delivered, records two things the book kept discovering by accident, and then
-says what is not done --- at more length than is usual, because several of the
-gaps are specific enough to act on.
+The preface claimed that giving up the graph as the fundamental object and
+keeping the tree brings the whole apparatus back. In this chapter we check that
+claim against what the fourteen chapters delivered, record two lessons that
+recurred throughout, and set out what is not done --- at more length than is
+usual, because several of the gaps are specific enough to act on.
 
 \section{One recursion, many models}
 \label{sec:onerecursion}
@@ -38,10 +37,10 @@ chapter & the message is & the interior sum is & and one gets\\
   & one forbidden configuration & $\ave{k}(c-1)=e$, $\rho$\\
 \ref{ch:cover} & three states
   & the leaf-removal rule & $\ave{k}=e$, the core\\
-\ref{ch:colouring} & a distribution over $q$
-  & a hard colour constraint & $\ave{k}=(q-1)^{2}$\\
-\ref{ch:satisfiability} & a warning, at two levels
-  & one forbidden assignment & $\alpha=1$ at $k=2$\\
+\ref{ch:colouring} & a distribution over $q$, then a survey
+  & a hard colour constraint & $(q-1)^{2}$, then $c_{q}$\\
+\ref{ch:satisfiability} & a warning at two levels, then a survey
+  & one forbidden assignment & $\alpha=1$ at $k=2$, then $\alpha_{s}$\\
 \ref{ch:overlap} & a function on a region
   & a region-graph enumeration & what the rest costs\\
 \hline\hline
@@ -53,9 +52,6 @@ column that does not appear is the recursion itself, because it is the same in
 every row.}
 \label{tab:through}
 \end{table}
-
-Two rows deserve a second look, because they are the ones that make the table a
-claim rather than a filing system.
 
 Chapter~\ref{ch:potts} showed that the first and fifth rows are not merely
 similar. The $q\to1$ limit of the Potts interior sum \emph{is} the reachability
@@ -84,13 +80,12 @@ Sec.~\ref{sec:notdone} states it as such.
 \section{Two things the book kept discovering}
 \label{sec:threads}
 
-Neither of these was planned. Each turned up in five independent places, which
-is the only reason to trust them.
+Each of these turned up in several independent places.
 
 \paragraph{Name what is held fixed.} A comparison between a clustered structure
 and an unclustered one is not a statement about clustering until one says what
-the two have in common. The book found this five times, and the sign of the
-effect changed twice.
+the two have in common. The book found this five times, and in three of them the sign of the reported
+effect flipped with the control.
 
 Chapter~\ref{ch:data} found that a degree-matched control can carry \emph{more}
 clique overlap than the real network, because heavy tails manufacture cliques at
@@ -107,10 +102,9 @@ only on \emph{mean} degree reverses the sign of the Ising result, because the
 triangle construction carries excess degree $\ave{\bar k}=n+1$ rather than $n$
 and a Poisson triangle layer loses none of its branches.
 
-Five settings, one lesson, and it is not a lesson about chygraphs. It is a
-lesson about null models, and the reason it recurs here is that promoting motifs
-to complexes makes it very easy to build a control that differs in more than one
-thing at once.
+Five settings, one lesson, and it is about null models rather than chygraphs.
+It recurs here because promoting motifs to complexes makes it easy to build a
+control that differs in more than one thing at once.
 
 \paragraph{A linear instability is not always the transition.} The branching
 condition $\det(I-B)=0$ locates the loss of stability of a trivial fixed point.
@@ -123,8 +117,8 @@ so $\Lambda=0$ does not locate anything. Section~\ref{sec:groupcontagion} met
 the same exclusion for threshold contagion --- with $r\ge2$ a single seed
 infects nobody, so the trivial fixed point is stable at every coupling.
 Section~\ref{sec:transmission} met it for the Potts model above $q=2$, where the
-branching condition sits $5.1$ to $22.8$ per cent above the transition at
-$q=3$ to $6$. Section~\ref{sec:unanimity} met it where it does real damage, in the
+branching condition sits above the transition by $5.1$ to $22.8$ per cent of
+$v_{c}$ at $q=3$ to $6$. Section~\ref{sec:unanimity} met it where it does real damage, in the
 unanimity interaction, and there the free energy built in
 Sec.~\ref{sec:freeenergy} finally had to be used. And
 Sec.~\ref{sec:twosat} is the extreme of the same statement: above $k=2$ the
@@ -132,8 +126,18 @@ warning map's derivative at the trivial fixed point is exactly zero at every
 clause density, so there is no linear instability anywhere on the axis to
 mistake for a transition.
 
-The practical corollary is easy to get wrong in the direction that flatters the
-calculation: critical slowing down mimics a coexistence window. An ordered branch that survives a finite iteration
+Chapter~\ref{ch:colouring} is where both lines are computed, so the gap between
+them can be quoted rather than argued. The replica-symmetric line sits at
+$(q-1)^{2}$ and the colourings run out at \citeauthor{mulet2002}'s $c_{q}$: $9$
+against $8.90$ at
+$q=4$, the solution still locally stable after the problem has become
+unsolvable. Promoting the links into triangles then moves the two in different
+directions --- $c_{q}$ falls by a third while the stability line in the same
+ensemble does not move at all --- which is the failure at its worst, since
+taking the one for the other gives the conclusion that clustering does nothing.
+
+The practical corollary is easy to get wrong: critical slowing down mimics a
+coexistence window. An ordered branch that survives a finite iteration
 budget just above the spinodal is not evidence of a first-order transition. The
 test needs a free-energy crossing, and applying it moved the tricritical
 boundary of Sec.~\ref{sec:unanimity} by one in cardinality.
@@ -141,7 +145,26 @@ boundary of Sec.~\ref{sec:unanimity} by one in cardinality.
 \section{What the book establishes}
 \label{sec:establishes}
 
-Four results, stated as flatly as they can be.
+Seven results, stated as flatly as they can be, in the order the chapters reach
+them.
+
+\emph{Each order of moment data buys exactly one more thing about the
+transition.} The four first-moment matrices fix the threshold and nothing else;
+one further order fixes the critical amplitude $B$ in $S=B\Lambda+O(\Lambda^{2})$;
+nothing short of the full generating functions fixes $S$ away from the
+threshold. Two degree distributions sharing $\ave{k}$ and $\ave{\bar k}$ share
+every entry of the threshold tensor and differ by a third in $S$ at $p=1$.
+
+\emph{A group interaction that needs several participants at once leaves the
+percolation class.} Under a threshold rule the trivial fixed point is stable at
+every coupling, so no linear instability locates anything, and the onset can be
+discontinuous where Sec.~\ref{sec:breakdown} proves that a chygraph interaction
+never can. The recursion itself carries over --- Eq.~\eqref{eq:threshmap} is
+Chapter~\ref{ch:statmech}'s two steps with a threshold interior, and closes on
+one number --- so what is lost is the linearisation and not the method. The
+boundary is the tricritical point $\beta_{2}=1/2$ of
+Eq.~\eqref{eq:tricritical}, past which an established outbreak persists below
+the coupling at which one could have started it.
 
 \emph{Clustering lowers the Ising critical temperature at fixed degree, and a
 triangle nevertheless transmits more than an edge.} Both halves are true;
@@ -165,6 +188,15 @@ negative above it. So above cardinality two leaf removal never certifies a
 minimum cover --- which is exactly why the hard-field cover size stopped being
 believable there, and the two statements turn out to be one.
 
+\emph{Triangles make colouring harder.} A triangle-clustered graph has stopped
+being $3$-colourable by mean degree $3.08$ where a triangle-free one survives to
+$4.69$, and $4$-colourable by $6.76$ against $8.90$. This is the one place the
+one-step machinery is turned on a clustered network, and the number has no
+published counterpart to check against; it is a bound from above rather than a
+located threshold, because on triangles the complexity is negative wherever the
+shattered branch exists and there is no crossing to bisect. The direction
+survives that weakness --- a tighter value would only widen the gap.
+
 \emph{Hyperbolic random graphs are predicted once the theory is applied to the
 right object.} Not to the graph, whose clustering has defeated degree-based
 mean-field theory for a decade, but to the chygraph of its maximal cliques, with
@@ -172,9 +204,8 @@ the ensemble measured rather than fitted. The degree-matched control has no core
 anywhere; the chygraph has one everywhere, accounting for $77$ to $100$ per cent
 of it.
 
-That last result carries a qualification the book has stated twice and will
-state a third time, because it is the one a reader is most likely to
-over-remember. The \emph{existence} of the core follows from the algebra the
+That last result carries a qualification the book has stated twice and states
+here a third time, because it is the one most easily over-remembered. The \emph{existence} of the core follows from the algebra the
 moment a single triangle enters the ensemble --- Sec.~\ref{sec:corefree}
 guarantees it. Only the exponent could have failed, and there the evidence is
 weaker than the central values suggest: the predicted exponent does not move
@@ -217,21 +248,26 @@ fixed point is still stable, so $\Lambda$ does not locate it. Mapping those
 constructions to chygraphs, and identifying what replaces $\Lambda$ there, is
 not done.
 
-\emph{Threshold contagion, properly.} Section~\ref{sec:groupcontagion} gives the
-reason the percolation machinery cannot carry a rule that needs several infected
-members at once, and then solves a mean-field equation that keeps the mechanism.
-What it does not give is a theory: that would need a message carrying more than
-one number per inclusion, which is what Part~III is about, applied to a
-dynamical rather than an equilibrium rule.
+\emph{Threshold contagion, past the fixed point.}
+Section~\ref{sec:groupcontagion} carries the recursion to a rule that needs
+several infected members at once, and Eq.~\eqref{eq:threshmap} solves it for an
+arbitrary chy-degree distribution and an arbitrary mixture of cardinalities and
+thresholds. What it does not give is the apparatus that goes with the
+percolation class: with $r\ge2$ the threshold tensor reports only the pairwise
+layer, so there is no linear condition to locate a transition with, no critical
+amplitude, and no analogue of Sec.~\ref{sec:breakdown}'s continuity proof.
+Supplying those for saddle-node onsets --- here and for the interdependent
+networks above --- is one problem, not two.
 
 \emph{One-step replica symmetry breaking, beyond $m=0$.}
 Sections~\ref{sec:colouring-sp} and~\ref{sec:sat-sp} do the one-step
-calculation at $m=0$ and reach both thresholds --- Mulet's $c_{q}$ to a tenth of
+calculation at $m=0$ and reach both thresholds --- \citeauthor{mulet2002}'s
+$c_{q}$ to a tenth of
 a per cent, the satisfiability threshold to three tenths. That is the value of
 the Parisi parameter at which clusters are counted without regard to their size,
 and it is the wrong one for everything else. The condensation transition needs
 $m\ne0$, and so does any statement about which clusters dominate. The
-machinery would carry it --- Eq.~\eqref{eq:sigma} is a reweighting of
+machinery would carry it --- Eq.~\eqref{eq:sigmagen} is a reweighting of
 Chapter~\ref{ch:statmech}'s free energy and the reweighting is where $m$ enters
 --- but nothing here optimises over $m$, and the hitting set problem of
 Chapter~\ref{ch:hittingset}, whose interesting r\'egime is exactly there, is
@@ -297,8 +333,8 @@ is not obvious, and it is not obvious that it does not.
 \label{sec:bargain}
 
 The preface put it as a trade: give up the graph as the fundamental object, keep
-the tree, and the apparatus comes back. That was accurate, and one qualification
-should be attached to it now rather than left implicit.
+the tree, and the apparatus comes back. That was accurate, with one
+qualification.
 
 What comes back is not everything, and what is given up is not only the graph.
 The tree is kept by moving the loops inside complexes, where they are summed
@@ -312,5 +348,4 @@ theory gets qualitatively wrong, on ensembles it cannot represent at all.
 It does not abolish the boundary. Chapter~\ref{ch:overlap} measures what is left
 on the far side of it, identifies the cause with a control that holds the
 ensemble fixed, and shows what recovers the difference on one network at a time.
-The ensemble version of that is the book's standing debt, and it is the right
-place to stop.
+The ensemble version of that is what the book leaves undone.

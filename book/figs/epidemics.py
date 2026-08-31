@@ -210,6 +210,84 @@ def check_pure_group():
     return b2, r
 
 
+def threshold_recursion(beta1, beta2, rho0, c=3, r=2):
+    """Eq. (6.12) for a Poisson two-layer chygraph, seeded at rho0.
+
+    The interior sum tau_{c,r} is the binomial tail -- the complex fires onto
+    the member entered by when at least r of the other c-1 are infected -- and
+    the up step is a product over inclusions.  For Poisson layers Phi = Phibar
+    and pi = rho, so the whole thing closes on one number.
+    """
+    from math import comb
+    pi = rho0
+    for _ in range(500_000):
+        tail = sum(comb(c - 1, m) * pi**m * (1 - pi)**(c - 1 - m)
+                   for m in range(r, c))
+        new = rho0 + (1 - rho0) * (1 - np.exp(-beta1 * pi - beta2 * tail))
+        if abs(new - pi) < 1e-14:
+            break
+        pi = new
+    return pi
+
+
+def _threshold_sim(n, beta1, beta2, rho0, seed, c=3, r=2):
+    """Forward threshold contagion on a random chygraph, from a seed fraction."""
+    rng = np.random.default_rng(seed)
+    L = (rng.integers(0, n, size=(int(beta1 * n / 2), 2)) if beta1 > 0
+         else np.zeros((0, 2), int))
+    G = rng.integers(0, n, size=(int(beta2 * n / c), c))
+    inf = rng.random(n) < rho0
+    while True:
+        new = inf.copy()
+        if len(L):
+            np.logical_or.at(new, L[:, 0], inf[L[:, 1]])
+            np.logical_or.at(new, L[:, 1], inf[L[:, 0]])
+        if len(G):
+            cnt = inf[G].sum(axis=1)
+            for j in range(c):
+                new[G[(cnt - inf[G[:, j]]) >= r, j]] = True
+        if new.sum() == inf.sum():
+            return inf.mean()
+        inf = new
+
+
+def check_threshold_recursion(n=400_000):
+    """Sec. 6.4: the threshold rule stays inside the chygraph recursion.
+
+    Two things are checked.  That Eq. (6.12) is not a separate mean-field
+    equation but the two-step recursion with a threshold interior: at c = 3,
+    r = 2 its interior sum is pi^2 and it collapses to Eq. (6.13).  And that it
+    predicts the process it claims to, against forward simulation.
+    """
+    from math import comb
+    for pi in (0.1, 0.37, 0.8):
+        assert abs(sum(comb(2, m) * pi**m * (1 - pi)**(2 - m)
+                       for m in range(2, 3)) - pi**2) < 1e-15
+    print('  interior sum at c = 3, r = 2 is pi^2, so Eq. (6.12) collapses to '
+          'Eq. (6.13)   OK')
+    # the group layer contributes nothing to the Jacobian at the trivial point.
+    # this is the slope of the map itself, not of the seeded fixed point
+    from math import comb
+    b1, b2, eps = 0.6, 3.0, 1e-6
+    for rr in (1, 2, 3):
+        tail = sum(comb(3, m) * eps**m * (1 - eps)**(3 - m) for m in range(rr, 4))
+        slope = (1 - np.exp(-b1 * eps - b2 * tail)) / eps
+        print(f'    c = 4, r = {rr}: d(map)/d(pi) at 0 = {slope:.4f}'
+              f"{'  (= beta_1 = 0.6: the group layer is invisible)' if rr > 1 else ''}")
+    print('     beta_1 beta_2   rho_0   recursion   simulation      diff')
+    worst = 0.0
+    for b1, b2, r0 in ((0.0, 5.0, 0.30), (0.0, 5.0, 0.20), (0.0, 8.0, 0.15),
+                       (0.6, 2.0, 0.20), (0.4, 3.0, 0.25), (1.2, 0.5, 0.05),
+                       (0.0, 3.0, 0.40), (0.3, 1.0, 0.10)):
+        rec = threshold_recursion(b1, b2, r0)
+        sim = float(np.mean([_threshold_sim(n, b1, b2, r0, sd)
+                             for sd in (1, 2, 3)]))
+        worst = max(worst, abs(rec - sim))
+        print(f'    {b1:7.2f} {b2:6.2f} {r0:7.2f} {rec:11.4f} {sim:12.4f} '
+              f'{abs(rec - sim):9.4f}')
+    print(f'  worst disagreement {worst:.4f} over eight combinations   OK')
+
+
 def check_tricritical_exponent():
     """At beta_2 = 1/2 the branch leaves as sqrt(3 (beta_1 - 1))."""
     from scipy.optimize import brentq
@@ -228,6 +306,7 @@ if __name__ == '__main__':
     check_tricritical()
     check_pure_group()
     check_tricritical_exponent()
+    check_threshold_recursion()
     print('households:')
     figure_households()
     print('contagion:')

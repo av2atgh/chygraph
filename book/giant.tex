@@ -1,17 +1,16 @@
 \chapter{Beyond the threshold}
 \label{ch:giant}
 
-Chapter~\ref{ch:percolation} ended with a threshold and left the reader with a
-question it did not answer. The
-results of this chapter are reported here for the first time; where they extend
-the percolation map of Refs.~\citep{vazquez2023pre,vazquez2024comnet} the debt
-is marked at the point of use. The tensor $A$ is built from four matrices of first
-moments; the map, on the other hand, needs whole generating functions. So the
-threshold uses strictly less information than the map. What is the rest of it
-buying?
+Chapter~\ref{ch:percolation} located the threshold but said nothing about the
+size of the giant component. The tensor $A$ is built from four matrices of first
+moments; the map needs whole generating functions. The threshold therefore uses
+strictly less information than the map, and in this chapter we ask what the
+rest of that information buys. The results are reported here for the first
+time; where they extend the percolation map of
+\citet{vazquez2023pre,vazquez2024comnet} the debt is marked at the point of use.
 
-The answer is a hierarchy, Table~\ref{tab:hierarchy}, and it is unusually clean:
-each additional order of moment data buys exactly one more thing about the
+What it buys is a hierarchy, Table~\ref{tab:hierarchy}, and an unusually clean
+one: each additional order of moment data buys exactly one more thing about the
 transition.
 
 \begin{table}[b]
@@ -84,7 +83,7 @@ obtained by carrying that expansion further or by changing what is expanded.
 
 Since $A$ depends on the ensemble only through first moments, and moments do not
 determine a distribution, $S$ cannot be a function of $A$. The size of the
-degeneracy is the point, so here it is.
+degeneracy is measured below.
 
 Take two graphs whose degree distributions are
 \begin{align}
@@ -120,8 +119,10 @@ distribution over excess component sizes, of which $\bar
 s_{\triangle}(q)=2q(1+q-q^{2})$ was only the mean. Written as a generating
 function it is
 \begin{equation}
-  \bar G_{\triangle}(y)=\bigl(3q^{2}-2q^{3}\bigr)y^{2}+2q(1-q)^{2}y
-    +(1-q)^{3}+q(1-q)^{2}.
+  \begin{aligned}
+    \bar G_{\triangle}(y)&=\bigl(3q^{2}-2q^{3}\bigr)y^{2}+2q(1-q)^{2}y\\
+    &\quad+(1-q)^{3}+q(1-q)^{2}.
+  \end{aligned}
   \label{eq:tripgf}
 \end{equation}
 Un-projecting is a one-line change per model. And for Poisson distributions
@@ -129,7 +130,7 @@ there is nothing to un-project, since $\Phi=\bar\Phi=e^{\ave{\kappa}(x-1)}$ is
 already fixed by its mean.
 
 \begin{calculation}{an arithmetic slip that reinstating the distribution exposed}
-Reference~\citep{vazquez2024comnet} gives the mean intra-complex component size
+\citet{vazquez2024comnet} gives the mean intra-complex component size
 of a triangle --- as opposed to the \emph{excess} size, which is what the
 threshold uses --- with $3/2$ on the single-link term. It should be $5/3$: in the configuration
 with one bond present the three members sit in components of sizes $2$, $2$
@@ -270,8 +271,7 @@ scale-free degree distribution with exponent $\gamma\le4$. There
 Eq.~\eqref{eq:Bgraph} returns $B\to0$: the linear branch has vanishing
 amplitude, $\beta\ne1$, and one recovers the familiar $\beta=1/(\gamma-3)$ of
 heterogeneous mean field for $3<\gamma<4$. The expansion announces its own
-breakdown, which is the best one can ask of it --- but the closed forms of
-Table~\ref{tab:amplitudes} are statements about ensembles with finite second
+breakdown, but the closed forms of Table~\ref{tab:amplitudes} are statements about ensembles with finite second
 moments and must not be quoted outside that range.
 
 \emph{$C$ can vanish.} Then the map is affine along the critical direction and
@@ -281,11 +281,14 @@ symbolic continuity criterion, computable alongside $\theta$ and $\Lambda$.
 
 Its non-negativity settles something. It has recently been argued
 \citep{keating2026} that group structure on its own produces only continuous
-transitions. For anything that maps to a chygraph this now has a one-line proof:
+For anything in the percolation class this now has a one-line proof:
 a complex contributes to $C$ through second derivatives of its generating
-functions, and those cannot be negative.
+functions, and those cannot be negative. The qualifier is doing work.
+Section~\ref{sec:groupcontagion} maps a threshold rule to a chygraph and keeps
+the recursion, but its intra-complex function is not a generating function in
+the failure variable, and the onset can then be discontinuous.
 
-One caveat delimits the scope, and it is a real exclusion rather than a
+One caveat delimits the scope, and it is an exclusion rather than a
 technicality. Equations~\eqref{eq:Qminus}--\eqref{eq:Qplus} are the extinction
 conditions of a multi-type branching process, and for such maps the loss of
 stability of $Q\equiv1$ locates the transition. Interdependent networks
@@ -300,14 +303,15 @@ $\Lambda$ there, is not done.
 \label{sec:joint}
 \index{correlated layers|textbf}
 
-Now the assumption. Section~\ref{sec:ensembles} took the generating functions to
-factorise over target layers, $\Phi^{l}(x)=\prod_{k}\Phi^{l}_{k}(x_{k})$. That
+In this section we lift the factorisation assumption.
+Section~\ref{sec:ensembles} took the generating functions to factorise over
+target layers, $\Phi^{l}(x)=\prod_{k}\Phi^{l}_{k}(x_{k})$. That
 covers every mapping in Chapter~\ref{ch:percolation}, and it is false for
 anything in which a complex's participation in one layer is tied to its
 participation in another: a node whose triangle count moves with its link count,
 a hyperedge whose cardinalities in two vertex layers are correlated. Joint
-degree distributions of exactly this kind are what the motif formalism of Mann
-\emph{et al.} \citep{mann2021} works with, and Chapter~\ref{ch:data} recommended
+degree distributions of exactly this kind are what the motif formalism of
+\citet{mann2021} works with, and Chapter~\ref{ch:data} recommended
 measuring the correlation rather than assuming it away.
 
 Dropping the factorisation changes the \emph{status} of the excess generating
@@ -379,7 +383,7 @@ graph with links and triangles, for three joint distributions of a node's link
 and triangle counts sharing all marginals and therefore every entry of the
 published threshold tensor. Lines are Eq.~\eqref{eq:jointmap}, symbols Monte
 Carlo at $n=1.5\times10^{5}$, dotted lines the thresholds of
-Eq.~\eqref{eq:qc3}. The curves cross near $q=0.42$, so no single statement about
+Eq.~\eqref{eq:qc3}. The curves cross between $q=0.38$ and $q=0.46$, so no single statement about
 whether correlation helps survives. Generated by
 \code{figs/beyond\_threshold.py}.}
 \label{fig:correlated}
@@ -413,12 +417,12 @@ and each is handled here by writing down the chygraph and substituting.
 
 \subsection{AND-logic against OR-logic}
 
-Bianconi and Dorogovtsev \citep{bianconi2024} distinguish two rules for what a
+\citet{bianconi2024} distinguish two rules for what a
 higher-order interaction does when some of its members are removed. Under
 \emph{OR}-logic the interaction keeps connecting whichever members survive.
 Under \emph{AND}-logic it fails outright if any member is missing --- the right
-rule for a chemical reaction, a catalytic step, a supply chain. Ha, Neri and
-Annibale \citep{ha2025} reach the same distinction independently.
+rule for a chemical reaction, a catalytic step, a supply chain.
+\citet{ha2025} reach the same distinction independently.
 
 Both are the same chygraph: atoms in layer $0$, hyperedges in layer $1$. They
 differ in one generating function,
@@ -453,7 +457,7 @@ $\bar G_{c}'(p)\le\bar G_{c}'(1)$ and
 \end{equation}
 with equality if and only if $p=1$ or $c\equiv2$ --- for an ordinary graph the
 two rules are the same statement. That is a one-line proof of the inequality
-reported in Ref.~\citep{bianconi2024}. For Poisson degrees and cardinalities,
+reported by \citet{bianconi2024}. For Poisson degrees and cardinalities,
 $\theta_{\mathrm{OR}}=p\ave{k}\ave{c}-1$ and
 $\theta_{\mathrm{AND}}=p\ave{k}\ave{c}e^{\ave{c}(p-1)}-1$; at $\ave{k}=2$,
 $\ave{c}=3$ the thresholds are $1/6$ and $0.5827$, more than a factor of three
@@ -500,7 +504,7 @@ The constructions so far all put the loops \emph{inside} complexes, which is
 where the formalism can absorb them. A recent result shows sharply what happens
 when they are not.
 
-Cirigliano \citep{cirigliano2025} solves site percolation on Static Triadic
+\citet{cirigliano2025} solves site percolation on Static Triadic
 Closure graphs --- built by closing every triad of a treelike backbone $G_{0}$
 to form a clustered graph $G_{1}$ --- and finds that heterogeneous mean field,
 which is the treelike rewiring preserving only $G_{1}$'s degree distribution,
@@ -515,7 +519,7 @@ incidence structure, and a chygraph is exact only when \emph{that} is locally
 treelike --- Sec.~\ref{sec:treelike} again, one level up. For a Poisson backbone
 with $\ave{k}=3$ this mapping gives $p_{c}=0.0711$ against the exact $0.0893$,
 no improvement on heterogeneous mean field's $0.0635$. The last two are
-Ref.~\citep{cirigliano2025}'s; the exact value is recovered below,
+\citeauthor{cirigliano2025}'s; the exact value is recovered below,
 Eq.~\eqref{eq:stcthresh}, by a mapping that does work.
 
 The formalism does cover the problem, but on the \emph{backbone} rather than on
@@ -537,12 +541,13 @@ precisely the freedom Sec.~\ref{sec:joint} introduced.
 
 The tensor then returns
 \begin{equation}
-  \theta=-b^{2}p^{2}+b(1+b)p-1,
-  \qquad
-  p_{c}=\frac{(1+b)-\sqrt{(1+b)^{2}-4}}{2b},
+  \begin{aligned}
+    \theta&=-b^{2}p^{2}+b(1+b)p-1,\\
+    p_{c}&=\frac{(1+b)-\sqrt{(1+b)^{2}-4}}{2b},
+  \end{aligned}
   \label{eq:stcthresh}
 \end{equation}
-with $b=\ave{k(k-1)}/\ave{k}$, which is Cirigliano's exact result, and an order
+with $b=\ave{k(k-1)}/\ave{k}$, which is \citeauthor{cirigliano2025}'s exact result, and an order
 parameter agreeing with it to machine precision at every $p$. The exponents
 follow from Sec.~\ref{sec:breakdown}: $C$ is finite when the \emph{backbone}
 third moment converges, giving $\beta=1$, and diverges otherwise, giving
@@ -559,19 +564,37 @@ happens when no such representation is available.
 
 \section{Checks}
 
-Equation~\eqref{eq:AisJ} has been verified entry by entry, symbolically, for
-every mapping in Chapter~\ref{ch:percolation}, by comparing the Jacobian of the
-map against an independent implementation of the published tensor; the Perron
-root reproduces the published pseudo-order parameter through
-$\lambda^{2}=\theta+1$. The closed-form amplitudes are checked against the
-numerically solved map, and against an independent evaluation by numerical
-eigenvectors on the full unreduced index set, which also confirms that the core
-reduction is exact. The joint construction is checked in both directions: with
-factorised inputs it reproduces the factorised map to machine precision, and
-with correlated inputs against configuration-model simulation over all three
+
+\checkhead{Known results}
+Equation~\eqref{eq:AisJ} is verified entry by entry, symbolically, for every
+mapping in Chapter~\ref{ch:percolation}, by comparing the Jacobian of the map
+against an independent implementation of the published tensor; the Perron root
+reproduces the published pseudo-order parameter through
+$\lambda^{2}=\theta+1$. Equation~\eqref{eq:stcthresh} returns
+\citeauthor{cirigliano2025}'s exact threshold for static triadic closure, with
+an order parameter agreeing with it to machine precision at every $p$, and
+Eq.~\eqref{eq:andors} reproduces the inequality of \citet{bianconi2024}.
+
+\checkhead{New results}
+The critical amplitude and the dependent-layer construction have no published
+counterpart. The closed-form amplitudes are checked against the numerically
+solved map, and against an independent evaluation by numerical eigenvectors on
+the full unreduced index set, which also confirms that the core reduction is
+exact. The joint construction is checked in both directions: with factorised
+inputs it reproduces the factorised map to machine precision, and with
+correlated inputs against configuration-model simulation over all three
 distributions and the whole range of $q$, agreeing within one standard deviation
 in every case --- while the marginals-only prediction is outside it in six of
-nine.
+nine. Every number quoted in this chapter is returned by the software, and the
+figures are generated by running it.
 
-Every number quoted in this chapter is returned by the software, and the figures
-are generated by running it.
+\checkhead{Partial results}
+The closed forms of Table~\ref{tab:amplitudes} hold only where the second
+factorial moments converge, and must not be quoted outside that range;
+Sec.~\ref{sec:breakdown} says where the expansion announces its own breakdown
+and what replaces $\beta=1$ there. The fixed point returns the fraction of
+complexes in an infinite component, which is the giant component only if that
+component is unique, and Sec.~\ref{sec:joint} exhibits correlated layers where
+it is not --- the map reports $S=1$ at $q=1$ where simulation gives $1/2$.
+Interdependent networks are outside the class altogether: $\Lambda=0$ does not
+locate their transition, and mapping them to chygraphs is not done.

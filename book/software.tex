@@ -6,9 +6,8 @@ Every number in this book comes out of code, and the code is public. This
 chapter says where it is, what is in it, and --- equation by equation --- which
 routine evaluates each result and which test or script checks it.
 
-That last part is the reason the chapter exists. A book of this kind accumulates
-a great many closed forms, and a reader who wants to use one of them is entitled
-to ask what it was checked against. Table~\ref{tab:map} answers that for every
+A book of this kind accumulates a great many closed forms, and a reader who
+wants to use one of them needs to know what it was checked against. Table~\ref{tab:map} answers that for every
 numbered equation the book actually computes with.
 
 \section*{Where it is}
@@ -66,14 +65,14 @@ unified behind one interface, because they answer different questions and agree
 only at cardinality two. The routine that reports whether the hard-field cover
 size can be believed returns true exactly when every cardinality is two ---
 which, by Sec.~\ref{sec:corefree}, is exactly when the leaf-removal core has a
-core-free branch. Two chapters' worth of argument, enforced in one predicate.
+core-free branch. Two chapters' worth of argument is enforced in one predicate.
 
 And the routine that returns a critical coupling \emph{refuses} the unanimity
 interaction and directs the caller to the spinodal instead. For that model the
 transition is usually discontinuous, and returning a spinodal under the name of
 a critical coupling would be wrong by ten to fifty per cent, as
-Sec.~\ref{sec:unanimity} shows. A function that cannot be used incorrectly
-does more than a note in its documentation would.
+Sec.~\ref{sec:unanimity} shows. Enforcing this in the interface is more
+reliable than a note in the documentation.
 
 \section*{Equation to method}
 
@@ -121,7 +120,9 @@ Eq. & what it is & evaluated by & checked in\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:epidemics}, epidemics}}\\
 \eqref{eq:Kn} & the household outbreak & \code{applications.\allowbreak clique\_\allowbreak excess\_\allowbreak pgf} & \code{figs/\allowbreak epidemics.\allowbreak py}\\
 \eqref{eq:Rstar} & the household $R^{*}$ & \code{applications.\allowbreak household\_\allowbreak epidemic} & \code{figs/\allowbreak epidemics.\allowbreak py}\\
-\eqref{eq:contagion} & threshold contagion & \code{figs/\allowbreak epidemics.\allowbreak py:\allowbreak branch} & same file\\
+\eqref{eq:threshtau} & the threshold interior sum & \code{figs/\allowbreak epidemics.\allowbreak py:\allowbreak threshold\_\allowbreak recursion} & same file\\
+\eqref{eq:threshmap} & the threshold-rule recursion & \code{figs/\allowbreak epidemics.\allowbreak py:\allowbreak check\_\allowbreak threshold\_\allowbreak recursion} & same file\\
+\eqref{eq:contagion} & its Poisson two-layer case & \code{figs/\allowbreak epidemics.\allowbreak py:\allowbreak branch} & same file\\
 \eqref{eq:tricritical} & its tricritical point & \code{figs/\allowbreak epidemics.\allowbreak py} & same file\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:potts}, Potts}}\\
 \eqref{eq:qonelimit} & the $q\to1$ limit & \code{figs/\allowbreak potts.\allowbreak py:\allowbreak percolation\_\allowbreak limit} & same file\\
@@ -143,6 +144,7 @@ Eq. & what it is & evaluated by & checked in\\
 \eqref{eq:exchange} & the exchange of stability & \code{fixedpoint.\allowbreak FixedPointStability} & \code{test\_\allowbreak fixedpoint}\\
 \eqref{eq:bethe} & the Bethe free energy & \code{freeenergy.\allowbreak BetheFreeEnergy} & \code{test\_\allowbreak freeenergy}\\
 \eqref{eq:para} & its paramagnetic closed form & \code{freeenergy.\allowbreak paramagnetic} & \code{test\_\allowbreak freeenergy}\\
+\eqref{eq:sigmagen} & the complexity at $m=0$ & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak \_sv\_\allowbreak sigma} & same file\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:ising}, the Ising model}}\\
 \eqref{eq:Hising} & the Hamiltonian & \code{cavity.\allowbreak ising\_\allowbreak clique} & \code{test\_\allowbreak ising}\\
 \eqref{eq:uclique} & $u'$ for $c=2,3,4$ & \code{ising.\allowbreak clique\_\allowbreak derivative} & \code{test\_\allowbreak derivations}\\

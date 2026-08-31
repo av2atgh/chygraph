@@ -4,8 +4,8 @@
 Every calculation in Parts~II and~III rests on one assumption, stated in
 Sec.~\ref{sec:treelike} and repeated whenever it mattered: complexes meet in at
 most one node. The measurements and the repair in this chapter are new;
-the region-graph machinery they use is Kikuchi's and
-Ref.~\citep{yedidia2005}'s. Chapter~\ref{ch:statmech} located it precisely, in the step where
+the region-graph machinery they use is Kikuchi's, in the form given by
+\citet{yedidia2005}. Chapter~\ref{ch:statmech} located it precisely, in the step where
 a node adds what its complexes have told it as though they were independent.
 The assumption buys the whole apparatus, and on the networks
 Chapter~\ref{ch:data} measured it is false.
@@ -161,8 +161,7 @@ Eq.~\eqref{eq:mobius} and $2$ under Eq.~\eqref{eq:bethe}. The Bethe scheme
 subtracts the two shared vertices independently and so never removes the
 correlation between them.
 
-That is not a subtlety to be taken on trust. The example has four spins and can
-be settled by enumeration.
+The example has four spins and can be settled by enumeration.
 
 \section{Two triangles, exactly}
 \label{sec:twotriangles}
@@ -190,15 +189,15 @@ $2.0$ & $10.6938$ & $+1.3$ & $-1.7\times10^{-2}$ & $-5\times10^{-15}$\\
 
 Three readings, in increasing order of interest.
 
-The correction is a factor of three to eighty, so the counting matters and is
-not a formality. The two schemes err in \emph{opposite} directions:
+The correction is a factor of three to eighty, so the counting matters. The two
+schemes err in \emph{opposite} directions:
 Eq.~\eqref{eq:bethe} overestimates $\ln Z$ because it never removes the
 correlation between the shared vertices, and Eq.~\eqref{eq:mobius} removes it
 and slightly overshoots.
 
-And the overshoot is not a property of the counting. It is a property of
-evaluating a counting on \emph{isolated} regions, which is an estimate and not a
-fixed point. Running the messages removes it entirely. The last column is
+The overshoot is a property of evaluating a counting on \emph{isolated}
+regions, which is an estimate rather than a fixed point, and not of the counting
+itself. Running the messages removes it entirely. The last column is
 generalised belief propagation in its parent-to-child form \citep{yedidia2005},
 iterated to a fixed point on the region graph of Eq.~\eqref{eq:mobius}, and the
 error is at the level of double precision at every coupling.
@@ -289,8 +288,7 @@ The forty chordal instances come out exact, the worst error being
 $3\times10^{-12}$. That is the previous section's argument holding at scale
 rather than on one hand-picked example.
 
-The twenty non-chordal instances divide, and the division is the point of this
-chapter. Fourteen converge, and there the GBP error runs from
+The twenty non-chordal instances divide in two. Fourteen converge, and there the GBP error runs from
 $1.4\times10^{-9}$ to $5.4\times10^{-3}$, against $0.48$ to $1.8$ for the
 M\"obius counting and $0.26$ to $30$ for the Bethe counting on the same
 instances --- two to nine orders of magnitude better, with the consistency
@@ -446,8 +444,7 @@ A graph cannot see a triangle. Promote triangles to complexes and the chygraph
 cannot see two triangles sharing an edge. Promote \emph{those} pairs to regions
 and the region graph cannot see whatever loops the regions form among
 themselves. Each level removes the obstruction below it and exposes the one
-above. This is not a defect of the construction; it is what the cluster
-variation method has always been, and the chygraph is one rung of it made
+above. This is what the cluster variation method has always been, and the chygraph is one rung of it made
 systematic and given an ensemble.
 
 The question that decides whether the hierarchy is a solution or a regress is
@@ -494,28 +491,36 @@ known on one network at a time. The ensemble version is open.
 \section{Checks}
 \label{sec:overlap-checks}
 
-\emph{Against enumeration.} The two-triangle table compares three schemes with
-an exact sum over sixteen configurations. The counting numbers are checked for
-what they are supposed to guarantee: every node covered once by both schemes,
-every \emph{factor} covered once by M\"obius and twice by Bethe on the shared
-bond.
+\checkhead{Known results}
+The counting numbers of Eq.~\eqref{eq:mobius} and the parent-to-child update of
+Eq.~\eqref{eq:p2c} are Kikuchi's and \citeauthor{yedidia2005}'s, and the
+implementation is checked against them. On the two-layer region graph of a
+pairwise model --- one region per interaction plus one per variable --- the
+update reduces to ordinary belief propagation, and the implementation reproduces
+an independently written one to $10^{-10}$ on a chain, a star, a four-cycle and
+a theta graph. The loopy error is included, so the two agree on the mistake as
+well as on the answer. That is the check that generalised belief propagation
+contains belief propagation exactly as Eq.~\eqref{eq:mobius} contains
+Eq.~\eqref{eq:bethe}.
 
-\emph{Against belief propagation.} On the two-layer region graph of a pairwise
-model --- one region per interaction plus one per variable --- the
-parent-to-child update reduces to ordinary belief propagation, and the
-implementation reproduces an independently written one to $10^{-10}$ on a chain,
-a star, a four-cycle and a theta graph. The loopy error is included, so the two
-agree on the mistake as well as on the answer. That is the check that generalised
-belief propagation contains belief propagation exactly as
-Eq.~\eqref{eq:mobius} contains Eq.~\eqref{eq:bethe}.
+\checkhead{New results}
+The measurements are new here: what the two countings cost on overlapping
+complexes, what running the messages recovers over sixty instances, and where
+merging stops being affordable. The first is checked against arithmetic. The
+two-triangle table compares three schemes with an exact sum over sixteen
+configurations, and the counting numbers are checked for what they are supposed
+to guarantee: every node covered once by both schemes, every \emph{factor}
+covered once by M\"obius and twice by Bethe on the shared bond. Where the
+iteration converges, the consistency condition
+$\sum_{x_{P}\setminus x_{R}}b_{P}=b_{R}$ holds to $2\times10^{-6}$, so what
+remains is the approximation's error and not the solver's.
 
-\emph{Against its own fixed point.} Where the iteration converges, the
-consistency condition $\sum_{x_{P}\setminus x_{R}}b_{P}=b_{R}$ holds to
-$2\times10^{-6}$; where it does not, the residual reports it and the run is
-discarded rather than quoted. The convergence criterion is stated rather than
-implied: the residuals over the non-chordal instances fall into two clusters
-separated by four orders of magnitude, and the threshold sits in the gap.
-
-\emph{What is not checked, because it does not exist.} The ensemble version of
-Sec.~\ref{sec:whatwouldclose}. Chapter~\ref{ch:outlook} lists it with the other
-things this book does not do.
+\checkhead{Partial results}
+Six of the twenty non-chordal instances do not converge at any damping tried up
+to $0.999$, and no number from them is quoted; the convergence criterion is
+stated rather than implied, the residuals falling into two clusters separated by
+four orders of magnitude with the threshold in the gap. Generalised belief
+propagation is not variationally bounded, so on a badly built region graph it
+can be worse than the static estimate. And the whole chapter is instance-level:
+the ensemble version of Sec.~\ref{sec:whatwouldclose} does not exist, and
+Chapter~\ref{ch:outlook} lists it with the other things this book does not do.
