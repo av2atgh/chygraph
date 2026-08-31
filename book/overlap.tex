@@ -409,21 +409,21 @@ region graph to build.
 
 The threshold that decides it is a percolation threshold on the overlap graph,
 which is the sort of object Chapter~\ref{ch:percolation} computes. So the
-feasibility of the Part~IV repair is a Part~II calculation --- one can ask, of a
+feasibility of this chapter's repair is a Part~II calculation --- one can ask, of a
 given ensemble, whether merging will terminate, before attempting it. That is a
 better position than discovering it by running out of memory.
 
-And on the ensembles that motivated the construction it terminates only in the
-very sparse régime. This is not special to hyperbolic graphs: clustering is
-exactly what makes cliques share edges, so any ensemble with enough clustering
-to need the repair tends to have enough to make it percolate. The two conditions
-pull against each other, which is why Sec.~\ref{sec:whatwouldclose}'s route ---
-messages between regions, rather than one enormous region --- remains the one
-that scales. Merging and generalised belief propagation are the two ends of one
-dial: merge everything and the messages become trivial but the interior
-impossible; merge nothing and the interior is easy but the messages
-approximate. Where to sit on that dial is an ensemble-by-ensemble question, and
-Fig.~\ref{fig:merge} is how one answers it.
+And on \emph{this} ensemble it terminates only in the very sparse régime. The
+qualifier carries the weight, and Sec.~\ref{sec:placed} is about why:
+hyperbolic random graphs are one ensemble of clustered graphs, the verdict
+above is theirs, and on another ensemble at the same clustering coefficient it
+comes out the other way. Merging and generalised belief propagation are the two
+ends of one dial --- merge everything and the messages become trivial but the
+interior impossible; merge nothing and the interior is easy but the messages
+approximate --- and where to sit on it is an ensemble-by-ensemble question.
+Figure~\ref{fig:merge} is how one answers it for a given ensemble; it is not a
+verdict on clustered graphs, and Sec.~\ref{sec:whatwouldclose}'s route is what
+remains where the answer is no.
 
 \paragraph{A practical note.} Between those extremes lies a range where merging
 works on the instances one actually has, rather than on an ensemble. Finding
@@ -434,6 +434,136 @@ tedious by hand, easy to get subtly wrong, and well suited to being automated.
 A tool that took a network, proposed a merge closure, and reported the largest
 interior it produced would tell a user in one pass whether the exact route is
 open to them --- and the answer would be a number rather than a judgement.
+
+\section{An ensemble where it terminates}
+\label{sec:placed}
+\index{Karrer--Newman model|textbf}
+\index{null model}
+
+Section~\ref{sec:merging} measured the merge closure on hyperbolic random
+graphs and found it affordable only when the graph is very sparse. Taken as a
+statement about clustering that would be wrong, and Chapter~\ref{ch:chygraphs}
+has already said why: a graph whose triangles are \emph{placed} rather than
+grown satisfies the treelike condition, because the triangles are placed
+independently. This section measures the difference, and it turns out to be the
+whole of the difference.
+
+\citet{karrer2010} give the ensemble to measure it on. One specifies, per
+vertex, how many single edges it carries and how many copies of each chosen
+subgraph; the edges are matched in pairs and each subgraph's corners in tuples,
+exactly as a configuration model matches stubs. Clustering is then whatever the
+motif density says it is, and it can be set as high as one likes. Two placed
+motifs may share a vertex freely. They share an \emph{edge} only by
+coincidence --- which is the property that makes their model solvable and, it
+turns out, the property that decides Sec.~\ref{sec:merging}'s question.
+
+\paragraph{The quantity that decides it is a count, not a fraction.} Both
+ensembles have $\Theta(n)$ intersecting clique pairs, so
+$\mathrm{shared}_{2+}$, which divides by that, mixes the effect with its
+denominator. Count instead the pairs that share two or more atoms --- the pairs
+the mapping cannot represent, and exactly the merges the closure has to make
+(Table~\ref{tab:placed}).
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lcrrrr}
+\hline\hline
+ensemble & $C$ & $n$ & cliques & offending pairs & largest\\
+\hline
+Karrer--Newman & $0.25$ & $1000$ & $837$ & $14$ & $7.0$\\
+$\ave{k}=3.0$ & & $8000$ & $6638$ & $11$ & $6.0$\\[2pt]
+Karrer--Newman & $0.16$ & $1000$ & $1900$ & $340$ & $23.7$\\
+$\ave{k}=8.9$ & & $8000$ & $14683$ & $351$ & $9.0$\\[2pt]
+hyperbolic & $0.28$ & $1000$ & $526$ & $511$ & $132$\\
+$\ave{k}=2$ & & $8000$ & $3878$ & $5743$ & $743$\\[2pt]
+hyperbolic & $0.42$ & $1000$ & $630$ & $1563$ & $290$\\
+$\ave{k}=3$ & & $8000$ & $4595$ & $15685$ & $1556$\\
+\hline\hline
+\end{tabular}
+\caption{\textbf{The same clustering, opposite verdicts.} Maximal-clique pairs
+sharing two or more atoms, and the largest meta-complex the closure then builds,
+at the two ends of an eightfold range in $n$; mean over three seeds. On the
+placed ensemble the count does not grow with the network while the number of
+cliques grows eightfold, so the closure has a bounded number of merges to make
+however large the graph. On the geometric one the count grows with $n$ and the
+closure percolates. Compare the first and third rows: clustering $0.25$ against
+$0.28$, and opposite answers. Generated by
+\code{figs/merge.py:check\_overlap\_is\_not\_extensive}.}
+\label{tab:placed}
+\end{table}
+
+The count is flat in $n$ on the placed ensemble and grows with $n$ on the
+geometric one, and the mechanism is a one-line estimate. Two motifs meeting at a
+vertex share a \emph{second} vertex only if their remaining members happen to
+coincide, which for a random matching has probability $O(1/n)$. There are $O(n)$
+such meeting pairs. The product is $O(1)$: a placed ensemble contains a number
+of edge-sharing motif pairs that does not grow with the network at all. Divided
+by the $\Theta(n)$ intersecting pairs that is
+$\mathrm{shared}_{2+}\sim1/n$ --- measured at $0.0070$, $0.0021$, $0.0013$ and
+$0.0007$ over the first block of the table, a slope of $-0.99$ against $\log n$.
+A hyperbolic graph has no such suppression, because its overlaps are not
+coincidences: the geometry puts every clique in a neighbourhood of others.
+
+\paragraph{An ensemble built out of overlaps.} The sharpest case is one
+\citeauthor{karrer2010} raise themselves. Their edge-triangle model, they note,
+is unrealistic in exactly the way that matters here --- real triangles share
+edges and theirs do not --- and their remedy is to promote the shared-edge pair
+to a subgraph type of its own: a diamond on four vertices, placed like any other
+element. That is Sec.~\ref{sec:merging}'s merge, performed when the ensemble is
+written down instead of afterwards.
+
+So run the closure on such a graph, blind, with no knowledge of what was placed.
+Its maximal cliques are the two triangles of each diamond, which \emph{do} share
+an edge, so here $\mathrm{shared}_{2+}$ does not vanish with $n$: it sits at
+$0.06$, by design. The closure terminates anyway, at a largest meta-complex of
+$21$ atoms at $n=1000$ falling to $10$ at $n=8000$ --- and what it returns are
+the placed diamonds, $78.5$ per cent of them recovered exactly at $n=1000$ and
+$89.0$, $93.8$ and $97.2$ per cent at $2000$, $4000$ and $8000$. The shortfall
+is the same $O(1)$ residue, about a hundred elements at every size, which is a
+fifth of them at the smallest and a thirtieth at the largest. The merge is not a
+patch applied to a broken mapping. On this ensemble it inverts the modelling
+decision that made the ensemble.
+
+\paragraph{One caveat, and it is about finite size.} The $O(1)$ constant grows
+with motif density, and while it is finite it need not be small. At
+$\ave{k}\simeq17$ --- eight triangles per vertex --- the accidental overlaps are
+numerous enough to percolate the overlap graph at small $n$: essentially the
+whole network is one meta-complex at $n=1000$ and $2000$, a fifth of it at
+$4000$, and then the closure collapses to $19$ atoms at $8000$ and $13$ at
+$16\,000$. The asymptotics win, and they win abruptly, but the size at which
+they take over grows with the density. A measurement at one $n$ decides nothing
+here; the slope against $n$ decides everything (Fig.~\ref{fig:motifs}).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig-motifs.pdf}
+\caption{\textbf{Flat against linear.} Left: maximal-clique pairs sharing two or
+more atoms, against $n$, for a Karrer--Newman graph with four triangles per
+vertex and for a hyperbolic random graph at $\tau=2.5$, $\ave{k}=3$; the dotted
+line is slope one. Right: the largest meta-complex the closure builds from them.
+The placed ensemble is the denser of the two, $\ave{k}=8.9$ against $3$, and it
+is the one that terminates. Generated by \code{figs/merge.py}.}
+\label{fig:motifs}
+\end{figure}
+
+\paragraph{What replaces the claim this section removes.} Not that clustering is
+harmless, and not that the merge always works. The condition is about where the
+overlaps come from.
+
+Where the dense elements are \emph{specified} --- a modeller choosing which
+motifs go in, or data that records its groups directly, which is
+Sec.~\ref{sec:layers-data}'s route (a) --- the ensemble is treelike above the
+level of those elements by construction, the overlaps that remain are accidents
+of finite size, and the closure terminates. Where they are \emph{emergent} --- a
+geometry or a growth rule producing whatever motifs it produces --- nobody has
+chosen anything, the overlaps arrive at every scale, and their number is
+extensive. Clustering is compatible with either, which is why
+Chapter~\ref{ch:data} measures $\mathrm{shared}_{2+}$ on real data rather than
+inferring it from the clustering coefficient.
+
+The practical instruction is one line. Measure the offending-pair count at two
+sizes: if it is flat, merge; if it grows like $n$, do not, and
+Sec.~\ref{sec:whatwouldclose} is the route that remains.
 
 \section{Clustering is a hierarchy of obstructions}
 \label{sec:hierarchy}
@@ -505,8 +635,9 @@ Eq.~\eqref{eq:bethe}.
 
 \checkhead{New results}
 The measurements are new here: what the two countings cost on overlapping
-complexes, what running the messages recovers over sixty instances, and where
-merging stops being affordable. The first is checked against arithmetic. The
+complexes, what running the messages recovers over sixty instances, where
+merging stops being affordable, and Sec.~\ref{sec:placed}'s contrast between a
+placed and a geometric ensemble. The first is checked against arithmetic. The
 two-triangle table compares three schemes with an exact sum over sixteen
 configurations, and the counting numbers are checked for what they are supposed
 to guarantee: every node covered once by both schemes, every \emph{factor}
@@ -521,6 +652,13 @@ to $0.999$, and no number from them is quoted; the convergence criterion is
 stated rather than implied, the residuals falling into two clusters separated by
 four orders of magnitude with the threshold in the gap. Generalised belief
 propagation is not variationally bounded, so on a badly built region graph it
-can be worse than the static estimate. And the whole chapter is instance-level:
+can be worse than the static estimate. Section~\ref{sec:placed}'s $O(1)$ overlap
+count is an estimate supported by a measurement flat over an eightfold range in
+$n$, not a theorem: it is not proved that the count is bounded for every motif
+set, and at high density the finite-size crossover is late enough to invert the
+answer at $n=4000$. The two ensembles compared there are matched on the
+clustering coefficient and on nothing else, which is the comparison the section
+needs but leaves the degree distributions unmatched. And the whole chapter is
+instance-level:
 the ensemble version of Sec.~\ref{sec:whatwouldclose} does not exist, and
 Chapter~\ref{ch:outlook} lists it with the other things this book does not do.

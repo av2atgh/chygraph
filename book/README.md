@@ -27,8 +27,7 @@ language in the running text with the algebra boxed off.
 | 11 | `cover.tex` | **Drafted.** Vertex cover, leaf removal, core percolation; hyperbolic random graphs |
 | 12 | `colouring.tex` | **Drafted.** Proper against hypergraph colouring; `tau = -1/(q-1)` independent of cardinality; `(q-1)^2`; a graph with triangles, where the graph calculation is wrong by one; survey propagation; and **Sec. 12.9, extending Krzakala et al. to chygraphs to get `c_q` for a clustered graph** — the chapter's own result |
 | 13 | `satisfiability.tex` | **Drafted.** Clauses as complexes; `alpha = 1` exact at `k = 2`, no linear instability above it; **clauses whose members are clauses**, and what CNF flattening costs |
-| **IV** | | **Limits** |
-| 14 | `overlap.tex` | **Drafted.** The price of treelikeness; region graphs and GBP; what is open |
+| 14 | `overlap.tex` | **Drafted.** The price of treelikeness; region graphs and GBP; merging the offenders; and **Sec. 14.7, the merge closure terminating on a placed ensemble where it fails on a geometric one at the same clustering** — the chapter's own result; what is open |
 | 15 | `outlook.tex` | **Drafted.** One recursion, many models; the two running threads; what is not done |
 
 **Chapters 12 and 13 have no manuscript behind them.** Every other chapter is
@@ -42,16 +41,16 @@ the references are under `~/Downloads/chygraph_references/`.
 ## Status
 
 Last updated 2026-08-31. `main.pdf` builds with **0 errors, 0 undefined
-references and 0 multiply-defined labels, across 252 pages.** Not box-clean: **one
+references and 0 multiply-defined labels, across 254 pages.** Not box-clean: **one
 overfull hbox** (`cover.tex:239--249`, 1.98pt, "Which replica-symmetry-breaking
 point") and **26 underfull vboxes**, every one of them `while \output is
 active` — page-breaking around floats, not a line that runs into the margin.
-44 figures, 21 numbered tables, 23 calculation boxes, 120 numbered equations of
-which 111 carry labels, 73 references, an 87-term index. All 258 distinct
-`\ref`/`\eqref` targets resolve (1238 occurrences), all 21
-`\includegraphics` files are present with no orphan PDFs in `figs/`, and all
-105 `\code` names in `software.tex` resolve across both repositories.
-Software-table coverage is 82 of the 111 equation labels.
+45 figures, 22 numbered tables, 23 calculation boxes, 120 numbered equations of
+which 111 carry labels, 73 references, an 87-term index. All 261 distinct
+`\ref`/`\eqref` targets resolve, all 22 `\includegraphics` files are present
+with no orphan PDFs in `figs/`, and all 105 `\code` names in `software.tex`
+resolve across both repositories. Software-table coverage is 82 of the 111
+equation labels.
 
 These counts were re-measured on 2026-08-31 and several of them had drifted
 badly from what this section used to claim (228 pages, 0 overfull, 41 figures,
@@ -109,8 +108,13 @@ that mapping does not have to be reconstructed.
   where the packages override it. (The `.toc` *file* always contains every
   section; the filtering happens when the contents is typeset, so do not
   "fix" this by reading `main.toc`.)
-- **Four `\part` divisions.** Not in *Local network growth*, added because
-  thirteen chapters need them.
+- **Three `\part` divisions**, not four. Not in *Local network growth*, added
+  because fifteen chapters need them. Chs. 14 and 15 were briefly a Part IV
+  called "Limitations"; that was removed on 2026-08-31 (author's call). The
+  overlap obstruction is a limit of the machinery Part III builds rather than a
+  separate subject, and the Outlook closes the book rather than a part of it.
+  `main.tex` carries the reason at the point where the `\part` used to be, so
+  do not reinstate it.
 - **Chapter order.** Ch. 3 (data) sits before any machinery so a reader can
   build a chygraph before being asked to solve one. Ch. 6 (epidemics) follows
   percolation because SIR *is* percolation. Ch. 7 (Potts) is the hinge that
@@ -224,7 +228,7 @@ that mapping does not have to be reconstructed.
   a complex may contain complexes. What decides it is cost, and **the merge
   closure is itself a percolation problem** on the graph whose nodes are
   complexes and whose links are shared pairs: affordable exactly while that
-  graph has no giant component. So the feasibility of a Part IV repair is a
+  graph has no giant component. So the feasibility of Ch. 14's repair is a
   Part II calculation. Measured on HRGs at `tau = 2.5`, the largest
   meta-complex is bounded (~5 atoms, flat in `n`) only below `<k> ~ 0.4`, and
   reaches 28% of all vertices at `<k> = 3`. Two details to keep if this is
@@ -291,6 +295,72 @@ that mapping does not have to be reconstructed.
   it at a fixed contact budget of four contacts per person (`T_c` 0.2500 ->
   0.2929, and 5.6% vs 31.4% infected at `T = 0.3`). Same running thread as
   Ch. 3, Sec. 4.5 and Sec. 5.5.
+
+### Sec. 14.7: the merge terminates on a placed ensemble, 2026-08-31
+
+The author objected to Sec. 14.6, and was right. It measured the merge closure
+on hyperbolic random graphs, found it affordable only when very sparse, and then
+generalised: *"This is not special to hyperbolic graphs: clustering is exactly
+what makes cliques share edges, so any ensemble with enough clustering to need
+the repair tends to have enough to make it percolate."* That does not follow from
+one ensemble, and **Ch. 2 already contradicted it** — `chygraphs.tex` says
+triangles placed independently satisfy the treelike condition. The two
+statements sat eleven chapters apart without meeting.
+
+**The ensemble to test it on is Karrer & Newman**, *Phys. Rev. E* **82**, 066118
+(2010), already in the bibliography and already cited in Ch. 2. Motifs are
+placed by matching corners, so clustering is a free parameter and two motifs
+share an edge only by coincidence.
+
+**The measurement.** `shared_2+` is the wrong statistic here, because both
+ensembles have `Theta(n)` intersecting pairs and dividing by that hides the
+effect. Count the offending pairs instead:
+
+| ensemble | C | pairs at n=1000 | at n=8000 | largest meta-complex |
+|---|---|---|---|---|
+| Karrer–Newman, `<k>`=3.0 | 0.25 | 14 | 11 | 7.0 → 6.0 |
+| Karrer–Newman, `<k>`=8.9 | 0.16 | 340 | 351 | 23.7 → 9.0 |
+| hyperbolic, `<k>`=2 | 0.28 | 511 | 5743 | 132 → 743 |
+| hyperbolic, `<k>`=3 | 0.42 | 1563 | 15685 | 290 → 1556 |
+
+**Flat against linear, at matched clustering (0.25 against 0.28), opposite
+verdicts.** The mechanism is one line: two motifs meeting at a vertex share a
+second one with probability `O(1/n)`, there are `O(n)` meeting pairs, so the
+count is `O(1)` — hence `shared_2+ ~ 1/n`, measured slope −0.99.
+
+**The best result is the diamond.** Karrer & Newman's own remedy for triangles
+that share an edge is to place the *diamond* as a subgraph type — which is
+Sec. 14.6's merge, done when the ensemble is written down. Run the closure blind
+on such a graph and it returns the placed diamonds: 78.5% recovered exactly at
+n = 1000, rising to 97.2% at n = 8000, the shortfall being the same O(1) residue
+(~100 elements at every size). The merge inverts the modelling decision rather
+than patching a broken mapping.
+
+**The caveat, stated in the text and in Checks.** The O(1) constant grows with
+density and at `<k>` ≈ 17 the closure percolates at n ≤ 4000 before collapsing to
+19 atoms at 8000 and 13 at 16000. **A measurement at one n decides nothing; the
+slope decides everything.** Also stated: the two ensembles are matched on
+clustering and nothing else, and O(1) is an estimate supported by a flat
+measurement, not a theorem.
+
+**What the chapter now says**, replacing the claim above: the closure terminates
+where the dense elements are *specified* (a modeller's motif set, or data that
+records its groups — Ch. 3's route (a)) and fails where they are *emergent* (a
+geometry producing overlaps at every scale). Clustering is compatible with
+either. Sec. 14.6's verdict is scoped to its ensemble, and the Outlook's version
+was stale for the same reason and is fixed.
+
+**One bug caught before it reached the book.** The first `overlap_stats` counted
+vertex *pairs covered by more than one clique* and divided by *clique* pairs —
+two different denominators, and not Ch. 3's `shared_2+` at all. It now calls
+`chygraph_statmech.region.overlap_profile`, the routine Ch. 3 measures real
+networks with, so the two chapters count the same thing. The HRG numbers moved
+by a factor of three when it was fixed.
+
+New in `figs/merge.py`: `karrer_graph`, `diamond_graph`, `overlap_stats`,
+`check_overlap_is_not_extensive`, `check_diamonds_are_recovered`,
+`figure_motifs`. Runtime is up to about eight minutes; it was already the
+slowest script in the book.
 
 ### Calculation-verification pass, 2026-08-31
 
