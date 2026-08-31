@@ -13,18 +13,10 @@ and for the three chapters that follow. Section~\ref{sec:price} says exactly
 what it is and draws it.
 
 The question the part answers is what a calculation that assumes it away
-actually costs, and whether anything cheap repairs it. Two models carry it.
-Chapters~\ref{ch:overlap} to~\ref{ch:metacomplex} use the Ising model, whose
-couplings are soft and whose partition function is a sum, so that what the
-recursion loses can be attributed to the structure and to nothing else;
-Chapter~\ref{ch:covertriangles} then uses minimum vertex cover, where the
-constraint is hard and the question is not how large the error is but whether an
-exact algorithm finishes at all. The three classes of network are the same
-throughout.
-
-This chapter establishes the failure: it takes the Ising model, solves it on the
-three classes by the cavity method of Sec.~\ref{sec:cavity}, and measures how
-wrong the answer is. Chapter~\ref{ch:gbp} tries the repair the literature already has, and
+actually costs, and whether anything cheap repairs it. This chapter establishes
+the failure: it takes the Ising model, solves it on three classes of network by
+the cavity method of Sec.~\ref{sec:cavity}, and measures how wrong the answer
+is. Chapter~\ref{ch:gbp} tries the repair the literature already has, and
 Chapter~\ref{ch:metacomplex} tries the one the chygraph construction supplies of
 itself. Neither closes the problem, and Sec.~\ref{sec:whatwouldclose} states
 what would.
@@ -318,14 +310,13 @@ because the first is the defect and the second only a proxy for it; the two give
 $+0.65$, $+0.63$, $+0.83$ and $+0.53$, $+0.18$, $+0.68$ respectively.
 
 \checkhead{Partial results}
-Chapters~\ref{ch:overlap} to~\ref{ch:metacomplex} work with the Ising model
-throughout, and do so by choice: one model across three ensembles isolates the
-effect of where the triangles come from, which three models on one ensemble
-would not. The \emph{criterion} of Chapter~\ref{ch:gbp} --- exact when the
-region family is a junction tree --- is a statement about factor coverage and
-holds whatever lives on the edges. Every \emph{magnitude} in those three
-chapters is a magnitude for a pairwise model at two couplings, and none of it
-licenses carrying the numbers to a model with hard constraints, which is why
-Chapter~\ref{ch:covertriangles} measures one rather than assuming. The
-leaf-removal deficit of Sec.~\ref{sec:deficit} is inherited from
-Chapter~\ref{ch:cover} rather than recomputed.
+This part works with the Ising model throughout, and does so by choice: one
+model across three ensembles isolates the effect of where the triangles come
+from, which three models on one ensemble would not. The \emph{criterion} of
+Chapter~\ref{ch:gbp} --- exact when the region family is a junction tree --- is
+a statement about factor coverage and holds whatever lives on the edges. Every
+\emph{magnitude} quoted in Part~IV is a magnitude for a pairwise model at two
+couplings, and nothing measured here licenses carrying those numbers over to a
+model with hard constraints. The leaf-removal deficit of
+Sec.~\ref{sec:deficit} is the one non-Ising quantity in the part, and it is
+inherited from Chapter~\ref{ch:cover} rather than recomputed.
