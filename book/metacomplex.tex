@@ -124,10 +124,97 @@ call the result exact. It is not sufficient, and the reason is the one this part
 opened with, one level higher again.
 
 Pairwise intersections of at most one node do not make the incidence structure a
-tree. Three complexes can meet in three different single nodes and close a cycle
-complex--node--complex--node--complex--node, and the chygraph recursion is a
-Bethe calculation on that structure. Where the cycle survives the merge, so does
-an error. Table~\ref{tab:mergeerr} measures it on the same instances as before.
+tree. Three or more complexes can meet in as many different single nodes and
+close a cycle complex--node--complex--node--complex--node, and the chygraph
+recursion is a Bethe calculation on that structure. Where such a cycle survives
+the merge, so does an error.
+
+The smallest example needs no merging at all, and is worth seeing before the
+measurement (Fig.~\ref{fig:ring}). Glue $k$ triangles in a ring, each meeting
+the next at one vertex. Every pair of complexes shares exactly one node, so the
+condition of Sec.~\ref{sec:treelike} is satisfied --- and the incidence
+structure is a ring of $2k$ steps, not a forest.
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}[scale=1.0]
+% four triangles glued in a ring at single vertices.  The complexes are drawn as
+% filled triangles rather than fitted boxes: axis-aligned boxes round a ring
+% overlap into one square and hide the very structure the figure is about.
+\def\R{1.75}
+\foreach \i in {0,1,2,3}{
+  \pgfmathsetmacro{\ang}{90*\i}
+  \node[nd] (h\i) at ({\R*cos(\ang)},{\R*sin(\ang)}) {};
+  \pgfmathsetmacro{\anga}{90*\i+45}
+  \node[nd] (t\i) at ({1.70*\R*cos(\anga)},{1.70*\R*sin(\anga)}) {};
+}
+\begin{scope}[on background layer]
+  \foreach \i/\j in {0/1,1/2,2/3,3/0}{
+    \fill[black!8,draw=black!40,line width=7pt,line join=round]
+      (h\i.center)--(t\i.center)--(h\j.center)--cycle;
+  }
+\end{scope}
+\foreach \i/\j in {0/1,1/2,2/3,3/0}{
+  \draw[lnk] (h\i)--(h\j) (h\i)--(t\i) (t\i)--(h\j);
+}
+\foreach \i in {0,1,2,3}{
+  \pgfmathsetmacro{\anga}{90*\i+45}
+  \node[lb,black!55] at ({1.16*\R*cos(\anga)},{1.16*\R*sin(\anga)})
+    {$A_{\i}$};
+}
+\node[lb,anchor=north,align=center] at (0,-3.35)
+  {four complexes, every pair\\meeting in at most one node};
+
+% the incidence structure beside it
+\begin{scope}[xshift=6.4cm]
+  \foreach \i in {0,1,2,3}{
+    \pgfmathsetmacro{\ang}{90*\i+45}
+    \node[cpx] (c\i) at ({1.15*cos(\ang)},{1.15*sin(\ang)}) {};
+    \pgfmathsetmacro{\angh}{90*\i}
+    \node[atm] (a\i) at ({1.15*cos(\angh)},{1.15*sin(\angh)}) {};
+  }
+  \draw[lnk,line width=1.0pt] (c0)--(a1) (a1)--(c1) (c1)--(a2) (a2)--(c2)
+                              (c2)--(a3) (a3)--(c3) (c3)--(a0) (a0)--(c0);
+  \node[lb,anchor=north,align=center] at (0,-3.35)
+    {the incidence structure: a cycle\\of eight steps, not a forest};
+\end{scope}
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{The pairwise condition is not sufficient.} Left: four triangles
+glued in a ring, each meeting the next at a single vertex. No two complexes
+share two atoms, so Sec.~\ref{sec:treelike}'s test passes. Right: the atom
+--complex incidence structure of the same object, which is a cycle. The loop
+was never absorbed into any complex; it runs between them, and merging cannot
+reach it because merging removes only a loop that lies inside a shared
+\emph{pair} of atoms. Table~\ref{tab:ring} is what the recursion then does.}
+\label{fig:ring}
+\end{figure}
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{rrccrr}
+\hline\hline
+$k$ & $n$ & pairwise test & incidence a forest &
+  $\beta J=0.3$ & $\beta J=0.8$\\
+\hline
+$4$ & $8$ & passes & no & $-0.0180$ & $-0.4277$\\
+$5$ & $10$ & passes & no & $-0.0066$ & $-0.3758$\\
+$6$ & $12$ & passes & no & $-0.0024$ & $-0.3292$\\
+$8$ & $16$ & passes & no & $-0.0003$ & $-0.2506$\\
+\hline\hline
+\end{tabular}
+\caption{\textbf{Error of the cavity method on a ring of $k$ triangles.} Each
+satisfies Sec.~\ref{sec:treelike}'s condition exactly and none is exact. The
+error falls as the ring lengthens, which is what makes this a short-loop effect
+rather than a defect of the scheme: the correlation that has to travel the whole
+way round weakens with the distance. Computed in
+\code{figs/overlap.py:check\_ring}.}
+\label{tab:ring}
+\end{table}
+
+Table~\ref{tab:mergeerr} measures the same thing on the merged families of the
+three classes.
 
 \begin{table}[t]
 \centering\small
@@ -172,16 +259,22 @@ $\ln Z$ with a median of $0.18$. Not one instance falls on the wrong side. The
 condition for the meta-complex chygraph to be exact is that the merged incidence
 structure is a forest, and merging to a treelike family does not deliver it.
 
-The classes divide sharply, and not as the rest of the chapter would predict. On
-hyperbolic random graphs and on real neighbourhoods the merge closure is exact
-everywhere --- but largely because it has swallowed the instance whole
-(Table~\ref{tab:vs}), and a single complex has no incidence structure left to
-close a cycle in. On the Karrer--Newman ensemble, where the closure is
-\emph{affordable}, only a third of the merged families are acyclic and two
-thirds of the runs carry an error. The ensemble on which merging is cheap is the
-ensemble on which it is wrong, and for the same reason: it leaves many small
-meta-complexes rather than one large one, and many small complexes are what
-closes a cycle.
+The classes divide sharply. On hyperbolic random graphs and on real
+neighbourhoods the merge closure is exact everywhere --- largely because it has
+swallowed the instance whole (Table~\ref{tab:vs}), and a single complex has no
+incidence structure left to close a cycle in. On the Karrer--Newman ensemble
+only a third of the merged families are acyclic, and the other two thirds keep
+an error.
+
+That is not merging failing where the plain calculation would have done better.
+Merging is a generalisation of it --- with nothing to merge the two coincide ---
+and on these instances it takes the median error from $0.289$ to $0.033$. It
+improves the answer by a factor of ten and stops short of exactness, because the
+loops it leaves are the ones of Fig.~\ref{fig:ring}: running between complexes
+rather than inside a shared pair of atoms, where merging has no purchase. The
+ensemble on which the closure is cheap is the ensemble on which it leaves those
+loops, and for one reason --- it leaves many small meta-complexes rather than
+one large one, and many small complexes are what closes a cycle.
 
 Figure~\ref{fig:mergeerror} makes the mechanism visible. A cycle needs at least
 three complexes meeting in at least three distinct single nodes, so a closure
@@ -547,59 +640,84 @@ the message.
 \section{Conclusions}
 \label{sec:part4-conclusions}
 
-The part asked what happens when complexes share more than one node. Five
-things are now measured rather than assumed.
+\paragraph{On real networks the repair works.} That is the result to take from
+the part, and it is the case the book is about. Chapter~\ref{ch:overlap}
+measured the cavity method erring by a median of $5.06$ in $\ln Z$ on the $120$
+real neighbourhoods --- a factor of $150$ in $Z$ --- because their complexes
+share more than one atom. Merging those complexes and solving the resulting
+chygraph removes the error entirely: all $120$ come out exact, the worst
+discrepancy being $3\times10^{-13}$, which is the arithmetic and not the
+approximation. The same holds on all $60$ hyperbolic instances. Two of the three
+classes are repaired completely by a construction the chygraph already
+contained.
 
-\paragraph{The cavity method fails, and by how much.} Run to a fixed point on
-the clique chygraph of each of the three classes, its error in $\ln Z$ has a
-median of $2.7$, $0.3$ and $5.1$ --- a median of five being a factor of $150$ in
-$Z$. It is one-signed, it grows with the coupling, and its logarithm correlates
-with the fraction of complex pairs sharing two atoms. The cause is identified
-rather than inferred: the rewired control of Sec.~\ref{sec:deficit} holds the
-clique ensemble fixed and changes only the arrangement, and the prediction
-agrees with it to $10^{-3}$, so what remains against the real graph is overlap
-and nothing else.
+\paragraph{And it works for a reason that can be stated.} The chygraph recursion
+is exact when the incidence structure of its complexes is a forest. Merging does
+not guarantee that --- it removes pairwise overlap, and three complexes can
+still close a cycle through three single nodes --- but on real neighbourhoods it
+delivers it every time, because the closure there merges nearly everything into
+one to three large complexes and a large complex absorbs the loops into an
+interior that is then summed exactly. Over all $240$ runs the criterion is
+exact in both directions: every one of the $200$ acyclic families is exact,
+every one of the $40$ cyclic ones is not, by $5\times10^{-3}$ to $2.25$ in
+$\ln Z$. Nothing falls on the wrong side.
 
-\paragraph{There is an exact criterion for when it does not fail.} The error
-vanishes when the closed complex family is a junction tree, which for maximal
-cliques means the graph is chordal. This is not a heuristic: $98$ chordal runs
-across the three classes come out exact to $3\times10^{-12}$.
+\paragraph{On the third class it helps without finishing the job.} Merging is a
+generalisation of the plain clique calculation, not an alternative to it: where
+no two complexes share two atoms the closure does nothing and the two coincide.
+So it cannot fail where the clique calculation succeeds, and on the
+Karrer--Newman instances it does not fail --- it takes the median error from
+$0.289$ to $0.033$, a factor of ten. What it does not do there is reach
+exactness, and Fig.~\ref{fig:ring} is why.
 
-\paragraph{Which networks satisfy it is decided by provenance.} Among real
-neighbourhoods, $21$ of $30$ are chordal where the data records the groups its
-cliques are made of and $7$ of $30$ where the cliques must be inferred from
-dyads --- with the clustering coefficients and the neighbourhood densities of
-the two families overlapping. Where the complexes are given, the chygraph
-mapping is close to exact for free; where they are reconstructed, it is not.
+That ensemble is built from two independent matchings: triangles, placed by
+matching corners in triples, and single edges, placed by matching stubs in
+pairs. Two placed triangles share an edge only when their remaining corners
+coincide, probability $O(1/n)$, so there is very little pairwise overlap --- and
+very little for the closure to remove. It returns seven meta-complexes where the
+other two classes leave two or three, about four of them bare single edges; not
+one bare edge in the sample comes from a placed triangle, whose three edges
+always lie inside it. Those stubs form a sparse random graph carrying its own
+loops, and the loops run \emph{between} complexes --- triangle, node, stub,
+node, triangle --- exactly as in Fig.~\ref{fig:ring}. Merging removes a loop only
+when it lies inside a shared pair of atoms, so it cannot reach these. The
+construction that gives the ensemble its small pairwise overlap is the one that
+leaves its loops where merging cannot go, and cycles appear as soon as the
+closure leaves four meta-complexes.
 
-\paragraph{Merging is not exact merely because it terminates.} It removes every
-pairwise violation by construction, but the chygraph recursion needs an acyclic
-incidence structure and three meta-complexes can still close a cycle through
-three single nodes. Over $240$ runs the correspondence is exact in both
-directions: all $200$ acyclic families are exact to $5\times10^{-13}$, all $40$
-cyclic ones are wrong by up to $2.25$ in $\ln Z$. The classes divide against
-expectation --- merging is exact on the hyperbolic and real instances largely
-because it has swallowed them whole, and carries an error on two thirds of the
-placed instances, which are the ones where it is cheap.
+One consequence should be recorded rather than smoothed over. Because the Bethe
+free energy is not variationally bounded, a generalisation need not improve
+every instance: over the $240$ runs merging improved $224$ and made $16$ worse,
+all sixteen Karrer--Newman and all with a cyclic incidence structure, typically
+by a factor between $1.2$ and $2.5$. Absorbing some of the loops into interiors
+moves a loopy fixed point, and the direction is not guaranteed.
 
-\paragraph{Both repairs are instance-level, and they fail together.} The
-messages are the cheaper of the two by five to thirteen orders of magnitude in
-table size, and they reach further. On every hyperbolic instance where they
-reach no sound fixed point, and on $27$ of $34$ real ones, the merge closure
-swallows the whole graph. The two are not complementary: the same tangled
-overlap defeats both. What merging has instead is a condition that is structural
-and checkable in advance rather than an iteration that may or may not converge,
-and the fact that a merged complex is still a complex --- the repair does not
-leave the formalism, and a merged chygraph is an object this book knows how to
-treat as an ensemble.
+\paragraph{What it costs, and where that bites.} The repair is exact where the
+incidence structure is a forest, but $2^{c}$ on the largest meta-complex. On
+neighbourhoods of twenty vertices that is affordable by construction. On whole
+real networks it is not: Table~\ref{tab:mergereal} finds a closure that
+terminates on none of the six, the smallest meta-complex any of them admits
+being $53$ atoms. So the repair is exact and available locally, and the question
+it leaves is not accuracy but reach.
 
-\paragraph{And that is where it stops.} The chygraph is exact when complexes
-meet in at most one node; on the networks that motivated it they do not, and it
-recovers most but not all of the answer. The shortfall is measured, its cause is
-isolated by a control, the condition for exactness is stated, and two repairs
-are priced on one network at a time. The ensemble version --- a message indexed
-by region type, over a region graph that is itself a random object --- is open,
-and Sec.~\ref{sec:whatwouldclose} is as precisely as this book can state it.
+\paragraph{The calculation is one routine.} Both the failure of
+Chapter~\ref{ch:overlap} and the repair here are computed by the same solver,
+\code{ChygraphBP} in \code{probe/cavity\_clique.py}: belief propagation on the
+atom--complex incidence structure, each complex summing its own interior over
+the bonds that lie inside it, with $\ln Z$ read off the Bethe free energy in its
+explicit form. Chapter~\ref{ch:overlap} runs it on the maximal cliques and
+Sec.~\ref{sec:mergeerror}, through \code{probe/merge\_lnz.py}, runs it on the
+merged family. Nothing else changes between the two numbers, which is what makes
+them comparable. The solver is checked against exact enumeration on chygraphs
+where the assumption holds --- chains, stars, trees of triangles --- and
+reproduces them to $2\times10^{-15}$.
+
+\paragraph{What remains open.} All of this is instance-level. It takes an
+explicit list of complexes and an explicit interaction, where every other
+calculation in the book carries a message per chy-degree class. The ensemble
+version --- a message indexed by region type, over a region graph that is itself
+a random object --- is not supplied here, and Sec.~\ref{sec:whatwouldclose}
+states as precisely as this book can what it would take.
 
 
 \section{Checks}

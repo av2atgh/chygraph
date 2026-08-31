@@ -703,6 +703,19 @@ first complex through one shared atom, cross the second complex, and come back
 through the other. Over complexes, that is a loop of length two, and the
 recursion will double-count it.
 
+\paragraph{The pairwise test is necessary and not sufficient.} It is convenient
+to read the condition as the single question ``do two complexes ever share two
+atoms?'', and that is how the rest of this book applies it. On an ensemble the
+reading is safe: the random chygraphs of Part~II are locally treelike in the
+full sense, and a loop of any length is a rare event. On a \emph{given} network
+it is not. A loop can run through three or more complexes, each meeting the next
+in a single atom and no pair sharing two, so that the pairwise question is
+answered ``no'' and the structure over complexes still closes on itself. Four
+triangles glued in a ring at single vertices do exactly that, and the recursion
+is wrong on them; Section~\ref{sec:mergeerror} draws the object and prices the
+error. What the recursion needs is that the incidence structure be a forest, of
+which sharing at most one atom is a consequence rather than a guarantee.
+
 \begin{figure}[t]
 \centering
 \begin{adjustbox}{max width=0.94\linewidth}

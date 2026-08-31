@@ -30,6 +30,8 @@ sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech' / 'probe'))
 
 from merge import merge_closure  # noqa: E402
 
+from cavity_clique import ChygraphBP  # noqa: E402  the Ch. 14 solver
+
 from chygraph_statmech.gbp import (GBP, exact_log_Z, ising_factors,  # noqa: E402
                                    static_log_Z)
 from chygraph_statmech.region import RegionGraph, overlap_profile  # noqa: E402
@@ -71,16 +73,16 @@ def solve(G, n, bJ):
         'acyclic': bool(incidence_acyclic(merged)),
         'exact': exact,
     }
-    # the static chygraph answer on the merged family
+    # the static chygraph answer on the merged family, for reference
     out['bethe'] = static_log_Z(rg.bethe_counting(), f) - exact
-    # and with the messages run on it
-    if rg.counting_is_valid():
-        g = GBP(rg, f, damping=0.5).run(8000)
-        out['gbp'] = g.log_Z() - exact
-        out['residual'] = g.residual
-    else:
-        out['gbp'] = None
-        out['residual'] = None
+    # and the calculation itself: the same cavity recursion Ch. 14 runs, on the
+    # merged family instead of the raw cliques.  The bond set has to be passed
+    # -- a meta-complex is a union of cliques, not a clique, so not every pair
+    # inside it is a bond.
+    bp = ChygraphBP([sorted(c) for c in merged], bJ, damping=0.5,
+                    edges=edges).run()
+    out['gbp'] = bp.log_Z() - exact
+    out['residual'] = bp.residual
     return out
 
 

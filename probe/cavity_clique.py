@@ -58,8 +58,14 @@ def _norm(v):
 class ChygraphBP:
     """Belief propagation on the atom--complex incidence structure."""
 
-    def __init__(self, complexes, bJ, damping=0.5):
+    def __init__(self, complexes, bJ, damping=0.5, edges=None):
+        """`edges` is the bond set; without it every pair inside a complex is
+        taken to be one, which holds for maximal cliques and fails for anything
+        built out of them -- a merged meta-complex is a union of cliques, not a
+        clique, and assuming otherwise invents bonds that are not there."""
         self.A = [tuple(sorted(c)) for c in complexes]
+        self.bonds = None if edges is None else {
+            tuple(sorted(e)) for e in edges}
         self.bJ = float(bJ)
         self.damping = float(damping)
         self.nodes = sorted({v for c in self.A for v in c})
@@ -72,13 +78,18 @@ class ChygraphBP:
         self.residual = np.inf
 
     def _factor(self, c):
-        """exp(bJ sum_{pairs inside c} s_i s_j) as a log-table over 2^|c|."""
+        """exp(bJ sum_{bonds inside c} s_i s_j) as a log-table over 2^|c|.
+
+        A bond lying inside two complexes is summed by both.  That is the
+        double count the chapter is about, and it is deliberate here.
+        """
         n = len(c)
         s = np.array([[1 if (i >> b) & 1 == 0 else -1 for b in range(n)]
                       for i in range(2 ** n)], dtype=float)
         e = np.zeros(2 ** n)
         for p, q in combinations(range(n), 2):
-            e += s[:, p] * s[:, q]
+            if self.bonds is None or (c[p], c[q]) in self.bonds:
+                e += s[:, p] * s[:, q]
         return (self.bJ * e).reshape((2,) * n)
 
     def _sweep(self):
@@ -155,7 +166,7 @@ def solve(G, n, bJ):
             cov[e] = cov.get(e, 0) + 1
     best = None
     for d in DAMPING:
-        bp = ChygraphBP(cx, bJ, damping=d).run()
+        bp = ChygraphBP(cx, bJ, damping=d, edges=edges).run()
         if best is None or bp.residual < best.residual:
             best = bp
         if bp.residual < TOL:

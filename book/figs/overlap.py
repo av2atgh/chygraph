@@ -403,6 +403,67 @@ def figure_cavity():
     print(f'  wrote {OUT / "fig-cavity.pdf"}')
 
 
+# ------------------------------- (2c-bis) the pairwise condition is not enough
+def ring_of_triangles(k):
+    """k triangles glued in a ring, each meeting the next at a single vertex."""
+    import networkx as nx
+    G = nx.Graph()
+    hub = [3 * i for i in range(k)]
+    for i in range(k):
+        a, b, c = hub[i], 3 * i + 1, hub[(i + 1) % k]
+        G.add_edges_from([(a, b), (b, c), (a, c)])
+    return nx.convert_node_labels_to_integers(G)
+
+
+def check_ring():
+    """Pairwise-treelike, cyclic incidence, and not exact.
+
+    Section 2.9 states the condition as: no two complexes share two atoms.  That
+    is necessary and not sufficient.  A loop can run through three or more
+    complexes each meeting the next in a single node, and the recursion is then
+    wrong while the pairwise test passes.
+    """
+    import sys
+    from itertools import combinations
+    import networkx as nx
+    sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech'
+                           / 'probe'))
+    from cavity_clique import ChygraphBP
+    from chygraph_statmech.gbp import exact_log_Z, ising_factors
+
+    print('  rings of triangles glued at single vertices:')
+    print(f'    {"k":>3}{"n":>4}{"pairwise":>10}{"forest":>8}'
+          f'{"bJ=0.3":>11}{"bJ=0.8":>11}')
+    rows = []
+    for k in (4, 5, 6, 8):
+        G = ring_of_triangles(k)
+        n = G.number_of_nodes()
+        cx = [sorted(c) for c in nx.find_cliques(G)]
+        pw = all(len(set(a) & set(b)) <= 1 for a, b in combinations(cx, 2))
+        B = nx.Graph()
+        for i, c in enumerate(cx):
+            for v in c:
+                B.add_edge(('c', i), ('v', v))
+        forest = nx.is_forest(B)
+        edges = sorted({tuple(sorted(e)) for e in G.edges()})
+        errs = []
+        for bJ in (0.3, 0.8):
+            ex = exact_log_Z(ising_factors(edges, bJ), range(n))
+            errs.append(ChygraphBP(cx, bJ, damping=0.5,
+                                   edges=edges).run().log_Z() - ex)
+        rows.append((k, n, pw, forest, errs))
+        print(f'    {k:>3}{n:>4}{str(pw):>10}{str(forest):>8}'
+              f'{errs[0]:>+11.4f}{errs[1]:>+11.4f}')
+        assert pw and not forest, k
+        assert abs(errs[0]) > 1e-4 and abs(errs[1]) > 1e-2, k
+    print('    every one passes the pairwise test of Sec. 2.9 and none is a')
+    print('    forest, and the recursion is wrong on all of them: the pairwise')
+    print('    condition is necessary and not sufficient')
+    print('    the error decays as the ring lengthens -- it is a short-loop'
+          ' effect')
+    return rows
+
+
 # ------------------------------------- (2d) the meta-complex error, Ch. 16
 def _mergelnz():
     f = PROBE / 'merge_lnz.json'
@@ -507,6 +568,8 @@ if __name__ == '__main__':
     check_gbp_instances()
     print('real clustered neighbourhoods:')
     check_gbp_real()
+    print('the pairwise condition is not sufficient:')
+    check_ring()
     print('the merged chygraph, and what it gets wrong:')
     check_merge_error()
     print('when the clique ensemble exists:')
