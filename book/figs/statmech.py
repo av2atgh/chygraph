@@ -112,7 +112,7 @@ def check_links_triangles(kL=4.0, kT=2.0):
         uL, uT = g.u_prime(0, bJ), g.u_prime(1, bJ)
         cross = (g.k[0] * g.k[1] - g.kbar[0] * g.kbar[1])
         det = np.linalg.det(np.eye(2) - B)
-        # Eq. (8.9) written out
+        # Eq. (8.11) written out
         closed = (1 - g.kbar[0] * uL - 2 * g.kbar[1] * uT
                   - 2 * uL * uT * cross)
         assert abs(det) < 1e-10 and abs(closed) < 1e-9, (det, closed)

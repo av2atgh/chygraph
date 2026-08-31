@@ -11,7 +11,7 @@ derived by hand, and the two are required to agree.
                   cardinality two and violently different above it.
 
 The survey-propagation section goes one level up, to 1RSB at m = 0, and reaches
-the colourability threshold that Sec. 12.4's stability line is not: the
+the colourability threshold that Sec. 12.3's stability line is not: the
 complexity vanishes at Mulet's c_q for q = 3, 4 and 5, and the density at which
 the surveys stop being trivial is his c_d. Both columns of Table 12.1 out of one
 population, neither used in getting there.
@@ -23,7 +23,7 @@ Benchmarks, from `~/Downloads/chygraph_references/`:
     -- survey propagation for colouring; the update below is its m = 0 form
   Gabrie, Dani, Semerjian & Zdeborova, J. Phys. A 50, 505002 (2017), Table 1
     -- q-colouring of K-uniform hypergraphs; its Eq. (43) is the stability
-    threshold this chapter derives, and its l_col benchmarks Sec. 12.7
+    threshold this chapter derives, and its l_col benchmarks Sec. 12.8
 """
 
 import itertools
@@ -230,7 +230,7 @@ def triangle_family(q, f, regular=True):
 
     Two regular layers at fixed degree ``n``: links of chy-degree ``a``,
     triangles of chy-degree ``b``, ``n = a + 2b``, and ``f = 2b/n`` the fraction
-    of degree carried by triangles. Eq. (8.9) with ``u' -> tau^2``, and tau the
+    of degree carried by triangles. Eq. (8.11) with ``u' -> tau^2``, and tau the
     same for both layers because it does not depend on cardinality:
 
         s[(a-1) + 2(b-1)] + 2 s^2 [ab - (a-1)(b-1)] = 1,   s = 1/(q-1)^2
@@ -279,8 +279,8 @@ def check_triangles_at_fixed_degree():
 # survey propagation
 # ---------------------------------------------------------------------------
 #
-# Sec. 12.4's threshold is where the replica-symmetric solution loses local
-# stability, and Sec. 12.5 says at length that this is not the colourability
+# Sec. 12.3's threshold is where the replica-symmetric solution loses local
+# stability, and Sec. 12.6 says at length that this is not the colourability
 # threshold. Reaching that threshold needs one step of replica symmetry
 # breaking, which is what follows: survey propagation at m = 0, with the
 # complexity Sigma counting clusters and Sigma = 0 locating c_q.
@@ -374,7 +374,7 @@ def check_survey_thresholds():
         print(f'  {q:>4}   {m:>7.3f}({sd:.3f})   {c_q:>15.2f}'
               f'   {100 * (m - c_q) / c_q:>+5.1f}%')
     print('    Three thresholds from one calculation, none of them used in')
-    print('    getting there. This is the line Sec. 12.4 is not: the stability')
+    print('    getting there. This is the line Sec. 12.3 is not: the stability')
     print('    threshold sits at 4, 9, 16 for these q, above c_q from q = 4 on.')
 
 
@@ -402,7 +402,7 @@ def check_survey_branch_is_clustering():
 # survey propagation above cardinality two
 # ---------------------------------------------------------------------------
 #
-# Sec. 12.7. Everything turns on how many colours ONE complex can forbid at
+# Sec. 12.8. Everything turns on how many colours ONE complex can forbid at
 # once.
 #
 #   hypergraph rule: at most ONE -- a complex is violated only when all its
@@ -496,10 +496,10 @@ def check_hypergraph_thresholds():
 
 
 # ---------------------------------------------------------------------------
-# set-valued survey propagation: Sec. 12.8
+# set-valued survey propagation: Sec. 12.9
 # ---------------------------------------------------------------------------
 #
-# Sec. 12.7's substitution reaches the hypergraph rule and not the proper one,
+# Sec. 12.8's substitution reaches the hypergraph rule and not the proper one,
 # because a complex of cardinality c can close up to c-1 colours at once. This
 # carries the survey as a SET and does the proper rule at c = 3.
 #
@@ -668,10 +668,12 @@ def check_setvalued_gates():
 
 
 def check_window_closes():
-    """Sec. 12.8: on triangles the proper rule leaves no window for m = 0.
+    """Sec. 12.9: on triangles the proper rule leaves no window for m = 0.
 
-    A threshold needs a range where a non-trivial survey exists AND Sigma is
-    still positive. The graph has one; the triangle network does not.
+    A crossing needs a range where a non-trivial survey exists AND Sigma is
+    still positive. The graph has one; the triangle network does not. Losing it
+    costs the lower side of the bracket, not the threshold: Sigma < 0 wherever
+    a solution exists still says the colourings are gone by the lift-off.
     """
     print('       q   c   branch at (degree)   best Sigma above it')
     for q in (3, 4):
@@ -693,17 +695,27 @@ def check_window_closes():
     print('    negative -- fewer than one cluster -- and never return. Same')
     print('    machinery, same q, same cardinality as the hypergraph gate')
     print('    above, which does have a window. So this is the constraint and')
-    print('    not the cardinality, and it says m = 0 cannot locate the')
-    print('    threshold, not that there is none.')
+    print('    not the cardinality. With no crossing to bisect, m = 0 cannot')
+    print('    BRACKET c_q on triangles the way it does on a graph. What it')
+    print('    still gives is a bound from above: Sigma < 0 wherever a solution')
+    print('    exists, so the colourings are gone by the lift-off. That bound is')
+    print('    what clustered_cq reports, and it is all the comparison with the')
+    print('    graph needs.')
 
 
-def _sv_onset(q, c, lo, hi, iters=14):
+def _sv_onset(q, c, lo, hi, iters=14, seed=0):
     """Smallest chy-degree carrying a non-trivial survey. The branch appears
     discontinuously in every case, so this is a fold and bisection on it is
-    the only reliable way to find the window's left edge."""
+    the only reliable way to find the window's left edge.
+
+    A fold is located worse than a crossing, and the population is what limits
+    it, not the bisection: past about a dozen halvings the bracket is finer
+    than the seed-to-seed spread and the extra digits are noise. Hence the
+    seed argument -- the spread over seeds is the honest error bar.
+    """
     for _ in range(iters):
         mid = 0.5 * (lo + hi)
-        if _sv_run(q, c, mid)[0][:, 1].mean() > 1e-4:
+        if _sv_run(q, c, mid, seed=seed)[0][:, 1].mean() > 1e-4:
             hi = mid
         else:
             lo = mid
@@ -723,48 +735,77 @@ def _sv_bisect(q, c, lo, hi, rule, iters=9):
     return 0.5 * (lo + hi)
 
 
-# Mulet's colourability thresholds, the graph column of Table 12.5.
+# Mulet's colourability thresholds, the graph column of Table 12.4.
 MULET_CQ = {3: 4.69, 4: 8.90, 5: 13.69}
 
 
-def clustered_cq(q, lo=1.2, hi=4.5, iters=18):
+def clustered_cq(q, lo=1.2, hi=4.5, iters=12, seed=0):
     """Degree at which a triangle-clustered graph stops being q-colourable.
 
     Sigma(y=inf) is the complexity of ZERO-ENERGY clusters -- Krzakala, Pagnani
-    & Weigt Eq. (20), which Eq. (12.6) reproduces term for term. Negative means
+    & Weigt Eq. (20), which Eq. (12.8) reproduces term for term. Negative means
     none exist. On a graph the sequence is: trivial survey, then a branch with
     Sigma > 0, then Sigma crossing zero at c_q. On triangles the middle step is
     missing -- the branch arrives with Sigma already negative -- so the
-    colourable phase is exactly where the survey is still trivial, and c_q is
-    where the branch appears. Degree is 2*kappa.
+    colourings are gone by the lift-off and this RETURNS AN UPPER BOUND on c_q,
+    not c_q itself.
+
+    The asymmetry is worth being explicit about, because it is not visible in
+    the return value. Above the lift-off a solution exists and its Sigma is
+    computed, and it is negative. Below it the only solution is the trivial one,
+    where _sv_sigma returns 0.0 by construction rather than counting anything --
+    the replica-symmetric default, one cluster because nothing has shattered.
+    So the upper end is a result and the lower end is an assumption, and the
+    bound is tight only if the shattered phase has zero width rather than a
+    width this population cannot resolve. Degree is 2*kappa.
     """
-    return 2.0 * _sv_onset(q, 3, lo, hi, iters=iters)
+    return 2.0 * _sv_onset(q, 3, lo, hi, iters=iters, seed=seed)
 
 
 def check_clustered_cq():
-    """Sec. 12.10: c_q for triangles, against the graph, and against the RS line."""
-    print('     q   graph c_q   triangles c_q   change    RS line: graph -> tri')
+    """Sec. 12.9: c_q for triangles, against the graph, and against the RS line.
+
+    clustered_cq bounds c_q from above, so every comparison below is an
+    inequality -- which is the form the conclusion needs anyway.
+    """
+    print('     q   graph c_q   triangles c_q <=   change   RS line, Poisson'
+          '   RS line, regular')
+    # The triangle threshold is a FOLD, not a crossing: the branch lifts off
+    # with Sigma already negative, so there is nothing to bisect Sigma on and
+    # the population sets the precision. Three seeds, and the table quotes the
+    # spread. Note what that spread is and is not: it is scatter, and it is
+    # small, but check_survey_branch_is_clustering finds the OTHER fold in this
+    # chapter -- c_d -- sitting a per cent to three off the published value with
+    # a spread no larger. A fold carries a bias the seeds do not see.
     for q in (3, 4):
         cq = MULET_CQ[q]
-        tri = clustered_cq(q)
-        rs_g, rs_t = (q - 1) ** 2 + 1, (q - 1) ** 2 + 2
-        # the colourable phase must end below the RS stability line, as on a graph
-        assert tri < rs_t, (q, tri, rs_t)
-        # and triangles must be HARDER, which is the direction the RS line denies
+        r = [clustered_cq(q, seed=sd) for sd in (0, 1, 2)]
+        tri, sd_tri = float(np.mean(r)), float(np.std(r))
+        # Sec. 12.5: Poisson layers carry no excess-degree correction, so both
+        # routes give (q-1)^2; only a regular ensemble separates them.
+        rs_p = (q - 1) ** 2
+        rs_g, rs_t = rs_p + 1, rs_p + 2
+        # c_q is computed in the POISSON ensemble, so that is the RS line it
+        # has to be set beside: the colourable phase must end below it.
+        assert tri < rs_p, (q, tri, rs_p)
+        # and triangles must be HARDER, which is what neither RS line reports
         assert tri < cq, (q, tri, cq)
-        print(f'  {q:>4}   {cq:>9.2f}   {tri:>13.3f}   {100*(tri-cq)/cq:>+6.1f}%'
-              f'    {rs_g:>6} -> {rs_t}')
-    print('    The two lines move in OPPOSITE directions. Promoting links into')
-    print('    triangles at fixed degree raises the replica-symmetric stability')
-    print('    line and lowers the density at which colourings actually run out.')
-    print('    On a graph the two sit within six per cent of each other, so one')
-    print('    proxies the other; on triangles c_q is half the RS line, and')
-    print('    taking the RS line as a proxy gets the SIGN of the clustering')
-    print('    effect wrong.')
+        print(f'  {q:>4}   {cq:>9.2f}   {tri:>9.3f}({sd_tri:.3f})'
+              f'   {100*(tri-cq)/cq:>+6.1f}%'
+              f'    {rs_p:>7} -> {rs_p}   {rs_g:>7} -> {rs_t}')
+    print('    The RS line does not track c_q in EITHER ensemble. Promoting')
+    print('    links into triangles at fixed degree lowers the density at which')
+    print('    colourings actually run out, by AT LEAST a third. In the Poisson')
+    print('    ensemble the RS line does not move at all; in a regular one it')
+    print('    moves the other way. On a graph the two at least land near one')
+    print('    another -- 4 against 4.69, 9 against 8.90 -- which is why the RS')
+    print('    line gets used as a rough locator at all. On triangles the proxy')
+    print('    reports either no effect or the wrong SIGN, depending on which')
+    print('    ensemble it is taken in.')
 
 
 def figure_threshold():
-    """Sec. 12.10: how the threshold is located, and why triangles differ.
+    """Sec. 12.9: how the threshold is located, and why triangles differ.
 
     Left, a graph: the survey is trivial and Sigma is zero until the branch
     lifts off, Sigma is POSITIVE over an arc, and the arc falls through zero at
