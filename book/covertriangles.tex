@@ -1,0 +1,274 @@
+\chapter{Vertex covering in graphs with overlapping triangles}
+\label{ch:covertriangles}
+
+Chapters~\ref{ch:overlap} to~\ref{ch:metacomplex} measured one model on three
+classes of network. The model was the Ising model, chosen because its couplings
+are soft and its partition function is a sum rather than a search, so that what
+the messages lose could be attributed to the structure and to nothing else.
+
+This chapter asks whether the meta-complex repair survives a harder model. The
+minimum vertex cover of Chapter~\ref{ch:cover} is a constraint problem: an
+assignment is admissible or it is not, and a message carrying a forbidden value
+carries a zero rather than a small number. Hard constraints are where message
+passing is usually more fragile, not less, so the repair earning its exactness
+here would say more than it did on a pairwise model.
+
+\section{The model on a chygraph}
+\label{sec:covermodel}
+
+Put $x_{v}=1$ when atom $v$ is in the cover. Every bond must be covered, so a
+complex carries the indicator that no bond lying inside it has both ends free,
+\begin{equation}
+  f_{A}(x_{A})=\prod_{\{i,j\}\subset A,\ \{i,j\}\in E}
+    \bigl[1-(1-x_{i})(1-x_{j})\bigr],
+  \label{eq:covercomplex}
+\end{equation}
+and a chemical potential $\mu$ is attached to each atom, $f_{v}(x_{v})
+=e^{-\mu x_{v}}$, so that a large $\mu$ drives the cover to its minimum.
+
+Two readings of Eq.~\eqref{eq:covercomplex} matter. On a clique it is
+Sec.~\ref{sec:twoconstraints}'s statement that at most one member may be left
+out, since any two members are adjacent. On a \emph{merged} complex it is not:
+a meta-complex is a union of cliques rather than a clique, so only the bonds
+actually present may be demanded, and the restriction to $\{i,j\}\in E$ is doing
+work. Demanding all pairs would forbid covers that exist.
+
+The recursion is the one of Chapters~\ref{ch:overlap} and~\ref{ch:metacomplex},
+unchanged: messages between atoms and complexes, each complex summing over its
+own interior, $\ln Z$ read off the Bethe free energy. Nothing about it is
+specific to the Ising model --- Eq.~\eqref{eq:emitted} asks only that a
+complex's interior can be enumerated --- and the same routine runs both, which
+is what makes the two sets of numbers comparable.
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}
+% ---------------- left: leaf removal on the graph
+\node[lb,anchor=south,align=center] at (0,2.05) {\emph{on the graph}};
+\node[nd] (gu) at (-0.8,1.15) {};
+\node[nd] (gw) at (-0.8,-0.15) {};
+\node[nd] (gv) at (0.35,0.5) {};
+\node[nd] (gp) at (-2.0,1.6) {};
+\node[nd] (gq) at (-2.0,-0.6) {};
+\node[lb,anchor=east] at (-0.95,1.15) {$u$};
+\node[lb,anchor=east] at (-0.95,-0.15) {$w$};
+\node[lb,anchor=west] at (0.5,0.5) {$v$};
+\draw[lnk] (gu)--(gw) (gu)--(gv) (gw)--(gv) (gu)--(gp) (gw)--(gq);
+\node[lb,anchor=north,align=center,text width=4.6cm] at (-0.6,-1.15)
+  {$v$ has degree \emph{two}. No vertex here is a leaf, so the rule
+   never fires and the whole triangle is core.};
+
+\draw[lnk,dashed,black!35] (2.05,-1.6) -- (2.05,2.1);
+
+% ---------------- right: the same object as a chygraph
+\node[lb,anchor=south,align=center] at (5.1,2.05) {\emph{on the chygraph}};
+\node[nd] (cu) at (4.3,1.15) {};
+\node[nd] (cw) at (4.3,-0.15) {};
+\node[nd] (cv) at (5.45,0.5) {};
+\node[nd] (cp) at (3.1,1.6) {};
+\node[nd] (cq) at (3.1,-0.6) {};
+\node[lb,anchor=east] at (4.15,1.15) {$u$};
+\node[lb,anchor=east] at (4.15,-0.15) {$w$};
+\node[lb,anchor=west] at (5.6,0.5) {$v$};
+\draw[lnk] (cu)--(cw) (cu)--(cv) (cw)--(cv) (cu)--(cp) (cw)--(cq);
+\begin{scope}[on background layer]
+  \node[cxb,fit=(cu)(cw)(cv)] {};
+  \node[cx,fit=(cu)(cp)] {};
+  \node[cx,fit=(cw)(cq)] {};
+\end{scope}
+\node[lb,anchor=north,align=center,text width=5.4cm] at (4.5,-1.15)
+  {$v$ lies in \emph{one} complex, so it is a leaf one level up:
+   cover $u$ and $w$, delete the complex, continue.};
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{Two leaf removals on one object.} Left, the rule of
+Chapter~\ref{ch:cover}: find a vertex of degree one and take its neighbour.
+Vertex $v$ has degree two, and neither $u$ nor $w$ is a leaf either, so the
+algorithm stops at once and reports the triangle as core. Right, the same five
+vertices as a chygraph, the triangle promoted to a complex. Now the test is
+chy-degree rather than degree: $v$ belongs to one complex and to nothing else,
+so it is needed nowhere but there. Since any cover of a clique leaves out at
+most one member, and $v$ is the member that is free to be left out, $u$ and $w$
+go into the cover and the complex is deleted. Promoting the triangle turned a
+degree-two vertex into a leaf, which is the same trade the rest of the book
+makes --- a loop becomes an interior --- appearing here as an algorithm that
+finishes rather than one that stalls.}
+\label{fig:twoleaf}
+\end{figure}
+
+\section{Where ordinary leaf removal stops}
+\label{sec:ordinaryleaf}
+
+Leaf removal needs a vertex of degree one. On the instances of Part~IV there
+are almost none, and the algorithm stops essentially at the start.
+
+Run on the graph, it consumes $3$ of the $120$: none of the thirty hyperbolic
+instances, one of the thirty placed ones and two of the sixty real
+neighbourhoods. On the other $117$ it halts on a core and returns nothing ---
+not a poor cover, but no cover at all, since the guarantee is all-or-nothing.
+The medians say why: the core it stops on is the whole graph on the hyperbolic
+and real instances and $0.85$ of it on the placed ones.
+
+That is not a defect of the algorithm. These are clustered graphs, and a
+clustered graph has few leaves by construction: a vertex sitting in a triangle
+has degree at least two, and the triangle is exactly what
+Chapter~\ref{ch:chygraphs} promoted a complex to absorb. Chapter~\ref{ch:cover}
+already said the core is where covering goes back to being hard, and on these
+instances the core is everything.
+
+\section{Leaf removal over complexes}
+\label{sec:chyleaf}
+
+The chygraph changes the test and nothing else. Where the graph rule asks for a
+vertex of degree one, the chygraph rule asks for an atom of \emph{chy-degree}
+one --- an atom belonging to a single complex (Fig.~\ref{fig:twoleaf}).
+
+The move it licenses is safe, and the argument is Chapter~\ref{ch:cover}'s
+exchange argument one level up. Let $v$ lie in the clique $A$ and in no other
+complex. Any cover leaves out at most one member of $A$, since any two members
+are adjacent. If a cover leaves out some $w\neq v$ then it contains $v$;
+exchanging the two --- drop $v$, add $w$ --- is a cover of the same size, since
+every neighbour of $v$ lies in $A$ and is now taken, and $w$ was taken anyway.
+So some minimum cover leaves out $v$, and $A\setminus\{v\}$ may be put in the
+cover and the complex deleted.
+
+At $c=2$ this is the graph rule exactly: a complex of two atoms holding an atom
+of chy-degree one is an edge hanging off a leaf. Above $c=2$ it is strictly
+more. A vertex of degree $c-1$ inside a single clique is not a leaf on the
+graph and is a leaf on the chygraph, so promoting the triangle converts the
+degree-two vertices of Fig.~\ref{fig:twoleaf} into vertices the algorithm can
+act on.
+
+\paragraph{What that buys.} Table~\ref{tab:leafclasses} runs both rules on the
+same $120$ instances.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lrrrr}
+\hline\hline
+class & instances & ordinary & clique chygraph & merged\\
+\hline
+hyperbolic & $30$ & $0$ & $23$ & $27$\\
+Karrer--Newman & $30$ & $1$ & $7$ & $19$\\
+real & $60$ & $2$ & $40$ & $60$\\
+\hline
+total & $120$ & $3$ & $70$ & $106$\\
+\hline\hline
+\end{tabular}
+\caption{\textbf{Instances solved exactly.} Number on which the algorithm
+consumes the object and returns a provably minimum cover; on the rest it halts
+on a core and returns nothing. Leaf removal on the graph manages $3$ of $120$.
+The same rule applied to the clique chygraph manages $70$, and every one of the
+three it already solved --- it solves $67$ the graph rule cannot and loses none.
+Merging first raises it to $106$, for the reason Sec.~\ref{sec:mergedleaf}
+gives. Verified against enumeration on every instance: where the algorithm
+returns a cover, that cover is checked to be a cover and to have the minimum
+size. Generated by \code{probe/cover\_leafremoval.py}.}
+\label{tab:leafclasses}
+\end{table}
+
+Three of $120$ becomes seventy, and the improvement is one-directional: $67$
+instances are solved by the chygraph rule and not by the graph rule, and none
+the other way, so on this sample the chygraph rule strictly dominates. The gain
+is largest where the clustering is highest, which is the point --- a triangle is
+an obstruction to the graph algorithm and an interior to the chygraph one.
+
+It is worth saying what this is not. The cover returned is not an approximation
+that happens to be good. It is a minimum cover, certified by the same
+all-or-nothing argument as Chapter~\ref{ch:cover}'s, and checked here against
+enumeration on all $120$ instances. Where the chygraph rule finishes it has
+solved an NP-hard problem exactly, on a clustered graph where the graph rule
+could not start.
+
+\section{Merging, and what it adds}
+\label{sec:mergedleaf}
+
+Chapter~\ref{ch:metacomplex}'s closure can be applied first, and
+Table~\ref{tab:leafclasses}'s last column is the result: $106$ of $120$, and
+all sixty real neighbourhoods.
+
+The extra is not more leaf removal. A merged meta-complex is a union of cliques
+and not a clique, so the exchange argument does not apply to it --- leaving out
+one member of a meta-complex is not always allowed, because two of its members
+need not be adjacent, and covering all but one of them can overcount. What the
+closure supplies instead is \emph{isolated} complexes: a complex all of whose
+atoms have chy-degree one shares nothing with the rest of the chygraph, so its
+interior is enumerated and solved exactly.
+
+Counting the moves separates the two. On the clique chygraph the exchange rule
+fires $107$, $91$ and $97$ times across the three classes against $23$, $9$ and
+$25$ enumerations. On the merged chygraph the exchange rule fires $20$, $46$ and
+$20$ times and the enumerations rise to $30$, $22$ and $64$. So merging does not
+extend the algorithm; it converts what the algorithm could not finish into
+something small enough to enumerate --- which is the conclusion of
+Sec.~\ref{sec:mergeerror} reached along a different route, and it carries the
+same cost, $2^{c}$ on the largest meta-complex.
+
+\section{Conclusions}
+\label{sec:cover-tri-conclusions}
+
+\paragraph{The chygraph earns its keep here more plainly than anywhere else in
+the part.} Chapters~\ref{ch:overlap} to~\ref{ch:metacomplex} measured a
+quantity the cavity method got wrong by a median of a few in $\ln Z$ and a
+repair that removed it. This chapter measures an algorithm that either answers
+or does not, and promoting the triangles takes it from answering $3$ of $120$
+instances to answering $70$ --- exactly, with a certificate, on an NP-hard
+problem.
+
+\paragraph{The mechanism is the book's central move, in its simplest form.} A
+vertex in a triangle has degree two and is not a leaf. The same vertex in a
+promoted triangle has chy-degree one and is a leaf. Nothing was approximated to
+achieve that; the exchange argument of Chapter~\ref{ch:cover} carries over to a
+clique unchanged, and only the notion of degree was replaced.
+
+\paragraph{It also shows what merging is for, and is not.} The closure raises
+the count to $106$, but by supplying complexes small enough and isolated enough
+to enumerate rather than by extending the rule, which cannot generalise to a
+meta-complex --- a union of cliques is not a clique, and the exchange argument
+needs a clique. That matches Sec.~\ref{sec:mergeerror}: merging buys exactness
+by paying $2^{c}$, here as there.
+
+\paragraph{And the hard-field cavity is the wrong tool for this job.}
+Section~\ref{sec:hardfail} shows Eq.~\eqref{eq:vcz} returning density $1/2$ on
+disjoint triangles where the truth is $2/3$, because it discards an $O(1)$ part
+of the field that a complex makes essential. Leaf removal over complexes returns
+$2/3$ on the same object, and does so with no field to discard. On the model
+where an exact combinatorial rule exists, the combinatorial rule is better than
+the message-passing one --- which is a caution about Part~IV's other chapters
+rather than a result about this one.
+
+
+\section{Checks}
+\label{sec:covertri-checks}
+
+\checkhead{Known results}
+Leaf removal and its exchange argument are \citeauthor{bauer2001}'s, and
+Chapter~\ref{ch:cover} derives them; the graph rule used for comparison is the
+same routine Chapter~\ref{ch:cover} uses. The generalisation to a clique is
+proved above and checked against enumeration: on every one of the $120$
+instances where the rule terminates, the cover it returns is verified to be a
+cover and to have exactly the minimum size, computed by enumeration over all
+$2^{n}$ assignments.
+
+\checkhead{New results}
+The chygraph leaf-removal rule and its measurement are new here. Its anchors are
+the two objects whose answers are known independently: a tree, consumed with the
+exact cover; and disjoint triangles, where it returns $2/3$ against the
+hard-field map's $1/2$. A bare cycle is left as a core, as it must be. The
+comparison in Table~\ref{tab:leafclasses} is paired --- the same instance is
+given to both rules --- and the domination is checked rather than assumed, by
+counting the instances each solves that the other does not.
+
+\checkhead{Partial results}
+Only two moves are safe and only two are made. The exchange argument holds for a
+clique and not for a merged meta-complex, so no move is attempted on a
+non-clique complex still attached to the rest; an earlier version of this
+calculation did attempt one, returned covers of the wrong size, and was caught
+by the assertion against enumeration. What that leaves is a gap rather than a
+result: whether some safe local move exists for a general complex is not
+settled here, only that covering all but one atom is not it. The instances are
+capped at twenty vertices because the verification enumerates, not because the
+rule needs it --- leaf removal itself is linear, and the cap is the checking.
+
+

@@ -58,19 +58,30 @@ def _norm(v):
 class ChygraphBP:
     """Belief propagation on the atom--complex incidence structure."""
 
-    def __init__(self, complexes, bJ, damping=0.5, edges=None):
+    def __init__(self, complexes, bJ=None, damping=0.5, edges=None,
+                 log_factors=None):
         """`edges` is the bond set; without it every pair inside a complex is
         taken to be one, which holds for maximal cliques and fails for anything
         built out of them -- a merged meta-complex is a union of cliques, not a
-        clique, and assuming otherwise invents bonds that are not there."""
+        clique, and assuming otherwise invents bonds that are not there.
+
+        `log_factors`, if given, supplies one log-table per complex directly and
+        `bJ` is ignored.  The recursion does not care what lives on a complex,
+        only that its interior can be enumerated, so the same solver runs the
+        Ising model of Chs. 14 and 16 and the vertex cover of Ch. 17.  A unary
+        weight is passed as a complex of one atom.
+        """
         self.A = [tuple(sorted(c)) for c in complexes]
         self.bonds = None if edges is None else {
             tuple(sorted(e)) for e in edges}
-        self.bJ = float(bJ)
+        self.bJ = None if bJ is None else float(bJ)
         self.damping = float(damping)
         self.nodes = sorted({v for c in self.A for v in c})
         self.k = {v: sum(1 for c in self.A if v in c) for v in self.nodes}
-        self.logf = [self._factor(c) for c in self.A]
+        self.logf = ([np.asarray(f, float) for f in log_factors]
+                     if log_factors is not None
+                     else [self._factor(c) for c in self.A])
+        assert len(self.logf) == len(self.A)
         self.m_va = {(v, a): np.zeros(2) for a, c in enumerate(self.A)
                      for v in c}
         self.m_av = {(a, v): np.zeros(2) for a, c in enumerate(self.A)
