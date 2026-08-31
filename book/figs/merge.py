@@ -213,6 +213,87 @@ def diamond_graph(n, s_mean, d_mean, seed=1):
     return G, placed
 
 
+def check_merge_on_real(quiet=False):
+    """The merge closure on the six real networks of Sec.~14.7.
+
+    Unlike the GBP measurement, this needs no enumeration, so it runs on the
+    whole network rather than on neighbourhoods: the closure is a percolation
+    question about the overlap graph, and its answer is a size.  The two
+    families split here as they did there, and for the same reason -- a network
+    whose cliques the data placed has a bounded number of merges to make.
+    """
+    sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech'
+                           / 'probe'))
+    from gbp_real import NETWORKS, load
+    rows = []
+    for key, label, family in NETWORKS:
+        G = load(key)
+        cl = cliques_of(G)
+        merged, rounds = merge_closure(cl)
+        pairs, ratio = overlap_stats(cl)
+        n = G.number_of_nodes()
+        big = max(len(x) for x in merged)
+        rows.append(dict(network=label, family=family, n=n,
+                         cliques=len(cl), pairs=int(pairs), shared=ratio,
+                         largest=big, frac=big / n, rounds=rounds))
+    if not quiet:
+        print('  merge closure on the six real networks:')
+        print(f'    {"network":<18}{"family":<9}{"n":>7}{"cliques":>8}'
+              f'{"pairs":>8}{"largest":>9}{"of n":>8}')
+        for r in sorted(rows, key=lambda r: (r['family'] != 'grouped',
+                                             r['frac'])):
+            print(f'    {r["network"]:<18}{r["family"]:<9}{r["n"]:>7}'
+                  f'{r["cliques"]:>8}{r["pairs"]:>8}{r["largest"]:>9}'
+                  f'{100 * r["frac"]:>7.1f}%')
+        for fam in ('grouped', 'dyadic'):
+            sel = [r for r in rows if r['family'] == fam]
+            print(f'    {fam:>8}: largest meta-complex '
+                  f'{min(r["frac"] for r in sel) * 100:.1f} to '
+                  f'{max(r["frac"] for r in sel) * 100:.1f} per cent of the '
+                  f'network')
+    return rows
+
+
+def check_placed_finite_size(seeds=12, quiet=False):
+    """How far the placed ensemble is from its own asymptotics at small n.
+
+    The Karrer-Newman ensemble shares an edge between two placed triangles only
+    when their remaining corners coincide, which has probability O(1/n).  The
+    count of such pairs is therefore O(1) while the number of cliques grows like
+    n, so the FRACTION of cliques caught in an overlap falls like 1/n.  At the
+    sizes where ln Z can be enumerated that fraction has not fallen at all,
+    which is why Sec. 14.6's instances look nothing like the ensemble they are
+    drawn from.  This measures the crossover.
+    """
+    import networkx as nx
+    rows = []
+    for n in (14, 18, 20, 30, 50, 100, 200, 500, 1000, 2000):
+        pairs, fracs, treelike = [], [], 0
+        for sd in range(1, seeds + 1):
+            G, _ = karrer_graph(n, 1.0, {3: 2.0}, sd)
+            G.remove_edges_from(nx.selfloop_edges(G))
+            cl = cliques_of(G)
+            prof = overlap_profile(cl)
+            npairs = prof['shared_2plus'] * prof['n_intersecting_pairs']
+            pairs.append(npairs)
+            fracs.append(npairs / max(len(cl), 1))
+            treelike += bool(prof['treelike'])
+        rows.append(dict(n=n, pairs=float(np.mean(pairs)),
+                         per_clique=float(np.mean(fracs)),
+                         treelike=treelike / seeds))
+    if not quiet:
+        print('  Karrer-Newman at <k> = 5, mean over '
+              f'{seeds} seeds:')
+        print(f'    {"n":>6}{"offending pairs":>17}{"per clique":>12}'
+              f'{"treelike":>10}')
+        for r in rows:
+            print(f'    {r["n"]:>6}{r["pairs"]:>17.1f}{r["per_clique"]:>12.3f}'
+                  f'{100 * r["treelike"]:>9.0f}%')
+        print('    the count is O(1); the per-clique rate falls like 1/n, so at')
+        print('    n <= 20 the ensemble is not yet in the regime that defines it')
+    return rows
+
+
 def check_two_triangles():
     """The repair is exact on Sec. 14.4's example, trivially."""
     m, rnd = merge_closure([(0, 1, 2), (1, 2, 3)])
@@ -409,6 +490,10 @@ if __name__ == '__main__':
     check_overlap_is_not_extensive()
     print('and one built out of overlaps, run blind:')
     check_diamonds_are_recovered()
+    print('how far the placed ensemble is from its asymptotics at small n:')
+    check_placed_finite_size()
+    print('the closure on the six real networks:')
+    check_merge_on_real()
     print('figures:')
     figure_merge()
     figure_motifs()

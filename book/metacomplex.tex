@@ -1,0 +1,646 @@
+\chapter{Chygraphs with meta-complexes}
+\label{ch:metacomplex}
+
+Chapter~\ref{ch:gbp}'s repair works by leaving the chygraph: it builds a region
+graph beside the network and passes messages on that. There is a second repair
+that does not leave it, and it uses a freedom the construction already has ---
+a complex may contain complexes. Merge two complexes that share two or more
+atoms into one, and the pairwise overlap is gone. Whether that is enough to
+make the answer exact is measured in Sec.~\ref{sec:mergeerror}, and it is not
+always.
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}
+% ---------- left: two complexes with non-trivial overlap
+\node[nd] (a0) at (-5.0,0) {};
+\node[nd] (a1) at (-4.05,0.6) {};
+\node[nd] (a2) at (-4.05,-0.6) {};
+\node[nd] (a3) at (-3.1,0) {};
+\node[lb,anchor=east] at (-5.12,0) {$0$};
+\node[lb,anchor=west] at (-2.98,0) {$3$};
+\draw[lnk] (a0)--(a1) (a0)--(a2) (a1)--(a2) (a1)--(a3) (a2)--(a3);
+\begin{scope}[on background layer]
+  \node[cx,fit=(a0)(a1)(a2)] {};
+  \node[cxb,fill opacity=0.72,fit=(a1)(a2)(a3)] {};
+\end{scope}
+\node[lb,anchor=north,align=center] at (-4.05,-1.4)
+  {two complexes sharing\\the pair $\{1,2\}$};
+
+\node[lb] at (-1.9,0) {$\Longrightarrow$};
+\node[tb,anchor=south] at (-1.9,0.16) {merge};
+
+% ---------- right: one meta-complex
+\node[nd] (b0) at (-0.7,0) {};
+\node[nd] (b1) at (0.25,0.6) {};
+\node[nd] (b2) at (0.25,-0.6) {};
+\node[nd] (b3) at (1.2,0) {};
+\draw[lnk] (b0)--(b1) (b0)--(b2) (b1)--(b2) (b1)--(b3) (b2)--(b3);
+\begin{scope}[on background layer]
+  \node[cxb,fill opacity=0.9,fit=(b0)(b1)(b2)(b3)] (MC) {};
+\end{scope}
+\node[lb,anchor=north,align=center] at (0.25,-1.4)
+  {one complex of four atoms,\\$2^{4}=16$ interior states};
+
+% ---------- inclusion view underneath
+\node[cpx] (mc) at (5.5,0.85) {};
+\node[cpx] (c1) at (4.8,-0.1) {};
+\node[cpx] (c2) at (6.2,-0.1) {};
+\node[atm] (x0) at (4.15,-1.05) {};
+\node[atm] (x1) at (5.05,-1.05) {};
+\node[atm] (x2) at (5.95,-1.05) {};
+\node[atm] (x3) at (6.85,-1.05) {};
+\draw[lnk] (mc)--(c1) (mc)--(c2);
+\draw[lnk] (c1)--(x0) (c1)--(x1) (c1)--(x2);
+\draw[lnk] (c2)--(x1) (c2)--(x2) (c2)--(x3);
+\node[lb,anchor=west] at (5.68,0.85) {meta-complex};
+\node[lb,anchor=north,align=center] at (5.5,-1.4)
+  {as an inclusion: a complex\\whose members are complexes};
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{The meta-complex construction.} Two complexes that share more
+than one atom are replaced by the single complex holding the union of their
+atoms, whose interior is then summed exactly. Nothing is added to the
+formalism to do it: a complex whose members are complexes is what a chygraph
+already is (right), the freedom Chapter~\ref{ch:satisfiability} used to nest
+clauses, and Eq.~\eqref{eq:emitted} constrains only that the interior can be
+enumerated. On this example the overlap is gone because there is nothing left
+for it to overlap with, and the whole of Sec.~\ref{sec:cavityfail}'s discrepancy
+goes with it. On a family that merges to several meta-complexes it need not:
+merging removes pairwise overlap and not every cycle, which is what
+Sec.~\ref{sec:mergeerror} measures. What the construction costs is $2^{c}$ on
+the largest merged complex, and Sec.~\ref{sec:mergecost} is about how large $c$
+grows.}
+\label{fig:metacomplex}
+\end{figure}
+
+\section{Merging complexes}
+\label{sec:merging}
+\index{merging complexes|textbf}
+
+A more direct repair than a region graph: if two complexes share more than one
+atom, stop treating them as two. Merge them into a single \emph{meta-complex} holding the
+union of their atoms, and sum its interior exactly.
+
+Nothing is added to the formalism to do this. A complex whose vertices are
+complexes is what a chygraph is --- the freedom Chapter~\ref{ch:satisfiability}
+used to nest clauses --- and Eq.~\eqref{eq:emitted} constrains only that the
+interior can be enumerated, not its size or internal structure. On
+Fig.~\ref{fig:sharededge}'s example the merge is immediate: the two triangles
+become one complex of four atoms, its $2^{4}=16$ interior states are summed
+exactly, and no overlap remains. Section~\ref{sec:twotriangles}'s discrepancy
+disappears, by a route that needs no region graph and no parent-to-child
+update.
+
+So the repair removes the obstruction the part is named for. Whether that makes
+it \emph{exact} is a second question, and the answer is no in general
+(Sec.~\ref{sec:mergeerror}). What it then costs is a third
+(Sec.~\ref{sec:mergecost}).
+
+\paragraph{Merging is a percolation problem.} The cost is $2^{c}$ on the merged
+complex, so the question is how large the merging grows.
+
+Put a node on every complex, and a link between two complexes that share two or
+more atoms. The meta-complexes are the connected components of that graph. The
+repair is affordable exactly while that graph has \emph{no giant component} ---
+and the moment it has one, the merging swallows a finite fraction of the network
+into a single complex whose interior cannot be enumerated at any price.
+
+Two details make the closure slightly more than one pass of connected
+components. Merging is iterated: two meta-complexes assembled from disjoint
+components can still share two atoms between their \emph{unions}, so the
+procedure must be run to a fixed point. And the merged complex inherits every
+inclusion of its parts, so its chy-degree is the sum --- which is what makes the
+component grow.
+
+\section{What the merged chygraph gets wrong}
+\label{sec:mergeerror}
+
+Merging removes every \emph{pairwise} violation by construction: run to a fixed
+point, no two surviving complexes share more than one atom. That is the
+condition Sec.~\ref{sec:treelike} states, and it is tempting to stop there and
+call the result exact. It is not sufficient, and the reason is the one this part
+opened with, one level higher again.
+
+Pairwise intersections of at most one node do not make the incidence structure a
+tree. Three complexes can meet in three different single nodes and close a cycle
+complex--node--complex--node--complex--node, and the chygraph recursion is a
+Bethe calculation on that structure. Where the cycle survives the merge, so does
+an error. Table~\ref{tab:mergeerr} measures it on the same instances as before.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lrrrl}
+\hline\hline
+class & runs & acyclic & exact & error in $\ln Z$\\
+\hline
+hyperbolic & $60$ & $60$ & $60$ & $<10^{-12}$\\
+Karrer--Newman & $60$ & $20$ & $20$ & up to $2.25$\\
+real & $120$ & $120$ & $120$ & $<10^{-12}$\\
+\hline\hline
+\end{tabular}
+\caption{\textbf{Error of the chygraph built from meta-complexes.} All $240$
+merged families are treelike --- no two complexes share more than one atom ---
+but only $200$ have an acyclic incidence structure, and exactness follows the
+second condition and not the first. Every acyclic run is exact to
+$5\times10^{-13}$; every cyclic run is not, by between $5\times10^{-3}$ and
+$2.25$, median $0.18$. Generated by \code{probe/merge\_lnz.py}.}
+\label{tab:mergeerr}
+\end{table}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig-merge-error.pdf}
+\caption{\textbf{Where the merged chygraph stops being exact.} Error in $\ln Z$
+against the number of meta-complexes the closure leaves, for the $240$ instances
+of Secs.~\ref{sec:sixty} to~\ref{sec:realoverlap}. A cycle through the incidence
+structure needs at least three complexes meeting in three distinct single nodes,
+and no family of three or fewer in the sample has one: left of the dotted line
+every point is at machine precision. Cycles begin at four, and an error of order
+$10^{-1}$ with them. The placed ensemble supplies almost every point on the
+right, being the one whose closure leaves many small meta-complexes rather than
+one large one. Generated by \code{figs/overlap.py} from
+\code{probe/merge\_lnz.py}.}
+\label{fig:mergeerror}
+\end{figure}
+
+The correspondence is exact and it goes both ways. All $200$ runs whose merged
+incidence structure is acyclic come out exact, to $5\times10^{-13}$ at worst.
+All $40$ that retain a cycle come out wrong, by $5\times10^{-3}$ to $2.25$ in
+$\ln Z$ with a median of $0.18$. Not one instance falls on the wrong side. The
+condition for the meta-complex chygraph to be exact is that the merged incidence
+structure is a forest, and merging to a treelike family does not deliver it.
+
+The classes divide sharply, and not as the rest of the chapter would predict. On
+hyperbolic random graphs and on real neighbourhoods the merge closure is exact
+everywhere --- but largely because it has swallowed the instance whole
+(Table~\ref{tab:vs}), and a single complex has no incidence structure left to
+close a cycle in. On the Karrer--Newman ensemble, where the closure is
+\emph{affordable}, only a third of the merged families are acyclic and two
+thirds of the runs carry an error. The ensemble on which merging is cheap is the
+ensemble on which it is wrong, and for the same reason: it leaves many small
+meta-complexes rather than one large one, and many small complexes are what
+closes a cycle.
+
+Figure~\ref{fig:mergeerror} makes the mechanism visible. A cycle needs at least
+three complexes meeting in at least three distinct single nodes, so a closure
+leaving three meta-complexes or fewer cannot have one --- and in the whole
+sample, none does: every such family is exact at machine precision. Cycles begin
+at four, and the error appears with them. What decides exactness is therefore
+not how large the largest meta-complex is, which is what
+Sec.~\ref{sec:mergecost} prices, but how \emph{many} the closure leaves. The two
+run in opposite directions, and a closure cheap enough to enumerate is for that
+reason the more likely to have left a cycle behind.
+
+\section{What the merged chygraph costs}
+\label{sec:mergecost}
+
+\paragraph{On hyperbolic random graphs.} Measured with maximal cliques
+as complexes (Table~\ref{tab:mergecost} and Fig.~\ref{fig:merge}).
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{rrrrr}
+\hline\hline
+$\ave{k}$ & $n=1000$ & $n=2000$ & $n=4000$ & largest meta-complex\\
+\hline
+$0.3$ & $4.7$ & $5.3$ & $5.3$ & bounded\\
+$0.5$ & $6.0$ & $12.3$ & $14.7$ & grows\\
+$0.8$ & $19.0$ & $54.0$ & $67.0$ & grows\\
+$1.5$ & $40.3$ & $208.7$ & $175.7$ & grows\\
+$3.0$ & $289.7$ & $655.3$ & $1102.3$ & grows\\
+\hline\hline
+\end{tabular}
+\caption{\textbf{Largest meta-complex on hyperbolic random graphs.} Size of the largest meta-complex after merging every pair of maximal cliques that share two or more atoms, iterated to a fixed point, on hyperbolic random graphs at $\tau=2.5$; mean over three seeds. Only the $\ave{k}=0.3$ row is bounded in $n$. The $\ave{k}=1.5$ row is not monotone: at that density the scatter over seeds is comparable to the trend across these three sizes, and the classification rests on the slope against $n$ in Fig.~\ref{fig:merge} rather than on the three entries. Generated by \code{figs/merge.py}.}
+\label{tab:mergecost}
+\end{table}
+
+The $\ave{k}=1.5$ row is not monotone in $n$, and should not be read as though
+it were: three seeds do not separate its trend from its scatter, and it is the
+slope in Fig.~\ref{fig:merge} that classifies it. The rest of the table is
+unambiguous. Below $\ave{k}\simeq0.4$ the largest meta-complex is a handful of
+atoms and does not move with $n$: the merging terminates and it is cheap.
+Whether it is also \emph{exact} is Sec.~\ref{sec:mergeerror}'s question and
+does not follow from terminating --- a closure that leaves many small
+meta-complexes is the kind that keeps a cycle. Above it the largest meta-complex grows with the network, reaching
+twenty-eight per cent of all vertices at $\ave{k}=3$ and sixty-six per cent at
+$\ave{k}=6$. At that point $2^{c}$ has an extensive exponent.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig-merge.pdf}
+\caption{\textbf{Merge closure on hyperbolic random graphs.} Largest meta-complex after
+merging every pair of maximal cliques that share two or more atoms, iterated to
+a fixed point, on hyperbolic random graphs at $\tau=2.5$. Left: against mean
+degree, at three sizes; the dotted line is $2^{25}$ states, a fair limit for
+exact enumeration. Right: against $n$, with a slope-one guide. At
+$\ave{k}=0.3$ the largest meta-complex does not grow and the repair is cheap;
+by $\ave{k}=2$ it is a fixed fraction of the network. Cheap is not the same as
+exact (Sec.~\ref{sec:mergeerror}). Generated by
+\code{figs/merge.py}.}
+\label{fig:merge}
+\end{figure}
+
+\paragraph{The cost on the Karrer--Newman ensemble.}\label{sec:placed} The
+verdict above is
+about hyperbolic random graphs, not about clustering. Section~\ref{sec:karrer}'s
+ensemble reaches the same clustering coefficients by placing its triangles, and
+the closure comes out the other way.
+
+\paragraph{The quantity is a count, not a fraction.} Both
+ensembles have $\Theta(n)$ intersecting clique pairs, so
+$\mathrm{shared}_{2+}$, which divides by that, mixes the effect with its
+denominator. Count instead the pairs that share two or more atoms --- the pairs
+the mapping cannot represent, and exactly the merges the closure has to make
+(Table~\ref{tab:placed}).
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lcrrrr}
+\hline\hline
+ensemble & $C$ & $n$ & cliques & offending pairs & largest\\
+\hline
+Karrer--Newman & $0.25$ & $1000$ & $837$ & $14$ & $7.0$\\
+$\ave{k}=3.0$ & & $8000$ & $6638$ & $11$ & $6.0$\\[2pt]
+Karrer--Newman & $0.16$ & $1000$ & $1900$ & $340$ & $23.7$\\
+$\ave{k}=8.9$ & & $8000$ & $14683$ & $351$ & $9.0$\\[2pt]
+hyperbolic & $0.28$ & $1000$ & $526$ & $511$ & $132$\\
+$\ave{k}=2$ & & $8000$ & $3878$ & $5743$ & $743$\\[2pt]
+hyperbolic & $0.42$ & $1000$ & $630$ & $1563$ & $290$\\
+$\ave{k}=3$ & & $8000$ & $4595$ & $15685$ & $1556$\\
+\hline\hline
+\end{tabular}
+\caption{\textbf{Placed against geometric ensembles.} Maximal-clique pairs
+sharing two or more atoms, and the largest meta-complex the closure then builds,
+at the two ends of an eightfold range in $n$; mean over three seeds. On the
+placed ensemble the count does not grow with the network while the number of
+cliques grows eightfold, so the closure has a bounded number of merges to make
+however large the graph. On the geometric one the count grows with $n$ and the
+closure percolates. Compare the first and third rows: clustering $0.25$ against
+$0.28$, and opposite answers. Generated by
+\code{figs/merge.py:check\_overlap\_is\_not\_extensive}.}
+\label{tab:placed}
+\end{table}
+
+The count is flat in $n$ on the placed ensemble and grows with $n$ on the
+geometric one, and the mechanism is a one-line estimate. Two motifs meeting at a
+vertex share a \emph{second} vertex only if their remaining members happen to
+coincide, which for a random matching has probability $O(1/n)$. There are $O(n)$
+such meeting pairs. The product is $O(1)$: a placed ensemble contains a number
+of edge-sharing motif pairs that does not grow with the network at all. Divided
+by the $\Theta(n)$ intersecting pairs that is
+$\mathrm{shared}_{2+}\sim1/n$ --- measured at $0.0070$, $0.0021$, $0.0013$ and
+$0.0007$ over the first block of the table, a slope of $-0.99$ against $\log n$.
+A hyperbolic graph has no such suppression, because its overlaps are not
+coincidences: the geometry puts every clique in a neighbourhood of others.
+
+\paragraph{An ensemble built out of overlaps.} \citeauthor{karrer2010} raise
+the case themselves. Their edge-triangle model, they note, is unrealistic in the
+way that matters here --- real triangles share edges and theirs do not --- and
+their remedy is to promote the shared-edge pair to a subgraph type of its own: a
+diamond on four vertices, placed like any other element. That is
+Sec.~\ref{sec:merging}'s merge, performed when the ensemble is written down
+instead of afterwards.
+
+So run the closure on such a graph, blind, with no knowledge of what was placed.
+Its maximal cliques are the two triangles of each diamond, which \emph{do} share
+an edge, so here $\mathrm{shared}_{2+}$ does not vanish with $n$: it sits at
+$0.06$, by design. The closure terminates anyway, at a largest meta-complex of
+$21$ atoms at $n=1000$ falling to $10$ at $n=8000$ --- and what it returns are
+the placed diamonds, $78.5$ per cent of them recovered exactly at $n=1000$ and
+$89.0$, $93.8$ and $97.2$ per cent at $2000$, $4000$ and $8000$. The shortfall
+is the same $O(1)$ residue, about a hundred elements at every size, a fifth of
+them at the smallest and a thirtieth at the largest. On this ensemble the merge
+recovers the modelling decision that produced the ensemble.
+
+\paragraph{A finite-size caveat.} The $O(1)$ constant grows
+with motif density, and while it is finite it need not be small. At
+$\ave{k}\simeq17$ --- eight triangles per vertex --- the accidental overlaps are
+numerous enough to percolate the overlap graph at small $n$: essentially the
+whole network is one meta-complex at $n=1000$ and $2000$, a fifth of it at
+$4000$, and then the closure collapses to $19$ atoms at $8000$ and $13$ at
+$16\,000$. The asymptotics win, and they win abruptly, but the size at which
+they take over grows with the density. A measurement at one $n$ does not decide
+this; the slope against $n$ does (Fig.~\ref{fig:motifs}).
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig-motifs.pdf}
+\caption{\textbf{Offending-pair count against $n$.} Left: maximal-clique pairs sharing two or
+more atoms, against $n$, for a Karrer--Newman graph with four triangles per
+vertex and for a hyperbolic random graph at $\tau=2.5$, $\ave{k}=3$; the dotted
+line is slope one. Right: the largest meta-complex the closure builds from them.
+The placed ensemble is the denser of the two, $\ave{k}=8.9$ against $3$, and it
+is the one that terminates. Generated by \code{figs/merge.py}.}
+\label{fig:motifs}
+\end{figure}
+
+\paragraph{The cost on real networks.} The closure needs no enumeration --- it
+is a percolation question about the overlap graph, and its answer is a size ---
+so it runs on the six networks of Sec.~\ref{sec:realoverlap} whole rather than
+on neighbourhoods (Table~\ref{tab:mergereal}).
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lcrrrr}
+\hline\hline
+network & family & $n$ & cliques & offending pairs & largest\\
+\hline
+Co-authorship & grouped & $379$ & $203$ & $178$ & $53$\\
+Les Mis.\ scenes & grouped & $77$ & $59$ & $156$ & $52$\\
+Jazz bands & grouped & $198$ & $746$ & $115\,071$ & $189$\\
+Facebook & dyadic & $329$ & $684$ & $28\,763$ & $262$\\
+Football & dyadic & $115$ & $281$ & $951$ & $115$\\
+Hospital contacts & dyadic & $75$ & $970$ & $404\,873$ & $75$\\
+\hline\hline
+\end{tabular}
+\caption{\textbf{Merge closure on real networks.} Maximal-clique pairs sharing
+two or more atoms, and the largest meta-complex the closure builds from them,
+on the whole network. The smallest meta-complex any of the six admits is $53$
+atoms, so $2^{c}$ is out of reach in every case; on three of them the closure
+swallows the network entire or nearly so. Generated by
+\code{figs/merge.py:check\_merge\_on\_real}.}
+\label{tab:mergereal}
+\end{table}
+
+The closure terminates on none of them. The largest meta-complex runs from $53$
+atoms on the co-authorship network --- $14$ per cent of it, and the best case of
+the six --- to the whole of the football and hospital-contact networks. Even
+$53$ atoms is $2^{53}$ interior states, so the exact route is closed on all six
+regardless of how the remaining five behave.
+
+The grouped and dyadic split of Sec.~\ref{sec:realoverlap} is visible but does
+not rescue the method: the grouped networks reach $14$, $68$ and $96$ per cent
+of their networks against $80$, $100$ and $100$ for the dyadic ones. What the
+placed ensemble achieves asymptotically, a real network recording its groups
+does not achieve at the size it happens to be. The $O(1)$ residue of
+Sec.~\ref{sec:placed} is a statement about the limit, and these networks have
+between $75$ and $379$ vertices.
+
+\paragraph{Merging against the messages, on the same instances.} The two
+repairs have been measured on different objects --- the messages on
+neighbourhoods small enough to enumerate, the closure on whole networks --- so
+the comparison has not yet been made where it is fair. Running the closure on
+the very instances Secs.~\ref{sec:sixty} and~\ref{sec:realoverlap} passed to
+GBP makes it (Table~\ref{tab:vs}).
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{llrrr}
+\hline\hline
+ & & & GBP & merge\\
+ensemble & instances & runs & $2^{\text{region}}$ & $2^{c}$\\
+\hline
+hyperbolic & chordal & $40$ & $2^{5.6}$ & $2^{13.4}$\\
+ & non-chordal, sound & $9$ & $2^{5.3}$ & $2^{16.2}$\\
+ & non-chordal, GBP fails & $11$ & $2^{6.9}$ & $2^{20.0}$\\[2pt]
+Karrer--Newman & chordal & $2$ & $2^{4.0}$ & $2^{11.0}$\\
+ & non-chordal, sound & $43$ & $2^{3.3}$ & $2^{10.7}$\\
+ & non-chordal, GBP fails & $15$ & $2^{4.5}$ & $2^{18.7}$\\[2pt]
+real & chordal & $56$ & $2^{7.1}$ & $2^{10.2}$\\
+ & non-chordal, sound & $30$ & $2^{8.1}$ & $2^{13.6}$\\
+ & non-chordal, GBP fails & $34$ & $2^{8.9}$ & $2^{14.4}$\\
+\hline\hline
+\end{tabular}
+\caption{\textbf{What each repair costs on the same instance.} Mean exponent of
+the largest table each method must build: for GBP the largest region, which for
+maximal cliques is the largest clique; for merging the largest meta-complex.
+Instances are those of Secs.~\ref{sec:sixty} to~\ref{sec:realoverlap}, at
+$n\le20$.
+Generated by \code{probe/merge\_vs\_gbp.py}.}
+\label{tab:vs}
+\end{table}
+
+The messages are cheaper everywhere, by five to thirteen orders of magnitude in
+table size, and the gap is widest where it matters least --- on the chordal
+instances, where GBP is also exact.
+
+The row that settles the question is the last of each block. On all eleven
+hyperbolic runs where GBP reaches no sound fixed point, the closure swallows the
+entire instance: $c=n$, and merging has degenerated to enumerating the graph. It
+does so on $27$ of the $34$ real neighbourhoods and $7$ of the $15$ placed ones.
+The two repairs are not complementary and merging is not a fallback for the
+messages --- the same dense, tangled overlap defeats both, and it defeats
+merging first. Where GBP has a sound fixed point the closure is already paying
+$2^{13.6}$ against $2^{8.1}$ on the real neighbourhoods; where GBP has none, it
+is paying $2^{n}$.
+
+The placed ensemble is the exception that shows the rule. It is the one class
+where the closure mostly does \emph{not} degenerate --- $2^{10.7}$ against GBP's
+$2^{3.3}$, and only one of its $43$ sound runs swallows the instance --- and it
+is also the class whose overlaps are coincidences of a random matching rather
+than a feature of the structure. Merging survives exactly where there is little
+to merge.
+
+\paragraph{What merging has that the messages do not.} Two things, and neither
+is cost.
+
+The first is that its guarantee is unconditional. Where the closure terminates
+at an enumerable size the answer is exact, and there is no iteration to
+converge, no fixed point that can be inconsistent, and no counting scheme that
+can come out worse than doing nothing --- the three ways
+Secs.~\ref{sec:sixty} to~\ref{sec:realoverlap} watched GBP fail. The cost is
+also known before any work is done: build the overlap graph, take components,
+read off $c$.
+
+The second is the one that matters for the rest of the book. A merged complex is
+a complex. Nothing leaves the formalism, Eq.~\eqref{eq:emitted} applies to the
+meta-complex exactly as it applied to its parts, and a chygraph whose complexes
+have been merged is a chygraph, which is an object this book knows how to treat
+as an ensemble. A region graph is not: its regions are an explicit list drawn
+from one network and its messages are functions on them.
+Section~\ref{sec:whatwouldclose} is the statement of what would have to be
+supplied to lift them, and it is not supplied here. So the choice between the
+two repairs is not settled by Table~\ref{tab:vs}: on one instance the messages
+are cheaper and reach further, and merging is the one of the two that is still
+a chygraph afterwards.
+
+\paragraph{The condition.} Neither that clustering is harmless nor that the
+merge always works: the condition is where the overlaps come from.
+
+Where the dense elements are \emph{specified} --- a modeller choosing which
+motifs go in, or data that records its groups directly, which is
+Sec.~\ref{sec:layers-data}'s route (a) --- the ensemble is treelike above the
+level of those elements by construction, the overlaps that remain are accidents
+of finite size, and the closure terminates. Where they are \emph{emergent} --- a
+geometry or a growth rule producing whatever motifs it produces --- the overlaps
+arrive at every scale and their number is extensive. Clustering is compatible with either, which is why
+Chapter~\ref{ch:data} measures $\mathrm{shared}_{2+}$ on real data rather than
+inferring it from the clustering coefficient.
+
+The test is one line. Measure the offending-pair count at two sizes: if it is flat, merge; if it grows like $n$, do not, and
+Sec.~\ref{sec:whatwouldclose} is the route that remains.
+
+\paragraph{Three consequences.} The repair is exact where it terminates: a
+complex is allowed to contain complexes, so absorbing an overlap into a larger
+interior is a legal move, and it gives the answer with no approximation and no
+region graph to build.
+
+The threshold that decides it is a percolation threshold on the overlap graph,
+which is what Chapter~\ref{ch:percolation} computes. The feasibility of the
+repair is therefore a Part~II calculation, answerable for a given ensemble
+before the merge is attempted.
+
+On hyperbolic random graphs it terminates only in the very sparse régime, on
+the placed ensemble at any density measured, and on none of the six real
+networks. Merging and
+generalised belief propagation are the two ends of one dial --- merge
+everything and the messages become trivial but the interior impossible; merge
+nothing and the interior is easy but the messages approximate --- and where to
+sit on it is an ensemble-by-ensemble question.
+Section~\ref{sec:whatwouldclose}'s route is what remains where merging does not
+terminate.
+
+\paragraph{On a given instance.} Between those extremes merging can still work
+on the instance at hand rather than on the ensemble. Which complexes to merge is
+a mechanical, checkable operation: build the overlap graph, take components,
+verify no two survivors share two atoms, verify each is small enough to
+enumerate. A tool taking a network, proposing a merge closure and reporting the
+largest interior it produces answers in one pass whether the exact route is
+open, as a number.
+
+
+\section{The hierarchy of region levels}
+\label{sec:hierarchy}
+
+A graph cannot see a triangle. Promote triangles to complexes and the chygraph
+cannot see two triangles sharing an edge. Promote \emph{those} pairs to regions
+and the region graph cannot see whatever loops the regions form among
+themselves. Each level removes the obstruction below it and exposes the one
+above. That is the cluster variation method, and the chygraph is one rung of it
+made systematic and given an ensemble.
+
+Whether the hierarchy is a solution or a regress turns on whether it
+\emph{terminates} for a given ensemble --- whether, for maximal cliques of a
+hyperbolic random graph, some finite level captures essentially all of the
+correlation. Section~\ref{sec:sixty} constrains the answer: the instance
+calculation is exact exactly when the clique structure is chordal, so the
+question becomes the distribution of chordality-violating motifs in the
+ensemble and how fast their contribution decays. That is not answered here.
+
+
+\section{The ensemble-level problem}
+\label{sec:whatwouldclose}
+
+The missing step can be stated precisely.
+
+Every other calculation in this book carries a message per chy-degree
+\emph{class}: a distribution over the ensemble, not a function on one object.
+Closing the overlap deficit means lifting the parent-to-child update to a
+message indexed by region \emph{type}, over a region graph that is itself a
+random object. Two things would have to be supplied. What is the distribution of
+intersection patterns among the maximal cliques of the ensemble --- how often do
+two cliques share an edge, three cliques a vertex, and so on? And what does the
+parent-to-child update become when averaged over that distribution? The
+message-passing treatments that keep short loops explicitly
+\citep{cantwell2019} are the natural point of comparison.
+
+The instance calculation also constrains what an ensemble treatment must
+handle. Six of twenty non-chordal hyperbolic instances do not converge at
+damping $0.999$, and on the real neighbourhoods of Sec.~\ref{sec:realoverlap}
+$34$ of $64$ yield no usable fixed point. An ensemble treatment inherits that
+instability --- averaging does not make a divergent iteration converge --- so
+damping is not enough; it needs a schedule or a different parameterisation of
+the message.
+
+\section{Conclusions}
+\label{sec:part4-conclusions}
+
+The part asked what happens when complexes share more than one node. Five
+things are now measured rather than assumed.
+
+\paragraph{The cavity method fails, and by how much.} Run to a fixed point on
+the clique chygraph of each of the three classes, its error in $\ln Z$ has a
+median of $2.7$, $0.3$ and $5.1$ --- a median of five being a factor of $150$ in
+$Z$. It is one-signed, it grows with the coupling, and its logarithm correlates
+with the fraction of complex pairs sharing two atoms. The cause is identified
+rather than inferred: the rewired control of Sec.~\ref{sec:deficit} holds the
+clique ensemble fixed and changes only the arrangement, and the prediction
+agrees with it to $10^{-3}$, so what remains against the real graph is overlap
+and nothing else.
+
+\paragraph{There is an exact criterion for when it does not fail.} The error
+vanishes when the closed complex family is a junction tree, which for maximal
+cliques means the graph is chordal. This is not a heuristic: $98$ chordal runs
+across the three classes come out exact to $3\times10^{-12}$.
+
+\paragraph{Which networks satisfy it is decided by provenance.} Among real
+neighbourhoods, $21$ of $30$ are chordal where the data records the groups its
+cliques are made of and $7$ of $30$ where the cliques must be inferred from
+dyads --- with the clustering coefficients and the neighbourhood densities of
+the two families overlapping. Where the complexes are given, the chygraph
+mapping is close to exact for free; where they are reconstructed, it is not.
+
+\paragraph{Merging is not exact merely because it terminates.} It removes every
+pairwise violation by construction, but the chygraph recursion needs an acyclic
+incidence structure and three meta-complexes can still close a cycle through
+three single nodes. Over $240$ runs the correspondence is exact in both
+directions: all $200$ acyclic families are exact to $5\times10^{-13}$, all $40$
+cyclic ones are wrong by up to $2.25$ in $\ln Z$. The classes divide against
+expectation --- merging is exact on the hyperbolic and real instances largely
+because it has swallowed them whole, and carries an error on two thirds of the
+placed instances, which are the ones where it is cheap.
+
+\paragraph{Both repairs are instance-level, and they fail together.} The
+messages are the cheaper of the two by five to thirteen orders of magnitude in
+table size, and they reach further. On every hyperbolic instance where they
+reach no sound fixed point, and on $27$ of $34$ real ones, the merge closure
+swallows the whole graph. The two are not complementary: the same tangled
+overlap defeats both. What merging has instead is a condition that is structural
+and checkable in advance rather than an iteration that may or may not converge,
+and the fact that a merged complex is still a complex --- the repair does not
+leave the formalism, and a merged chygraph is an object this book knows how to
+treat as an ensemble.
+
+\paragraph{And that is where it stops.} The chygraph is exact when complexes
+meet in at most one node; on the networks that motivated it they do not, and it
+recovers most but not all of the answer. The shortfall is measured, its cause is
+isolated by a control, the condition for exactness is stated, and two repairs
+are priced on one network at a time. The ensemble version --- a message indexed
+by region type, over a region graph that is itself a random object --- is open,
+and Sec.~\ref{sec:whatwouldclose} is as precisely as this book can state it.
+
+
+\section{Checks}
+\label{sec:merge-checks}
+
+\checkhead{Known results}
+That a complex may contain complexes is the definition of
+Chapter~\ref{ch:chygraphs}, not a new construction, and
+Eq.~\eqref{eq:emitted} applies to a meta-complex unchanged. The
+Karrer--Newman ensemble is \citeauthor{karrer2010}'s, and the implementation is
+checked by recovering the elements it was told to place: run blind on a graph
+built from diamonds, the closure returns $78.5$ per cent of the placed diamonds
+at $n=1000$ and $97.2$ per cent at $n=8000$.
+
+\checkhead{New results}
+Where merging stops being affordable, on all three classes, is new, as is the
+error it leaves and the head-to-head against the messages. The exactness test is
+made against enumeration, and the acyclicity of the merged incidence structure
+is tested directly rather than inferred from the pairwise condition; the two
+disagree on $40$ of $240$ runs, which is the point of
+Sec.~\ref{sec:mergeerror}. One trap is recorded because it was fallen into: a
+maximal-clique family filtered to cliques of two or more atoms silently drops
+isolated vertices, and the resulting chygraph is short by exactly $\ln 2$ per
+dropped vertex --- an artefact indistinguishable, at a glance, from a real
+error. The closure is iterated to a fixed point
+rather than run once, because two meta-complexes assembled from disjoint
+components can still share two atoms between their unions; the loop runs until a
+pass changes nothing. The cost comparison of Table~\ref{tab:vs} is made on the
+same instances the messages were run on, regenerated from the same seeds, so the
+two columns describe one object rather than two samples.
+
+\checkhead{Partial results}
+Section~\ref{sec:placed}'s $O(1)$ overlap count is an estimate supported by a
+measurement flat over an eightfold range in $n$, not a theorem: it is not proved
+that the count is bounded for every motif set, and at high density the
+finite-size crossover is late enough to invert the answer at $n=4000$. The two
+ensembles compared there are matched on the clustering coefficient and on
+nothing else, which is the comparison the section needs but leaves the degree
+distributions unmatched. Table~\ref{tab:vs}'s verdict is drawn at $n\le20$,
+where the whole instance is enumerable and the closure can therefore never cost
+more than $2^{n}$; it establishes that merging degenerates where the messages
+fail, not how the two scale. And the whole part is instance-level: the ensemble
+version of Sec.~\ref{sec:whatwouldclose} does not exist, and
+Chapter~\ref{ch:outlook} lists it with the other things this book does not do.

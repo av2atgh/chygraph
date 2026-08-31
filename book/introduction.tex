@@ -770,8 +770,50 @@ nodes and links. The
 information that distinguishes the two graphs is not in that description at all.
 
 So the field has had, for twenty-five years, a method that works and a
-systematic reason why it should not apply to the objects it is applied to. The
-next chapter's response is not to patch the method. It is to change what the
+systematic reason why it should not apply to the objects it is applied to.
+
+\section{Generalised belief propagation}
+\label{sec:gbp-intro}
+\index{generalised belief propagation}
+\index{Kikuchi approximation}
+\index{cluster variation method}
+\index{region graph}
+
+There is an established answer to loops, and it is worth stating here because
+this book uses it later and because it is the alternative to the route the rest
+of the book takes.
+
+Belief propagation is exact on a tree because a tree decomposes into nodes and
+links with every variable, and every interaction, counted exactly once. When the
+network is not a tree that bookkeeping fails. The remedy, due to Kikuchi and
+given its message-passing form by \citet{yedidia2005}, is to keep the
+bookkeeping and enlarge the units: work with \emph{regions} --- sets of
+variables treated as single objects --- and close the family of regions under
+intersection. Each region $R$ is assigned a counting number fixed by
+M\"obius inversion,
+\begin{equation}
+  c_{R}=1-\sum_{R'\supsetneq R}c_{R'},
+  \label{eq:mobius-intro}
+\end{equation}
+which is precisely the condition that every variable and every interaction is
+counted once across the whole family. Messages then pass from each region to its
+sub-regions rather than from node to node.
+
+Three properties matter for what follows. The scheme \emph{contains} the
+cavity method: when the regions are the interactions and the single variables,
+Eq.~\eqref{eq:mobius-intro} returns $c_{v}=1-k$ and the update reduces to
+Eq.~\eqref{eq:cavity-intro}. It is \emph{exact} whenever the closed family of
+regions forms a junction tree, which is the loop-free condition one level up. And
+it costs $2^{|R|}$ per region, so it buys accuracy with enumeration, and the
+purchase stops being affordable when the regions grow.
+
+What it does not give is an ensemble. The regions are an explicit list drawn
+from one network, and the messages are functions on them, where everything else
+in this chapter carries a distribution over a random graph.
+Chapter~\ref{ch:overlap} measures what this method recovers, and what it costs,
+on three ensembles.
+
+The next chapter's response is not to patch the method. It is to change what the
 method is applied to: if a triangle is a problem when treated as three links,
 stop treating it as three links.
 
