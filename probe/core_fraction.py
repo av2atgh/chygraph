@@ -93,6 +93,44 @@ def profile(G, n):
             'merged_core': msize, 'merged_core_frac': mfrac}
 
 
+def karrer_core_examples():
+    """The surviving core of two Karrer--Newman instances, for Fig. 16.5.
+
+    The smallest core in the sample and the largest, recorded with the full
+    membership of each surviving complex and with the atoms leaf removal
+    stripped, so the figure can show what went and what stayed.
+    """
+    from merge import karrer_graph
+    runs = json.load(open(RESULTS / 'gbp_karrer.json'))['runs']
+    seen, found = set(), []
+    for r in runs:
+        k = (r['n'], r['seed'])
+        if k in seen:
+            continue
+        seen.add(k)
+        G, _ = karrer_graph(r['n'], r['s_mean'], {3: r['triangles']}, r['seed'])
+        G.remove_edges_from(nx.selfloop_edges(G))
+        merged, _ = merge_closure([frozenset(c) for c in nx.find_cliques(G)])
+        B = nx.Graph()
+        B.add_nodes_from(('v', v) for c in merged for v in c)
+        for i, c in enumerate(merged):
+            for v in c:
+                B.add_edge(('c', i), ('v', v))
+        K = nx.k_core(B, k=2)
+        if K.number_of_nodes() == 0:
+            continue
+        atoms = sorted(x[1] for x in K if x[0] == 'v')
+        cx = [sorted(merged[i]) for i in range(len(merged)) if ('c', i) in K]
+        found.append({
+            'n': r['n'], 'seed': r['seed'], 'atoms': atoms,
+            'complexes': cx,
+            'cycles': K.number_of_edges() - K.number_of_nodes()
+                      + nx.number_connected_components(K),
+            'components': nx.number_connected_components(K)})
+    found.sort(key=lambda d: (len(d['atoms']), d['cycles']))
+    return {'smallest': found[0], 'largest': found[-1]}
+
+
 def main():
     from gbp_cliques import SIZES, instance
     from gbp_real import load
@@ -127,7 +165,8 @@ def main():
         rows.append(dict(ensemble='real', network=r['network'],
                          **profile(H, H.number_of_nodes())))
 
-    json.dump(rows, OUT.open('w'), indent=1)
+    json.dump({'instances': rows, 'karrer_examples': karrer_core_examples()},
+              OUT.open('w'), indent=1)
     print(f'{"":12} {"":>3}   clique chygraph      merged chygraph')
     for ens in ('hyperbolic', 'karrer', 'real'):
         sel = [r for r in rows if r['ensemble'] == ens]

@@ -467,7 +467,18 @@ def check_ring():
 # ------------------------------------------- (2c-ter) the leaf-removal core
 def _core():
     f = PROBE / 'core_fraction.json'
-    return json.load(open(f)) if f.exists() else []
+    if not f.exists():
+        return []
+    d = json.load(open(f))
+    return d['instances'] if isinstance(d, dict) else d
+
+
+def _core_examples():
+    f = PROBE / 'core_fraction.json'
+    if not f.exists():
+        return {}
+    d = json.load(open(f))
+    return d.get('karrer_examples', {}) if isinstance(d, dict) else {}
 
 
 def check_core_fraction():
@@ -544,6 +555,59 @@ def figure_core_meta():
     fig.tight_layout()
     fig.savefig(OUT / 'fig-core-meta.pdf')
     print(f'  wrote {OUT / "fig-core-meta.pdf"}')
+
+
+def figure_core_example():
+    """Ch. 16: what the meta-complex messages are actually left with.
+
+    Two measured cores, drawn as inclusion diagrams in Ch. 2's vocabulary:
+    filled circles are atoms, open squares complexes, a line is membership.
+    Atoms leaf removal stripped are shown faint, so the reader sees what went.
+    """
+    plt = _mpl()
+    ex = _core_examples()
+    if not ex:
+        return
+    import networkx as nx
+    fig, axes = plt.subplots(1, 2, figsize=(6.4, 2.9),
+                             gridspec_kw={'width_ratios': [1, 1.35]})
+    for ax, key, title in ((axes[0], 'smallest', 'the modal case'),
+                           (axes[1], 'largest', 'the largest in the sample')):
+        d = ex[key]
+        core = set(d['atoms'])
+        B = nx.Graph()
+        for i, c in enumerate(d['complexes']):
+            for v in c:
+                B.add_edge(('c', i), ('v', v))
+        K = B.subgraph([n for n in B if n[0] == 'c' or n[1] in core])
+        pos = nx.kamada_kawai_layout(K)
+        pos = nx.spring_layout(B, pos=dict(pos), fixed=list(K), seed=3,
+                               k=0.55) if B.number_of_nodes() > K.number_of_nodes() else dict(pos)
+        for u, v in B.edges():
+            inside = all(w[0] == 'c' or w[1] in core for w in (u, v))
+            ax.plot(*zip(pos[u], pos[v]), '-', lw=1.0 if inside else 0.6,
+                    color='0.35' if inside else '0.85', zorder=1)
+        for n in B:
+            x, y = pos[n]
+            if n[0] == 'c':
+                ax.plot(x, y, 's', ms=6.5, mfc='white', mec='0.25', mew=1.0,
+                        zorder=3)
+            elif n[1] in core:
+                ax.plot(x, y, 'o', ms=5.5, color='0.15', zorder=3)
+            else:
+                ax.plot(x, y, 'o', ms=4.0, mfc='white', mec='0.75', mew=0.8,
+                        zorder=2)
+        ax.set_title(f'{title}: {len(core)} atoms, '
+                     f'{len(d["complexes"])} complexes,\n'
+                     f'{d["cycles"]} independent '
+                     f'{"cycle" if d["cycles"] == 1 else "cycles"}, '
+                     f'{d["components"]} component',
+                     fontsize=7.2, color='0.25', pad=6)
+        ax.set_aspect('equal')
+        ax.axis('off')
+    fig.tight_layout()
+    fig.savefig(OUT / 'fig-core-example.pdf')
+    print(f'  wrote {OUT / "fig-core-example.pdf"}')
 
 
 # ------------------------------------- (2d) the meta-complex error, Ch. 16
@@ -665,3 +729,4 @@ if __name__ == '__main__':
     figure_merge_error()
     figure_core_bonds()
     figure_core_meta()
+    figure_core_example()
