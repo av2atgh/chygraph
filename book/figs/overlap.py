@@ -467,7 +467,9 @@ def figure_merge_error():
     ax.set_xlabel('meta-complexes the closure leaves', fontsize=8)
     ax.set_ylabel(r'error in $\ln Z$', fontsize=8.5)
     ax.set_ylim(1e-15, 1e1)
-    ax.legend(fontsize=6.6, frameon=False, loc='lower right')
+    # the middle band is the only part of the panel with no points in it:
+    # the cyclic runs sit at the top, the exact ones along the bottom
+    ax.legend(fontsize=6.6, frameon=False, loc='center right')
     _tidy(ax)
     fig.tight_layout()
     fig.savefig(OUT / 'fig-merge-error.pdf')
