@@ -20,6 +20,20 @@ pip install -e statmech
 pytest percolation/tests statmech/tests
 ```
 
+Or without installing anything, which is what the figure scripts do for
+themselves:
+
+```sh
+PYTHONPATH=$PWD/percolation/src:$PWD/statmech/src \
+  pytest percolation/tests statmech/tests
+```
+
+**415 tests, all passing** (2026-09-01, ~6 min). The suite needs `sympy`,
+`numpy`, `scipy` and `pytest`, and `statmech/tests/test_core.py` additionally
+needs `numba`, because it checks the core against an independent leaf-removal
+implementation in a separate repository (`~/av2atg/computational_complexity`).
+Without `numba` that one test errors on import and the rest still pass.
+
 The book builds with `latexmk -pdf -interaction=nonstopmode main.tex` from
 `book/`; `book/README.md` is the working log and carries the build checks, the
 figure-script map and a dated record of every drafting and revision pass.
