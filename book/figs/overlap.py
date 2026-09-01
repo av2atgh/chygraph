@@ -548,19 +548,104 @@ def figure_core_meta():
 
 
 def figure_core_bonds():
-    """Ch. 14: the core the clique chygraph leaves, by ensemble."""
+    """Ch. 14: the core, on the axis Fig. 14.2 uses for the error."""
     plt = _mpl()
     d = _core()
     if not d:
         return
     fig, ax = plt.subplots(figsize=(4.3, 2.3))
-    _by_class(ax, d, 'clique_core_frac')
+    for name, ens, mk, col in CLASSES:
+        sel = [r for r in d if r['ensemble'] == ens]
+        if not sel:
+            continue
+        ax.plot([r['doubled_frac'] for r in sel],
+                [r['clique_core_frac'] for r in sel], mk, ms=3.4, mew=0.9,
+                mfc='white', color=col, label=f'{name} ({len(sel)})')
+    ax.set_xlabel('fraction of bonds lying inside two or more complexes',
+                  fontsize=8)
     ax.set_ylabel(r'$P_C(\mathrm{Ising},\,\mathrm{BP}_\chi)$', fontsize=9)
+    ax.set_xlim(-0.03, 1.03)
     ax.set_ylim(-0.05, 1.05)
     ax.set_yticks([0, 0.5, 1])
+    ax.legend(fontsize=6.6, frameon=False, loc='lower right')
+    _tidy(ax)
     fig.tight_layout()
     fig.savefig(OUT / 'fig-core-bonds.pdf')
     print(f'  wrote {OUT / "fig-core-bonds.pdf"}')
+
+
+def _paired_runs():
+    """BP_chi and GBP on the same run, joined by iteration order.
+
+    cavity_clique.py and the three GBP probes walk the same instance lists in
+    the same order, so the rows correspond.  That is asserted on (n, beta_J)
+    rather than trusted, and the assertion fires if either order ever changes.
+    """
+    cav = _cavity()
+    gbp = _runs() + _karrer() + _real()
+    if not cav or len(cav) != len(gbp):
+        return []
+    for a, b in zip(cav, gbp):
+        assert a['n'] == b['n'] and abs(a['beta_J'] - b['beta_J']) < 1e-12, \
+            'cavity and GBP probe outputs are no longer in the same order'
+    return [dict(ensemble=a['ensemble'],
+                 doubled=a['doubled_bonds'] / a['n_bonds'],
+                 bp=abs(a['cavity']), gbp=abs(b['gbp']),
+                 chordal=b['chordal']) for a, b in zip(cav, gbp)]
+
+
+def check_gbp_against_bp():
+    """Does GBP recover what BP_chi loses?"""
+    d = _paired_runs()
+    if not d:
+        print('  (paired probe outputs not present)')
+        return
+    ch = [r for r in d if r['chordal']]
+    nc = [r for r in d if not r['chordal']]
+    print(f'  {len(d)} paired runs, {len(ch)} chordal and {len(nc)} not:')
+    for lab, sel in (('chordal', ch), ('non-chordal', nc)):
+        g = [r['gbp'] for r in sel]
+        b = [r['bp'] for r in sel]
+        worse = sum(1 for r in sel if r['gbp'] >= r['bp'])
+        print(f'    {lab:<12} BP median {np.median(b):.2f}, GBP median '
+              f'{np.median(g):.2e}, GBP worse on {worse}')
+    g = np.log10([r['gbp'] + 1e-16 for r in nc])
+    b = np.log10([r['bp'] for r in nc])
+    print(f'    corr(log GBP, log BP) on the non-chordal runs = '
+          f'{np.corrcoef(g, b)[0, 1]:+.2f}: the two do not track, and GBP is')
+    print('    the better number nearly everywhere. What it does not reach off')
+    print('    the chordal instances is exactness')
+
+
+def figure_gbp_against_bp():
+    """Ch. 15: both errors on Fig. 14.2's axis."""
+    plt = _mpl()
+    d = _paired_runs()
+    if not d:
+        return
+    fig, ax = plt.subplots(figsize=(4.3, 2.9))
+    floor = 3e-15
+    ax.semilogy([r['doubled'] for r in d],
+                np.maximum([r['bp'] for r in d], floor), 'o', ms=3.0, mew=0.8,
+                mfc='white', color=LIGHT, label=r'$\mathrm{BP}_\chi$')
+    ax.semilogy([r['doubled'] for r in d if r['chordal']],
+                np.maximum([r['gbp'] for r in d if r['chordal']], floor),
+                's', ms=3.0, mew=0.8, mfc='white', color=DARK,
+                label='GBP, chordal')
+    ax.semilogy([r['doubled'] for r in d if not r['chordal']],
+                np.maximum([r['gbp'] for r in d if not r['chordal']], floor),
+                '^', ms=3.2, mew=0.8, mfc=MID, color=MID,
+                label='GBP, not chordal')
+    ax.set_xlabel('fraction of bonds lying inside two or more complexes',
+                  fontsize=8)
+    ax.set_ylabel(r'error in $\ln Z$', fontsize=8.5)
+    ax.set_xlim(-0.03, 1.03)
+    ax.set_ylim(1e-15, 1e3)
+    ax.legend(fontsize=6.4, frameon=False, loc='lower right', ncol=1)
+    _tidy(ax)
+    fig.tight_layout()
+    fig.savefig(OUT / 'fig-gbp-vs-bp.pdf')
+    print(f'  wrote {OUT / "fig-gbp-vs-bp.pdf"}')
 
 
 def figure_core_example():
@@ -791,6 +876,8 @@ if __name__ == '__main__':
     check_core_fraction()
     print('where the core appears:')
     check_core_transition()
+    print('GBP against the cavity method it repairs:')
+    check_gbp_against_bp()
     print('the merged chygraph, and what it gets wrong:')
     check_merge_error()
     print('when the clique ensemble exists:')
@@ -801,6 +888,7 @@ if __name__ == '__main__':
     figure_gbp_real()
     figure_merge_error()
     figure_core_bonds()
+    figure_gbp_against_bp()
     figure_core_meta()
     figure_core_example()
     figure_core_transition()
