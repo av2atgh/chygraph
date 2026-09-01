@@ -79,7 +79,10 @@ $u'=(e^{4a}-1)/(e^{4a}+3)$, and substituting $e^{2a}=(1+t)/(1-t)$,
 \]
 The same enumeration at $c=4$ gives the third line of
 Eq.~\eqref{eq:uclique}, and beyond that the expressions stop being worth
-writing down. \code{ising.\allowbreak clique\_\allowbreak derivative} returns the closed forms and \code{cavity.\allowbreak cavity\_\allowbreak derivative} the enumeration they are checked against.
+writing down. \code{Chygraph.\allowbreak u\_\allowbreak prime} returns them, over
+\code{ising.\allowbreak clique\_\allowbreak derivative} for the closed forms and
+\code{cavity.\allowbreak cavity\_\allowbreak derivative} for the enumeration they
+are checked against.
 
 The first half of the chapter's result follows at once, and it is the intuitive
 half. Since $t/(1-t+t^{2})>t$ on $0<t<1$, and $(t+t^{3})/(1-2t+3t^{2})$ is larger
@@ -334,7 +337,9 @@ member's field, the same convention as Eq.~\eqref{eq:uprime}, so the
 multiplicity $q-1$ is supplied by Eq.~\eqref{eq:branch} and not here.
 Differentiating instead with respect to a field common to all $q-1$ others
 multiplies it by $q-1$; using \emph{that} in Eq.~\eqref{eq:branch} counts the
-multiplicity twice. \code{simplicial.\allowbreak emitted} is the interior and \code{simplicial.\allowbreak SimplicialChygraph.\allowbreak spinodal} the condition built on it.
+multiplicity twice. \code{Chygraph.\allowbreak simplicial} returns both: \code{emitted} is the
+interior and \code{spinodal} the condition built on it, in the module
+\code{simplicial}.
 
 \paragraph{The infinite-connectivity limit.} Take one layer of cardinality $q$
 at fixed chy-degree $k$ and impose \citeauthor{son2026}'s normalisation

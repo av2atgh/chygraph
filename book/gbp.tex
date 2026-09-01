@@ -175,7 +175,9 @@ is the set of incoming messages to the interaction's other variables, and
 Eq.~\eqref{eq:p2c} \emph{is} ordinary belief propagation. So generalised belief
 propagation contains belief propagation exactly as Eq.~\eqref{eq:mobius}
 contains Eq.~\eqref{eq:bethe}, and Sec.~\ref{sec:overlap-checks} reports the
-numerical form of that statement. \code{gbp.\allowbreak GBP} is Eq.~\eqref{eq:p2c} and \code{region.\allowbreak RegionGraph} the family it runs on.
+numerical form of that statement. \code{Chygraph.\allowbreak region\_\allowbreak gbp} runs Eq.~\eqref{eq:p2c} on the
+family \code{Chygraph.\allowbreak regions} closes; the two are \code{gbp.\allowbreak GBP}
+and \code{region.\allowbreak RegionGraph}.
 
 The region family closes on $\{0,1,2\}$, $\{1,2,3\}$ and $\{1,2\}$ once the
 zero-counting singletons are dropped, and that is a junction tree: a tree of
@@ -192,7 +194,9 @@ One more thing this calculation settles. Generalised belief propagation refuses
 to run on a region graph whose counting numbers do not cover every factor once,
 and the Bethe counting on two overlapping triangles is exactly such a graph. The
 failure is detected rather than silently absorbed: the scheme knows the shape of
-its own assumption. \code{region.\allowbreak RegionGraph} closes the family and reports whether it is a junction tree, which is the test the rest of the chapter turns on.
+its own assumption. \code{Chygraph.\allowbreak regions} closes the family and
+reports whether it is a junction tree, which is the test the rest of the chapter
+turns on.
 
 The rest of the chapter measures that comparison on three ensembles, chosen so
 that the origin of the triangles differs while the clustering does not:

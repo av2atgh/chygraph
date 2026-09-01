@@ -127,10 +127,11 @@ recursion.
 
 At $c=2$ Eq.~\eqref{eq:vc} collapses onto Eq.~\eqref{eq:hs}, as it must --- both
 return the Weigt--Hartmann cover size, to nine digits, along code paths that
-share nothing. The interior factor $\tau$ is
-\code{cover.\allowbreak CliqueCover.\allowbreak tau} and the map is \code{cover.\allowbreak CliqueCover.\allowbreak solve},
-which reaches its fixed point by the bracket of Sec.~\ref{sec:hard} rather than
-by plain iteration, both maps being order-reversing.
+share nothing. Both are reached from one handle: \code{Chygraph.\allowbreak clique\_\allowbreak cover}
+returns the object whose \code{tau} is the interior factor $\tau$ and whose
+\code{solve} is the map, and it reaches its fixed point by the bracket of
+Sec.~\ref{sec:hard} rather than by plain iteration, both maps being
+order-reversing. The algebra is in \code{cover.\allowbreak CliqueCover}.
 
 And both are hard-field maps, so Sec.~\ref{sec:hardfail} applies to
 Eq.~\eqref{eq:vcz} unchanged. On isolated triangles, where every vertex sits at
@@ -281,8 +282,9 @@ $\xi=(c-1)\,\delta^{\,c-2}\psi$.
 At $c=2$ these degenerate to $\zeta=\delta$ and $\xi=\psi$, returning the graph
 recursion $\psi=\bar\Phi(\delta)$, $\delta=1-\bar\Phi(1-\psi)$. The whole of it
 --- the three states, the two intra-complex quantities and the fixed point --- is
-\code{core.\allowbreak CorePercolation.\allowbreak solve}, which iterates monotonically from zero
-because, unlike Eq.~\eqref{eq:vc}, this map is order-preserving.
+\code{Chygraph.\allowbreak core}, whose \code{solve} iterates monotonically from
+zero because, unlike Eq.~\eqref{eq:vc}, this map is order-preserving; the
+algebra is in \code{core.\allowbreak CorePercolation}.
 
 
 
@@ -450,9 +452,8 @@ The polynomial factors, and the factorisation is the whole argument:
 At $c=2$ the sum is empty and $f\equiv0$: the condition is an \emph{identity},
 and the core-free branch exists at every chy-degree below threshold. At $c\ge3$
 every coefficient of the sum is strictly positive, so $f(\delta)<0$ on $[0,1)$
-and $f(1)=0$. The only root is $\delta=1$, forcing $\psi=0$. The predicate is
-\code{core.\allowbreak CorePercolation.\allowbreak has\_\allowbreak core\_\allowbreak free\_\allowbreak branch}, and it returns true exactly
-when every cardinality is two.
+and $f(1)=0$. The only root is $\delta=1$, forcing $\psi=0$. The predicate is \code{has\_\allowbreak core\_\allowbreak free\_\allowbreak branch} on
+that same object, and it returns true exactly when every cardinality is two.
 
 So a chygraph carrying any layer of cardinality three or more has no core-free
 branch at all, at any density. Leaf removal never certifies a cover there.

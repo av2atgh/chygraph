@@ -259,7 +259,10 @@ The full field is finite, $H=h+v=-\ln(K-1)$, so
   \rho=\frac{1}{1+e^{-H}}=\frac1K,
 \]
 independent of $\mu$ \emph{and} of $L$: one member of every complex is taken and
-none is wasted, so the counting bound is saturated exactly. \code{softfield.\allowbreak regular\_\allowbreak field} is the closed form and \code{softfield.\allowbreak HittingSetBP.\allowbreak sweep} the population dynamics it is checked against.
+none is wasted, so the counting bound is saturated exactly. \code{softfield.\allowbreak regular\_\allowbreak field} is the closed form,
+and the population dynamics it is checked against is
+\code{Chygraph.\allowbreak hitting\_\allowbreak set\_\allowbreak bp}, over
+\code{softfield.\allowbreak HittingSetBP}.
 
 Equation~\eqref{eq:hRS} and $\rho=1/K$ are the closed forms of
 \citet{mezard2007}, and population dynamics reproduces both --- the field

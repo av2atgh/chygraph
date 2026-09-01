@@ -710,7 +710,10 @@ summing over the interior of one link \emph{exactly}; when the interior is
 larger, that sum is larger but still exact. And the counting $\ave{\bar k}$ is
 independent of both --- it is a property of the network, not of the model.
 Separating those three is what lets one calculation serve every model in this
-book. Chapter~\ref{ch:statmech} does the separating: \code{cavity.\allowbreak emitted\_\allowbreak field} is the interior sum and \code{cavity.\allowbreak cavity\_\allowbreak derivative} the factor that appears here as $t$.
+book. Chapter~\ref{ch:statmech} does the separating: the interior sum is
+\code{Chygraph.\allowbreak emitted\_\allowbreak field} and the factor that
+appears here as $t$ is \code{Chygraph.\allowbreak u\_\allowbreak prime}, both
+over the module \code{cavity}.
 
 \section{Replica symmetry and symmetry breaking}
 \label{sec:replicas}
