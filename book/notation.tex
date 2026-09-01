@@ -32,12 +32,20 @@ $\chi$, $\chi_{m}$ & a chygraph, and the chygraph its merge closure returns:
                     the complexes of $\chi_{m}$ are the unions of every set of
                     complexes of $\chi$ that share two or more atoms
                     (Ch.~\ref{ch:metacomplex})\\[2pt]
-$P_{C}(\cdot)$ & core fraction: the share of atoms that leaf removal cannot
-                strip from the argument. $P_{C}(\chi)$ is measured on the
-                chygraph as given, $P_{C}(\chi_{m})$ on its merge closure, and
-                the two differ by exactly what merging removes
-                (Chs.~\ref{ch:cover}, \ref{ch:overlap},
-                \ref{ch:metacomplex})\\
+$P_{C}(\cdot)$ & core fraction: the share of atoms a removal algorithm cannot
+                strip from the argument, run to a fixed point. $P_{C}(\chi)$ is
+                measured on the chygraph as given and $P_{C}(\chi_{m})$ on its
+                merge closure, so the two differ by exactly what merging removes.
+                \emph{Which} removal is meant follows from the model, because
+                what a message can force depends on it: for vertex cover it is
+                the leaf removal of Ch.~\ref{ch:cover}, which takes a
+                chy-degree-one atom together with its complex; for the cavity
+                recursion of Part~IV it is leaf removal on the incidence
+                structure, which takes the atom and leaves the complex. The
+                second strips less, so the two do not agree on the same object
+                --- a ring of triangles glued at single atoms has
+                $P_{C}=0$ under the first and $1/2$ under the second. Every
+                figure says which it plots\\
 \end{longtable}
 
 \medskip
