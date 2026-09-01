@@ -2,8 +2,9 @@
 
 Book-length treatment of percolation and statistical mechanics on complex
 hypergraphs. Production style follows *Local network growth* — 5×8 in trim,
-grayscale, skippable "calculation" boxes, heavy on TikZ illustration, plain
-language in the running text with the algebra boxed off.
+grayscale, heavy on TikZ illustration. The `calculation` boxes that style
+carried are **being removed** --- see Conventions --- and Ch. 11 is the first
+chapter without them.
 
 ## Contents
 
@@ -51,7 +52,7 @@ replica-symmetry-breaking point"), `overlap.tex:146--155` (6.37pt, the
 head) and `metacomplex.tex:347--353` (3.16pt) — and **35 underfull vboxes**,
 every one of them `while \output is active` — page-breaking around floats, not
 a line that runs into the margin.
-55 figures, 25 numbered tables, 25 calculation boxes, 125 numbered equations of
+55 figures, 25 numbered tables, 22 calculation boxes, 125 numbered equations of
 which 116 carry labels, 73 references, a 96-term index. All 295 distinct
 `\ref`/`\eqref` targets resolve, all 28 `\includegraphics` files are present,
 and all 114 `\code` names in `software.tex` resolve across both repositories.
@@ -1546,8 +1547,16 @@ against each other inconsistently; none of the three had been measured. It needs
   without its caption.
 - Notation matches the papers (`\ave{}`, `\kbar`, `\sbar`), so a reader can move
   between book and paper without retranslating.
-- Long derivations go in `calculation` boxes and must be genuinely skippable:
-  the running text has to carry the argument on its own.
+- **No `calculation` boxes.** Reversed 2026-09-01: the boxes were an obstruction
+  to reading rather than an aid, because a derivation the reader is told to skip
+  is a derivation they cannot follow when they want it. Derivations run in
+  continuous text, where they are needed, and **each ends by naming the routine
+  that executes it** --- `\code{cover.CliqueCover.solve}` and the like --- so the
+  path from the algebra to the code is in the sentence rather than only in
+  `software.tex`'s Table 1. Chapter 11 is converted; the other chapters still
+  carry 22 boxes between them and are not. Two things have to change when the
+  last of them goes: the preface, which promises boxes that can be skipped, and
+  the header of this file.
 - Overlapping complexes are drawn as two translucent boxes of the same grey, so
   the shared atoms show as a darker patch. Established in Fig. 2.7 and used
   wherever overlap matters.

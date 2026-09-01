@@ -74,13 +74,10 @@ giving
   \tau_{l}=(1-\sigma_{l})^{\,c_{l}-1}.
   \label{eq:vc}
 \end{equation}
-At $c=2$ this collapses onto Eq.~\eqref{eq:hs}, as it must --- both return the
-Weigt--Hartmann cover size, to nine digits, along code paths that share nothing.
-
-\begin{calculation}{from the message to the map}
-Equation~\eqref{eq:vcz} is a statement about one inclusion of one graph;
-Eq.~\eqref{eq:vc} is the same statement averaged over an ensemble. Two readings
-and one average take you from the first to the second.
+Equation~\eqref{eq:vcz} is a statement about one inclusion of one graph and
+Eq.~\eqref{eq:vc} is the same statement averaged over an ensemble, and it is
+worth saying how the second follows from the first, because it does not follow
+by inspection.
 
 \emph{What the message says.} $z_{i\to a}=1$ means $i$ is \emph{free} --- it may
 be left out of the cover --- as seen by $a$. The sum counts the complexes other
@@ -96,23 +93,17 @@ generating function.
 reached along an inclusion into a layer-$l$ complex is free. Entered at $i$,
 such a complex leaves $i$ free only if none of its other $c_{l}-1$ members is
 free, and on a treelike chygraph those members are independent given what
-reaches them:
-\[
-  \tau_{l}=(1-\sigma_{l})^{\,c_{l}-1}.
-\]
+reaches them, so $\tau_{l}=(1-\sigma_{l})^{\,c_{l}-1}$.
 
 \emph{What a node does.} $i$ is free when \emph{every} one of its other
 complexes leaves it free. How many others there are is the excess chy-degree of
 Sec.~\ref{sec:ensembles}, and averaging a product over that count is evaluating
-its generating function at $\tau$:
-\[
-  \sigma_{m}=\bar\Phi^{(m)}(\tau),
-\]
-which is Eq.~\eqref{eq:vc}. Sec.~\ref{sec:treelike}'s condition is used twice
-over, in two different places: once inside a complex, to multiply the $c_{l}-1$
-members, and once across the complexes at a node, to evaluate $\bar\Phi$. It is
-the first of the three assumptions Sec.~\ref{sec:assumes} lists, and it is
-carrying both steps here.
+its generating function at $\tau$, which gives $\sigma_{m}=\bar\Phi^{(m)}(\tau)$
+and so Eq.~\eqref{eq:vc}. Section~\ref{sec:treelike}'s condition is used twice
+over, in two different places: once inside a complex, to multiply the
+$c_{l}-1$ members, and once across the complexes at a node, to evaluate
+$\bar\Phi$. It is the first of the three assumptions Sec.~\ref{sec:assumes}
+lists, and it is carrying both steps here.
 
 \emph{Where the complement went.} Chapter~\ref{ch:hittingset} writes
 $\tau_{l}=\sigma_{l}^{\,c_{l}-1}$ and then $\sigma_{m}=\bar\Phi^{(m)}(1-\tau)$,
@@ -123,7 +114,13 @@ satisfy it. A clique forces when \emph{any} other member is free, since that one
 member is already an uncovered edge. All against any is where the complement
 moves, and it is Eq.~\eqref{eq:Hvc} against Eq.~\eqref{eq:Hhs} arriving in the
 recursion.
-\end{calculation}
+
+At $c=2$ Eq.~\eqref{eq:vc} collapses onto Eq.~\eqref{eq:hs}, as it must --- both
+return the Weigt--Hartmann cover size, to nine digits, along code paths that
+share nothing. The interior factor $\tau$ is
+\code{cover.CliqueCover.tau} and the map is \code{cover.CliqueCover.solve},
+which reaches its fixed point by the bracket of Sec.~\ref{sec:hard} rather than
+by plain iteration, both maps being order-reversing.
 
 And both are hard-field maps, so Sec.~\ref{sec:hardfail} applies to
 Eq.~\eqref{eq:vcz} unchanged. On isolated triangles, where every vertex sits at
@@ -256,30 +253,26 @@ Writing $(\psi,\delta,\gamma)$ for the probabilities of the three states
 and the intra-complex step is solved exactly, as Sec.~\ref{sec:downstep} always
 does.
 
-\begin{calculation}{what a complex does to a leaf}
-Enter a complex through one member and look at the other $c-1$. With $m$ of them
-still live, every live member has clique-degree exactly $m$ inside the complex,
-so two events matter and no others.
+The two quantities it supplies, $\zeta$ and $\xi$, are what a complex does to a
+node entering it. Enter a complex through one member and look at the other
+$c-1$. With $m$ of them still live, every live member has clique-degree exactly
+$m$ inside the complex, so two events matter and no others.
 
 \emph{The complex leaves the entering node free to be a leaf} only when it
 offers nothing at all --- when every one of the other $c-1$ members is already
-deleted:
-\[
-  \zeta=\delta^{\,c-1}.
-\]
+deleted --- so $\zeta=\delta^{\,c-1}$.
 
 \emph{The complex forces the entering node out} only when exactly one other
 member is live and leaf-ready. With two or more live members the entering node
 is not a leaf of that complex and the complex decides nothing. There are $c-1$
-ways to choose which member is the live one:
-\[
-  \xi=(c-1)\,\delta^{\,c-2}\psi.
-\]
+ways to choose which member is the live one, so
+$\xi=(c-1)\,\delta^{\,c-2}\psi$.
 
-At $c=2$ these degenerate to $\zeta=\delta$ and $\xi=\psi$, returning the
-graph recursion $\psi=\bar\Phi(\delta)$,
-$\delta=1-\bar\Phi(1-\psi)$.
-\end{calculation}
+At $c=2$ these degenerate to $\zeta=\delta$ and $\xi=\psi$, returning the graph
+recursion $\psi=\bar\Phi(\delta)$, $\delta=1-\bar\Phi(1-\psi)$. The whole of it
+--- the three states, the two intra-complex quantities and the fixed point --- is
+\code{core.CorePercolation.solve}, which iterates monotonically from zero
+because, unlike Eq.~\eqref{eq:vc}, this map is order-preserving.
 
 
 
@@ -428,7 +421,6 @@ Sec.~\ref{sec:hsrsb} states the cost of and leaves open.
 
 Raising the cardinality changes the picture abruptly.
 
-\begin{calculation}{no core-free branch above cardinality two}
 A core-free branch means $\gamma=0$, that is $\psi+\delta=1$. Substituting
 Eq.~\eqref{eq:core},
 \[
@@ -448,8 +440,9 @@ The polynomial factors, and the factorisation is the whole argument:
 At $c=2$ the sum is empty and $f\equiv0$: the condition is an \emph{identity},
 and the core-free branch exists at every chy-degree below threshold. At $c\ge3$
 every coefficient of the sum is strictly positive, so $f(\delta)<0$ on $[0,1)$
-and $f(1)=0$. The only root is $\delta=1$, forcing $\psi=0$.
-\end{calculation}
+and $f(1)=0$. The only root is $\delta=1$, forcing $\psi=0$. The predicate is
+\code{core.CorePercolation.has\_core\_free\_branch}, and it returns true exactly
+when every cardinality is two.
 
 So a chygraph carrying any layer of cardinality three or more has no core-free
 branch at all, at any density. Leaf removal never certifies a cover there.
@@ -525,7 +518,7 @@ the graph; open squares are Eq.~\eqref{eq:core} evaluated on the maximal-clique
 ensemble measured from that same graph, so nothing is fitted; triangles are the
 degree-matched configuration model, which has no core over almost the whole
 range and is drawn on the axis floor where it has none. Lines are power-law fits
-over $\ave{k}\le1$. Data from \code{statmech/\allowbreak probe/prediction4.py}; plotted by
+over $\ave{k}\le1$. Data from \code{statmech/probe/prediction4.py}; plotted by
 \code{figs/cover.py}.}
 \label{fig:hrg}
 \end{figure}
