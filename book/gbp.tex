@@ -86,9 +86,12 @@ treated as isolated --- an estimate, not yet a fixed point --- it is
 $-\beta F=\sum_{R}c_{R}\ln Z_{R}$, with $Z_{R}$ the exact partition function of
 region $R$ on its own; that sum is
 \code{gbp.\allowbreak static\_\allowbreak log\_\allowbreak Z}.
-Equation~\eqref{eq:bethe} is this same expression on one particular family, $c=1$
-on every complex and $1-k$ on every node, so the two schemes compared below
-differ in their $c_{R}$ and in nothing else.
+Equation~\eqref{eq:bethe} carries the same counting on one particular family,
+$c=1$ on every complex and $1-k$ on every node. What it does not carry is the
+same $Z_{R}$: its terms hold cavity fields rather than isolated regions, and it
+is Eq.~\eqref{eq:para}, the same free energy at zero field, that is this
+expression on that family. The two schemes compared below differ in their
+$c_{R}$ and in nothing else.
 
 Two things follow.
 

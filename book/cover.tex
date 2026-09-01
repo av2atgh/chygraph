@@ -268,22 +268,23 @@ deleted, or --- failing both --- core-side. A branch with no core is therefore
 $\psi+\delta=1$, which is the form Sec.~\ref{sec:corefree} puts to the map.
 
 The two quantities it supplies, $\zeta$ and $\xi$, are what a complex does to a
-node entering it. Enter a complex through one member and look at the other
-$c-1$. With $m$ of them still live, every live member has clique-degree exactly
-$m$ inside the complex, so two events matter and no others.
+node entering it. Enter a layer-$l$ complex through one member and look at the
+other $c_{l}-1$. With $n$ of them still live, every live member has
+clique-degree exactly $n$ inside the complex, so two events matter and no
+others.
 
 \emph{The complex leaves the entering node free to be a leaf} only when it
-offers nothing at all --- when every one of the other $c-1$ members is already
-deleted --- so $\zeta=\delta^{\,c-1}$.
+offers nothing at all --- when every one of the other $c_{l}-1$ members is
+already deleted --- so $\zeta_{l}=\delta_{l}^{\,c_{l}-1}$.
 
 \emph{The complex forces the entering node out} only when exactly one other
 member is live and leaf-ready. With two or more live members the entering node
-is not a leaf of that complex and the complex decides nothing. There are $c-1$
-ways to choose which member is the live one, so
-$\xi=(c-1)\,\delta^{\,c-2}\psi$.
+is not a leaf of that complex and the complex decides nothing. There are
+$c_{l}-1$ ways to choose which member is the live one, so
+$\xi_{l}=(c_{l}-1)\,\delta_{l}^{\,c_{l}-2}\psi_{l}$.
 
-At $c=2$ these degenerate to $\zeta=\delta$ and $\xi=\psi$, returning the graph
-recursion $\psi=\bar\Phi(\delta)$, $\delta=1-\bar\Phi(1-\psi)$. The whole of it
+At $c_{l}=2$ these degenerate to $\zeta_{l}=\delta_{l}$ and $\xi_{l}=\psi_{l}$,
+returning the graph recursion $\psi=\bar\Phi(\delta)$, $\delta=1-\bar\Phi(1-\psi)$. The whole of it
 --- the three states, the two intra-complex quantities and the fixed point --- is
 \code{Chygraph.\allowbreak core}, whose \code{solve} iterates monotonically from
 zero because, unlike Eq.~\eqref{eq:vc}, this map is order-preserving; the

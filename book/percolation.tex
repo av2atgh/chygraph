@@ -170,8 +170,12 @@ Linearising Eqs.~\eqref{eq:Qminus}--\eqref{eq:Qplus} about $Q\equiv1$ replaces
 every generating function by its first derivative there, which by
 Eq.~\eqref{eq:moments} is one of the four moment matrices $\ave{\kappa}$,
 $\ave{\kbar}$, $\ave{s}$, $\ave{\sbar}$. The result is a linear operator on the
-$2L^{2}$ unknowns, and the transition is where its largest eigenvalue passes
-through zero. That operator is the tensor $A$ of \citet{vazquez2023pre}.
+$2L^{2}$ unknowns --- the tensor $A$ of \citet{vazquez2023pre} --- and the
+transition is where the largest eigenvalue of $-A$ passes through zero. The
+sign is not cosmetic. Section~\ref{sec:jacobian} will show that $A$ is the
+identity minus the Jacobian of the map, so its eigenvalues are the Jacobian's
+subtracted from one, and the one that crosses zero at the transition is the
+smallest of them rather than the largest.
 
 Doing that expansion is what produces the blocks. Write $Q=1-\epsilon$. Every
 generating function equals one at $Q\equiv1$, so a product of them is one at
@@ -213,11 +217,13 @@ $(\mathrm{vec}\,A)_{mL+l,\,nL+k}=A^{ml}_{nk}$,
     \mathrm{vec}(A_{+-}) & \mathrm{vec}(A_{++})
   \end{bmatrix},
 \]
-and the order parameter is its largest eigenvalue,
+and the distance above threshold is the largest eigenvalue of its negative,
 \[
   \Lambda=\max_{\lambda}\ \mathrm{eigenvals}\bigl(-\mathrm{vec}^{2}A\bigr).
 \]
-Finite components when $\Lambda<0$, a giant component when $\Lambda>0$.
+Finite components when $\Lambda<0$, a giant component when $\Lambda>0$. The
+order parameter is $S$, and Chapter~\ref{ch:giant} obtains it from $\Lambda$ by
+carrying the same expansion one order further.
 
 Since $\Lambda=0$ implies $\det(\mathrm{vec}^{2}A)=0$, it is often easier to work
 with the \emph{pseudo-order parameter}
