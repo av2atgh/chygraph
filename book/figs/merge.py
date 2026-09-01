@@ -1,4 +1,4 @@
-"""Chapter 14: merging overlapping complexes, and when that is affordable.
+"""Chapter 16: merging overlapping complexes, and when that is affordable.
 
 Two complexes that share more than one atom break the treelike assumption.
 The obvious repair is to merge them into one meta-complex and sum its interior
@@ -12,12 +12,13 @@ components of that graph, and the repair is affordable exactly while it has no
 giant one.  This script measures where that giant appears on the ensemble the
 book cares about.
 
-Section 14.7 then asks whether that verdict is a fact about clustering or a
-fact about one ensemble, by running the same measurement on Karrer and Newman's
-subgraph model (Phys. Rev. E 82, 066118), where the motifs are placed by
-matching roles rather than grown by a geometry.  There the two answers differ,
-and the reason is that the number of motif pairs sharing an edge is O(1) on
-their ensemble and Theta(n) on a hyperbolic graph.
+Only `check_placed_finite_size` reaches the book, as Table 15.2 in Sec. 15.4.
+The other four checks compare the closure across ensembles -- hyperbolic against
+Karrer and Newman's subgraph model (Phys. Rev. E 82, 066118), where the motifs
+are placed by matching roles rather than grown by a geometry, and against an
+ensemble built out of overlaps -- and none of their numbers is quoted anywhere.
+They are kept because they are the evidence that the O(1) count of edge-sharing
+motif pairs, not the clustering coefficient, is what decides the closure.
 
 This module writes no figures.  It used to write fig-merge and fig-motifs;
 nothing has included them since Part IV was split into three chapters, so both
@@ -113,9 +114,9 @@ def overlap_stats(cl):
     Both come out of `chygraph_statmech.region.overlap_profile`, which is the
     routine Sec. 3.3 measures real networks with, so the two chapters are
     counting the same thing.  The ratio is what Ch. 3 reports; the raw count is
-    what Sec. 14.7 needs, because the number of intersecting pairs is
-    Theta(n) in every ensemble here and dividing by it hides the distinction
-    the section is about.
+    what `check_overlap_is_not_extensive` needs, because the number of
+    intersecting pairs is Theta(n) in every ensemble here and dividing by it
+    hides the distinction that check is about.
     """
     prof = overlap_profile(cl)
     return (prof['shared_2plus'] * prof['n_intersecting_pairs'],
@@ -166,7 +167,7 @@ def diamond_graph(n, s_mean, d_mean, seed=1):
 
     This is their answer to overlapping triangles -- promote the overlapping
     pair to an element of its own rather than let it arise -- and it is
-    Sec. 14.6's merge, taken at the point the ensemble is written down instead
+    Sec. 16.1's merge, taken at the point the ensemble is written down instead
     of afterwards.  The element has two roles (the two vertices on the shared
     edge carry three internal edges, the two tips carry two), so the two are
     matched separately.
@@ -253,8 +254,8 @@ def check_placed_finite_size(seeds=12, quiet=False):
     count of such pairs is therefore O(1) while the number of cliques grows like
     n, so the FRACTION of cliques caught in an overlap falls like 1/n.  At the
     sizes where ln Z can be enumerated that fraction has not fallen at all,
-    which is why Sec. 14.6's instances look nothing like the ensemble they are
-    drawn from.  This measures the crossover.
+    which is why Sec. 15.4's instances look nothing like the ensemble they are
+    drawn from.  This measures the crossover, and is Table 15.2.
     """
     import networkx as nx
     rows = []
@@ -286,7 +287,7 @@ def check_placed_finite_size(seeds=12, quiet=False):
 
 
 def check_two_triangles():
-    """The repair is exact on Sec. 14.4's example, trivially."""
+    """The repair is exact on Fig. 14.1's two triangles, trivially."""
     m, rnd = merge_closure([(0, 1, 2), (1, 2, 3)])
     assert len(m) == 1 and m[0] == frozenset({0, 1, 2, 3}), m
     print(f'  two triangles sharing an edge merge into one complex of '
@@ -318,9 +319,9 @@ def _row(G, cl):
 
 
 def check_overlap_is_not_extensive(seeds=3):
-    """Sec. 14.7: the count of edge-sharing clique pairs against n.
+    """The count of edge-sharing clique pairs against n.  Not quoted.
 
-    This is the measurement that decides whether Sec. 14.6's verdict is about
+    This is the measurement that decides whether the closure's verdict is about
     clustering or about one ensemble.  On the Karrer-Newman ensemble the count
     is flat in n while the number of cliques grows like n, so shared_2+ decays
     like 1/n and the merge closure has a bounded number of merges to make.  On
@@ -359,7 +360,7 @@ def check_overlap_is_not_extensive(seeds=3):
 
 
 def check_diamonds_are_recovered(seeds=3):
-    """Sec. 14.7: run the closure blind on an ensemble built OUT OF overlaps.
+    """Run the closure blind on an ensemble built OUT OF overlaps.  Not quoted.
 
     Karrer and Newman handle triangles that share an edge by placing the
     resulting diamond as a subgraph type of its own.  Its maximal cliques are

@@ -1,6 +1,6 @@
 """Merging against generalised belief propagation, on the same instances.
 
-Sections 14.5 to 14.7 run GBP on maximal-clique region graphs; Sec. 14.8 runs
+Sections 15.3 to 15.5 run GBP on maximal-clique region graphs; Sec. 16.1 runs
 the merge closure on whole ensembles.  The two are never compared on the same
 object, and they should be, because they are alternative repairs for one
 problem.  This regenerates every instance the three GBP probes used and asks

@@ -1,4 +1,4 @@
-"""Chapter 13: what overlapping complexes cost, and what recovers it.
+"""Chapters 14 to 16: what non-trivial overlap costs, and what recovers it.
 
   fig-gbp        the same three schemes over 60 maximal-clique region graphs of
                  hyperbolic random graphs, split by whether the clique
@@ -7,9 +7,8 @@
   fig-gbp-real   the same experiment on the clustered neighbourhoods of six
                  real networks, and the chordal fraction network by network
 
-Chapter 13's first figure, two triangles sharing an edge, is TikZ in
-`overlap.tex`; its table of two-triangle errors is printed by
-`check_two_triangles` below.
+Figure 14.1, two triangles sharing an edge, is TikZ in `overlap.tex`; its
+table of two-triangle errors is printed by `check_two_triangles` below.
 
 The 60-instance data is read from `../probe/results/gbp_cliques.json`, the
 cached output of `../probe/gbp_cliques.py`, and the real-network data from
@@ -146,7 +145,7 @@ def figure_gbp():
                         mfc='white' if mk != 'x' else col, color=col)
             # the four sound fixed points that came out no better than the
             # static estimate they were supposed to improve: filled, because
-            # they are the ones that bear on Sec. 14.2's claim
+            # they are the ones that bear on Sec. 15.5's claim
             if key == 'gbp':
                 w = [k for k, r in enumerate(rows)
                      if abs(r['gbp']) >= abs(r['kikuchi'])]
@@ -289,7 +288,7 @@ def figure_gbp_real():
                         mfc='white' if mk != 'x' else col, color=col)
             # the four sound fixed points that came out no better than the
             # static estimate they were supposed to improve: filled, because
-            # they are the ones that bear on Sec. 14.2's claim
+            # they are the ones that bear on Sec. 15.5's claim
             if key == 'gbp':
                 w = [k for k, r in enumerate(rows)
                      if abs(r['gbp']) >= abs(r['kikuchi'])]
