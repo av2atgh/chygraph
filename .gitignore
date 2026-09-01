@@ -39,3 +39,4 @@ supplementNotes.bib
 # probe/results/gbp_real.json is the artefact the book reads; keeping the
 # shards would let a later run silently reuse them after the probe changed.
 probe/results/gbp_real_parts/
+probe/results/merge_vs_gbp.json

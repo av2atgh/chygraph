@@ -46,7 +46,7 @@ comparison of Sec.~\ref{sec:soft}. \code{probe/} holds the expensive
 measurements, with their outputs cached under \code{probe/results/}: the Monte
 Carlo of Eq.~\eqref{eq:mc}, the leaf-removal validation of
 Sec.~\ref{sec:cover-checks}, the hyperbolic-graph scan behind
-Fig.~\ref{fig:hrg}, and the six measurements of Part~IV --- the cavity method on
+Fig.~\ref{fig:hrg}, and the seven measurements of Part~IV --- the cavity method on
 the clique chygraph behind Fig.~\ref{fig:cavityfail}, the sixty region graphs
 behind Fig.~\ref{fig:gbp}, the placed-motif instances of
 Sec.~\ref{sec:karrer}, the real neighbourhoods behind Fig.~\ref{fig:gbpreal},
@@ -201,6 +201,8 @@ Eq. & what it is & evaluated by & checked in\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:overlap}, overlapping complexes}}\\
 \eqref{eq:mobius} & M\"obius counting numbers & \code{region.\allowbreak RegionGraph} & \code{test\_\allowbreak region}\\
 \eqref{eq:p2c} & the parent-to-child update & \code{gbp.\allowbreak GBP} & \code{test\_\allowbreak gbp}\\
+--- & the cavity recursion on a chygraph & \code{probe/\allowbreak cavity\_\allowbreak clique.\allowbreak Chygraph\allowbreak BP} & \code{validate} in that file\\
+\eqref{eq:branching} & the incidence branching & \code{probe/\allowbreak karrer\_\allowbreak core\_\allowbreak sweep.\allowbreak py} & \code{check\_\allowbreak core\_\allowbreak transition}\\
 \end{longtable}
 }
 
