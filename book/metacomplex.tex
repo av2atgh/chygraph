@@ -361,9 +361,15 @@ an atom carrying $s$ edge memberships and $t$ triangle memberships branches
 ways at the next step. A branching process survives when its ratio exceeds one,
 and the 2-core of the incidence structure is what survives, so the core should
 appear at $b=1$ and not before --- whatever mixture of edges and triangles
-supplies it. At $t=0$ the complexes are bare edges, the chygraph is a graph, and
+supplies it. None of that is new: it is the $k$-core transition of
+\citet{pittel1996} at $k=2$, equivalently the point at which
+\citeauthor{bauer2001}'s standard leaf removal stops consuming the graph
+\citep{bauer2001}, and it is where the loops that defeat belief propagation
+appear \citep{mezard2009}. At $t=0$ the
+complexes are bare edges, the chygraph is a graph, and
 Eq.~\eqref{eq:branching} says $s=1$: the Erd\H{o}s--R\'enyi $2$-core at mean
-degree one, which fixes the scale independently.
+degree one, which fixes the scale independently. What is measured here is not
+the transition but where a chygraph ensemble sits relative to it.
 
 \begin{figure}[t]
 \centering
@@ -440,9 +446,9 @@ exactly. Over all $240$ runs the criterion is exact in both directions: every on
 of the $200$ acyclic families is exact, every one of the $40$ cyclic ones is
 not, by $5\times10^{-3}$ to $2.25$ in $\ln Z$. Nothing falls on the wrong side.
 
-\paragraph{Phase transition in the Karrer--Newman ensemble.} All $40$ cyclic
-families are Karrer--Newman, and Sec.~\ref{sec:coretransition} locates the cause
-in the ensemble's parameters. Following an
+\paragraph{Where the cycles come from.} All $40$ cyclic families are
+Karrer--Newman, and Sec.~\ref{sec:coretransition} locates the cause in the
+ensemble's parameters. Following an
 atom into a complex of cardinality $c$ and out through its $c-1$ other atoms
 gives an incidence branching $b=s+2t$; the 2-core of that structure is what a
 branching process at ratio $b$ leaves behind, so it should appear at $b=1$
@@ -500,7 +506,9 @@ the only one of the three classes with parameters that can be turned: a
 hyperbolic random graph is set by $\tau$ and $\ave{k}$, and a real network is
 whatever it is. That the threshold sits at $b=1$ for any mixture is argued from
 the branching ratio and checked on three lines through the $(s,t)$ plane, not
-proved. The finite-size evidence is stated rather than assumed --- the core
+proved here; for $c=2$ it is \citeauthor{pittel1996}'s result, and the $b=1$
+anchor is \citeauthor{bauer2001}'s $\alpha=1$, the companion of the $\ave{k}=e$
+that Chapter~\ref{ch:cover} uses. The finite-size evidence is stated rather than assumed --- the core
 falls with $n$ below the threshold and rises to a limit above it, settling by
 $n=800$ --- because Table~\ref{tab:knfinite} shows this part is not immune to
 reading a crossover as a transition. And the whole chapter is instance-level:

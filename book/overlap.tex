@@ -118,10 +118,30 @@ be set as high as one likes.
 
 Two placed motifs may share a vertex freely. They share an \emph{edge} only when
 their remaining corners coincide, which for a random matching has probability
-$O(1/n)$. The ensemble is therefore treelike above the level of the motif by
-construction, up to coincidences whose number does not grow with the network.
-That property is what makes the model solvable, and
-Sec.~\ref{sec:merging} finds it is what decides the merge closure.
+$O(1/n)$. No two complexes therefore meet in more than one atom, up to
+coincidences whose number does not grow with the network. That is
+Sec.~\ref{sec:treelike}'s pairwise condition, satisfied by construction, and it
+is what leaves the merge closure of Sec.~\ref{sec:merging} with nothing to
+merge.
+
+It is not the absence of loops. The motifs are wired together by a
+configuration model, and the incidence structure of that wiring carries a
+$2$-core above an incidence branching of one, exactly as an Erd\H{o}s--R\'enyi
+graph carries cycles above mean degree one. That threshold is classical --- the
+$k$-core transition of \citet{pittel1996} at $k=2$, and the point at which
+\citeauthor{bauer2001}'s standard leaf removal stops consuming the graph
+\citep{bauer2001} --- and it is where belief propagation stops being exact
+\citep{mezard2009}. What Sec.~\ref{sec:coretransition} adds is where it sits in
+this ensemble's own parameters; the instances used here are drawn well above it.
+
+The two thresholds this book quotes are the two removal rules of that one paper.
+Deleting a leaf and its edge leaves nothing above mean degree one; deleting a
+leaf \emph{and its neighbour} leaves nothing until $\ave{k}=e$. Part~IV runs
+the first, because a coupling determines an atom and does not eliminate its
+complex, and Chapter~\ref{ch:cover} runs the second, because a covering
+constraint does. That is why $P_{C}(\mathrm{Ising},\mathrm{BP}_{\chi})$ and
+$P_{C}(\mathrm{VC},\mathrm{BP}_{\chi})$ are different numbers on the same
+object.
 
 \paragraph{Real networks, where the triangles are whatever was recorded.} Six
 networks from Netzschleuder, in two families divided by how an edge came to be
