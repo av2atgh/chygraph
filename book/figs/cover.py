@@ -242,66 +242,6 @@ def figure_hrg():
 
 
 
-def figure_real_core():
-    """Figure 11.4: the sixteen real networks, three ways.
-
-    Left: core fraction against mean degree, which is the variable that decides
-    whether the comparison is a test.  Below <k> ~ 5 the degree-matched control
-    has no core and the graph does; above it every series saturates and nothing
-    is being distinguished.  Right: the prediction against the measurement, so
-    the quality of the five points that carry the comparison can be read off
-    against the diagonal rather than inferred from the left panel.
-
-    Zeros are drawn on the axis floor, the convention Fig. 11.3 uses.
-    """
-    import json
-    plt = _mpl()
-    rows = sorted(json.loads((PROBE / 'real_core.json').read_text()),
-                  key=lambda r: r['kbar'])
-    FLOOR = 1e-4
-    k = np.array([r['kbar'] for r in rows])
-    meas = np.array([r['measured'] for r in rows])
-    chy = np.array([r['chygraph'] for r in rows])
-    ctrl = np.array([r['control'] for r in rows])
-    # the five that carry the comparison: control empty, graph not
-    carries = (ctrl < 0.02) & (meas > 0.02)
-
-    fig, axes = plt.subplots(1, 2, figsize=(4.6, 2.5))
-
-    ax = axes[0]
-    f = lambda v: np.where(v > FLOOR, v, FLOOR)
-    ax.loglog(k, f(meas), 'o', ms=3.4, color=DARK, label='measured')
-    ax.loglog(k, f(chy), 's', ms=3.4, mfc='white', mew=0.9, color=DARK,
-              label='chygraph')
-    ax.loglog(k, f(ctrl), '^', ms=3.2, color=LIGHT, label='degree-matched')
-    ax.axvline(np.e, ls=':', lw=0.9, color=MID)
-    ax.annotate(r'$\langle k\rangle=e$', xy=(np.e * 1.15, 1.1), fontsize=6.2,
-                color='0.45')
-    ax.set_xlabel(r'mean degree $\langle k\rangle$', fontsize=8.5)
-    ax.set_ylabel('core fraction', fontsize=8.5)
-    ax.set_ylim(5e-5, 2.5)
-    ax.legend(frameon=False, fontsize=6.6, loc='lower right')
-    _tidy(ax)
-
-    ax = axes[1]
-    d = np.array([FLOOR, 2.0])
-    ax.loglog(d, d, '-', lw=0.9, color='0.6')
-    ax.loglog(f(meas[~carries]), f(chy[~carries]), 'o', ms=3.4, mfc='white',
-              mew=0.9, color=LIGHT, label='control has a core')
-    ax.loglog(f(meas[carries]), f(chy[carries]), 'o', ms=3.6, color=DARK,
-              label='control has none')
-    ax.set_xlabel('measured core', fontsize=8.5)
-    ax.set_ylabel('chygraph core', fontsize=8.5)
-    ax.set_xlim(5e-5, 2.5)
-    ax.set_ylim(5e-5, 2.5)
-    ax.legend(frameon=False, fontsize=6.2, loc='upper left')
-    _tidy(ax)
-
-    fig.tight_layout()
-    fig.savefig(OUT / 'fig-real-core.pdf')
-    print(f'  wrote {OUT / "fig-real-core.pdf"}')
-
-
 def table_real_core():
     """Table 11.1: leaf removal on sixteen real networks, three ways.
 
