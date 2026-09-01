@@ -153,7 +153,7 @@ def figure_core():
     ax.annotate(r'$1-e^{-\langle k\rangle}$: $c=3$ and $4$ coincide',
                 xy=(1.55, 0.86), fontsize=7, color='0.35')
     ax.set_xlabel(r'chy-degree $\langle k\rangle$', fontsize=8.5)
-    ax.set_ylabel(r'$P_C(\chi)$', fontsize=9)
+    ax.set_ylabel(r'$P_C(\mathrm{VC},\,\mathrm{BP}_\chi)$', fontsize=9)
     ax.set_ylim(-0.02, 1.02)
     ax.legend(frameon=False, fontsize=8, loc='center right')
     _tidy(ax)
