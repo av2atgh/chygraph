@@ -738,14 +738,15 @@ def figure_core_transition():
     for n, mk in zip(sizes, ('o', 's', '^', 'D')):
         sel = sorted([r for r in d if r['family'] == lab and r['n'] == n],
                      key=lambda r: r['b'])
-        bx.plot([r['b'] for r in sel], [r['core_mean'] for r in sel],
-                mk + '-', ms=2.8, lw=0.9, mfc='white',
-                color=str(0.10 + 0.18 * sizes.index(n)), label=f'$n={n}$')
+        bx.errorbar([r['b'] for r in sel], [r['core_mean'] for r in sel],
+                    yerr=[r['core_sem'] for r in sel], fmt=mk + '-', ms=2.8,
+                    lw=0.9, elinewidth=0.7, capsize=1.2, mfc='white',
+                    color=str(0.10 + 0.18 * sizes.index(n)), label=f'$n={n}$')
     bx.axvline(1.0, color='0.75', lw=0.7, ls=':')
     bx.set_xlabel('incidence branching $b=s+2t$', fontsize=8)
     bx.set_ylabel('core, triangles only', fontsize=8.5)
     bx.set_xlim(0.3, 1.9)
-    bx.set_ylim(-0.02, 0.55)
+    bx.set_ylim(-0.008, 0.2)
     bx.legend(fontsize=6.4, frameon=False, loc='upper left')
     _tidy(bx)
     fig.tight_layout()
