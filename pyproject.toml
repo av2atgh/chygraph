@@ -1,0 +1,26 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chygraph"
+version = "0.1.0"
+description = "Percolation and statistical mechanics on complex hypergraphs: one namespace over the percolation and statmech packages"
+readme = "README.md"
+license-files = ["LICENSE"]
+requires-python = ">=3.9"
+dependencies = [
+    "percolation",
+    "statmech",
+]
+
+[project.optional-dependencies]
+test = ["pytest"]
+
+[project.urls]
+Repository = "https://github.com/av2atgh/chygraph"
+Paper      = "https://doi.org/10.1093/comnet/cnae047"
+Preprint   = "https://arxiv.org/abs/2308.00987"
+
+[tool.setuptools.packages.find]
+where = ["src"]

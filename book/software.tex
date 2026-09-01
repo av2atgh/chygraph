@@ -32,6 +32,11 @@ region-graph calculation of Chapter~\ref{ch:gbp}. It depends on the first ---
 \code{statmech.\allowbreak stability} imports \code{Percolation\allowbreak Matrix}
 --- which is why the two live together.
 
+A third package, \code{chygraph}, is one namespace over both, so a routine can
+be reached without knowing which of the two defines it. Table~\ref{tab:map}
+names the defining package throughout, since that is what a reader looking for
+the source wants.
+
 A third source is the book's own \code{figs/} directory, which holds thirteen
 scripts covering Chapter~\ref{ch:data} onward, most of them named for the
 chapter they serve. Those scripts generate the figures, and for

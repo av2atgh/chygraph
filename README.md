@@ -12,23 +12,41 @@ whose complexes may contain other complexes. One repository, three parts.
 `statmech` builds on `percolation`: `statmech.stability` imports
 `PercolationMatrix`. That dependency is why the two live together.
 
+A third package, **`chygraph`** (`src/chygraph/`), is one namespace over both:
+
+```python
+from chygraph import PercolationMatrix, CriticalAmplitude, GBP
+```
+
+It re-exports all 58 public names of the two packages, adds nothing and takes
+nothing away — `chygraph.percolation` and `chygraph.statmech` remain the real
+packages, and importing either directly is unaffected. One name is deliberately
+withheld: both define a class called `Chygraph`, and they are different objects
+(`percolation.giant.Chygraph` is the self-consistency map, `statmech.api.Chygraph`
+the calculation handle). Re-exporting both would let one silently shadow the
+other, so `chygraph.Chygraph` raises with a message naming the alternatives, and
+the two are available as **`ChygraphPercolation`** and **`ChygraphStatmech`**.
+Any *undeclared* collision between the two packages raises on import rather than
+being resolved by import order.
+
 Each package installs on its own and carries its own test suite and examples:
 
 ```sh
 pip install -e percolation
 pip install -e statmech
-pytest percolation/tests statmech/tests
+pip install -e .                     # the chygraph namespace over both
+pytest tests percolation/tests statmech/tests
 ```
 
 Or without installing anything, which is what the figure scripts do for
 themselves:
 
 ```sh
-PYTHONPATH=$PWD/percolation/src:$PWD/statmech/src \
-  pytest percolation/tests statmech/tests
+PYTHONPATH=$PWD/src:$PWD/percolation/src:$PWD/statmech/src \
+  pytest tests percolation/tests statmech/tests
 ```
 
-**415 tests, all passing** (2026-09-01, ~6 min). The suite needs `sympy`,
+**422 tests, all passing** (2026-09-01, ~6 min). The suite needs `sympy`,
 `numpy`, `scipy` and `pytest`, and `statmech/tests/test_core.py` additionally
 needs `numba`, because it checks the core against an independent leaf-removal
 implementation in a separate repository (`~/av2atg/computational_complexity`).
