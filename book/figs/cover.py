@@ -241,6 +241,44 @@ def figure_hrg():
     print(f'  wrote {OUT / "fig-hrg.pdf"}')
 
 
+
+def table_real_core():
+    """Table 11.1: leaf removal on sixteen real networks, three ways.
+
+    Reads probe/results/real_core.json -- measured core, the Eq. (11.4)
+    prediction on the maximal-clique ensemble of that same graph, and the
+    degree-matched control.  Sorted by mean degree, because that is the variable
+    that decides whether the comparison can say anything: below the threshold
+    the control has no core and the comparison is a test, above it everything is
+    core whatever the clustering.
+    """
+    import json
+    rows = json.loads((PROBE / 'real_core.json').read_text())
+    rows.sort(key=lambda r: r['kbar'])
+    out = [r'\begin{tabular}{lrrrrr}', r'\hline\hline',
+           r'network & $\ave{k}$ & $C$ & measured & chygraph & ctrl\\',
+           r'\hline']
+    for r in rows:
+        out.append(f"{r['label']} & {r['kbar']:.2f} & {r['C']:.3f} & "
+                   f"{r['measured']:.4f} & {r['chygraph']:.4f} & "
+                   f"{r['control']:.4f}\\\\")
+    out += [r'\hline\hline', r'\end{tabular}']
+    (OUT / 'tab-real-core.tex').write_text('\n'.join(out) + '\n')
+    print('  wrote tab-real-core.tex')
+
+    below = [r for r in rows if r['control'] < 0.02 and r['measured'] > 0.02]
+    print(f"  {len(below)} networks where the control has no core and the graph does:")
+    for r in below:
+        print(f"     {r['label']:18s} <k>={r['kbar']:5.2f}  measured={r['measured']:.4f}"
+              f"  chygraph={r['chygraph']:.4f} ({100*r['recovered']:4.1f}%)"
+              f"  ctrl={r['control']:.4f}")
+    zero = [r for r in rows if r['measured'] == 0.0]
+    print(f"  {len(zero)} with no measured core at all; chygraph predicts "
+          f"{min(r['chygraph'] for r in zero):.4f} to {max(r['chygraph'] for r in zero):.4f}")
+    dense = [r for r in rows if r['control'] > 0.5]
+    print(f"  {len(dense)} where the control is core too (>0.5), so the comparison is empty")
+
+
 if __name__ == '__main__':
     print('one point, three names:')
     check_threshold()

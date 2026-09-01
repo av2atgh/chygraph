@@ -53,13 +53,14 @@ expensive measurements, with their outputs cached under
 \code{statmech/\allowbreak probe/\allowbreak results/}: the Monte
 Carlo of Eq.~\eqref{eq:mc}, the leaf-removal validation of
 Sec.~\ref{sec:cover-checks}, the hyperbolic-graph scan behind
-Fig.~\ref{fig:hrg}, and the seven measurements of Part~IV --- the cavity method on
+Fig.~\ref{fig:hrg}, the sixteen real networks of Table~\ref{tab:realcore}, and
+the seven measurements of Part~IV --- the cavity method on
 the clique chygraph behind Fig.~\ref{fig:cavityfail}, the sixty region graphs
 behind Fig.~\ref{fig:gbp}, the placed-motif instances of
 Sec.~\ref{sec:karrer}, the real neighbourhoods behind Fig.~\ref{fig:gbpreal},
 the meta-complex error of Fig.~\ref{fig:mergeerror}, the propagation cores of
 Figs.~\ref{fig:corebonds} and~\ref{fig:coremeta}, and the branching sweep of
-Fig.~\ref{fig:coretransition}. Those ten are the only places
+Fig.~\ref{fig:coretransition}. Those eleven are the only places
 where the book quotes a number it does not recompute at build time, and each
 says so where it is used. The real-network probe needs graph-tool and a network
 connection the first time it runs, to pull its networks from Netzschleuder; it
@@ -184,6 +185,7 @@ Eq. & what it is & evaluated by & checked in\\
 \eqref{eq:vc} & the cover map & \code{cover.\allowbreak CliqueCover.\allowbreak solve} & \code{test\_\allowbreak cover}\\
 \eqref{eq:core} & three-state leaf removal & \code{core.\allowbreak CorePercolation.\allowbreak solve} & \code{test\_\allowbreak core}\\
 \eqref{eq:factored} & no core-free branch above $c=2$ & \code{core.\allowbreak CorePercolation.\allowbreak has\_\allowbreak core\_\allowbreak free\_\allowbreak branch} & \code{figs/\allowbreak cover.\allowbreak py}\\
+\ref{tab:realcore} & leaf removal on real networks & \code{statmech/\allowbreak probe/\allowbreak real\_\allowbreak core.\allowbreak py} & \code{figs/\allowbreak cover.\allowbreak py:\allowbreak table\_\allowbreak real\_\allowbreak core}\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:colouring}, colouring}}\\
 \eqref{eq:taucol} & proper colouring, $-1/(q-1)$ & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak tau\_\allowbreak closed} & same file\\
 \eqref{eq:tauhyp} & hypergraph colouring & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak tau\_\allowbreak closed} & same file\\
