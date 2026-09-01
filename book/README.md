@@ -27,8 +27,11 @@ language in the running text with the algebra boxed off.
 | 11 | `cover.tex` | **Drafted.** Vertex cover, leaf removal, core percolation; hyperbolic random graphs |
 | 12 | `colouring.tex` | **Drafted.** Proper against hypergraph colouring; `tau = -1/(q-1)` independent of cardinality; `(q-1)^2`; a graph with triangles, where the graph calculation is wrong by one; survey propagation; and **Sec. 12.9, extending Krzakala et al. to chygraphs to get `c_q` for a clustered graph** — the chapter's own result |
 | 13 | `satisfiability.tex` | **Drafted.** Clauses as complexes; `alpha = 1` exact at `k = 2`, no linear instability above it; **clauses whose members are clauses**, and what CNF flattening costs |
-| 14 | `overlap.tex` | **Drafted.** The price of treelikeness; region graphs and GBP; merging the offenders; and **Sec. 14.7, the merge closure terminating on a placed ensemble where it fails on a geometric one at the same clustering** — the chapter's own result; what is open |
-| 15 | `outlook.tex` | **Drafted.** One recursion, many models; the two running threads; what is not done |
+| **IV** | | **Complexes with non-trivial overlap** |
+| 14 | `overlap.tex` | **Drafted.** The price of treelikeness: what `BP_chi` loses to overlapping cliques, measured on three classes of network, with the rewired control that attributes it |
+| 15 | `gbp.tex` | **Drafted.** The repair the literature already has: region graphs, Möbius counting, GBP over 240 runs — exact where the clique family is chordal, and **chordality follows provenance, not clustering** |
+| 16 | `metacomplex.tex` | **Drafted.** The repair that stays inside the formalism: merge complexes sharing two or more atoms; exact iff the merged incidence structure is a forest; and **Sec. 16.3, the core-percolation transition at incidence branching one** — the chapter's own result |
+| 17 | `outlook.tex` | **Drafted.** One recursion, many models; the two running threads; what is not done |
 
 **Chapters 12 and 13 have no manuscript behind them.** Every other chapter is
 exposition of work that exists elsewhere; for these two the calculations are
@@ -43,28 +46,32 @@ the references are under `~/Downloads/chygraph_references/`.
 Last updated 2026-09-01. `main.pdf` builds with **0 errors, 0 undefined
 references and 0 multiply-defined labels, across 278 pages.** Not box-clean:
 **three overfull hboxes** — `cover.tex:239--249` (1.98pt, "Which
-replica-symmetry-breaking point"), `overlap.tex:126--135` (6.37pt, the
+replica-symmetry-breaking point"), `overlap.tex:146--155` (6.37pt, the
 `\paragraph{Real networks, where the triangles are whatever was recorded.}`
-head) and `metacomplex.tex:347--353` (3.16pt) — and **35 underfull vboxes**,
+head) and `metacomplex.tex:347--353` (3.16pt) — and **34 underfull vboxes**,
 every one of them `while \output is active` — page-breaking around floats, not
 a line that runs into the margin.
-54 figures, 23 numbered tables, 24 calculation boxes, 115 numbered equations of
-which 113 carry labels, 72 references, a 96-term index. All 281 distinct
+54 figures, 24 numbered tables, 24 calculation boxes, 124 numbered equations of
+which 115 carry labels, 73 references, a 96-term index. All 284 distinct
 `\ref`/`\eqref` targets resolve, all 28 `\includegraphics` files are present,
-and all 109 `\code` names in `software.tex` resolve across both repositories.
-Software-table coverage is 83 of the 113 equation labels.
+and all 114 `\code` names in `software.tex` resolve across both repositories.
+Software-table coverage is 85 of the 115 equation labels. Both checks under
+*Two checks the build cannot make* print nothing.
 
-These counts were re-measured on 2026-08-31 and several of them had drifted
-badly from what this section used to claim (228 pages, 0 overfull, 41 figures,
-104 equations). **Re-measure rather than trust them after any drafting pass** —
+These counts were re-measured on 2026-09-01. Six of them had drifted from what
+this section claimed on 2026-08-31 without any content being added: numbered
+equations 115 to 124, labelled 113 to 115, tables 23 to 24, references 72 to 73,
+`\ref` targets 281 to 284, `\code` names 109 to 114. The 2026-08-31 pass
+before that had found worse (228 pages, 0 overfull, 41 figures, 104 equations).
+**Re-measure rather than trust them after any drafting pass** —
 the recipe is under Building, below. The numbers inside the dated pass sections
 further down are left as they were: they record what was true at the time.
 
-**The book is drafted end to end.** Preface, the software chapter, and fifteen
-numbered chapters, all with prose, figures and checks.
+**The book is drafted end to end.** Preface, the software chapter, and
+seventeen numbered chapters, all with prose, figures and checks.
 
-`software.tex` sits in the **back matter**, after Ch. 15 and before the index,
-and is unnumbered — "The software", page 219, arabic. (This section used to say
+`software.tex` sits in the **back matter**, after Ch. 17 and before the index,
+and is unnumbered — "The software", page 243, arabic. (This section used to say
 it sits after the preface with roman page numbers; it has not since
 `\backmatter` was added.) It carries the two repository URLs and **Table 1:
 every computed equation, the routine that evaluates it, and the test or script
@@ -79,8 +86,9 @@ been printing as **"Table 15.2"**: it is a `longtable` in the back matter, and
 clears `\thechapter`, so `\thetable` still expanded to `15.<n>`. The Outlook's
 own table is 15.1, so the software map took 15.2 and its three
 `Table~\ref{tab:map}` call-outs sent a reader into Chapter 15 to look for it.
-Immediately after `\backmatter`, `main.tex` now resets the `table` and `figure`
-counters and redefines `\thetable`/`\thefigure` to a plain `\arabic`, with a
+(Those were the numbers when Part IV was one chapter; the Outlook is now
+Ch. 17 and its table is 17.1.) Immediately after `\backmatter`, `main.tex` now
+resets the `table` and `figure` counters and redefines `\thetable`/`\thefigure` to a plain `\arabic`, with a
 comment saying why. **Add a float to the back matter and it will number plainly
 — that is deliberate.** Ch. 12's caption cites `\citet{gabrie2017}, Table~1`,
 which is somebody else's Table 1 and is attributed in place, so the two do not
@@ -92,7 +100,7 @@ The remaining work is revision, not drafting:
 
 | | what |
 |---|---|
-| 1 | ~~A read-through for continuity~~ — mechanical consistency passes were done 2026-08-28 and 2026-08-30, and a language pass 2026-08-28 (see below). What none of them could do is judge the argument: nobody has yet *read* 1–15 end to end for whether it persuades. |
+| 1 | ~~A read-through for continuity~~ — mechanical consistency passes were done 2026-08-28 and 2026-08-30, and a language pass 2026-08-28 (see below). What none of them could do is judge the argument: nobody has yet *read* 1–17 end to end for whether it persuades. |
 | 2 | ~~Fix the manuscripts~~ — **done by deletion.** The three errors the book found (the tricritical cardinality, the GBP convergence count, the Ch. 5 arithmetic slip) were in `main.tex`/`supplement.tex`, which no longer exist. The book carries the corrected values and says so; the entries below are kept as a record of what was wrong, in case either file is ever resurrected from git. |
 | 3 | **Chs. 12 and 13 are the only chapters whose results are not backed by a manuscript.** If either is to be published separately, the calculations in `figs/colouring.py` and `figs/satisfiability.py` are the starting point. |
 | 4 | **Front matter: the dedication is still `\itshape Dedication to come.` in `main.tex`, and it prints.** The editorial review calls this a blocker. It needs the author's words; nothing else about the front matter is now outstanding. |
@@ -110,8 +118,8 @@ that mapping does not have to be reconstructed.
   where the packages override it. (The `.toc` *file* always contains every
   section; the filtering happens when the contents is typeset, so do not
   "fix" this by reading `main.toc`.)
-- **Three `\part` divisions**, not four. Not in *Local network growth*, added
-  because seventeen chapters need them. A Part IV called "Limitations",
+- **Four `\part` divisions.** Not in *Local network growth*, added because
+  seventeen chapters need them. A Part IV called "Limitations",
   holding two chapters, was removed on 2026-08-31 (author's call). What stands
   now is a different object: **Part IV, "Complexes with non-trivial overlap"**,
   three chapters (14 failure, 15 GBP, 16 meta-complexes) added 2026-08-31, each
@@ -297,6 +305,79 @@ that mapping does not have to be reconstructed.
   it at a fixed contact budget of four contacts per person (`T_c` 0.2500 ->
   0.2929, and 5.6% vs 31.4% infected at `T = 0.3`). Same running thread as
   Ch. 3, Sec. 4.5 and Sec. 5.5.
+
+### Consistency and style pass, 2026-09-01
+
+Read all twenty-one `.tex` files against each other and against this README.
+Commit `8f6903a`, 19 files, +109/-99. The prose needed almost nothing: a grep
+for `It is important to note`, `Of course`, `Indeed`, `Crucially`, `As we shall
+see` and the rest returns **one** hit in 74k words, and British spelling is
+uniform (`colour`/`neighbour`/`behaviour`, zero `-ize` forms). What it found was
+text that had broken, terminology that had drifted, and cross-references that
+Part IV's split into three chapters left behind.
+
+**Four sentences were broken outright.** `giant.tex` had lost the end of a
+clause mid-line — "group structure on its own produces only continuous" ran
+straight into the next sentence, and "The qualifier is doing work" then pointed
+at a qualifier the surviving text no longer isolated. `satisfiability.tex` had
+`\paragraph{What does not survive the step.} The scalar closure does.`, which
+reads as the opposite of what it means; `statmech.tex`'s parallel passage gets
+it right with "The scalar closure goes." Also "Equation above is the derivative"
+(`ising.tex`) and "\citet{krzakala2004} solve ... and locates"
+(`colouring.tex`). **None of these is catchable mechanically.** LaTeX compiles a
+truncated sentence without complaint, and there is no grep for a sentence that
+means the opposite of its own heading; all four were found by reading.
+
+**`chygraphs.tex` contradicted itself within a page.** The paragraph "The
+pairwise test is necessary and not sufficient" establishes that sharing at most
+one atom does *not* guarantee treelikeness — the ring of four triangles — and
+eight lines later the chapter's bolded takeaway read "a chygraph is locally
+treelike **when** its complexes meet in at most one atom". Now "only if", with
+the case where it is also sufficient named.
+
+**The condition itself was stated four ways** — atom, node, vertex, member —
+across seventeen sites in nine files, sometimes alternating inside one file
+(`metacomplex.tex` had node at :126 and atom at :186; `data.tex` had nodes in
+the text and atoms in the caption of the same table). `notation.tex` defines
+*atom*, so atom it is everywhere now.
+
+**`software.tex` had not followed Part IV's split.** Table 1 filed the
+region-graph and meta-complex equations under Ch. 14's heading; the region-graph
+calculation was credited to Ch. 14 rather than 15; `figs/` was described as one
+script per chapter (it is thirteen scripts covering Ch. 3 onward); three
+chapters were said to have no manuscript behind them rather than two. Its
+slow-script paragraph still named `ising.py` and `potts.py` as the only slow
+ones — see below.
+
+**`preface.tex`** described Part IV as one chapter that "shows what a
+region-graph treatment recovers on a single instance"; it is three chapters and
+240 runs. It also listed overlapping complexes inside "the whole of Part III".
+
+Smaller: the preface's closing sentence about the field's predicament appeared
+verbatim in `introduction.tex`; `overlap.tex` restated its own figure caption in
+the following paragraph; `potts.tex` named one section twice in consecutive
+sentences; `cover.tex` referred to "the fourth model" where Ch. 1 introduces
+three; `satisfiability.tex` called itself the fourth hard-core family where
+`colouring.tex` counts it as half of the third; `regime` was spelled three ways,
+one of them the book's only non-ASCII byte; `gbp.tex` carried the only nine
+unspaced em-dashes against 500-odd spaced ones elsewhere.
+
+**On style**, four things were cut: `Our core idea is geometric before it is a
+calculation` opened the cavity-method section, which is Bethe's idea and not
+this book's; "The moral is..." had become a section-closing formula, four times;
+the unanimity-interaction/threshold-contagion relationship was described three
+times as being *in different clothes*; and four isolated flourishes went ("the
+hinge of the book", "the kind of coincidence the whole book is arranged to
+produce", "where that bill arrives", and the remark that the definition's
+sentence is self-referential in the way its subject is).
+
+**`figs/merge.py` was wrong in this README three times over.** It was called the
+slowest script in the book, and ranked inconsistently against `colouring.py` and
+`satisfiability.py` in three separate passages, none of them measured. Timed on
+2026-09-01 it runs in **16.5 s**. It also **writes no figures** — it says so at
+the top of the file — so "generates Figure 14.3" was wrong as well; what it
+produces is the finite-size sweep behind Table 15.2. **Time a script before
+calling it slow.**
 
 ### Sec. 14.7: the merge terminates on a placed ensemble, 2026-08-31
 
@@ -1252,11 +1333,11 @@ Verify a build with
 grep -c '^!' main.log                    # errors, must be 0
 grep -i 'undefined' main.log             # citations and refs, must be empty
 grep -i 'multiply defined' main.log      # must be empty; NOT caught by the line above
-grep -c 'Overfull \\hbox' main.log       # 1 known (cover.tex:239--249); a 2nd is new
+grep -c 'Overfull \\hbox' main.log       # 3 known, listed in Status; a 4th is new
 grep -o 'Output written.*' main.log      # page count
 ```
 
-Underfull vboxes are not a defect here: all 35 are `while \output is active`,
+Underfull vboxes are not a defect here: all 34 are `while \output is active`,
 which is page-breaking around floats. An **overfull hbox** is, since it puts ink
 in the margin; the three that survive are recorded in Status.
 
@@ -1412,7 +1493,7 @@ The **survey-propagation sections added 2026-08-30** are not. Three bisections
 of the complexity over three seeds each — Sec. 12.6's `c_q`, the clustering
 by-product, and Sec. 12.7's hypergraph thresholds against Gabrié et al. — put
 the whole script at about **fourteen minutes**, which makes it the slowest in
-the book, ahead of `merge.py`.
+the book.
 `figs/satisfiability.py` generates Figure 13.1 and runs Ch. 13's checks: the
 clause interior against enumeration in rational arithmetic (including the
 non-uniform emitted message that rules out a symmetric fixed point); the `k = 2`
@@ -1424,18 +1505,26 @@ a contradicted variable. It also carries the **survey-propagation
 section added 2026-08-30**: the SP update, the complexity `Sigma` as a Bethe
 count of clusters at `m = 0`, and `Sigma = 0` bisected against the published
 `alpha_s`. That check averages over three seeds and takes about five minutes,
-which makes this the slowest script in the book after `merge.py`.
-`figs/overlap.py` generates Figure 14.2 and runs Ch. 14's checks: the Möbius and
-Bethe counting numbers on two overlapping triangles, including the factor-coverage
-test that is the whole point (shared bond covered once against twice); the
-two-triangle table, recomputed here since it is a four-spin enumeration; the
-60-instance summary from `../probe/results/gbp_cliques.json` with the
-convergence threshold stated; and the clique-ensemble paired ratio read from
-`../probe/results/analysis.txt`. Figure 14.1 is TikZ in `overlap.tex`.
-`figs/merge.py` generates Figure 14.3 and measures Sec. 14.6: the merge closure
-on hyperbolic random graphs. It generates the graphs and enumerates their
-maximal cliques, so it is the slowest script in the book — a few minutes at
-`n = 8000`.
+which makes this the second slowest script in the book.
+`figs/overlap.py` plots **all of Part IV** — it is the one script serving three
+chapters. Figures 14.2, 14.3, 15.2–15.4 and 16.3–16.6, from the cached probe
+outputs (`gbp_cliques.json`, `gbp_real.py`, `merge_lnz.py`, `core_fraction.py`,
+`karrer_core_sweep.py`); Figures 14.1, 15.1, 16.1 and 16.2 are TikZ in the
+chapters themselves. It also runs the checks: the Möbius and Bethe counting
+numbers on two overlapping triangles, including the factor-coverage test that is
+the whole point (shared bond covered once against twice); the two-triangle
+table, recomputed here since it is a four-spin enumeration; the 60-instance
+summary from `../probe/results/gbp_cliques.json` with the convergence threshold
+stated; and the clique-ensemble paired ratio read from
+`../probe/results/analysis.txt`.
+`figs/merge.py` **writes no figures** — it says so at the top of the file, and
+it used to write `fig-merge` and `fig-motifs`. What it produces now are numbers:
+the finite-size sweep behind **Table 15.2** (`check_placed_finite_size`), the
+merge closure on the six real networks, and the two-triangle and diamond checks.
+It is **not** slow: timed on 2026-09-01 it runs in **16.5 s**. Three separate
+passages of this README used to call it the slowest script in the book, ranked
+against each other inconsistently; none of the three had been measured. It needs
+`PYTHONPATH` to carry both `src` trees, or it fails at import.
 
 ## Conventions
 
