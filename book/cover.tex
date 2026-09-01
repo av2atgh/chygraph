@@ -71,13 +71,59 @@ giving
 \begin{equation}
   \sigma_{m}=\bar\Phi^{(m)}(\tau),
   \qquad
-  \tau_{l}=(1-\sigma_{l})^{\,c_{l}-1},
+  \tau_{l}=(1-\sigma_{l})^{\,c_{l}-1}.
   \label{eq:vc}
 \end{equation}
-against $\tau_{l}=\sigma_{l}^{\,c_{l}-1}$ and an outer complement in
-Eq.~\eqref{eq:hs}. At $c=2$ the two collapse to the same map, as they must ---
-both return the Weigt--Hartmann cover size, to nine digits, along code paths
-that share nothing.
+At $c=2$ this collapses onto Eq.~\eqref{eq:hs}, as it must --- both return the
+Weigt--Hartmann cover size, to nine digits, along code paths that share nothing.
+
+\begin{calculation}{from the message to the map}
+Equation~\eqref{eq:vcz} is a statement about one inclusion of one graph;
+Eq.~\eqref{eq:vc} is the same statement averaged over an ensemble. Two readings
+and one average take you from the first to the second.
+
+\emph{What the message says.} $z_{i\to a}=1$ means $i$ is \emph{free} --- it may
+be left out of the cover --- as seen by $a$. The sum counts the complexes other
+than $a$ that block it, and $\max(0,\max_{j\in b\setminus i}z_{j\to b})$ is $1$
+exactly when at least one other member of $b$ is itself free. That is the
+covering constraint read locally: two members of a complex are adjacent, so if
+$j$ is left out then $i$ must be taken. Writing the inner cost as a maximum
+rather than a sum is what makes blocking a yes-or-no event per complex instead
+of a count, and a yes-or-no event per complex is what can be pushed through a
+generating function.
+
+\emph{What a complex does.} Let $\sigma_{l}$ be the probability that a node
+reached along an inclusion into a layer-$l$ complex is free. Entered at $i$,
+such a complex leaves $i$ free only if none of its other $c_{l}-1$ members is
+free, and on a treelike chygraph those members are independent given what
+reaches them:
+\[
+  \tau_{l}=(1-\sigma_{l})^{\,c_{l}-1}.
+\]
+
+\emph{What a node does.} $i$ is free when \emph{every} one of its other
+complexes leaves it free. How many others there are is the excess chy-degree of
+Sec.~\ref{sec:ensembles}, and averaging a product over that count is evaluating
+its generating function at $\tau$:
+\[
+  \sigma_{m}=\bar\Phi^{(m)}(\tau),
+\]
+which is Eq.~\eqref{eq:vc}. Sec.~\ref{sec:treelike}'s condition is used twice
+over, in two different places: once inside a complex, to multiply the $c_{l}-1$
+members, and once across the complexes at a node, to evaluate $\bar\Phi$. It is
+the first of the three assumptions Sec.~\ref{sec:assumes} lists, and it is
+carrying both steps here.
+
+\emph{Where the complement went.} Chapter~\ref{ch:hittingset} writes
+$\tau_{l}=\sigma_{l}^{\,c_{l}-1}$ and then $\sigma_{m}=\bar\Phi^{(m)}(1-\tau)$,
+with the complement outside; here it is inside, and $\tau$ means the opposite
+thing. The reason is one word. A hyperedge forces the node it is entered from
+when \emph{all} of its other members are free, since then nobody else will
+satisfy it. A clique forces when \emph{any} other member is free, since that one
+member is already an uncovered edge. All against any is where the complement
+moves, and it is Eq.~\eqref{eq:Hvc} against Eq.~\eqref{eq:Hhs} arriving in the
+recursion.
+\end{calculation}
 
 And both are hard-field maps, so Sec.~\ref{sec:hardfail} applies to
 Eq.~\eqref{eq:vcz} unchanged. On isolated triangles, where every vertex sits at
