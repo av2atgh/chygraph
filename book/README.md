@@ -104,7 +104,7 @@ The remaining work is revision, not drafting:
 | 2 | ~~Fix the manuscripts~~ — **done by deletion.** The three errors the book found (the tricritical cardinality, the GBP convergence count, the Ch. 5 arithmetic slip) were in `main.tex`/`supplement.tex`, which no longer exist. The book carries the corrected values and says so; the entries below are kept as a record of what was wrong, in case either file is ever resurrected from git. |
 | 3 | **Chs. 12 and 13 are the only chapters whose results are not backed by a manuscript.** If either is to be published separately, the calculations in `figs/colouring.py` and `figs/satisfiability.py` are the starting point. |
 | 4 | **Front matter: the dedication is still `\itshape Dedication to come.` in `main.tex`, and it prints.** The editorial review calls this a blocker. It needs the author's words; nothing else about the front matter is now outstanding. |
-| 5 | **Make the repositories public.** `software.tex` prints both URLs as if they resolve; `chygraph_statmech` is still private. This is `../TODO.md` item 3 and now blocks the book as well as the manuscript. |
+| 5 | **Make the repositories public.** `software.tex` prints both URLs as if they resolve; `chygraph_statmech` is still private. This is `../statmech/TODO.md` item 3 and now blocks the book as well as the manuscript. |
 
 Each chapter's `\include` in `main.tex` carries a comment naming its sources, so
 that mapping does not have to be reconstructed.
@@ -249,7 +249,7 @@ that mapping does not have to be reconstructed.
 - **Sec. 14.5's convergence count differed from the retired supplement.** It
   said 9 of the 20 non-chordal GBP runs converge and 11 do not, with
   errors `1.4e-9`–`5.4e-3` against Möbius `0.48`–`1.1` and Bethe `0.32`–`22`.
-  Recomputed from the cached `../probe/results/gbp_cliques.json`, the residuals
+  Recomputed from the cached `../statmech/probe/results/gbp_cliques.json`, the residuals
   fall into two clusters separated by four orders of magnitude — everything at
   or below `3.2e-6`, then nothing until `2.0e-2` — so the threshold sits in the
   gap at `1e-4` and gives **14 converge, 6 do not**, with Möbius `0.48`–`1.8`
@@ -455,11 +455,12 @@ did not, and are fixed**; all of them were transcription or rounding drift
 against `probe/results/*.json`, none was a wrong calculation.
 
 **Environment, because ten of the thirteen scripts fail without it.** They need
-*both* `chygraph/src` and `chygraph_statmech/src` on `PYTHONPATH`, and the `gt`
-conda env has neither `pytest` nor an importable `chygraph`. Use
+*both* `percolation/src` and `statmech/src` on `PYTHONPATH`. Since 2026-09-01
+the scripts put both there themselves, resolved from the repository root rather
+than from `$HOME`, so this is now a fallback rather than a requirement. Use
 
 ```sh
-PYTHONPATH=~/av2atg/chygraph/src:~/av2atg/chygraph_statmech/src \
+PYTHONPATH=~/av2atg/chygraph/percolation/src:~/av2atg/chygraph/statmech/src \
   ~/anaconda3/bin/python3 figs/<script>.py
 ```
 
@@ -737,7 +738,7 @@ and 3 quoting 65–83% for the same quantity.)
 
 Attempted after Sec. 12.5, to get the *colourability* threshold of a
 triangle-clustered graph — which nobody has, Mulet being graphs and Gabrié
-hypergraphs. See `../probe/SETVALUED_SP.md` and `../probe/setvalued_sp.py`.
+hypergraphs. See `../statmech/probe/SETVALUED_SP.md` and `../statmech/probe/setvalued_sp.py`.
 
 **Validated at cardinality two.** Both a two-term and a three-term complexity
 form reproduce Mulet's `c_q` — 4.684, 8.863, 13.636 against 4.69, 8.90, 13.69 —
@@ -830,7 +831,7 @@ narration.**
 
 **What is still not done:** the energy above `c_q`. That is Krzakala's `e(y)` at
 finite `y`, and four attempts at it failed (see the note below and
-`../probe/FINITE_Y.md`). It answers *how badly* uncolourable, not *where* — the
+`../statmech/probe/FINITE_Y.md`). It answers *how badly* uncolourable, not *where* — the
 threshold needed only the `y = inf` endpoint, which is gated.
 
 ### Sec. 12.9, the proper rule closes the window, 2026-08-30
@@ -871,7 +872,7 @@ is wrong once they have stopped being equally worth counting before any exist.
 The repair is `Sigma(m)` with `m != 0` and is not done.
 
 **Second occurrence of the same shape.** Sec. 13.9's nested clauses fail
-identically — branch at finite `Sigma`, no crossing (`../probe/NESTED_SP.md`).
+identically — branch at finite `Sigma`, no crossing (`../statmech/probe/NESTED_SP.md`).
 Two problems sharing nothing but a cardinality above two. **If a third turns
 up, that is a thread and belongs in the Outlook.**
 
@@ -1041,8 +1042,8 @@ distribution over distributions rather than over a finite alphabet.
 anything but flat `k`-SAT and flat `q`-COL. The nested clauses of Secs. 13.6–13.7
 are the case with no flat counterpart, and running SP on the three-level chygraph
 against SP on its CNF flattening is the experiment the machinery was built for.
-It was attempted and is **unresolved** — see `../probe/NESTED_SP.md` and
-`../probe/nested_sp.py`. Two of three parts work and are worth keeping: the
+It was attempted and is **unresolved** — see `../statmech/probe/NESTED_SP.md` and
+`../statmech/probe/nested_sp.py`. Two of three parts work and are worth keeping: the
 cross-level message passing and the cluster counting both validate against the
 `k1 = 1` relay identity, each confirmed by clean `1/sqrt(N)` decay, the second
 establishing that a layer-1 sub-expression contributes no factor of its own. The
@@ -1145,7 +1146,7 @@ left as they are — they are defensive and harmless.
 
 **Not done, and why.**
 1. **`chygraph_statmech` is still private** — the review's one hard blocker, and
-   `../TODO.md` item 3. `software.tex` prints the URL as if it resolves and the
+   `../statmech/TODO.md` item 3. `software.tex` prints the URL as if it resolves and the
    preface stakes the reproducibility claim on it. This needs the author: either
    make the repository public or rewrite the software chapter and preface.
 2. **The dedication placeholder still prints.** It needs the author's words.
@@ -1311,15 +1312,16 @@ the five consistent; they are one statement.
 
 - `~/Dropbox/submissions/hyperabs.2022/hyperabs_v3.tex` — Phys. Rev. E **107**, 024316 (2023)
 - `~/Dropbox/submissions/chygraph.2023/chygraph.tex` — J. Complex Netw. (2024), cnae047
-- `~/av2atg/chygraph/manuscript_3/manuscript.tex` — the percolation extension.
+- `~/av2atg/chygraph/percolation/manuscript_3/manuscript.tex` — the percolation extension.
   **Will not be submitted** (author, 2026-08-30): the book is the first place
   Ch. 5's critical amplitude and moment hierarchy are reported, and Ch. 5's
   opening says so. Do not add a citation to it.
-- the manuscript this book supersedes (`../main.tex`, `../supplement.tex`) —
+- the manuscript this book supersedes (`main.tex`, `supplement.tex`, at the
+  root of the then-separate `chygraph_statmech` repository) —
   **deleted**, recoverable from git at commit `5ebd892`, the last commit before
   the deletion. Everything in it is in the book; the section numbers named in
   `main.tex`'s `\include` comments refer to that retired file.
-- `../src/chygraph_statmech/`, `../examples/`, `../probe/` — every number in the book comes out of these
+- `../statmech/src/statmech/`, `../statmech/examples/`, `../statmech/probe/` — every number in the book comes out of these
 
 ## Building
 
@@ -1379,7 +1381,8 @@ for f in glob.glob('*.aux'):
         (cha if m.group(3) == 'chapter' else sec)[m.group(1)] = m.group(2)[:52]
     for m in re.finditer(r'\\contentsline \{(subsection|section)\}\{\\numberline \{(\d+(?:\.\d+)*)\}(.*?)\}\{', txt):
         sec.setdefault(m.group(2), m.group(3)[:52])
-for r in ('figs', '../probe', '../src', '../tests', '../examples'):
+for r in ('figs', '../statmech/probe', '../statmech/src', '../statmech/tests',
+          '../statmech/examples', '../percolation/src', '../percolation/tests'):
     for p in sorted(pathlib.Path(r).rglob('*.py')):
         if '__pycache__' in str(p):
             continue
@@ -1433,7 +1436,7 @@ Table 3.2 and Figure 3.2 from the netzschleuder dumps cached under
 `figs/triangles_vs_regular.py` generates Figure 4.2 and verifies
 $\bar s_\triangle(q)$ by exact enumeration;
 `figs/beyond_threshold.py` generates Figures 5.1–5.3 by importing the
-`chygraph` package from `~/av2atg/chygraph/src`;
+`percolation` package from `../percolation/src`;
 `figs/epidemics.py` generates Figures 6.2 and 6.3 and runs every check quoted in
 Ch. 6 — that `Gbar^1_0` at `n = 3` is the bond-percolated triangle of Ch. 4,
 that `theta + 1 = R*` for several household size distributions, the
@@ -1460,7 +1463,7 @@ clustering family (monotone in f at every degree) and the regular-null table;
 the AT line; the unanimity `u'`, the Bragg–Williams limit and its `C_q`
 residual including the vanishing at q = 4; and the tricritical boundary. The
 Monte Carlo points in Figure 9.2 are read from the cached
-`../probe/results/ising_mc.log` rather than recomputed — that run is the one
+`../statmech/probe/results/ising_mc.log` rather than recomputed — that run is the one
 test in the chapter from outside the formalism. `figure_unanimity` and
 `check_tricritical` each solve coexistence windows and take a minute or two.
 `figs/hittingset.py` generates Figure 10.2 and runs Ch. 10's checks: the
@@ -1480,8 +1483,8 @@ cardinality two and its 1/2-vs-2/3 failure on isolated triangles; the
 factorisation `f(delta) = -(1-delta)^2 sum (j+1) delta^j` symbolically for
 c = 2..9; that the core is exactly `1 - e^{-<k>}` above cardinality two; and the
 cached leaf-removal validation. Figure 11.1 is TikZ in `cover.tex`. The
-hyperbolic-graph points are read from `../probe/results/prediction4.csv` and the
-simulation check from `../probe/results/validate_core.txt`; neither is
+hyperbolic-graph points are read from `../statmech/probe/results/prediction4.csv` and the
+simulation check from `../statmech/probe/results/validate_core.txt`; neither is
 recomputed by the book.
 `figs/colouring.py` generates Figure 12.1 and runs Ch. 12's checks: both closed
 forms against exact enumeration in rational arithmetic; that the linearised map
@@ -1514,9 +1517,9 @@ chapters themselves. It also runs the checks: the Möbius and Bethe counting
 numbers on two overlapping triangles, including the factor-coverage test that is
 the whole point (shared bond covered once against twice); the two-triangle
 table, recomputed here since it is a four-spin enumeration; the 60-instance
-summary from `../probe/results/gbp_cliques.json` with the convergence threshold
+summary from `../statmech/probe/results/gbp_cliques.json` with the convergence threshold
 stated; and the clique-ensemble paired ratio read from
-`../probe/results/analysis.txt`.
+`../statmech/probe/results/analysis.txt`.
 `figs/merge.py` **writes no figures** — it says so at the top of the file, and
 it used to write `fig-merge` and `fig-motifs`. What it produces now are numbers:
 the finite-size sweep behind **Table 15.2** (`check_placed_finite_size`), the

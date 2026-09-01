@@ -26,7 +26,7 @@ from pathlib import Path
 from sympy import (Rational, binomial, expand, factor, limit, simplify,
                    symbols, together)
 
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph' / 'src'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'percolation' / 'src'))
 from percolation import clique_excess_pgf  # noqa: E402
 
 OUT = Path(__file__).resolve().parent
@@ -219,7 +219,7 @@ def check_ising():
     field of Ch. 9.  Checked against an independent enumeration in
     ``statmech.cavity``.
     """
-    sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech' / 'src'))
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'statmech' / 'src'))
     from statmech.cavity import emitted_field, ising_clique
     from sympy import exp, log, symbols as sym
 

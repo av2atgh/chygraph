@@ -17,7 +17,8 @@ from pathlib import Path
 import numpy as np
 from scipy.special import lambertw
 
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech' / 'src'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'percolation' / 'src'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'statmech' / 'src'))
 import statmech.hittingset as hs  # noqa: E402
 from statmech.softfield import (HittingSetBP, regular_density,  # noqa: E402
                                          regular_entropy, regular_field)

@@ -22,11 +22,12 @@ from pathlib import Path
 
 import numpy as np
 
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech' / 'src'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'percolation' / 'src'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'statmech' / 'src'))
 from statmech import gbp, region  # noqa: E402
 
 OUT = Path(__file__).resolve().parent
-PROBE = Path.home() / 'av2atg' / 'statmech' / 'probe' / 'results'
+PROBE = Path(__file__).resolve().parents[2] / 'statmech' / 'probe' / 'results'
 DARK, MID, LIGHT = '0.10', '0.45', '0.70'
 
 # Two triangles sharing the edge {1,2}.
@@ -431,8 +432,7 @@ def check_ring():
     import sys
     from itertools import combinations
     import networkx as nx
-    sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech'
-                           / 'probe'))
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'statmech' / 'probe'))
     from cavity_clique import ChygraphBP
     from statmech.gbp import exact_log_Z, ising_factors
 

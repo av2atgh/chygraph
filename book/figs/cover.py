@@ -22,13 +22,14 @@ import numpy as np
 from scipy.special import lambertw
 from sympy import exp as sexp
 
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech' / 'src'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'percolation' / 'src'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'statmech' / 'src'))
 import statmech.hittingset as hs  # noqa: E402
 from statmech import core as co  # noqa: E402
 from statmech import cover as cv  # noqa: E402
 
 OUT = Path(__file__).resolve().parent
-PROBE = Path.home() / 'av2atg' / 'statmech' / 'probe' / 'results'
+PROBE = Path(__file__).resolve().parents[2] / 'statmech' / 'probe' / 'results'
 DARK, MID, LIGHT = '0.10', '0.45', '0.70'
 
 

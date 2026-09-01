@@ -29,7 +29,8 @@ from pathlib import Path
 import networkx as nx
 import numpy as np
 
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech' / 'src'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'percolation' / 'src'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'statmech' / 'src'))
 from statmech.region import overlap_profile  # noqa: E402
 
 DATA = Path.home() / 'av2atg' / 'LocalNetworkGrowth' / 'figs' / 'data' / 'netzschleuder'

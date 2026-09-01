@@ -23,7 +23,7 @@ import sys
 from pathlib import Path
 import numpy as np
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'book' / 'figs'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'book' / 'figs'))
 import colouring as C            # noqa: E402  (the machinery lives there)
 
 YS = (1.5, 2.0, 3.0, 4.0, 6.0, 10.0, np.inf)

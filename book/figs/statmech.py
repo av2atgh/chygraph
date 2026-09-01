@@ -14,8 +14,8 @@ from pathlib import Path
 import numpy as np
 from scipy.optimize import brentq
 
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech' / 'src'))
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph' / 'src'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'statmech' / 'src'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'percolation' / 'src'))
 from percolation import hypergraph_giant  # noqa: E402
 from statmech import Chygraph  # noqa: E402
 from statmech.freeenergy import paramagnetic  # noqa: E402

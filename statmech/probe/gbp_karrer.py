@@ -30,9 +30,8 @@ from pathlib import Path
 import networkx as nx
 import numpy as np
 
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph' / 'src'))
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech'
-                      / 'book' / 'figs'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'percolation' / 'src'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'book' / 'figs'))
 
 from merge import karrer_graph  # noqa: E402  the book's one definition of it
 

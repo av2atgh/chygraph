@@ -21,7 +21,8 @@ from pathlib import Path
 
 import numpy as np
 
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech' / 'src'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'percolation' / 'src'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'statmech' / 'src'))
 from statmech import Chygraph, ising  # noqa: E402
 from statmech.simplicial import SimplicialChygraph, uprime  # noqa: E402
 

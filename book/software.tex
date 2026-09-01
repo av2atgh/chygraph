@@ -12,25 +12,25 @@ numbered equation the book actually computes with.
 
 \section*{Where it is}
 
-Two packages, both installable and both with their own test suite:
+One repository, holding two packages that install separately and carry their
+own test suites:
 
 \begin{quote}
 \small\url{https://github.com/av2atgh/chygraph}
 \end{quote}
-\noindent
-carries percolation on chygraphs: the self-consistency map, the threshold
-tensor, the critical amplitude, correlated layers, and the constructions of
-Chapters~\ref{ch:percolation}--\ref{ch:epidemics}. It is symbolic throughout,
-on \code{sympy}.
 
-\begin{quote}
-\small\url{https://github.com/av2atgh/chygraph_statmech}
-\end{quote}
 \noindent
-carries everything from Chapter~\ref{ch:statmech} onward: the cavity recursion
-with a general interior, the branching matrix, the Ising and hitting-set and
-core-percolation solvers, the Bethe free energy, and the region-graph
-calculation of Chapter~\ref{ch:gbp}.
+\code{percolation/} carries percolation on chygraphs: the self-consistency map,
+the threshold tensor, the critical amplitude, correlated layers, and the
+constructions of Chapters~\ref{ch:percolation}--\ref{ch:epidemics}. It is
+symbolic throughout, on \code{sympy}.
+
+\code{statmech/} carries everything from Chapter~\ref{ch:statmech} onward: the
+cavity recursion with a general interior, the branching matrix, the Ising and
+hitting-set and core-percolation solvers, the Bethe free energy, and the
+region-graph calculation of Chapter~\ref{ch:gbp}. It depends on the first ---
+\code{statmech.\allowbreak stability} imports \code{Percolation\allowbreak Matrix}
+--- which is why the two live together.
 
 A third source is the book's own \code{figs/} directory, which holds thirteen
 scripts covering Chapter~\ref{ch:data} onward, most of them named for the
@@ -40,11 +40,12 @@ also carry the calculations themselves --- the last two having no manuscript
 behind them at all.
 
 Two further directories matter, because several results in the book are read
-from them rather than recomputed. \code{examples/}
+from them rather than recomputed. \code{statmech/\allowbreak examples/}
 runs the comparisons a reader is most likely to want --- the clustering
 comparison of Sec.~\ref{sec:clustering}, the hard-field against soft-field
-comparison of Sec.~\ref{sec:soft}. \code{probe/} holds the expensive
-measurements, with their outputs cached under \code{probe/results/}: the Monte
+comparison of Sec.~\ref{sec:soft}. \code{statmech/\allowbreak probe/} holds the
+expensive measurements, with their outputs cached under
+\code{statmech/\allowbreak probe/\allowbreak results/}: the Monte
 Carlo of Eq.~\eqref{eq:mc}, the leaf-removal validation of
 Sec.~\ref{sec:cover-checks}, the hyperbolic-graph scan behind
 Fig.~\ref{fig:hrg}, and the seven measurements of Part~IV --- the cavity method on
@@ -93,8 +94,8 @@ and the check is in the same file.
 {\scriptsize\setlength{\tabcolsep}{3pt}
 \begin{longtable}{@{}L{0.08\textwidth} L{0.24\textwidth} L{0.36\textwidth} L{0.18\textwidth}@{}}
 \caption{\textbf{Every computed equation, and what checks it.} Routines are in
-\code{chygraph} for Part~II and \code{chygraph\_statmech} for Part~III unless a
-path is given. Tests are the packages' own suites; \code{figs/} entries are the
+\code{percolation/} for Part~II and \code{statmech/} for Parts~III and~IV
+unless a path is given. Tests are the packages' own suites; \code{figs/} entries are the
 book's scripts, which run their checks on every invocation.}
 \label{tab:map}\\
 \hline\hline
@@ -159,7 +160,7 @@ Eq. & what it is & evaluated by & checked in\\
 \eqref{eq:Hising} & the Hamiltonian & \code{cavity.\allowbreak ising\_\allowbreak clique} & \code{test\_\allowbreak ising}\\
 \eqref{eq:uclique} & $u'$ for $c=2,3,4$ & \code{ising.\allowbreak clique\_\allowbreak derivative} & \code{test\_\allowbreak derivations}\\
 \eqref{eq:tcgraph} & the graph $T_{c}$ & \code{api.\allowbreak Chygraph.\allowbreak critical\_\allowbreak coupling} & \code{test\_\allowbreak ising}\\
-\eqref{eq:mc} & Monte Carlo $T_{c}$ & \code{probe/\allowbreak ising\_\allowbreak mc.\allowbreak py} & --- (simulation)\\
+\eqref{eq:mc} & Monte Carlo $T_{c}$ & \code{statmech/\allowbreak probe/\allowbreak ising\_\allowbreak mc.\allowbreak py} & --- (simulation)\\
 \eqref{eq:simH} & the unanimity rule & \code{simplicial.\allowbreak emitted} & \code{test\_\allowbreak simplicial}\\
 \eqref{eq:BW} & its infinite-connectivity limit & \code{simplicial.\allowbreak SimplicialChygraph.\allowbreak spinodal} & \code{test\_\allowbreak derivations}\\
 \eqref{eq:Cq} & the residual $C_{q}$ & \code{simplicial.\allowbreak SimplicialChygraph.\allowbreak spinodal} & \code{figs/\allowbreak ising.\allowbreak py}\\
@@ -200,14 +201,14 @@ Eq. & what it is & evaluated by & checked in\\
 \eqref{eq:sigma} & its complexity, against $\alpha_{s}$ & \code{figs/\allowbreak satisfiability.\allowbreak py:\allowbreak sp\_\allowbreak threshold} & same file\\
 \eqref{eq:nestedwp} & its warning map & \code{figs/\allowbreak satisfiability.\allowbreak py:\allowbreak nested\allowbreak \_G} & same file\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:overlap}, overlapping complexes}}\\
---- & the cavity recursion on a chygraph & \code{probe/\allowbreak cavity\_\allowbreak clique.\allowbreak Chygraph\allowbreak BP} & \code{validate} in that file\\
+--- & the cavity recursion on a chygraph & \code{statmech/\allowbreak probe/\allowbreak cavity\_\allowbreak clique.\allowbreak Chygraph\allowbreak BP} & \code{validate} in that file\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:gbp}, generalised belief propagation}}\\
 \eqref{eq:mobius} & M\"obius counting numbers & \code{region.\allowbreak RegionGraph} & \code{test\_\allowbreak region}\\
 \eqref{eq:p2c} & the parent-to-child update & \code{gbp.\allowbreak GBP} & \code{test\_\allowbreak gbp}\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:metacomplex}, meta-complexes}}\\
-\eqref{eq:branching} & the incidence branching & \code{probe/\allowbreak karrer\_\allowbreak core\_\allowbreak sweep.\allowbreak py} & \code{check\_\allowbreak core\_\allowbreak transition}\\
-\eqref{eq:corea} & the pruning fixed point & \code{probe/\allowbreak karrer\_\allowbreak core\_\allowbreak sweep.\allowbreak core\_\allowbreak closed\_\allowbreak form} & \code{check\_\allowbreak closed\_\allowbreak form}\\
-\eqref{eq:corefrac} & the core fraction & \code{probe/\allowbreak karrer\_\allowbreak core\_\allowbreak sweep.\allowbreak core\_\allowbreak closed\_\allowbreak form} & \code{check\_\allowbreak closed\_\allowbreak form}\\
+\eqref{eq:branching} & the incidence branching & \code{statmech/\allowbreak probe/\allowbreak karrer\_\allowbreak core\_\allowbreak sweep.\allowbreak py} & \code{check\_\allowbreak core\_\allowbreak transition}\\
+\eqref{eq:corea} & the pruning fixed point & \code{statmech/\allowbreak probe/\allowbreak karrer\_\allowbreak core\_\allowbreak sweep.\allowbreak core\_\allowbreak closed\_\allowbreak form} & \code{check\_\allowbreak closed\_\allowbreak form}\\
+\eqref{eq:corefrac} & the core fraction & \code{statmech/\allowbreak probe/\allowbreak karrer\_\allowbreak core\_\allowbreak sweep.\allowbreak core\_\allowbreak closed\_\allowbreak form} & \code{check\_\allowbreak closed\_\allowbreak form}\\
 \end{longtable}
 }
 

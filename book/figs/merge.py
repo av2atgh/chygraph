@@ -38,7 +38,8 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path.home() / 'av2atg' / 'computational_complexity' / 'code'))
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech' / 'src'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'percolation' / 'src'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'statmech' / 'src'))
 from statmech.region import overlap_profile  # noqa: E402
 from hrg import hrg_calibrated  # noqa: E402
 
@@ -214,8 +215,7 @@ def check_merge_on_real(quiet=False):
     families split here as they did there, and for the same reason -- a network
     whose cliques the data placed has a bounded number of merges to make.
     """
-    sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech'
-                           / 'probe'))
+    sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'statmech' / 'probe'))
     from gbp_real import NETWORKS, load
     rows = []
     for key, label, family in NETWORKS:

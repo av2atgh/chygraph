@@ -24,7 +24,7 @@ from pathlib import Path
 import numpy as np
 from sympy import Rational, exp, nsolve, simplify, symbols
 
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph' / 'src'))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'percolation' / 'src'))
 from percolation import (clique_excess_pgf, household_epidemic,  # noqa: E402
                       size_biased)
 
