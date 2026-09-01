@@ -1,0 +1,253 @@
+\chapter*{The software}
+\addcontentsline{toc}{chapter}{The software}
+\markboth{The software}{The software}
+
+Every number in this book comes out of code, and the code is public. This
+chapter says where it is, what is in it, and --- equation by equation --- which
+routine evaluates each result and which test or script checks it.
+
+A book of this kind accumulates a great many closed forms, and a reader who
+wants to use one of them needs to know what it was checked against. Table~\ref{tab:map} answers that for every
+numbered equation the book actually computes with.
+
+\section*{Where it is}
+
+Two packages, both installable and both with their own test suite:
+
+\begin{quote}
+\small\url{https://github.com/av2atgh/chygraph}
+\end{quote}
+\noindent
+carries percolation on chygraphs: the self-consistency map, the threshold
+tensor, the critical amplitude, correlated layers, and the constructions of
+Chapters~\ref{ch:percolation}--\ref{ch:epidemics}. It is symbolic throughout,
+on \code{sympy}.
+
+\begin{quote}
+\small\url{https://github.com/av2atgh/chygraph_statmech}
+\end{quote}
+\noindent
+carries everything from Chapter~\ref{ch:statmech} onward: the cavity recursion
+with a general interior, the branching matrix, the Ising and hitting-set and
+core-percolation solvers, the Bethe free energy, and the region-graph
+calculation of Chapter~\ref{ch:gbp}.
+
+A third source is the book's own \code{figs/} directory, which holds thirteen
+scripts covering Chapter~\ref{ch:data} onward, most of them named for the
+chapter they serve. Those scripts generate the figures, and for
+Chapters~\ref{ch:potts}, \ref{ch:colouring} and~\ref{ch:satisfiability} they
+also carry the calculations themselves --- the last two having no manuscript
+behind them at all.
+
+Two further directories matter, because several results in the book are read
+from them rather than recomputed. \code{examples/}
+runs the comparisons a reader is most likely to want --- the clustering
+comparison of Sec.~\ref{sec:clustering}, the hard-field against soft-field
+comparison of Sec.~\ref{sec:soft}. \code{probe/} holds the expensive
+measurements, with their outputs cached under \code{probe/results/}: the Monte
+Carlo of Eq.~\eqref{eq:mc}, the leaf-removal validation of
+Sec.~\ref{sec:cover-checks}, the hyperbolic-graph scan behind
+Fig.~\ref{fig:hrg}, and the seven measurements of Part~IV --- the cavity method on
+the clique chygraph behind Fig.~\ref{fig:cavityfail}, the sixty region graphs
+behind Fig.~\ref{fig:gbp}, the placed-motif instances of
+Sec.~\ref{sec:karrer}, the real neighbourhoods behind Fig.~\ref{fig:gbpreal},
+the meta-complex error of Fig.~\ref{fig:mergeerror}, the propagation cores of
+Figs.~\ref{fig:corebonds} and~\ref{fig:coremeta}, and the branching sweep of
+Fig.~\ref{fig:coretransition}. Those ten are the only places
+where the book quotes a number it does not recompute at build time, and each
+says so where it is used. The real-network probe needs graph-tool and a network
+connection the first time it runs, to pull its networks from Netzschleuder; it
+caches their edge lists beside the other dumps the book uses, and after that
+needs neither.
+
+\section*{How the pieces fit}
+
+Three points about the arrangement carry physical content rather than
+bookkeeping, and they are the same three the construction was built around.
+
+The intra-complex sum, Eq.~\eqref{eq:emitted}, takes the interior Hamiltonian as
+an \emph{argument} rather than hard-coding it. That is what made
+Sec.~\ref{sec:unanimity} a substitution rather than a rederivation, and it is
+why a reader can add a model without touching anything else.
+
+The hard-field and soft-field hitting-set solvers are kept apart rather than
+unified behind one interface, because they answer different questions and agree
+only at cardinality two. The routine that reports whether the hard-field cover
+size can be believed returns true exactly when every cardinality is two ---
+which, by Sec.~\ref{sec:corefree}, is exactly when the leaf-removal core has a
+core-free branch. Two chapters' worth of argument is enforced in one predicate.
+
+And the routine that returns a critical coupling \emph{refuses} the unanimity
+interaction and directs the caller to the spinodal instead. For that model the
+transition is usually discontinuous, and returning a spinodal under the name of
+a critical coupling would be wrong by ten to fifty per cent, as
+Sec.~\ref{sec:unanimity} shows. Enforcing this in the interface is more
+reliable than a note in the documentation.
+
+\section*{Equation to method}
+
+Table~\ref{tab:map} is the map. Where a chapter has no manuscript behind it the
+``evaluated by'' column names a function in the book's own \code{figs/} script,
+and the check is in the same file.
+
+{\scriptsize\setlength{\tabcolsep}{3pt}
+\begin{longtable}{@{}L{0.08\textwidth} L{0.24\textwidth} L{0.36\textwidth} L{0.18\textwidth}@{}}
+\caption{\textbf{Every computed equation, and what checks it.} Routines are in
+\code{chygraph} for Part~II and \code{chygraph\_statmech} for Part~III unless a
+path is given. Tests are the packages' own suites; \code{figs/} entries are the
+book's scripts, which run their checks on every invocation.}
+\label{tab:map}\\
+\hline\hline
+Eq. & what it is & evaluated by & checked in\\
+\hline
+\endfirsthead
+\hline\hline
+Eq. & what it is & evaluated by & checked in\\
+\hline
+\endhead
+\hline\hline
+\endfoot
+\multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:percolation}, percolation}}\\
+\eqref{eq:Qminus} & the map, arriving from below & \code{giant.\allowbreak Chygraph.\allowbreak apply} & \code{test\_\allowbreak giant}\\
+\eqref{eq:Qplus} & the map, arriving from above & \code{giant.\allowbreak Chygraph.\allowbreak apply} & \code{test\_\allowbreak giant}\\
+\eqref{eq:Sl} & the order parameter & \code{giant.\allowbreak Chygraph.\allowbreak node\_\allowbreak fraction} & \code{test\_\allowbreak giant}\\
+\eqref{eq:thetaH} & hypergraphs & \code{percolation.\allowbreak HypergraphPercolation} & \code{test\_\allowbreak percolation}\\
+\eqref{eq:thetaG} & the graph threshold & \code{giant.\allowbreak Chygraph.\allowbreak theta} & \code{test\_\allowbreak percolation}\\
+\eqref{eq:thetaMP} & multiplex networks & \code{percolation.\allowbreak MultiplexHypergraph} & \code{test\_\allowbreak percolation}\\
+\eqref{eq:thetaNM} & links and triangles & \code{percolation.\allowbreak GraphWithTriangles} & \code{test\_\allowbreak percolation}\\
+\eqref{eq:qc} & triangles at fixed degree & \code{figs/\allowbreak triangles\_\allowbreak vs\_\allowbreak regular.\allowbreak py} & same file\\
+\multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:giant}, beyond the threshold}}\\
+\eqref{eq:AisJ} & the tensor is a Jacobian & \code{giant.\allowbreak Chygraph.\allowbreak jacobian}, \code{.\allowbreak A} & \code{test\_\allowbreak amplitude}\\
+\eqref{eq:tripgf} & the bond-percolated triangle & \code{figs/\allowbreak triangles\_\allowbreak vs\_\allowbreak regular.\allowbreak py} & same file\\
+\eqref{eq:Bgraph} & the critical amplitude & \code{amplitude.\allowbreak CriticalAmplitude} & \code{test\_\allowbreak amplitude}\\
+\eqref{eq:Bhyper} & the same, hypergraphs & \code{amplitude.\allowbreak CriticalAmplitude} & \code{test\_\allowbreak amplitude}\\
+\eqref{eq:jointmap} & correlated layers & \code{joint.\allowbreak JointGiantComponent} & \code{test\_\allowbreak joint}\\
+\eqref{eq:biased} & inclusion-biased moments & \code{joint.\allowbreak JointGiantComponent} & \code{test\_\allowbreak joint}\\
+\eqref{eq:qc3} & identical marginals, three thresholds & \code{joint.\allowbreak JointGiantComponent} & \code{figs/\allowbreak beyond\_\allowbreak threshold.\allowbreak py}\\
+\eqref{eq:andor} & AND- against OR-logic & \code{applications.\allowbreak and\_\allowbreak or\_\allowbreak hypergraph} & \code{test\_\allowbreak applications}\\
+\eqref{eq:stc} & triadic closure & \code{applications.\allowbreak stc\_\allowbreak percolation} & \code{test\_\allowbreak applications}\\
+\eqref{eq:stcthresh} & its threshold, against Cirigliano & \code{applications.\allowbreak stc\_\allowbreak percolation} & \code{test\_\allowbreak applications}\\
+\multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:epidemics}, epidemics}}\\
+\eqref{eq:Kn} & the household outbreak & \code{applications.\allowbreak clique\_\allowbreak excess\_\allowbreak pgf} & \code{figs/\allowbreak epidemics.\allowbreak py}\\
+\eqref{eq:Rstar} & the household $R^{*}$ & \code{applications.\allowbreak household\_\allowbreak epidemic} & \code{figs/\allowbreak epidemics.\allowbreak py}\\
+\eqref{eq:threshtau} & the threshold interior sum & \code{figs/\allowbreak epidemics.\allowbreak py:\allowbreak threshold\_\allowbreak recursion} & same file\\
+\eqref{eq:threshmap} & the threshold-rule recursion & \code{figs/\allowbreak epidemics.\allowbreak py:\allowbreak check\_\allowbreak threshold\_\allowbreak recursion} & same file\\
+\eqref{eq:contagion} & its Poisson two-layer case & \code{figs/\allowbreak epidemics.\allowbreak py:\allowbreak branch} & same file\\
+\eqref{eq:tricritical} & its tricritical point & \code{figs/\allowbreak epidemics.\allowbreak py} & same file\\
+\multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:potts}, Potts}}\\
+\eqref{eq:qonelimit} & the $q\to1$ limit & \code{figs/\allowbreak potts.\allowbreak py:\allowbreak percolation\_\allowbreak limit} & same file\\
+\eqref{eq:tau2} & the link transmission & \code{figs/\allowbreak potts.\allowbreak py:\allowbreak transmission} & same file\\
+\eqref{eq:tau3} & the triangle transmission & \code{figs/\allowbreak potts.\allowbreak py:\allowbreak transmission} & same file\\
+\eqref{eq:branchcond} & one layer, both thresholds & \code{figs/\allowbreak potts.\allowbreak py:\allowbreak check\allowbreak \_thresholds} & same file\\
+\eqref{eq:fold} & the ordered spinodal & \code{figs/\allowbreak potts.\allowbreak py:\allowbreak check\_\allowbreak transition\_\allowbreak point} & same file\\
+\multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:statmech}, the general theory}}\\
+\eqref{eq:conv} & a generating function on a measure & \code{population.\allowbreak CavityPopulation.\allowbreak sweep} & \code{test\_\allowbreak population}\\
+\eqref{eq:ensemblemap} & the ensemble map & \code{population.\allowbreak CavityPopulation.\allowbreak sweep} & \code{test\_\allowbreak population}\\
+\eqref{eq:up} & the up step & \code{population.\allowbreak CavityPopulation.\allowbreak sweep} & \code{test\_\allowbreak population}\\
+\eqref{eq:emitted} & the interior sum & \code{cavity.\allowbreak emitted\_\allowbreak field} & \code{test\_\allowbreak ising}\\
+\eqref{eq:uprime} & $u'$ & \code{cavity.\allowbreak cavity\_\allowbreak derivative} & \code{test\_\allowbreak ising}\\
+\eqref{eq:reweight} & the reweighting & \code{api.\allowbreak Chygraph.\allowbreak stability\_\allowbreak tensor} & \code{test\_\allowbreak stability}\\
+\eqref{eq:branch} & the branching matrix & \code{api.\allowbreak Chygraph.\allowbreak branching\_\allowbreak matrix} & \code{test\_\allowbreak api}\\
+\eqref{eq:sbaru} & the size-biased average & \code{api.\allowbreak Chygraph.\allowbreak transmission} & \code{test\_\allowbreak api}\\
+\eqref{eq:det} & $\det(I-B)=0$ & \code{api.\allowbreak Chygraph.\allowbreak critical\_\allowbreak coupling} & \code{test\_\allowbreak api}\\
+\eqref{eq:LT} & links and triangles & \code{api.\allowbreak Chygraph.\allowbreak critical\_\allowbreak coupling} & \code{test\_\allowbreak derivations}\\
+\eqref{eq:exchange} & the exchange of stability & \code{fixedpoint.\allowbreak FixedPointStability} & \code{test\_\allowbreak fixedpoint}\\
+\eqref{eq:bethe} & the Bethe free energy & \code{freeenergy.\allowbreak BetheFreeEnergy} & \code{test\_\allowbreak freeenergy}\\
+\eqref{eq:para} & its paramagnetic closed form & \code{freeenergy.\allowbreak paramagnetic} & \code{test\_\allowbreak freeenergy}\\
+\eqref{eq:sigmagen} & the complexity at $m=0$ & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak \_sv\_\allowbreak sigma} & same file\\
+\multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:ising}, the Ising model}}\\
+\eqref{eq:Hising} & the Hamiltonian & \code{cavity.\allowbreak ising\_\allowbreak clique} & \code{test\_\allowbreak ising}\\
+\eqref{eq:uclique} & $u'$ for $c=2,3,4$ & \code{ising.\allowbreak clique\_\allowbreak derivative} & \code{test\_\allowbreak derivations}\\
+\eqref{eq:tcgraph} & the graph $T_{c}$ & \code{api.\allowbreak Chygraph.\allowbreak critical\_\allowbreak coupling} & \code{test\_\allowbreak ising}\\
+\eqref{eq:mc} & Monte Carlo $T_{c}$ & \code{probe/\allowbreak ising\_\allowbreak mc.\allowbreak py} & --- (simulation)\\
+\eqref{eq:simH} & the unanimity rule & \code{simplicial.\allowbreak emitted} & \code{test\_\allowbreak simplicial}\\
+\eqref{eq:BW} & its infinite-connectivity limit & \code{simplicial.\allowbreak SimplicialChygraph.\allowbreak spinodal} & \code{test\_\allowbreak derivations}\\
+\eqref{eq:Cq} & the residual $C_{q}$ & \code{simplicial.\allowbreak SimplicialChygraph.\allowbreak spinodal} & \code{figs/\allowbreak ising.\allowbreak py}\\
+\multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:hittingset}, hitting set}}\\
+\eqref{eq:Hhs} & the constraint & \code{hittingset.\allowbreak HittingSet} & \code{test\_\allowbreak hittingset}\\
+\eqref{eq:zhs} & warning propagation & \code{hittingset.\allowbreak HittingSet.\allowbreak F} & \code{test\_\allowbreak hittingset}\\
+\eqref{eq:hs} & the hard-field map & \code{hittingset.\allowbreak HittingSet.\allowbreak solve} & \code{test\_\allowbreak hittingset}\\
+\eqref{eq:kc} & $\ave{k}(c-1)=e$ & \code{hittingset.\allowbreak rsb\_\allowbreak point} & \code{test\_\allowbreak derivations}\\
+\eqref{eq:soft} & soft-field BP & \code{softfield.\allowbreak HittingSetBP.\allowbreak sweep} & \code{test\_\allowbreak softfield}\\
+\eqref{eq:hRS} & the regular solution & \code{softfield.\allowbreak regular\_\allowbreak field} & \code{test\_\allowbreak derivations}\\
+\eqref{eq:sgen} & the entropy & \code{softfield.\allowbreak HittingSetBP.\allowbreak entropy} & \code{test\_\allowbreak softfield}\\
+\eqref{eq:entropy} & its regular closed form & \code{softfield.\allowbreak regular\_\allowbreak entropy} & \code{test\_\allowbreak derivations}\\
+\multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:cover}, cover and core}}\\
+\eqref{eq:Hvc} & the tighter constraint & \code{cover.\allowbreak CliqueCover} & \code{test\_\allowbreak cover}\\
+\eqref{eq:vcz} & the $\max$ rule inside a complex & \code{cover.\allowbreak CliqueCover.\allowbreak tau} & \code{test\_\allowbreak cover}\\
+\eqref{eq:vc} & the cover map & \code{cover.\allowbreak CliqueCover.\allowbreak solve} & \code{test\_\allowbreak cover}\\
+\eqref{eq:core} & three-state leaf removal & \code{core.\allowbreak CorePercolation.\allowbreak solve} & \code{test\_\allowbreak core}\\
+\eqref{eq:factored} & no core-free branch above $c=2$ & \code{core.\allowbreak CorePercolation.\allowbreak has\_\allowbreak core\_\allowbreak free\_\allowbreak branch} & \code{figs/\allowbreak cover.\allowbreak py}\\
+\multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:colouring}, colouring}}\\
+\eqref{eq:taucol} & proper colouring, $-1/(q-1)$ & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak tau\_\allowbreak closed} & same file\\
+\eqref{eq:tauhyp} & hypergraph colouring & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak tau\_\allowbreak closed} & same file\\
+\eqref{eq:colthresh} & the stability threshold & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak stability\_\allowbreak threshold} & same file\\
+\eqref{eq:coltwo} & proper against hypergraph & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak check\_\allowbreak cardinality} & same file\\
+\eqref{eq:tridisagree} & triangles against the graph reading & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak triangle\_\allowbreak family} & same file\\
+\eqref{eq:trifamily} & the family at fixed degree & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak check\_\allowbreak triangles\_\allowbreak at\_\allowbreak fixed\_\allowbreak degree} & same file\\
+\eqref{eq:colsp} & the survey update & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak sp\_\allowbreak update} & same file\\
+\eqref{eq:colsigma} & its complexity, against $c_{q}$ & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak sp\_\allowbreak threshold} & same file\\
+\eqref{eq:hypsp} & cardinality, above two & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak hyp\_\allowbreak converge} & same file\\
+\ref{fig:threshold} & the window, and where it closes & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak check\_\allowbreak window\_\allowbreak closes} & same file\\
+\ref{tab:cq} & where colourings run out & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak check\_\allowbreak clustered\_\allowbreak cq} & same file\\
+\multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:satisfiability}, satisfiability}}\\
+\eqref{eq:satZ} & the clause interior & \code{figs/\allowbreak satisfiability.\allowbreak py:\allowbreak clause\_\allowbreak Z} & same file\\
+\eqref{eq:wp} & the warning map & \code{figs/\allowbreak satisfiability.\allowbreak py:\allowbreak wp\_\allowbreak map} & same file\\
+\eqref{eq:satslope} & $\alpha=1$ at $k=2$, zero above & \code{figs/\allowbreak satisfiability.\allowbreak py} & same file\\
+\eqref{eq:nested} & a clause whose member is a clause & \code{figs/\allowbreak satisfiability.\allowbreak py:\allowbreak nested\allowbreak \_G} & same file\\
+\eqref{eq:flatten} & what CNF flattening costs & \code{figs/\allowbreak satisfiability.\allowbreak py:\allowbreak check\allowbreak \_nested\allowbreak \_flatten} & same file\\
+\eqref{eq:sp} & the survey update & \code{figs/\allowbreak satisfiability.\allowbreak py:\allowbreak sp\_\allowbreak cavity\_\allowbreak piu} & same file\\
+\eqref{eq:sigma} & its complexity, against $\alpha_{s}$ & \code{figs/\allowbreak satisfiability.\allowbreak py:\allowbreak sp\_\allowbreak threshold} & same file\\
+\eqref{eq:nestedwp} & its warning map & \code{figs/\allowbreak satisfiability.\allowbreak py:\allowbreak nested\allowbreak \_G} & same file\\
+\multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:overlap}, overlapping complexes}}\\
+--- & the cavity recursion on a chygraph & \code{probe/\allowbreak cavity\_\allowbreak clique.\allowbreak Chygraph\allowbreak BP} & \code{validate} in that file\\
+\multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:gbp}, generalised belief propagation}}\\
+\eqref{eq:mobius} & M\"obius counting numbers & \code{region.\allowbreak RegionGraph} & \code{test\_\allowbreak region}\\
+\eqref{eq:p2c} & the parent-to-child update & \code{gbp.\allowbreak GBP} & \code{test\_\allowbreak gbp}\\
+\multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:metacomplex}, meta-complexes}}\\
+\eqref{eq:branching} & the incidence branching & \code{probe/\allowbreak karrer\_\allowbreak core\_\allowbreak sweep.\allowbreak py} & \code{check\_\allowbreak core\_\allowbreak transition}\\
+\eqref{eq:corea} & the pruning fixed point & \code{probe/\allowbreak karrer\_\allowbreak core\_\allowbreak sweep.\allowbreak core\_\allowbreak closed\_\allowbreak form} & \code{check\_\allowbreak closed\_\allowbreak form}\\
+\eqref{eq:corefrac} & the core fraction & \code{probe/\allowbreak karrer\_\allowbreak core\_\allowbreak sweep.\allowbreak core\_\allowbreak closed\_\allowbreak form} & \code{check\_\allowbreak closed\_\allowbreak form}\\
+\end{longtable}
+}
+
+Two entries need a word. Equation~\eqref{eq:emitted} is a placeholder for
+whatever the interior Hamiltonian is: the routine takes $-\beta H$ as a
+callable, and the models of Chapters~\ref{ch:ising}--\ref{ch:satisfiability}
+differ only in what is passed to it. And Eq.~\eqref{eq:mc} is a direct
+simulation, deliberately not covered by the test suite --- a test that
+reproduced it from the cavity equations would defeat its purpose. It is the one
+number in the book obtained without them.
+
+The remaining routines are solvers shared across chapters rather than single
+equations. \code{antimonotone.\allowbreak fixed\_\allowbreak point} brackets the order-reversing maps of
+Chapters~\ref{ch:hittingset} and~\ref{ch:cover} by iterating $F\circ F$ from $0$
+and from $1$, which is the construction of Sec.~\ref{sec:hard};
+\code{region.\allowbreak overlap\_\allowbreak profile} measures how far an explicit complex family is
+from treelike; and \code{stability.\allowbreak StabilityMatrix} is the symbolic $2L^{2}$
+tensor of Sec.~\ref{sec:threshold} with the reweighting of
+Eq.~\eqref{eq:reweight} applied.
+
+\section*{Reproducing a figure}
+
+Every figure in the book that is not drawn in TikZ is generated by a script in
+\code{figs/\allowbreak }, usually one per chapter and named for it. Running a
+script rewrites its PDFs into the same
+directory and prints the checks it performs, so
+\begin{quote}
+\code{python figs/\allowbreak ising.\allowbreak py}
+\end{quote}
+regenerates Chapter~\ref{ch:ising}'s three figures and reports, among other
+things, that $u'$ agrees with its closed form, that $T_{c}$ falls monotonically
+with clustering at every degree, and where the unanimity transition stops being
+continuous. The build then picks up the new PDFs with no further intervention.
+
+Several of the scripts are slow, and for the same reason: they bisect a
+threshold or a coexistence window, over more than one seed.
+\code{figs/\allowbreak colouring.\allowbreak py} is the slowest in the book at
+about fourteen minutes and \code{figs/\allowbreak satisfiability.\allowbreak py}
+takes about five, both because of their survey-propagation sections;
+\code{figs/\allowbreak merge.\allowbreak py},
+\code{figs/\allowbreak ising.\allowbreak py} and
+\code{figs/\allowbreak potts.\allowbreak py} take a few minutes each. The rest
+run in seconds.

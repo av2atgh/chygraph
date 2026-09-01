@@ -1,0 +1,787 @@
+\chapter{Chygraphs}
+\label{ch:chygraphs}
+
+\section{A paper is not a set of links}
+\label{sec:paper}
+
+In this chapter we define the chygraph and show what it represents that a graph
+or a hypergraph cannot. We motivate it with the scientific literature, which
+has been mapped many times over, whose maps disagree with one another, and
+where the reason they disagree is exactly the subject of the chapter.
+
+The system itself is simple. A paper is written by some authors. It cites
+some other papers. Those papers were written by their own authors and cited
+their own predecessors. That is the whole system --- documents, the people who
+wrote them, and the pointers between documents --- and it has been drawn as a
+network in at least four different ways \citep{newman2001,barabasi2002}.
+
+The \emph{citation network} keeps the papers and the pointers: a node is a
+paper, a directed link is a citation \citep{redner1998}. It is the right object
+if the question is how knowledge flows, and it has nothing to say about who
+wrote anything. The \emph{co-authorship network} keeps the people: a node is an
+author, and two authors are linked if they have written a paper together. It is
+the right object if the question is who works with whom, and it has nothing to
+say about citation. The \emph{bipartite author--paper graph} keeps both kinds of
+thing, authors and papers, with a link wherever a person wrote a document; it
+loses the citations again. And the \emph{author hypergraph} replaces the
+co-authorship links by hyperedges, one per paper, so that a five-author paper is
+one object rather than ten pairwise links \citep{vasilyeva2021}.
+
+Four maps, four different objects, and each of them made by throwing away
+something that was in the system to begin with (Fig.~\ref{fig:projections}).
+They also throw away different things, so a result proved on one of them
+cannot be quoted on another. That is what happens when a system whose parts
+contain other parts is forced into a language
+whose only relation is ``these two things are joined.''
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}
+% ---- (a) citation network
+\begin{scope}
+  \node[tb,anchor=west] at (-0.1,2.15) {(a) citation network};
+  \node[cpx] (p1) at (0.35,1.35) {}; \node[cpx] (p2) at (1.55,1.50) {};
+  \node[cpx] (p3) at (1.00,0.65) {}; \node[cpx] (p4) at (2.20,0.60) {};
+  \draw[incd] (p1)--(p2) (p3)--(p1) (p3)--(p2) (p4)--(p2);
+  \node[lb,anchor=west,align=left] at (-0.1,-0.10) {papers only; no authors};
+\end{scope}
+% ---- (b) co-authorship
+\begin{scope}[xshift=5.0cm]
+  \node[tb,anchor=west] at (-0.1,2.15) {(b) co-authorship};
+  \node[atm] (a1) at (0.35,1.40) {}; \node[atm] (a2) at (1.45,1.55) {};
+  \node[atm] (a3) at (0.90,0.70) {}; \node[atm] (a4) at (2.15,0.90) {};
+  \draw[inc] (a1)--(a2)--(a3)--(a1) (a2)--(a4);
+  \node[lb,anchor=west,align=left] at (-0.1,-0.10) {authors only; the paper is gone};
+\end{scope}
+% ---- (c) bipartite
+\begin{scope}[yshift=-3.1cm]
+  \node[tb,anchor=west] at (-0.1,2.15) {(c) bipartite};
+  \node[cpx] (q1) at (0.55,1.55) {}; \node[cpx] (q2) at (1.85,1.55) {};
+  \node[atm] (b1) at (0.25,0.65) {}; \node[atm] (b2) at (1.20,0.65) {};
+  \node[atm] (b3) at (2.15,0.65) {};
+  \draw[inc] (q1)--(b1) (q1)--(b2) (q2)--(b2) (q2)--(b3);
+  \node[lb,anchor=west,align=left] at (-0.1,-0.10) {both kinds of thing; no citations};
+\end{scope}
+% ---- (d) author hypergraph
+\begin{scope}[xshift=5.0cm,yshift=-3.1cm]
+  \node[tb,anchor=west] at (-0.1,2.15) {(d) author hypergraph};
+  \node[nd] (c1) at (0.40,1.55) {}; \node[nd] (c2) at (1.35,1.60) {};
+  \node[nd] (c3) at (0.85,0.75) {}; \node[nd] (c4) at (2.25,1.05) {};
+  \begin{scope}[on background layer]
+    \node[cx,fill=black!26,fill opacity=0.7,fit=(c1)(c2)(c3)]{};
+    \node[cx,fill=black!26,fill opacity=0.7,inner sep=3.6pt,fit=(c2)(c4)]{};
+  \end{scope}
+  \node[lb,anchor=west,align=left] at (-0.1,-0.10) {the paper is one object; no citations};
+\end{scope}
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{Four maps of one system.} The scientific literature drawn four
+ways. Filled circles are authors, rectangles and shaded boxes are papers, solid
+lines are authorship and dashed lines citation. Each map is made by discarding
+something that was in the system: (a) forgets who wrote anything, (b) and (d)
+forget citation, and (b) also forgets that a paper with five authors is one act
+and not ten. No two of them are the same object, so nothing proved on one can be
+quoted on another. Where two complexes overlap, as in (d), the shading
+compounds, so a darker patch marks the atoms they share --- a convention used
+throughout the book.}
+\label{fig:projections}
+\end{figure}
+
+A single paper is neither a node nor a link. It is a small structured thing in its own right: it has an author list,
+and it has a reference list. The author list is a set of people. The reference
+list is a set of \emph{other papers}. And the two lists do not mix --- no author
+appears in the bibliography as a reference, and no reference is a co-author.
+
+Suppose we agree to call the paper one object and its two lists the internal structure of that object.
+Then the paper's interior is not a single group but two disjoint groups: a
+person entering the paper through the author list can reach the other authors
+and stops there, and a paper entering through the reference list can reach the
+other references and stops there. To get from an author of a paper to something
+that paper cites, one has to leave the paper and re-enter by the other door.
+Whether or not that is how citation actually works sociologically, it is
+certainly how the document is built, and any representation that flattens the
+paper into one undifferentiated blob of ``things associated with this paper''
+has lost it.
+
+So the literature demands two things at once, and neither of the standard
+languages provides both. It demands that a complex object be able to
+\emph{contain another complex object of the same kind} --- a paper contains
+papers, in its reference list. And it demands that the interior of that object
+have \emph{structure of its own} --- not one list but two, and the difference
+between them matters. Everything in this chapter is an attempt to meet those
+two demands and nothing more.
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}[yscale=1.15]
+% three publications, each a complex with two internal hyperedges
+\foreach \x/\n in {0/1, 3.1/2, 6.2/3} {
+  \node[cpx] (A\n) at (\x,0) {};
+  \node[cpxb] (R\n) at (\x+1.0,0) {};
+  \begin{scope}[on background layer]
+    \node[pub,fit=(A\n)(R\n)] (P\n) {};
+  \end{scope}
+}
+\node[lb,anchor=north east] at (-0.18,-0.10) {$A_i$};
+\node[lb,anchor=north west] at (1.18,-0.10) {$R_i$};
+% authors
+\foreach \x/\m in {-0.35/1, 0.75/2, 1.95/3, 3.15/4, 4.35/5, 5.55/6, 6.75/7, 7.85/8}
+  \node[atm] (u\m) at (\x,-1.75) {};
+\draw[inc] (A1)--(u1) (A1)--(u2) (A1)--(u3) (A2)--(u3) (A2)--(u4) (A2)--(u5)
+           (A3)--(u6) (A3)--(u7) (A3)--(u8);
+% citations: the cited publication is a vertex of the citing publication's reference list
+\draw[incd] (P2) to[out=125,in=55] (R1);
+\draw[incd] (P3) to[out=125,in=55] (R2);
+\draw[incd] (P3) to[out=140,in=48] (R1);
+% legend, laid out below rather than beside so the drawing keeps the page width
+\node[cpx]  (l1) at (0.15,-2.95) {}; \node[lb,anchor=west] at (0.42,-2.95) {author list $A_i$};
+\node[cpxb] (l2) at (3.25,-2.95) {}; \node[lb,anchor=west] at (3.52,-2.95) {reference list $R_i$};
+\node[atm]  (l3) at (6.55,-2.95) {}; \node[lb,anchor=west] at (6.82,-2.95) {author (atom)};
+\draw[inc]  (0.05,-3.50)--(0.55,-3.50); \node[lb,anchor=west] at (0.72,-3.50) {authorship};
+\draw[incd] (3.15,-3.50)--(3.65,-3.50); \node[lb,anchor=west] at (3.82,-3.50) {citation};
+\draw[rounded corners=1.6pt,draw=black!70,line width=.6pt]
+  (6.45,-3.62) rectangle (7.05,-3.38);
+\node[lb,anchor=west] at (7.22,-3.50) {publication (complex)};
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{The literature as a chygraph} \citep{vazquez2023pre}. A
+publication is a complex, drawn as a rounded box. Its interior is a hypergraph
+with two hyperedges: the author list $A_i$ (white) and the reference list $R_i$
+(shaded). Authors are atoms and are included in author lists; a citation is the
+inclusion of one publication in another publication's reference list, so a
+complex is a vertex of a complex. The two hyperedges do not overlap, so the
+interior has two components, and the door of entry decides what is reachable.}
+\label{fig:publications}
+\end{figure}
+
+\section{Graphs, hypergraphs and ubergraphs}
+
+A \emph{graph} $G(V,E)$ is a set of vertices $V$ and a set of edges $E$, each
+edge a pair of vertices. It meets neither demand. An edge cannot contain an
+edge, and an edge has no interior to give structure to --- it is a pair, and a
+pair is exhausted by naming its two members.
+
+A \emph{hypergraph} $H(V,E)$ relaxes the pair: a hyperedge is any subset of $V$,
+so an interaction among five things is one hyperedge rather than ten links
+\citep{ghoshal2009,battiston2020}. That is real progress, and it is the first
+move of the modern higher-order-network literature. It meets the second
+demand only barely --- a hyperedge is a flat set, with no internal organisation
+--- and it does not meet the first at all. Hyperedges contain vertices. They do
+not contain hyperedges. Our paper cannot cite.
+
+The first demand was met by Joslyn and Nowak, who defined \emph{ubergraphs}
+\citep{joslyn2017}. We restate their construction in the language this book uses
+throughout. Begin by dividing the things in a system into
+those we have chosen not to decompose any further --- call them \emph{atoms} ---
+and those that are made of other things --- call them \emph{complexes}. Which is
+which is a modelling decision, not a fact about the world: an author is an atom
+here because we have decided not to model people as made of parts, and nothing
+stops someone else deciding otherwise. Then:
+
+\begin{quote}
+\emph{An ubergraph} $\mathcal{U}(A,C)$ is a set of atoms $A$ and a set of
+complexes $C$, where each complex is a subset of $A\cup C$.
+\end{quote}
+
+The clause that does the work is $A\cup C$ rather than $A$. A complex may
+contain complexes. Our paper can now cite --- and it still cannot tell its
+authors from its references, because a complex is still a flat set. Both lists
+are merged into one.
+
+\section{Chygraph definition}
+\label{sec:definition}
+\index{chygraph|textbf}
+\index{complex|textbf}
+\index{atom|textbf}
+\index{inclusion}
+
+The remaining step is small. If the trouble
+is that a complex's interior is a flat set, give the interior the same treatment
+we have just given the exterior: make it a hypergraph.
+
+\begin{quote}
+\emph{A complex hypergraph} (chygraph) $\chi(A,C)$ is a set of atoms $A$ and a
+set of complexes $C$, where each complex is a \emph{hypergraph} whose vertex set
+lies in $A\cup C$ \citep{vazquez2023pre}.
+\end{quote}
+
+There is a tighter way to say it that will be more convenient from
+Chapter~\ref{ch:percolation} onward. An atom is nothing but a complex that
+happens to include no complexes, so we need not carry $A$ separately:
+
+\begin{quote}
+A chygraph is a set of complexes, where complexes are hypergraphs with a vertex
+set in the set of complexes \citep{vazquez2024comnet}.
+\end{quote}
+
+Two properties are packed into that sentence. \emph{Self-reference:} complexes
+are built from complexes, and are themselves available as building blocks.
+\emph{Fine-grained structure:} what is inside a complex is not a heap but a
+hypergraph.
+
+Figure~\ref{fig:ladder} puts the three constructions side by side. Each step
+buys exactly one thing, and the book needs both.
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}[yscale=1.0]
+\begin{scope}
+  \node[tb,anchor=west] at (-0.2,2.65) {hypergraph};
+  \node[cpx] (h) at (0.9,1.25) {};
+  \node[atm] (h1) at (0.1,0.45) {}; \node[atm] (h2) at (0.9,0.45) {};
+  \node[atm] (h3) at (1.7,0.45) {};
+  \draw[inc] (h)--(h1) (h)--(h2) (h)--(h3);
+  \node[lb,anchor=west,align=left] at (-0.2,-0.35)
+    {a complex holds atoms;\\ its interior is a flat set};
+\end{scope}
+\begin{scope}[xshift=4.35cm]
+  \node[tb,anchor=west] at (-0.2,2.65) {ubergraph};
+  \node[cpx] (u) at (0.9,1.95) {};
+  \node[cpx] (v) at (0.15,1.25) {};
+  \node[atm] (u1) at (1.75,1.25) {};
+  \node[atm] (v1) at (-0.3,0.45) {}; \node[atm] (v2) at (0.6,0.45) {};
+  \draw[inc] (u)--(v) (u)--(u1) (v)--(v1) (v)--(v2);
+  \node[lb,anchor=west,align=left] at (-0.2,-0.35)
+    {a complex may hold complexes;\\ its interior is still flat};
+\end{scope}
+\begin{scope}[xshift=8.9cm]
+  \node[tb,anchor=west] at (-0.2,2.65) {chygraph};
+  \node[cpx]  (e1) at (0.55,1.95) {};
+  \node[cpxb] (e2) at (1.35,1.95) {};
+  \begin{scope}[on background layer]\node[pub,fit=(e1)(e2)] (W) {};\end{scope}
+  \node[cpx] (w) at (2.05,1.20) {};
+  \node[atm] (w1) at (0.05,1.20) {}; \node[atm] (w2) at (0.95,1.20) {};
+  \draw[inc] (e1)--(w1) (e1)--(w2) (e2)--(w);
+  \node[lb,anchor=west,align=left] at (-0.2,-0.35)
+    {a complex holds complexes,\\ \emph{and} its interior is a hypergraph};
+\end{scope}
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{Three constructions, two demands.} A hypergraph's complexes
+hold atoms only. An ubergraph's complexes may hold other complexes, but a
+complex is still a flat set. A chygraph's complexes hold complexes \emph{and}
+carry a hypergraph inside, so a publication can distinguish its author list
+(white) from its reference list (shaded). An ubergraph is the special case of a
+chygraph in which every interior hypergraph has exactly one hyperedge, so every
+result in this book applies to ubergraphs with ``component size'' read as
+``cardinality''.}
+\label{fig:ladder}
+\end{figure}
+
+The literature is now representable without loss. Writing it out,
+\begin{equation}
+  \chi\Big(A,\ \big\{\,\mathcal{H}_i\big(A_i\cup R_i,\ \{A_i,R_i\}\big)\,\big\}\Big),
+  \label{eq:publications}
+\end{equation}
+where $A$ is the set of authors, $i$ runs over publications, $A_i$ is the
+author list of publication $i$ and $R_i$ its reference list. Each publication is
+a hypergraph on the vertex set $A_i\cup R_i$ with exactly two hyperedges,
+$A_i$ and $R_i$ (Fig.~\ref{fig:publications}). Nothing has been discarded: the
+citation network of Fig.~\ref{fig:projections}a, the co-authorship network of
+Fig.~\ref{fig:projections}b, the bipartite graph of
+Fig.~\ref{fig:projections}c and the hypergraph of Fig.~\ref{fig:projections}d
+are all recoverable from Eq.~\eqref{eq:publications} by forgetting, and none of
+them can recover any of the others.
+
+\section{The vocabulary}
+\label{sec:vocabulary}
+\index{cardinality|textbf}
+\index{chy-degree|textbf}
+\index{excess cardinality|textbf}
+
+A handful of words, all of them intended to be as flat-footed as they sound.
+
+Complex $A$ \emph{includes} complex $B$ when $B$ is in the vertex set of $A$;
+equivalently, $B$ is \emph{included in} $A$. An \emph{atom} is a complex that
+includes no complexes. The \emph{cardinality} of a complex is the number of
+complexes it includes. The \emph{chy-degree} of a complex is the number of
+complexes that include it.
+
+Two conventions. First, quantities defined at the
+chygraph level get Greek letters, to keep them separate from the same quantities
+computed on some graph made out of the chygraph; so the chy-degree is $\kappa$
+and never $k$. Second, ``cardinality'' counts what is inside and ``chy-degree''
+counts what is outside, and confusing them is the single commonest slip in this
+subject. In the literature example, an author's chy-degree is the number of
+papers they have written, and a publication's chy-degree is the number of
+citations it has received; a publication's cardinality is its number of authors
+plus its number of references. An author's $h$-index is a statistic of the
+chy-degrees of the complexes that include that atom.
+
+Formally, index the atoms and complexes together as $i=1,\dots,n$ with
+$n=|A\cup C|$, and let $C_j$ denote the vertex set of complex $j$. The
+\emph{chy-adjacency matrix} is
+\begin{equation}
+  \alpha_{ij}=\begin{cases}1 & \text{if } i\in C_j,\\ 0 & \text{otherwise,}\end{cases}
+  \label{eq:alpha}
+\end{equation}
+and the chy-degree and cardinality are its two marginals,
+\begin{equation}
+  \kappa_i=\sum_j\alpha_{ij},\qquad c_j=\sum_i\alpha_{ij}.
+  \label{eq:kappa}
+\end{equation}
+That $\alpha$ is not symmetric --- unlike the adjacency matrix of a graph, which
+it otherwise resembles --- is the difference between being inside something and
+containing something.
+
+\subsection{The two ways out of a complex}
+
+The rest of the book rests on one sentence, which every recursion in
+Chapters~\ref{ch:percolation} to~\ref{ch:overlap} formalises.
+
+\begin{quote}
+Standing at a complex, there are exactly two ways to leave it: \emph{up},
+through a complex that includes it, or \emph{down}, into the complexes it
+includes.
+\end{quote}
+
+Up, there are $\kappa$ choices --- one per inclusion --- and they lead to
+distinct complexes elsewhere in the chygraph. Down, there is the interior
+hypergraph, and this is where the second of the two demands matters:
+going down is not a matter of choosing one of $c$ members at random, because the
+interior may be several disjoint pieces and only the piece entered is
+reachable. Entering a publication as one of its authors reaches the other
+authors; entering it as one of its references reaches the other references.
+The relevant number is therefore not the cardinality but the size of the
+\emph{intra-complex component} arrived in, written $s$
+(Fig.~\ref{fig:twoways}).
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{max width=0.92\linewidth}
+\begin{tikzpicture}
+% the complex in the middle
+\node[cpx] (E1) at (2.0,0) {}; \node[cpxb] (E2) at (3.1,0) {};
+\begin{scope}[on background layer]\node[pub,fit=(E1)(E2)] (P) {};\end{scope}
+\node[lb,anchor=west] at (3.55,0.0) {a complex};
+% up: complexes that include it
+\node[cpx] (Ua) at (1.15,1.5) {}; \node[cpx] (Ub) at (2.55,1.75) {};
+\node[cpx] (Uc) at (3.95,1.5) {};
+\draw[msg] (2.30,0.34) -- (1.35,1.30);
+\draw[msg] (2.60,0.36) -- (2.57,1.55);
+\draw[msg] (2.90,0.34) -- (3.75,1.30);
+\node[lb,anchor=south,align=center] at (2.55,2.05)
+  {\emph{up:} $\kappa$ complexes include it};
+% down: the interior, two components
+\node[atm] (d1) at (1.15,-1.6) {}; \node[atm] (d2) at (2.0,-1.6) {};
+\node[atm] (d3) at (2.85,-1.6) {};
+\node[cpx] (d4) at (3.85,-1.6) {}; \node[cpx] (d5) at (4.75,-1.6) {};
+\draw[inc] (E1)--(d1) (E1)--(d2) (E1)--(d3) (E2)--(d4) (E2)--(d5);
+\draw[decorate,decoration={brace,amplitude=3pt,mirror},black!55]
+  (1.0,-1.9) -- (3.0,-1.9);
+\draw[decorate,decoration={brace,amplitude=3pt,mirror},black!55]
+  (3.7,-1.9) -- (4.9,-1.9);
+\node[lb,anchor=north] at (2.0,-2.05) {component, $s=3$};
+\node[lb,anchor=north] at (4.3,-2.05) {component, $s=2$};
+\node[lb,anchor=west,align=left] at (5.35,-1.30)
+  {\emph{down:} into the interior ---\\ but only the component\\ entered by};
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{The two ways out.} Up, through any of the $\kappa$ complexes
+that include this one. Down, into its interior hypergraph --- where what is
+reachable is not the whole cardinality $c=5$ but the size $s$ of the component
+entered. A publication's author list and reference list are two components of
+size $3$ and $2$; arriving as an author, the two other authors are reachable,
+not the four other members. Percolation (Chapter~\ref{ch:percolation}) is this
+picture with a probability attached to each arrow; the cavity recursion
+(Chapter~\ref{ch:statmech}) is this picture with a message.}
+\label{fig:twoways}
+\end{figure}
+
+Cardinality and component size coincide whenever a complex's interior hypergraph
+has a single hyperedge --- which is to say, on ubergraphs, and therefore on
+graphs, hypergraphs and every structure in Sec.~\ref{sec:everything} below.
+They part company only for genuinely compound complexes like our publications.
+The theory is written in terms of $s$ throughout, so both cases are covered by
+one calculation, and a reader who only ever cares about hypergraphs may read $s$
+as the cardinality, and its excess $\bar s$ of Eq.~\eqref{eq:excess} as
+``cardinality minus the one arrived by'', and lose nothing.
+
+\section{Layers}
+\label{sec:layers}
+\index{layer|textbf}
+
+One more piece of bookkeeping is needed, and it is what makes the construction
+computationally workable.
+
+The complexes of a chygraph are usually not statistically alike. In the
+literature example, publications and authors are different sorts of object with
+different chy-degree distributions, and inside a publication the author list and
+the reference list behave differently too. In a multiplex network, a friendship
+link and a co-worker link join the same people and are not interchangeable. So
+we partition the complexes into \emph{layers}, indexed $l=0,\dots,L-1$, with the
+understanding that complexes within a layer are statistically alike and
+complexes in different layers need not be.
+
+That is the working definition, and for every calculation in this book it is
+all that is needed. The formal version, which fixes how deep a chygraph is
+rather than merely how many kinds of thing it contains, is due to
+\citet{vazquez2023pre}:
+
+\begin{quote}
+\emph{Chygraph length.} Let $\Pi=\Pi_1\cup\dots\cup\Pi_l$ be a partition of the
+complex set that is non-intersecting ($\Pi_i\cap\Pi_j=\emptyset$ for $i\ne j$),
+hierarchical (if a complex lies in $\Pi_j$ then its vertices lie in
+$A\cup(\cup_{k\le j}\Pi_k)$), and statistically homogeneous within each part.
+The chygraph length $L(\chi)$ is the largest $l$ over all such partitions.
+\end{quote}
+
+The hierarchical clause says that a layer may only be built out of layers below
+it, which is what makes ``levels of inclusion'' well defined. Human geography is
+the everyday example: people, neighbourhoods, cities, countries, continents ---
+five levels, each assembled from the one beneath. The homogeneity clause is what
+lets two layers sit at the same level and still be told apart, which is what a
+multiplex network needs. The two clauses pull in opposite directions --- one
+wants few, deep layers, the other wants many, distinguishable ones --- and the
+maximum in the definition resolves them.
+
+No calculation in this book requires computing $L(\chi)$ for a given chygraph. In practice one \emph{chooses} the layers when
+setting up the model, and the choice is part of the modelling, exactly as
+choosing what counts as an atom was.
+
+\section{Everything is a chygraph}
+\label{sec:everything}
+\index{hypergraph}
+\index{multiplex network}
+\index{graph, as a chygraph}
+
+Each structure below is obtained by writing down its layers and their
+cardinalities, and nothing else changes. Figure~\ref{fig:mappings} draws them in
+a single vocabulary.
+
+\paragraph{A graph} is two layers. Layer $0$ is atoms, one per node. Layer $1$
+is complexes of cardinality two, one per link, each containing its two
+endpoints. A node's chy-degree is its ordinary degree; a link's chy-degree is
+zero, because nothing includes a link.
+
+\paragraph{A hypergraph} is the same with the cardinality freed: layer $1$
+complexes contain any number of atoms. A uniform hypergraph fixes that number at
+$c$; a clique network --- a graph built by pasting $c$-cliques together --- is
+the same chygraph again, because a clique and a hyperedge differ in how they are
+drawn and not in what includes what.
+
+\paragraph{A multiplex network} is one atom layer and one complex layer per link
+type: friendship in layer $1$, co-working in layer $2$, and so on
+\citep{gomez2013,kivela2014}. The atoms are shared, which is exactly what makes
+it a multiplex rather than two unrelated networks, and no further apparatus is
+required.
+
+\paragraph{Interacting graphs and hypergraphs} need one more layer than one
+might guess. Two hypergraphs that interact are: an atom layer and a hyperedge
+layer for each, \emph{plus} a layer of hyperedges containing atoms from both
+\citep{leicht2009,bianconi2017}. With more than two, one adds a cross layer per
+interacting pair.
+
+\paragraph{A clustered graph} becomes a chygraph by \emph{promoting its dense
+motifs to complexes}. This is the mapping Part~III rests on. A graph rich in triangles is given two complex layers, one of
+cardinality two for the plain links and one of cardinality three for the
+triangles \citep{newman2009,karrer2010}. A graph rich in maximal cliques of
+assorted sizes gets one layer per size. The triangle has stopped being three
+links that happen to close and has become one object, and the loop that made it
+a triangle has gone inside the object where the theory can sum over it exactly.
+That move is what Chapter~\ref{ch:statmech} is built on, and its price is stated
+in Sec.~\ref{sec:treelike} below.
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}
+% ---------- row 1: graph, hypergraph, multiplex ----------
+\begin{scope}
+  \node[tb,anchor=west] at (-0.3,1.75) {graph};
+  \node[cpx] (g1) at (0.35,1.05) {}; \node[cpx] (g2) at (1.45,1.05) {};
+  \node[atm] (n1) at (-0.05,0.25) {}; \node[atm] (n2) at (0.85,0.25) {};
+  \node[atm] (n3) at (1.85,0.25) {};
+  \draw[inc] (g1)--(n1) (g1)--(n2) (g2)--(n2) (g2)--(n3);
+  \node[lb,anchor=west] at (-0.3,-0.35) {$L=2$, $c=2$};
+\end{scope}
+\begin{scope}[xshift=3.6cm]
+  \node[tb,anchor=west] at (-0.3,1.75) {hypergraph};
+  \node[cpx] (H1) at (0.55,1.05) {}; \node[cpx] (H2) at (1.85,1.05) {};
+  \node[atm] (m1) at (-0.15,0.25) {}; \node[atm] (m2) at (0.55,0.25) {};
+  \node[atm] (m3) at (1.25,0.25) {}; \node[atm] (m4) at (2.25,0.25) {};
+  \draw[inc] (H1)--(m1) (H1)--(m2) (H1)--(m3) (H2)--(m3) (H2)--(m4);
+  \node[lb,anchor=west] at (-0.3,-0.35) {$L=2$, $c$ free};
+\end{scope}
+\begin{scope}[xshift=7.5cm]
+  \node[tb,anchor=west] at (-0.3,1.75) {multiplex};
+  \node[cpx]  (M1) at (0.35,1.20) {}; \node[cpx]  (M2) at (1.65,1.20) {};
+  \node[atm] (p1) at (-0.05,0.45) {}; \node[atm] (p2) at (0.90,0.45) {};
+  \node[atm] (p3) at (2.05,0.45) {};
+  \node[cpxc] (M3) at (0.45,-0.30) {}; \node[cpxc] (M4) at (1.75,-0.30) {};
+  \draw[inc] (M1)--(p1) (M1)--(p2) (M2)--(p2) (M2)--(p3)
+             (M3)--(p1) (M3)--(p3) (M4)--(p2) (M4)--(p3);
+  \node[lb,anchor=west] at (-0.3,-0.90) {one layer per link type};
+\end{scope}
+% ---------- row 2: interacting, clustered graph ----------
+\begin{scope}[yshift=-3.5cm,xshift=0.6cm]
+  \node[tb,anchor=west] at (-0.3,1.75) {interacting};
+  \node[cpx]  (I1) at (0.30,1.05) {}; \node[cpxb] (I3) at (1.35,1.05) {};
+  \node[cpxc] (I2) at (2.35,1.05) {};
+  \node[atm] (q1) at (-0.05,0.25) {}; \node[atm] (q2) at (0.80,0.25) {};
+  \node[nd]  (q3) at (1.85,0.25) {}; \node[nd]  (q4) at (2.70,0.25) {};
+  \draw[inc] (I1)--(q1) (I1)--(q2) (I2)--(q3) (I2)--(q4)
+             (I3)--(q2) (I3)--(q3);
+  \node[lb,anchor=west,align=left] at (-0.3,-0.48)
+    {a cross layer (mid grey) per\\ interacting pair};
+\end{scope}
+\begin{scope}[yshift=-3.5cm,xshift=5.9cm]
+  \node[tb,anchor=west] at (-0.3,1.75) {clustered graph};
+  \node[cpx]  (T1) at (0.35,1.05) {};
+  \node[cpxb] (T2) at (1.85,1.05) {};
+  \node[atm] (r1) at (-0.15,0.25) {}; \node[atm] (r2) at (0.85,0.25) {};
+  \node[atm] (r3) at (1.75,0.25) {}; \node[atm] (r4) at (2.65,0.25) {};
+  \draw[inc] (T1)--(r1) (T1)--(r2) (T2)--(r2) (T2)--(r3) (T2)--(r4);
+  \node[lb,anchor=west,align=left] at (-0.3,-0.48)
+    {links at $c=2$, triangles at\\ $c=3$: motifs promoted};
+\end{scope}
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{One object, five structures.} Circles are atoms, rectangles
+are complexes, and shading distinguishes layers; a line is an inclusion. In the
+interacting panel the two hypergraphs' atoms are told apart by fill, and the
+mid-grey complexes are the cross layer that contains atoms of both. Nothing changes from panel to panel except which layers exist and
+what cardinalities they carry. This is the claim the rest of the book relies on:
+a calculation done once on the chygraph is a calculation done for all five, and
+the specialisation is substitution rather than rederivation.}
+\label{fig:mappings}
+\end{figure}
+
+The list is the argument for the whole construction. The
+higher-order-network literature has produced a separate percolation calculation
+for hypergraphs, for multiplex networks, for interacting networks, for
+interdependent networks, for simplicial complexes, and for clustered graphs, and
+the number of independent derivations has been growing faster than anyone's
+ability to hold them in one head \citep{battiston2020,bianconi2021}. If all six
+are chygraphs, one calculation covers them, and the differences between them
+become differences in what one substitutes at the end. Chapter~\ref{ch:percolation}
+carries that out.
+
+\section{Two ways to draw the same thing}
+\label{sec:drawing}
+\index{inclusion diagram}
+
+Figures~\ref{fig:publications} and~\ref{fig:mappings} draw a complex as a
+\emph{node} of its own, with lines running to what it includes. Every figure
+after this chapter draws a complex as a \emph{box around} what it includes.
+These are the same object. Figure~\ref{fig:twodrawings} puts the two side by
+side once, so that neither reads as a new construction later.
+
+The inclusion drawing is complete and scales badly: it puts every complex and
+every inclusion on the page, and it becomes unreadable at a couple of dozen
+complexes. The spatial drawing is compact and incomplete: it can only show a
+complex as a box when the complex's members can be drawn adjacent, which
+fails as soon as two complexes share more than one atom --- precisely the
+situation of Sec.~\ref{sec:treelike}. Use the first when the question is what
+includes what, the second when the question is what is near what.
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{max width=0.9\linewidth}
+\begin{tikzpicture}
+\begin{scope}
+  \node[tb,anchor=west] at (-0.2,2.15) {(a) inclusion drawing};
+  \node[cpx] (A) at (0.6,1.45) {}; \node[cpx] (B) at (2.1,1.45) {};
+  \node[lb,anchor=south] at (0.6,1.62) {$a$};
+  \node[lb,anchor=south] at (2.1,1.62) {$b$};
+  \node[atm] (x1) at (0.0,0.55) {}; \node[atm] (x2) at (1.2,0.55) {};
+  \node[atm] (x3) at (2.7,0.55) {};
+  \draw[inc] (A)--(x1) (A)--(x2) (B)--(x2) (B)--(x3);
+  \node[lb,anchor=west,align=left] at (-0.2,-0.20)
+    {complexes are nodes;\\ lines are inclusions};
+\end{scope}
+\begin{scope}[xshift=5.6cm]
+  \node[tb,anchor=west] at (-0.2,2.15) {(b) spatial drawing};
+  % the two complexes are drawn at different heights and different fills, so
+  % that the atom they share is visibly in both rather than in one long blob
+  \node[nd] (y1) at (0.15,1.05) {}; \node[nd] (y2) at (1.35,1.45) {};
+  \node[nd] (y3) at (2.55,1.05) {};
+  \begin{scope}[on background layer]
+    \node[cx,fill=black!26,fill opacity=0.7,fit=(y1)(y2)] {};
+    \node[cx,fill=black!26,fill opacity=0.7,inner sep=3.8pt,fit=(y2)(y3)] {};
+  \end{scope}
+  \node[lb,anchor=east] at (0.05,1.62) {$a$};
+  \node[lb,anchor=west] at (2.70,1.62) {$b$};
+  \node[lb,anchor=west,align=left] at (-0.2,-0.20)
+    {complexes are boxes\\ drawn around their members};
+\end{scope}
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{The same chygraph twice.} Three atoms and two complexes, $a$
+and $b$, the middle atom belonging to both. The inclusion drawing (a) is used in
+this chapter because the question here is what includes what; the spatial
+drawing (b) is used everywhere afterwards because the question there is what a
+message can reach. Neither adds anything to the other.}
+\label{fig:twodrawings}
+\end{figure}
+
+\section{Random chygraphs}
+\label{sec:ensembles}
+\index{random chygraph|textbf}
+\index{ensemble}
+
+The rest of the book computes averages over ensembles rather than properties of
+one object, so we need to say what specifying an ensemble amounts to. It amounts
+to specifying, for every ordered pair of layers, how many complexes of one layer
+attach to a complex of the other, in each of the two directions of
+Sec.~\ref{sec:vocabulary} --- and that is all.
+
+Let $\Phi^l_k(x)$ be the probability generating function of the number of
+layer-$k$ complexes that include a layer-$l$ complex, and $G^l_k(y)$ that of the
+number of layer-$k$ complexes in the intra-complex component of a layer-$l$
+complex, entered at a given vertex. Write $\bar\Phi^l_k$ and $\bar G^l_k$ for
+the corresponding \emph{excess} functions --- the same counts taken from a
+complex reached along an inclusion, with the inclusion used to arrive not
+counted again. Up and down, ordinary and excess: four families of functions, one
+per direction per situation.
+
+Their first derivatives at $1$ are the four moment matrices that will run
+through every chapter:
+\begin{align}
+  \Phi^{l\prime}_k(1)&=\ave{\kappa}_{lk}, &
+  \bar\Phi^{l\prime}_k(1)&=\ave{\kbar}_{lk},\nonumber\\
+  G^{l\prime}_k(1)&=\ave{s}_{lk}, &
+  \bar G^{l\prime}_k(1)&=\ave{\sbar}_{lk},
+  \label{eq:moments}
+\end{align}
+with the excess averages given, as usual for a size-biased count, by
+\begin{equation}
+  \ave{\kbar}_{lk}=\frac{\ave{\kappa(\kappa-1)}_{lk}}{\ave{\kappa}_{lk}},
+  \qquad
+  \ave{\sbar}_{lk}=\frac{\ave{s(s-1)}_{lk}}{\ave{s}_{lk}}.
+  \label{eq:excess}
+\end{equation}
+
+Four $L\times L$ matrices, then, summarise a chygraph at the level of first
+moments: $\ave{\kappa}$, $\ave{\kbar}$, $\ave{s}$, $\ave{\sbar}$. Whatever the sizes of the complexes, whatever
+the depth of the inclusion hierarchy, the first-moment description of the
+ensemble is four matrices whose dimension is the number of \emph{layers} --- two
+for a graph, three for a two-layer multiplex --- and not the number of complexes
+or their cardinality. Chapter~\ref{ch:percolation} shows that the percolation
+threshold of every structure in Sec.~\ref{sec:everything} is fixed by these four
+matrices alone; Chapter~\ref{ch:giant} shows precisely what they fail to
+determine, which is everything about the transition except where it is.
+
+Two caveats, stated here so they are not sprung later. Equation~\eqref{eq:moments}
+takes the generating functions to factorise over target layers --- a complex's
+participation in one layer independent of its participation in another --- which
+covers every mapping in Sec.~\ref{sec:everything} but is a genuine restriction,
+lifted in Sec.~\ref{sec:joint}. And moments are moments: two ensembles can agree
+on all four matrices and disagree about the shape of the transition, which is
+the subject of Chapter~\ref{ch:giant} and not a defect to be repaired.
+
+\section{Treelike over complexes, and what it costs}
+\label{sec:treelike}
+\index{treelike|textbf}
+\index{overlap!between complexes}
+
+We close the chapter with the property that motivates everything after
+Chapter~\ref{ch:percolation}, and with its price, which is structural rather
+than a matter of care.
+
+The methods of this book --- generating functions for percolation, the cavity
+recursion for statistical mechanics --- require that the object they run on be
+locally treelike: that following inclusions away from a complex, one does not
+come back. Real graphs are not treelike: the neighbours of a node are neighbours
+of one another, and the triangle they form is a loop of length three, the
+shortest there is.
+
+Promote that triangle to a complex, though, and the loop is gone from the
+structure \emph{over} complexes. It has not been discarded --- it is inside the
+complex, where Chapter~\ref{ch:statmech} sums over it exactly at a cost that
+depends on the cardinality and on nothing else. What was an obstruction has
+become an interior. This is the bargain the book explores, and Fig.~\ref{fig:price}a
+is the good case.
+
+Figure~\ref{fig:price}b is the bad one. If two complexes share \emph{two} atoms
+rather than one, then there is a loop that promotion did not absorb: leave the
+first complex through one shared atom, cross the second complex, and come back
+through the other. Over complexes, that is a loop of length two, and the
+recursion will double-count it.
+
+\paragraph{The pairwise test is necessary and not sufficient.} It is convenient
+to read the condition as the single question ``do two complexes ever share two
+atoms?'', and that is how the rest of this book applies it. On an ensemble the
+reading is safe: the random chygraphs of Part~II are locally treelike in the
+full sense, and a loop of any length is a rare event. On a \emph{given} network
+it is not. A loop can run through three or more complexes, each meeting the next
+in a single atom and no pair sharing two, so that the pairwise question is
+answered ``no'' and the structure over complexes still closes on itself. Four
+triangles glued in a ring at single vertices do exactly that, and the recursion
+is wrong on them; Section~\ref{sec:mergeerror} draws the object and prices the
+error. What the recursion needs is that the incidence structure be a forest, of
+which sharing at most one atom is a consequence rather than a guarantee.
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{max width=0.94\linewidth}
+\begin{tikzpicture}
+\begin{scope}
+  \node[tb,anchor=west] at (-0.2,2.55) {(a) meeting in one atom};
+  \node[nd] (a1) at (0.15,1.35) {}; \node[nd] (a2) at (1.10,1.85) {};
+  \node[nd] (a3) at (1.00,0.80) {};
+  \node[nd] (a4) at (2.30,1.95) {}; \node[nd] (a5) at (2.45,1.05) {};
+  \draw[lnk] (a1)--(a2)--(a3)--(a1) (a2)--(a4)--(a5)--(a2);
+  \begin{scope}[on background layer]
+    \node[cx,fill=black!26,fill opacity=0.7,fit=(a1)(a2)(a3)]{};
+    \node[cx,fill=black!26,fill opacity=0.7,inner sep=3.8pt,fit=(a2)(a4)(a5)]{};
+  \end{scope}
+  \node[lb,anchor=east] at (0.02,1.90) {$a$};
+  \node[lb,anchor=west] at (2.72,1.95) {$b$};
+  \node[lb,anchor=west,align=left] at (-0.2,0.05)
+    {treelike over complexes:\\ no loop survives promotion};
+\end{scope}
+\begin{scope}[xshift=5.5cm]
+  \node[tb,anchor=west] at (-0.2,2.55) {(b) sharing two atoms};
+  \node[nd] (b1) at (0.15,1.35) {}; \node[nd] (b2) at (1.20,1.95) {};
+  \node[nd] (b3) at (1.20,0.80) {}; \node[nd] (b4) at (2.30,1.35) {};
+  \draw[lnk] (b1)--(b2)--(b3)--(b1) (b2)--(b4)--(b3);
+  \begin{scope}[on background layer]
+    \node[cx,fill=black!26,fill opacity=0.7,fit=(b1)(b2)(b3)]{};
+    \node[cx,fill=black!26,fill opacity=0.7,inner sep=3.8pt,fit=(b2)(b3)(b4)]{};
+  \end{scope}
+  \node[lb,anchor=east] at (0.02,1.95) {$a$};
+  \node[lb,anchor=west] at (2.62,1.35) {$b$};
+  % the surviving loop: out of a through one shared atom, back through the other
+  \draw[msg,black!85] (1.05,1.72) to[out=250,in=110] (1.05,1.03);
+  \draw[msg,black!85] (1.35,1.03) to[out=70,in=290] (1.35,1.72);
+  \node[lb,anchor=west,align=left] at (-0.2,0.05)
+    {a loop of length two survives:\\ the recursion double-counts};
+\end{scope}
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{The bargain and its price.} (a) Two triangles, $a$ and $b$,
+meeting at one atom. Promoted to complexes, the structure over complexes is a
+tree, and every loop of the underlying graph now lives inside a complex.
+(b) Two triangles sharing an edge --- two atoms. Promotion removes the loops
+inside each triangle and leaves a loop \emph{between} them, traced by the
+arrows, which the theory of Chapters~\ref{ch:percolation}--\ref{ch:satisfiability}
+does not see. Chapter~\ref{ch:overlap} measures what this costs on real
+clustered graphs, and Chapters~\ref{ch:gbp} and~\ref{ch:metacomplex} are the two
+repairs.}
+\label{fig:price}
+\end{figure}
+
+So the condition is easy to state and easy to check, with the caveat above kept
+in view: \textbf{a chygraph is locally treelike only if its complexes meet in at
+most one atom}, and on the random ensembles of Part~II that necessary condition
+is sufficient as well. Uniform
+hypergraphs drawn from a configuration model satisfy it with probability
+approaching one. Multiplex and interacting networks satisfy it by construction.
+Graphs decorated with triangles in the manner of \citet{newman2009} satisfy it
+because the triangles are placed independently. What does not satisfy it is the
+case one most wants: the maximal cliques of a real, geometrically clustered
+graph, which overlap along edges as a matter of course
+\citep{friedrich2015}.
+
+This is stated in the chapter that defines the object rather than in a remark
+at the end of the book. The next eleven chapters develop what the construction
+buys; Chapter~\ref{ch:overlap} returns to Fig.~\ref{fig:price}b, measures the damage
+on hyperbolic random graphs --- between $77$ and $100$ per cent of the answer
+recovered --- and describes what would be needed to recover the rest. Clustering
+is not one obstruction but a hierarchy of them: promoting
+triangles removes the loops within triangles and exposes the loops between them.
+Whether that hierarchy terminates usefully is, as of this writing, open.

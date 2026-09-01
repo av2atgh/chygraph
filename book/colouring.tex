@@ -1,0 +1,934 @@
+\chapter{Colouring}
+\label{ch:colouring}
+\index{graph colouring|textbf}
+
+In this chapter and the next we complete Part~III's third family.
+Chapter~\ref{ch:hittingset}
+minimised a set subject to a covering constraint; Chapter~\ref{ch:cover}
+tightened the constraint and found the algorithm that solves it. Colouring
+keeps the hard constraint and drops the minimisation: there is nothing to
+optimise, only a question of whether a configuration exists at all.
+
+It is also where Chapter~\ref{ch:potts}'s claim is tested. Proper colouring is
+the antiferromagnetic $q$-state Potts model at zero temperature --- this book's
+own model at the opposite sign --- so if the machinery is what it has been
+claimed to be, the colouring calculation should be a substitution and not a new
+theory. It is, and the substitution produces two closed forms.
+
+One is a surprise. For proper colouring, the transmission of a complex does not
+depend on its cardinality at all: a clique of nine members transmits exactly what
+a single edge does. The other is the opposite: for the weaker hypergraph
+constraint the transmission collapses like $q^{-c}$, and by cardinality four a
+complex has almost stopped constraining anything. Identical at cardinality two,
+the two problems diverge sharply above it, and
+Sec.~\ref{sec:twoconstraints-col} is why.
+
+Both are statements about where a replica-symmetric solution stops being locally
+stable, and for colouring that is famously not where the colourings run out. So
+the chapter is in two halves. The first derives the two closed forms and says
+carefully what they are not. The second, from Sec.~\ref{sec:colouring-sp}
+onwards, computes the line they are not: survey propagation at $m=0$, checked
+against the published graph and hypergraph thresholds, and then run on a network
+of triangles --- where the colourings turn out to run out a third earlier than
+on a graph, while the stability line of the first half, in the same ensemble,
+does not move at all. That is the one number in the chapter that was not already
+known.
+
+\section{Colouring as a hard-core problem}
+\label{sec:colouringdef}
+
+Give every node one of $q$ colours and forbid an edge whose endpoints agree.
+There is no chemical potential and no ground-state energy to minimise: a
+colouring either exists or it does not, and the question is at what density of
+constraints it stops existing.
+
+In the language of Chapter~\ref{ch:statmech} this is
+Eq.~\eqref{eq:emitted} with an interior that assigns weight zero to forbidden
+configurations and weight one to the rest. Nothing else changes. What does
+change, before any algebra, is the \emph{message}. Up to now a message has been one number --- a probability, a field, an integer, or
+at worst three states. Here it is a distribution over $q$ colours,
+$\eta_{i\to a}(\sigma)$, and there is no ferromagnetic direction to project it
+onto. That is the sense in which colouring is heavier than anything before it,
+and Sec.~\ref{sec:colouring-scalar} is the observation that rescues it.
+
+\paragraph{Two constraints, not one.} On a graph there is only one way to
+forbid, but on a chygraph a complex of $c$ members admits two natural rules and
+they are not the same.
+
+\emph{Proper colouring} of the induced graph: every pair inside a complex is an
+edge, so all $c$ members must take \emph{distinct} colours. This needs $q\ge c$
+and is what one means by colouring a clustered graph whose motifs have been
+promoted to complexes.
+
+\emph{Hypergraph colouring}: only a \emph{monochromatic} complex is forbidden.
+Two members may agree as long as not all of them do. This is the standard
+higher-order generalisation, and it is strictly weaker.
+
+At $c=2$ the two coincide, which is exactly why the distinction has no
+counterpart on a graph. Above it they are different problems, and
+Chapter~\ref{ch:cover}'s pairing of hitting set with vertex cover was the same
+distinction one family earlier: how much of a complex may be left alone.
+
+\section{What a complex transmits}
+\label{sec:colouring-scalar}
+\index{transmission factor}
+
+The uniform assignment $\eta\equiv1/q$ is always a fixed point --- every colour
+equally likely everywhere, which is the replica-symmetric solution. Linearise
+about it and one number governs the result.
+
+\begin{calculation}{one number, because the colours are interchangeable}
+Write $\eta_{j}=1/q+w_{j}$ with $\sum_{\sigma}w_{j}(\sigma)=0$, which is forced
+because both $\eta$ and $1/q$ are normalised. The perturbations therefore live
+in the $(q-1)$-dimensional traceless subspace, and permuting the colours is a
+symmetry of the whole problem. By Schur's lemma the linearised map acts on that
+subspace as a \emph{scalar}. So although the message carries $q-1$ numbers, its
+linearisation carries one, and Chapter~\ref{ch:statmech}'s branching matrix
+applies unchanged with that scalar in place of $u'$. This is checked directly:
+three different traceless directions return one number.
+
+\emph{Proper colouring.} The emitted quantity is
+\[
+  Z(\sigma_{0})=\!\!\sum_{\substack{\sigma_{1}\dots\sigma_{c-1}\ \text{distinct}\\
+    \text{and all}\ \ne\sigma_{0}}}\ \prod_{j}\eta_{j}(\sigma_{j}).
+\]
+Differentiate with respect to $\eta_{1}(s)$. The result is zero unless
+$s\ne\sigma_{0}$, and when $s\ne\sigma_{0}$ it is the same quantity $A$ for
+every such $s$, because the remaining sum depends only on how many colours have
+been excluded and not on which. So the linear response is
+\[
+  \sum_{s}w_{1}(s)\,A\,\mathbf{1}[s\ne\sigma_{0}]
+  =A\Bigl(\sum_{s}w_{1}(s)-w_{1}(\sigma_{0})\Bigr)=-A\,w_{1}(\sigma_{0}),
+\]
+the first sum vanishing by tracelessness. With
+$A=q^{2-c}(q-2)!/(q-c)!$ and $Z_{0}=q^{1-c}(q-1)!/(q-c)!$ at the uniform point,
+the ratio $A/Z_{0}=q/(q-1)$, and after normalising,
+\begin{equation}
+  \tau_{c}(q)=-\frac{1}{q-1}.
+  \label{eq:taucol}
+\end{equation}
+Every combinatorial factor cancels. The cardinality has gone.
+
+\emph{Hypergraph colouring.} Here the constraint removes a single configuration,
+so
+\[
+  Z(\sigma_{0})=1-\prod_{j}\eta_{j}(\sigma_{0}),
+\]
+and expanding the product to first order gives, after the same normalisation,
+\begin{equation}
+  \tau^{\mathrm{hyp}}_{c}(q)=-\frac{1}{q^{\,c-1}-1}.
+  \label{eq:tauhyp}
+\end{equation}
+At $c=2$ this is Eq.~\eqref{eq:taucol}, as it must be.
+\end{calculation}
+
+Both forms are confirmed by enumerating the interior exactly, in rational
+arithmetic, so the agreement is an identity rather than a numerical
+coincidence.
+
+Figure~\ref{fig:colouring} draws both, and the contrast is the chapter in one
+picture: three cardinalities lying exactly on top of one another for the proper
+rule, and fanning out over three decades for the hypergraph one.
+
+\paragraph{Why the cardinality cancels, in words.} What one member
+of a clique learns from another is a single fact: \emph{not that colour}. It
+learns the same fact from every other member. Because the perturbation is
+traceless --- the colours have to keep summing to one --- excluding one colour
+is all the information there is, and excluding it again from a second member
+adds nothing to the linear response. A clique of nine transmits what an edge
+transmits.
+
+The negative sign is not decoration either. Colouring is an
+\emph{antiferromagnet}: raising the probability of a colour at one node lowers
+it at the next. Chapter~\ref{ch:statmech} warned that the sign of the entries,
+not of the leading eigenvalue, is what classifies a map, and this is the third
+map in the book whose entries are negative --- after the hard-field maps of
+Chapters~\ref{ch:hittingset} and~\ref{ch:cover}.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig-colouring.pdf}
+\caption{\textbf{Two constraints, identical at cardinality two.} Left: the
+transmission of a complex, Eqs.~\eqref{eq:taucol} and~\eqref{eq:tauhyp}. For
+proper colouring (solid) the three cardinalities fall exactly on top of one
+another, each curve starting at $q=c$ since a smaller palette admits no proper
+colouring at all; for hypergraph colouring (dashed) the transmission collapses
+like $q^{-c}$. Right: the resulting local-stability threshold in neighbours per
+node. Proper colouring sits at $(q-1)^{2}$ whatever the cardinality --- the
+graph value; hypergraph colouring runs away as $(q^{c-1}-1)^{2}$. Stars are the
+published colourability thresholds for Erd\H{o}s--R\'enyi graphs
+\citep{mulet2002}, which lie \emph{below} the stability line for $q\ge4$: see
+Sec.~\ref{sec:colouring-rsb}. Generated by \code{figs/colouring.py}.}
+\label{fig:colouring}
+\end{figure}
+
+\section{The threshold, and what it is}
+\label{sec:colouringthreshold}
+\index{de Almeida--Thouless line}
+
+Substituting into Eq.~\eqref{eq:branch} needs one decision, and it is the
+decision Chapter~\ref{ch:ising} already made in Sec.~\ref{sec:atline}.
+
+There is no ordered phase to look for here: the uniform solution \emph{is} the
+replica-symmetric solution, and what one asks is whether a perturbation of
+\emph{random sign} grows. That perturbation is transmitted with $\tau$ and its
+effect measured by squaring, so the operative condition is the de
+Almeida--Thouless form --- $\ave{u'}$ replaced by $\ave{u'^{2}}$ everywhere,
+which by Eq.~\eqref{eq:reweight} is an elementwise reweighting and nothing more.
+For a single layer,
+\begin{equation}
+  \ave{\kbar}\,(c-1)\,\tau_{c}^{2}=1.
+  \label{eq:colthresh}
+\end{equation}
+
+\paragraph{The graph case, against the literature.} Put $c=2$, where a complex
+is an edge and the chy-degree is the ordinary degree. What is left to choose is
+the degree distribution. For a \emph{Poisson} one, $\ave{\kbar}=\ave{k}$ ---
+a Poisson distribution being its own excess --- and Eq.~\eqref{eq:colthresh}
+gives $\ave{k}=(q-1)^{2}$. For a \emph{regular} one, a node of degree $k$ has
+$k-1$ other edges, so $\ave{\kbar}=\ave{k}-1$ and it gives
+$\ave{k}=(q-1)^{2}+1$. Both are
+\citeauthor{zdeborova2007}'s Eq.~(18) \citep{zdeborova2007}, which reads
+$c_{\mathrm{RS}}^{\mathrm{ER}}=q^{2}-2q+1$ and
+$c_{\mathrm{RS}}^{\mathrm{reg}}=q^{2}-2q+2$; the stability analysis and its
+large-$q$ asymptotics are worked out by \citet{krzakala2004}, and the
+replica treatment of the same ensemble by \citet{vanmourik2002}.
+
+Two published expressions from one $\tau$, and the difference between them is
+exactly the excess-degree convention this book has been carrying since
+Sec.~\ref{sec:map}. That is the check the chapter needed, and it is a stronger
+one than a single number would have been, because a formalism that had the
+excess bookkeeping wrong would reproduce at most one of the two lines.
+
+\paragraph{Cardinality, and the two constraints.} Now raise it. Counting in
+\emph{neighbours} per node --- a complex of cardinality $c$ supplies $c-1$ of
+them --- Eq.~\eqref{eq:colthresh} gives
+\begin{equation}
+  \text{proper: } (q-1)^{2},
+  \qquad
+  \text{hypergraph: } \bigl(q^{\,c-1}-1\bigr)^{2}.
+  \label{eq:coltwo}
+\end{equation}
+The first does not move. A network of $c$-cliques loses stability at exactly the
+same number of neighbours per node as a graph does, for every cardinality and
+every $q$: promoting motifs to complexes changes nothing at all here. The second
+runs away --- at $q=4$ it is $9$, $225$, $3969$ for $c=2,3,4$.
+
+The second is not new, and the agreement is a check rather than a result.
+\citet{gabrie2017} solve $q$-colouring of $K$-uniform random
+hypergraphs, and their Eq.~(43) gives the same linear-stability bound,
+$\ell^{\mathrm{RS}}_{\mathrm{stab}}=(q^{K-1}-1)^{2}/(K-1)$ for a Poisson degree
+of mean $\ell$ --- which is $(q^{c-1}-1)^{2}$ neighbours per node, this
+chapter's Eq.~\eqref{eq:coltwo}. Its Appendix~B derives the transmission at
+finite temperature and Eq.~\eqref{eq:tauhyp} is that expression at
+$\beta\to\infty$. What is left to this chapter is the first line and the
+contrast: that the same substitution gives both rules, and that they part
+company only above cardinality two.
+
+The first of these is the same phenomenon as Eq.~\eqref{eq:kc}, which found
+$\ave{k}(c-1)=e$ for hitting set: counted in neighbours, hyperedge size does not
+move the point. Two hard-core problems, two different constants, one structure.
+The reason is the same both times --- what a complex transmits and how many
+neighbours it supplies move in exactly compensating ways. This is the
+\emph{opposite} of the Ising model, where Sec.~\ref{sec:clustering} found the two effects failing to compensate and
+the multiplicity winning.
+
+\section{The two constraints diverge above cardinality two}
+\label{sec:twoconstraints-col}
+
+Equation~\eqref{eq:coltwo} says the following.
+
+Proper colouring of a clique network is, at this level of description,
+indistinguishable from colouring a graph with the same number of neighbours.
+Hypergraph colouring of the same object is not remotely the same problem: a
+cardinality-four complex over four colours tolerates $3969$ neighbours per node
+where the proper constraint tolerates $9$.
+
+The gap is entirely a matter of how much a complex forbids. A clique of four
+rules out all but $q(q-1)(q-2)(q-3)$ of $q^{4}$ assignments; the monochromatic
+rule leaves all but $q$ of them. At $c=2$ those are the same statement and the
+distinction is invisible --- which is why it has no name in the graph
+literature, and why it needed a formalism with cardinality in it to become
+visible.
+
+This is the third time Part~III has found a distinction that exists only above
+cardinality two. Section~\ref{sec:hardfail} found the hard-field limit exact at
+$c=2$ and wrong above it; Sec.~\ref{sec:corefree} found the core-free branch
+present at $c=2$ and absent above it; and here two constraints coincide at $c=2$
+and separate by three orders of magnitude above it. The pattern is not a
+coincidence. Cardinality two is degenerate in a specific way --- a complex with
+two members has no room for a partial violation --- and a great deal of what
+looks like general theory is an artefact of working there.
+
+\section{A graph with triangles}
+\label{sec:colouring-triangles}
+
+The previous section left cardinality out of the proper-colouring threshold
+entirely. In this section we ask what that means for a clustered graph, which is
+the
+one place in the chapter where the book's running question --- what does
+clustering do at fixed degree? --- can be put to colouring.
+
+\paragraph{Two routes to the same object, giving different answers.} For proper
+colouring a triangle-clustered graph is not a new object. A triangle forbids its
+three members from agreeing pairwise, which is exactly what its three edges
+already forbid, so this is ordinary $q$-colouring of an ordinary graph and the
+graph formula applies to it unchanged.
+
+Take a regular network in which every vertex sits in $\kappa$ triangles, the
+triangles meeting only at vertices, so that a vertex has degree $n=2\kappa$.
+Two calculations are now available for it. Read it as a chygraph of triangles
+and Eq.~\eqref{eq:colthresh} gives $\ave{\kbar}(c-1)=2(\kappa-1)=n-2$. Read the
+same network as a graph of degree $n$ and the excess degree is $\ave{\bar
+k}=n-1$. Setting each equal to $(q-1)^{2}$,
+\begin{equation}
+  \text{chygraph: } n=(q-1)^{2}+2,
+  \qquad
+  \text{graph: } n=(q-1)^{2}+1 .
+  \label{eq:tridisagree}
+\end{equation}
+They disagree by one in degree, at every $q$.
+
+\paragraph{The chygraph is the right one.} The graph calculation adds the
+messages arriving at a vertex as though its neighbours were independent. Inside
+a triangle two neighbours are adjacent: the three edges close a loop, and that
+is the assumption failing. Promoting the triangle to a complex puts the loop
+inside the interior sum of Eq.~\eqref{eq:emitted}, where it is summed exactly,
+and what remains over triangles is treelike. So the graph answer is not an
+approximation that happens to land nearby. It is short by exactly the one branch
+the loop costs.
+
+\paragraph{Both answers are one formula at its two ends.} Neither line of
+Eq.~\eqref{eq:tridisagree} required dropping a layer. Take links and triangles
+together at fixed degree, with $a$ the link chy-degree, $b$ the triangle
+chy-degree, $n=a+2b$, and $f=2b/n$ the fraction of degree carried by triangles.
+Both layers transmit the same $s=\tau^{2}=(q-1)^{-2}$, since $\tau$ does not
+depend on cardinality, and the two-layer determinant of Eq.~\eqref{eq:LT}
+becomes
+\begin{equation}
+  s\,(n-3)+2s^{2}\bigl[n(1-f/2)-1\bigr]=1 .
+  \label{eq:trifamily}
+\end{equation}
+At $f=0$ it returns $(q-1)^{2}+1$; at $f=1$ it returns $(q-1)^{2}+2$; both
+exactly, in rational arithmetic. The cross term does all of the interpolating.
+
+\paragraph{How large is the correction.} One in degree, and it is worth putting
+that as a fraction of the threshold it corrects, $1/[(q-1)^{2}+2]$: $17$ per
+cent at $q=3$, $9$ at $q=4$, $5.6$ at $q=5$, and about $1$ by $q=10$. The graph
+calculation is badly wrong when there are few colours and nearly right when
+there are many, which is what one should expect --- the branch it loses is one
+of $n$, and $n$ grows like $q^{2}$.
+
+\paragraph{Where the correction vanishes.} For Poisson layers there is none.
+There $\ave{\kbar}=\ave{\kappa}$: a Poisson graph is its own excess and so is a
+Poisson triangle layer, so the cross term
+$\ave{\kappa}_{|}\ave{\kappa}_{\triangle}-\ave{\kbar}_{|}\ave{\kbar}_{\triangle}$
+vanishes identically, Eq.~\eqref{eq:trifamily} returns $(q-1)^{2}$ at every $f$,
+and the graph calculation gives the right answer. It does so by accident. Its
+independence assumption is exactly as false as before; what saves it is that the
+quantity it miscounts --- the excess-degree correction --- is one a Poisson
+degree distribution does not carry.
+
+So this is not a statement that clustering moves the colouring threshold. What
+moves is the excess-degree bookkeeping: a regular vertex reached through a
+triangle has one fewer triangle to pass the message on to, and that lost branch
+is the entire effect. It is the same lost branch that separates
+$(q-1)^{2}$ from $(q-1)^{2}+1$ in Sec.~\ref{sec:colouringthreshold}, arriving
+somewhere it is easy to mistake for physics.
+
+\paragraph{Why only one branch.} Because proper colouring cannot see
+cardinality. A triangle transmits precisely what an edge transmits,
+Sec.~\ref{sec:colouring-scalar}, so absorbing its loop into a complex changes
+how many branches leave a vertex and leaves what travels along them alone. Only
+the count is corrected, and a count is worth one.
+
+Where the constraint \emph{does} see cardinality the same promotion is worth
+much more. For the hypergraph rule of Sec.~\ref{sec:twoconstraints-col} the
+threshold runs $9$, $225$, $3969$ at cardinalities $2$, $3$, $4$ with $q=4$:
+three orders of magnitude, from the identical operation on the identical
+structure. Promoting a motif to a complex is always the right treatment of its
+loop. What that treatment is worth in numbers is decided by the interaction
+inside the complex, and proper colouring is the case where it is worth least.
+
+\section{Where replica symmetry goes}
+\label{sec:colouring-rsb}
+\index{replica symmetry breaking}
+
+Colouring is the classic one-step replica-symmetry-breaking problem, and
+Eq.~\eqref{eq:colthresh} is not a one-step answer. In this section we say
+precisely what it is and what it is not; Sec.~\ref{sec:colouring-sp} then does
+the calculation it is not.
+
+It is the point where the replica-symmetric solution loses \emph{local}
+stability --- where the spin-glass susceptibility diverges. It is not the
+colourability threshold. Comparing with the published Erd\H{o}s--R\'enyi values
+\citep{mulet2002} gives Table~\ref{tab:colpublished}.
+\begin{table}[t]
+\centering\small
+\begin{tabular}{rrrr}
+\hline\hline
+$q$ & $(q-1)^{2}$ & clustering $c_{d}$ & colourable to $c_{q}$\\
+\hline
+$3$ & $4$ & $4.42$ & $4.69$\\
+$4$ & $9$ & $8.27$ & $8.90$\\
+$5$ & $16$ & $12.67$ & $13.69$\\
+\hline\hline
+\end{tabular}
+\caption{\textbf{A local stability line is not a colourability line.} Eq.~\eqref{eq:colthresh} at cardinality two against the published Erd\H{o}s--R\'enyi clustering and colourability thresholds \citep{mulet2002}. At $q=3$ the instability sits inside the colourable phase; from $q=4$ upward it sits above the colourability threshold, so it is on the wrong side rather than merely loose.}
+\label{tab:colpublished}
+\end{table}
+
+At $q=3$ the local instability sits inside the colourable phase, below both the clustering
+transition and the colourability threshold. At $q=4$ and above it sits
+\emph{above} the colourability threshold --- the graph has long since stopped
+being colourable by the time the replica-symmetric solution notices anything is
+wrong. The criterion is not merely loose there; it is on the wrong side.
+
+This is the known behaviour of replica-symmetric colouring, and
+\citet{zdeborova2007} record it in the same words: the instability threshold lies in the colourable phase only for
+$q=3$. What this chapter contributes is that the same statement, with the same
+constants, comes out of the general branching matrix; and that it extends to
+complexes, where Eq.~\eqref{eq:coltwo} says a clique network behaves exactly like
+a graph and a hypergraph does not.
+
+\paragraph{What is needed instead.} The colourability threshold requires the
+one-step calculation --- survey propagation and the iterative algorithms built
+on it \citep{braunstein2003,mulet2002}, and a complexity function. The next
+section does that much. What it does not do is the condensation and rigidity
+transitions \citet{zdeborova2007} map out, or the rigorous side of the
+same question \citep{cojaoghlan2016}.
+
+Whatever it returns, Eq.~\eqref{eq:coltwo} remains a statement about the
+stability of a particular solution and not about when colourings run out --- and
+the interesting part of it, that cardinality drops out of the proper constraint
+and dominates the hypergraph one, is a statement about the interior sum that a
+one-step treatment inherits unchanged, because Eqs.~\eqref{eq:taucol}
+and~\eqref{eq:tauhyp} are properties of a complex and not of an ansatz.
+
+\section{Surveys, and colourability}
+\label{sec:colouring-sp}
+\index{survey propagation}
+\index{replica symmetry breaking}
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}[x=1cm,y=1cm]
+% ---------------- left: one cluster, one message -------------------------
+\begin{scope}
+  \draw[rounded corners=8pt,draw=black!30,fill=black!4,line width=.5pt]
+    (-1.5,-1.25) rectangle (1.5,1.25);
+  % a single blob of solutions
+  \draw[draw=black!55,fill=black!14,line width=.6pt]
+    plot[smooth cycle,tension=0.9] coordinates
+    {(-0.75,0.35) (-0.15,0.8) (0.7,0.45) (0.8,-0.3) (0.05,-0.75) (-0.7,-0.35)};
+  \node[lb,anchor=north] at (0,-1.35) {one cluster};
+  \node[nd] (i1) at (-0.95,0.05) {};
+  \node[nd] (j1) at (0.95,0.05) {};
+  \draw[msg] (i1) -- (j1);
+  \node[lb,anchor=south] at (0,0.12) {one message};
+\end{scope}
+% ---------------- right: many clusters, a survey --------------------------
+\begin{scope}[xshift=4.6cm]
+  \draw[rounded corners=8pt,draw=black!30,fill=black!4,line width=.5pt]
+    (-1.5,-1.25) rectangle (1.5,1.25);
+  \foreach \x/\y/\r in {-0.95/0.55/0.26, -0.15/0.85/0.20, 0.75/0.6/0.23,
+                        -1.0/-0.25/0.21, -0.1/0.05/0.25, 0.85/-0.1/0.19,
+                        -0.6/-0.8/0.20, 0.35/-0.75/0.24}
+    \draw[draw=black!55,fill=black!14,line width=.5pt] (\x,\y) circle (\r);
+  \node[lb,anchor=north] at (0,-1.35) {many clusters};
+\end{scope}
+% ---------------- the survey itself --------------------------------------
+\begin{scope}[xshift=9.9cm,yshift=-0.55cm]
+  \draw[->,line width=.5pt,draw=black!60] (-0.15,0) -- (2.5,0);
+  \draw[->,line width=.5pt,draw=black!60] (-0.15,0) -- (-0.15,1.5);
+  \foreach \x/\h in {0.25/1.15, 0.75/0.45, 1.25/0.75, 1.75/0.25}
+    \draw[draw=black!60,fill=black!25,line width=.5pt]
+      (\x-0.16,0) rectangle (\x+0.16,\h);
+  \node[lb,anchor=north] at (1.1,-0.15) {message};
+  \node[lb,rotate=90,anchor=south] at (-0.50,0.75) {weight};
+  \node[lb,anchor=north,align=center] at (1.1,-0.6)
+    {a \emph{survey}: one number\\per possible message};
+\end{scope}
+% ---------------- connective arrows --------------------------------------
+\draw[msg] (1.75,0) -- (2.85,0);
+\node[lb,anchor=south,align=center] at (2.3,0.1) {solutions\\shatter};
+\draw[msg] (6.35,0) -- (8.75,0);
+\node[lb,anchor=south,align=center] at (7.55,0.1) {one message\\per cluster};
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{What a survey is.} Left: one cluster of solutions, so one
+message travels along an inclusion and Chapter~\ref{ch:statmech}'s recursion
+applies as written. Right: the solutions have shattered, and each cluster sends
+its own message along the same inclusion. What propagates is then not a message
+but a distribution over them --- a survey, one number for each message a cluster
+might send. The recursion is unchanged; only what travels along it is heavier,
+which is the same substitution Chapter~\ref{ch:statmech} makes for every model
+in Part~III.}
+\label{fig:survey}
+\end{figure}
+
+The previous section said what is needed and stopped short of doing it. What is
+needed is Sec.~\ref{sec:onestep}, in its $m=0$ form: surveys travelling along
+the inclusions in place of fields, and the complexity $\Sigma$ of
+Eq.~\eqref{eq:sigmagen} counting the clusters they describe, with $\Sigma=0$
+where the colourings run out. In this section we instantiate that for colouring
+on a
+graph, following \citet{mulet2002} and \citet{braunstein2003}.
+
+It starts on a graph, the one object in Part~III the chygraph formalism has
+nothing to add to, and it starts there for two reasons. A chapter that has said
+its own threshold is the wrong line should compute the right one. And the
+machinery has to be gated against published numbers before it
+is carried anywhere new, because Sec.~\ref{sec:colouring-cq} ends somewhere with
+no published answer to check against. So the thresholds below are
+\citeauthor{mulet2002}'s and
+nothing here is a new result --- which is what makes it useful.
+Table~\ref{tab:colpublished} has three columns, the chapter has so far produced
+one of them, and this section produces the other two out of a single
+population.
+
+Here a survey is a distribution, over the clusters of colourings, of the colour
+a node is forced to, and colour symmetry does most of the work of carrying it. A survey is uniform over colours, so one scalar per
+inclusion suffices --- $e$, the probability that a node is forced at all, with
+each colour taking $e/q$ of it.
+
+What symmetry does \emph{not} do is decouple the colours, and this is the whole
+of the calculation. A forced neighbour forbids exactly one colour, so ``every
+colour but one is forbidden'' is a question about whether $q-1$ colours are
+\emph{covered} by the forced neighbours, not a product of $q-1$ independent
+events. Inclusion--exclusion over which colours are missed gives
+\begin{equation}
+  \begin{split}
+    P(\text{only }c\text{ free})&=\sum_{j=0}^{q-1}(-1)^{j}\binom{q-1}{j}
+      \prod_{k}\Bigl(1-\frac{e_{k}(1+j)}{q}\Bigr),\\
+    P(\text{none free})&=\sum_{j=0}^{q}(-1)^{j}\binom{q}{j}
+      \prod_{k}\Bigl(1-\frac{e_{k}j}{q}\Bigr),
+  \end{split}
+  \label{eq:colsp}
+\end{equation}
+the product running over the other neighbours, and the survey update being the
+first divided by one minus the second --- the contradictory state discarded,
+which is the one thing the $m=0$ reweighting of Sec.~\ref{sec:onestep} does. Treating the colours as independent instead is the
+obvious shortcut and it is wrong; it is caught by asking for three thresholds
+rather than one.
+
+The complexity is Eq.~\eqref{eq:sigmagen}, whose three terms collapse to two
+here: a graph has one layer, and its complex and inclusion terms combine into a
+single weight per edge,
+\begin{equation}
+  \Sigma=\bigl\langle\ln\bigl(1-P(\text{none free})\bigr)\bigr\rangle
+        -\frac{\ave{k}}{2}\Bigl\langle\ln\Bigl(1-\frac{e_{i}e_{j}}{q}\Bigr)
+        \Bigr\rangle,
+  \label{eq:colsigma}
+\end{equation}
+the edge term being the weight of two ends not forced to the same colour.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{rccr}
+\hline\hline
+$q$ & $\Sigma=0$ at & $c_{q}$ published & error\\
+\hline
+$3$ & $4.683\,(0.012)$ & $4.69$ & $-0.1\%$\\
+$4$ & $8.901\,(0.012)$ & $8.90$ & $+0.0\%$\\
+$5$ & $13.660\,(0.008)$ & $13.69$ & $-0.2\%$\\
+\hline\hline
+\end{tabular}
+\caption{\textbf{The colourability threshold, computed.} Where the complexity of
+Eq.~\eqref{eq:colsigma} vanishes, against the $c_{q}$ of \citet{mulet2002}. Bracketed figures are the spread over three seeds. Compare
+the $(q-1)^{2}$ column of Table~\ref{tab:colpublished}: $4$, $9$ and $16$ against
+these. Generated by \code{figs/colouring.py}.}
+\label{tab:colsp}
+\end{table}
+
+Table~\ref{tab:colsp} is the result. Set beside Table~\ref{tab:colpublished} it
+says what Sec.~\ref{sec:colouringthreshold} could not: at $q=4$ the stability
+line sits at $9$ and the colourings run out at $8.90$, so the replica-symmetric
+solution is still locally stable after the problem has become unsolvable, and
+the size of that error is now a number rather than a direction.
+
+The clustering threshold arrives without further work, though less sharply. The
+density at which the surveys stop being trivial --- below which no cluster
+forces anything and $e$ collapses to zero --- is $c_{d}$,
+Sec.~\ref{sec:onestep}'s first transition and the same class of point
+Chapter~\ref{ch:cover} located as the appearance of the core. There it fell out
+of a percolation calculation and cost nothing; here there is no such structure
+to count and it costs a population. It comes out of
+the same population that gives $\Sigma$: $4.46$ against a published $4.42$ at
+$q=3$, and $8.49$ against $8.27$ at $q=4$. That is a per cent and then three,
+against a tenth of a per cent for $c_{q}$, and the asymmetry is the expected
+one. A vanishing complexity is a crossing and can be bisected; a branch
+appearing is a fold, and a population of twenty thousand locates it less well.
+Both remaining columns of Table~\ref{tab:colpublished} nonetheless come from one
+calculation, with neither used in getting there.
+
+\paragraph{Three qualifications.} Two are Sec.~\ref{sec:onestep}'s and apply to
+every survey calculation in this book: it is $m=0$, so the condensation and
+rigidity transitions are outside it; and the treelike condition of
+Eq.~\eqref{eq:up} survives the step to surveys untouched, being an assumption
+about how a node combines what reaches it rather than about what reaches it.
+The third is local: reproducing published constants is a check on the
+implementation, not a result. To say it once more, since a section that
+computes five-figure agreement can be mistaken for one that discovers
+something: every number in Table~\ref{tab:colsp} was already known. What the
+chygraph adds is that Eqs.~\eqref{eq:colsp} and~\eqref{eq:colsigma} are written
+for an arbitrary chy-degree distribution and an arbitrary interior, which is
+what makes the next section a substitution rather than a second derivation.
+
+\section{Above cardinality two, and what the rule costs}
+\label{sec:colouring-sp-chy}
+\index{survey propagation}
+
+The previous section stayed at $c=2$, where the chygraph is a graph and the
+answer was already known. This section raises the cardinality, and the interest
+is not in the numbers --- those are known too --- but in which of the two rules
+survives the step and which does not.
+
+\paragraph{What a complex has to tell a member.} In the hard-field limit the
+message from a complex is the set of colours it forbids the member it is
+speaking to. Everything about how that message combines with the others at a
+node turns on one question: \emph{how many colours can a single complex forbid
+at once?}
+
+For the hypergraph rule the answer is \textbf{at most one}. A complex is
+violated only when all of its members share a colour, so it can forbid $\gamma$
+to member $0$ only when every one of the other $c-1$ members is already forced
+to $\gamma$ --- and they cannot all be forced to two different colours at the
+same time. The message is therefore the same \emph{kind} of object as at
+cardinality two, a single forbidden colour or none, and Eq.~\eqref{eq:colsp}
+carries over with one substitution: the weight $e/q$ that a neighbour forbids a
+given colour becomes $h/q$, where
+\begin{equation}
+  h=q\prod_{j=1}^{c-1}\frac{e_{j}}{q}
+  \label{eq:hypsp}
+\end{equation}
+is the weight that the complex forbids anything at all. Nothing else in the
+node update changes, and the inclusion--exclusion of
+Sec.~\ref{sec:colouring-sp} is reused unaltered.
+
+For the proper rule the answer is \textbf{up to $c-1$}. Every member forced to a
+different colour removes a different colour from member $0$, so a complex of
+cardinality five can arrive carrying four prohibitions at once. The message is
+no longer a colour but a \emph{set} of them, the events ``$\gamma$ is
+forbidden'' and ``$\gamma'$ is forbidden'' are correlated within a single
+complex as well as across complexes, and the node update needs the joint
+distribution of the forbidden set rather than a scalar. Equation~\eqref{eq:colsp}
+does not carry over, and no substitution repairs it.
+
+That asymmetry is Sec.~\ref{sec:twoconstraints-col} again, one level up. There
+the two rules were found to coincide at cardinality two and to separate above
+it, in what they transmit. Here they coincide at cardinality two and separate
+above it in something harder: whether the one-step machinery can be reused at
+all. A complex with two members has no room for a partial violation, and it also
+has no room to forbid two things at once; both statements are the same
+degeneracy, and it is the second that decides how much work the next calculation
+is.
+
+\paragraph{Carrying it out.} Put Eq.~\eqref{eq:hypsp} into
+Eq.~\eqref{eq:colsp}. The complexity of Eq.~\eqref{eq:colsigma} gains the one
+term a graph does not have: a complex is violated when all $c$ of its members
+agree, so it contributes
+$\ln\bigl[1-q\prod_{j\le c}(e_{j}/q)\bigr]$, and there are
+$\ave{k}/c$ complexes per node.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{ccccr}
+\hline\hline
+$q$ & $c$ & $\Sigma=0$ at & published & error\\
+\hline
+$3$ & $3$ & $26.900\,(0.000)$ & $26.92$ & $-0.07\%$\\
+$4$ & $3$ & $63.276\,(0.024)$ & $63.30$ & $-0.04\%$\\
+$2$ & $5$ & $52.283\,(0.043)$ & $52.32$ & $-0.07\%$\\
+\hline\hline
+\end{tabular}
+\caption{\textbf{Hypergraph colouring above cardinality two.} Mean chy-degree at
+which the complexity vanishes, against the colourability thresholds of
+\citet{gabrie2017}, Table~1. Bracketed figures are the spread over three
+seeds. The three errors agree in sign and size, which is a converged bias of the
+finite population rather than scatter. Generated by \code{figs/colouring.py}.}
+\label{tab:hypsp}
+\end{table}
+
+Table~\ref{tab:hypsp} is the result.
+
+The three rows are \citeauthor{gabrie2017}'s colourability thresholds, and the
+agreement is a check on the substitution and not a new result: that paper solves
+this problem, and Sec.~\ref{sec:colouringthreshold}'s hypergraph threshold is
+its Eq.~(43). What the check establishes is that Eq.~\eqref{eq:hypsp} is the
+whole of the difference --- that once a complex can forbid at most one colour,
+cardinality enters the one-step calculation through a single scalar and through
+nothing else.
+
+\paragraph{One exclusion.} At $q=2$ with $c=3$ and $c=4$
+\citet{gabrie2017} mark their colourability threshold as invalid, the $m=0$
+solution being unstable to noise propagation there. The calculation above will
+return a number for those cases and it would mean nothing; they are omitted from
+the table for that reason and not because they disagree.
+
+\section{A survey that carries a set}
+\label{sec:colouring-cq}
+\index{survey propagation}
+
+The previous section paid the cost for one rule and left the other stranded. For
+the hypergraph rule a complex forbids at most one colour, the message stays the
+same kind of object it was at cardinality two, and Eq.~\eqref{eq:hypsp} was the
+whole of the difference. For the proper rule a complex forbids up to $c-1$
+colours at once, the message is a set of colours rather than one colour, and
+there is no scalar to substitute.
+
+So the survey has to get heavier. In place of the single $e$ of
+Sec.~\ref{sec:colouring-sp} it carries one number for each subset of colours a
+cluster might leave open to a member, and the interior of a complex is summed
+over those subsets. That is the last substitution in the chapter and the only
+one that costs anything, and it is what makes the rest of this section
+possible. \citet{krzakala2004} solve the one-step calculation for
+colouring on a graph and locate $c_{q}$, the density at which proper colourings
+run out; what follows writes that calculation for a chygraph and runs it on a
+network of triangles.
+
+\paragraph{The extension.} Their survey update, their Eq.~(20), combines
+messages arriving along edges; their complexity, their Eq.~(21), is a site term
+over the degree distribution plus a term per link. Neither has anywhere to put a
+complex. Equations~\eqref{eq:colsp} and~\eqref{eq:colsigma} are the same two
+expressions one level up: the chy-degree distribution in place of the degree, a
+contribution per complex in place of the link term, and the complex's interior
+enumerated at whatever cardinality it has --- now over the subsets each member
+has left open, since that is what the survey carries. The shape of both is
+unchanged: this is Chapter~\ref{ch:statmech}'s substitution applied to the
+one-step calculation rather than to the cavity recursion.
+
+At $c=2$ the extension must return the original, and it does. Writing
+$\eta=e/q$ --- their letter, and for this paragraph only, not
+Sec.~\ref{sec:colouring-scalar}'s message --- the update becomes their Eq.~(20)
+term for term and
+Eq.~\eqref{eq:colsigma} becomes their site sum together with
+$-\tfrac{\ave{k}}{2}\ln(1-q\eta_{1}\eta_{2})$, which is why
+Sec.~\ref{sec:colouring-sp} returns \citeauthor{mulet2002}'s $c_{q}$ to a
+tenth of a per cent.
+
+\paragraph{Where the colourable phase ends.} $\Sigma(y=\infty)$ counts
+zero-energy clusters --- clusters of proper colourings --- so the phase ends
+where it stops being positive. On a graph that happens at a crossing: the survey
+is trivial, a branch appears at $c_{d}$ with $\Sigma>0$, and the arc it makes
+falls through zero. On a network of triangles the branch appears with $\Sigma$
+already negative, the arc is absent, and the phase ends where the branch does.
+Figures~\ref{fig:threshold} and~\ref{fig:phases} draw the two cases: a graph
+passes through one cluster, then exponentially many, then none, while triangles
+go from one cluster to none with the shattered phase skipped.
+
+\paragraph{Which end of that is computed.} Not both, and the asymmetry decides
+how the triangle number should be read. \emph{Above} the lift-off there is a
+solution and it carries $\Sigma<0$: fewer than one cluster of proper colourings,
+so the colourings are gone. That is a result. \emph{Below} it there is no
+solution but the trivial one, and the $\Sigma=0$ recorded there is the
+replica-symmetric default --- one cluster because nothing has shattered --- and
+not a count of anything.
+
+So what the calculation delivers is a bound from above. Proper colourings have
+certainly run out by degree $3.08$ at $q=3$; that they survive all the way to it
+is the assumption that the shattered phase has zero width rather than a width
+too narrow to resolve at this population. On a graph the two ends are pinned
+together by the arc, which is continuous and crosses zero once, and $c_{q}$ is
+bracketed from both sides. A fold offers no such argument, and losing the window
+costs exactly that. What it does not cost is the conclusion, which needs the
+bound alone: $3.08$ against a graph's $4.69$ says the colourings have gone, and
+a true threshold lower still would only widen the gap.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig-threshold.pdf}
+\caption{\textbf{Two ways for a colourable phase to end.} The complexity of
+Eq.~\eqref{eq:colsigma} against degree, at $q=4$. The pale bar is the trivial
+survey, where $\Sigma$ vanishes identically and there is one cluster. Left, a
+graph: the branch lifts off with $\Sigma$ positive, and the arc it makes falls
+through zero at $c_{q}$ --- the threshold is the crossing. Right, a network of
+triangles: the branch lifts off already below zero, there is no arc and no
+crossing, and $\Sigma<0$ wherever a solution exists --- so the colourings are
+gone by the lift-off, which bounds the threshold from above. Note the vertical scales, which differ by a factor of six: the
+graph's arc peaks at $+0.06$ where the triangle branch falls to $-0.4$. Averaged
+over three seeds; generated by \code{figs/colouring.py:figure\_threshold}.}
+\label{fig:threshold}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}[x=1cm,y=1cm]
+\tikzset{
+  box/.style={rounded corners=5pt,draw=black!30,fill=black!4,line width=.5pt,
+              minimum width=2.2cm,minimum height=1.7cm},
+  ghost/.style={rounded corners=5pt,draw=black!20,fill=black!2,line width=.5pt,
+                dash pattern=on 2pt off 2pt,
+                minimum width=2.2cm,minimum height=1.7cm},
+}
+% ============================ graph row ==================================
+\node[lb,anchor=east] at (-1.45,3.0) {\textbf{graph}};
+\node[box] (g1) at (0,3.0) {};
+\node[box] (g2) at (4.0,3.0) {};
+\node[box] (g3) at (8.0,3.0) {};
+% one cluster
+\draw[draw=black!55,fill=black!14,line width=.6pt]
+  plot[smooth cycle,tension=0.9] coordinates
+  {(-0.55,3.4) (0.0,3.6) (0.55,3.3) (0.5,2.75) (-0.1,2.5) (-0.6,2.85)};
+% many clusters
+\foreach \x/\y/\r in {3.45/3.45/0.16, 4.05/3.55/0.13, 4.55/3.35/0.15,
+                      3.4/2.85/0.14, 4.0/2.95/0.16, 4.6/2.75/0.13,
+                      3.75/2.5/0.12, 4.35/2.45/0.15}
+  \draw[draw=black!55,fill=black!14,line width=.5pt] (\x,\y) circle (\r);
+\node[lb,anchor=north] at (0,2.05) {one cluster};
+\node[lb,anchor=north,align=center] at (4.0,2.05) {many clusters\\$\Sigma>0$};
+\node[lb,anchor=north] at (8.0,2.05) {none};
+\node[tb,anchor=south] at (0,3.95) {colourable};
+\node[tb,anchor=south] at (4.0,3.95) {colourable};
+\node[tb,anchor=south] at (8.0,3.95) {uncolourable};
+\draw[msg] (g1) -- (g2) node[midway,above,lb] {$c_{d}$};
+\draw[msg] (g2) -- (g3) node[midway,above,lb] {$c_{q}$};
+% ============================ triangle row ===============================
+\node[lb,anchor=east] at (-1.45,0.0) {\textbf{triangles}};
+\node[box] (t1) at (0,0.0) {};
+\node[ghost] (t2) at (4.0,0.0) {};
+\node[box] (t3) at (8.0,0.0) {};
+\draw[draw=black!55,fill=black!14,line width=.6pt]
+  plot[smooth cycle,tension=0.9] coordinates
+  {(-0.55,0.4) (0.0,0.6) (0.55,0.3) (0.5,-0.25) (-0.1,-0.5) (-0.6,-0.15)};
+\foreach \x/\y/\r in {3.45/0.45/0.16, 4.05/0.55/0.13, 4.55/0.35/0.15,
+                      3.4/-0.15/0.14, 4.0/-0.05/0.16, 4.6/-0.25/0.13,
+                      3.75/-0.5/0.12, 4.35/-0.55/0.15}
+  \draw[draw=black!22,fill=black!5,line width=.4pt] (\x,\y) circle (\r);
+\draw[line width=.7pt,draw=black!45] (3.15,-0.75) -- (4.85,0.75);
+\draw[line width=.7pt,draw=black!45] (3.15,0.75) -- (4.85,-0.75);
+\node[lb,anchor=north] at (0,-0.95) {one cluster};
+\node[lb,anchor=north,align=center] at (4.0,-1.05) {$\Sigma<0$};
+\node[lb,anchor=north] at (8.0,-0.95) {none};
+\node[tb,anchor=south] at (0,0.95) {colourable};
+\node[tb,anchor=south] at (8.0,0.95) {uncolourable};
+\draw[msg] (t1) to[out=-52,in=-128] node[midway,below=4pt,lb,align=center]
+  {$c_{q}$: the shattered phase is skipped} (t3);
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{A phase that is missing.} How the set of proper colourings
+changes as degree rises. On a graph it passes through three states: one cluster,
+then exponentially many with positive complexity --- still colourable, and the
+r\'egime survey propagation was invented for --- then none. The two boundaries
+are $c_{d}$ and $c_{q}$. On a network of triangles the middle state never
+occurs: the shattered solution has $\Sigma<0$ wherever it exists, meaning fewer
+than one cluster, so the colourings have run out no later than the density where
+they would have shattered. One boundary instead of two, and it arrives earlier
+--- $3.08$ against $4.69$ in degree at $q=3$.}
+\label{fig:phases}
+\end{figure}
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{lccr}
+\hline\hline
+$q$ & graph & triangles & change\\
+\hline
+\multicolumn{4}{@{}l}{\rule{0pt}{2.6ex}\itshape colourability threshold $c_{q}$, in degree; Poisson}\\
+$3$ & $4.69$ & $\le3.078\,(0.005)$ & $\le-34.4\%$\\
+$4$ & $8.90$ & $\le6.763\,(0.007)$ & $\le-24.0\%$\\
+\multicolumn{4}{@{}l}{\rule{0pt}{2.6ex}\itshape stability line, Poisson: Eq.~\eqref{eq:trifamily} at $f=0,1$}\\
+$3$ & $4$ & $4$ & $0\%$\\
+$4$ & $9$ & $9$ & $0\%$\\
+\multicolumn{4}{@{}l}{\rule{0pt}{2.6ex}\itshape stability line, regular: Eq.~\eqref{eq:tridisagree}}\\
+$3$ & $5$ & $6$ & $+20\%$\\
+$4$ & $10$ & $11$ & $+10\%$\\
+\hline\hline
+\end{tabular}
+\caption{\textbf{The stability line does not track $c_{q}$ in either
+ensemble.} Above, where proper colourings actually run out, from
+Eq.~\eqref{eq:colsigma}; the graph column is \citeauthor{mulet2002}'s and the
+triangle column is
+computed here, both for a Poisson chy-degree. The graph value is a crossing and
+is bracketed from both sides; the triangle value is a lift-off and bounds
+$c_{q}$ from above only, which is why it carries a $\le$. Bracketed figures are the spread
+over three seeds, and they measure scatter only: the triangle threshold is a
+fold rather than a crossing, and the other fold in this chapter --- $c_{d}$ in
+Sec.~\ref{sec:colouring-sp} --- sits a per cent to three off its published value
+with a spread no larger. Below, where the
+replica-symmetric solution loses local stability --- first in that same Poisson
+ensemble, where Sec.~\ref{sec:colouring-triangles} found it blind to triangles,
+then in the regular one, where the excess-degree correction survives. Promoting
+links into triangles at fixed degree lowers $c_{q}$ by a third; in the same
+ensemble the stability line does not move at all, and in the regular ensemble it
+moves the other way. Generated by
+\code{figs/colouring.py:check\_clustered\_cq}.}
+\label{tab:cq}
+\end{table}
+
+\paragraph{Triangles make colouring harder.} Table~\ref{tab:cq} is the result.
+A triangle-clustered graph has stopped being $3$-colourable by degree $3.08$
+where a triangle-free one survives to $4.69$, and stopped being $4$-colourable
+by $6.76$ against $8.90$: a third and a quarter of the range, gone.
+
+Set that beside Sec.~\ref{sec:colouring-triangles}, and be careful about which
+ensemble is being quoted, because the stability line does two different things
+and neither of them is this. In the Poisson ensemble --- the one both columns
+above are computed in --- it does not move at all: the cross term vanishes and
+Eq.~\eqref{eq:trifamily} returns $(q-1)^{2}$ at every triangle fraction. In the
+regular ensemble it does move, and it moves the wrong way, from $(q-1)^{2}+1$ to
+$(q-1)^{2}+2$.
+
+Both are correct, and both are a different line from $c_{q}$ --- one is where a
+solution stops being locally stable, the other where solutions stop existing ---
+but the consequence is worth stating flatly. On a graph the two at least land
+near one another --- $4$ against $4.69$, $9$ against $8.90$, $16$ against
+$13.69$ --- which is why the stability line gets used as a rough locator at all,
+even after Sec.~\ref{sec:colouring-rsb} has put it on the wrong side from $q=4$.
+On triangles it is not near, and it is not even wrong in a fixed direction:
+taken as a proxy, the Poisson stability line says that clustering does nothing
+to colouring and the regular one says that it makes colouring \emph{easier}. It
+makes it harder, by a third.
+
+\paragraph{What is not computed.} The energy. Above $c_{q}$ some fraction of
+complexes must be violated, and $\Sigma$ says nothing about how large that
+fraction is. It is \citeauthor{krzakala2004}'s $e(y)$, which needs the
+reweighted free energy at finite $y$ rather than the $y\to\infty$ endpoint used
+here. What is settled is where the colourings run out, not how badly.
+
+\section{Checks}
+\label{sec:colouring-checks}
+
+\checkhead{Known results}
+Equation~\eqref{eq:colthresh} at $c=2$ returns $(q-1)^{2}$ for a Poisson degree
+distribution and $(q-1)^{2}+1$ for a regular one, which are the two lines of
+\citeauthor{zdeborova2007}'s Eq.~(18), and Eq.~\eqref{eq:coltwo}'s hypergraph
+line is \citeauthor{gabrie2017}'s Eq.~(43). Section~\ref{sec:colouring-sp}
+returns \citeauthor{mulet2002}'s $c_{q}$ at cardinality two for $q=3,4,5$ to a
+tenth of a per cent, and the clustering threshold $c_{d}$ out of the same
+population as the density at which the survey stops being trivial.
+Section~\ref{sec:colouring-sp-chy} returns \citeauthor{gabrie2017}'s hypergraph
+thresholds at $(q,c)=(3,3)$, $(4,3)$ and $(2,5)$, with the two cases that
+reference marks invalid excluded rather than reported. Reproducing these
+constants checks the implementation; none of them is established here.
+
+\checkhead{New results}
+The triangle column of Table~\ref{tab:cq}, and nothing else in the chapter.
+Equations~\eqref{eq:taucol} and~\eqref{eq:tauhyp} behind it are checked against a
+direct enumeration of the interior of a complex, in rational arithmetic so that
+the agreement is exact rather than numerical: proper colouring for
+$q=3,\dots,7$ at every cardinality from $2$ to $\min(q,5)$, and hypergraph
+colouring for $q=3,4,5$ at cardinalities $2$, $3$ and $4$. The claim that the
+linearised map acts as a scalar on the traceless subspace is checked by
+perturbing along three different traceless directions and requiring the same
+answer, for both rules. And the set-valued machinery Sec.~\ref{sec:colouring-cq}
+needs is gated against the two known cases before it is used ---
+\citeauthor{mulet2002} at $c=2$, \citeauthor{gabrie2017} at $c=3$ --- so what is
+new when it runs on triangles is the interior and not the apparatus.
+
+\checkhead{Partial results}
+The triangle $c_{q}$ is a bound from above rather than a located threshold. On a
+graph the complexity arcs above zero and crosses it once, so $c_{q}$ is
+bracketed from both sides; on triangles $\Sigma$ is negative wherever the
+shattered branch exists, so the threshold is where that branch appears --- a fold
+rather than a crossing, and the worse-determined of the two, as the $c_{d}$
+figures already show. What is checked is the statement the number is used for:
+that it lies below the graph's $c_{q}$ and below the stability line. Both are
+inequalities, so the direction --- clustering makes colouring harder --- does not
+depend on the third figure or on the bound being tight. Two further limits:
+Eq.~\eqref{eq:colthresh} is a local stability line and not a colourability
+threshold, which is what Sec.~\ref{sec:colouring-rsb} is about; and the one-step
+calculation is at $m=0$, so the condensation and rigidity transitions are
+outside it.

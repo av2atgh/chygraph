@@ -15,3 +15,28 @@ dist/
 
 # Generated figures
 *.pdf
+
+# LaTeX build products
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.idx
+*.ilg
+*.ind
+mainNotes.bib
+supplementNotes.bib
+
+# but keep probe results
+!statmech/probe/results/*.log
+
+# per-network shards of gbp_real.py: a parallelisation detail, not a result.
+# probe/results/gbp_real.json is the artefact the book reads; keeping the
+# shards would let a later run silently reuse them after the probe changed.
+statmech/probe/results/gbp_real_parts/
+statmech/probe/results/merge_vs_gbp.json

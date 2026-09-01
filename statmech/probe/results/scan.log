@@ -1,0 +1,326 @@
+   hrg tau=2.1 kbar=2.37 n=   1000 seed=1 c_max=  10 m2=    7.141 sbar=   2.304
+config tau=2.1 kbar=2.07 n=   1000 seed=1 c_max=   7 m2=    4.458 sbar=   1.329
+   hrg tau=2.1 kbar=1.94 n=   1000 seed=2 c_max=   9 m2=    5.294 sbar=   1.745
+config tau=2.1 kbar=1.80 n=   1000 seed=2 c_max=   5 m2=    3.767 sbar=   1.096
+   hrg tau=2.1 kbar=2.00 n=   1000 seed=3 c_max=  11 m2=    5.647 sbar=   1.932
+config tau=2.1 kbar=1.69 n=   1000 seed=3 c_max=   7 m2=    3.850 sbar=   1.169
+   hrg tau=2.1 kbar=1.89 n=   3000 seed=1 c_max=  10 m2=    5.229 sbar=   1.753
+config tau=2.1 kbar=1.56 n=   3000 seed=1 c_max=   6 m2=    3.743 sbar=   1.135
+   hrg tau=2.1 kbar=2.00 n=   3000 seed=2 c_max=  12 m2=    5.953 sbar=   2.017
+config tau=2.1 kbar=1.92 n=   3000 seed=2 c_max=   6 m2=    3.859 sbar=   1.123
+   hrg tau=2.1 kbar=1.77 n=   3000 seed=3 c_max=  12 m2=    5.386 sbar=   1.908
+config tau=2.1 kbar=1.67 n=   3000 seed=3 c_max=   7 m2=    4.036 sbar=   1.244
+   hrg tau=2.1 kbar=1.99 n=  10000 seed=1 c_max=  18 m2=    6.887 sbar=   2.474
+config tau=2.1 kbar=1.87 n=  10000 seed=1 c_max=  10 m2=    4.601 sbar=   1.452
+   hrg tau=2.1 kbar=2.00 n=  10000 seed=2 c_max=  20 m2=    6.880 sbar=   2.476
+config tau=2.1 kbar=1.84 n=  10000 seed=2 c_max=  10 m2=    5.046 sbar=   1.622
+   hrg tau=2.1 kbar=1.80 n=  10000 seed=3 c_max=  17 m2=    6.033 sbar=   2.211
+config tau=2.1 kbar=1.62 n=  10000 seed=3 c_max=   9 m2=    4.190 sbar=   1.326
+   hrg tau=2.1 kbar=2.02 n=  30000 seed=1 c_max=  26 m2=    8.486 sbar=   3.178
+config tau=2.1 kbar=1.92 n=  30000 seed=1 c_max=  12 m2=    5.986 sbar=   1.959
+   hrg tau=2.1 kbar=1.86 n=  30000 seed=2 c_max=  21 m2=    6.485 sbar=   2.388
+config tau=2.1 kbar=1.70 n=  30000 seed=2 c_max=  10 m2=    4.430 sbar=   1.406
+   hrg tau=2.1 kbar=1.28 n=  30000 seed=3 c_max=  23 m2=    4.544 sbar=   1.778
+config tau=2.1 kbar=1.25 n=  30000 seed=3 c_max=  10 m2=    3.624 sbar=   1.186
+   hrg tau=2.1 kbar=1.99 n= 100000 seed=1 c_max=  44 m2=   10.333 sbar=   4.099
+config tau=2.1 kbar=1.85 n= 100000 seed=1 c_max=  19 m2=   11.329 sbar=   3.811
+   hrg tau=2.1 kbar=2.01 n= 100000 seed=2 c_max=  47 m2=   10.620 sbar=   4.223
+config tau=2.1 kbar=1.86 n= 100000 seed=2 c_max=  23 m2=   11.325 sbar=   3.971
+   hrg tau=2.1 kbar=2.92 n= 100000 seed=3 c_max=  36 m2=   12.491 sbar=   4.060
+config tau=2.1 kbar=2.41 n= 100000 seed=3 c_max=  15 m2=    6.745 sbar=   2.066
+   hrg tau=2.1 kbar=1.98 n= 300000 seed=1 c_max=  64 m2=   14.210 sbar=   5.873
+config tau=2.1 kbar=1.73 n= 300000 seed=1 c_max=  24 m2=   14.000 sbar=   4.735
+   hrg tau=2.1 kbar=2.02 n= 300000 seed=2 c_max=  57 m2=   13.792 sbar=   5.640
+config tau=2.1 kbar=1.85 n= 300000 seed=2 c_max=  28 m2=   15.521 sbar=   5.359
+   hrg tau=2.1 kbar=2.20 n= 300000 seed=3 c_max=  62 m2=   15.441 sbar=   6.063
+config tau=2.1 kbar=1.97 n= 300000 seed=3 c_max=  23 m2=   21.386 sbar=   6.418
+   hrg tau=2.1 kbar=4.03 n=   1000 seed=1 c_max=  12 m2=   12.513 sbar=   3.218
+config tau=2.1 kbar=3.53 n=   1000 seed=1 c_max=   7 m2=    6.570 sbar=   1.788
+   hrg tau=2.1 kbar=3.69 n=   1000 seed=2 c_max=  14 m2=   12.461 sbar=   3.379
+config tau=2.1 kbar=3.38 n=   1000 seed=2 c_max=   6 m2=    5.575 sbar=   1.532
+   hrg tau=2.1 kbar=2.30 n=   1000 seed=3 c_max=  10 m2=    6.574 sbar=   2.076
+config tau=2.1 kbar=2.10 n=   1000 seed=3 c_max=   6 m2=    4.182 sbar=   1.209
+   hrg tau=2.1 kbar=4.00 n=   3000 seed=1 c_max=  13 m2=   12.099 sbar=   3.126
+config tau=2.1 kbar=3.33 n=   3000 seed=1 c_max=   7 m2=    5.778 sbar=   1.556
+   hrg tau=2.1 kbar=3.99 n=   3000 seed=2 c_max=  16 m2=   13.878 sbar=   3.656
+config tau=2.1 kbar=3.52 n=   3000 seed=2 c_max=  10 m2=    6.475 sbar=   1.803
+   hrg tau=2.1 kbar=3.40 n=   3000 seed=3 c_max=  18 m2=   12.859 sbar=   3.792
+config tau=2.1 kbar=3.15 n=   3000 seed=3 c_max=  10 m2=    6.979 sbar=   2.010
+   hrg tau=2.1 kbar=3.99 n=  10000 seed=1 c_max=  27 m2=   19.274 sbar=   5.342
+config tau=2.1 kbar=3.68 n=  10000 seed=1 c_max=  15 m2=   10.670 sbar=   3.012
+   hrg tau=2.1 kbar=2.81 n=  10000 seed=2 c_max=  23 m2=    9.400 sbar=   2.940
+config tau=2.1 kbar=2.67 n=  10000 seed=2 c_max=  10 m2=    5.420 sbar=   1.601
+   hrg tau=2.1 kbar=4.02 n=  10000 seed=3 c_max=  32 m2=   20.516 sbar=   5.697
+config tau=2.1 kbar=3.53 n=  10000 seed=3 c_max=  14 m2=   13.272 sbar=   3.578
+   hrg tau=2.1 kbar=5.42 n=  30000 seed=1 c_max=  58 m2=   51.706 sbar=  11.866
+config tau=2.1 kbar=4.87 n=  30000 seed=1 c_max=  26 m2=   47.455 sbar=   8.954
+   hrg tau=2.1 kbar=4.03 n=  30000 seed=2 c_max=  38 m2=   22.072 sbar=   6.147
+config tau=2.1 kbar=3.59 n=  30000 seed=2 c_max=  15 m2=   13.078 sbar=   3.588
+   hrg tau=2.1 kbar=2.54 n=  30000 seed=3 c_max=  32 m2=   11.561 sbar=   4.025
+config tau=2.1 kbar=2.45 n=  30000 seed=3 c_max=  12 m2=    8.194 sbar=   2.537
+   hrg tau=2.1 kbar=4.07 n= 100000 seed=1 c_max=  62 m2=   37.803 sbar=  10.349
+config tau=2.1 kbar=3.70 n= 100000 seed=1 c_max=  27 m2=   30.147 sbar=   7.145
+   hrg tau=2.1 kbar=4.03 n= 100000 seed=2 c_max=  56 m2=   31.810 sbar=   8.893
+config tau=2.1 kbar=3.63 n= 100000 seed=2 c_max=  23 m2=   28.255 sbar=   6.919
+   hrg tau=2.1 kbar=3.96 n= 100000 seed=3 c_max=  65 m2=   33.071 sbar=   9.344
+config tau=2.1 kbar=3.63 n= 100000 seed=3 c_max=  27 m2=   33.847 sbar=   7.951
+   hrg tau=2.1 kbar=4.03 n= 300000 seed=1 c_max= 101 m2=   67.355 sbar=  18.134
+config tau=2.1 kbar=3.67 n= 300000 seed=1 c_max=  38 m2=  214.268 sbar=  21.352
+   hrg tau=2.1 kbar=4.04 n= 300000 seed=2 c_max=  88 m2=   58.211 sbar=  15.799
+config tau=2.1 kbar=3.70 n= 300000 seed=2 c_max=  39 m2=  118.392 sbar=  17.351
+   hrg tau=2.1 kbar=4.30 n= 300000 seed=3 c_max=  88 m2=   57.377 sbar=  15.034
+config tau=2.1 kbar=3.83 n= 300000 seed=3 c_max=  35 m2=  101.840 sbar=  15.225
+   hrg tau=2.1 kbar=8.06 n=   1000 seed=1 c_max=  20 m2=   35.750 sbar=   6.252
+config tau=2.1 kbar=6.92 n=   1000 seed=1 c_max=  11 m2=   11.369 sbar=   2.763
+   hrg tau=2.1 kbar=6.98 n=   1000 seed=2 c_max=  20 m2=   30.558 sbar=   5.786
+config tau=2.1 kbar=6.31 n=   1000 seed=2 c_max=   8 m2=    9.588 sbar=   2.380
+   hrg tau=2.1 kbar=8.06 n=   1000 seed=3 c_max=  17 m2=   36.166 sbar=   6.224
+config tau=2.1 kbar=6.66 n=   1000 seed=3 c_max=  10 m2=   10.658 sbar=   2.581
+   hrg tau=2.1 kbar=8.02 n=   3000 seed=1 c_max=  30 m2=   40.163 sbar=   6.995
+config tau=2.1 kbar=6.87 n=   3000 seed=1 c_max=  11 m2=   13.380 sbar=   3.220
+   hrg tau=2.1 kbar=7.96 n=   3000 seed=2 c_max=  23 m2=   37.461 sbar=   6.579
+config tau=2.1 kbar=6.98 n=   3000 seed=2 c_max=  12 m2=   12.005 sbar=   2.964
+   hrg tau=2.1 kbar=7.93 n=   3000 seed=3 c_max=  26 m2=   43.359 sbar=   7.598
+config tau=2.1 kbar=6.93 n=   3000 seed=3 c_max=  11 m2=   13.966 sbar=   3.295
+   hrg tau=2.1 kbar=7.95 n=  10000 seed=1 c_max=  40 m2=   59.093 sbar=  10.034
+config tau=2.1 kbar=7.23 n=  10000 seed=1 c_max=  15 m2=   21.308 sbar=   4.698
+   hrg tau=2.1 kbar=7.94 n=  10000 seed=2 c_max=  45 m2=   69.693 sbar=  11.751
+config tau=2.1 kbar=7.31 n=  10000 seed=2 c_max=  19 m2=   33.525 sbar=   6.532
+   hrg tau=2.1 kbar=7.95 n=  10000 seed=3 c_max=  38 m2=   43.241 sbar=   7.581
+config tau=2.1 kbar=6.51 n=  10000 seed=3 c_max=  14 m2=   13.683 sbar=   3.337
+   hrg tau=2.1 kbar=10.35 n=  30000 seed=1 c_max=  78 m2=  180.080 sbar=  23.071
+config tau=2.1 kbar=9.17 n=  30000 seed=1 c_max=  33 m2=  178.092 sbar=  17.172
+   hrg tau=2.1 kbar=8.03 n=  30000 seed=2 c_max=  68 m2=   97.848 sbar=  15.863
+config tau=2.1 kbar=7.42 n=  30000 seed=2 c_max=  27 m2=   88.952 sbar=  11.849
+   hrg tau=2.1 kbar=8.06 n=  30000 seed=3 c_max=  60 m2=   94.793 sbar=  15.262
+config tau=2.1 kbar=7.46 n=  30000 seed=3 c_max=  24 m2=   54.386 sbar=   9.096
+   hrg tau=2.1 kbar=7.99 n= 100000 seed=1 c_max= 103 m2=  155.238 sbar=  24.336
+config tau=2.1 kbar=7.20 n= 100000 seed=1 c_max=  38 m2=  331.124 sbar=  22.775
+   hrg tau=2.1 kbar=7.92 n= 100000 seed=2 c_max= 107 m2=  230.358 sbar=  32.603
+config tau=2.1 kbar=7.36 n= 100000 seed=2 c_max=  38 m2=  391.849 sbar=  22.682
+   hrg tau=2.1 kbar=9.18 n= 100000 seed=3 c_max=  84 m2=  122.438 sbar=  17.966
+config tau=2.1 kbar=7.71 n= 100000 seed=3 c_max=  28 m2=   55.183 sbar=   9.530
+   hrg tau=2.1 kbar=7.94 n= 300000 seed=1 c_max= 154 m2=  330.066 sbar=  44.886
+config tau=2.1 kbar=7.19 n= 300000 seed=1 c_max=  56 m2= 1417.092 sbar=  39.680
+   hrg tau=2.1 kbar=8.02 n= 300000 seed=2 c_max= 164 m2=  270.520 sbar=  38.962
+config tau=2.1 kbar=7.21 n= 300000 seed=2 c_max=  54 m2= 1380.759 sbar=  38.518
+   hrg tau=2.1 kbar=7.94 n= 300000 seed=3 c_max= 140 m2=  256.555 sbar=  37.042
+config tau=2.1 kbar=7.23 n= 300000 seed=3 c_max=  59 m2=  997.405 sbar=  38.426
+   hrg tau=2.5 kbar=2.00 n=   1000 seed=1 c_max=   6 m2=    5.132 sbar=   1.504
+config tau=2.5 kbar=1.98 n=   1000 seed=1 c_max=   3 m2=    3.573 sbar=   0.955
+   hrg tau=2.5 kbar=1.70 n=   1000 seed=2 c_max=   7 m2=    4.437 sbar=   1.363
+config tau=2.5 kbar=1.68 n=   1000 seed=2 c_max=   3 m2=    3.251 sbar=   0.877
+   hrg tau=2.5 kbar=1.99 n=   1000 seed=3 c_max=   6 m2=    5.229 sbar=   1.559
+config tau=2.5 kbar=1.95 n=   1000 seed=3 c_max=   3 m2=    3.508 sbar=   0.939
+   hrg tau=2.5 kbar=2.00 n=   3000 seed=1 c_max=   8 m2=    5.444 sbar=   1.674
+config tau=2.5 kbar=1.94 n=   3000 seed=1 c_max=   6 m2=    3.558 sbar=   0.971
+   hrg tau=2.5 kbar=1.99 n=   3000 seed=2 c_max=   8 m2=    5.207 sbar=   1.568
+config tau=2.5 kbar=1.98 n=   3000 seed=2 c_max=   3 m2=    3.399 sbar=   0.901
+   hrg tau=2.5 kbar=1.75 n=   3000 seed=3 c_max=   6 m2=    4.539 sbar=   1.397
+config tau=2.5 kbar=1.74 n=   3000 seed=3 c_max=   4 m2=    3.217 sbar=   0.861
+   hrg tau=2.5 kbar=2.01 n=  10000 seed=1 c_max=   9 m2=    5.271 sbar=   1.590
+config tau=2.5 kbar=1.99 n=  10000 seed=1 c_max=   5 m2=    3.430 sbar=   0.914
+   hrg tau=2.5 kbar=2.02 n=  10000 seed=2 c_max=   8 m2=    5.349 sbar=   1.624
+config tau=2.5 kbar=1.99 n=  10000 seed=2 c_max=   5 m2=    3.501 sbar=   0.942
+   hrg tau=2.5 kbar=2.02 n=  10000 seed=3 c_max=   9 m2=    5.314 sbar=   1.620
+config tau=2.5 kbar=1.99 n=  10000 seed=3 c_max=   5 m2=    3.518 sbar=   0.949
+   hrg tau=2.5 kbar=2.00 n=  30000 seed=1 c_max=  13 m2=    5.424 sbar=   1.670
+config tau=2.5 kbar=1.99 n=  30000 seed=1 c_max=   7 m2=    3.502 sbar=   0.948
+   hrg tau=2.5 kbar=2.00 n=  30000 seed=2 c_max=  10 m2=    5.293 sbar=   1.593
+config tau=2.5 kbar=2.00 n=  30000 seed=2 c_max=   4 m2=    3.375 sbar=   0.890
+   hrg tau=2.5 kbar=2.00 n=  30000 seed=3 c_max=  12 m2=    5.410 sbar=   1.667
+config tau=2.5 kbar=1.98 n=  30000 seed=3 c_max=   6 m2=    3.497 sbar=   0.946
+   hrg tau=2.5 kbar=2.01 n= 100000 seed=1 c_max=  14 m2=    5.421 sbar=   1.670
+config tau=2.5 kbar=1.98 n= 100000 seed=1 c_max=   8 m2=    3.533 sbar=   0.961
+   hrg tau=2.5 kbar=2.00 n= 100000 seed=2 c_max=  12 m2=    5.325 sbar=   1.623
+config tau=2.5 kbar=1.99 n= 100000 seed=2 c_max=   6 m2=    3.382 sbar=   0.899
+   hrg tau=2.5 kbar=2.00 n= 100000 seed=3 c_max=  13 m2=    5.441 sbar=   1.675
+config tau=2.5 kbar=1.99 n= 100000 seed=3 c_max=   8 m2=    3.473 sbar=   0.937
+   hrg tau=2.5 kbar=2.00 n= 300000 seed=1 c_max=  20 m2=    5.386 sbar=   1.655
+config tau=2.5 kbar=1.99 n= 300000 seed=1 c_max=   9 m2=    3.433 sbar=   0.922
+   hrg tau=2.5 kbar=2.00 n= 300000 seed=2 c_max=  18 m2=    5.445 sbar=   1.678
+config tau=2.5 kbar=1.99 n= 300000 seed=2 c_max=  10 m2=    3.488 sbar=   0.943
+   hrg tau=2.5 kbar=1.99 n= 300000 seed=3 c_max=  18 m2=    5.397 sbar=   1.662
+config tau=2.5 kbar=1.99 n= 300000 seed=3 c_max=  10 m2=    3.432 sbar=   0.923
+   hrg tau=2.5 kbar=4.49 n=   1000 seed=1 c_max=   9 m2=   13.829 sbar=   3.215
+config tau=2.5 kbar=4.26 n=   1000 seed=1 c_max=   5 m2=    5.034 sbar=   1.325
+   hrg tau=2.5 kbar=4.01 n=   1000 seed=2 c_max=   9 m2=   11.952 sbar=   2.882
+config tau=2.5 kbar=3.78 n=   1000 seed=2 c_max=   6 m2=    4.876 sbar=   1.288
+   hrg tau=2.5 kbar=4.05 n=   1000 seed=3 c_max=   8 m2=   11.727 sbar=   2.785
+config tau=2.5 kbar=3.97 n=   1000 seed=3 c_max=   5 m2=    4.609 sbar=   1.200
+   hrg tau=2.5 kbar=4.01 n=   3000 seed=1 c_max=  10 m2=   12.371 sbar=   3.035
+config tau=2.5 kbar=3.86 n=   3000 seed=1 c_max=   7 m2=    4.721 sbar=   1.248
+   hrg tau=2.5 kbar=3.98 n=   3000 seed=2 c_max=  11 m2=   11.843 sbar=   2.869
+config tau=2.5 kbar=3.94 n=   3000 seed=2 c_max=   4 m2=    4.161 sbar=   1.072
+   hrg tau=2.5 kbar=3.45 n=   3000 seed=3 c_max=   9 m2=    9.636 sbar=   2.489
+config tau=2.5 kbar=3.42 n=   3000 seed=3 c_max=   4 m2=    4.132 sbar=   1.076
+   hrg tau=2.5 kbar=3.97 n=  10000 seed=1 c_max=  10 m2=   11.763 sbar=   2.851
+config tau=2.5 kbar=3.92 n=  10000 seed=1 c_max=   6 m2=    4.267 sbar=   1.107
+   hrg tau=2.5 kbar=4.03 n=  10000 seed=2 c_max=  18 m2=   12.963 sbar=   3.180
+config tau=2.5 kbar=3.96 n=  10000 seed=2 c_max=   8 m2=    4.798 sbar=   1.283
+   hrg tau=2.5 kbar=4.00 n=  10000 seed=3 c_max=  13 m2=   12.095 sbar=   2.960
+config tau=2.5 kbar=3.92 n=  10000 seed=3 c_max=   7 m2=    4.583 sbar=   1.206
+   hrg tau=2.5 kbar=4.02 n=  30000 seed=1 c_max=  18 m2=   12.584 sbar=   3.090
+config tau=2.5 kbar=3.96 n=  30000 seed=1 c_max=   9 m2=    4.514 sbar=   1.190
+   hrg tau=2.5 kbar=4.00 n=  30000 seed=2 c_max=  13 m2=   12.015 sbar=   2.906
+config tau=2.5 kbar=3.98 n=  30000 seed=2 c_max=   6 m2=    4.046 sbar=   1.036
+   hrg tau=2.5 kbar=3.98 n=  30000 seed=3 c_max=  18 m2=   12.430 sbar=   3.060
+config tau=2.5 kbar=3.93 n=  30000 seed=3 c_max=   8 m2=    4.541 sbar=   1.202
+   hrg tau=2.5 kbar=4.01 n= 100000 seed=1 c_max=  19 m2=   12.439 sbar=   3.057
+config tau=2.5 kbar=3.93 n= 100000 seed=1 c_max=  10 m2=    4.653 sbar=   1.238
+   hrg tau=2.5 kbar=4.00 n= 100000 seed=2 c_max=  21 m2=   12.229 sbar=   2.988
+config tau=2.5 kbar=3.98 n= 100000 seed=2 c_max=   9 m2=    4.146 sbar=   1.075
+   hrg tau=2.5 kbar=4.00 n= 100000 seed=3 c_max=  20 m2=   12.557 sbar=   3.084
+config tau=2.5 kbar=3.96 n= 100000 seed=3 c_max=  10 m2=    4.442 sbar=   1.176
+   hrg tau=2.5 kbar=3.99 n= 300000 seed=1 c_max=  27 m2=   12.610 sbar=   3.106
+config tau=2.5 kbar=3.97 n= 300000 seed=1 c_max=  14 m2=    4.346 sbar=   1.152
+   hrg tau=2.5 kbar=4.00 n= 300000 seed=2 c_max=  26 m2=   12.727 sbar=   3.133
+config tau=2.5 kbar=3.96 n= 300000 seed=2 c_max=  12 m2=    4.478 sbar=   1.191
+   hrg tau=2.5 kbar=3.99 n= 300000 seed=3 c_max=  27 m2=   12.629 sbar=   3.111
+config tau=2.5 kbar=3.97 n= 300000 seed=3 c_max=  13 m2=    4.400 sbar=   1.173
+   hrg tau=2.5 kbar=7.93 n=   1000 seed=1 c_max=  11 m2=   28.949 sbar=   4.781
+config tau=2.5 kbar=7.62 n=   1000 seed=1 c_max=   6 m2=    5.834 sbar=   1.505
+   hrg tau=2.5 kbar=6.79 n=   1000 seed=2 c_max=  14 m2=   23.562 sbar=   4.284
+config tau=2.5 kbar=6.53 n=   1000 seed=2 c_max=   5 m2=    5.348 sbar=   1.379
+   hrg tau=2.5 kbar=8.05 n=   1000 seed=3 c_max=  14 m2=   31.649 sbar=   5.148
+config tau=2.5 kbar=7.61 n=   1000 seed=3 c_max=   6 m2=    6.640 sbar=   1.707
+   hrg tau=2.5 kbar=7.99 n=   3000 seed=1 c_max=  13 m2=   31.640 sbar=   5.182
+config tau=2.5 kbar=7.67 n=   3000 seed=1 c_max=   8 m2=    6.247 sbar=   1.620
+   hrg tau=2.5 kbar=7.92 n=   3000 seed=2 c_max=  16 m2=   31.213 sbar=   5.171
+config tau=2.5 kbar=7.77 n=   3000 seed=2 c_max=   6 m2=    5.165 sbar=   1.333
+   hrg tau=2.5 kbar=6.85 n=   3000 seed=3 c_max=  13 m2=   25.438 sbar=   4.595
+config tau=2.5 kbar=6.70 n=   3000 seed=3 c_max=   7 m2=    5.298 sbar=   1.384
+   hrg tau=2.5 kbar=8.05 n=  10000 seed=1 c_max=  15 m2=   31.886 sbar=   5.210
+config tau=2.5 kbar=7.88 n=  10000 seed=1 c_max=   9 m2=    5.669 sbar=   1.490
+   hrg tau=2.5 kbar=8.03 n=  10000 seed=2 c_max=  20 m2=   34.413 sbar=   5.644
+config tau=2.5 kbar=7.82 n=  10000 seed=2 c_max=   9 m2=    6.287 sbar=   1.666
+   hrg tau=2.5 kbar=7.93 n=  10000 seed=3 c_max=  23 m2=   33.732 sbar=   5.577
+config tau=2.5 kbar=7.69 n=  10000 seed=3 c_max=   9 m2=    6.513 sbar=   1.718
+   hrg tau=2.5 kbar=7.94 n=  30000 seed=1 c_max=  29 m2=   35.144 sbar=   5.810
+config tau=2.5 kbar=7.79 n=  30000 seed=1 c_max=  11 m2=    6.069 sbar=   1.616
+   hrg tau=2.5 kbar=7.99 n=  30000 seed=2 c_max=  20 m2=   32.915 sbar=   5.400
+config tau=2.5 kbar=7.94 n=  30000 seed=2 c_max=   9 m2=    4.783 sbar=   1.243
+   hrg tau=2.5 kbar=7.94 n=  30000 seed=3 c_max=  27 m2=   34.880 sbar=   5.760
+config tau=2.5 kbar=7.80 n=  30000 seed=3 c_max=  12 m2=    6.162 sbar=   1.662
+   hrg tau=2.5 kbar=7.96 n= 100000 seed=1 c_max=  29 m2=   34.358 sbar=   5.690
+config tau=2.5 kbar=7.76 n= 100000 seed=1 c_max=  14 m2=    6.073 sbar=   1.630
+   hrg tau=2.5 kbar=7.98 n= 100000 seed=2 c_max=  29 m2=   34.287 sbar=   5.649
+config tau=2.5 kbar=7.94 n= 100000 seed=2 c_max=  12 m2=    5.155 sbar=   1.378
+   hrg tau=2.5 kbar=7.97 n= 100000 seed=3 c_max=  30 m2=   35.368 sbar=   5.837
+config tau=2.5 kbar=7.86 n= 100000 seed=3 c_max=  15 m2=    5.863 sbar=   1.597
+   hrg tau=2.5 kbar=7.97 n= 300000 seed=1 c_max=  41 m2=   35.997 sbar=   5.945
+config tau=2.5 kbar=7.90 n= 300000 seed=1 c_max=  18 m2=    6.086 sbar=   1.719
+   hrg tau=2.5 kbar=7.99 n= 300000 seed=2 c_max=  37 m2=   36.213 sbar=   5.967
+config tau=2.5 kbar=7.88 n= 300000 seed=2 c_max=  16 m2=    5.888 sbar=   1.614
+   hrg tau=2.5 kbar=7.98 n= 300000 seed=3 c_max=  41 m2=   36.637 sbar=   6.048
+config tau=2.5 kbar=7.92 n= 300000 seed=3 c_max=  18 m2=    6.231 sbar=   1.778
+   hrg tau=2.9 kbar=2.02 n=   1000 seed=1 c_max=   6 m2=    5.490 sbar=   1.596
+config tau=2.9 kbar=2.01 n=   1000 seed=1 c_max=   3 m2=    3.517 sbar=   0.919
+   hrg tau=2.9 kbar=2.01 n=   1000 seed=2 c_max=   7 m2=    5.448 sbar=   1.580
+config tau=2.9 kbar=2.00 n=   1000 seed=2 c_max=   3 m2=    3.483 sbar=   0.909
+   hrg tau=2.9 kbar=2.00 n=   1000 seed=3 c_max=   7 m2=    5.415 sbar=   1.568
+config tau=2.9 kbar=1.98 n=   1000 seed=3 c_max=   3 m2=    3.532 sbar=   0.924
+   hrg tau=2.9 kbar=2.02 n=   3000 seed=1 c_max=   6 m2=    5.411 sbar=   1.587
+config tau=2.9 kbar=2.01 n=   3000 seed=1 c_max=   3 m2=    3.464 sbar=   0.907
+   hrg tau=2.9 kbar=2.00 n=   3000 seed=2 c_max=   6 m2=    5.467 sbar=   1.602
+config tau=2.9 kbar=2.00 n=   3000 seed=2 c_max=   3 m2=    3.452 sbar=   0.902
+   hrg tau=2.9 kbar=1.99 n=   3000 seed=3 c_max=   6 m2=    5.284 sbar=   1.526
+config tau=2.9 kbar=1.95 n=   3000 seed=3 c_max=   3 m2=    3.572 sbar=   0.941
+   hrg tau=2.9 kbar=2.00 n=  10000 seed=1 c_max=   8 m2=    5.441 sbar=   1.592
+config tau=2.9 kbar=2.00 n=  10000 seed=1 c_max=   3 m2=    3.460 sbar=   0.903
+   hrg tau=2.9 kbar=2.00 n=  10000 seed=2 c_max=   8 m2=    5.416 sbar=   1.586
+config tau=2.9 kbar=1.99 n=  10000 seed=2 c_max=   3 m2=    3.455 sbar=   0.903
+   hrg tau=2.9 kbar=1.98 n=  10000 seed=3 c_max=   7 m2=    5.260 sbar=   1.543
+config tau=2.9 kbar=1.97 n=  10000 seed=3 c_max=   4 m2=    3.460 sbar=   0.909
+   hrg tau=2.9 kbar=2.01 n=  30000 seed=1 c_max=   8 m2=    5.420 sbar=   1.588
+config tau=2.9 kbar=2.01 n=  30000 seed=1 c_max=   4 m2=    3.447 sbar=   0.900
+   hrg tau=2.9 kbar=2.00 n=  30000 seed=2 c_max=   8 m2=    5.400 sbar=   1.578
+config tau=2.9 kbar=2.00 n=  30000 seed=2 c_max=   3 m2=    3.448 sbar=   0.899
+   hrg tau=2.9 kbar=2.01 n=  30000 seed=3 c_max=   9 m2=    5.426 sbar=   1.585
+config tau=2.9 kbar=2.01 n=  30000 seed=3 c_max=   3 m2=    3.448 sbar=   0.900
+   hrg tau=2.9 kbar=2.01 n= 100000 seed=1 c_max=   8 m2=    5.416 sbar=   1.587
+config tau=2.9 kbar=2.01 n= 100000 seed=1 c_max=   3 m2=    3.440 sbar=   0.897
+   hrg tau=2.9 kbar=1.98 n= 100000 seed=2 c_max=   9 m2=    5.369 sbar=   1.575
+config tau=2.9 kbar=1.98 n= 100000 seed=2 c_max=   3 m2=    3.433 sbar=   0.896
+   hrg tau=2.9 kbar=2.00 n= 100000 seed=3 c_max=  10 m2=    5.418 sbar=   1.588
+config tau=2.9 kbar=2.00 n= 100000 seed=3 c_max=   4 m2=    3.444 sbar=   0.899
+   hrg tau=2.9 kbar=2.00 n= 300000 seed=1 c_max=   8 m2=    5.391 sbar=   1.578
+config tau=2.9 kbar=2.00 n= 300000 seed=1 c_max=   3 m2=    3.441 sbar=   0.898
+   hrg tau=2.9 kbar=2.00 n= 300000 seed=2 c_max=   9 m2=    5.378 sbar=   1.574
+config tau=2.9 kbar=2.00 n= 300000 seed=2 c_max=   3 m2=    3.438 sbar=   0.897
+   hrg tau=2.9 kbar=2.00 n= 300000 seed=3 c_max=  11 m2=    5.392 sbar=   1.577
+config tau=2.9 kbar=2.00 n= 300000 seed=3 c_max=   3 m2=    3.445 sbar=   0.898
+   hrg tau=2.9 kbar=3.99 n=   1000 seed=1 c_max=   8 m2=   12.005 sbar=   2.780
+config tau=2.9 kbar=3.96 n=   1000 seed=1 c_max=   3 m2=    4.086 sbar=   1.039
+   hrg tau=2.9 kbar=3.98 n=   1000 seed=2 c_max=   7 m2=   11.480 sbar=   2.670
+config tau=2.9 kbar=3.92 n=   1000 seed=2 c_max=   4 m2=    4.244 sbar=   1.085
+   hrg tau=2.9 kbar=4.03 n=   1000 seed=3 c_max=   9 m2=   11.459 sbar=   2.666
+config tau=2.9 kbar=3.88 n=   1000 seed=3 c_max=   5 m2=    4.492 sbar=   1.156
+   hrg tau=2.9 kbar=4.35 n=   3000 seed=1 c_max=  10 m2=   12.849 sbar=   2.915
+config tau=2.9 kbar=4.30 n=   3000 seed=1 c_max=   5 m2=    4.306 sbar=   1.103
+   hrg tau=2.9 kbar=4.04 n=   3000 seed=2 c_max=   8 m2=   12.100 sbar=   2.818
+config tau=2.9 kbar=4.02 n=   3000 seed=2 c_max=   3 m2=    3.970 sbar=   1.004
+   hrg tau=2.9 kbar=3.99 n=   3000 seed=3 c_max=   8 m2=   11.493 sbar=   2.676
+config tau=2.9 kbar=3.89 n=   3000 seed=3 c_max=   4 m2=    4.359 sbar=   1.117
+   hrg tau=2.9 kbar=3.99 n=  10000 seed=1 c_max=   9 m2=   11.733 sbar=   2.731
+config tau=2.9 kbar=3.98 n=  10000 seed=1 c_max=   3 m2=    3.955 sbar=   1.000
+   hrg tau=2.9 kbar=4.03 n=  10000 seed=2 c_max=  10 m2=   12.017 sbar=   2.783
+config tau=2.9 kbar=4.02 n=  10000 seed=2 c_max=   4 m2=    4.012 sbar=   1.016
+   hrg tau=2.9 kbar=3.99 n=  10000 seed=3 c_max=  11 m2=   11.657 sbar=   2.720
+config tau=2.9 kbar=3.96 n=  10000 seed=3 c_max=   5 m2=    4.095 sbar=   1.043
+   hrg tau=2.9 kbar=4.00 n=  30000 seed=1 c_max=  10 m2=   11.834 sbar=   2.763
+config tau=2.9 kbar=3.99 n=  30000 seed=1 c_max=   4 m2=    3.946 sbar=   0.998
+   hrg tau=2.9 kbar=3.99 n=  30000 seed=2 c_max=  11 m2=   11.727 sbar=   2.734
+config tau=2.9 kbar=3.99 n=  30000 seed=2 c_max=   4 m2=    3.929 sbar=   0.991
+   hrg tau=2.9 kbar=4.03 n=  30000 seed=3 c_max=  11 m2=   11.885 sbar=   2.767
+config tau=2.9 kbar=4.02 n=  30000 seed=3 c_max=   4 m2=    3.936 sbar=   0.994
+   hrg tau=2.9 kbar=4.02 n= 100000 seed=1 c_max=  11 m2=   11.891 sbar=   2.772
+config tau=2.9 kbar=4.01 n= 100000 seed=1 c_max=   4 m2=    3.923 sbar=   0.990
+   hrg tau=2.9 kbar=3.97 n= 100000 seed=2 c_max=  12 m2=   11.759 sbar=   2.749
+config tau=2.9 kbar=3.96 n= 100000 seed=2 c_max=   4 m2=    3.912 sbar=   0.987
+   hrg tau=2.9 kbar=4.00 n= 100000 seed=3 c_max=  15 m2=   11.868 sbar=   2.768
+config tau=2.9 kbar=4.00 n= 100000 seed=3 c_max=   5 m2=    3.927 sbar=   0.991
+   hrg tau=2.9 kbar=4.00 n= 300000 seed=1 c_max=  11 m2=   11.854 sbar=   2.762
+config tau=2.9 kbar=4.00 n= 300000 seed=1 c_max=   5 m2=    3.912 sbar=   0.987
+   hrg tau=2.9 kbar=3.99 n= 300000 seed=2 c_max=  12 m2=   11.797 sbar=   2.753
+config tau=2.9 kbar=3.99 n= 300000 seed=2 c_max=   4 m2=    3.909 sbar=   0.986
+   hrg tau=2.9 kbar=3.99 n= 300000 seed=3 c_max=  14 m2=   11.811 sbar=   2.755
+config tau=2.9 kbar=3.99 n= 300000 seed=3 c_max=   5 m2=    3.913 sbar=   0.987
+   hrg tau=2.9 kbar=8.01 n=   1000 seed=1 c_max=  12 m2=   30.882 sbar=   4.957
+config tau=2.9 kbar=7.93 n=   1000 seed=1 c_max=   4 m2=    4.501 sbar=   1.144
+   hrg tau=2.9 kbar=8.07 n=   1000 seed=2 c_max=  11 m2=   30.323 sbar=   4.829
+config tau=2.9 kbar=7.96 n=   1000 seed=2 c_max=   4 m2=    4.595 sbar=   1.169
+   hrg tau=2.9 kbar=8.00 n=   1000 seed=3 c_max=  11 m2=   29.256 sbar=   4.733
+config tau=2.9 kbar=7.84 n=   1000 seed=3 c_max=   4 m2=    4.859 sbar=   1.241
+   hrg tau=2.9 kbar=8.05 n=   3000 seed=1 c_max=  13 m2=   30.244 sbar=   4.894
+config tau=2.9 kbar=7.96 n=   3000 seed=1 c_max=   4 m2=    4.454 sbar=   1.133
+   hrg tau=2.9 kbar=7.93 n=   3000 seed=2 c_max=  12 m2=   28.998 sbar=   4.714
+config tau=2.9 kbar=7.85 n=   3000 seed=2 c_max=   5 m2=    4.536 sbar=   1.156
+   hrg tau=2.9 kbar=7.94 n=   3000 seed=3 c_max=  14 m2=   28.710 sbar=   4.683
+config tau=2.9 kbar=7.69 n=   3000 seed=3 c_max=   5 m2=    5.059 sbar=   1.292
+   hrg tau=2.9 kbar=8.04 n=  10000 seed=1 c_max=  12 m2=   29.676 sbar=   4.804
+config tau=2.9 kbar=8.01 n=  10000 seed=1 c_max=   4 m2=    4.200 sbar=   1.060
+   hrg tau=2.9 kbar=7.99 n=  10000 seed=2 c_max=  12 m2=   29.653 sbar=   4.810
+config tau=2.9 kbar=7.92 n=  10000 seed=2 c_max=   5 m2=    4.431 sbar=   1.128
+   hrg tau=2.9 kbar=8.04 n=  10000 seed=3 c_max=  13 m2=   29.658 sbar=   4.779
+config tau=2.9 kbar=7.95 n=  10000 seed=3 c_max=   6 m2=    4.539 sbar=   1.159
+   hrg tau=2.9 kbar=7.98 n=  30000 seed=1 c_max=  14 m2=   29.790 sbar=   4.825
+config tau=2.9 kbar=7.96 n=  30000 seed=1 c_max=   5 m2=    4.168 sbar=   1.051
+   hrg tau=2.9 kbar=7.99 n=  30000 seed=2 c_max=  14 m2=   29.755 sbar=   4.814
+config tau=2.9 kbar=7.98 n=  30000 seed=2 c_max=   4 m2=    4.091 sbar=   1.028
+   hrg tau=2.9 kbar=8.06 n=  30000 seed=3 c_max=  14 m2=   30.087 sbar=   4.845
+config tau=2.9 kbar=8.04 n=  30000 seed=3 c_max=   5 m2=    4.129 sbar=   1.040
+   hrg tau=2.9 kbar=8.05 n= 100000 seed=1 c_max=  15 m2=   30.176 sbar=   4.862
+config tau=2.9 kbar=8.04 n= 100000 seed=1 c_max=   6 m2=    4.078 sbar=   1.024
+   hrg tau=2.9 kbar=7.93 n= 100000 seed=2 c_max=  15 m2=   29.470 sbar=   4.794
+config tau=2.9 kbar=7.93 n= 100000 seed=2 c_max=   4 m2=    4.041 sbar=   1.013
+   hrg tau=2.9 kbar=7.92 n= 100000 seed=3 c_max=  16 m2=   29.353 sbar=   4.779
+config tau=2.9 kbar=7.92 n= 100000 seed=3 c_max=   6 m2=    4.071 sbar=   1.022
+   hrg tau=2.9 kbar=8.00 n= 300000 seed=1 c_max=  15 m2=   29.789 sbar=   4.819
+config tau=2.9 kbar=8.00 n= 300000 seed=1 c_max=   6 m2=    4.033 sbar=   1.011
+   hrg tau=2.9 kbar=7.98 n= 300000 seed=2 c_max=  17 m2=   29.696 sbar=   4.810
+config tau=2.9 kbar=7.98 n= 300000 seed=2 c_max=   5 m2=    4.022 sbar=   1.007
+   hrg tau=2.9 kbar=7.99 n= 300000 seed=3 c_max=  19 m2=   29.657 sbar=   4.805
+config tau=2.9 kbar=7.98 n= 300000 seed=3 c_max=   6 m2=    4.031 sbar=   1.010
+
+wrote /Users/avazquez/av2atg/chygraph_statmech/probe/results/clique_moments.csv (324 rows)

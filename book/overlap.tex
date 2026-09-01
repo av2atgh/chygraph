@@ -1,0 +1,363 @@
+\chapter{Failure of the cavity method}
+\label{ch:overlap}
+
+Every calculation in Parts~II and~III rests on one assumption, stated in
+Sec.~\ref{sec:treelike} and repeated whenever it mattered: complexes meet in at
+most one atom. This part is about what to do when they do not.
+
+Two complexes sharing a single node satisfy the assumption: the incidence
+structure stays a tree and the recursions handle it. The case at issue is the
+pair sharing \emph{two or more} atoms, which is what \emph{non-trivial overlap}
+means here and in the two chapters that follow. Section~\ref{sec:price} draws
+it.
+
+The part runs one model, the Ising model, on three classes of network, and three
+calculations on each. This chapter runs the cavity recursion on the chygraph,
+$\mathrm{BP}_{\chi}$, and measures how wrong it is.
+Chapter~\ref{ch:gbp} runs generalised belief propagation, the repair the
+literature already has, and finds it does not recover the failure.
+Chapter~\ref{ch:metacomplex} runs the cavity recursion on the merged chygraph,
+$\mathrm{BP}_{\chi_{m}}$, which is exact on every real network and every
+hyperbolic instance measured here, and which has a threshold beyond which it is
+not.
+
+The assumption buys the whole apparatus, and on the networks
+Chapter~\ref{ch:data} measured it is false.
+Chapter~\ref{ch:statmech} located where it enters, in the step where a node adds
+what its complexes have told it as though they were independent.
+
+\section{Non-trivial overlap}
+\label{sec:price}
+\index{treelike}
+\index{overlap!between complexes}
+
+Chapter~\ref{ch:chygraphs} states the central move: a triangle is a loop, a
+tree-based calculation cannot carry one, so promote the triangle to a complex
+and sum over its interior exactly, and the loop leaves the outside view.
+
+Chapter~\ref{ch:ising} measured what that buys. It does not remove loops; it
+moves them up one level. Two triangles sharing an
+\emph{edge} are a loop in the incidence structure --- a cycle through complex,
+node, complex, node --- exactly as a triangle is a loop in a graph. The chygraph
+cannot see it, for the same reason and by the same argument
+(Fig.~\ref{fig:sharededge}).
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}
+% Two triangles sharing the edge {1,2}: a loop one level up.
+\node[nd] (v0) at (-1.15,0) {};
+\node[nd] (v1) at (0,0.62) {};
+\node[nd] (v2) at (0,-0.62) {};
+\node[nd] (v3) at (1.15,0) {};
+\node[lb,anchor=east] at (-1.28,0) {$0$};
+\node[lb,anchor=south] at (0,0.76) {$1$};
+\node[lb,anchor=north] at (0,-0.76) {$2$};
+\node[lb,anchor=west] at (1.28,0) {$3$};
+\draw[lnk] (v0)--(v1) (v0)--(v2) (v1)--(v2) (v1)--(v3) (v2)--(v3);
+\draw[lnk,line width=1.3pt] (v1)--(v2);
+\begin{scope}[on background layer]
+  \node[cx,fit=(v0)(v1)(v2)] {};
+  \node[cxb,fill opacity=0.72,fit=(v1)(v2)(v3)] {};
+\end{scope}
+\node[lb,anchor=north,align=center] at (0,-1.35)
+  {the shared edge $\{1,2\}$};
+% the two countings
+\node[lb,anchor=west,align=left] at (2.15,0.45)
+  {\emph{Bethe}, Eq.~\eqref{eq:bethe}: $-1$ on node $1$\\
+   and $-1$ on node $2$, separately.\\
+   Every node counted once, but the\\
+   bond $\{1,2\}$ counted \emph{twice}};
+\node[lb,anchor=west,align=left] at (2.15,-0.75)
+  {\emph{M\"obius}, Eq.~\eqref{eq:mobius}: $-1$ on the\\
+   shared edge itself. Every node once\\
+   \emph{and} every bond once};
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{Two triangles sharing an edge.} Promoting
+each triangle to a complex removes its internal loop from the outside view, but
+the two complexes now meet in two atoms rather than one, and the cycle
+complex--node--complex--node is invisible to a chygraph exactly as a triangle is
+invisible to a graph. Both counting schemes count every node once; only one also
+counts the shared bond once, and that is the difference between subtracting a
+correlation and not.}
+\label{fig:sharededge}
+\end{figure}
+
+Chygraphs therefore move the boundary of what counts as local, from ``no
+loops'' to ``no loops \emph{between} complexes''. Chapter~\ref{ch:cover}
+measured that gain on hyperbolic random graphs: the degree-matched control has
+no core at all, and the chygraph has very nearly the right one.
+
+
+\section{Three classes of network}
+\label{sec:threeclasses}
+\index{hyperbolic random graph}
+\index{Karrer--Newman model}
+\index{Netzschleuder}
+
+The rest of this part measures one model --- the Ising model of
+Sec.~\ref{sec:ising-intro}, a coupling $\beta J$ on every edge and no field ---
+on three classes of network. They are chosen so that the clustering coefficient
+does not separate them and the \emph{origin} of the triangles does.
+
+\paragraph{Hyperbolic random graphs, where the triangles are grown.} Nodes are
+placed in a disc of hyperbolic geometry and joined when they are close
+(Sec.~\ref{sec:hrg-data}). The ensemble carries a power-law degree distribution
+with a tunable exponent, strong clustering that follows from the geometry rather
+than being inserted by hand, and a degree-matched configuration model available
+as a control. Nothing chooses the triangles; the curvature produces them.
+
+\paragraph{The Karrer--Newman ensemble, where the triangles are placed.} One
+specifies, per vertex, how many single edges it carries and how many copies of
+each chosen subgraph; the edges are matched in pairs and each subgraph's corners
+in tuples, exactly as a configuration model matches stubs
+\citep{karrer2010}. Clustering is whatever the motif density says it is, and can
+be set as high as one likes.
+
+Two placed motifs may share a vertex freely. They share an \emph{edge} only when
+their remaining corners coincide, which for a random matching has probability
+$O(1/n)$. No two complexes therefore meet in more than one atom, up to
+coincidences whose number does not grow with the network. That is
+Sec.~\ref{sec:treelike}'s pairwise condition, satisfied by construction, and it
+is what leaves the merge closure of Sec.~\ref{sec:merging} with nothing to
+merge.
+
+It is not the absence of loops. The motifs are wired together by a
+configuration model, and the incidence structure of that wiring carries a
+$2$-core above an incidence branching of one, exactly as an Erd\H{o}s--R\'enyi
+graph carries cycles above mean degree one. That threshold is classical --- the
+$k$-core transition of \citet{pittel1996} at $k=2$, and the point at which
+\citeauthor{bauer2001}'s standard leaf removal stops consuming the graph
+\citep{bauer2001} --- and it is where belief propagation stops being exact
+\citep{mezard2009}. What Sec.~\ref{sec:coretransition} adds is where it sits in
+this ensemble's own parameters; the instances used here are drawn well above it.
+
+The two thresholds this book quotes are the two removal rules of that one paper.
+Deleting a leaf and its edge leaves nothing above mean degree one; deleting a
+leaf \emph{and its neighbour} leaves nothing until $\ave{k}=e$. Part~IV runs
+the first, because a coupling determines an atom and does not eliminate its
+complex, and Chapter~\ref{ch:cover} runs the second, because a covering
+constraint does. That is why $P_{C}(\mathrm{Ising},\mathrm{BP}_{\chi})$ and
+$P_{C}(\mathrm{VC},\mathrm{BP}_{\chi})$ are different numbers on the same
+object.
+
+\paragraph{Real networks, where the triangles are whatever was recorded.} Six
+networks from Netzschleuder, in two families divided by how an edge came to be
+recorded. In the first the data records \emph{groups} --- an author list, a
+scene, a band --- and every group is a clique of its members by construction. In
+the second, edges were recorded one pair at a time --- a friendship, a contact,
+a fixture --- and the triangles are whatever homophily or proximity produced.
+Call the two \emph{group-generated} and \emph{dyadic}. Their clustering
+coefficients overlap, $0.57$ to $0.74$ against $0.40$ to $0.64$, which is what
+makes the comparison worth making.
+
+Because $\ln Z$ is evaluated by enumeration, instances are capped at twenty
+vertices throughout. For the first two ensembles that is a size; for the real
+networks it means neighbourhoods rather than whole networks, a vertex with its
+neighbours induced. Table~\ref{tab:knfinite} shows the cap is not harmless on
+the placed ensemble.
+
+\section{The cavity calculation}
+\label{sec:cavityfail}
+
+Start with the smallest instance that has the defect at all. Couple every pair
+inside each triangle of Fig.~\ref{fig:sharededge} --- the shared bond carrying
+one coupling and not one per triangle, so that the object is the five-edge graph
+the two triangles make --- and evaluate $\ln Z$ exactly by summing over all
+sixteen configurations, and compare it with the counting the whole of Parts~II
+and~III uses, Eq.~\eqref{eq:bethe} (Table~\ref{tab:cavitytwo}).
+
+The second column is the cavity method itself, run to a fixed point on the
+clique chygraph: messages between atoms and complexes, each complex summing over
+its own interior exactly, and $\ln Z$ read off the Bethe free energy of the
+incidence structure. It is what Chapter~\ref{ch:statmech} prescribes, applied to
+an object that violates its assumption. On a chygraph whose complexes meet in at
+most one atom the same recursion returns the exact answer to machine precision,
+which is checked on chains, stars and trees of triangles before any of the
+numbers below are quoted.
+
+\begin{table}[t]
+\centering\small
+\begin{tabular}{rrr}
+\hline\hline
+$\beta J$ & exact $\ln Z$ & cavity error\\
+\hline
+$0.2$ & $2.8887$ & $+1.8\times10^{-2}$\\
+$0.5$ & $3.5907$ & $+9.1\times10^{-2}$\\
+$1.0$ & $5.7390$ & $+3.7\times10^{-1}$\\
+$2.0$ & $10.6938$ & $+1.3$\\
+\hline\hline
+\end{tabular}
+\caption{\textbf{Two triangles, by exact enumeration.} $\ln Z$ for the five-edge
+graph made by two triangles sharing a bond, against the error of the cavity
+method run to a fixed point on its clique chygraph. The error is one-signed and grows with the
+coupling, reaching a factor of $e^{1.3}\simeq3.7$ in $Z$. Computed in
+\code{figs/overlap.py}.}
+\label{tab:cavitytwo}
+\end{table}
+
+The error is one-signed, and the reason is the one Fig.~\ref{fig:sharededge}
+draws. Equation~\eqref{eq:bethe} assigns $-1$ to node $1$ and $-1$ to node $2$
+separately. Summing the counting numbers of every region that contains the pair
+$\{1,2\}$ gives $2$, not $1$: the bond between the two shared nodes is counted
+twice, once inside each triangle, and nothing subtracts it back out. The
+calculation treats the two complexes as independent given their shared nodes,
+and they are not, because the shared nodes are joined to each other.
+Overestimating the number of available configurations overestimates $\ln Z$,
+which is why every entry is positive.
+
+\paragraph{On the three classes of network.} The same comparison, on instances
+small enough to enumerate, is Fig.~\ref{fig:cavityfail}.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig-cavity.pdf}
+\caption{\textbf{Cavity error against overlap.} Error in $\ln Z$ of the cavity
+recursion run to a fixed point on the clique chygraph, against the fraction of
+bonds that lie inside two or more complexes, for Ising models on the three
+classes of network at $n\le20$ and two couplings. The
+dotted line is an error of one, a factor of $e$ in $Z$. The error is above it
+for most instances of every class, and it grows with the overlap. Generated by
+\code{figs/overlap.py}.}
+\label{fig:cavityfail}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig-core-bonds.pdf}
+\caption{\textbf{Cavity core fraction.} Core fraction
+$P_{C}(\mathrm{Ising},\mathrm{BP}_{\chi})$ of the clique chygraph --- the atoms
+left when propagation is run as far as it will go --- against the axis of
+Fig.~\ref{fig:cavityfail}. The rule is leaf removal on the
+incidence structure, in the sense of Chapter~\ref{ch:cover}'s core but counted
+over complexes rather than links: an atom lying in a single complex is
+determined by it and goes, a complex left holding one atom has nothing to say
+and goes with it, and what survives is what the recursion must decide for
+itself. Not one instance is core-free, and the medians are $0.59$ on the
+hyperbolic ensemble, $0.75$ on the placed one and $0.67$ on the real
+neighbourhoods. Computed by \code{probe/core\_fraction.py}.}
+\label{fig:corebonds}
+\end{figure}
+
+All $240$ runs reach a fixed point. On hyperbolic random graphs the
+error runs from $3.8\times10^{-2}$ to $61.2$ in $\ln Z$, with a median of
+$2.72$; on the placed ensemble from $1.2\times10^{-2}$ to $24.7$, median $0.29$;
+and on the real neighbourhoods from $8\times10^{-3}$ to $447$, median $5.06$. A
+median of five in $\ln Z$ is a factor of $150$ in $Z$.
+
+Reaching a fixed point is not the same as reaching \emph{the} fixed point, and
+on two of the $120$ real neighbourhoods it is not: regenerating the measurement
+lands them on a different one, at $58.1$ and $101.8$ in $\ln Z$ rather than
+$116.6$ and $167.0$, with nothing in either iteration to say which was found.
+Both are neighbourhoods of hospital contact --- a dyadic network
+(Sec.~\ref{sec:threeclasses}), and one of the two least chordal in the set. It
+changes no range, median or conclusion here --- the errors stay large and stay
+one-signed --- and Sec.~\ref{sec:cavity-checks} gives the detail, but it is
+worth saying at the point the numbers are quoted rather than only in the checks:
+on real neighbourhoods a small residual does not by itself certify an answer,
+which is the same thing Sec.~\ref{sec:realoverlap} will find one method later.
+
+These are not instances on which propagation had an easy question to answer:
+Figure~\ref{fig:corebonds} plots
+$P_{C}(\mathrm{Ising},\mathrm{BP}_{\chi})$ over the clique chygraph, and not one
+of the $120$ is core-free. Both arguments of that symbol earn their place.
+Figure~\ref{fig:core} plots $P_{C}(\mathrm{VC},\mathrm{BP}_{\chi})$ on the same
+kind of object and it is a different number, because a covering constraint lets
+leaf removal take the complex around a forced atom and a coupling does not. On
+every instance the recursion is left with a core, which is why it errs on every
+instance.
+
+The error tracks the quantity Fig.~\ref{fig:sharededge} identifies, and tracks
+it better than any coarser measure of overlap. Its logarithm correlates with the
+fraction of bonds lying inside two or more complexes at $+0.65$, $+0.63$ and
+$+0.83$ on the three classes. That fraction is the direct count of the defect:
+a bond inside two complexes is summed by both, and its interaction enters the
+free energy twice. Counting complex \emph{pairs} instead --- the
+$\mathrm{shared}_{2+}$ of Chapter~\ref{ch:data}, the fraction of intersecting
+pairs that meet in two or more atoms --- also correlates, and less well on every
+one of the three: $+0.58$, $+0.52$ and $+0.68$. What predicts the damage is how
+much of the graph is double-counted, not how many complexes happen to intersect.
+
+\section{The cause is the non-trivial overlap}
+\label{sec:deficit}
+
+The error above is attributed to overlap. That attribution is a measurement, not
+an inference, and it is the \emph{rewired control} of Sec.~\ref{sec:hrg}.
+
+Take the measured clique ensemble and rearrange it so that complexes meet in at
+most one atom, holding the ensemble fixed and changing only the arrangement. The
+prediction agrees with that control to $10^{-3}$. The map is therefore right on
+its own terms, and the whole remaining discrepancy against the real graph is
+overlap. Without the control a wrong recursion and a violated assumption give
+the same signature.
+
+The same deficit shows outside the Ising model. On hyperbolic random graphs with
+maximal cliques as complexes, Chapter~\ref{ch:cover} finds the chygraph
+accounting for $77$ to $100$ per cent of the leaf-removal core, the shortfall
+tracking the clique overlap: negligible in a sparse graph where cliques rarely
+share edges, irrelevant once almost everything is core, largest in between.
+
+\section{Checks}
+\label{sec:cavity-checks}
+
+\checkhead{Known results}
+The cavity recursion and the Bethe free energy it stationarises are standard, and
+Chapter~\ref{ch:statmech} derives them. The implementation used here is checked
+where the answer is known independently: on chygraphs whose complexes meet in at
+most one atom --- chains, stars, two triangles glued at a vertex, trees of
+triangles --- it returns the exact $\ln Z$ to $2\times10^{-15}$ at every
+coupling tried. That is the check that what the chapter then reports is the
+overlap and not the solver. The free energy is evaluated in its explicit form,
+with the factor--complex edge terms kept; folding them into a $1-k_{v}$
+coefficient on the node terms is valid only when the messages are unnormalised,
+and doing it wrongly costs whole multiples of $\ln 2$.
+
+\checkhead{New results}
+The measurement of what the violation costs is new. The two-triangle table
+compares the cavity fixed point with an exact sum over sixteen configurations,
+and the counting numbers are checked for what they are supposed to guarantee:
+every node covered once, and the shared \emph{bond} covered twice, which is the
+defect the table then prices. The three-ensemble figure repeats that comparison
+on $240$ instances, and its exact column is enumeration throughout. All $240$
+reach a fixed point, so no number here rests on an iteration that failed to
+settle. The correlation is reported against the fraction of \emph{bonds} lying
+in two or more complexes rather than the fraction of intersecting complex pairs,
+because the first is the defect and the second only a proxy for it; the two give
+$+0.65$, $+0.63$, $+0.83$ against $+0.58$, $+0.52$, $+0.68$, the bond measure
+winning on every class. Both are printed by \code{figs/overlap.py} from the one
+file, so the comparison cannot drift apart.
+
+\checkhead{Partial results}
+Taking maximal cliques as complexes presumes the clique-size distribution has a
+limit, that is, that the excess cardinality $\ave{\sbar}$ of
+Eq.~\eqref{eq:sbaru} converges. Against a degree-matched control at identical
+degree sequence and seed, the paired ratio
+$\ave{\sbar}_{\mathrm{HRG}}/\ave{\sbar}_{\mathrm{control}}$ is a converged
+constant between $1.8$ and $4.8$ for $\tau\ge2.5$, flat over $n=10^{3}$ to
+$3\times10^{5}$. At $\tau=2.1$ both diverge and the control diverges faster, so
+below $\tau=2.5$ the measured ensemble is not converged and neither is anything
+built on it. The instances here are drawn at $\tau=2.5$.
+
+The two non-unique fixed points of Sec.~\ref{sec:cavityfail}, in detail.
+Regenerating \code{probe/results/cavity\_clique.json} reproduces $238$ of the
+$240$ runs to machine precision and lands the other two, both hospital contact
+at $\beta J=0.3$, on a different fixed point. Both states pass the residual
+test at $10^{-13}$, and a second regeneration reproduces the first exactly, so
+the ambiguity is in the problem and not in the arithmetic of a given run.
+Neither instance is the largest or the median error of its class, so the only
+quoted number that moves is the third correlation: $+0.83$ on the regenerated
+file against $+0.84$ on the one it replaced, which is why it is quoted to two
+digits and not three. Nothing else in the file changes.
+
+This part works with the Ising model throughout, and does so by choice: one
+model across three ensembles isolates the effect of where the triangles come
+from, which three models on one ensemble would not. The \emph{criterion} of
+Chapter~\ref{ch:gbp} --- exact when the region family is a junction tree --- is
+a statement about factor coverage and holds whatever lives on the edges. Every
+\emph{magnitude} quoted in Part~IV is a magnitude for a pairwise model at two
+couplings, and nothing measured here licenses carrying those numbers over to a
+model with hard constraints. The leaf-removal deficit of
+Sec.~\ref{sec:deficit} is the one non-Ising quantity in the part, and it is
+inherited from Chapter~\ref{ch:cover} rather than recomputed.

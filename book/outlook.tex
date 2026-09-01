@@ -1,0 +1,332 @@
+\chapter{Outlook}
+\label{ch:outlook}
+
+The preface claimed that giving up the graph as the fundamental object and
+keeping the tree brings the whole apparatus back. In this chapter we bring
+together what the sixteen chapters reported.
+
+\section{One recursion, many models}
+\label{sec:onerecursion}
+
+Table~\ref{tab:through} lists every model the book solves. The recursion is
+the same in all of them. What changes is what the message carries and what is
+summed inside a complex; the layers, the direction of arrival, the excess
+bracket and the $L\times L$ determinant are common to every row.
+
+\begin{table}[b]
+\centering\small
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{llll}
+\hline\hline
+chapter & the message is & the interior sum is & and one gets\\
+\hline
+\ref{ch:percolation}--\ref{ch:giant} & one number
+  & which members are reachable & $\theta$, $\Lambda$, $B$\\
+\ref{ch:epidemics} & one number
+  & a within-group outbreak & $R^{*}$, the final size\\
+\ref{ch:potts} & one number
+  & a Potts partition ratio & $\tau_{c}(q,v)$\\
+\ref{ch:statmech} & a measure
+  & any $-\beta H$, over $2^{c}$ states & $\det(I-B)=0$\\
+\ref{ch:ising} & a cavity field
+  & all pairs, or unanimity & $T_{c}$, the AT line\\
+\ref{ch:hittingset} & an integer, then a field
+  & one forbidden configuration & $\ave{k}(c-1)=e$, $\rho$\\
+\ref{ch:cover} & three states
+  & the leaf-removal rule & $\ave{k}=e$, the core\\
+\ref{ch:colouring} & a distribution over $q$, then a survey
+  & a hard colour constraint & $(q-1)^{2}$, then $c_{q}$\\
+\ref{ch:satisfiability} & a warning at two levels, then a survey
+  & one forbidden assignment & $\alpha=1$ at $k=2$, then $\alpha_{s}$\\
+\ref{ch:gbp} & a function on a region
+  & a region-graph enumeration & what the rest costs\\
+\hline\hline
+\end{tabular}
+\end{adjustbox}
+\caption{\textbf{One recursion.} Every chapter of Parts~II and~III is
+Eqs.~\eqref{eq:up} and~\eqref{eq:emitted} with two things substituted. The
+column that does not appear is the recursion itself, because it is the same in
+every row.}
+\label{tab:through}
+\end{table}
+
+Chapter~\ref{ch:potts} showed that the first and fifth rows are not merely
+similar. The $q\to1$ limit of the Potts interior sum \emph{is} the reachability
+generating function of Chapter~\ref{ch:percolation}, and $q=2$ \emph{is} the
+Ising cavity field of Chapter~\ref{ch:ising}: one function, $\tau_{c}(q,v)$,
+evaluated at two points. The two halves of the book are therefore one subject.
+Percolation came first only because at $q=1$ the message is a probability and
+probabilities multiply.
+
+Chapter~\ref{ch:satisfiability}'s row is the only one where a complex contains
+another complex, which is the freedom the definition was built for and the one
+the rest of the book barely uses. Section~\ref{sec:flatteningcost} measures it: a
+nested clause has a treelike three-level representation, its CNF flattening does
+not, and a flat treatment misplaces the transition by seven to twenty-two per
+cent. The deficit is manufactured by the \emph{encoding} rather than found in
+the data, which is Chapter~\ref{ch:giant}'s finding in its strongest form --- the
+tree calculation applied to the wrong object.
+
+Chapter~\ref{ch:gbp}'s row breaks the pattern. Its message is a function on a
+region rather than a distribution over a class, which is why Part~IV is
+instance-level where every other row is an ensemble. That mismatch is the
+book's largest open problem (Sec.~\ref{sec:notdone}).
+
+\section{Two recurring pitfalls}
+\label{sec:threads}
+
+Both turned up in several independent places.
+
+\paragraph{Name what is held fixed.} A comparison between a clustered structure
+and an unclustered one says nothing about clustering until one states what the
+two have in common. This came up five times, and in three of them the sign of
+the effect flipped with the control.
+
+Chapter~\ref{ch:data} found that a degree-matched control can carry \emph{more}
+clique overlap than the real network, because heavy tails manufacture cliques at
+hubs. Section~\ref{sec:helporhurt} found that triangles help percolation at
+fixed link count and hurt it at fixed degree --- the link-matched comparison
+lets the degree distribution broaden, and $q_{c}$ moves from $1/3$ to $0.4030$
+when that is held down. Section~\ref{sec:joint} found three joint distributions
+with identical marginals, hence identical threshold tensors, and thresholds
+spread over sixty per cent. Section~\ref{sec:epidemics-lessons} found that
+households help an epidemic when added on top of an unchanged global network and
+hurt it at a fixed contact budget, $T_{c}$ going from $0.2500$ to $0.2929$ the
+wrong way. And Sec.~\ref{sec:clustering} found that a Poisson link layer matched
+only on \emph{mean} degree reverses the sign of the Ising result, because the
+triangle construction carries excess degree $\ave{\bar k}=n+1$ rather than $n$
+and a Poisson triangle layer loses none of its branches.
+
+The lesson is about null models rather than chygraphs. It recurs here because
+promoting motifs to complexes makes it easy to build a control that differs in
+more than one thing at once.
+
+\paragraph{A linear instability is not always the transition.} The branching
+condition $\det(I-B)=0$ locates the loss of stability of a trivial fixed point.
+When the transition is continuous that is the transition; when it is not, it is
+a spinodal, and quoting it is an error of definite sign and often of large size.
+
+Four cases. In Sec.~\ref{sec:breakdown} interdependent networks acquire a
+giant component by a saddle-node bifurcation while $Q\equiv1$ is still stable,
+so $\Lambda=0$ locates nothing. In Sec.~\ref{sec:groupcontagion} threshold
+contagion with $r\ge2$ leaves the trivial fixed point stable at every coupling,
+since a single seed infects nobody. In Sec.~\ref{sec:transmission} the Potts
+branching condition above $q=2$ sits above the transition by $5.1$ to $22.8$ per
+cent of $v_{c}$ at $q=3$ to $6$. In Sec.~\ref{sec:unanimity} the gap is large
+enough that the free energy of Sec.~\ref{sec:freeenergy} has to be used to
+locate the transition at all. Section~\ref{sec:twosat} is the limiting case:
+above $k=2$ the warning map's derivative at the trivial fixed point is exactly
+zero at every clause density, so there is no linear instability anywhere on the
+axis.
+
+Chapter~\ref{ch:colouring} computes both lines, so the gap can be quoted. The
+replica-symmetric line sits at $(q-1)^{2}$ and the colourings run out at
+\citeauthor{mulet2002}'s $c_{q}$: $9$ against $8.90$ at $q=4$, the solution
+still locally stable after the problem has become unsolvable. Promoting the
+links into triangles moves the two in different directions --- $c_{q}$ falls by
+a third while the stability line in the same ensemble does not move --- so
+taking one for the other gives the conclusion that clustering does nothing.
+
+Critical slowing down mimics a coexistence window. An ordered branch that
+survives a finite iteration budget just above the spinodal is not evidence of a
+first-order transition; the test needs a free-energy crossing. Applying it moved
+the tricritical boundary of Sec.~\ref{sec:unanimity} by one in cardinality.
+
+\section{What the book establishes}
+\label{sec:establishes}
+
+Seven results, in the order the chapters reach them.
+
+\emph{Each order of moment data buys exactly one more thing about the
+transition.} The four first-moment matrices fix the threshold and nothing else;
+one further order fixes the critical amplitude $B$ in $S=B\Lambda+O(\Lambda^{2})$;
+nothing short of the full generating functions fixes $S$ away from the
+threshold. Two degree distributions sharing $\ave{k}$ and $\ave{\bar k}$ share
+every entry of the threshold tensor and differ by a third in $S$ at $p=1$.
+
+\emph{A group interaction that needs several participants at once leaves the
+percolation class.} Under a threshold rule the trivial fixed point is stable at
+every coupling, so no linear instability locates anything, and the onset can be
+discontinuous where Sec.~\ref{sec:breakdown} proves that a chygraph interaction
+never can. The recursion itself carries over --- Eq.~\eqref{eq:threshmap} is
+Chapter~\ref{ch:statmech}'s two steps with a threshold interior, and closes on
+one number --- so what is lost is the linearisation and not the method. The
+boundary is the tricritical point $\beta_{2}=1/2$ of
+Eq.~\eqref{eq:tricritical}, past which an established outbreak persists below
+the coupling at which one could have started it.
+
+\emph{Clustering lowers the Ising critical temperature at fixed degree, and a
+triangle nevertheless transmits more than an edge.} Both halves are true;
+Eq.~\eqref{eq:branch} carries a multiplicity as well as a transmission, and the
+multiplicity wins. The effect is $-13.9\%$ at four neighbours, decays as
+$1/\ave{k}^{2}$ because the lost branch and the transmission gain cancel at
+first order, and was confirmed outside the formalism by Wolff simulations at
+$-14.2\%$.
+
+\emph{The hard-field limit of covering problems is exact on graphs and wrong on
+hypergraphs.} Disjoint $3$-hyperedges: no complex touches another, replica
+symmetry cannot break, the density is $1/3$ by counting, and warning propagation
+returns $1/2$. The cause is identified precisely --- the cavity field carries a
+fraction $\mu/L$, which an integer ansatz cannot hold --- and the repair,
+keeping the $O(1)$ fields, returns $1/3$ and reproduces the published closed
+forms.
+
+\emph{A complex of three or more nodes destroys the core-free branch.} The
+polynomial condition for $\gamma=0$ factors as
+$-(1-\delta)^{2}\sum_{j}(j+1)\delta^{j}$, identically zero at $c=2$ and strictly
+negative above it. So above cardinality two leaf removal never certifies a
+minimum cover --- which is exactly why the hard-field cover size stopped being
+believable there, and the two statements turn out to be one.
+
+\emph{Triangles make colouring harder.} A triangle-clustered graph has stopped
+being $3$-colourable by mean degree $3.08$ where a triangle-free one survives to
+$4.69$, and $4$-colourable by $6.76$ against $8.90$. This is the one place the
+one-step machinery is turned on a clustered network, and the number has no
+published counterpart to check against; it is a bound from above rather than a
+located threshold, because on triangles the complexity is negative wherever the
+shattered branch exists and there is no crossing to bisect. The direction
+survives that weakness --- a tighter value would only widen the gap.
+
+\emph{Hyperbolic random graphs are predicted once the theory is applied to the
+right object.} Not to the graph, whose clustering has defeated degree-based
+mean-field theory for a decade, but to the chygraph of its maximal cliques, with
+the ensemble measured rather than fitted. The degree-matched control has no core
+anywhere; the chygraph has one everywhere, accounting for $77$ to $100$ per cent
+of it.
+
+That last result needs one qualification. The \emph{existence} of the core
+follows from the algebra the moment a single triangle enters the ensemble;
+Sec.~\ref{sec:corefree} guarantees it. Only the exponent could have failed, and
+there the evidence is weaker than the central values suggest: the predicted
+exponent does not move with the tail while the measured one does.
+
+\section{What the book does not do}
+\label{sec:notdone}
+
+In rough order of how much it would take to close.
+
+\emph{Overlapping complexes at the level of an ensemble.} The largest gap, and
+the subject of Part~IV. Two partial answers exist and neither closes it. The
+instance calculation is exact where the clique structure is chordal, and
+Sec.~\ref{sec:merging} shows that merging the offending complexes into one is
+exact whenever the merged incidence structure is a forest, which on real
+neighbourhoods and hyperbolic random graphs it always is. Where it is not,
+Sec.~\ref{sec:coretransition} locates the obstruction in the ensemble's own
+parameters: a core appears continuously above an incidence branching of one, and
+the instances that keep one were drawn well above it. What is missing is a
+message indexed by region \emph{type}, over a region graph that is itself
+random. That needs two things: the distribution of intersection patterns among
+the maximal cliques of the ensemble, and what the parent-to-child update becomes
+when averaged over it. One warning is already in hand --- six of twenty
+non-chordal instances do not converge at damping $0.999$, so an ensemble
+treatment inherits an instability that damping alone will not fix.
+
+\emph{Replica symmetry breaking, in general.} The book detects it and does not
+do it. Chapter~\ref{ch:hittingset} gives an entropy that proves the
+replica-symmetric answer wrong where it goes negative, and says on which side of
+the truth it falls; Chapter~\ref{ch:ising} gives the de Almeida--Thouless line;
+Chapter~\ref{ch:statmech} gives the sign test for which solver applies.
+Sections~\ref{sec:colouring-sp} and~\ref{sec:sat-sp} do the one-step
+calculation for two zero-temperature constraint problems. Missing is the hitting
+set problem's own one-step answer, which needs a distribution over fields rather
+than over warnings, and which is where its interesting r\'egime begins.
+
+\emph{Interdependent networks.} Section~\ref{sec:breakdown} showed these are
+outside the branching class: the giant component appears while the trivial fixed
+point is still stable, so $\Lambda$ does not locate it. Mapping those
+constructions to chygraphs, and identifying what replaces $\Lambda$, is not
+done.
+
+\emph{Threshold contagion, past the fixed point.}
+Section~\ref{sec:groupcontagion} carries the recursion to a rule that needs
+several infected members at once, and Eq.~\eqref{eq:threshmap} solves it for an
+arbitrary chy-degree distribution and an arbitrary mixture of cardinalities and
+thresholds. Missing is the apparatus that goes with the percolation class: with
+$r\ge2$ the threshold tensor reports only the pairwise layer, so there is no
+linear condition to locate a transition with, no critical amplitude, and no
+analogue of Sec.~\ref{sec:breakdown}'s continuity proof. Supplying those for
+saddle-node onsets --- here and for the interdependent networks above --- is one
+problem, not two.
+
+\emph{One-step replica symmetry breaking, beyond $m=0$.}
+Sections~\ref{sec:colouring-sp} and~\ref{sec:sat-sp} do the one-step
+calculation at $m=0$ and reach both thresholds --- \citeauthor{mulet2002}'s
+$c_{q}$ to a tenth of
+a per cent, the satisfiability threshold to three tenths. At $m=0$ clusters are
+counted without regard to their size, which is the wrong weighting for
+everything else: the condensation transition needs $m\ne0$, as does any
+statement about which clusters dominate. The machinery would carry it ---
+Eq.~\eqref{eq:sigmagen} is a reweighting of Chapter~\ref{ch:statmech}'s free
+energy, and the reweighting is where $m$ enters --- but nothing here optimises
+over $m$, and the hitting set problem of Chapter~\ref{ch:hittingset}, whose
+interesting r\'egime is exactly there, is untouched by either section.
+
+\emph{The exponent of Sec.~\ref{sec:hrg}.} A sharper test would need an ensemble
+in which the predicted exponent is made to move, and an analytic account of what
+fixes it near $1.57$ in Eq.~\eqref{eq:core}. Neither is attempted.
+
+\emph{Dynamics of any kind.} Everything here is a fixed point. Percolation gives
+a final size and not a time course; the Ising results are equilibrium; the
+epidemic chapter says so explicitly. Nothing in the book computes how long
+anything takes.
+
+\emph{Cardinality has a hard ceiling.} Equation~\eqref{eq:emitted} costs
+$2^{c}$, and the formalism either enumerates the interior or does not apply. For
+the motifs one finds in data that costs nothing; for a complex of thirty members
+it is fatal.
+
+\section{Where this could go}
+\label{sec:whereitgoes}
+
+Four directions, of decreasing certainty.
+
+\emph{More models.} Chapter~\ref{ch:statmech} takes $-\beta H$ as an argument,
+so a new interaction inside a complex is a substitution rather than a
+derivation; this is why the unanimity rule of Sec.~\ref{sec:unanimity} cost
+nothing. Anything whose interior can be enumerated is available: Potts at
+integer $q$, clock models, hard-core lattice gases, constraint satisfaction with
+clause structure. The cost is $2^{c}$ per complex and $L\times L$ linear algebra
+thereafter, neither of which depends on the rest of the chygraph.
+
+\emph{Chygraphs from data.} Chapter~\ref{ch:data} showed that the objects are
+already there --- papers with several authors, protein complexes, reactions,
+schedules --- and that much of what is recorded as a graph is the shadow of a
+group interaction rather than the interaction itself. What is missing is a
+habit rather than a method: measuring the chy-degree ensemble, the cardinality
+distribution and the overlap profile of a dataset, and reporting them as degree
+distributions are reported now. Chapter~\ref{ch:data}'s Table~\ref{tab:real}
+covers ten networks and is a start.
+
+\emph{The hierarchy.} Clustering is a sequence of obstructions rather than one:
+a graph cannot see a triangle, a chygraph cannot see two triangles sharing an
+edge, a region graph cannot see whatever loops the regions form. Whether that
+sequence terminates for a given ensemble --- whether some finite level captures
+essentially all of the correlation --- is a well-posed question about a random
+geometric object, and Sec.~\ref{sec:sixty} reduces it to the distribution of
+chordality-violating motifs. The answer would say whether the construction in
+this book is one rung on a ladder or the last rung that matters.
+
+\emph{Inference on the same object.} Everything here runs the recursion
+forward: given an ensemble, compute a threshold. Run backwards it is what
+community detection and inference on networks already do with belief
+propagation, and the chygraph is a strictly larger class of models to run it on.
+Whether the higher-order structure buys anything there is untested.
+
+\section{The trade, restated}
+\label{sec:bargain}
+
+The preface put it as a trade: give up the graph as the fundamental object, keep
+the tree, and the apparatus comes back. That holds, with one qualification.
+
+The tree is kept by moving the loops inside complexes, where they are summed
+exactly. Complexes that share more than one atom put the loops back one level
+up, and on the networks that motivated the construction they do share more than
+one atom. The chygraph therefore moves the boundary of what counts as local,
+from ``no loops'' to ``no loops between complexes''. That move buys results a
+degree-based theory gets qualitatively wrong, on ensembles it cannot represent
+at all.
+
+It does not abolish the boundary. Chapter~\ref{ch:overlap} measures what is left
+on the far side, identifies the cause with a control that holds the ensemble
+fixed, and shows what recovers the difference one network at a time. The
+ensemble version is what the book leaves undone.
