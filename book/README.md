@@ -48,11 +48,11 @@ references and 0 multiply-defined labels, across 284 pages.** Not box-clean:
 **three overfull hboxes** — `cover.tex:239--249` (1.98pt, "Which
 replica-symmetry-breaking point"), `overlap.tex:146--155` (6.37pt, the
 `\paragraph{Real networks, where the triangles are whatever was recorded.}`
-head) and `metacomplex.tex:347--353` (3.16pt) — and **34 underfull vboxes**,
+head) and `metacomplex.tex:347--353` (3.16pt) — and **35 underfull vboxes**,
 every one of them `while \output is active` — page-breaking around floats, not
 a line that runs into the margin.
 55 figures, 25 numbered tables, 24 calculation boxes, 125 numbered equations of
-which 116 carry labels, 73 references, a 96-term index. All 290 distinct
+which 116 carry labels, 73 references, a 96-term index. All 293 distinct
 `\ref`/`\eqref` targets resolve, all 28 `\includegraphics` files are present,
 and all 114 `\code` names in `software.tex` resolve across both repositories.
 Software-table coverage is 85 of the 116 equation labels. Both checks under
@@ -1339,7 +1339,7 @@ grep -c 'Overfull \\hbox' main.log       # 3 known, listed in Status; a 4th is n
 grep -o 'Output written.*' main.log      # page count
 ```
 
-Underfull vboxes are not a defect here: all 34 are `while \output is active`,
+Underfull vboxes are not a defect here: all 35 are `while \output is active`,
 which is page-breaking around floats. An **overfull hbox** is, since it puts ink
 in the margin; the three that survive are recorded in Status.
 

@@ -49,7 +49,60 @@ What it cannot do is proceed once no leaf is left. The residue at that point is
 the \emph{core}, and on the core the algorithm has nothing to say: covering it
 is back to being hard. Core percolation is therefore the obstruction to solving
 vertex cover rather than a separate problem standing beside it, and that is why
-it belongs in the same chapter.
+it belongs in the same chapter. Figure~\ref{fig:leafremoval} is the rule
+and what stops it.
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}[x=1cm,y=1cm]
+% Leaf removal, three frames. A leaf's NEIGHBOUR is taken; both are deleted.
+\foreach \f/\lab in {0/{a leaf, and\\ its neighbour},
+                     1/{take the neighbour,\\ delete both},
+                     2/{no leaf left:\\ the residue is the core}}{
+  \node[lb,anchor=north,align=center,text width=3.0cm]
+    at (\f*3.9+0.9,-1.25) {\lab};
+}
+% --- frame 1
+\begin{scope}
+  \node[nd] (p0) at (0,0.75) {};
+  \node[hub] (q0) at (0.9,0.35) {};
+  \node[nd] (r0) at (1.8,0.75) {};
+  \node[nd] (s0) at (1.35,-0.45) {};
+  \node[nd] (t0) at (0.45,-0.45) {};
+  \draw[lnk] (p0)--(q0) (q0)--(r0) (r0)--(s0) (s0)--(t0) (t0)--(r0);
+  \node[lb,anchor=east] at (-0.12,0.75) {leaf};
+\end{scope}
+% --- frame 2
+\begin{scope}[xshift=3.9cm]
+  \node[nd,draw=black!25] (p1) at (0,0.75) {};
+  \node[nd,draw=black!25] (q1) at (0.9,0.35) {};
+  \node[nd] (r1) at (1.8,0.75) {};
+  \node[nd] (s1) at (1.35,-0.45) {};
+  \node[nd] (t1) at (0.45,-0.45) {};
+  \draw[lnk,draw=black!18] (p1)--(q1) (q1)--(r1);
+  \draw[lnk] (r1)--(s1) (s1)--(t1) (t1)--(r1);
+\end{scope}
+% --- frame 3
+\begin{scope}[xshift=7.8cm]
+  \node[hub] (r2) at (1.8,0.75) {};
+  \node[hub] (s2) at (1.35,-0.45) {};
+  \node[hub] (t2) at (0.45,-0.45) {};
+  \draw[lnk] (r2)--(s2) (s2)--(t2) (t2)--(r2);
+  \begin{scope}[on background layer]
+    \node[cx,fit=(r2)(s2)(t2)] {};
+  \end{scope}
+\end{scope}
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{Leaf removal, and what stops it.} A vertex of degree one is a
+leaf; some minimum cover contains its \emph{neighbour}, so the neighbour is
+taken (dark) and both are deleted. Repeating consumes the graph, and if it
+consumes all of it the cover produced is provably minimum. Here it does not: the
+triangle has no leaf, and the residue is the core --- the structure on which the
+algorithm has nothing to say, and which the rest of the chapter is about.}
+\label{fig:leafremoval}
+\end{figure}
 
 \section{Two constraints, one family}
 \label{sec:twoconstraints}
@@ -105,8 +158,7 @@ what the half rule always returns when everything is degenerate.
 Run leaf removal on the cavity branch and ask what a node reached along an
 inclusion ends up as. There are three answers, not two: leaf-ready ($L$),
 deleted ($D$), or core-side ($C$). Percolation had two answers and got a scalar;
-this has three, and needs a message with three components
-(Fig.~\ref{fig:leafremoval}).
+this has three, and needs a message with three components.
 
 The branch is Sec.~\ref{sec:cavity}'s construction. Take the inclusion of a node
 $i$ into a complex $a$, remove $a$, and what still hangs off $i$ --- its other
@@ -171,59 +223,6 @@ $\delta=1-\bar\Phi(1-\psi)$.
 
 
 
-\begin{figure}[t]
-\centering
-\begin{adjustbox}{max width=\linewidth}
-\begin{tikzpicture}[x=1cm,y=1cm]
-% Leaf removal, three frames. A leaf's NEIGHBOUR is taken; both are deleted.
-\foreach \f/\lab in {0/{a leaf, and\\ its neighbour},
-                     1/{take the neighbour,\\ delete both},
-                     2/{no leaf left:\\ the residue is the core}}{
-  \node[lb,anchor=north,align=center,text width=3.0cm]
-    at (\f*3.9+0.9,-1.25) {\lab};
-}
-% --- frame 1
-\begin{scope}
-  \node[nd] (p0) at (0,0.75) {};
-  \node[hub] (q0) at (0.9,0.35) {};
-  \node[nd] (r0) at (1.8,0.75) {};
-  \node[nd] (s0) at (1.35,-0.45) {};
-  \node[nd] (t0) at (0.45,-0.45) {};
-  \draw[lnk] (p0)--(q0) (q0)--(r0) (r0)--(s0) (s0)--(t0) (t0)--(r0);
-  \node[lb,anchor=east] at (-0.12,0.75) {leaf};
-\end{scope}
-% --- frame 2
-\begin{scope}[xshift=3.9cm]
-  \node[nd,draw=black!25] (p1) at (0,0.75) {};
-  \node[nd,draw=black!25] (q1) at (0.9,0.35) {};
-  \node[nd] (r1) at (1.8,0.75) {};
-  \node[nd] (s1) at (1.35,-0.45) {};
-  \node[nd] (t1) at (0.45,-0.45) {};
-  \draw[lnk,draw=black!18] (p1)--(q1) (q1)--(r1);
-  \draw[lnk] (r1)--(s1) (s1)--(t1) (t1)--(r1);
-\end{scope}
-% --- frame 3
-\begin{scope}[xshift=7.8cm]
-  \node[hub] (r2) at (1.8,0.75) {};
-  \node[hub] (s2) at (1.35,-0.45) {};
-  \node[hub] (t2) at (0.45,-0.45) {};
-  \draw[lnk] (r2)--(s2) (s2)--(t2) (t2)--(r2);
-  \begin{scope}[on background layer]
-    \node[cx,fit=(r2)(s2)(t2)] {};
-  \end{scope}
-\end{scope}
-\end{tikzpicture}
-\end{adjustbox}
-\caption{\textbf{Leaf removal, and what stops it.} A vertex of degree one is a
-leaf; some minimum cover contains its \emph{neighbour}, so the neighbour is
-taken (dark) and both are deleted. Repeating consumes the graph, and if it
-consumes all of it the cover produced is provably minimum. Here it does not: the
-triangle has no leaf, and the residue is the core. A node on the cavity branch
-therefore ends as one of three things --- leaf-ready, deleted, or core-side ---
-which is why Eq.~\eqref{eq:core} carries three numbers where
-Chapter~\ref{ch:percolation} carried one.}
-\label{fig:leafremoval}
-\end{figure}
 
 \begin{figure}[t]
 \centering
