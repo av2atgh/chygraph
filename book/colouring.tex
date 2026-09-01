@@ -100,9 +100,19 @@ been excluded and not on which. So the linear response is
   \sum_{s}w_{1}(s)\,A\,\mathbf{1}[s\ne\sigma_{0}]
   =A\Bigl(\sum_{s}w_{1}(s)-w_{1}(\sigma_{0})\Bigr)=-A\,w_{1}(\sigma_{0}),
 \]
-the first sum vanishing by tracelessness. With
-$A=q^{2-c}(q-2)!/(q-c)!$ and $Z_{0}=q^{1-c}(q-1)!/(q-c)!$ at the uniform point,
-the ratio $A/Z_{0}=q/(q-1)$, and after normalising,
+the first sum vanishing by tracelessness. At the uniform point
+$Z_{0}=q^{1-c}(q-1)!/(q-c)!$ --- one factor $1/q$ per other member, times the
+number of ways to colour them distinctly and all differently from $\sigma_{0}$
+--- and $A=q^{2-c}(q-2)!/(q-c)!$ by the same count with one more colour excluded
+and one factor fewer, so $A/Z_{0}=q/(q-1)$.
+
+What is emitted is $Z$ normalised, $\eta_{0}(\sigma_{0})=Z(\sigma_{0})/
+\sum_{\sigma}Z(\sigma)$, and that last step is where the remaining factor comes
+from. The perturbation of the numerator is traceless as well,
+$\sum_{\sigma_{0}}\delta Z(\sigma_{0})=-A\sum_{\sigma_{0}}w_{1}(\sigma_{0})=0$,
+so the denominator does not move at first order and stays at $qZ_{0}$. Hence
+$w_{0}=\delta Z/(qZ_{0})=-(A/Z_{0})\,w_{1}/q$ --- one division by $q$ and nothing
+else --- giving
 \begin{equation}
   \tau_{c}(q)=-\frac{1}{q-1}.
   \label{eq:taucol}
@@ -114,7 +124,9 @@ so
 \[
   Z(\sigma_{0})=1-\prod_{j}\eta_{j}(\sigma_{0}),
 \]
-and expanding the product to first order gives, after the same normalisation,
+and expanding the product to first order gives $Z_{0}=1-q^{1-c}$ and
+$\delta Z(\sigma_{0})=-q^{2-c}w_{1}(\sigma_{0})$, traceless again, so the same
+division by $q$ gives
 \begin{equation}
   \tau^{\mathrm{hyp}}_{c}(q)=-\frac{1}{q^{\,c-1}-1}.
   \label{eq:tauhyp}

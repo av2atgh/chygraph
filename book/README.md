@@ -44,16 +44,18 @@ the references are under `~/Downloads/chygraph_references/`.
 
 ## Status
 
-Last updated 2026-09-01. `main.pdf` builds with **0 errors, 0 undefined
-references and 0 multiply-defined labels, across 290 pages.** Not box-clean:
-**three overfull hboxes** — `cover.tex:239--249` (1.98pt, "Which
+Last updated 2026-09-01, after the analytical-exposure pass below.
+`main.pdf` builds with **0 errors, 0 undefined
+references and 0 multiply-defined labels, across 296 pages.** Not box-clean:
+**three overfull hboxes** — `cover.tex:416--426` (1.98pt, "Which
 replica-symmetry-breaking point"), `overlap.tex:146--155` (6.37pt, the
 `\paragraph{Real networks, where the triangles are whatever was recorded.}`
-head) and `metacomplex.tex:347--353` (3.16pt) — and **33 underfull vboxes**,
+head) and `metacomplex.tex:348--354` (3.16pt) — the same three, moved only by
+lines inserted above them — and **29 underfull vboxes**,
 every one of them `while \output is active` — page-breaking around floats, not
 a line that runs into the margin.
 55 figures, 26 numbered tables, 126 numbered equations of
-which 117 carry labels, 73 references, a 96-term index. All 297 distinct
+which 117 carry labels, 73 references, a 96-term index. All 298 distinct
 `\ref`/`\eqref` targets resolve, all 28 `\includegraphics` files are present,
 and all 114 `\code` names in `software.tex` resolve across both repositories.
 Software-table coverage is 85 of the 116 equation labels. Both checks under
@@ -94,6 +96,74 @@ comment saying why. **Add a float to the back matter and it will number plainly
 — that is deliberate.** Ch. 12's caption cites `\citet{gabrie2017}, Table~1`,
 which is somebody else's Table 1 and is attributed in place, so the two do not
 collide.
+
+### Analytical-exposure pass, 2026-09-01
+
+Asked one question of all seventeen chapters: **where does the book assert an
+analytical step instead of showing it**, somewhere a reader who is following
+cannot supply the missing line. This is the same question `473e33f` asked and
+found three; six more were open. No number, claim or conclusion changed —
+every insertion derives something the book already used.
+
+**Written in the post-`deecb56` style throughout**: continuous text, no boxes
+(the environment does not exist), and each derivation ending on the routine that
+executes it. The pass added **no numbered equation** — the count is 126 before
+and after.
+
+*`statmech.tex`, two.* Eq. (8.4), `u = ½ln[Z(+)/Z(−)]`, arrived as a definition.
+It is now derived: what a complex owes a member is `ν̂(σ₀) ∝ Z(σ₀)`, a function
+of one Ising variable has two values and only their ratio is used, so **the
+message is one number however large the complex is** — the `2^c` is behind it,
+not in it — and writing it as `e^{uσ₀}` forces the half-log-ratio. Closes on the
+`c = 2` check returning Sec. 1.5's `atanh[tanh βJ tanh h₁]`, **and states the β
+convention once**: Ch. 1's field is an energy, Ch. 8's `h` is Ch. 1's `βh`. That
+shift was never flagged anywhere and is the kind of thing that costs a reader an
+hour. Routine: `cavity.emitted_field`.
+Second, Eq. (8.7) linearised the up step in one line, `δh = Σ u' δh`, which
+silently dropped the sum over the complex's *other members* — so the `(c−1)` in
+Eq. (8.9) came from nowhere. It is now the two-step chain it is, and the text
+says which of the three factors knows the model.
+
+*`percolation.tex`.* Sec. 4.3 gave the four blocks of `A` with no sign of where
+they came from. It now runs the expansion first — `Q = 1 − ε`, every generating
+function is 1 at `Q ≡ 1` so a product contributes nothing but first derivatives —
+and says that the identity piece is the left-hand side of the row and the
+moments are the right.
+
+*`cover.tex`.* Sec. 11.2 says the message needs **three** components and gives
+**two** equations. The closure `γ = 1 − ψ − δ` was used in Sec. 11.5 (`γ = 0`,
+that is `ψ + δ = 1`) and never stated. Stated now, with the forward pointer.
+
+*`colouring.tex`.* Both transmissions ended "after normalising", which is where
+the `q` in `τ = −1/(q−1)` comes from and was the one step not shown. Explicit now
+for both rules: the emitted message is `Z/ΣZ`, its numerator's perturbation is
+traceless so the denominator stays at `qZ₀`, hence `w₀ = δZ/(qZ₀)` — **one
+division by `q`, the same one in both rules**, which is why they differ in
+nothing but which `Z` was differentiated.
+
+*`gbp.tex`, two.* The region-graph free energy `−βF = Σ_R c_R ln Z_R` is now
+stated where Möbius inversion is, with the observation that **Eq. (8.15) is that
+same expression on one particular family** — so the two schemes differ in their
+`c_R` and nothing else. Routine: `gbp.static_log_Z`. And the "Möbius puts −1 on
+the shared edge" paragraph now *computes* it: the family closes on `{0,1,2}`,
+`{1,2,3}`, `{1,2}`; each triangle takes 1 and the shared edge `1 − (1+1) = −1`;
+node 1 sums to `1+1−1 = 1` under **either** scheme, and they part on the bond
+`{1,2}`, `1` against `2`. `region.RegionGraph.counting_is_valid` is that test.
+
+**Two overfull hboxes were introduced and both are fixed.** One was this pass's
+(the `c = 2` check as inline math, 7.96pt) and one was **not** — the four-entry
+`B_{||}, B_{△△}, B_{|△}, B_{△|}` display, 6.04pt over, which came in with the
+uncommitted Sec. 8.4 work in the tree. Both are now `aligned`/`align*` and the
+build is back to the three known overfulls at their exact prior widths.
+
+**Checked, not changed.** `ising.tex`'s `c = 3` transmission, `hittingset.tex`'s
+`⟨k⟩(c−1) = e`, `satisfiability.tex`'s warning map and its `k = 2` linearisation
+were re-derived by hand and are complete as written. `giant.tex`'s amplitude
+projection was already fixed in the tree. `overlap.tex` carries no equations and
+needs none: its one analytical claim is already quantitative.
+
+Build after: 0 errors, 0 undefined, 0 multiply-defined, 296 pages, the same three
+overfull hboxes at the same widths. Both silent checks print nothing.
 
 ### What to do next
 

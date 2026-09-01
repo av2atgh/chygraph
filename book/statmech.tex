@@ -116,6 +116,36 @@ it emits onto member $0$ given the cavity fields of the others is
 That sum is done \emph{exactly}, at a cost exponential in $c$ and independent of
 everything outside the complex.
 
+Equation~\eqref{eq:emitted} reads like a definition and is not. What the complex
+has to tell member $0$ is the whole of its effect on that member, which is the
+function $\hat\nu(\sigma_{0})\propto Z(\sigma_{0})$. A function of one Ising
+variable takes two values, and only their ratio is used, because the message
+enters a normalised measure. So the message is one number however large the
+complex is --- the enumeration behind it grows as $2^{c}$, what comes out of it
+does not --- and writing that number in the exponential form the up step needs,
+$\hat\nu(\sigma_{0})\propto e^{u\sigma_{0}}$, fixes $e^{u}/e^{-u}=Z(+1)/Z(-1)$,
+which is Eq.~\eqref{eq:emitted}. The $\tfrac12$ is there because
+$\sigma_{0}=\pm1$ rather than $0,1$. It is the same parameterisation that makes
+Eq.~\eqref{eq:up} a sum: messages compose by multiplication, and $h$ is the
+exponent in which multiplication is addition.
+
+At $c=2$ this returns what Chapter~\ref{ch:introduction} already had. One other
+member and one bond give
+\begin{align*}
+  Z(\sigma_{0})&=\sum_{\sigma_{1}}
+    e^{\beta J\sigma_{0}\sigma_{1}+h_{1}\sigma_{1}}
+    =2\cosh(\beta J\sigma_{0}+h_{1}),\\
+  u&=\tfrac12\ln\frac{\cosh(\beta J+h_{1})}{\cosh(\beta J-h_{1})}
+   =\mathrm{atanh}\bigl[\tanh\beta J\,\tanh h_{1}\bigr],
+\end{align*}
+which is the link message of Sec.~\ref{sec:cavity}, and near $h_{1}=0$ it is
+$u\simeq t\,h_{1}$ with $t=\tanh\beta J$. That comparison also fixes the units,
+which change here and are worth stating once: in Chapter~\ref{ch:introduction} a
+field is an energy and $\beta$ is written out, while from
+Eq.~\eqref{eq:emitted} onwards it is absorbed, the $h$ here being the $\beta h$
+there. Absorbing it is what lets $u'$ below be a pure number. The interior sum
+itself, for any $-\beta H$, is \code{cavity.\allowbreak emitted\_\allowbreak field}.
+
 Three properties of Eq.~\eqref{eq:emitted} carry the chapter.
 
 \emph{The Hamiltonian appears here and nowhere else.} Everything upstream and
@@ -200,16 +230,26 @@ each message.}
 \label{sec:branching}
 \index{branching matrix|textbf}
 
-The transition follows from linearising the up step about the trivial fixed
-point, where every field vanishes:
+The transition follows from linearising both steps about the trivial fixed
+point, where every field vanishes. The down step, Eq.~\eqref{eq:emitted},
+responds to each of the complex's other members separately and, at that point,
+with the same derivative for each, the interior being symmetric under permuting
+them:
 \begin{equation}
-  \delta h_{i\to a}=\sum_{b\ne a}u'\,\delta h_{b\to i},
+  \delta u_{a\to i}=u'\!\!\sum_{j\in a\setminus i}\!\delta h_{j\to a},
   \qquad
-  u'=\frac{\partial u}{\partial h}\bigg|_{\text{trivial}},
+  u'=\frac{\partial u}{\partial h}\bigg|_{\text{trivial}}.
   \label{eq:uprime}
 \end{equation}
-so every traversal of a complex carries one number, $u'$, and nothing else of
-the interaction survives the linearisation.
+The up step, Eq.~\eqref{eq:up}, then adds what the node's other complexes have
+sent, $\delta h_{i\to a}=\sum_{b\ni i,\,b\ne a}\delta u_{b\to i}$. Composing
+the two, a perturbation is multiplied by $u'$ once per complex traversed and
+fanned out twice: over the $c-1$ other members of that complex, and over the
+other complexes at the node it lands on. Only the first of the three factors
+knows the model. So every traversal of a complex carries one number, $u'$, and
+nothing else of the interaction survives the linearisation; the two counting
+factors are structure, and assembling them is all
+Eqs.~\eqref{eq:branch}--\eqref{eq:sbaru} below do.
 
 That number has been met already. It is Chapter~\ref{ch:potts}'s transmission
 $\tau_{c}$, Eq.~\eqref{eq:taudef}, for the case where the interior is a Potts
@@ -341,8 +381,21 @@ are distinct: as the number of other members a complex supplies, and through
 $u'$, which depends on $c$ because the interior does. Keeping them apart is
 what Chapter~\ref{ch:ising}'s headline result turns on.
 
-\emph{Links and triangles} is two layers, of cardinalities two and three, and
-writing the $2\times2$ determinant out gives
+\emph{Links and triangles} is two layers, of cardinalities two and three. By
+Eq.~\eqref{eq:branchsingle} the four entries are
+\[
+  \begin{aligned}
+    B_{||}&=\ave{\kbar}_{|}u'_{|}, &\quad
+    B_{\triangle\triangle}&=2\ave{\kbar}_{\triangle}u'_{\triangle},\\
+    B_{|\triangle}&=2\ave{\kappa}_{\triangle}u'_{\triangle}, &\quad
+    B_{\triangle|}&=\ave{\kappa}_{|}u'_{|},
+  \end{aligned}
+\]
+the diagonal carrying excess chy-degrees and the off-diagonal ordinary ones,
+because a step that arrives from the \emph{other} layer has discounted nothing
+in the layer it lands in. Then
+$\det(I-B)=(1-B_{||})(1-B_{\triangle\triangle})-B_{|\triangle}B_{\triangle|}$,
+and setting it to zero gives
 \begin{equation}
   \ave{\kbar}_{|}u'_{|}+2\ave{\kbar}_{\triangle}u'_{\triangle}
   +2u'_{|}u'_{\triangle}\bigl(\ave{\kappa}_{|}\ave{\kappa}_{\triangle}
@@ -434,9 +487,16 @@ Chapter~\ref{ch:epidemics} for threshold contagion, and
 Chapter~\ref{ch:ising} will meet it again. In every case what is needed instead
 is a free energy, so this chapter has to supply one.
 
-Parameterise the messages as $\nu_{i\to a}(\sigma)\propto e^{h_{i\to a}\sigma}$
-and $\hat\nu_{a\to i}(\sigma)\propto e^{u_{a\to i}\sigma}$. The overlap term of
-the general Bethe free energy then collapses, for a reason specific to this
+The general Bethe free energy is one term per complex, one per node, and one
+subtracted per inclusion,
+\[
+  -\beta f=\sum_{a}\ln Z_{a}+\sum_{i}\ln Z_{i}
+           -\sum_{(ia)}\ln Z_{ia},
+\]
+the last removing what the first two count twice. Parameterise the messages as
+$\nu_{i\to a}(\sigma)\propto e^{h_{i\to a}\sigma}$ and
+$\hat\nu_{a\to i}(\sigma)\propto e^{u_{a\to i}\sigma}$. The overlap term then
+collapses, for a reason specific to this
 parameterisation: $h_{i\to a}+u_{a\to i}$ is the \emph{same} full field $h_{i}$
 for every complex $a$ containing $i$, so the overlaps do not depend on which
 complex is being subtracted. What is left is one term per complex and $1-k_{i}$

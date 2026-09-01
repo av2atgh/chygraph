@@ -81,6 +81,15 @@ M\"obius inversion:
   \label{eq:mobius}
 \end{equation}
 
+The counting numbers are what a free energy is built from. Evaluated on regions
+treated as isolated --- an estimate, not yet a fixed point --- it is
+$-\beta F=\sum_{R}c_{R}\ln Z_{R}$, with $Z_{R}$ the exact partition function of
+region $R$ on its own; that sum is
+\code{gbp.\allowbreak static\_\allowbreak log\_\allowbreak Z}.
+Equation~\eqref{eq:bethe} is this same expression on one particular family, $c=1$
+on every complex and $1-k$ on every node, so the two schemes compared below
+differ in their $c_{R}$ and in nothing else.
+
 Two things follow.
 
 \emph{It contains what the book has been doing.} When complexes meet in at most
@@ -90,14 +99,22 @@ Eq.~\eqref{eq:bethe}. Chapter~\ref{ch:statmech}'s free energy was a region-graph
 free energy all along, on the region graph a treelike chygraph happens to have.
 That is why Sec.~\ref{sec:freeenergy} could say its weights were not chosen.
 
-\emph{It departs from it exactly where complexes overlap.} On two triangles
-sharing an edge, M\"obius inversion puts $-1$ on the shared \emph{edge};
-Eq.~\eqref{eq:bethe} puts $-1$ on each of its two endpoints. Both count every
-node once. Only one counts the shared \emph{bond} once: summing the counting
-numbers of every region containing $\{1,2\}$ gives $1$ under
-Eq.~\eqref{eq:mobius} and $2$ under Eq.~\eqref{eq:bethe}. The Bethe scheme
-subtracts the two shared vertices independently and so never removes the
-correlation between them.
+\emph{It departs from it exactly where complexes overlap.} Run
+Eq.~\eqref{eq:mobius} on two triangles sharing an edge. The family closes on
+$\{0,1,2\}$, $\{1,2,3\}$ and their intersection $\{1,2\}$; neither triangle is
+contained in anything, so each takes $c_{R}=1$, and the shared edge, contained in
+both, takes $c_{\{1,2\}}=1-(1+1)=-1$. The Bethe counting instead puts $-1$ on
+each of the two shared \emph{nodes}, each lying in two complexes.
+
+Summing the counting numbers of every region containing a given object is the
+test, and on nodes both schemes pass it: node $1$ gives $1+1-1=1$ either way.
+They part on the shared \emph{bond} $\{1,2\}$, which lies inside both triangles.
+Under Eq.~\eqref{eq:mobius} the region that subtracts it exists and the total is
+$1+1-1=1$; under Eq.~\eqref{eq:bethe} no region below a complex holds a pair,
+and the total is $2$. The Bethe scheme subtracts the two shared vertices
+independently and so never removes the correlation between them.
+\code{region.\allowbreak RegionGraph} builds the family and its counting, and
+its \code{counting\_\allowbreak is\_\allowbreak valid} is the test just run.
 
 The example has four spins and can be settled by enumeration.
 

@@ -56,7 +56,8 @@ the tensor of Sec.~\ref{sec:threshold} entry by entry gives
   \label{eq:AisJ}
 \end{equation}
 where $F$ is the map. The published threshold tensor \emph{is} the Jacobian of
-the map at its trivial fixed point. Consequently
+the map at its trivial fixed point. Consequently, $-\mathrm{vec}^{2}A=J-I$ has
+the eigenvalues of $J$ each less one, and taking the largest of them,
 \begin{equation}
   \Lambda=\lambda-1,
   \label{eq:Lambdalambda}
@@ -337,7 +338,12 @@ measuring the correlation rather than assuming it away.
 
 Dropping the factorisation changes the \emph{status} of the excess generating
 functions. They stop being independent inputs and become derivatives of the
-joint one,
+joint one. Differentiating a generating function is what produces a size-biased
+count: $\sum_{n}n\,p_{n}x^{n-1}=\Phi'(x)$, and dividing by $\Phi'(1)=\ave{n}$
+normalises it, which is the scalar $\bar\Phi=\Phi'/\Phi'(1)$ of
+Sec.~\ref{sec:ensembles}. Differentiating with respect to $x_{m}$ alone
+size-biases in layer $m$ and leaves the others as they are, which is exactly
+what arriving through a layer-$m$ inclusion does. So
 \begin{equation}
   \bar\Phi^{l,(m)}(x)=\frac{\partial\Phi^{l}/\partial x_{m}}
     {\left.\partial\Phi^{l}/\partial x_{m}\right|_{x=1}},
@@ -560,7 +566,14 @@ edge from an unoccupied node, a second unoccupied node in a row kills the path.
 That the intra-complex function may depend on the layer one entered from is
 precisely the freedom Sec.~\ref{sec:joint} introduced.
 
-The tensor then returns
+The tensor returns the threshold, and so does a count, which is worth doing
+because it shows where the quadratic comes from. Follow the exploration from an
+occupied node reached along a backbone edge: it has $b=\ave{k(k-1)}/\ave{k}$
+further edges. Each ends at an occupied node, probability $p$, and that is one
+new node; or at an unoccupied one, probability $1-p$, and the range-$2$ rule
+then allows one further edge to $b$ more nodes, of which a fraction $p$ are
+occupied. So one occupied node begets $bp+b(1-p)\,bp$ others, and the
+transition is where that passes one. Writing it out,
 \begin{equation}
   \begin{aligned}
     \theta&=-b^{2}p^{2}+b(1+b)p-1,\\

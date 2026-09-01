@@ -262,7 +262,10 @@ Writing $(\psi,\delta,\gamma)$ for the probabilities of the three states
   \label{eq:core}
 \end{equation}
 and the intra-complex step is solved exactly, as Sec.~\ref{sec:downstep} always
-does.
+does. Two equations carry three states because the third is fixed by
+normalisation, $\gamma_{m}=1-\psi_{m}-\delta_{m}$: a node is leaf-ready,
+deleted, or --- failing both --- core-side. A branch with no core is therefore
+$\psi+\delta=1$, which is the form Sec.~\ref{sec:corefree} puts to the map.
 
 The two quantities it supplies, $\zeta$ and $\xi$, are what a complex does to a
 node entering it. Enter a complex through one member and look at the other

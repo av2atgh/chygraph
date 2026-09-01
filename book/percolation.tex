@@ -173,6 +173,21 @@ $\ave{\kbar}$, $\ave{s}$, $\ave{\sbar}$. The result is a linear operator on the
 $2L^{2}$ unknowns, and the transition is where its largest eigenvalue passes
 through zero. That operator is the tensor $A$ of \citet{vazquez2023pre}.
 
+Doing that expansion is what produces the blocks. Write $Q=1-\epsilon$. Every
+generating function equals one at $Q\equiv1$, so a product of them is one at
+zeroth order and each factor contributes nothing but its own first derivative,
+\[
+  \prod_{k}\Phi^{l}_{k}\bigl(1-\epsilon^{lk}_{-}\bigr)
+    =1-\sum_{k}\ave{\kappa}_{lk}\,\epsilon^{lk}_{-}+O(\epsilon^{2}),
+\]
+and the same for $\bar\Phi$, $G$ and $\bar G$ with $\ave{\kbar}$, $\ave{s}$ and
+$\ave{\sbar}$. The two products in each of Eqs.~\eqref{eq:Qminus}
+and~\eqref{eq:Qplus} multiply, and to first order their corrections simply add,
+so each equation becomes one row reading $\epsilon^{ml}_{\pm}$ against a sum of
+moments times $\epsilon^{lk}_{-}$ and $\epsilon^{lk}_{+}$. Collecting every term
+on one side gives $A\epsilon=0$, the identity piece below being the left-hand
+side of that row and the moments what it is set equal to.
+
 Index the four blocks of $A$ by the direction of arrival at the complex and the
 direction of departure from it. With $\delta$ the Kronecker delta,
 \begin{align*}
