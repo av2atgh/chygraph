@@ -114,7 +114,8 @@ complexes, and everything reachable through them --- is the cavity branch.
 Running the algorithm there and nowhere else makes the outcome a property of the
 branch alone, which is what lets it travel along the inclusion as a message.
 
-The three states are the three things the branch can tell $a$.
+The three states are the three things the branch can tell $a$
+(Fig.~\ref{fig:cavitybranch}).
 \emph{Leaf-ready}: the branch consumed itself and left $i$ holding nothing else,
 so $i$ is a leaf as far as $a$ is concerned and $a$ may take it.
 \emph{Deleted}: some other complex has already taken $i$, which is therefore
@@ -168,6 +169,8 @@ graph recursion $\psi=\bar\Phi(\delta)$,
 $\delta=1-\bar\Phi(1-\psi)$.
 \end{calculation}
 
+
+
 \begin{figure}[t]
 \centering
 \begin{adjustbox}{max width=\linewidth}
@@ -220,6 +223,83 @@ therefore ends as one of three things --- leaf-ready, deleted, or core-side ---
 which is why Eq.~\eqref{eq:core} carries three numbers where
 Chapter~\ref{ch:percolation} carried one.}
 \label{fig:leafremoval}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{max width=\linewidth}
+\begin{tikzpicture}[
+  gone/.style={draw=black!22,fill=white,text=black!30},
+  gonel/.style={draw=black!22},
+]
+% ============================= (a) leaf-ready
+\begin{scope}
+  \node[tb,anchor=west] at (-0.55,3.15) {(a) leaf-ready};
+  \node[cpx,draw=black!55,dashed] (aA) at (1.05,2.55) {};
+  \node[lb,anchor=west] at (1.28,2.55) {$a$};
+  \node[atm] (iA) at (1.05,1.65) {};
+  \node[lb,anchor=east] at (0.86,1.65) {$i$};
+  \draw[incd] (aA)--(iA);
+  \node[cpx,gone] (b1A) at (0.30,0.80) {};
+  \node[cpx,gone] (b2A) at (1.80,0.80) {};
+  \node[atm,gone,fill=white] (j1A) at (0.30,0.05) {};
+  \node[atm,gone,fill=white] (j2A) at (1.80,0.05) {};
+  \draw[gonel] (iA)--(b1A) (iA)--(b2A) (b1A)--(j1A) (b2A)--(j2A);
+  \node[lb,anchor=west,align=left] at (-0.55,-0.85)
+    {the branch consumed itself:\\ $i$ holds nothing else, so $a$\\ may take it as a leaf};
+\end{scope}
+% ============================= (b) deleted
+\begin{scope}[xshift=4.35cm]
+  \node[tb,anchor=west] at (-0.55,3.15) {(b) deleted};
+  \node[cpx,draw=black!55,dashed] (aB) at (1.05,2.55) {};
+  \node[lb,anchor=west] at (1.28,2.55) {$a$};
+  \node[atm,gone,fill=white] (iB) at (1.05,1.65) {};
+  \node[lb,anchor=east] at (0.86,1.65) {$i$};
+  \draw[incd,gonel] (aB)--(iB);
+  \node[cpx] (b1B) at (0.30,0.80) {};
+  \node[lb,anchor=east] at (0.11,0.80) {$b$};
+  \node[cpx,gone] (b2B) at (1.80,0.80) {};
+  \node[atm] (j1B) at (0.30,0.05) {};
+  \node[lb,anchor=east] at (0.11,0.05) {$j$};
+  \node[atm,gone,fill=white] (j2B) at (1.80,0.05) {};
+  \draw[inc] (b1B)--(j1B);
+  \draw[gonel] (iB)--(b2B) (b2B)--(j2B);
+  \draw[msg] (b1B) -- (iB);
+  \node[lb,anchor=west,align=left] at (-0.55,-0.85)
+    {$b$ holds one live leaf-ready\\ member, so it takes $i$:\\ $i$ is gone before $a$ sees it};
+\end{scope}
+% ============================= (c) core-side
+\begin{scope}[xshift=8.7cm]
+  \node[tb,anchor=west] at (-0.55,3.15) {(c) core-side};
+  \node[cpx,draw=black!55,dashed] (aC) at (1.05,2.55) {};
+  \node[lb,anchor=west] at (1.28,2.55) {$a$};
+  \node[atm] (iC) at (1.05,1.65) {};
+  \node[lb,anchor=east] at (0.86,1.65) {$i$};
+  \draw[incd] (aC)--(iC);
+  \node[circle,draw=black!70,line width=.5pt,minimum size=4.6mm,inner sep=0pt]
+        at (1.05,1.65) {};
+  \node[cpx] (b1C) at (0.30,0.80) {};
+  \node[cpx] (b2C) at (1.80,0.80) {};
+  \node[atm] (j1C) at (0.30,0.05) {};
+  \node[atm] (j2C) at (1.80,0.05) {};
+  \draw[inc] (iC)--(b1C) (iC)--(b2C) (b1C)--(j1C) (b2C)--(j2C);
+  \node[lb,anchor=west,align=left] at (-0.55,-0.85)
+    {two live inclusions survive:\\ the algorithm stalls and\\ $a$ cannot resolve $i$};
+\end{scope}
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{The cavity branch, and the three things it can report.} Drawn
+as inclusions in the vocabulary of Sec.~\ref{sec:drawing}: filled circles are
+atoms, rectangles complexes, a line is membership. In each panel the complex
+$a$ is the one arrived through and is removed --- drawn dashed --- and what
+hangs below $i$ is the cavity branch. Leaf removal is run on that branch and
+nowhere else, which is what makes the outcome a property of the branch and so a
+message on the inclusion $i\to a$. Pale grey is what the algorithm has already
+stripped. The three outcomes are not two: (a) and (b) are both settled and act
+on $a$ in opposite directions, one offering it a leaf and the other removing a
+member, which is why Eq.~\eqref{eq:core} carries three numbers where
+Chapter~\ref{ch:percolation} carried one.}
+\label{fig:cavitybranch}
 \end{figure}
 
 Unlike Eq.~\eqref{eq:hs} this map is order-\emph{preserving}, so monotone
