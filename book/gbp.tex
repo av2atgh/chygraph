@@ -316,7 +316,7 @@ Every one of the thirty graphs drawn was non-treelike, at every size, so the
 filter that discards treelike instances discarded nothing.
 
 Only two of the sixty runs are chordal, against $40$ of $60$ on the hyperbolic
-ensemble and $56$ of $180$ on the real neighbourhoods. The placed ensemble is
+ensemble and $56$ of $120$ on the real neighbourhoods. The placed ensemble is
 the \emph{least} chordal of the three at these sizes, which inverts what its
 defining property would lead one to expect and is the direct consequence of
 Table~\ref{tab:knfinite}: at twenty vertices its triangles overlap almost
@@ -420,11 +420,11 @@ complexes and worst where they must be inferred from dyads, which is
 Chapter~\ref{ch:data}'s statement about $\bar s$ from the other direction.
 \end{calculation}
 
-\paragraph{A small residual stops certifying an answer.} Of the $64$ non-chordal runs, $37$ drive the residual below $10^{-9}$.
+\paragraph{A small residual stops certifying an answer.} Of the $64$ non-chordal runs, $38$ drive the residual below $10^{-9}$.
 On the hyperbolic instances every converged run also satisfied
-$\sum_{x_{P}\setminus x_{R}}b_{P}=b_{R}$ to $2\times10^{-6}$. Here $7$ of the
-$37$ stop moving without the beliefs agreeing, by margins as large as
-$2\times10^{-2}$: the messages reach a state they do not leave, and it is not a
+$\sum_{x_{P}\setminus x_{R}}b_{P}=b_{R}$ to $2\times10^{-6}$. Here $8$ of the
+$38$ stop moving without the beliefs agreeing, by margins as large as
+$6\times10^{-2}$: the messages reach a state they do not leave, and it is not a
 fixed point of the variational problem. Those runs are set aside; the $30$ that
 pass both tests are what the rest of this section quotes.
 
@@ -432,7 +432,7 @@ That the second test is doing real work, and is not a formality the first
 already covers, has an independent check. The whole measurement was run twice,
 same instances and same protocol, differing only in the floating-point summation
 order that comes of scheduling the work differently. The $86$ runs that pass
-both tests reproduce to $2\times10^{-12}$ in $\ln Z$. The $7$ that reach a small
+both tests reproduce to $2\times10^{-12}$ in $\ln Z$. The $8$ that reach a small
 residual without consistent beliefs do not reproduce at all: the largest
 disagreement between the two runs is $14.19$ in $\ln Z$, on a hospital-contact
 neighbourhood that reached a residual of $10^{-12}$ both times and landed
@@ -442,20 +442,20 @@ does not distinguish the two.
 
 \paragraph{Where the messages lose to the static estimate.} On the
 group-generated side the sound fixed points behave as in Fig.~\ref{fig:gbp}:
-$12$ of them, error from $7\times10^{-14}$ to $1\times10^{-4}$, four
+$12$ of them, error from $4\times10^{-14}$ to $1\times10^{-4}$, four
 to thirteen orders of magnitude below the static M\"obius counting, and not one
 worse than it. On the dyadic side there are $18$, the error runs to $5.9$, the
 gain runs from $9$ orders \emph{down to} $-1.5$, and four of the eighteen are no
 better than the static estimate they were meant to improve.
 
 Three of the four are at the stronger coupling and two of those sit at
-$-\ln 2$ to eight decimal places---the signature of a fixed point that has
+$-\ln 2$ to six decimal places---the signature of a fixed point that has
 selected one of the two spin-reversed states and lost the other from $Z$. That
 is a recognisable mode and arguably the solver's fault rather than the
 approximation's. The fourth is not accounted for that way. On an eleven-vertex
 neighbourhood of the football network, with eighteen maximal cliques and no
 nesting anywhere among them, the messages reach a residual of
-$5\times10^{-13}$ and a consistency of $3\times10^{-15}$---as clean a fixed
+$8\times10^{-13}$ and a consistency of $3\times10^{-15}$---as clean a fixed
 point as anything in the chordal column---and land $5.85$ away from the exact
 $\ln Z$, where the static M\"obius counting is off by $0.63$. Its beliefs are
 ordered where the exact model is not, carrying a mean $|m|$ of $0.85$ at a
@@ -536,8 +536,8 @@ damping tried up to $0.999$, and no number from them is quoted; the convergence
 criterion is stated rather than implied, the residuals falling into two clusters
 separated by four orders of magnitude with the threshold in the gap. On the real
 neighbourhoods the same iteration fails more often and less cleanly: of $64$
-non-chordal runs only $30$ yield a fixed point that passes both tests, and $7$
-of the $37$ that stop moving do so without the beliefs ever agreeing. Four of
+non-chordal runs only $30$ yield a fixed point that passes both tests, and $8$
+of the $38$ that stop moving do so without the beliefs ever agreeing. Four of
 the $30$ that do pass are no better than the static estimate; two of those sit
 at $-\ln 2$, which is a recognisable spin-reversal mode and arguably the
 solver's, while the largest is not accounted for that way. Six networks with ten

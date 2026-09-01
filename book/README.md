@@ -40,17 +40,19 @@ the references are under `~/Downloads/chygraph_references/`.
 
 ## Status
 
-Last updated 2026-08-31. `main.pdf` builds with **0 errors, 0 undefined
-references and 0 multiply-defined labels, across 254 pages.** Not box-clean: **one
-overfull hbox** (`cover.tex:239--249`, 1.98pt, "Which replica-symmetry-breaking
-point") and **26 underfull vboxes**, every one of them `while \output is
-active` — page-breaking around floats, not a line that runs into the margin.
-45 figures, 22 numbered tables, 23 calculation boxes, 120 numbered equations of
-which 111 carry labels, 73 references, an 87-term index. All 261 distinct
-`\ref`/`\eqref` targets resolve, all 22 `\includegraphics` files are present
-with no orphan PDFs in `figs/`, and all 105 `\code` names in `software.tex`
-resolve across both repositories. Software-table coverage is 82 of the 111
-equation labels.
+Last updated 2026-09-01. `main.pdf` builds with **0 errors, 0 undefined
+references and 0 multiply-defined labels, across 278 pages.** Not box-clean:
+**three overfull hboxes** — `cover.tex:239--249` (1.98pt, "Which
+replica-symmetry-breaking point"), `overlap.tex:126--135` (6.37pt, the
+`\paragraph{Real networks, where the triangles are whatever was recorded.}`
+head) and `metacomplex.tex:347--353` (3.16pt) — and **35 underfull vboxes**,
+every one of them `while \output is active` — page-breaking around floats, not
+a line that runs into the margin.
+54 figures, 23 numbered tables, 24 calculation boxes, 115 numbered equations of
+which 113 carry labels, 72 references, a 96-term index. All 281 distinct
+`\ref`/`\eqref` targets resolve, all 28 `\includegraphics` files are present,
+and all 109 `\code` names in `software.tex` resolve across both repositories.
+Software-table coverage is 83 of the 113 equation labels.
 
 These counts were re-measured on 2026-08-31 and several of them had drifted
 badly from what this section used to claim (228 pages, 0 overfull, 41 figures,
@@ -109,12 +111,12 @@ that mapping does not have to be reconstructed.
   section; the filtering happens when the contents is typeset, so do not
   "fix" this by reading `main.toc`.)
 - **Three `\part` divisions**, not four. Not in *Local network growth*, added
-  because fifteen chapters need them. Chs. 14 and 15 were briefly a Part IV
-  called "Limitations"; that was removed on 2026-08-31 (author's call). The
-  overlap obstruction is a limit of the machinery Part III builds rather than a
-  separate subject, and the Outlook closes the book rather than a part of it.
-  `main.tex` carries the reason at the point where the `\part` used to be, so
-  do not reinstate it.
+  because seventeen chapters need them. A Part IV called "Limitations",
+  holding two chapters, was removed on 2026-08-31 (author's call). What stands
+  now is a different object: **Part IV, "Complexes with non-trivial overlap"**,
+  three chapters (14 failure, 15 GBP, 16 meta-complexes) added 2026-08-31, each
+  carrying its own measurement, figures and checks. The Outlook (Ch. 17) closes
+  the book rather than a part of it. Do not re-merge the three back into one.
 - **Chapter order.** Ch. 3 (data) sits before any machinery so a reader can
   build a chygraph before being asked to solve one. Ch. 6 (epidemics) follows
   percolation because SIR *is* percolation. Ch. 7 (Potts) is the hinge that
@@ -361,6 +363,68 @@ New in `figs/merge.py`: `karrer_graph`, `diamond_graph`, `overlap_stats`,
 `check_overlap_is_not_extensive`, `check_diamonds_are_recovered`,
 `figure_motifs`. Runtime is up to about eight minutes; it was already the
 slowest script in the book.
+
+### Calculation-verification pass, 2026-09-01
+
+Part IV (Chs. 14--16) had not been through one; it was drafted after the pass
+below. Run: all thirteen scripts in `figs/`, `chygraph_statmech/tests` (347
+passed), `chygraph/tests` (68 passed), and `latexmk` into a scratch `-outdir`.
+Every quoted number in Chs. 3--13 still reproduces. **Twelve numbers in Part IV
+did not, and are fixed**; all of them were transcription or rounding drift
+against `probe/results/*.json`, none was a wrong calculation.
+
+**Environment, because ten of the thirteen scripts fail without it.** They need
+*both* `chygraph/src` and `chygraph_statmech/src` on `PYTHONPATH`, and the `gt`
+conda env has neither `pytest` nor an importable `chygraph`. Use
+
+```sh
+PYTHONPATH=~/av2atg/chygraph/src:~/av2atg/chygraph_statmech/src \
+  ~/anaconda3/bin/python3 figs/<script>.py
+```
+
+**What was fixed.** In `gbp.tex`: "56 of 180" real runs chordal → `120`; the
+residual-converged count `37` → `38` and the inconsistent count `7` → `8` in
+three places; "margins as large as 2e-2" → `6e-2`; the grouped sound error
+floor `7e-14` → `4e-14`; football ego 108's residual `5e-13` → `8e-13`;
+"−ln 2 to eight decimal places" → `six` (the two runs sit `1.2e-7` and `2.1e-8`
+from it). In `overlap.tex`: the real-class correlation `+0.83` → `+0.84`
+(`0.8359`). In `metacomplex.tex`: sub-threshold core "to within 5e-4" → `1.5e-3`
+(the `b=0.9` edges-only point at `n=1600` is `0.00151`); "`s≃1`, so `b` between
+3 and 7" → `s = 1 or 1.5`, `b` between `3.5` and 7, which is what the
+Conclusions already said and what `gbp_karrer.json` holds; "median four atoms"
+→ a median of four complexes and four or five atoms (the atom median is `4.5`);
+and "half of the twenty ... *are* the minimal ring" → half carry one cycle and
+**eight** of those are the ring, which is what Fig. 16.5's caption says.
+
+**The pair-correlation claim was dropped, not corrected.** `overlap.tex` used to
+report that counting intersecting complex *pairs* rather than doubled bonds
+gives `+0.53, +0.18, +0.68`. Nothing computes those: `probe/cavity_clique.py`
+records `doubled_bonds` but no `shared_2plus`. Joining the cavity rows to the
+GBP records that do carry it (order-aligned, verified on `n_cliques`) gives
+`+0.58, +0.52, +0.68` for raw pair counts and `+0.14, −0.24, −0.14` for the pair
+*fraction* — so the sentence's point, that the pair measure gives "almost none"
+on the placed ensemble, does not survive either reading. Both the running-text
+sentence and its half of the Checks entry are gone. **To restore the comparison,
+add `shared_2plus` to the dict `cavity_clique.solve` returns and requote.**
+
+**Two claims are cached-data-unbacked and were left alone.** `gbp.tex`'s
+run-it-twice reproducibility check (86 runs to `2e-12`, largest disagreement
+`14.19`, `−22.08` against `−7.88`): `probe/results/gbp_real_parts/` is identical
+to `gbp_real.json`, so only one of the two runs survives. `−7.88` is in the data
+(Hospital ego 64, βJ=0.3); `−22.08` is not. And `ising.tex`'s population-dynamics
+`βJ_c = 0.164628` / `0.144343` — no script prints them.
+
+**Verified and correct, do not "fix".** Table 14.1 and its `e^{1.3}≈3.7`; the
+240-run split 98 chordal / 142 not; every Karrer--Newman number in Sec. 15.3
+(43 sound of 58, gain `−0.07` to `1.70` orders, the `+1.018` against `−0.876`
+instance); Table 15.1 to the digit; the ring table; Table 16.2 and the
+`200` acyclic / `40` cyclic correspondence; `0.289 → 0.033`; the `b=1.6`
+finite-size steps `+0.007, +0.012, +0.0007`; the treelike-validation `1.8e-15`;
+`percolation.tex`'s `13.9` per cent, which is Ch. 9's degree-4 clustering shift
+and not the percolation number; and all 109 `\code` names.
+
+Also cleaned up: `covertriangles.aux`, left by the reverted Ch. 17 commit
+(7826050), has no `.tex` behind it and can be deleted.
 
 ### Calculation-verification pass, 2026-08-31
 
