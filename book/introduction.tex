@@ -274,9 +274,9 @@ than one branch, and why it is exact on a tree.
 
 Percolation asks about the network itself. The rest of the book puts something
 \emph{on} the network --- a variable at every node, and an energy that says which
-combinations of variables are cheap. Three of the models that run through the book are introduced here, and all
-three appear now on the same small graph, so the family resemblance is
-visible. For the wider map --- spin models, $k$-core percolation, epidemic
+combinations of variables are cheap. Five of the models that run through the
+book are introduced here, and all five appear now on the same small graph, so
+the family resemblance is visible. For the wider map --- spin models, $k$-core percolation, epidemic
 thresholds and the rest, on equilibrium and growing networks alike ---
 \citet{dorogovtsev2008} is the review to read alongside this chapter, which
 takes only what the later chapters use.
@@ -388,6 +388,51 @@ This pairing --- vertex cover as the two-element case of hitting set --- is the
 reason Chapters~\ref{ch:hittingset} and~\ref{ch:cover} are adjacent. They are one
 problem.
 
+\subsection{Graph colouring}
+\label{sec:colouring-intro}
+\index{graph colouring|textbf}
+
+The last two models drop the minimisation and keep only the constraint.
+Colouring asks for an assignment of $q$ labels to the nodes with no link joining
+two that are alike. Nothing here is made small and no ground state is sought:
+such an assignment is available or it is not, and what one wants to know is how
+many links a graph can carry before it stops being available.
+
+It is still a model of the same shape. Counting monochromatic edges,
+\begin{equation}
+  \mathcal{H}=\sum_{\langle ij\rangle}\delta_{\sigma_{i}\sigma_{j}},
+  \qquad \sigma_{i}\in\{1,\dots,q\},
+  \label{eq:col-intro}
+\end{equation}
+a proper colouring is a configuration of zero energy. Equation~\eqref{eq:col-intro}
+is the \emph{antiferromagnetic} $q$-state Potts model --- Eq.~\eqref{eq:ising-intro}
+with more than two states and the sign of the coupling reversed --- taken to zero
+temperature. Deciding colourability is NP-complete for $q\ge3$ \citep{karp1972}.
+
+On a random graph the colourings run out at a threshold that depends on $q$, and
+locating it is harder than anything above: the replica-symmetric calculation
+gives a definite number and that number is not the threshold.
+Chapter~\ref{ch:colouring} computes both lines and says by how much they differ.
+
+\subsection{Satisfiability}
+\label{sec:sat-intro}
+\index{satisfiability|textbf}
+
+Satisfiability puts a group where colouring puts a link. Each of $M$
+\emph{clauses} names $k$ of the $N$ Boolean variables and rules out a single one
+of the $2^{k}$ ways of setting them; which one is fixed by the clause, through
+the signs with which it names its variables. The density of clauses per
+variable, $\alpha=M/N$, plays the part that the density of links plays for
+colouring: below some $\alpha$ a random formula can be satisfied and above it
+cannot \citep{mezard2002science,montanari2008}.
+
+Colouring and satisfiability differ in one thing, and Chapter~\ref{ch:satisfiability}
+turns on it. A monochromatic edge is forbidden whatever the colour, so colouring
+is symmetric under permuting the $q$ states. A clause forbids a
+\emph{particular} assignment, the one its signs pick out, and no such symmetry
+survives. That is why colouring has a closed-form threshold in this book and
+satisfiability does not.
+
 \begin{figure}[t]
 \centering
 \begin{adjustbox}{max width=\linewidth}
@@ -429,32 +474,70 @@ problem.
   \node[lb,anchor=west,align=left] at (-0.3,-0.30)
     {a set of nodes touching\\ every \emph{group}, as small as possible};
 \end{scope}
+% ---- colouring
+\begin{scope}[yshift=-4.5cm]
+  \node[tb,anchor=west] at (-0.3,2.85) {(d) colouring};
+  \node[nd] (d1) at (0.15,1.55) {\tiny$1$}; \node[nd] (d2) at (1.25,2.05) {\tiny$2$};
+  \node[nd] (d3) at (1.15,0.85) {\tiny$3$}; \node[nd] (d4) at (2.35,1.55) {\tiny$3$};
+  \node[nd] (d5) at (2.25,0.35) {\tiny$1$};
+  \draw[lnk] (d1)--(d2) (d1)--(d3) (d2)--(d3) (d2)--(d4) (d3)--(d5) (d4)--(d5);
+  \node[lb,anchor=west,align=left] at (-0.3,-0.30)
+    {one of $q$ colours at every node;\\ neighbours must differ};
+\end{scope}
+% ---- satisfiability
+\begin{scope}[yshift=-4.5cm,xshift=5.0cm]
+  \node[tb,anchor=west] at (-0.3,2.85) {(e) satisfiability};
+  \node[nd] (e1) at (0.15,2.15) {\tiny$\mathsf{T}$};
+  \node[nd] (e2) at (0.15,1.05) {\tiny$\mathsf{F}$};
+  \node[nd] (e3) at (1.30,1.60) {\tiny$\mathsf{T}$};
+  \node[nd] (e4) at (2.40,1.60) {\tiny$\mathsf{F}$};
+  \node[nd] (e5) at (3.35,0.85) {\tiny$\mathsf{T}$};
+  \begin{scope}[on background layer]
+    \node[cx,fill=black!26,fill opacity=0.7,fit=(e1)(e2)(e3)]{};
+    \node[cx,fill=black!26,fill opacity=0.7,fit=(e3)(e4)(e5)]{};
+  \end{scope}
+  \node[lb,anchor=west,align=left] at (-0.3,-0.30)
+    {a value at every node; each group\\ rules out \emph{one} of its patterns};
+\end{scope}
 \end{tikzpicture}
 \end{adjustbox}
-\caption{\textbf{Three models, one graph.} (a) The Ising model decorates the
+\caption{\textbf{Five models, one object.} (a) The Ising model decorates the
 nodes with signs and pays for disagreement across links. (b) Vertex cover picks
 a set of nodes (filled) meeting every link. (c) Hitting set is the same question
 with links replaced by groups of any size --- and the groups, drawn here as
-boxes, are already the complexes of Chapter~\ref{ch:chygraphs}. What the three
-share is a variable per node, an energy, and a question about the resulting
-Boltzmann measure; what they differ in is what the message of
-Sec.~\ref{sec:cavity} has to carry.}
-\label{fig:threemodels}
+boxes, are already the complexes of Chapter~\ref{ch:chygraphs}. (d) Colouring
+keeps the links and drops the minimisation: $q$ states per node, and no link may
+have its two ends agree. (e) Satisfiability keeps the groups and forbids one
+pattern in each --- a clause is violated only when every one of its literals is
+false. What the five share is a variable per node, an energy, and a question
+about the resulting Boltzmann measure; what they differ in is what the message
+of Sec.~\ref{sec:cavity} has to carry, and whether the question is how small a
+solution can be or whether one exists at all.}
+\label{fig:models}
 \end{figure}
 
-Figure~\ref{fig:threemodels} puts the three side by side on one graph: they
-differ in what decorates the nodes and what is paid for, not in the object
-underneath.
+Figure~\ref{fig:models} puts the five side by side: they differ in what
+decorates the nodes and what is paid for, not in the object underneath.
 
 \subsection{What these have in common}
 
-All three are a variable at every node, an energy summing local terms, and a
+All five are a variable at every node, an energy summing local terms, and a
 Boltzmann measure $\propto e^{-\beta\mathcal{H}}$. Optimisation is the
 zero-temperature limit of that measure: as $\beta\to\infty$ all the weight
 concentrates on the lowest-energy configurations, so ``find the minimum vertex
 cover'' and ``take $T\to0$ in this model'' are the same instruction. The
 apparatus does not distinguish them, which is why one method can serve a
 magnet and an NP-hard optimisation problem.
+
+They divide once, and it is worth naming the division because it decides what a
+threshold means. The Ising model is thermal, and its transition is a change of
+state. Vertex cover and hitting set are optimisations, and their question is how
+small a solution can be. Colouring and satisfiability are neither: nothing is
+minimised, the constraints are hard, and the question is whether a solution
+exists at all. For those two the threshold is a density at which solutions run
+out, which is a different object from a critical temperature and is located a
+different way --- Chapters~\ref{ch:colouring} and~\ref{ch:satisfiability} are
+where the book pays for that.
 
 One caveat about that limit runs through the book. Taking
 $T\to0$ inside an approximation is not the same as taking it in the exact

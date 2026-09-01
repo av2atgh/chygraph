@@ -44,18 +44,18 @@ the references are under `~/Downloads/chygraph_references/`.
 ## Status
 
 Last updated 2026-09-01. `main.pdf` builds with **0 errors, 0 undefined
-references and 0 multiply-defined labels, across 278 pages.** Not box-clean:
+references and 0 multiply-defined labels, across 280 pages.** Not box-clean:
 **three overfull hboxes** — `cover.tex:239--249` (1.98pt, "Which
 replica-symmetry-breaking point"), `overlap.tex:146--155` (6.37pt, the
 `\paragraph{Real networks, where the triangles are whatever was recorded.}`
 head) and `metacomplex.tex:347--353` (3.16pt) — and **34 underfull vboxes**,
 every one of them `while \output is active` — page-breaking around floats, not
 a line that runs into the margin.
-54 figures, 24 numbered tables, 24 calculation boxes, 124 numbered equations of
-which 115 carry labels, 73 references, a 96-term index. All 284 distinct
+54 figures, 24 numbered tables, 24 calculation boxes, 125 numbered equations of
+which 116 carry labels, 73 references, a 96-term index. All 287 distinct
 `\ref`/`\eqref` targets resolve, all 28 `\includegraphics` files are present,
 and all 114 `\code` names in `software.tex` resolve across both repositories.
-Software-table coverage is 85 of the 115 equation labels. Both checks under
+Software-table coverage is 85 of the 116 equation labels. Both checks under
 *Two checks the build cannot make* print nothing.
 
 These counts were re-measured on 2026-09-01. Six of them had drifted from what
