@@ -800,46 +800,44 @@ def check_core_transition():
 
 
 def figure_core_transition():
-    """Ch. 16: the core as an order parameter in the branching ratio."""
+    """Ch. 16: the core as an order parameter in the branching ratio.
+
+    One panel: the measured lines with Eq. (16.3) drawn through them.  The
+    finite-size panel this figure used to carry was evidence that the rise is a
+    transition and not a crossover; the closed form settles that, so what is
+    worth showing is how well it lands.
+    """
     plt = _mpl()
     d = _sweep()
     if not d:
         return
+    sys.path.insert(0, str(PROBE.parent))
+    from karrer_core_sweep import core_closed_form  # noqa: E402
     fams = [('edges only, $t=0$', 'o', DARK),
             ('triangles only, $s=0$', '^', MID),
             ('equal mixture', 's', LIGHT)]
-    sizes = sorted({r['n'] for r in d})
-    fig, (ax, bx) = plt.subplots(1, 2, figsize=(6.4, 2.5))
-    nmax = sizes[-1]
+    nmax = max(r['n'] for r in d)
+    fig, ax = plt.subplots(figsize=(3.5, 2.7))
+    grid = np.linspace(0, 2.5, 161)
     for label, mk, col in fams:
         sel = sorted([r for r in d if r['family'] == label and r['n'] == nmax],
                      key=lambda r: r['b'])
         ax.plot([r['b'] for r in sel], [r['core_mean'] for r in sel],
-                mk + '-', ms=3.0, lw=1.0, mfc='white', color=col,
-                label=label.replace('$', '$'))
+                mk, ms=3.0, mfc='white', color=col, label=label)
+        # Eq. (16.3) on the same (s, t) line the measurement was taken along
+        s_of_b, t_of_b = (lambda b: b, lambda b: 0.0) if 'edges' in label else \
+            ((lambda b: 0.0, lambda b: b / 2) if 'triangles' in label
+             else (lambda b: b / 2, lambda b: b / 4))
+        ax.plot(grid, [core_closed_form(s_of_b(b), t_of_b(b)) for b in grid],
+                '-', lw=0.9, color=col)
     ax.axvline(1.0, color='0.75', lw=0.7, ls=':')
-    ax.annotate('$b=1$', xy=(1.06, 0.02), fontsize=6.8, color='0.45')
+    ax.annotate('$b=1$', xy=(1.04, 0.34), fontsize=6.8, color='0.45')
     ax.set_xlabel('incidence branching $b=s+2t$', fontsize=8)
     ax.set_ylabel(r'$P_C(\mathrm{Ising},\,\mathrm{BP}_{\chi_m})$', fontsize=9)
-    ax.set_ylim(-0.03, 1.0)
+    ax.set_ylim(-0.03, 0.75)
+    ax.set_xlim(-0.05, 2.55)
     ax.legend(fontsize=6.4, frameon=False, loc='upper left')
     _tidy(ax)
-
-    lab = 'triangles only, $s=0$'
-    for n, mk in zip(sizes, ('o', 's', '^', 'D')):
-        sel = sorted([r for r in d if r['family'] == lab and r['n'] == n],
-                     key=lambda r: r['b'])
-        bx.errorbar([r['b'] for r in sel], [r['core_mean'] for r in sel],
-                    yerr=[r['core_sem'] for r in sel], fmt=mk + '-', ms=2.8,
-                    lw=0.9, elinewidth=0.7, capsize=1.2, mfc='white',
-                    color=str(0.10 + 0.18 * sizes.index(n)), label=f'$n={n}$')
-    bx.axvline(1.0, color='0.75', lw=0.7, ls=':')
-    bx.set_xlabel('incidence branching $b=s+2t$', fontsize=8)
-    bx.set_ylabel(r'$P_C(\mathrm{Ising},\,\mathrm{BP}_{\chi_m})$', fontsize=9)
-    bx.set_xlim(0.3, 1.9)
-    bx.set_ylim(-0.008, 0.2)
-    bx.legend(fontsize=6.4, frameon=False, loc='upper left')
-    _tidy(bx)
     fig.tight_layout()
     fig.savefig(OUT / 'fig-core-transition.pdf')
     print(f'  wrote {OUT / "fig-core-transition.pdf"}')
