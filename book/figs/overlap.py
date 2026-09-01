@@ -508,53 +508,59 @@ def check_core_fraction():
     print('    exactly the ones Sec. 16.2 finds exact')
 
 
-def _core_panel(ax, xkey, ykey, xlabel):
-    d = _core()
-    for name, ens, mk, col in (('hyperbolic', 'hyperbolic', 'o', DARK),
-                               ('Karrer--Newman', 'karrer', '^', MID),
-                               ('real', 'real', 's', LIGHT)):
-        sel = [r for r in d if r['ensemble'] == ens]
+CLASSES = (('hyperbolic', 'hyperbolic', 'o', DARK),
+           ('Karrer--Newman', 'karrer', '^', MID),
+           ('real', 'real', 's', LIGHT))
+
+
+def _by_class(ax, rows, key, floor=None):
+    """One column per ensemble, jittered; the classes are the comparison."""
+    rng = np.random.default_rng(0)
+    for i, (name, ens, mk, col) in enumerate(CLASSES):
+        sel = [r for r in rows if r['ensemble'] == ens]
         if not sel:
             continue
-        ax.plot([r[xkey] for r in sel], [r[ykey] for r in sel], mk,
-                ms=3.4, mew=0.9, mfc='white', color=col,
-                label=f'{name} ({len(sel)})')
-    ax.set_xlabel(xlabel, fontsize=8)
-    ax.set_ylim(-0.05, 1.05)
-    ax.set_yticks([0, 0.5, 1])
+        x = i + rng.uniform(-0.22, 0.22, len(sel))
+        y = [abs(r[key]) for r in sel]
+        if floor is not None:
+            y = np.maximum(y, floor)
+        ax.plot(x, y, mk, ms=3.2, mew=0.9, mfc='white', color=col)
+    ax.set_xticks(range(len(CLASSES)))
+    ax.set_xticklabels([n for n, _, _, _ in CLASSES], fontsize=7.5)
+    ax.set_xlim(-0.6, len(CLASSES) - 0.4)
     _tidy(ax)
 
 
-def figure_core_bonds():
-    """Companion to Fig. 14.2: the core of the clique chygraph, same x-axis."""
-    plt = _mpl()
-    if not _core():
-        return
-    fig, ax = plt.subplots(figsize=(4.3, 2.2))
-    _core_panel(ax, 'doubled_frac', 'clique_core_frac',
-                'fraction of bonds lying inside two or more complexes')
-    ax.set_ylabel('core of the\nclique chygraph', fontsize=8.5)
-    ax.set_xlim(-0.03, 1.03)
-    ax.legend(fontsize=6.6, frameon=False, loc='lower right')
-    fig.tight_layout()
-    fig.savefig(OUT / 'fig-core-bonds.pdf')
-    print(f'  wrote {OUT / "fig-core-bonds.pdf"}')
-
-
 def figure_core_meta():
-    """Companion to Fig. 16.3: the core of the merged chygraph, same x-axis."""
+    """Ch. 16: the core the merged chygraph leaves, by ensemble."""
     plt = _mpl()
-    if not _core():
+    d = _core()
+    if not d:
         return
-    fig, ax = plt.subplots(figsize=(4.3, 2.2))
-    _core_panel(ax, 'n_meta', 'merged_core_frac',
-                'meta-complexes the closure leaves')
+    fig, ax = plt.subplots(figsize=(4.3, 2.3))
+    _by_class(ax, d, 'merged_core_frac')
     ax.set_ylabel('core of the\nmerged chygraph', fontsize=8.5)
-    ax.axvline(3.5, color='0.75', lw=0.7, ls=':')
-    ax.legend(fontsize=6.6, frameon=False, loc='upper left')
+    ax.set_ylim(-0.05, 1.05)
+    ax.set_yticks([0, 0.5, 1])
     fig.tight_layout()
     fig.savefig(OUT / 'fig-core-meta.pdf')
     print(f'  wrote {OUT / "fig-core-meta.pdf"}')
+
+
+def figure_core_bonds():
+    """Ch. 14: the core the clique chygraph leaves, by ensemble."""
+    plt = _mpl()
+    d = _core()
+    if not d:
+        return
+    fig, ax = plt.subplots(figsize=(4.3, 2.3))
+    _by_class(ax, d, 'clique_core_frac')
+    ax.set_ylabel('core of the\nclique chygraph', fontsize=8.5)
+    ax.set_ylim(-0.05, 1.05)
+    ax.set_yticks([0, 0.5, 1])
+    fig.tight_layout()
+    fig.savefig(OUT / 'fig-core-bonds.pdf')
+    print(f'  wrote {OUT / "fig-core-bonds.pdf"}')
 
 
 def figure_core_example():
@@ -649,38 +655,102 @@ def check_merge_error():
 
 
 def figure_merge_error():
-    """Ch. 16: the error against how many meta-complexes the closure leaves."""
+    """Ch. 16: the error the merged chygraph leaves, by ensemble."""
     plt = _mpl()
     d = _mergelnz()
     if not d:
         return
-    fig, ax = plt.subplots(figsize=(4.3, 2.9))
-    floor = 3e-15
-    rng = np.random.default_rng(1)
-    for name, ens, mk, col in (('hyperbolic', 'hyperbolic', 'o', DARK),
-                               ('Karrer--Newman', 'karrer', '^', MID),
-                               ('real', 'real', 's', LIGHT)):
-        sel = [r for r in d if r['ensemble'] == ens]
-        if not sel:
-            continue
-        x = np.array([r['n_meta'] for r in sel], float)
-        x = x + rng.uniform(-0.17, 0.17, len(x))
-        y = np.maximum([abs(r['gbp']) for r in sel], floor)
-        ax.semilogy(x, y, mk, ms=3.4, mew=0.9, mfc='white', color=col,
-                    label=f'{name} ({len(sel)})')
-    ax.axvline(3.5, color='0.75', lw=0.7, ls=':')
-    ax.annotate('no cycle possible\nbelow four', xy=(3.3, 2e-6), fontsize=6.4,
-                color='0.45', ha='right')
-    ax.set_xlabel('meta-complexes the closure leaves', fontsize=8)
+    fig, ax = plt.subplots(figsize=(4.3, 2.6))
+    _by_class(ax, d, 'gbp', floor=3e-15)
+    ax.set_yscale('log')
     ax.set_ylabel(r'error in $\ln Z$', fontsize=8.5)
     ax.set_ylim(1e-15, 1e1)
-    # the middle band is the only part of the panel with no points in it:
-    # the cyclic runs sit at the top, the exact ones along the bottom
-    ax.legend(fontsize=6.6, frameon=False, loc='center right')
-    _tidy(ax)
+    for i, (_, ens, _, _) in enumerate(CLASSES):
+        sel = [r for r in d if r['ensemble'] == ens]
+        ex = sum(1 for r in sel if abs(r['gbp']) < 1e-9)
+        ax.annotate(f'{ex}/{len(sel)}\nexact', xy=(i, 3e1), fontsize=6.6,
+                    ha='center', va='bottom', color='0.35',
+                    annotation_clip=False)
     fig.tight_layout()
     fig.savefig(OUT / 'fig-merge-error.pdf')
     print(f'  wrote {OUT / "fig-merge-error.pdf"}')
+
+
+# ------------------------------- (2e) where the core appears, Ch. 16
+def _sweep():
+    f = PROBE / 'karrer_core_sweep.json'
+    return json.load(open(f)) if f.exists() else []
+
+
+def check_core_transition():
+    """The core appears at incidence branching one, whatever produces it."""
+    d = _sweep()
+    if not d:
+        print('  (probe/results/karrer_core_sweep.json not present)')
+        return
+    fams = sorted({r['family'] for r in d})
+    nmax = max(r['n'] for r in d)
+    print(f'  merged-chygraph core against b = s + 2t, at n = {nmax}:')
+    print(f'    {"b":>5}' + ''.join(f'{f.split(",")[0]:>22}' for f in fams))
+    for b in (0.4, 0.8, 1.0, 1.2, 1.6, 2.0):
+        row = f'    {b:>5.1f}'
+        for f in fams:
+            v = [r for r in d if r['family'] == f and r['n'] == nmax
+                 and abs(r['b'] - b) < 1e-9]
+            row += f'{(v[0]["core_mean"] if v else float("nan")):>22.4f}'
+        print(row)
+    for f in fams:
+        below = [r['core_mean'] for r in d
+                 if r['family'] == f and r['n'] == nmax and r['b'] <= 0.8]
+        assert max(below) < 0.01, (f, max(below))
+    print('    every family is core-free below b = 1 and orders above it;')
+    print('    at t = 0 the complexes are bare edges and this is the')
+    print('    Erdos-Renyi 2-core at mean degree one, which fixes the scale')
+
+
+def figure_core_transition():
+    """Ch. 16: the core as an order parameter in the branching ratio."""
+    plt = _mpl()
+    d = _sweep()
+    if not d:
+        return
+    fams = [('edges only, $t=0$', 'o', DARK),
+            ('triangles only, $s=0$', '^', MID),
+            ('equal mixture', 's', LIGHT)]
+    sizes = sorted({r['n'] for r in d})
+    fig, (ax, bx) = plt.subplots(1, 2, figsize=(6.4, 2.5))
+    nmax = sizes[-1]
+    for label, mk, col in fams:
+        sel = sorted([r for r in d if r['family'] == label and r['n'] == nmax],
+                     key=lambda r: r['b'])
+        ax.plot([r['b'] for r in sel], [r['core_mean'] for r in sel],
+                mk + '-', ms=3.0, lw=1.0, mfc='white', color=col,
+                label=label.replace('$', '$'))
+    ax.axvline(1.0, color='0.75', lw=0.7, ls=':')
+    ax.annotate('$b=1$', xy=(1.06, 0.02), fontsize=6.8, color='0.45')
+    ax.set_xlabel('incidence branching $b=s+2t$', fontsize=8)
+    ax.set_ylabel('core of the\nmerged chygraph', fontsize=8.5)
+    ax.set_ylim(-0.03, 1.0)
+    ax.legend(fontsize=6.4, frameon=False, loc='upper left')
+    _tidy(ax)
+
+    lab = 'triangles only, $s=0$'
+    for n, mk in zip(sizes, ('o', 's', '^', 'D')):
+        sel = sorted([r for r in d if r['family'] == lab and r['n'] == n],
+                     key=lambda r: r['b'])
+        bx.plot([r['b'] for r in sel], [r['core_mean'] for r in sel],
+                mk + '-', ms=2.8, lw=0.9, mfc='white',
+                color=str(0.10 + 0.18 * sizes.index(n)), label=f'$n={n}$')
+    bx.axvline(1.0, color='0.75', lw=0.7, ls=':')
+    bx.set_xlabel('incidence branching $b=s+2t$', fontsize=8)
+    bx.set_ylabel('core, triangles only', fontsize=8.5)
+    bx.set_xlim(0.3, 1.9)
+    bx.set_ylim(-0.02, 0.55)
+    bx.legend(fontsize=6.4, frameon=False, loc='upper left')
+    _tidy(bx)
+    fig.tight_layout()
+    fig.savefig(OUT / 'fig-core-transition.pdf')
+    print(f'  wrote {OUT / "fig-core-transition.pdf"}')
 
 
 # ------------------------------------------- (3) does the clique ensemble exist
@@ -718,6 +788,8 @@ if __name__ == '__main__':
     check_ring()
     print('the leaf-removal core of each instance:')
     check_core_fraction()
+    print('where the core appears:')
+    check_core_transition()
     print('the merged chygraph, and what it gets wrong:')
     check_merge_error()
     print('when the clique ensemble exists:')
@@ -730,3 +802,4 @@ if __name__ == '__main__':
     figure_core_bonds()
     figure_core_meta()
     figure_core_example()
+    figure_core_transition()

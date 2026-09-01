@@ -86,6 +86,7 @@ def profile(G, n):
     csize, cfrac = chygraph_core([sorted(c) for c in cl], n)
     msize, mfrac = chygraph_core([sorted(c) for c in merged], n)
     return {'n': n, 'n_bonds': m, 'n_meta': len(merged),
+            'clustering': nx.average_clustering(G),
             'doubled_bonds': sum(1 for v in cov.values() if v > 1),
             'doubled_frac': sum(1 for v in cov.values() if v > 1) / max(m, 1),
             'graph_core': gsize, 'graph_core_frac': gfrac,
