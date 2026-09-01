@@ -256,7 +256,10 @@ def table_real_core():
     rows = json.loads((PROBE / 'real_core.json').read_text())
     rows.sort(key=lambda r: r['kbar'])
     out = [r'\begin{tabular}{lrrrrr}', r'\hline\hline',
-           r'network & $\ave{k}$ & $C$ & measured & chygraph & ctrl\\',
+           r' & & & \multicolumn{3}{c}{core fraction}\\',
+           r'network & $\ave{k}$ & $C$ & leaf removal '
+           r'& Eq.~\eqref{eq:core} & leaf removal\\',
+           r' & & & on the graph & on its cliques & rewired\\',
            r'\hline']
     for r in rows:
         out.append(f"{r['label']} & {r['kbar']:.2f} & {r['C']:.3f} & "
