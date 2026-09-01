@@ -9,7 +9,15 @@ has a percolation transition of its own at mean degree $e$. And the
 \emph{instability} of Chapter~\ref{ch:hittingset}'s hard-field map,
 Eq.~\eqref{eq:kc}, which also sits at $e$. They are not three results sharing a
 number but one point computed three ways, and Sec.~\ref{sec:onepoint} gives the
-digits. None of the three is new --- leaf removal is due to \citet{bauer2001}
+digits.
+
+They are taken in the order Chapter~\ref{ch:statmech} sets and
+Chapters~\ref{ch:ising} and~\ref{ch:hittingset} follow. Section~\ref{sec:twoconstraints}
+writes the interior down and reads off what a complex transmits, which is the
+recursion; Sec.~\ref{sec:leafremoval} is the algorithm that recursion turns out
+to describe; and Sec.~\ref{sec:coreobstruction} is the three-state cavity
+treatment of what stops it. The algorithm is the famous object here, but it is
+not the one the method starts from. None of the three is new --- leaf removal is due to \citet{bauer2001}
 and the core and its transition to \citet{liu2012} --- but the identification
 of all three at one point, and everything above cardinality two, is first done
 here.
@@ -26,14 +34,66 @@ place where a chygraph prediction is tested against networks nobody designed to
 suit it --- a synthetic ensemble whose clustering can be turned, and then
 sixteen real ones where it cannot.
 
+\section{Vertex cover as a hard-core problem}
+\label{sec:twoconstraints}
+\index{vertex cover|textbf}
+
+Minimum vertex cover was introduced in Sec.~\ref{sec:cover-intro}: choose as few
+nodes as possible so that every link has at least one endpoint chosen. It is
+NP-hard \citep{karp1972}. Chapter~\ref{ch:statmech} says what to do with a model
+once its interior is written down, so the chapter begins where
+Chapters~\ref{ch:ising} and~\ref{ch:hittingset} began: with the interior, and
+with what a complex therefore transmits.
+
+Chapter~\ref{ch:hittingset} deferred the comparison that fixes it. Hitting set
+and vertex cover minimise the same thing, $\mathcal{H}=\mu\sum_ix_i$, and differ
+only in the constraint. Where Eq.~\eqref{eq:Hhs} forbids a hyperedge
+with \emph{no} member taken, vertex cover of the induced graph forbids an
+\emph{edge} with neither endpoint taken:
+\begin{equation}
+  \prod_{a}\ \prod_{\{i,j\}\subset a}
+    \bigl[1-(1-x_{i})(1-x_{j})\bigr]=1.
+  \label{eq:Hvc}
+\end{equation}
+The difference is a matter of how much of a complex may be left out. A hyperedge
+is satisfied once one member is taken, so $c-1$ may be left out. Two members of
+a clique are adjacent, so at most \emph{one} may.
+
+The cavity equations differ in exactly one place, and it is again inside the
+complex. Taking $i$ blocks every other member of every complex containing it ---
+but a complex could only ever have contributed one member, so the cost is the
+\emph{maximum} over the complex rather than the sum:
+\begin{equation}
+  z_{i\to a}=1-\sum_{b\ne a}\max\Bigl(0,\max_{j\in b\setminus i}z_{j\to b}\Bigr),
+  \label{eq:vcz}
+\end{equation}
+giving
+\begin{equation}
+  \sigma_{m}=\bar\Phi^{(m)}(\tau),
+  \qquad
+  \tau_{l}=(1-\sigma_{l})^{\,c_{l}-1},
+  \label{eq:vc}
+\end{equation}
+against $\tau_{l}=\sigma_{l}^{\,c_{l}-1}$ and an outer complement in
+Eq.~\eqref{eq:hs}. At $c=2$ the two collapse to the same map, as they must ---
+both return the Weigt--Hartmann cover size, to nine digits, along code paths
+that share nothing.
+
+And both are hard-field maps, so Sec.~\ref{sec:hardfail} applies to
+Eq.~\eqref{eq:vcz} unchanged. On isolated triangles, where every vertex sits at
+$z=0$, it returns $1/2$ against a true $2/3$. That is the mirror image of
+Chapter~\ref{ch:hittingset}'s counterexample: the same defect, a different
+problem, a different true answer --- and the same wrong one, because $1/2$ is
+what the half rule always returns when everything is degenerate.
+
 \section{Leaf removal, and what it certifies}
 \label{sec:leafremoval}
 \index{leaf removal|textbf}
 
-Minimum vertex cover was introduced in Sec.~\ref{sec:cover-intro}: choose as few
-nodes as possible so that every link has at least one endpoint chosen. It is
-NP-hard, and yet on sparse random graphs there is an algorithm that solves it
-exactly, most of the time, in linear time.
+Equation~\eqref{eq:vc} is the map. It has a combinatorial counterpart, and the
+rest of the chapter is about what the two have to do with each other: on sparse
+random graphs there is an algorithm that solves minimum vertex cover exactly,
+most of the time, in linear time, NP-hardness notwithstanding.
 
 \emph{Leaf removal.} Find a vertex of degree one --- a leaf. Its single
 neighbour can be put in the cover with no loss: some minimum cover contains that
@@ -103,52 +163,6 @@ triangle has no leaf, and the residue is the core --- the structure on which the
 algorithm has nothing to say, and which the rest of the chapter is about.}
 \label{fig:leafremoval}
 \end{figure}
-
-\section{Two constraints, one family}
-\label{sec:twoconstraints}
-
-Chapter~\ref{ch:hittingset} deferred a comparison; here it is, because it
-locates the problem this chapter solves.
-
-Hitting set and vertex cover minimise the same thing, $\mathcal{H}=\mu\sum_ix_i$,
-and differ only in the constraint. Where Eq.~\eqref{eq:Hhs} forbids a hyperedge
-with \emph{no} member taken, vertex cover of the induced graph forbids an
-\emph{edge} with neither endpoint taken:
-\begin{equation}
-  \prod_{a}\ \prod_{\{i,j\}\subset a}
-    \bigl[1-(1-x_{i})(1-x_{j})\bigr]=1.
-  \label{eq:Hvc}
-\end{equation}
-The difference is a matter of how much of a complex may be left out. A hyperedge
-is satisfied once one member is taken, so $c-1$ may be left out. Two members of
-a clique are adjacent, so at most \emph{one} may.
-
-The cavity equations differ in exactly one place, and it is again inside the
-complex. Taking $i$ blocks every other member of every complex containing it ---
-but a complex could only ever have contributed one member, so the cost is the
-\emph{maximum} over the complex rather than the sum:
-\begin{equation}
-  z_{i\to a}=1-\sum_{b\ne a}\max\Bigl(0,\max_{j\in b\setminus i}z_{j\to b}\Bigr),
-  \label{eq:vcz}
-\end{equation}
-giving
-\begin{equation}
-  \sigma_{m}=\bar\Phi^{(m)}(\tau),
-  \qquad
-  \tau_{l}=(1-\sigma_{l})^{\,c_{l}-1},
-  \label{eq:vc}
-\end{equation}
-against $\tau_{l}=\sigma_{l}^{\,c_{l}-1}$ and an outer complement in
-Eq.~\eqref{eq:hs}. At $c=2$ the two collapse to the same map, as they must ---
-both return the Weigt--Hartmann cover size, to nine digits, along code paths
-that share nothing.
-
-And both are hard-field maps, so Sec.~\ref{sec:hardfail} applies to
-Eq.~\eqref{eq:vcz} unchanged. On isolated triangles, where every vertex sits at
-$z=0$, it returns $1/2$ against a true $2/3$. That is the mirror image of
-Chapter~\ref{ch:hittingset}'s counterexample: the same defect, a different
-problem, a different true answer --- and the same wrong one, because $1/2$ is
-what the half rule always returns when everything is degenerate.
 
 \section{The core as an obstruction}
 \label{sec:coreobstruction}
