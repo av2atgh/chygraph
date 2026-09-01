@@ -371,6 +371,71 @@ Eq.~\eqref{eq:branching} says $s=1$: the Erd\H{o}s--R\'enyi $2$-core at mean
 degree one, which fixes the scale independently. What is measured here is not
 the transition but where a chygraph ensemble sits relative to it.
 
+\begin{calculation}{the threshold and the core fraction in closed form}
+The sweep measures an order parameter; the same quantity can be written down,
+and the branching ratio of Eq.~\eqref{eq:branching} falls out of it rather than
+being argued for.
+
+Take the placed complexes themselves --- cardinality two for the single edges,
+cardinality three for the triangles --- rather than the maximal cliques of a
+realisation. The two differ only by coincidences whose number does not grow with
+$n$ (Sec.~\ref{sec:threeclasses}), so they agree in the limit. Each atom then
+carries $\mathrm{Poisson}(s)$ memberships of cardinality two and
+$\mathrm{Poisson}(t)$ of cardinality three, independently, and the incidence
+structure is locally treelike --- so run the pruning as a message on it.
+
+Along a directed edge, let $a$ be the probability that an atom \emph{prunes}
+--- is eventually removed --- given only the structure reached through one of
+its complexes, and let $g_{c}$ be the same for a cardinality-$c$ complex
+reached through one of its atoms. A complex survives if any of its $c-1$ other
+atoms survives, so it prunes when all of them prune:
+\[
+  g_{c}=a^{\,c-1}.
+\]
+An atom survives if any of its \emph{other} complexes survives, so it prunes
+when all of them do. For Poisson memberships the excess law is the original one,
+and $E[z^{N}]=e^{-\lambda(1-z)}$, so the two cardinalities multiply:
+\begin{equation}
+  a=\exp\!\left[-s\,(1-a)-t\,(1-a^{2})\right].
+  \label{eq:corea}
+\end{equation}
+
+\emph{The threshold.} $a=1$ solves Eq.~\eqref{eq:corea} always. Differentiating
+its right-hand side at $a=1$ gives $s+2t$, so the trivial root loses stability
+exactly at $s+2t=1$. That is Eq.~\eqref{eq:branching}, derived rather than
+counted: a cardinality-$c$ complex contributes $\mathrm{d}a^{c-1}/\mathrm{d}a
+=c-1$ at $a=1$, which is the $c-1$ ways on, and the general threshold is
+$\sum_{c}(c-1)\ave{k_{c}}=1$.
+
+\emph{The core fraction.} An atom lies in the $2$-core when at least two of its
+memberships reach complexes that do not prune. Thinning a Poisson leaves a
+Poisson, so that number is $\mathrm{Poisson}(\mu)$ with
+$\mu=s(1-a)+t(1-a^{2})$, and
+\begin{equation}
+  P_{C}=1-e^{-\mu}-\mu\,e^{-\mu}.
+  \label{eq:corefrac}
+\end{equation}
+At $t=0$, writing $\beta=1-a$, Eq.~\eqref{eq:corea} is $\beta=1-e^{-s\beta}$ and
+Eq.~\eqref{eq:corefrac} is the Erd\H{o}s--R\'enyi $2$-core, which is the anchor
+stated above.
+
+\emph{Against the sweep}, at $n=1600$: $0.0553$ against a measured $0.0525$ at
+$b=1.2$ on the edges-only line, $0.4730$ against $0.4720$ at $b=2$; $0.1901$
+against $0.1889$ at $b=2$ on the triangles-only line; $0.1593$ against $0.1564$
+at $b=1.6$ on the mixture. The worst of the twelve comparisons is $0.007$,
+against a standard error of about $0.004$. Threshold and amplitude both, so
+the right-hand panel of Fig.~\ref{fig:coretransition} is a finite-size check on
+a curve that is known rather than the evidence that there is one.
+
+\emph{And it says where the amplitude goes.} At fixed $b$ an atom carrying its
+branching as edges has $b$ memberships; carrying it as triangles it has $b/2$,
+because each triangle spends two of the branchings on one complex. The core
+needs \emph{two} surviving memberships, so halving their number at fixed
+branching is what costs the amplitude: Eq.~\eqref{eq:corefrac} gives $0.274$ and
+$0.094$ at $b=1.6$. Computed in
+\code{probe/karrer\_core\_sweep.py:core\_closed\_form}.
+\end{calculation}
+
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figs/fig-core-transition.pdf}

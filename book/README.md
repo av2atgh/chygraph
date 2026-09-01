@@ -411,6 +411,21 @@ ensemble, `+0.52` being a perfectly good signal. `figs/overlap.py:check_cavity`
 now prints both correlations from the one file, so the comparison cannot drift
 apart again.
 
+**Sec. 16.3's transition is classical, and Ch. 16 now derives it.** The core in
+Fig. 16.6 is the 2-core of the incidence structure, so its threshold is the
+k-core transition at k = 2 (Pittel-Spencer-Wormald), equivalently Bauer and
+Golinelli's alpha = 1. A calculation box gives the closed form —
+`a = exp[-s(1-a) - t(1-a^2)]`, `mu = s(1-a) + t(1-a^2)`,
+`P_C = 1 - e^-mu - mu e^-mu` — which yields `b = s + 2t` by differentiating at
+`a = 1` and reproduces all three measured lines, threshold and amplitude, worst
+discrepancy 0.007 against a standard error of 0.004.
+`karrer_core_sweep.core_closed_form` evaluates it and `check_closed_form`
+asserts the agreement, so Eqs. (16.2) and (16.3) are backed like every other
+equation in Table 1. **Bauer and Golinelli's two removal rules are the book's
+two cores** — leaf plus edge stops at mean degree one (Part IV), leaf plus
+*neighbour* at `<k> = e` (Ch. 11) — which is why `P_C(Ising, .)` and
+`P_C(VC, .)` differ on the same object. Sec. 14.2 says so now.
+
 **Regenerating that file moved two of its 240 rows, and Secs. 14.3 and 14.5
 now say so.** The running text carries the fact, where the error ranges are
 quoted; the Checks section carries the detail. Do not push it back into the

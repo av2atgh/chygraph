@@ -22,6 +22,7 @@ from pathlib import Path
 
 import networkx as nx
 import numpy as np
+from scipy.optimize import brentq
 
 sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph' / 'src'))
 sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech'
@@ -43,6 +44,49 @@ FAMILIES = (('edges only, $t=0$', lambda b: (b, 0.0)),
             ('triangles only, $s=0$', lambda b: (0.0, b / 2)),
             ('equal mixture', lambda b: (b / 2, b / 4)))
 B_GRID = [round(0.1 * i, 2) for i in range(0, 26)]
+
+
+def core_closed_form(s, t):
+    """Eqs. (16.2) and (16.3): the 2-core of the incidence structure.
+
+    Each atom carries Poisson(s) memberships of cardinality two and Poisson(t)
+    of cardinality three.  Let `a` be the probability that an atom prunes given
+    the structure reached through one of its complexes.  A cardinality-c
+    complex reached from an atom prunes when all c-1 of its other atoms do, so
+    g_c = a^(c-1); an atom prunes when all its other complexes do, and for
+    Poisson memberships the excess law is the original one, so
+
+        a = exp[-s(1-a) - t(1-a^2)].
+
+    Differentiating the right-hand side at a = 1 gives s + 2t, so the trivial
+    root a = 1 loses stability at b = 1 -- Eq. (16.1), derived.  An atom is in
+    the 2-core when at least two memberships reach complexes that do not prune;
+    thinning a Poisson leaves a Poisson, so that count is Poisson(mu) with
+    mu = s(1-a) + t(1-a^2).
+    """
+    F = lambda a: np.exp(-s * (1 - a) - t * (1 - a ** 2))            # noqa: E731
+    a = 1.0 if s + 2 * t <= 1 else brentq(lambda a: F(a) - a, 1e-14, 1 - 1e-12)
+    mu = s * (1 - a) + t * (1 - a ** 2)
+    return float(1 - np.exp(-mu) - mu * np.exp(-mu))
+
+
+def check_closed_form(rows):
+    """The closed form against the sweep, at the largest size."""
+    print('closed form against the measurement, n = %d:' % max(SIZES))
+    print('    family                    b   measured   Eq. (16.3)')
+    worst = 0.0
+    for label, _ in FAMILIES:
+        for r in [r for r in rows if r['family'] == label
+                  and r['n'] == max(SIZES) and r['b'] in (1.2, 1.6, 2.0, 2.5)]:
+            c = core_closed_form(r['s'], r['t'])
+            worst = max(worst, abs(c - r['core_mean']))
+            print(f"    {label:<22} {r['b']:>4}     {r['core_mean']:.4f}"
+                  f"       {c:.4f}")
+    print(f'  worst discrepancy {worst:.4f}, against a standard error of'
+          f' about 0.004')
+    print('  -- threshold and amplitude both, so the transition is the'
+          ' classical one')
+    assert worst < 0.01, 'the closed form no longer matches the sweep'
 
 
 def core_fraction(n, s, t, seed):
@@ -71,7 +115,8 @@ def main():
             print(f'  {label:<22} n={n:<5} done', flush=True)
     OUT.parent.mkdir(parents=True, exist_ok=True)
     json.dump(rows, OUT.open('w'), indent=1)
-    print('\nwrote', OUT)
+    print('\nwrote', OUT, '\n')
+    check_closed_form(rows)
 
 
 if __name__ == '__main__':

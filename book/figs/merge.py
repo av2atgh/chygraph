@@ -138,9 +138,10 @@ def karrer_graph(n, s_mean, motifs, seed=1):
 
     `motifs` maps motif size to the mean number a vertex carries.  Two placed
     motifs can share a vertex but share an edge only by coincidence, which is
-    the whole point -- the ensemble is treelike above the level of the motif by
-    construction, which is what makes it solvable and, here, what makes the
-    merge closure terminate.
+    the whole point: no two complexes meet in more than one atom, which is
+    Sec. 2.9's pairwise condition and what makes the merge closure terminate.
+    It is not acyclicity -- the incidence structure still carries a 2-core above
+    an incidence branching of one (Sec. 14.2).
     """
     import networkx as nx
     rng = np.random.default_rng(seed)
