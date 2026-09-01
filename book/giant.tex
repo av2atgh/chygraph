@@ -191,15 +191,37 @@ links and triangles, $4$ of $18$. In both cases the survivors are exactly the
 unknowns one would have written down by hand. \code{amplitude.\allowbreak CriticalAmplitude} carries this: the directional derivative, the core reduction, and $B_{l}$.
 
 Table~\ref{tab:amplitudes} collects the closed forms on the critical manifold.
-Two closed forms. For a graph with an arbitrary degree distribution,
-sites present with probability $p$ and bonds with probability $q$,
+The graph is worth doing by hand, because there the two indices collapse to the
+single scalar of Sec.~\ref{sec:percolation-intro} and the whole of the recipe
+above fits in four lines. Write $x=1-u$ for the probability that a link does
+lead to the giant component. Then $u=1-pq+pq\,G_{1}(u)$ is
+\[
+  x=pq\Bigl[\ave{\bar k}\,x-\tfrac12\ave{\bar k(\bar k-1)}\,x^{2}\Bigr]
+    +O(x^{3}),
+\]
+since $G_{1}(1-x)=1-\ave{\bar k}x+\tfrac12\ave{\bar k(\bar k-1)}x^{2}-\cdots$.
+Dividing by $x$ and solving,
+\[
+  x=\frac{2\bigl(pq\ave{\bar k}-1\bigr)}{pq\ave{\bar k(\bar k-1)}}.
+\]
+The Perron root here is $\lambda=\sqrt{pq\ave{\bar k}}$ --- a square root
+because a graph is two layers and the Jacobian carries the product across them
+--- so $pq\ave{\bar k}=(1+\Lambda)^{2}$ and the bracket is $2\Lambda$ to leading
+order. Finally $S=p\bigl[1-G_{0}(1-x)\bigr]\simeq p\ave{k}\,x$, and on the
+critical manifold $pq\ave{\bar k}=1$, so
 \begin{equation}
   \lambda=\sqrt{pq\ave{\bar k}},
   \qquad
-  B=\frac{4p\,\ave{k}\ave{\bar k}}{\ave{\bar k(\bar k-1)}},
+  B=\frac{4p\,\ave{k}\ave{\bar k}}{\ave{\bar k(\bar k-1)}}.
   \label{eq:Bgraph}
 \end{equation}
-and for a hypergraph with arbitrary degree and cardinality distributions,
+Only the second factorial moment of the excess degree entered, which is the
+middle row of Table~\ref{tab:hierarchy} in the one case where it can be watched
+happening. A Poisson degree distribution has
+$\ave{\bar k(\bar k-1)}=\ave{k}^{2}$ and $\ave{\bar k}=\ave{k}$, giving $B=4p$,
+the first row of Table~\ref{tab:amplitudes}.
+The hypergraph goes the same way with one more generating function in the
+chain, and for arbitrary degree and cardinality distributions it gives
 \begin{equation}
   B=\frac{4p\,\ave{k}\ave{\bar k}\ave{\bar c}}
          {\ave{\bar c}\ave{\bar k(\bar k-1)}

@@ -63,15 +63,28 @@ Eq.~\eqref{eq:up} becomes a count,
   \label{eq:zhs}
 \end{equation}
 which is \emph{warning propagation}: a complex sends a warning when every one of
-its other members is free to stay out, and a node counts its warnings. With
-$\sigma_{l}$ the probability that a node reached through a layer-$l$ complex has
-$z=1$,
+its other members is free to stay out, and a node counts its warnings.
+
+Two steps take that to an ensemble. Let $\sigma_{l}$ be the probability that a
+node reached along an inclusion into a layer-$l$ complex has $z=1$, that is, is
+free to stay out. A layer-$l$ complex entered at $i$ warns $i$ exactly when
+every one of its other $c_{l}-1$ members is free, and on a treelike chygraph
+those members are independent given what reaches them, so
+$\tau_{l}=\sigma_{l}^{\,c_{l}-1}$. And $i$ is free precisely when \emph{none} of
+its other complexes warns it; each fails to warn with probability $1-\tau$, how
+many others there are is the excess chy-degree of Sec.~\ref{sec:ensembles}, and
+averaging a product over that count is evaluating its generating function. So
 \begin{equation}
   \sigma_{m}=\bar\Phi^{(m)}(1-\tau),
   \qquad
   \tau_{l}=\sigma_{l}^{\,c_{l}-1}.
   \label{eq:hs}
 \end{equation}
+Section~\ref{sec:twoconstraints} does the same two steps for vertex cover and
+gets the complement in the other place, for the reason given there: a hyperedge
+forces when \emph{all} of its other members are free and a clique forces when
+\emph{any} of them is. \code{hittingset.HittingSet.F} is the map and
+\code{hittingset.HittingSet.solve} its fixed point.
 
 \paragraph{The map runs backwards.} Equation~\eqref{eq:hs} is
 order-\emph{reversing}: raising any message lowers every message. This is not a

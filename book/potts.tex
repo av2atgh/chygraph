@@ -288,7 +288,28 @@ notices that $\delta_{\sigma\sigma'}=(1+\sigma\sigma')/2$ makes a Potts bond of
 coupling $J$ an Ising bond of coupling $J/2$ --- the textbook Ising cavity
 factor, and Chapter~\ref{ch:ising}'s entire link layer.
 
-The interior earns its keep at $c=3$. There
+The interior earns its keep at $c=3$, and the same two sums give it. One
+simplification first: at the symmetric point $Z_{a\to i}$ does not depend on
+which state $\sigma_{i}$ is in, so the two partition functions are equal there
+and the quotient rule collapses to
+\begin{equation}
+  \tau_{c}=\frac{Z'(\text{not dist.})-Z'(\text{dist.})}{Z}\bigg|_{y=1},
+  \label{eq:taudiff}
+\end{equation}
+a difference of two derivatives over their common value.
+
+The denominator is the interior sum of an isolated complex, and for a triangle
+it is a count of four coincidence patterns, each weighted by $(1+v)$ raised to
+the number of agreeing pairs it creates. Holding $\sigma_{i}$ and summing the
+other two: all three agree, one way, three agreeing pairs; the other two agree
+with each other but not with $i$, $q-1$ ways, one pair; one of them agrees with
+$i$ and the other does not, $2(q-1)$ ways, one pair each; and all three differ,
+$(q-1)(q-2)$ ways, no pair. So
+\[
+  Z=(1+v)^{3}+3(q-1)(1+v)+(q-1)(q-2)=q^{2}+3qv+3v^{2}+v^{3}.
+\]
+Carrying $y_{j}$ through the same four patterns and taking the difference of the
+derivatives in Eq.~\eqref{eq:taudiff} leaves $v(q+3v+v^{2})$, so
 \begin{equation}
   \tau_{3}(q,v)=\frac{v\,(q+3v+v^{2})}{q^{2}+3qv+3v^{2}+v^{3}},
   \label{eq:tau3}
