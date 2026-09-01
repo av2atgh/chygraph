@@ -411,7 +411,10 @@ ensemble, `+0.52` being a perfectly good signal. `figs/overlap.py:check_cavity`
 now prints both correlations from the one file, so the comparison cannot drift
 apart again.
 
-**Regenerating that file moved two of its 240 rows, and Sec. 14.4 now says so.**
+**Regenerating that file moved two of its 240 rows, and Secs. 14.3 and 14.5
+now say so.** The running text carries the fact, where the error ranges are
+quoted; the Checks section carries the detail. Do not push it back into the
+checks alone.
 Both are hospital-contact neighbourhoods at `beta J = 0.3`; their error in
 `ln Z` goes from `116.6` to `58.1` and from `167.0` to `101.8`. The cavity
 iteration has more than one fixed point there and the committed cache had found

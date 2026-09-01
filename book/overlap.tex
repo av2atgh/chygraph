@@ -227,6 +227,18 @@ $2.72$; on the placed ensemble from $1.2\times10^{-2}$ to $24.7$, median $0.29$;
 and on the real neighbourhoods from $8\times10^{-3}$ to $447$, median $5.06$. A
 median of five in $\ln Z$ is a factor of $150$ in $Z$.
 
+Reaching a fixed point is not the same as reaching \emph{the} fixed point, and
+on two of the $120$ real neighbourhoods it is not: regenerating the measurement
+lands them on a different one, at $58.1$ and $101.8$ in $\ln Z$ rather than
+$116.6$ and $167.0$, with nothing in either iteration to say which was found.
+Both are neighbourhoods of hospital contact --- a dyadic network
+(Sec.~\ref{sec:threeclasses}), and one of the two least chordal in the set. It
+changes no range, median or conclusion here --- the errors stay large and stay
+one-signed --- and Sec.~\ref{sec:cavity-checks} gives the detail, but it is
+worth saying at the point the numbers are quoted rather than only in the checks:
+on real neighbourhoods a small residual does not by itself certify an answer,
+which is the same thing Sec.~\ref{sec:realoverlap} will find one method later.
+
 These are not instances on which propagation had an easy question to answer.
 Figure~\ref{fig:corebonds} plots
 $P_{C}(\mathrm{Ising},\mathrm{BP}_{\chi})$, the core fraction of the clique
@@ -312,19 +324,16 @@ $3\times10^{5}$. At $\tau=2.1$ both diverge and the control diverges faster, so
 below $\tau=2.5$ the measured ensemble is not converged and neither is anything
 built on it. The instances here are drawn at $\tau=2.5$.
 
-Two of the $120$ real neighbourhoods settle on a fixed point that is not
-unique. Regenerating \code{probe/results/cavity\_clique.json} reproduces $238$
-of the $240$ runs to machine precision and lands those two --- both
-hospital-contact neighbourhoods, at $\beta J=0.3$ --- on a different fixed
-point, moving their error in $\ln Z$ from $116.6$ to $58.1$ and from $167.0$ to
-$101.8$. Both states pass the residual test, and a second regeneration
-reproduces the first exactly, so this is the environment and not the seed.
-Neither instance is the largest or the median error, so nothing quoted above
-moves except the third correlation, $+0.83$ on the regenerated file against
-$+0.84$ on the one it replaced. It is the warning
-Sec.~\ref{sec:realoverlap} gives for generalised belief propagation, arriving
-one method earlier: on real neighbourhoods a small residual does not by itself
-certify an answer.
+The two non-unique fixed points of Sec.~\ref{sec:cavityfail}, in detail.
+Regenerating \code{probe/results/cavity\_clique.json} reproduces $238$ of the
+$240$ runs to machine precision and lands the other two, both hospital contact
+at $\beta J=0.3$, on a different fixed point. Both states pass the residual
+test at $10^{-13}$, and a second regeneration reproduces the first exactly, so
+the ambiguity is in the problem and not in the arithmetic of a given run.
+Neither instance is the largest or the median error of its class, so the only
+quoted number that moves is the third correlation: $+0.83$ on the regenerated
+file against $+0.84$ on the one it replaced, which is why it is quoted to two
+digits and not three. Nothing else in the file changes.
 
 This part works with the Ising model throughout, and does so by choice: one
 model across three ensembles isolates the effect of where the triangles come
