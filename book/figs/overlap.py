@@ -360,13 +360,19 @@ def check_cavity():
         conv = [r for r in sel if r['residual'] < 1e-9]
         e = [abs(r['cavity']) for r in conv]
         fr = [r['doubled_bonds'] / r['n_bonds'] for r in sel]
-        rho = np.corrcoef(np.log10(np.maximum(e, 1e-16)),
-                          [r['doubled_bonds'] / r['n_bonds'] for r in conv])[0, 1]
+        le = np.log10(np.maximum(e, 1e-16))
+        # Both measures of overlap, because Sec. 14.3 claims the first predicts
+        # the damage and the second only proxies for it -- which is a claim
+        # about the two correlations side by side, so print both.
+        rho = np.corrcoef(le, [r['doubled_bonds'] / r['n_bonds']
+                               for r in conv])[0, 1]
+        rho_p = np.corrcoef(le, [r['shared_2plus'] for r in conv])[0, 1]
         print(f'    {ens:<12} {len(sel):>3} runs, {len(conv)} converged   '
               f'{min(e):.2e} to {max(e):.2e}   median {np.median(e):.2f}   '
               f'corr {rho:+.2f}')
         print(f'      bonds inside two or more complexes: '
-              f'{100 * min(fr):.0f} to {100 * max(fr):.0f} per cent')
+              f'{100 * min(fr):.0f} to {100 * max(fr):.0f} per cent'
+              f'   (corr against intersecting-pair fraction {rho_p:+.2f})')
     assert all(r['residual'] < 1e-9 for r in d), 'a cavity run did not converge'
     assert all(r['doubled_bonds'] > 0 for r in d), 'an instance had no doubled bond'
     print('    every run reaches a fixed point, and every instance has at least'

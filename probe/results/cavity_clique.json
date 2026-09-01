@@ -6,6 +6,7 @@
   "n_cliques": 10,
   "doubled_bonds": 13,
   "n_bonds": 33,
+  "shared_2plus": 0.5714285714285714,
   "exact": 12.76450991338277,
   "cavity": 0.9751621720712205,
   "residual": 1.3322676295501878e-15
@@ -17,6 +18,7 @@
   "n_cliques": 10,
   "doubled_bonds": 13,
   "n_bonds": 33,
+  "shared_2plus": 0.5714285714285714,
   "exact": 27.585871982574666,
   "cavity": 9.79010357730661,
   "residual": 8.881784197001252e-16
@@ -28,6 +30,7 @@
   "n_cliques": 8,
   "doubled_bonds": 4,
   "n_bonds": 20,
+  "shared_2plus": 0.3333333333333333,
   "exact": 10.970641653904744,
   "cavity": 0.1633217433486589,
   "residual": 4.440892098500626e-16
@@ -39,6 +42,7 @@
   "n_cliques": 8,
   "doubled_bonds": 4,
   "n_bonds": 20,
+  "shared_2plus": 0.3333333333333333,
   "exact": 18.72001698558616,
   "cavity": 1.2586623609633527,
   "residual": 2.220446049250313e-16
@@ -50,6 +54,7 @@
   "n_cliques": 9,
   "doubled_bonds": 18,
   "n_bonds": 42,
+  "shared_2plus": 0.7647058823529411,
   "exact": 14.26712168885209,
   "cavity": 1.0748030742254464,
   "residual": 3.1086244689504383e-15
@@ -61,6 +66,7 @@
   "n_cliques": 9,
   "doubled_bonds": 18,
   "n_bonds": 42,
+  "shared_2plus": 0.7647058823529411,
   "exact": 34.32268893354004,
   "cavity": 13.415569140379965,
   "residual": 8.881784197001252e-16
@@ -72,6 +78,7 @@
   "n_cliques": 10,
   "doubled_bonds": 13,
   "n_bonds": 32,
+  "shared_2plus": 0.37777777777777777,
   "exact": 12.208502407951961,
   "cavity": 0.6265749905725819,
   "residual": 8.881784197001252e-16
@@ -83,6 +90,7 @@
   "n_cliques": 10,
   "doubled_bonds": 13,
   "n_bonds": 32,
+  "shared_2plus": 0.37777777777777777,
   "exact": 26.41207671131938,
   "cavity": 5.9835353783564,
   "residual": 2.220446049250313e-16
@@ -94,6 +102,7 @@
   "n_cliques": 10,
   "doubled_bonds": 20,
   "n_bonds": 40,
+  "shared_2plus": 0.6176470588235294,
   "exact": 14.1280179450332,
   "cavity": 1.48528521457194,
   "residual": 2.6645352591003757e-15
@@ -105,6 +114,7 @@
   "n_cliques": 10,
   "doubled_bonds": 20,
   "n_bonds": 40,
+  "shared_2plus": 0.6176470588235294,
   "exact": 32.94371625836388,
   "cavity": 14.320568909143354,
   "residual": 8.881784197001252e-16
@@ -116,6 +126,7 @@
   "n_cliques": 8,
   "doubled_bonds": 7,
   "n_bonds": 28,
+  "shared_2plus": 0.45454545454545453,
   "exact": 12.057886371434744,
   "cavity": 0.19931763765523947,
   "residual": 8.881784197001252e-16
@@ -127,6 +138,7 @@
   "n_cliques": 8,
   "doubled_bonds": 7,
   "n_bonds": 28,
+  "shared_2plus": 0.45454545454545453,
   "exact": 24.28984230999462,
   "cavity": 3.113034502339584,
   "residual": 8.881784197001252e-16
@@ -138,6 +150,7 @@
   "n_cliques": 10,
   "doubled_bonds": 5,
   "n_bonds": 21,
+  "shared_2plus": 0.29411764705882354,
   "exact": 11.06406135204783,
   "cavity": 0.2716861624322586,
   "residual": 8.881784197001252e-16
@@ -149,6 +162,7 @@
   "n_cliques": 10,
   "doubled_bonds": 5,
   "n_bonds": 21,
+  "shared_2plus": 0.29411764705882354,
   "exact": 19.097186411449574,
   "cavity": 2.301320356145311,
   "residual": 4.440892098500626e-16
@@ -160,6 +174,7 @@
   "n_cliques": 9,
   "doubled_bonds": 6,
   "n_bonds": 26,
+  "shared_2plus": 0.4666666666666667,
   "exact": 11.589655580998441,
   "cavity": 0.25307899968177416,
   "residual": 6.661338147750939e-16
@@ -171,6 +186,7 @@
   "n_cliques": 9,
   "doubled_bonds": 6,
   "n_bonds": 26,
+  "shared_2plus": 0.4666666666666667,
   "exact": 22.20868418302831,
   "cavity": 2.5067376851770042,
   "residual": 8.881784197001252e-16
@@ -182,6 +198,7 @@
   "n_cliques": 11,
   "doubled_bonds": 1,
   "n_bonds": 15,
+  "shared_2plus": 0.06666666666666667,
   "exact": 10.448691986086803,
   "cavity": 0.03808397313624212,
   "residual": 4.440892098500626e-16
@@ -193,6 +210,7 @@
   "n_cliques": 11,
   "doubled_bonds": 1,
   "n_bonds": 15,
+  "shared_2plus": 0.06666666666666667,
   "exact": 14.898812673000883,
   "cavity": 0.22774435928804238,
   "residual": 4.440892098500626e-16
@@ -204,6 +222,7 @@
   "n_cliques": 11,
   "doubled_bonds": 7,
   "n_bonds": 22,
+  "shared_2plus": 0.3103448275862069,
   "exact": 10.994869654477114,
   "cavity": 0.2836243463695478,
   "residual": 8.881784197001252e-16
@@ -215,6 +234,7 @@
   "n_cliques": 11,
   "doubled_bonds": 7,
   "n_bonds": 22,
+  "shared_2plus": 0.3103448275862069,
   "exact": 19.28904420788181,
   "cavity": 1.7057549271271988,
   "residual": 4.440892098500626e-16
@@ -226,6 +246,7 @@
   "n_cliques": 10,
   "doubled_bonds": 20,
   "n_bonds": 48,
+  "shared_2plus": 0.5,
   "exact": 17.50103768452282,
   "cavity": 1.679136029843736,
   "residual": 4.884981308350689e-15
@@ -237,6 +258,7 @@
   "n_cliques": 10,
   "doubled_bonds": 20,
   "n_bonds": 48,
+  "shared_2plus": 0.5,
   "exact": 39.85763700622931,
   "cavity": 15.624453253315991,
   "residual": 8.881784197001252e-16
@@ -248,6 +270,7 @@
   "n_cliques": 9,
   "doubled_bonds": 14,
   "n_bonds": 45,
+  "shared_2plus": 0.36,
   "exact": 16.311198087466774,
   "cavity": 0.32067815247278375,
   "residual": 1.7763568394002505e-15
@@ -259,6 +282,7 @@
   "n_cliques": 9,
   "doubled_bonds": 14,
   "n_bonds": 45,
+  "shared_2plus": 0.36,
   "exact": 36.7904510135942,
   "cavity": 4.68446033827,
   "residual": 8.881784197001252e-16
@@ -270,6 +294,7 @@
   "n_cliques": 11,
   "doubled_bonds": 16,
   "n_bonds": 45,
+  "shared_2plus": 0.3902439024390244,
   "exact": 16.57551912280174,
   "cavity": 0.7612922026261515,
   "residual": 8.881784197001252e-16
@@ -281,6 +306,7 @@
   "n_cliques": 11,
   "doubled_bonds": 16,
   "n_bonds": 45,
+  "shared_2plus": 0.3902439024390244,
   "exact": 37.10555414646042,
   "cavity": 9.058146691234825,
   "residual": 8.881784197001252e-16
@@ -292,6 +318,7 @@
   "n_cliques": 12,
   "doubled_bonds": 24,
   "n_bonds": 52,
+  "shared_2plus": 0.46153846153846156,
   "exact": 17.645809130355573,
   "cavity": 0.9132732995702426,
   "residual": 8.881784197001252e-16
@@ -303,6 +330,7 @@
   "n_cliques": 12,
   "doubled_bonds": 24,
   "n_bonds": 52,
+  "shared_2plus": 0.46153846153846156,
   "exact": 42.350274370027115,
   "cavity": 12.35511085928892,
   "residual": 1.3322676295501878e-15
@@ -314,6 +342,7 @@
   "n_cliques": 15,
   "doubled_bonds": 29,
   "n_bonds": 52,
+  "shared_2plus": 0.4479166666666667,
   "exact": 17.99030608270409,
   "cavity": 2.000390798788814,
   "residual": 2.6645352591003757e-15
@@ -325,6 +354,7 @@
   "n_cliques": 15,
   "doubled_bonds": 29,
   "n_bonds": 52,
+  "shared_2plus": 0.4479166666666667,
   "exact": 42.434760750074204,
   "cavity": 21.46494289710595,
   "residual": 1.7763568394002505e-15
@@ -336,6 +366,7 @@
   "n_cliques": 13,
   "doubled_bonds": 19,
   "n_bonds": 45,
+  "shared_2plus": 0.4117647058823529,
   "exact": 16.622099762204776,
   "cavity": 1.0804518826215315,
   "residual": 1.7763568394002505e-15
@@ -347,6 +378,7 @@
   "n_cliques": 13,
   "doubled_bonds": 19,
   "n_bonds": 45,
+  "shared_2plus": 0.4117647058823529,
   "exact": 37.13473685071029,
   "cavity": 12.065892038101858,
   "residual": 8.881784197001252e-16
@@ -358,6 +390,7 @@
   "n_cliques": 11,
   "doubled_bonds": 4,
   "n_bonds": 31,
+  "shared_2plus": 0.42857142857142855,
   "exact": 14.864182559419564,
   "cavity": 0.13228165763202782,
   "residual": 1.3322676295501878e-15
@@ -369,6 +402,7 @@
   "n_cliques": 11,
   "doubled_bonds": 4,
   "n_bonds": 31,
+  "shared_2plus": 0.42857142857142855,
   "exact": 27.899270102241214,
   "cavity": 1.0172179129168022,
   "residual": 4.440892098500626e-16
@@ -380,6 +414,7 @@
   "n_cliques": 10,
   "doubled_bonds": 12,
   "n_bonds": 50,
+  "shared_2plus": 0.75,
   "exact": 18.303947974889418,
   "cavity": 0.7391134272323825,
   "residual": 5.773159728050814e-15
@@ -391,6 +426,7 @@
   "n_cliques": 10,
   "doubled_bonds": 12,
   "n_bonds": 50,
+  "shared_2plus": 0.75,
   "exact": 41.40312835344681,
   "cavity": 11.090913144821442,
   "residual": 1.2434497875801753e-14
@@ -402,6 +438,7 @@
   "n_cliques": 11,
   "doubled_bonds": 22,
   "n_bonds": 55,
+  "shared_2plus": 0.5945945945945946,
   "exact": 18.63034548685613,
   "cavity": 2.2964985426927456,
   "residual": 3.552713678800501e-15
@@ -413,6 +450,7 @@
   "n_cliques": 11,
   "doubled_bonds": 22,
   "n_bonds": 55,
+  "shared_2plus": 0.5945945945945946,
   "exact": 44.75896212704331,
   "cavity": 21.238430968548606,
   "residual": 8.881784197001252e-16
@@ -424,6 +462,7 @@
   "n_cliques": 11,
   "doubled_bonds": 25,
   "n_bonds": 60,
+  "shared_2plus": 0.8727272727272727,
   "exact": 19.916323779820864,
   "cavity": 2.887041983931102,
   "residual": 1.4210854715202004e-14
@@ -435,6 +474,7 @@
   "n_cliques": 11,
   "doubled_bonds": 25,
   "n_bonds": 60,
+  "shared_2plus": 0.8727272727272727,
   "exact": 48.75751122460449,
   "cavity": 28.7544121155049,
   "residual": 8.881784197001252e-16
@@ -446,6 +486,7 @@
   "n_cliques": 13,
   "doubled_bonds": 37,
   "n_bonds": 69,
+  "shared_2plus": 0.46153846153846156,
   "exact": 22.214770230006728,
   "cavity": 1.3678706951378317,
   "residual": 3.552713678800501e-15
@@ -457,6 +498,7 @@
   "n_cliques": 13,
   "doubled_bonds": 37,
   "n_bonds": 69,
+  "shared_2plus": 0.46153846153846156,
   "exact": 55.93637706413168,
   "cavity": 21.905968981420834,
   "residual": 2.220446049250313e-15
@@ -468,6 +510,7 @@
   "n_cliques": 12,
   "doubled_bonds": 34,
   "n_bonds": 71,
+  "shared_2plus": 0.7924528301886793,
   "exact": 23.397688119892706,
   "cavity": 3.5174087894443495,
   "residual": 1.3322676295501878e-14
@@ -479,6 +522,7 @@
   "n_cliques": 12,
   "doubled_bonds": 34,
   "n_bonds": 71,
+  "shared_2plus": 0.7924528301886793,
   "exact": 57.60325972698511,
   "cavity": 33.93454072508218,
   "residual": 3.552713678800501e-14
@@ -490,6 +534,7 @@
   "n_cliques": 14,
   "doubled_bonds": 53,
   "n_bonds": 81,
+  "shared_2plus": 0.7341772151898734,
   "exact": 25.844772182014225,
   "cavity": 7.562493992774506,
   "residual": 7.194245199571014e-14
@@ -501,6 +546,7 @@
   "n_cliques": 14,
   "doubled_bonds": 53,
   "n_bonds": 81,
+  "shared_2plus": 0.7341772151898734,
   "exact": 65.52190881313437,
   "cavity": 61.156384653248,
   "residual": 9.592326932761353e-14
@@ -512,6 +558,7 @@
   "n_cliques": 14,
   "doubled_bonds": 36,
   "n_bonds": 70,
+  "shared_2plus": 0.6557377049180327,
   "exact": 22.638853964385703,
   "cavity": 2.5079578187989924,
   "residual": 3.552713678800501e-15
@@ -523,6 +570,7 @@
   "n_cliques": 14,
   "doubled_bonds": 36,
   "n_bonds": 70,
+  "shared_2plus": 0.6557377049180327,
   "exact": 56.715672708128324,
   "cavity": 29.61839401602198,
   "residual": 1.4210854715202004e-14
@@ -534,6 +582,7 @@
   "n_cliques": 10,
   "doubled_bonds": 11,
   "n_bonds": 69,
+  "shared_2plus": 0.42424242424242425,
   "exact": 23.276846040586484,
   "cavity": 0.20186100895176295,
   "residual": 9.325873406851315e-15
@@ -545,6 +594,7 @@
   "n_cliques": 10,
   "doubled_bonds": 11,
   "n_bonds": 69,
+  "shared_2plus": 0.42424242424242425,
   "exact": 56.0346755311768,
   "cavity": 4.266364035476499,
   "residual": 1.021405182655144e-14
@@ -556,6 +606,7 @@
   "n_cliques": 10,
   "doubled_bonds": 26,
   "n_bonds": 71,
+  "shared_2plus": 0.5882352941176471,
   "exact": 22.979881694738324,
   "cavity": 0.25650097062586497,
   "residual": 2.6645352591003757e-15
@@ -567,6 +618,7 @@
   "n_cliques": 10,
   "doubled_bonds": 26,
   "n_bonds": 71,
+  "shared_2plus": 0.5882352941176471,
   "exact": 57.51270898723941,
   "cavity": 13.6098920862744,
   "residual": 8.881784197001252e-15
@@ -578,6 +630,7 @@
   "n_cliques": 14,
   "doubled_bonds": 41,
   "n_bonds": 71,
+  "shared_2plus": 0.6031746031746031,
   "exact": 22.84025195445369,
   "cavity": 2.55668998283587,
   "residual": 5.329070518200751e-15
@@ -589,6 +642,7 @@
   "n_cliques": 14,
   "doubled_bonds": 41,
   "n_bonds": 71,
+  "shared_2plus": 0.6031746031746031,
   "exact": 57.5378137719811,
   "cavity": 29.61762366611628,
   "residual": 1.509903313490213e-14
@@ -600,6 +654,7 @@
   "n_cliques": 12,
   "doubled_bonds": 33,
   "n_bonds": 74,
+  "shared_2plus": 0.6785714285714286,
   "exact": 24.011342838310046,
   "cavity": 2.979663805665382,
   "residual": 1.554312234475219e-14
@@ -611,6 +666,7 @@
   "n_cliques": 12,
   "doubled_bonds": 33,
   "n_bonds": 74,
+  "shared_2plus": 0.6785714285714286,
   "exact": 59.984643324980226,
   "cavity": 33.22644575350179,
   "residual": 2.3092638912203256e-14
@@ -622,6 +678,7 @@
   "n_cliques": 10,
   "doubled_bonds": 39,
   "n_bonds": 84,
+  "shared_2plus": 0.6571428571428571,
   "exact": 26.643250449758618,
   "cavity": 4.421351988838385,
   "residual": 2.708944180085382e-14
@@ -633,6 +690,7 @@
   "n_cliques": 10,
   "doubled_bonds": 39,
   "n_bonds": 84,
+  "shared_2plus": 0.6571428571428571,
   "exact": 67.91509889033708,
   "cavity": 37.71478024270806,
   "residual": 1.2434497875801753e-14
@@ -644,6 +702,7 @@
   "n_cliques": 14,
   "doubled_bonds": 52,
   "n_bonds": 85,
+  "shared_2plus": 0.7567567567567568,
   "exact": 26.64138722880109,
   "cavity": 5.053499086555931,
   "residual": 1.687538997430238e-14
@@ -655,6 +714,7 @@
   "n_cliques": 14,
   "doubled_bonds": 52,
   "n_bonds": 85,
+  "shared_2plus": 0.7567567567567568,
   "exact": 68.70213031323996,
   "cavity": 51.40677932332511,
   "residual": 4.973799150320701e-14
@@ -666,6 +726,7 @@
   "n_cliques": 13,
   "doubled_bonds": 3,
   "n_bonds": 20,
+  "shared_2plus": 0.15,
   "exact": 10.742281628553155,
   "cavity": 0.10372179519731617,
   "residual": 4.440892098500626e-16
@@ -677,6 +738,7 @@
   "n_cliques": 13,
   "doubled_bonds": 3,
   "n_bonds": 20,
+  "shared_2plus": 0.15,
   "exact": 17.4427173490136,
   "cavity": 0.23274096503767439,
   "residual": 2.220446049250313e-16
@@ -688,6 +750,7 @@
   "n_cliques": 11,
   "doubled_bonds": 1,
   "n_bonds": 12,
+  "shared_2plus": 0.14285714285714285,
   "exact": 10.337608943333198,
   "cavity": 0.01614470611202634,
   "residual": 3.3306690738754696e-16
@@ -699,6 +762,7 @@
   "n_cliques": 11,
   "doubled_bonds": 1,
   "n_bonds": 12,
+  "shared_2plus": 0.14285714285714285,
   "exact": 14.410391488875472,
   "cavity": -0.156095137571727,
   "residual": 2.220446049250313e-16
@@ -710,6 +774,7 @@
   "n_cliques": 12,
   "doubled_bonds": 1,
   "n_bonds": 21,
+  "shared_2plus": 0.05555555555555555,
   "exact": 10.868421461879862,
   "cavity": -0.042337770532411056,
   "residual": 2.220446049250313e-16
@@ -721,6 +786,7 @@
   "n_cliques": 12,
   "doubled_bonds": 1,
   "n_bonds": 21,
+  "shared_2plus": 0.05555555555555555,
   "exact": 19.052973155274785,
   "cavity": -1.411455221820109,
   "residual": 2.220446049250313e-16
@@ -732,6 +798,7 @@
   "n_cliques": 15,
   "doubled_bonds": 7,
   "n_bonds": 26,
+  "shared_2plus": 0.24324324324324326,
   "exact": 11.316942242632289,
   "cavity": 0.13891483791813464,
   "residual": 4.440892098500626e-16
@@ -743,6 +810,7 @@
   "n_cliques": 15,
   "doubled_bonds": 7,
   "n_bonds": 26,
+  "shared_2plus": 0.24324324324324326,
   "exact": 22.29917939857863,
   "cavity": -0.14136602225604733,
   "residual": 4.440892098500626e-16
@@ -754,6 +822,7 @@
   "n_cliques": 11,
   "doubled_bonds": 1,
   "n_bonds": 19,
+  "shared_2plus": 0.06666666666666667,
   "exact": 10.700989983858499,
   "cavity": 0.011991130114152426,
   "residual": 2.220446049250313e-16
@@ -765,6 +834,7 @@
   "n_cliques": 11,
   "doubled_bonds": 1,
   "n_bonds": 19,
+  "shared_2plus": 0.06666666666666667,
   "exact": 17.238038599281417,
   "cavity": -0.4348409662153223,
   "residual": 2.220446049250313e-16
@@ -776,6 +846,7 @@
   "n_cliques": 14,
   "doubled_bonds": 8,
   "n_bonds": 22,
+  "shared_2plus": 0.2564102564102564,
   "exact": 11.03601350552021,
   "cavity": 0.2624002277294686,
   "residual": 4.440892098500626e-16
@@ -787,6 +858,7 @@
   "n_cliques": 14,
   "doubled_bonds": 8,
   "n_bonds": 22,
+  "shared_2plus": 0.2564102564102564,
   "exact": 19.64708344282368,
   "cavity": 1.3816560727819258,
   "residual": 4.440892098500626e-16
@@ -798,6 +870,7 @@
   "n_cliques": 10,
   "doubled_bonds": 4,
   "n_bonds": 23,
+  "shared_2plus": 0.26666666666666666,
   "exact": 11.077643178655519,
   "cavity": 0.08391214687786075,
   "residual": 4.440892098500626e-16
@@ -809,6 +882,7 @@
   "n_cliques": 10,
   "doubled_bonds": 4,
   "n_bonds": 23,
+  "shared_2plus": 0.26666666666666666,
   "exact": 20.12236120174993,
   "cavity": -0.013835402954278209,
   "residual": 2.220446049250313e-16
@@ -820,6 +894,7 @@
   "n_cliques": 12,
   "doubled_bonds": 2,
   "n_bonds": 15,
+  "shared_2plus": 0.14285714285714285,
   "exact": 10.49304982209594,
   "cavity": 0.062487944575966736,
   "residual": 4.440892098500626e-16
@@ -831,6 +906,7 @@
   "n_cliques": 12,
   "doubled_bonds": 2,
   "n_bonds": 15,
+  "shared_2plus": 0.14285714285714285,
   "exact": 15.523970077960376,
   "cavity": 0.15015369438874338,
   "residual": 4.440892098500626e-16
@@ -842,6 +918,7 @@
   "n_cliques": 10,
   "doubled_bonds": 6,
   "n_bonds": 24,
+  "shared_2plus": 0.3076923076923077,
   "exact": 11.158315673492147,
   "cavity": 0.22944480679083767,
   "residual": 5.551115123125783e-16
@@ -853,6 +930,7 @@
   "n_cliques": 10,
   "doubled_bonds": 6,
   "n_bonds": 24,
+  "shared_2plus": 0.3076923076923077,
   "exact": 20.367273220095413,
   "cavity": 1.4178931794774243,
   "residual": 4.440892098500626e-16
@@ -864,6 +942,7 @@
   "n_cliques": 13,
   "doubled_bonds": 6,
   "n_bonds": 21,
+  "shared_2plus": 0.1875,
   "exact": 10.858494280094842,
   "cavity": 0.21371429840523248,
   "residual": 4.440892098500626e-16
@@ -875,6 +954,7 @@
   "n_cliques": 13,
   "doubled_bonds": 6,
   "n_bonds": 21,
+  "shared_2plus": 0.1875,
   "exact": 18.289973881338994,
   "cavity": 1.0621250334894512,
   "residual": 4.440892098500626e-16
@@ -886,6 +966,7 @@
   "n_cliques": 18,
   "doubled_bonds": 6,
   "n_bonds": 32,
+  "shared_2plus": 0.14634146341463414,
   "exact": 14.318463932107598,
   "cavity": 0.08734495038637036,
   "residual": 4.440892098500626e-16
@@ -897,6 +978,7 @@
   "n_cliques": 18,
   "doubled_bonds": 6,
   "n_bonds": 32,
+  "shared_2plus": 0.14634146341463414,
   "exact": 27.02470355616715,
   "cavity": -0.9312872162912136,
   "residual": 4.440892098500626e-16
@@ -908,6 +990,7 @@
   "n_cliques": 18,
   "doubled_bonds": 9,
   "n_bonds": 26,
+  "shared_2plus": 0.28125,
   "exact": 13.98551524340688,
   "cavity": 0.2872713293092648,
   "residual": 4.440892098500626e-16
@@ -919,6 +1002,7 @@
   "n_cliques": 18,
   "doubled_bonds": 9,
   "n_bonds": 26,
+  "shared_2plus": 0.28125,
   "exact": 24.002251330811955,
   "cavity": 1.2189043280787963,
   "residual": 4.440892098500626e-16
@@ -930,6 +1014,7 @@
   "n_cliques": 18,
   "doubled_bonds": 12,
   "n_bonds": 38,
+  "shared_2plus": 0.2553191489361702,
   "exact": 15.063465421731879,
   "cavity": 0.23565578594507208,
   "residual": 1.3322676295501878e-15
@@ -941,6 +1026,7 @@
   "n_cliques": 18,
   "doubled_bonds": 12,
   "n_bonds": 38,
+  "shared_2plus": 0.2553191489361702,
   "exact": 31.31324410188646,
   "cavity": 1.3428755336238396,
   "residual": 4.440892098500626e-16
@@ -952,6 +1038,7 @@
   "n_cliques": 17,
   "doubled_bonds": 8,
   "n_bonds": 34,
+  "shared_2plus": 0.20512820512820512,
   "exact": 14.611492269916795,
   "cavity": 0.08544747683716203,
   "residual": 4.440892098500626e-16
@@ -963,6 +1050,7 @@
   "n_cliques": 17,
   "doubled_bonds": 8,
   "n_bonds": 34,
+  "shared_2plus": 0.20512820512820512,
   "exact": 28.567484481310025,
   "cavity": -0.29781383642150416,
   "residual": 4.440892098500626e-16
@@ -974,6 +1062,7 @@
   "n_cliques": 18,
   "doubled_bonds": 12,
   "n_bonds": 35,
+  "shared_2plus": 0.3137254901960784,
   "exact": 14.71529712818969,
   "cavity": 0.3247864486271439,
   "residual": 8.881784197001252e-16
@@ -985,6 +1074,7 @@
   "n_cliques": 18,
   "doubled_bonds": 12,
   "n_bonds": 35,
+  "shared_2plus": 0.3137254901960784,
   "exact": 29.557742381033183,
   "cavity": 1.274842200845864,
   "residual": 4.440892098500626e-16
@@ -996,6 +1086,7 @@
   "n_cliques": 22,
   "doubled_bonds": 14,
   "n_bonds": 36,
+  "shared_2plus": 0.24390243902439024,
   "exact": 14.965231244712005,
   "cavity": 0.25221541180858686,
   "residual": 8.881784197001252e-16
@@ -1007,6 +1098,7 @@
   "n_cliques": 22,
   "doubled_bonds": 14,
   "n_bonds": 36,
+  "shared_2plus": 0.24390243902439024,
   "exact": 30.559017990271595,
   "cavity": 1.436580832921031,
   "residual": 4.440892098500626e-16
@@ -1018,6 +1110,7 @@
   "n_cliques": 15,
   "doubled_bonds": 5,
   "n_bonds": 33,
+  "shared_2plus": 0.15151515151515152,
   "exact": 14.424661531172337,
   "cavity": 0.07049409835493137,
   "residual": 4.440892098500626e-16
@@ -1029,6 +1122,7 @@
   "n_cliques": 15,
   "doubled_bonds": 5,
   "n_bonds": 33,
+  "shared_2plus": 0.15151515151515152,
   "exact": 27.534845253311776,
   "cavity": -0.685002029468631,
   "residual": 4.440892098500626e-16
@@ -1040,6 +1134,7 @@
   "n_cliques": 17,
   "doubled_bonds": 11,
   "n_bonds": 36,
+  "shared_2plus": 0.25,
   "exact": 15.093010784344049,
   "cavity": 0.07692421149355155,
   "residual": 1.3322676295501878e-15
@@ -1051,6 +1146,7 @@
   "n_cliques": 17,
   "doubled_bonds": 11,
   "n_bonds": 36,
+  "shared_2plus": 0.25,
   "exact": 31.061390800877486,
   "cavity": 0.7704211894724118,
   "residual": 4.440892098500626e-16
@@ -1062,6 +1158,7 @@
   "n_cliques": 21,
   "doubled_bonds": 20,
   "n_bonds": 40,
+  "shared_2plus": 0.2926829268292683,
   "exact": 15.716260553436914,
   "cavity": 0.3463215604022345,
   "residual": 1.7763568394002505e-15
@@ -1073,6 +1170,7 @@
   "n_cliques": 21,
   "doubled_bonds": 20,
   "n_bonds": 40,
+  "shared_2plus": 0.2926829268292683,
   "exact": 33.70986211000671,
   "cavity": 4.509733412667117,
   "residual": 4.440892098500626e-16
@@ -1084,6 +1182,7 @@
   "n_cliques": 22,
   "doubled_bonds": 15,
   "n_bonds": 39,
+  "shared_2plus": 0.23943661971830985,
   "exact": 15.180839382227902,
   "cavity": 0.14970985166748285,
   "residual": 4.440892098500626e-16
@@ -1095,6 +1194,7 @@
   "n_cliques": 22,
   "doubled_bonds": 15,
   "n_bonds": 39,
+  "shared_2plus": 0.23943661971830985,
   "exact": 32.669598396000886,
   "cavity": 0.1643207275803249,
   "residual": 4.440892098500626e-16
@@ -1106,6 +1206,7 @@
   "n_cliques": 31,
   "doubled_bonds": 31,
   "n_bonds": 53,
+  "shared_2plus": 0.25443786982248523,
   "exact": 18.691853440003893,
   "cavity": 0.15342822107742293,
   "residual": 2.6645352591003757e-15
@@ -1117,6 +1218,7 @@
   "n_cliques": 31,
   "doubled_bonds": 31,
   "n_bonds": 53,
+  "shared_2plus": 0.25443786982248523,
   "exact": 43.38093428401416,
   "cavity": 6.1777602023253735,
   "residual": 8.881784197001252e-16
@@ -1128,6 +1230,7 @@
   "n_cliques": 28,
   "doubled_bonds": 20,
   "n_bonds": 45,
+  "shared_2plus": 0.234375,
   "exact": 17.24676556972327,
   "cavity": 0.23287372427279962,
   "residual": 1.3322676295501878e-15
@@ -1139,6 +1242,7 @@
   "n_cliques": 28,
   "doubled_bonds": 20,
   "n_bonds": 45,
+  "shared_2plus": 0.234375,
   "exact": 37.12851701548574,
   "cavity": 2.480252593068471,
   "residual": 8.881784197001252e-16
@@ -1150,6 +1254,7 @@
   "n_cliques": 31,
   "doubled_bonds": 36,
   "n_bonds": 57,
+  "shared_2plus": 0.32558139534883723,
   "exact": 19.594703606487858,
   "cavity": 1.2595717617705446,
   "residual": 3.552713678800501e-15
@@ -1161,6 +1266,7 @@
   "n_cliques": 31,
   "doubled_bonds": 36,
   "n_bonds": 57,
+  "shared_2plus": 0.32558139534883723,
   "exact": 46.435822341292884,
   "cavity": 17.876966301267792,
   "residual": 1.7763568394002505e-15
@@ -1172,6 +1278,7 @@
   "n_cliques": 28,
   "doubled_bonds": 45,
   "n_bonds": 70,
+  "shared_2plus": 0.3924731182795699,
   "exact": 22.73602604139659,
   "cavity": 0.9264635424497882,
   "residual": 5.329070518200751e-15
@@ -1183,6 +1290,7 @@
   "n_cliques": 28,
   "doubled_bonds": 45,
   "n_bonds": 70,
+  "shared_2plus": 0.3924731182795699,
   "exact": 56.75873343752867,
   "cavity": 24.745835833016507,
   "residual": 1.3322676295501878e-15
@@ -1194,6 +1302,7 @@
   "n_cliques": 29,
   "doubled_bonds": 27,
   "n_bonds": 51,
+  "shared_2plus": 0.2934131736526946,
   "exact": 18.493163097861622,
   "cavity": 0.21909625344184747,
   "residual": 1.7763568394002505e-15
@@ -1205,6 +1314,7 @@
   "n_cliques": 29,
   "doubled_bonds": 27,
   "n_bonds": 51,
+  "shared_2plus": 0.2934131736526946,
   "exact": 42.30033040906788,
   "cavity": 6.3861033962864795,
   "residual": 8.881784197001252e-16
@@ -1216,6 +1326,7 @@
   "n_cliques": 30,
   "doubled_bonds": 42,
   "n_bonds": 65,
+  "shared_2plus": 0.32051282051282054,
   "exact": 21.316718395108264,
   "cavity": 0.5033542376860218,
   "residual": 2.6645352591003757e-15
@@ -1227,6 +1338,7 @@
   "n_cliques": 30,
   "doubled_bonds": 42,
   "n_bonds": 65,
+  "shared_2plus": 0.32051282051282054,
   "exact": 52.7480129956683,
   "cavity": 17.859899251960123,
   "residual": 8.881784197001252e-16
@@ -1238,6 +1350,7 @@
   "n_cliques": 21,
   "doubled_bonds": 31,
   "n_bonds": 52,
+  "shared_2plus": 0.42391304347826086,
   "exact": 18.912673990116303,
   "cavity": 0.9974935354845407,
   "residual": 2.6645352591003757e-15
@@ -1249,6 +1362,7 @@
   "n_cliques": 21,
   "doubled_bonds": 31,
   "n_bonds": 52,
+  "shared_2plus": 0.42391304347826086,
   "exact": 43.13690415754514,
   "cavity": 13.713261617572492,
   "residual": 8.881784197001252e-16
@@ -1260,6 +1374,7 @@
   "n_cliques": 25,
   "doubled_bonds": 21,
   "n_bonds": 53,
+  "shared_2plus": 0.25663716814159293,
   "exact": 18.26769120575112,
   "cavity": -0.027761896349879578,
   "residual": 1.7763568394002505e-15
@@ -1271,6 +1386,7 @@
   "n_cliques": 25,
   "doubled_bonds": 21,
   "n_bonds": 53,
+  "shared_2plus": 0.25663716814159293,
   "exact": 43.153696888219955,
   "cavity": 2.1455153349834575,
   "residual": 8.881784197001252e-16
@@ -1282,6 +1398,7 @@
   "n_cliques": 25,
   "doubled_bonds": 25,
   "n_bonds": 54,
+  "shared_2plus": 0.26126126126126126,
   "exact": 18.778289413625153,
   "cavity": -0.25757819277339067,
   "residual": 1.3322676295501878e-15
@@ -1293,6 +1410,7 @@
   "n_cliques": 25,
   "doubled_bonds": 25,
   "n_bonds": 54,
+  "shared_2plus": 0.26126126126126126,
   "exact": 44.14284402662867,
   "cavity": 2.796642696408,
   "residual": 8.881784197001252e-16
@@ -1304,6 +1422,7 @@
   "n_cliques": 24,
   "doubled_bonds": 16,
   "n_bonds": 42,
+  "shared_2plus": 0.22988505747126436,
   "exact": 16.846768498112212,
   "cavity": 0.140621021578621,
   "residual": 8.881784197001252e-16
@@ -1315,6 +1434,7 @@
   "n_cliques": 24,
   "doubled_bonds": 16,
   "n_bonds": 42,
+  "shared_2plus": 0.22988505747126436,
   "exact": 35.89671067239263,
   "cavity": 0.29089697341403564,
   "residual": 8.881784197001252e-16
@@ -1327,9 +1447,10 @@
   "n_cliques": 4,
   "doubled_bonds": 3,
   "n_bonds": 22,
+  "shared_2plus": 0.16666666666666666,
   "exact": 9.210744056318903,
-  "cavity": 0.10463997830217053,
-  "residual": 7.771561172376096e-16
+  "cavity": 0.10463997830216876,
+  "residual": 5.551115123125783e-16
  },
  {
   "ensemble": "real",
@@ -1339,6 +1460,7 @@
   "n_cliques": 4,
   "doubled_bonds": 3,
   "n_bonds": 22,
+  "shared_2plus": 0.16666666666666666,
   "exact": 18.458640503114843,
   "cavity": 1.0469314209915126,
   "residual": 8.881784197001252e-16
@@ -1351,9 +1473,10 @@
   "n_cliques": 4,
   "doubled_bonds": 3,
   "n_bonds": 17,
+  "shared_2plus": 0.16666666666666666,
   "exact": 7.488978061013084,
-  "cavity": 0.10463997830216965,
-  "residual": 5.551115123125783e-16
+  "cavity": 0.10463997830217053,
+  "residual": 8.881784197001252e-16
  },
  {
   "ensemble": "real",
@@ -1363,6 +1486,7 @@
   "n_cliques": 4,
   "doubled_bonds": 3,
   "n_bonds": 17,
+  "shared_2plus": 0.16666666666666666,
   "exact": 14.605338276653972,
   "cavity": 1.046931420991509,
   "residual": 8.881784197001252e-16
@@ -1375,9 +1499,10 @@
   "n_cliques": 7,
   "doubled_bonds": 3,
   "n_bonds": 42,
+  "shared_2plus": 0.42857142857142855,
   "exact": 15.170593142238763,
   "cavity": -0.08877006605728432,
-  "residual": 2.4424906541753444e-15
+  "residual": 1.7763568394002505e-15
  },
  {
   "ensemble": "real",
@@ -1387,8 +1512,9 @@
   "n_cliques": 7,
   "doubled_bonds": 3,
   "n_bonds": 42,
+  "shared_2plus": 0.42857142857142855,
   "exact": 34.44988361901718,
-  "cavity": 0.9425705571372163,
+  "cavity": 0.9425705571372305,
   "residual": 5.329070518200751e-15
  },
  {
@@ -1399,6 +1525,7 @@
   "n_cliques": 2,
   "doubled_bonds": 3,
   "n_bonds": 24,
+  "shared_2plus": 1.0,
   "exact": 8.25407461564644,
   "cavity": 0.05061616592951168,
   "residual": 1.1102230246251565e-15
@@ -1411,6 +1538,7 @@
   "n_cliques": 2,
   "doubled_bonds": 3,
   "n_bonds": 24,
+  "shared_2plus": 1.0,
   "exact": 19.90166415133936,
   "cavity": 1.0428681468457945,
   "residual": 3.552713678800501e-15
@@ -1423,6 +1551,7 @@
   "n_cliques": 4,
   "doubled_bonds": 2,
   "n_bonds": 16,
+  "shared_2plus": 0.3333333333333333,
   "exact": 7.277118476763407,
   "cavity": 0.03571765110132308,
   "residual": 8.881784197001252e-16
@@ -1435,6 +1564,7 @@
   "n_cliques": 4,
   "doubled_bonds": 2,
   "n_bonds": 16,
+  "shared_2plus": 0.3333333333333333,
   "exact": 13.679727349195835,
   "cavity": 0.3322678486163735,
   "residual": 4.440892098500626e-16
@@ -1447,9 +1577,10 @@
   "n_cliques": 7,
   "doubled_bonds": 1,
   "n_bonds": 17,
+  "shared_2plus": 0.7142857142857143,
   "exact": 8.041755040878792,
-  "cavity": 0.1010866752621844,
-  "residual": 4.440892098500626e-16
+  "cavity": 0.10108667526218262,
+  "residual": 8.881784197001252e-16
  },
  {
   "ensemble": "real",
@@ -1459,8 +1590,9 @@
   "n_cliques": 7,
   "doubled_bonds": 1,
   "n_bonds": 17,
-  "exact": 14.694944207621432,
-  "cavity": 0.9304118875606804,
+  "shared_2plus": 0.7142857142857143,
+  "exact": 14.694944207621434,
+  "cavity": 0.9304118875606786,
   "residual": 4.440892098500626e-16
  },
  {
@@ -1471,6 +1603,7 @@
   "n_cliques": 5,
   "doubled_bonds": 3,
   "n_bonds": 22,
+  "shared_2plus": 0.3,
   "exact": 9.270633949560203,
   "cavity": 0.0890908549868108,
   "residual": 8.881784197001252e-16
@@ -1483,8 +1616,9 @@
   "n_cliques": 5,
   "doubled_bonds": 3,
   "n_bonds": 22,
+  "shared_2plus": 0.3,
   "exact": 18.616495075259024,
-  "cavity": 1.1798304091757181,
+  "cavity": 1.1798304091757252,
   "residual": 8.881784197001252e-16
  },
  {
@@ -1495,8 +1629,9 @@
   "n_cliques": 4,
   "doubled_bonds": 3,
   "n_bonds": 15,
+  "shared_2plus": 0.5,
   "exact": 6.550513608176146,
-  "cavity": 0.06917533912863938,
+  "cavity": 0.0691753391286376,
   "residual": 4.440892098500626e-16
  },
  {
@@ -1507,8 +1642,9 @@
   "n_cliques": 4,
   "doubled_bonds": 3,
   "n_bonds": 15,
+  "shared_2plus": 0.5,
   "exact": 12.7788498944305,
-  "cavity": 0.5399981228217623,
+  "cavity": 0.5399981228217641,
   "residual": 4.440892098500626e-16
  },
  {
@@ -1519,8 +1655,9 @@
   "n_cliques": 4,
   "doubled_bonds": 1,
   "n_bonds": 12,
-  "exact": 6.254591895941386,
-  "cavity": 0.02962541717747058,
+  "shared_2plus": 0.16666666666666666,
+  "exact": 6.2545918959413855,
+  "cavity": 0.02962541717747147,
   "residual": 4.440892098500626e-16
  },
  {
@@ -1531,6 +1668,7 @@
   "n_cliques": 4,
   "doubled_bonds": 1,
   "n_bonds": 12,
+  "shared_2plus": 0.16666666666666666,
   "exact": 10.657838638239765,
   "cavity": 0.1940015136715214,
   "residual": 4.440892098500626e-16
@@ -1543,9 +1681,10 @@
   "n_cliques": 7,
   "doubled_bonds": 8,
   "n_bonds": 59,
+  "shared_2plus": 0.42857142857142855,
   "exact": 19.89194482517693,
   "cavity": -0.1900115339099635,
-  "residual": 1.3322676295501878e-15
+  "residual": 1.7763568394002505e-15
  },
  {
   "ensemble": "real",
@@ -1555,9 +1694,10 @@
   "n_cliques": 7,
   "doubled_bonds": 8,
   "n_bonds": 59,
+  "shared_2plus": 0.42857142857142855,
   "exact": 47.97334741243636,
   "cavity": 2.6195988621837003,
-  "residual": 1.7763568394002505e-15
+  "residual": 7.105427357601002e-15
  },
  {
   "ensemble": "real",
@@ -1567,8 +1707,9 @@
   "n_cliques": 6,
   "doubled_bonds": 4,
   "n_bonds": 48,
+  "shared_2plus": 0.4666666666666667,
   "exact": 16.41029303275904,
-  "cavity": 0.2161327670797739,
+  "cavity": 0.21613276707977747,
   "residual": 1.7763568394002505e-15
  },
  {
@@ -1579,9 +1720,10 @@
   "n_cliques": 6,
   "doubled_bonds": 4,
   "n_bonds": 48,
+  "shared_2plus": 0.4666666666666667,
   "exact": 39.18808773507563,
-  "cavity": 2.4603732070209645,
-  "residual": 8.881784197001252e-16
+  "cavity": 2.460373207020943,
+  "residual": 5.329070518200751e-15
  },
  {
   "ensemble": "real",
@@ -1591,9 +1733,10 @@
   "n_cliques": 14,
   "doubled_bonds": 45,
   "n_bonds": 65,
+  "shared_2plus": 0.5384615384615384,
   "exact": 21.28517525415867,
   "cavity": 5.89861208177064,
-  "residual": 2.1316282072803006e-14
+  "residual": 2.6201263381153694e-14
  },
  {
   "ensemble": "real",
@@ -1603,9 +1746,10 @@
   "n_cliques": 14,
   "doubled_bonds": 45,
   "n_bonds": 65,
+  "shared_2plus": 0.5384615384615384,
   "exact": 52.92734281115047,
-  "cavity": 47.79007446118685,
-  "residual": 6.750155989720952e-14
+  "cavity": 47.79007446118679,
+  "residual": 6.217248937900877e-14
  },
  {
   "ensemble": "real",
@@ -1615,9 +1759,10 @@
   "n_cliques": 13,
   "doubled_bonds": 31,
   "n_bonds": 61,
+  "shared_2plus": 1.0,
   "exact": 20.390632902272092,
-  "cavity": 3.3662740519075776,
-  "residual": 3.8191672047105385e-14
+  "cavity": 3.36627405190756,
+  "residual": 1.7763568394002505e-14
  },
  {
   "ensemble": "real",
@@ -1627,8 +1772,9 @@
   "n_cliques": 13,
   "doubled_bonds": 31,
   "n_bonds": 61,
+  "shared_2plus": 1.0,
   "exact": 49.60772994859054,
-  "cavity": 30.07112831282982,
+  "cavity": 30.071128312829835,
   "residual": 7.37188088351104e-14
  },
  {
@@ -1639,6 +1785,7 @@
   "n_cliques": 2,
   "doubled_bonds": 1,
   "n_bonds": 26,
+  "shared_2plus": 1.0,
   "exact": 9.057442130672907,
   "cavity": -0.05960416853701034,
   "residual": 4.440892098500626e-16
@@ -1651,6 +1798,7 @@
   "n_cliques": 2,
   "doubled_bonds": 1,
   "n_bonds": 26,
+  "shared_2plus": 1.0,
   "exact": 21.511459044194545,
   "cavity": 0.12622043455055731,
   "residual": 1.7763568394002505e-15
@@ -1663,9 +1811,10 @@
   "n_cliques": 5,
   "doubled_bonds": 13,
   "n_bonds": 36,
+  "shared_2plus": 0.7,
   "exact": 12.356215283101818,
   "cavity": 0.676031507993903,
-  "residual": 2.220446049250313e-15
+  "residual": 1.3322676295501878e-15
  },
  {
   "ensemble": "real",
@@ -1675,6 +1824,7 @@
   "n_cliques": 5,
   "doubled_bonds": 13,
   "n_bonds": 36,
+  "shared_2plus": 0.7,
   "exact": 29.52347636457517,
   "cavity": 6.616801682296295,
   "residual": 7.105427357601002e-15
@@ -1687,8 +1837,9 @@
   "n_cliques": 3,
   "doubled_bonds": 3,
   "n_bonds": 49,
+  "shared_2plus": 0.3333333333333333,
   "exact": 16.027205840122598,
-  "cavity": 0.024010586022718883,
+  "cavity": 0.024010586022722435,
   "residual": 1.9984014443252818e-15
  },
  {
@@ -1699,8 +1850,9 @@
   "n_cliques": 3,
   "doubled_bonds": 3,
   "n_bonds": 49,
+  "shared_2plus": 0.3333333333333333,
   "exact": 40.085248293168895,
-  "cavity": 1.0427138087401744,
+  "cavity": 1.0427138087401815,
   "residual": 3.552713678800501e-15
  },
  {
@@ -1711,9 +1863,10 @@
   "n_cliques": 3,
   "doubled_bonds": 34,
   "n_bonds": 69,
+  "shared_2plus": 1.0,
   "exact": 21.431893261954418,
-  "cavity": 5.885476771218485,
-  "residual": 2.3314683517128287e-14
+  "cavity": 5.885476771218464,
+  "residual": 1.887379141862766e-14
  },
  {
   "ensemble": "real",
@@ -1723,165 +1876,179 @@
   "n_cliques": 3,
   "doubled_bonds": 34,
   "n_bonds": 69,
+  "shared_2plus": 1.0,
   "exact": 55.89316271238924,
-  "cavity": 30.189191787747504,
-  "residual": 1.7763568394002505e-14
- },
- {
-  "ensemble": "real",
-  "network": "Les Mis. scenes",
-  "n": 11,
-  "beta_J": 0.3,
-  "n_cliques": 6,
-  "doubled_bonds": 37,
-  "n_bonds": 46,
-  "exact": 14.592434162009964,
-  "cavity": 5.386411627822275,
-  "residual": 2.0872192862952943e-14
- },
- {
-  "ensemble": "real",
-  "network": "Les Mis. scenes",
-  "n": 11,
-  "beta_J": 0.8,
-  "n_cliques": 6,
-  "doubled_bonds": 37,
-  "n_bonds": 46,
-  "exact": 37.49320886956307,
-  "cavity": 37.77042730886155,
-  "residual": 4.440892098500626e-14
- },
- {
-  "ensemble": "real",
-  "network": "Les Mis. scenes",
-  "n": 11,
-  "beta_J": 0.3,
-  "n_cliques": 5,
-  "doubled_bonds": 27,
-  "n_bonds": 42,
-  "exact": 13.559425626586348,
-  "cavity": 3.001820098505858,
-  "residual": 1.2878587085651816e-14
- },
- {
-  "ensemble": "real",
-  "network": "Les Mis. scenes",
-  "n": 11,
-  "beta_J": 0.8,
-  "n_cliques": 5,
-  "doubled_bonds": 27,
-  "n_bonds": 42,
-  "exact": 34.301449511541975,
-  "cavity": 22.542032924455633,
-  "residual": 2.3092638912203256e-14
- },
- {
-  "ensemble": "real",
-  "network": "Les Mis. scenes",
-  "n": 8,
-  "beta_J": 0.3,
-  "n_cliques": 2,
-  "doubled_bonds": 10,
-  "n_bonds": 26,
-  "exact": 8.706143623839521,
-  "cavity": 0.6364462894919409,
-  "residual": 8.881784197001252e-16
- },
- {
-  "ensemble": "real",
-  "network": "Les Mis. scenes",
-  "n": 8,
-  "beta_J": 0.8,
-  "n_cliques": 2,
-  "doubled_bonds": 10,
-  "n_bonds": 26,
-  "exact": 21.493687342035855,
-  "cavity": 5.229405270540099,
-  "residual": 1.7763568394002505e-15
- },
- {
-  "ensemble": "real",
-  "network": "Jazz bands",
-  "n": 20,
-  "beta_J": 0.3,
-  "n_cliques": 6,
-  "doubled_bonds": 40,
-  "n_bonds": 119,
-  "exact": 36.441508750784344,
-  "cavity": 5.1965446921248954,
-  "residual": 4.1300296516055823e-14
- },
- {
-  "ensemble": "real",
-  "network": "Jazz bands",
-  "n": 20,
-  "beta_J": 0.8,
-  "n_cliques": 6,
-  "doubled_bonds": 40,
-  "n_bonds": 119,
-  "exact": 95.89315499660736,
-  "cavity": 38.57438948697484,
-  "residual": 4.085620730620576e-14
- },
- {
-  "ensemble": "real",
-  "network": "Jazz bands",
-  "n": 19,
-  "beta_J": 0.3,
-  "n_cliques": 5,
-  "doubled_bonds": 49,
-  "n_bonds": 110,
-  "exact": 33.744718865473786,
-  "cavity": 6.426490503938318,
-  "residual": 1.9984014443252818e-14
- },
- {
-  "ensemble": "real",
-  "network": "Jazz bands",
-  "n": 19,
-  "beta_J": 0.8,
-  "n_cliques": 5,
-  "doubled_bonds": 49,
-  "n_bonds": 110,
-  "exact": 88.69316477273482,
-  "cavity": 39.84487630439621,
-  "residual": 1.7763568394002505e-14
- },
- {
-  "ensemble": "real",
-  "network": "Jazz bands",
-  "n": 20,
-  "beta_J": 0.3,
-  "n_cliques": 8,
-  "doubled_bonds": 23,
-  "n_bonds": 90,
-  "exact": 28.44437719933278,
-  "cavity": 1.0824663168031066,
-  "residual": 8.881784197001252e-15
- },
- {
-  "ensemble": "real",
-  "network": "Jazz bands",
-  "n": 20,
-  "beta_J": 0.8,
-  "n_cliques": 8,
-  "doubled_bonds": 23,
-  "n_bonds": 90,
-  "exact": 72.72039187383052,
-  "cavity": 14.070301085649064,
+  "cavity": 30.189191787747447,
   "residual": 1.5987211554602254e-14
  },
  {
   "ensemble": "real",
+  "network": "Les Mis. scenes",
+  "n": 11,
+  "beta_J": 0.3,
+  "n_cliques": 6,
+  "doubled_bonds": 37,
+  "n_bonds": 46,
+  "shared_2plus": 1.0,
+  "exact": 14.592434162009964,
+  "cavity": 5.3864116278222784,
+  "residual": 2.4868995751603507e-14
+ },
+ {
+  "ensemble": "real",
+  "network": "Les Mis. scenes",
+  "n": 11,
+  "beta_J": 0.8,
+  "n_cliques": 6,
+  "doubled_bonds": 37,
+  "n_bonds": 46,
+  "shared_2plus": 1.0,
+  "exact": 37.49320886956307,
+  "cavity": 37.77042730886155,
+  "residual": 6.217248937900877e-14
+ },
+ {
+  "ensemble": "real",
+  "network": "Les Mis. scenes",
+  "n": 11,
+  "beta_J": 0.3,
+  "n_cliques": 5,
+  "doubled_bonds": 27,
+  "n_bonds": 42,
+  "shared_2plus": 0.8,
+  "exact": 13.559425626586346,
+  "cavity": 3.00182009850586,
+  "residual": 1.1102230246251565e-14
+ },
+ {
+  "ensemble": "real",
+  "network": "Les Mis. scenes",
+  "n": 11,
+  "beta_J": 0.8,
+  "n_cliques": 5,
+  "doubled_bonds": 27,
+  "n_bonds": 42,
+  "shared_2plus": 0.8,
+  "exact": 34.301449511541975,
+  "cavity": 22.542032924455633,
+  "residual": 3.197442310920451e-14
+ },
+ {
+  "ensemble": "real",
+  "network": "Les Mis. scenes",
+  "n": 8,
+  "beta_J": 0.3,
+  "n_cliques": 2,
+  "doubled_bonds": 10,
+  "n_bonds": 26,
+  "shared_2plus": 1.0,
+  "exact": 8.706143623839521,
+  "cavity": 0.6364462894919392,
+  "residual": 1.7763568394002505e-15
+ },
+ {
+  "ensemble": "real",
+  "network": "Les Mis. scenes",
+  "n": 8,
+  "beta_J": 0.8,
+  "n_cliques": 2,
+  "doubled_bonds": 10,
+  "n_bonds": 26,
+  "shared_2plus": 1.0,
+  "exact": 21.493687342035855,
+  "cavity": 5.229405270540099,
+  "residual": 5.329070518200751e-15
+ },
+ {
+  "ensemble": "real",
+  "network": "Jazz bands",
+  "n": 20,
+  "beta_J": 0.3,
+  "n_cliques": 6,
+  "doubled_bonds": 40,
+  "n_bonds": 119,
+  "shared_2plus": 1.0,
+  "exact": 36.441508750784344,
+  "cavity": 5.1965446921248954,
+  "residual": 5.861977570020827e-14
+ },
+ {
+  "ensemble": "real",
+  "network": "Jazz bands",
+  "n": 20,
+  "beta_J": 0.8,
+  "n_cliques": 6,
+  "doubled_bonds": 40,
+  "n_bonds": 119,
+  "shared_2plus": 1.0,
+  "exact": 95.89315499660736,
+  "cavity": 38.57438948697484,
+  "residual": 3.197442310920451e-14
+ },
+ {
+  "ensemble": "real",
+  "network": "Jazz bands",
+  "n": 19,
+  "beta_J": 0.3,
+  "n_cliques": 5,
+  "doubled_bonds": 49,
+  "n_bonds": 110,
+  "shared_2plus": 1.0,
+  "exact": 33.744718865473786,
+  "cavity": 6.426490503938332,
+  "residual": 3.5083047578154947e-14
+ },
+ {
+  "ensemble": "real",
+  "network": "Jazz bands",
+  "n": 19,
+  "beta_J": 0.8,
+  "n_cliques": 5,
+  "doubled_bonds": 49,
+  "n_bonds": 110,
+  "shared_2plus": 1.0,
+  "exact": 88.69316477273482,
+  "cavity": 39.84487630439621,
+  "residual": 3.019806626980426e-14
+ },
+ {
+  "ensemble": "real",
+  "network": "Jazz bands",
+  "n": 20,
+  "beta_J": 0.3,
+  "n_cliques": 8,
+  "doubled_bonds": 23,
+  "n_bonds": 90,
+  "shared_2plus": 0.39285714285714285,
+  "exact": 28.44437719933278,
+  "cavity": 1.0824663168031137,
+  "residual": 2.1538326677728037e-14
+ },
+ {
+  "ensemble": "real",
+  "network": "Jazz bands",
+  "n": 20,
+  "beta_J": 0.8,
+  "n_cliques": 8,
+  "doubled_bonds": 23,
+  "n_bonds": 90,
+  "shared_2plus": 0.39285714285714285,
+  "exact": 72.72039187383052,
+  "cavity": 14.070301085649064,
+  "residual": 1.4210854715202004e-14
+ },
+ {
+  "ensemble": "real",
   "network": "Jazz bands",
   "n": 12,
   "beta_J": 0.3,
   "n_cliques": 7,
   "doubled_bonds": 23,
   "n_bonds": 42,
+  "shared_2plus": 0.9047619047619048,
   "exact": 13.735573763849235,
   "cavity": 2.824259379256059,
-  "residual": 8.43769498715119e-15
+  "residual": 9.769962616701378e-15
  },
  {
   "ensemble": "real",
@@ -1891,6 +2058,7 @@
   "n_cliques": 7,
   "doubled_bonds": 23,
   "n_bonds": 42,
+  "shared_2plus": 0.9047619047619048,
   "exact": 34.30376733683103,
   "cavity": 24.689725181749843,
   "residual": 8.881784197001252e-16
@@ -1903,9 +2071,10 @@
   "n_cliques": 7,
   "doubled_bonds": 73,
   "n_bonds": 84,
+  "shared_2plus": 1.0,
   "exact": 26.006567309927973,
   "cavity": 20.129707667641085,
-  "residual": 1.2034817586936697e-13
+  "residual": 1.0258460747536446e-13
  },
  {
   "ensemble": "real",
@@ -1915,9 +2084,10 @@
   "n_cliques": 7,
   "doubled_bonds": 73,
   "n_bonds": 84,
+  "shared_2plus": 1.0,
   "exact": 67.8938207560462,
   "cavity": 89.39428159279633,
-  "residual": 4.263256414560601e-14
+  "residual": 3.552713678800501e-14
  },
  {
   "ensemble": "real",
@@ -1927,9 +2097,10 @@
   "n_cliques": 3,
   "doubled_bonds": 19,
   "n_bonds": 89,
+  "shared_2plus": 1.0,
   "exact": 27.465420501436284,
-  "cavity": 1.8212399521855467,
-  "residual": 5.218048215738236e-15
+  "cavity": 1.821239952185561,
+  "residual": 3.552713678800501e-15
  },
  {
   "ensemble": "real",
@@ -1939,8 +2110,9 @@
   "n_cliques": 3,
   "doubled_bonds": 19,
   "n_bonds": 89,
+  "shared_2plus": 1.0,
   "exact": 71.8934964036629,
-  "cavity": 13.763860365746751,
+  "cavity": 13.763860365746737,
   "residual": 1.0658141036401503e-14
  },
  {
@@ -1951,9 +2123,10 @@
   "n_cliques": 3,
   "doubled_bonds": 1,
   "n_bonds": 15,
+  "shared_2plus": 0.3333333333333333,
   "exact": 6.614661922813751,
-  "cavity": 0.019099109204491427,
-  "residual": 5.551115123125783e-16
+  "cavity": 0.019099109204492315,
+  "residual": 4.440892098500626e-16
  },
  {
   "ensemble": "real",
@@ -1963,6 +2136,7 @@
   "n_cliques": 3,
   "doubled_bonds": 1,
   "n_bonds": 15,
+  "shared_2plus": 0.3333333333333333,
   "exact": 12.855148919729611,
   "cavity": 0.18453247207513712,
   "residual": 8.881784197001252e-16
@@ -1975,9 +2149,10 @@
   "n_cliques": 5,
   "doubled_bonds": 75,
   "n_bonds": 115,
+  "shared_2plus": 1.0,
   "exact": 35.21600734153441,
-  "cavity": 19.876744961092314,
-  "residual": 1.3722356584366935e-13
+  "cavity": 19.876744961092307,
+  "residual": 1.1457501614131615e-13
  },
  {
   "ensemble": "real",
@@ -1987,9 +2162,10 @@
   "n_cliques": 5,
   "doubled_bonds": 75,
   "n_bonds": 115,
+  "shared_2plus": 1.0,
   "exact": 92.69316101960335,
-  "cavity": 88.11256047083474,
-  "residual": 9.237055564881302e-14
+  "cavity": 88.1125604708348,
+  "residual": 7.815970093361102e-14
  },
  {
   "ensemble": "real",
@@ -1999,9 +2175,10 @@
   "n_cliques": 2,
   "doubled_bonds": 55,
   "n_bonds": 89,
+  "shared_2plus": 1.0,
   "exact": 27.40055916283576,
-  "cavity": 9.587537135018398,
-  "residual": 8.881784197001252e-15
+  "cavity": 9.58753713501839,
+  "residual": 4.973799150320701e-14
  },
  {
   "ensemble": "real",
@@ -2011,6 +2188,7 @@
   "n_cliques": 2,
   "doubled_bonds": 55,
   "n_bonds": 89,
+  "shared_2plus": 1.0,
   "exact": 71.89314722264214,
   "cavity": 37.06852848459809,
   "residual": 7.105427357601002e-15
@@ -2023,9 +2201,10 @@
   "n_cliques": 6,
   "doubled_bonds": 86,
   "n_bonds": 126,
+  "shared_2plus": 0.9333333333333333,
   "exact": 38.5494217994776,
-  "cavity": 24.766109879424384,
-  "residual": 1.283417816466681e-13
+  "cavity": 24.76610987942439,
+  "residual": 7.949196856316121e-14
  },
  {
   "ensemble": "real",
@@ -2035,9 +2214,10 @@
   "n_cliques": 6,
   "doubled_bonds": 86,
   "n_bonds": 126,
+  "shared_2plus": 0.9333333333333333,
   "exact": 101.4934831514941,
-  "cavity": 102.07881377165248,
-  "residual": 4.085620730620576e-14
+  "cavity": 102.07881377165256,
+  "residual": 1.4210854715202004e-14
  },
  {
   "ensemble": "real",
@@ -2047,9 +2227,10 @@
   "n_cliques": 12,
   "doubled_bonds": 26,
   "n_bonds": 33,
+  "shared_2plus": 0.5,
   "exact": 11.969959076903192,
-  "cavity": 1.9816660581022258,
-  "residual": 3.552713678800501e-15
+  "cavity": 1.9816660581022205,
+  "residual": 3.1086244689504383e-15
  },
  {
   "ensemble": "real",
@@ -2059,8 +2240,9 @@
   "n_cliques": 12,
   "doubled_bonds": 26,
   "n_bonds": 33,
+  "shared_2plus": 0.5,
   "exact": 27.501296445432054,
-  "cavity": 19.739877534794758,
+  "cavity": 19.73987753479475,
   "residual": 1.7763568394002505e-15
  },
  {
@@ -2071,9 +2253,10 @@
   "n_cliques": 10,
   "doubled_bonds": 18,
   "n_bonds": 29,
+  "shared_2plus": 0.5333333333333333,
   "exact": 10.640122122089384,
   "cavity": 1.149576768572354,
-  "residual": 2.220446049250313e-15
+  "residual": 3.552713678800501e-15
  },
  {
   "ensemble": "real",
@@ -2083,8 +2266,9 @@
   "n_cliques": 10,
   "doubled_bonds": 18,
   "n_bonds": 29,
+  "shared_2plus": 0.5333333333333333,
   "exact": 24.262682279874813,
-  "cavity": 11.784095546687194,
+  "cavity": 11.784095546687201,
   "residual": 1.1102230246251565e-16
  },
  {
@@ -2095,9 +2279,10 @@
   "n_cliques": 18,
   "doubled_bonds": 33,
   "n_bonds": 36,
+  "shared_2plus": 0.7908496732026143,
   "exact": 12.125599093592212,
   "cavity": 8.19305687416381,
-  "residual": 5.329070518200751e-15
+  "residual": 9.769962616701378e-15
  },
  {
   "ensemble": "real",
@@ -2107,9 +2292,10 @@
   "n_cliques": 18,
   "doubled_bonds": 33,
   "n_bonds": 36,
+  "shared_2plus": 0.7908496732026143,
   "exact": 29.548891950964382,
-  "cavity": 64.11557437088882,
-  "residual": 1.0658141036401503e-14
+  "cavity": 64.1155743708888,
+  "residual": 3.552713678800501e-15
  },
  {
   "ensemble": "real",
@@ -2119,9 +2305,10 @@
   "n_cliques": 12,
   "doubled_bonds": 26,
   "n_bonds": 32,
+  "shared_2plus": 0.45454545454545453,
   "exact": 11.852235756271021,
   "cavity": 1.98628680135959,
-  "residual": 2.6645352591003757e-15
+  "residual": 3.1086244689504383e-15
  },
  {
   "ensemble": "real",
@@ -2131,8 +2318,9 @@
   "n_cliques": 12,
   "doubled_bonds": 26,
   "n_bonds": 32,
+  "shared_2plus": 0.45454545454545453,
   "exact": 26.845287240824,
-  "cavity": 19.557566439014224,
+  "cavity": 19.55756643901421,
   "residual": 8.881784197001252e-16
  },
  {
@@ -2143,9 +2331,10 @@
   "n_cliques": 7,
   "doubled_bonds": 7,
   "n_bonds": 33,
+  "shared_2plus": 0.42857142857142855,
   "exact": 11.75869022278101,
-  "cavity": 0.10580601753843588,
-  "residual": 1.3322676295501878e-15
+  "cavity": 0.10580601753843943,
+  "residual": 8.881784197001252e-16
  },
  {
   "ensemble": "real",
@@ -2155,9 +2344,10 @@
   "n_cliques": 7,
   "doubled_bonds": 7,
   "n_bonds": 33,
+  "shared_2plus": 0.42857142857142855,
   "exact": 27.19299978776211,
-  "cavity": 2.1694905362476966,
-  "residual": 2.220446049250313e-15
+  "cavity": 2.169490536247711,
+  "residual": 4.3298697960381105e-15
  },
  {
   "ensemble": "real",
@@ -2167,7 +2357,8 @@
   "n_cliques": 5,
   "doubled_bonds": 2,
   "n_bonds": 42,
-  "exact": 14.735330772037713,
+  "shared_2plus": 0.2,
+  "exact": 14.735330772037711,
   "cavity": 0.015231342907245704,
   "residual": 8.881784197001252e-16
  },
@@ -2179,9 +2370,10 @@
   "n_cliques": 5,
   "doubled_bonds": 2,
   "n_bonds": 42,
+  "shared_2plus": 0.2,
   "exact": 34.71661394321813,
   "cavity": 0.3888016550757598,
-  "residual": 1.7763568394002505e-15
+  "residual": 1.5543122344752192e-15
  },
  {
   "ensemble": "real",
@@ -2191,8 +2383,9 @@
   "n_cliques": 9,
   "doubled_bonds": 14,
   "n_bonds": 31,
+  "shared_2plus": 0.3611111111111111,
   "exact": 11.477367468502255,
-  "cavity": 0.4032971417964326,
+  "cavity": 0.4032971417964344,
   "residual": 1.7763568394002505e-15
  },
  {
@@ -2203,6 +2396,7 @@
   "n_cliques": 9,
   "doubled_bonds": 14,
   "n_bonds": 31,
+  "shared_2plus": 0.3611111111111111,
   "exact": 25.90216363332894,
   "cavity": 6.451312383171221,
   "residual": 2.220446049250313e-16
@@ -2215,9 +2409,10 @@
   "n_cliques": 7,
   "doubled_bonds": 11,
   "n_bonds": 32,
+  "shared_2plus": 0.3333333333333333,
   "exact": 11.660708951842388,
   "cavity": 0.07658439586901444,
-  "residual": 9.992007221626409e-16
+  "residual": 1.7763568394002505e-15
  },
  {
   "ensemble": "real",
@@ -2227,8 +2422,9 @@
   "n_cliques": 7,
   "doubled_bonds": 11,
   "n_bonds": 32,
+  "shared_2plus": 0.3333333333333333,
   "exact": 26.670598414871645,
-  "cavity": 4.274637115464024,
+  "cavity": 4.274637115464021,
   "residual": 8.881784197001252e-16
  },
  {
@@ -2239,8 +2435,9 @@
   "n_cliques": 9,
   "doubled_bonds": 6,
   "n_bonds": 21,
+  "shared_2plus": 0.2222222222222222,
   "exact": 9.692689655947513,
-  "cavity": 0.26059959535116306,
+  "cavity": 0.2605995953511613,
   "residual": 8.881784197001252e-16
  },
  {
@@ -2251,8 +2448,9 @@
   "n_cliques": 9,
   "doubled_bonds": 6,
   "n_bonds": 21,
+  "shared_2plus": 0.2222222222222222,
   "exact": 18.04121610113707,
-  "cavity": 2.0189493411626955,
+  "cavity": 2.018949341162706,
   "residual": 8.881784197001252e-16
  },
  {
@@ -2263,6 +2461,7 @@
   "n_cliques": 4,
   "doubled_bonds": 1,
   "n_bonds": 21,
+  "shared_2plus": 0.16666666666666666,
   "exact": 8.700363297940454,
   "cavity": 0.008047508053802943,
   "residual": 8.881784197001252e-16
@@ -2275,6 +2474,7 @@
   "n_cliques": 4,
   "doubled_bonds": 1,
   "n_bonds": 21,
+  "shared_2plus": 0.16666666666666666,
   "exact": 17.834001719948674,
   "cavity": 0.18269310747329826,
   "residual": 4.440892098500626e-16
@@ -2287,9 +2487,10 @@
   "n_cliques": 15,
   "doubled_bonds": 73,
   "n_bonds": 79,
+  "shared_2plus": 0.9523809523809523,
   "exact": 24.4478337170342,
-  "cavity": 23.11817104584106,
-  "residual": 1.829647544582258e-13
+  "cavity": 23.11817104584108,
+  "residual": 1.7763568394002505e-13
  },
  {
   "ensemble": "real",
@@ -2299,9 +2500,10 @@
   "n_cliques": 15,
   "doubled_bonds": 73,
   "n_bonds": 79,
+  "shared_2plus": 0.9523809523809523,
   "exact": 63.89316822349503,
-  "cavity": 134.24836981824475,
-  "residual": 2.2026824808563106e-13
+  "cavity": 134.2483698182447,
+  "residual": 2.2382096176443156e-13
  },
  {
   "ensemble": "real",
@@ -2311,9 +2513,10 @@
   "n_cliques": 10,
   "doubled_bonds": 31,
   "n_bonds": 44,
-  "exact": 14.374868061627474,
-  "cavity": 6.215730632268816,
-  "residual": 2.7533531010703882e-14
+  "shared_2plus": 0.8444444444444444,
+  "exact": 14.374868061627472,
+  "cavity": 6.215730632268821,
+  "residual": 2.5757174171303632e-14
  },
  {
   "ensemble": "real",
@@ -2323,6 +2526,7 @@
   "n_cliques": 10,
   "doubled_bonds": 31,
   "n_bonds": 44,
+  "shared_2plus": 0.8444444444444444,
   "exact": 35.934941266475604,
   "cavity": 47.03882890733341,
   "residual": 8.881784197001252e-16
@@ -2335,9 +2539,10 @@
   "n_cliques": 5,
   "doubled_bonds": 17,
   "n_bonds": 38,
+  "shared_2plus": 1.0,
   "exact": 12.839509166023579,
   "cavity": 1.3770960790004132,
-  "residual": 3.1086244689504383e-15
+  "residual": 8.43769498715119e-15
  },
  {
   "ensemble": "real",
@@ -2347,9 +2552,10 @@
   "n_cliques": 5,
   "doubled_bonds": 17,
   "n_bonds": 38,
+  "shared_2plus": 1.0,
   "exact": 31.12027386792351,
-  "cavity": 10.7539634318764,
-  "residual": 1.4210854715202004e-14
+  "cavity": 10.753963431876386,
+  "residual": 2.1316282072803006e-14
  },
  {
   "ensemble": "real",
@@ -2359,8 +2565,9 @@
   "n_cliques": 11,
   "doubled_bonds": 12,
   "n_bonds": 29,
+  "shared_2plus": 0.41818181818181815,
   "exact": 10.70442543626736,
-  "cavity": 0.45706283481578147,
+  "cavity": 0.4570628348157797,
   "residual": 8.881784197001252e-16
  },
  {
@@ -2371,8 +2578,9 @@
   "n_cliques": 11,
   "doubled_bonds": 12,
   "n_bonds": 29,
+  "shared_2plus": 0.41818181818181815,
   "exact": 23.957306691085403,
-  "cavity": 4.923709768282677,
+  "cavity": 4.923709768282681,
   "residual": 4.440892098500626e-16
  },
  {
@@ -2383,9 +2591,10 @@
   "n_cliques": 7,
   "doubled_bonds": 54,
   "n_bonds": 64,
+  "shared_2plus": 1.0,
   "exact": 20.013660274109856,
-  "cavity": 13.886399510867559,
-  "residual": 1.3322676295501878e-14
+  "cavity": 13.886399510867552,
+  "residual": 2.220446049250313e-14
  },
  {
   "ensemble": "real",
@@ -2395,9 +2604,10 @@
   "n_cliques": 7,
   "doubled_bonds": 54,
   "n_bonds": 64,
+  "shared_2plus": 1.0,
   "exact": 51.89481174536506,
-  "cavity": 74.1479838371099,
-  "residual": 4.796163466380676e-14
+  "cavity": 74.14798383710992,
+  "residual": 4.618527782440651e-14
  },
  {
   "ensemble": "real",
@@ -2407,9 +2617,10 @@
   "n_cliques": 5,
   "doubled_bonds": 56,
   "n_bonds": 79,
+  "shared_2plus": 1.0,
   "exact": 24.428297048229638,
-  "cavity": 13.245281564553224,
-  "residual": 1.092459456231154e-13
+  "cavity": 13.245281564553217,
+  "residual": 4.929390229335695e-14
  },
  {
   "ensemble": "real",
@@ -2419,9 +2630,10 @@
   "n_cliques": 5,
   "doubled_bonds": 56,
   "n_bonds": 79,
+  "shared_2plus": 1.0,
   "exact": 63.89316388987677,
   "cavity": 65.28534478287872,
-  "residual": 2.4868995751603507e-14
+  "residual": 2.3092638912203256e-14
  },
  {
   "ensemble": "real",
@@ -2431,9 +2643,10 @@
   "n_cliques": 4,
   "doubled_bonds": 9,
   "n_bonds": 19,
+  "shared_2plus": 0.5,
   "exact": 7.2905713783480195,
   "cavity": 0.6200375148690673,
-  "residual": 4.440892098500626e-16
+  "residual": 7.771561172376096e-16
  },
  {
   "ensemble": "real",
@@ -2443,6 +2656,7 @@
   "n_cliques": 4,
   "doubled_bonds": 9,
   "n_bonds": 19,
+  "shared_2plus": 0.5,
   "exact": 16.081295587150645,
   "cavity": 5.463704095331,
   "residual": 8.881784197001252e-16
@@ -2455,9 +2669,10 @@
   "n_cliques": 2,
   "doubled_bonds": 10,
   "n_bonds": 26,
+  "shared_2plus": 1.0,
   "exact": 8.706143623839521,
-  "cavity": 0.6364462894919392,
-  "residual": 1.9984014443252818e-15
+  "cavity": 0.6364462894919409,
+  "residual": 8.881784197001252e-16
  },
  {
   "ensemble": "real",
@@ -2467,9 +2682,10 @@
   "n_cliques": 2,
   "doubled_bonds": 10,
   "n_bonds": 26,
+  "shared_2plus": 1.0,
   "exact": 21.493687342035855,
   "cavity": 5.229405270540099,
-  "residual": 5.329070518200751e-15
+  "residual": 1.7763568394002505e-15
  },
  {
   "ensemble": "real",
@@ -2479,9 +2695,10 @@
   "n_cliques": 12,
   "doubled_bonds": 105,
   "n_bonds": 127,
+  "shared_2plus": 0.9545454545454546,
   "exact": 38.91531985674932,
-  "cavity": 56.96502146258834,
-  "residual": 3.6060043839825084e-13
+  "cavity": 56.965021462588325,
+  "residual": 4.991562718714704e-13
  },
  {
   "ensemble": "real",
@@ -2491,9 +2708,10 @@
   "n_cliques": 12,
   "doubled_bonds": 105,
   "n_bonds": 127,
+  "shared_2plus": 0.9545454545454546,
   "exact": 102.29487525205667,
   "cavity": 245.78350581891698,
-  "residual": 2.7711166694643907e-13
+  "residual": 3.4638958368304884e-13
  },
  {
   "ensemble": "real",
@@ -2503,9 +2721,10 @@
   "n_cliques": 6,
   "doubled_bonds": 7,
   "n_bonds": 16,
+  "shared_2plus": 0.4666666666666667,
   "exact": 6.7349362475463845,
-  "cavity": 0.30890587379620893,
-  "residual": 9.992007221626409e-16
+  "cavity": 0.3089058737962098,
+  "residual": 6.661338147750939e-16
  },
  {
   "ensemble": "real",
@@ -2515,9 +2734,10 @@
   "n_cliques": 6,
   "doubled_bonds": 7,
   "n_bonds": 16,
+  "shared_2plus": 0.4666666666666667,
   "exact": 13.698249580070975,
   "cavity": 2.669113423179052,
-  "residual": 2.220446049250313e-16
+  "residual": 4.440892098500626e-16
  },
  {
   "ensemble": "real",
@@ -2527,9 +2747,10 @@
   "n_cliques": 16,
   "doubled_bonds": 82,
   "n_bonds": 87,
+  "shared_2plus": 1.0,
   "exact": 26.81769419634627,
   "cavity": 40.98915989755069,
-  "residual": 2.646771690706373e-13
+  "residual": 2.859934511434403e-13
  },
  {
   "ensemble": "real",
@@ -2539,9 +2760,10 @@
   "n_cliques": 16,
   "doubled_bonds": 82,
   "n_bonds": 87,
+  "shared_2plus": 1.0,
   "exact": 70.2931490670056,
-  "cavity": 213.4612020441344,
-  "residual": 2.255973186038318e-13
+  "cavity": 213.46120204413424,
+  "residual": 1.7053025658242404e-13
  },
  {
   "ensemble": "real",
@@ -2551,9 +2773,10 @@
   "n_cliques": 11,
   "doubled_bonds": 120,
   "n_bonds": 155,
+  "shared_2plus": 1.0,
   "exact": 47.20739156897024,
-  "cavity": 70.91281923241283,
-  "residual": 5.906386491005833e-13
+  "cavity": 70.91281923241279,
+  "residual": 2.3803181647963356e-13
  },
  {
   "ensemble": "real",
@@ -2563,9 +2786,10 @@
   "n_cliques": 11,
   "doubled_bonds": 120,
   "n_bonds": 155,
+  "shared_2plus": 1.0,
   "exact": 124.6931500858689,
-  "cavity": 289.4031766894467,
-  "residual": 5.080380560684716e-13
+  "cavity": 289.4031766894468,
+  "residual": 2.362554596402333e-13
  },
  {
   "ensemble": "real",
@@ -2575,9 +2799,10 @@
   "n_cliques": 3,
   "doubled_bonds": 21,
   "n_bonds": 39,
+  "shared_2plus": 1.0,
   "exact": 12.562992632587045,
   "cavity": 2.517901096184149,
-  "residual": 6.217248937900877e-15
+  "residual": 7.549516567451064e-15
  },
  {
   "ensemble": "real",
@@ -2587,9 +2812,10 @@
   "n_cliques": 3,
   "doubled_bonds": 21,
   "n_bonds": 39,
+  "shared_2plus": 1.0,
   "exact": 31.894845314001106,
-  "cavity": 15.369141226436572,
-  "residual": 1.2434497875801753e-14
+  "cavity": 15.3691412264366,
+  "residual": 8.881784197001252e-15
  },
  {
   "ensemble": "real",
@@ -2599,9 +2825,10 @@
   "n_cliques": 6,
   "doubled_bonds": 79,
   "n_bonds": 85,
+  "shared_2plus": 1.0,
   "exact": 26.205425736885314,
-  "cavity": 31.929090040913902,
-  "residual": 2.922107000813412e-13
+  "cavity": 31.92909004091391,
+  "residual": 3.3306690738754696e-13
  },
  {
   "ensemble": "real",
@@ -2611,9 +2838,10 @@
   "n_cliques": 6,
   "doubled_bonds": 79,
   "n_bonds": 85,
+  "shared_2plus": 1.0,
   "exact": 68.69314745318243,
-  "cavity": 134.19469573603223,
-  "residual": 8.171241461241152e-14
+  "cavity": 134.19469573603217,
+  "residual": 5.1514348342607263e-14
  },
  {
   "ensemble": "real",
@@ -2623,9 +2851,10 @@
   "n_cliques": 4,
   "doubled_bonds": 8,
   "n_bonds": 36,
+  "shared_2plus": 0.5,
   "exact": 12.176909739711297,
-  "cavity": 0.22415534910405555,
-  "residual": 1.9984014443252818e-15
+  "cavity": 0.22415534910405377,
+  "residual": 1.7763568394002505e-15
  },
  {
   "ensemble": "real",
@@ -2635,6 +2864,7 @@
   "n_cliques": 4,
   "doubled_bonds": 8,
   "n_bonds": 36,
+  "shared_2plus": 0.5,
   "exact": 29.550506007395228,
   "cavity": 3.1166961805628475,
   "residual": 1.7763568394002505e-15
@@ -2647,9 +2877,10 @@
   "n_cliques": 13,
   "doubled_bonds": 98,
   "n_bonds": 105,
+  "shared_2plus": 1.0,
   "exact": 32.30796198170704,
-  "cavity": 116.57915359721285,
-  "residual": 0.0
+  "cavity": 58.084107241085846,
+  "residual": 9.885425811262394e-13
  },
  {
   "ensemble": "real",
@@ -2659,9 +2890,10 @@
   "n_cliques": 13,
   "doubled_bonds": 98,
   "n_bonds": 105,
+  "shared_2plus": 1.0,
   "exact": 84.69482214683083,
-  "cavity": 251.81467966362962,
-  "residual": 2.2026824808563106e-13
+  "cavity": 251.8146796636298,
+  "residual": 2.5579538487363607e-13
  },
  {
   "ensemble": "real",
@@ -2671,9 +2903,10 @@
   "n_cliques": 11,
   "doubled_bonds": 82,
   "n_bonds": 87,
+  "shared_2plus": 1.0,
   "exact": 26.95849514208654,
-  "cavity": 49.01862961560287,
-  "residual": 2.682298827494378e-13
+  "cavity": 49.018629615602826,
+  "residual": 2.007283228522283e-13
  },
  {
   "ensemble": "real",
@@ -2683,9 +2916,10 @@
   "n_cliques": 11,
   "doubled_bonds": 82,
   "n_bonds": 87,
+  "shared_2plus": 1.0,
   "exact": 70.30134350918419,
-  "cavity": 214.44310095573152,
-  "residual": 2.1316282072803006e-13
+  "cavity": 214.44310095573158,
+  "residual": 1.9184653865522705e-13
  },
  {
   "ensemble": "real",
@@ -2695,9 +2929,10 @@
   "n_cliques": 20,
   "doubled_bonds": 119,
   "n_bonds": 131,
+  "shared_2plus": 1.0,
   "exact": 40.11727120924642,
-  "cavity": 79.49912038713447,
-  "residual": 5.098144129078719e-13
+  "cavity": 79.49912038713452,
+  "residual": 5.844214001626824e-13
  },
  {
   "ensemble": "real",
@@ -2707,9 +2942,10 @@
   "n_cliques": 20,
   "doubled_bonds": 119,
   "n_bonds": 131,
+  "shared_2plus": 1.0,
   "exact": 105.49482462757294,
-  "cavity": 364.2476786644827,
-  "residual": 3.5349501104064984e-13
+  "cavity": 364.24767866448263,
+  "residual": 4.5297099404706387e-13
  },
  {
   "ensemble": "real",
@@ -2719,9 +2955,10 @@
   "n_cliques": 11,
   "doubled_bonds": 140,
   "n_bonds": 144,
+  "shared_2plus": 1.0,
   "exact": 44.15920236670545,
-  "cavity": 167.0040806584421,
-  "residual": 0.0
+  "cavity": 101.76873805810868,
+  "residual": 6.03073146976385e-13
  },
  {
   "ensemble": "real",
@@ -2731,6 +2968,7 @@
   "n_cliques": 11,
   "doubled_bonds": 140,
   "n_bonds": 144,
+  "shared_2plus": 1.0,
   "exact": 115.93310053751252,
   "cavity": 446.5068527956459,
   "residual": 0.0
@@ -2743,9 +2981,10 @@
   "n_cliques": 8,
   "doubled_bonds": 34,
   "n_bonds": 48,
-  "exact": 15.309345694283865,
-  "cavity": 4.660022379005197,
-  "residual": 1.7319479184152442e-14
+  "shared_2plus": 0.8928571428571429,
+  "exact": 15.309345694283863,
+  "cavity": 4.6600223790051984,
+  "residual": 1.3322676295501878e-14
  },
  {
   "ensemble": "real",
@@ -2755,8 +2994,9 @@
   "n_cliques": 8,
   "doubled_bonds": 34,
   "n_bonds": 48,
+  "shared_2plus": 0.8928571428571429,
   "exact": 39.09517860408796,
-  "cavity": 36.629114490365154,
-  "residual": 4.263256414560601e-14
+  "cavity": 36.62911449036517,
+  "residual": 5.861977570020827e-14
  }
 ]

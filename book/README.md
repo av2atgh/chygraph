@@ -396,16 +396,32 @@ Conclusions already said and what `gbp_karrer.json` holds; "median four atoms"
 and "half of the twenty ... *are* the minimal ring" → half carry one cycle and
 **eight** of those are the ring, which is what Fig. 16.5's caption says.
 
-**The pair-correlation claim was dropped, not corrected.** `overlap.tex` used to
-report that counting intersecting complex *pairs* rather than doubled bonds
-gives `+0.53, +0.18, +0.68`. Nothing computes those: `probe/cavity_clique.py`
-records `doubled_bonds` but no `shared_2plus`. Joining the cavity rows to the
-GBP records that do carry it (order-aligned, verified on `n_cliques`) gives
-`+0.58, +0.52, +0.68` for raw pair counts and `+0.14, −0.24, −0.14` for the pair
-*fraction* — so the sentence's point, that the pair measure gives "almost none"
-on the placed ensemble, does not survive either reading. Both the running-text
-sentence and its half of the Checks entry are gone. **To restore the comparison,
-add `shared_2plus` to the dict `cavity_clique.solve` returns and requote.**
+**The pair-correlation claim was dropped, then restored from the pipeline.**
+`overlap.tex` reported that counting intersecting complex *pairs* rather than
+doubled bonds gives `+0.53, +0.18, +0.68`. Nothing computed those:
+`cavity_clique.solve` recorded `doubled_bonds` and no `shared_2plus`. It now
+records both — `overlap_profile(cx)['shared_2plus']`, the same call and so the
+same definition as `gbp_cliques`/`gbp_karrer`/`gbp_real`, which is the *fraction
+of intersecting pairs meeting in two or more atoms* and not a raw count.
+`probe/results/cavity_clique.json` is regenerated, and the correct triple is
+**`+0.58, +0.52, +0.68`** against the bond measure's `+0.65, +0.63, +0.83`. The
+bond measure wins on every class, which is the sentence's point; what does not
+survive is the old claim that the pair measure gives "almost none" on the placed
+ensemble, `+0.52` being a perfectly good signal. `figs/overlap.py:check_cavity`
+now prints both correlations from the one file, so the comparison cannot drift
+apart again.
+
+**Regenerating that file moved two of its 240 rows, and Sec. 14.4 now says so.**
+Both are hospital-contact neighbourhoods at `beta J = 0.3`; their error in
+`ln Z` goes from `116.6` to `58.1` and from `167.0` to `101.8`. The cavity
+iteration has more than one fixed point there and the committed cache had found
+the other one; two fresh regenerations agree with each other exactly, so this is
+the environment rather than a seed. Nothing else in the file moves, no min,
+median or max changes, and the only quoted number affected is the real-class
+bond correlation — `0.8359` on the old file, `0.8340` on the new, which is why
+it reads `+0.83` and not the `+0.84` this pass first corrected it to. **Do not
+"fix" it back.** It is the same failure Sec. 15.4 documents for GBP on real
+neighbourhoods, one method earlier.
 
 **Two claims are cached-data-unbacked and were left alone.** `gbp.tex`'s
 run-it-twice reproducibility check (86 runs to `2e-12`, largest disagreement

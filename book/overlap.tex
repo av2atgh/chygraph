@@ -244,10 +244,13 @@ a core, which is why it errs on every instance.
 The error tracks the quantity Fig.~\ref{fig:sharededge} identifies, and tracks
 it better than any coarser measure of overlap. Its logarithm correlates with the
 fraction of bonds lying inside two or more complexes at $+0.65$, $+0.63$ and
-$+0.84$ on the three classes. That fraction is the direct count of the defect:
+$+0.83$ on the three classes. That fraction is the direct count of the defect:
 a bond inside two complexes is summed by both, and its interaction enters the
-free energy twice. What predicts the damage is how much of the graph is
-double-counted, not how many complexes happen to intersect.
+free energy twice. Counting complex \emph{pairs} instead --- the
+$\mathrm{shared}_{2+}$ of Chapter~\ref{ch:data}, the fraction of intersecting
+pairs that meet in two or more atoms --- also correlates, and less well on every
+one of the three: $+0.58$, $+0.52$ and $+0.68$. What predicts the damage is how
+much of the graph is double-counted, not how many complexes happen to intersect.
 
 \section{The cause is the overlap}
 \label{sec:deficit}
@@ -293,8 +296,10 @@ on $240$ instances, and its exact column is enumeration throughout. All $240$
 reach a fixed point, so no number here rests on an iteration that failed to
 settle. The correlation is reported against the fraction of \emph{bonds} lying
 in two or more complexes rather than the fraction of intersecting complex pairs,
-because the first is the defect and the second only a proxy for it; it is
-$+0.65$, $+0.63$ and $+0.84$ on the three classes.
+because the first is the defect and the second only a proxy for it; the two give
+$+0.65$, $+0.63$, $+0.83$ against $+0.58$, $+0.52$, $+0.68$, the bond measure
+winning on every class. Both are printed by \code{figs/overlap.py} from the one
+file, so the comparison cannot drift apart.
 
 \checkhead{Partial results}
 Taking maximal cliques as complexes presumes the clique-size distribution has a
@@ -306,6 +311,20 @@ constant between $1.8$ and $4.8$ for $\tau\ge2.5$, flat over $n=10^{3}$ to
 $3\times10^{5}$. At $\tau=2.1$ both diverge and the control diverges faster, so
 below $\tau=2.5$ the measured ensemble is not converged and neither is anything
 built on it. The instances here are drawn at $\tau=2.5$.
+
+Two of the $120$ real neighbourhoods settle on a fixed point that is not
+unique. Regenerating \code{probe/results/cavity\_clique.json} reproduces $238$
+of the $240$ runs to machine precision and lands those two --- both
+hospital-contact neighbourhoods, at $\beta J=0.3$ --- on a different fixed
+point, moving their error in $\ln Z$ from $116.6$ to $58.1$ and from $167.0$ to
+$101.8$. Both states pass the residual test, and a second regeneration
+reproduces the first exactly, so this is the environment and not the seed.
+Neither instance is the largest or the median error, so nothing quoted above
+moves except the third correlation, $+0.83$ on the regenerated file against
+$+0.84$ on the one it replaced. It is the warning
+Sec.~\ref{sec:realoverlap} gives for generalised belief propagation, arriving
+one method earlier: on real neighbourhoods a small residual does not by itself
+certify an answer.
 
 This part works with the Ising model throughout, and does so by choice: one
 model across three ensembles isolates the effect of where the triangles come

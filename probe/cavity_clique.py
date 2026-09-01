@@ -43,6 +43,7 @@ sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech'
 sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech' / 'probe'))
 
 from chygraph_statmech.gbp import exact_log_Z, ising_factors  # noqa: E402
+from chygraph_statmech.region import overlap_profile  # noqa: E402
 
 RESULTS = Path(__file__).parent / 'results'
 OUT = RESULTS / 'cavity_clique.json'
@@ -175,6 +176,13 @@ def solve(G, n, bJ):
         'n': n, 'beta_J': bJ, 'n_cliques': len(cx),
         'doubled_bonds': sum(1 for k in cov.values() if k > 1),
         'n_bonds': len(edges),
+        # The two candidate measures of overlap, so Ch. 14 can report the
+        # correlation against both from one file: `doubled_bonds` counts the
+        # defect itself, a bond summed by two complexes, and `shared_2plus` is
+        # the coarser proxy, the fraction of INTERSECTING complex pairs that
+        # meet in two or more atoms -- the same quantity, and the same
+        # definition, that gbp_cliques/gbp_karrer/gbp_real record.
+        'shared_2plus': overlap_profile(cx)['shared_2plus'],
         'exact': exact, 'cavity': best.log_Z() - exact,
         'residual': best.residual,
     }
