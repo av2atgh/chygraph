@@ -216,8 +216,7 @@ A chygraph is a set of complexes, where complexes are hypergraphs with a vertex
 set in the set of complexes \citep{vazquez2024comnet}.
 \end{quote}
 
-That sentence is self-referential in the way the systems it describes are
-self-referential. Two properties are packed into it. \emph{Self-reference:} complexes
+Two properties are packed into that sentence. \emph{Self-reference:} complexes
 are built from complexes, and are themselves available as building blocks.
 \emph{Fine-grained structure:} what is inside a complex is not a heap but a
 hypergraph.
@@ -575,7 +574,7 @@ The inclusion drawing is complete and scales badly: it puts every complex and
 every inclusion on the page, and it becomes unreadable at a couple of dozen
 complexes. The spatial drawing is compact and incomplete: it can only show a
 complex as a box when the complex's members can be drawn adjacent, which
-fails as soon as two complexes share more than one member --- precisely the
+fails as soon as two complexes share more than one atom --- precisely the
 situation of Sec.~\ref{sec:treelike}. Use the first when the question is what
 includes what, the second when the question is what is near what.
 
@@ -766,8 +765,10 @@ repairs.}
 \label{fig:price}
 \end{figure}
 
-So the condition is easy to state and easy to check: \textbf{a chygraph is
-locally treelike when its complexes meet in at most one atom}. Uniform
+So the condition is easy to state and easy to check, with the caveat above kept
+in view: \textbf{a chygraph is locally treelike only if its complexes meet in at
+most one atom}, and on the random ensembles of Part~II that necessary condition
+is sufficient as well. Uniform
 hypergraphs drawn from a configuration model satisfy it with probability
 approaching one. Multiplex and interacting networks satisfy it by construction.
 Graphs decorated with triangles in the manner of \citet{newman2009} satisfy it

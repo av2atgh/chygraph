@@ -123,8 +123,8 @@ condition Sec.~\ref{sec:treelike} states, and it is tempting to stop there and
 call the result exact. It is not sufficient, and the reason is the one this part
 opened with, one level higher again.
 
-Pairwise intersections of at most one node do not make the incidence structure a
-tree. Three or more complexes can meet in as many different single nodes and
+Pairwise intersections of at most one atom do not make the incidence structure a
+tree. Three or more complexes can meet in as many different single atoms and
 close a cycle complex--node--complex--node--complex--node, and the chygraph
 recursion is a Bethe calculation on that structure. Where such a cycle survives
 the merge, so does an error.
@@ -164,7 +164,7 @@ structure is a ring of $2k$ steps, not a forest.
     {$A_{\i}$};
 }
 \node[lb,anchor=north,align=center] at (0,-3.35)
-  {four complexes, every pair\\meeting in at most one node};
+  {four complexes, every pair\\meeting in at most one atom};
 
 % the incidence structure beside it
 \begin{scope}[xshift=6.4cm]
@@ -182,7 +182,7 @@ structure is a ring of $2k$ steps, not a forest.
 \end{tikzpicture}
 \end{adjustbox}
 \caption{\textbf{The pairwise condition is not sufficient.} Left: four triangles
-glued in a ring, each meeting the next at a single vertex. No two complexes
+glued in a ring, each meeting the next at a single atom. No two complexes
 share two atoms, so Sec.~\ref{sec:treelike}'s test passes. Right: the atom
 --complex incidence structure of the same object, which is a cycle. The loop
 was never absorbed into any complex; it runs between them, and merging cannot

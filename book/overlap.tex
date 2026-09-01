@@ -3,11 +3,11 @@
 
 Every calculation in Parts~II and~III rests on one assumption, stated in
 Sec.~\ref{sec:treelike} and repeated whenever it mattered: complexes meet in at
-most one node. This part is about what to do when they do not.
+most one atom. This part is about what to do when they do not.
 
 Two complexes sharing a single node satisfy the assumption: the incidence
 structure stays a tree and the recursions handle it. The case at issue is the
-pair sharing \emph{two or more} nodes, which is what \emph{non-trivial overlap}
+pair sharing \emph{two or more} atoms, which is what \emph{non-trivial overlap}
 means here and in the two chapters that follow. Section~\ref{sec:price} draws
 it.
 
@@ -77,7 +77,7 @@ cannot see it, for the same reason and by the same argument
 \end{adjustbox}
 \caption{\textbf{Two triangles sharing an edge.} Promoting
 each triangle to a complex removes its internal loop from the outside view, but
-the two complexes now meet in two nodes rather than one, and the cycle
+the two complexes now meet in two atoms rather than one, and the cycle
 complex--node--complex--node is invisible to a chygraph exactly as a triangle is
 invisible to a graph. Both counting schemes count every node once; only one also
 counts the shared bond once, and that is the difference between subtracting a
@@ -174,7 +174,7 @@ clique chygraph: messages between atoms and complexes, each complex summing over
 its own interior exactly, and $\ln Z$ read off the Bethe free energy of the
 incidence structure. It is what Chapter~\ref{ch:statmech} prescribes, applied to
 an object that violates its assumption. On a chygraph whose complexes meet in at
-most one node the same recursion returns the exact answer to machine precision,
+most one atom the same recursion returns the exact answer to machine precision,
 which is checked on chains, stars and trees of triangles before any of the
 numbers below are quoted.
 
@@ -235,9 +235,9 @@ incidence structure, in the sense of Chapter~\ref{ch:cover}'s core but counted
 over complexes rather than links: an atom lying in a single complex is
 determined by it and goes, a complex left holding one atom has nothing to say
 and goes with it, and what survives is what the recursion must decide for
-itself. Not one instance is core-free, and the medians are $0.59$, $0.75$ and
-$0.67$ --- so the cavity method is nowhere being asked an easy question.
-Computed by \code{probe/core\_fraction.py}.}
+itself. Not one instance is core-free, and the medians are $0.59$ on the
+hyperbolic ensemble, $0.75$ on the placed one and $0.67$ on the real
+neighbourhoods. Computed by \code{probe/core\_fraction.py}.}
 \label{fig:corebonds}
 \end{figure}
 
@@ -259,19 +259,15 @@ worth saying at the point the numbers are quoted rather than only in the checks:
 on real neighbourhoods a small residual does not by itself certify an answer,
 which is the same thing Sec.~\ref{sec:realoverlap} will find one method later.
 
-These are not instances on which propagation had an easy question to answer.
+These are not instances on which propagation had an easy question to answer:
 Figure~\ref{fig:corebonds} plots
-$P_{C}(\mathrm{Ising},\mathrm{BP}_{\chi})$, the core fraction of the clique
-chygraph under the removal this model licenses. An atom lying in one complex
-leaves and a complex left holding one atom leaves with it, and what survives is
-what the messages must resolve for themselves. Both arguments earn their place:
+$P_{C}(\mathrm{Ising},\mathrm{BP}_{\chi})$ over the clique chygraph, and not one
+of the $120$ is core-free. Both arguments of that symbol earn their place.
 Figure~\ref{fig:core} plots $P_{C}(\mathrm{VC},\mathrm{BP}_{\chi})$ on the same
-kind of object, and it is a different number, because a covering constraint lets
-leaf removal take the complex around a forced atom and a coupling does not. Not one of the $120$ instances is
-core-free, and
-the medians are $0.59$ on the hyperbolic ensemble, $0.75$ on the placed one and
-$0.67$ on the real neighbourhoods. On every instance the recursion is left with
-a core, which is why it errs on every instance.
+kind of object and it is a different number, because a covering constraint lets
+leaf removal take the complex around a forced atom and a coupling does not. On
+every instance the recursion is left with a core, which is why it errs on every
+instance.
 
 The error tracks the quantity Fig.~\ref{fig:sharededge} identifies, and tracks
 it better than any coarser measure of overlap. Its logarithm correlates with the
@@ -291,7 +287,7 @@ The error above is attributed to overlap. That attribution is a measurement, not
 an inference, and it is the \emph{rewired control} of Sec.~\ref{sec:hrg}.
 
 Take the measured clique ensemble and rearrange it so that complexes meet in at
-most one node, holding the ensemble fixed and changing only the arrangement. The
+most one atom, holding the ensemble fixed and changing only the arrangement. The
 prediction agrees with that control to $10^{-3}$. The map is therefore right on
 its own terms, and the whole remaining discrepancy against the real graph is
 overlap. Without the control a wrong recursion and a violated assumption give
@@ -310,7 +306,7 @@ share edges, irrelevant once almost everything is core, largest in between.
 The cavity recursion and the Bethe free energy it stationarises are standard, and
 Chapter~\ref{ch:statmech} derives them. The implementation used here is checked
 where the answer is known independently: on chygraphs whose complexes meet in at
-most one node --- chains, stars, two triangles glued at a vertex, trees of
+most one atom --- chains, stars, two triangles glued at a vertex, trees of
 triangles --- it returns the exact $\ln Z$ to $2\times10^{-15}$ at every
 coupling tried. That is the check that what the chapter then reports is the
 overlap and not the solver. The free energy is evaluated in its explicit form,
