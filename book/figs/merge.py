@@ -19,8 +19,12 @@ matching roles rather than grown by a geometry.  There the two answers differ,
 and the reason is that the number of motif pairs sharing an edge is O(1) on
 their ensemble and Theta(n) on a hyperbolic graph.
 
-  fig-merge    the largest meta-complex against density and against n
-  fig-motifs   the overlap count against n, the two ensembles side by side
+This module writes no figures.  It used to write fig-merge and fig-motifs;
+nothing has included them since Part IV was split into three chapters, so both
+they and the code that drew them are gone.  What the book still takes from here
+is Table 15.2, via `check_placed_finite_size`.  Everything else in the file is
+either a check that is not quoted or, in the case of `merge_closure` and
+`karrer_graph`, a definition that six probe scripts import.
 
 Graphs come from `~/av2atg/computational_complexity/code/hrg.py`; cliques from
 networkx.
@@ -38,20 +42,6 @@ from chygraph_statmech.region import overlap_profile  # noqa: E402
 from hrg import hrg_calibrated  # noqa: E402
 
 OUT = Path(__file__).resolve().parent
-DARK, MID, LIGHT = '0.10', '0.45', '0.70'
-
-
-def _mpl():
-    import matplotlib
-    matplotlib.use('Agg')
-    import matplotlib.pyplot as plt
-    return plt
-
-
-def _tidy(ax):
-    ax.tick_params(labelsize=8)
-    for sp in ('top', 'right'):
-        ax.spines[sp].set_visible(False)
 
 
 def merge_closure(complexes, max_rounds=40):
@@ -406,82 +396,6 @@ def _hrg_edges(n, tau, kbar, seed):
     return list(zip(src.tolist(), dst.tolist()))
 
 
-def figure_motifs():
-    """The overlap count against n for the two ensembles, and what it costs."""
-    plt = _mpl()
-    import networkx as nx
-    ns = np.array([1000, 2000, 4000, 8000])
-    fig, axes = plt.subplots(1, 2, figsize=(4.6, 2.4))
-
-    series = (('placed motifs', DARK, 'o',
-               lambda n, s: karrer_graph(n, 1.0, {3: 4.0}, s)[0]),
-              ('hyperbolic', LIGHT, '^', None))
-    for ax, which in ((axes[0], 'count'), (axes[1], 'largest')):
-        for lab, col, mk, gen in series:
-            ys = []
-            for n in ns:
-                vals = []
-                for s in (1, 2, 3):
-                    if gen is None:
-                        G = nx.Graph()
-                        G.add_nodes_from(range(n))
-                        G.add_edges_from(_hrg_edges(n, 2.5, 3.0, s))
-                    else:
-                        G = gen(n, s)
-                    cl = cliques_of(G)
-                    c, _ = overlap_stats(cl)
-                    m, _ = merge_closure(cl)
-                    vals.append(c if which == 'count' else max(len(x) for x in m))
-                ys.append(np.mean(vals))
-            ax.loglog(ns, ys, mk + '-', ms=3.4, lw=1.2, color=col, label=lab)
-        ax.loglog(ns, ys[0] * ns / ns[0], ':', lw=0.9, color='0.55')
-        ax.set_xticks(list(ns))
-        ax.set_xticklabels(['1k', '2k', '4k', '8k'])
-        ax.minorticks_off()
-        ax.set_xlabel('$n$', fontsize=8.5)
-        _tidy(ax)
-    axes[0].set_ylabel('clique pairs sharing an edge', fontsize=8)
-    axes[1].set_ylabel('largest meta-complex', fontsize=8)
-    axes[0].legend(frameon=False, fontsize=7, loc='upper left')
-    fig.tight_layout()
-    fig.savefig(OUT / 'fig-motifs.pdf')
-    print(f'  wrote {OUT / "fig-motifs.pdf"}')
-
-
-def figure_merge():
-    plt = _mpl()
-    fig, axes = plt.subplots(1, 2, figsize=(4.6, 2.5))
-
-    ax = axes[0]
-    ks = (0.3, 0.5, 0.8, 1.2, 2.0, 3.0, 4.0)
-    for n, col, mk in ((1000, LIGHT, '^'), (2000, MID, 's'), (4000, DARK, 'o')):
-        ax.semilogy(ks, [largest(n, 2.5, k) for k in ks], mk + '-', ms=3.4,
-                    lw=1.2, color=col, label=f'$n={n}$')
-    ax.axhline(25, ls=':', lw=0.9, color='0.5')
-    ax.set_xlabel(r'mean degree $\langle k\rangle$', fontsize=8.5)
-    ax.set_ylabel('largest meta-complex', fontsize=8.5)
-    ax.legend(frameon=False, fontsize=7, loc='lower right')
-    _tidy(ax)
-
-    ax = axes[1]
-    ns = (1000, 2000, 4000, 8000)
-    for kbar, col, mk in ((0.3, LIGHT, '^'), (0.8, MID, 's'), (2.0, DARK, 'o')):
-        ax.loglog(ns, [largest(n, 2.5, kbar, seeds=2) for n in ns], mk + '-',
-                  ms=3.4, lw=1.2, color=col, label=rf'$\langle k\rangle={kbar}$')
-    ax.loglog(ns, [0.05 * n for n in ns], ':', lw=0.9, color='0.55')
-    ax.annotate('slope 1', xy=(2600, 90), fontsize=6.4, color='0.45')
-    ax.set_xticks(list(ns))
-    ax.set_xticklabels(['1k', '2k', '4k', '8k'])
-    ax.minorticks_off()
-    ax.set_xlabel(r'$n$', fontsize=8.5)
-    ax.legend(frameon=False, fontsize=7, loc='upper left')
-    _tidy(ax)
-
-    fig.tight_layout()
-    fig.savefig(OUT / 'fig-merge.pdf')
-    print(f'  wrote {OUT / "fig-merge.pdf"}')
-
-
 if __name__ == '__main__':
     print('the repair, on the two-triangle example:')
     check_two_triangles()
@@ -495,6 +409,3 @@ if __name__ == '__main__':
     check_placed_finite_size()
     print('the closure on the six real networks:')
     check_merge_on_real()
-    print('figures:')
-    figure_merge()
-    figure_motifs()

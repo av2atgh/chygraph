@@ -499,9 +499,12 @@ Merging does not guarantee that --- it removes pairwise overlap, and three
 complexes can still close a cycle through three single atoms, as
 Fig.~\ref{fig:ring} shows with four triangles that pass Sec.~\ref{sec:treelike}'s
 test and are still wrong. But on real neighbourhoods it delivers a forest every
-time, because the closure there merges nearly everything into one to three large
-complexes and a large complex absorbs the loops into an interior that is summed
-exactly. Over all $240$ runs the criterion is exact in both directions: every one
+time, and mostly for that reason: $116$ of the $120$ closures leave three
+meta-complexes or fewer, which cannot carry a cycle, and a large complex absorbs
+the loops into an interior that is summed exactly. It is not the whole reason.
+Fourteen of the $60$ hyperbolic closures leave five to ten meta-complexes and
+four of the real ones leave four, so eighteen runs clear the counting argument
+and come out acyclic anyway. Over all $240$ runs the criterion is exact in both directions: every one
 of the $200$ acyclic families is exact, every one of the $40$ cyclic ones is
 not, by $5\times10^{-3}$ to $2.25$ in $\ln Z$. Nothing falls on the wrong side.
 
@@ -521,8 +524,8 @@ scale from outside this book.
 The instances of Sec.~\ref{sec:mergeerror} were drawn at $b$ between $3.5$ and
 $7$, far above threshold, so two thirds of them keeping a core follows from
 where they were sampled rather than from the ensemble. The hyperbolic and real
-neighbourhoods, whose closures leave one to three complexes, are on the other
-side of it.
+neighbourhoods, whose closures usually leave three meta-complexes or fewer, are
+on the other side of it.
 
 \paragraph{What remains open.} All of this is instance-level. It takes an
 explicit list of complexes and an explicit interaction, where every other
