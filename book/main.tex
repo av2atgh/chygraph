@@ -50,7 +50,6 @@
 
 \usepackage{array}
 \usepackage{longtable}
-\usepackage[most]{tcolorbox}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,calc,bending,shapes.geometric,positioning,fit,backgrounds,decorations.pathreplacing}
 
@@ -118,21 +117,6 @@
 \renewcommand{\floatpagefraction}{0.7}
 \setcounter{topnumber}{2}
 \setcounter{totalnumber}{3}
-
-% Skippable "calculation" box. Usage: \begin{calculation}{what is being computed} ... \end{calculation}
-\newtcolorbox{calculation}[1]{%
-  breakable,
-  enhanced,
-  colback=black!4,
-  colframe=black!45,
-  boxrule=0.5pt,
-  arc=2pt,
-  left=6pt,right=6pt,top=6pt,bottom=6pt,
-  fonttitle=\bfseries\small,
-  fontupper=\small,
-  coltitle=black,
-  title={The mathematics behind it: #1 \hfill\textnormal{\itshape(this box can be skipped)}},
-}
 
 % Notation carried over from the papers, so that a reader who goes from the book
 % to them finds the same symbols.

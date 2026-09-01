@@ -2,9 +2,9 @@
 
 Book-length treatment of percolation and statistical mechanics on complex
 hypergraphs. Production style follows *Local network growth* — 5×8 in trim,
-grayscale, heavy on TikZ illustration. The `calculation` boxes that style
-carried are **being removed** --- see Conventions --- and Ch. 11 is the first
-chapter without them.
+grayscale, heavy on TikZ illustration. Derivations run in continuous text, each
+ending on the routine that executes it; the `calculation` boxes that style
+carried were removed on 2026-09-01, and the environment with them.
 
 ## Contents
 
@@ -49,10 +49,10 @@ references and 0 multiply-defined labels, across 284 pages.** Not box-clean:
 **three overfull hboxes** — `cover.tex:239--249` (1.98pt, "Which
 replica-symmetry-breaking point"), `overlap.tex:146--155` (6.37pt, the
 `\paragraph{Real networks, where the triangles are whatever was recorded.}`
-head) and `metacomplex.tex:347--353` (3.16pt) — and **35 underfull vboxes**,
+head) and `metacomplex.tex:347--353` (3.16pt) — and **33 underfull vboxes**,
 every one of them `while \output is active` — page-breaking around floats, not
 a line that runs into the margin.
-55 figures, 25 numbered tables, 22 calculation boxes, 125 numbered equations of
+55 figures, 25 numbered tables, 125 numbered equations of
 which 116 carry labels, 73 references, a 96-term index. All 295 distinct
 `\ref`/`\eqref` targets resolve, all 28 `\includegraphics` files are present,
 and all 114 `\code` names in `software.tex` resolve across both repositories.
@@ -1340,7 +1340,7 @@ grep -c 'Overfull \\hbox' main.log       # 3 known, listed in Status; a 4th is n
 grep -o 'Output written.*' main.log      # page count
 ```
 
-Underfull vboxes are not a defect here: all 35 are `while \output is active`,
+Underfull vboxes are not a defect here: all 33 are `while \output is active`,
 which is page-breaking around floats. An **overfull hbox** is, since it puts ink
 in the margin; the three that survive are recorded in Status.
 
@@ -1410,7 +1410,7 @@ Build into a scratch directory --- `latexmk -pdf -interaction=nonstopmode
 refresh `main.pdf`; the output is identical and the working tree is left alone.
 
 The counts in Status are re-measured, not maintained by hand. Figures, tables
-and calculation boxes are `grep -c '\\begin{figure}'` and friends over `*.tex`;
+are `grep -c '\\begin{figure}'` and friends over `*.tex`;
 numbered equations are `\begin{equation}` plus the numbered rows of `align`;
 `\ref`/`\eqref` resolution and `\code`-name resolution are worth scripting
 against both repositories, remembering that `joint.JointGiantComponent` is an
@@ -1551,12 +1551,17 @@ against each other inconsistently; none of the three had been measured. It needs
   to reading rather than an aid, because a derivation the reader is told to skip
   is a derivation they cannot follow when they want it. Derivations run in
   continuous text, where they are needed, and **each ends by naming the routine
-  that executes it** --- `\code{cover.CliqueCover.solve}` and the like --- so the
-  path from the algebra to the code is in the sentence rather than only in
-  `software.tex`'s Table 1. Chapter 11 is converted; the other chapters still
-  carry 22 boxes between them and are not. Two things have to change when the
-  last of them goes: the preface, which promises boxes that can be skipped, and
-  the header of this file.
+  that executes it** --- `cover.CliqueCover.solve` and the like --- so the path
+  from the algebra to the code is in the sentence rather than only in
+  `software.tex`'s Table 1. All 25 boxes are gone, and the `calculation`
+  environment and the `tcolorbox` dependency went with them, so a new box will
+  not compile.
+- **Long `\code` names carry `\allowbreak` at their separators.** `\code` is a
+  bare `\texttt` with no break points, and a name like
+  `statmech/probe/karrer_core_sweep.core_closed_form` overflows the 4.05in
+  measure by 232pt without them. The rule is applied everywhere, including
+  `software.tex`'s table, and is idempotent: insert after `.`, `/` and `\_`
+  where one is not already there.
 - Overlapping complexes are drawn as two translucent boxes of the same grey, so
   the shared atoms show as a darker patch. Established in Fig. 2.7 and used
   wherever overlap matters.

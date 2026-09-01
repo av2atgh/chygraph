@@ -196,7 +196,6 @@ once past it, which is the subject of Chapter~\ref{ch:giant}.
 Third, deleting links at random and deleting nodes at random are the same
 calculation with different bookkeeping.
 
-\begin{calculation}{the giant component, in full}
 The branching argument gives the threshold. Getting the size of the giant
 component needs generating functions, which are the workhorse of
 Chapter~\ref{ch:percolation} and are introduced here once.
@@ -229,8 +228,7 @@ The trivial solution $u=1$ always exists and gives $S=0$. It becomes unstable
 when the derivative of the right-hand side at $u=1$ exceeds one, that is when
 $p\,G_{1}'(1)>1$ --- Eq.~\eqref{eq:molloyreed} again. Threshold and order
 parameter are the linearisation and the full solution of one equation, which is
-the observation Chapter~\ref{ch:giant} is built on.
-\end{calculation}
+the observation Chapter~\ref{ch:giant} is built on. Chapter~\ref{ch:percolation} writes both lines for a chygraph, Eqs.~\eqref{eq:Qminus} and~\eqref{eq:Sl}, and \code{giant.\allowbreak Chygraph.\allowbreak apply} and \code{giant.\allowbreak Chygraph.\allowbreak node\_\allowbreak fraction} are what evaluate them.
 
 \begin{figure}[t]
 \centering
@@ -679,7 +677,6 @@ the sense that a message built out of $\bar k$ messages drawn from $P$ is itself
 drawn from $P$. This gives the typical behaviour of the whole class of graphs at
 once, and it is what all the thresholds in this book are.
 
-\begin{calculation}{the cavity recursion for the Ising model, and its threshold}
 For Eq.~\eqref{eq:ising-intro} the message function is
 \[
   u(h)=\frac{1}{\beta}\,\mathrm{atanh}
@@ -713,8 +710,7 @@ summing over the interior of one link \emph{exactly}; when the interior is
 larger, that sum is larger but still exact. And the counting $\ave{\bar k}$ is
 independent of both --- it is a property of the network, not of the model.
 Separating those three is what lets one calculation serve every model in this
-book.
-\end{calculation}
+book. Chapter~\ref{ch:statmech} does the separating: \code{cavity.\allowbreak emitted\_\allowbreak field} is the interior sum and \code{cavity.\allowbreak cavity\_\allowbreak derivative} the factor that appears here as $t$.
 
 \section{Replica symmetry and symmetry breaking}
 \label{sec:replicas}
