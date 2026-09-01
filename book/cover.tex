@@ -67,39 +67,49 @@ but a complex could only ever have contributed one member, so the cost is the
   z_{i\to a}=1-\sum_{b\ne a}\max\Bigl(0,\max_{j\in b\setminus i}z_{j\to b}\Bigr),
   \label{eq:vcz}
 \end{equation}
-giving
+which is one inclusion of one graph. Getting an ensemble out of it takes one
+reading and two averages, and it is worth doing them slowly, because the answer
+is not what Chapter~\ref{ch:hittingset} would lead one to write down.
+
+\emph{Read the message.} $z_{i\to a}=1$ means $i$ is \emph{free} --- it may be
+left out of the cover --- as seen by $a$. Everything in the sum is $0$ or $1$:
+$\max_{j\in b\setminus i}z_{j\to b}$ is $1$ exactly when at least one other
+member of $b$ is free, and the outer $\max(0,\cdot)$ discards the $-1$ a
+complex would otherwise contribute when all of its other members are taken. So
+the sum counts, and $z_{i\to a}=1$ if and only if that count is zero: $i$ is
+free when no other complex \emph{blocks} it, where $b$ blocks $i$ when some
+member of $b$ other than $i$ is free. That is the covering constraint read
+locally --- two members of a complex are adjacent, so if $j$ is left out then
+$i$ must be taken --- and writing the inner cost as a maximum rather than a sum
+is what makes blocking one yes-or-no event per complex instead of a count of
+them. A yes-or-no event per complex is what a generating function can average.
+
+\emph{Average inside one complex.} Let $\sigma_{l}$ be the probability that a
+node reached along an inclusion into a layer-$l$ complex is free. Enter a
+layer-$l$ complex at $i$ and look at its other $c_{l}-1$ members. By the reading
+above, the complex fails to block $i$ exactly when \emph{none} of them is free.
+On a treelike chygraph the branches behind those members meet only at the
+complex, so the $c_{l}-1$ events are independent and their probabilities
+multiply. Write $\tau_{l}$ for the result:
+\[
+  \tau_{l}=\underbrace{(1-\sigma_{l})\cdots(1-\sigma_{l})}_{c_{l}-1}
+          =(1-\sigma_{l})^{\,c_{l}-1}.
+\]
+
+\emph{Average over the complexes at a node.} Now $i$ itself. It is free when
+every one of its other complexes fails to block it, each independently with
+probability $\tau$, and how many others it has is the excess chy-degree of
+Sec.~\ref{sec:ensembles} --- excess, because the inclusion $i$ was reached
+along does not count again. Averaging $\tau^{n}$ over that count is what
+$\bar\Phi$ does by definition, $\bar\Phi^{(m)}(\tau)=\sum_{n}\bar p^{(m)}_{n}
+\tau^{n}$, so $\sigma_{m}=\bar\Phi^{(m)}(\tau)$. Collecting the two averages,
 \begin{equation}
   \sigma_{m}=\bar\Phi^{(m)}(\tau),
   \qquad
   \tau_{l}=(1-\sigma_{l})^{\,c_{l}-1}.
   \label{eq:vc}
 \end{equation}
-Equation~\eqref{eq:vcz} is a statement about one inclusion of one graph and
-Eq.~\eqref{eq:vc} is the same statement averaged over an ensemble, and it is
-worth saying how the second follows from the first, because it does not follow
-by inspection.
-
-\emph{What the message says.} $z_{i\to a}=1$ means $i$ is \emph{free} --- it may
-be left out of the cover --- as seen by $a$. The sum counts the complexes other
-than $a$ that block it, and $\max(0,\max_{j\in b\setminus i}z_{j\to b})$ is $1$
-exactly when at least one other member of $b$ is itself free. That is the
-covering constraint read locally: two members of a complex are adjacent, so if
-$j$ is left out then $i$ must be taken. Writing the inner cost as a maximum
-rather than a sum is what makes blocking a yes-or-no event per complex instead
-of a count, and a yes-or-no event per complex is what can be pushed through a
-generating function.
-
-\emph{What a complex does.} Let $\sigma_{l}$ be the probability that a node
-reached along an inclusion into a layer-$l$ complex is free. Entered at $i$,
-such a complex leaves $i$ free only if none of its other $c_{l}-1$ members is
-free, and on a treelike chygraph those members are independent given what
-reaches them, so $\tau_{l}=(1-\sigma_{l})^{\,c_{l}-1}$.
-
-\emph{What a node does.} $i$ is free when \emph{every} one of its other
-complexes leaves it free. How many others there are is the excess chy-degree of
-Sec.~\ref{sec:ensembles}, and averaging a product over that count is evaluating
-its generating function at $\tau$, which gives $\sigma_{m}=\bar\Phi^{(m)}(\tau)$
-and so Eq.~\eqref{eq:vc}. Section~\ref{sec:treelike}'s condition is used twice
+Section~\ref{sec:treelike}'s condition is used twice
 over, in two different places: once inside a complex, to multiply the
 $c_{l}-1$ members, and once across the complexes at a node, to evaluate
 $\bar\Phi$. It is the first of the three assumptions Sec.~\ref{sec:assumes}
