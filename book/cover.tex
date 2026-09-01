@@ -108,6 +108,22 @@ deleted ($D$), or core-side ($C$). Percolation had two answers and got a scalar;
 this has three, and needs a message with three components
 (Fig.~\ref{fig:leafremoval}).
 
+The branch is Sec.~\ref{sec:cavity}'s construction. Take the inclusion of a node
+$i$ into a complex $a$, remove $a$, and what still hangs off $i$ --- its other
+complexes, and everything reachable through them --- is the cavity branch.
+Running the algorithm there and nowhere else makes the outcome a property of the
+branch alone, which is what lets it travel along the inclusion as a message.
+
+The three states are the three things the branch can tell $a$.
+\emph{Leaf-ready}: the branch consumed itself and left $i$ holding nothing else,
+so $i$ is a leaf as far as $a$ is concerned and $a$ may take it.
+\emph{Deleted}: some other complex has already taken $i$, which is therefore
+not there to be counted. \emph{Core-side}: the algorithm stalled on the branch
+with $i$ still holding two or more live inclusions, and $a$ cannot resolve it.
+The first two are both settled and they act on $a$ in opposite directions --- one
+offers it a leaf, the other removes a member --- which is why they cannot be
+collapsed into a single number the way percolation's two answers could.
+
 The three-state cavity treatment of core percolation on graphs is due to
 \citet{liu2012}; what follows carries it to complexes. The letters here are
 this book's: $\psi$ and $\delta$ are written $\alpha$ and $\beta$ in that paper
@@ -211,6 +227,19 @@ iteration from zero suffices and none of Sec.~\ref{sec:hard}'s bracketing
 apparatus is needed. That is the distinction Sec.~\ref{sec:fixedpoint} drew, put
 to use: the two maps live on the same chygraph and differ in the signs of their
 entries, and the sign decides which solver applies.
+
+\paragraph{The branch is a device and not a step of the algorithm.} Leaf removal
+does not remove a complex and restart; it peels the whole object at once, and
+Sec.~\ref{sec:leafremoval}'s rule never mentions a cavity. What the branch does
+is turn that global peeling into a local recursion, and it is exactly where the
+treelike assumption enters: cutting $a$ is taken to leave the rest of $i$'s
+neighbourhood self-contained. Where it does not --- where the branch closes on
+itself by some other route --- Eq.~\eqref{eq:core} is predicting the output of an
+algorithm that will not do what the recursion says, and the algorithm is the one
+that is right, since Sec.~\ref{sec:leafremoval}'s exchange argument holds on any
+graph. Sections~\ref{sec:hrg} and~\ref{sec:realcore} measure the size of that
+gap; it is the whole of the difference between their measured and chygraph
+columns.
 
 \section{On a graph: one point, three names}
 \label{sec:onepoint}
