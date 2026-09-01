@@ -22,11 +22,11 @@ from pathlib import Path
 
 import numpy as np
 
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech' / 'src'))
-from chygraph_statmech import gbp, region  # noqa: E402
+sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech' / 'src'))
+from statmech import gbp, region  # noqa: E402
 
 OUT = Path(__file__).resolve().parent
-PROBE = Path.home() / 'av2atg' / 'chygraph_statmech' / 'probe' / 'results'
+PROBE = Path.home() / 'av2atg' / 'statmech' / 'probe' / 'results'
 DARK, MID, LIGHT = '0.10', '0.45', '0.70'
 
 # Two triangles sharing the edge {1,2}.
@@ -431,10 +431,10 @@ def check_ring():
     import sys
     from itertools import combinations
     import networkx as nx
-    sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech'
+    sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech'
                            / 'probe'))
     from cavity_clique import ChygraphBP
-    from chygraph_statmech.gbp import exact_log_Z, ising_factors
+    from statmech.gbp import exact_log_Z, ising_factors
 
     print('  rings of triangles glued at single vertices:')
     print(f'    {"k":>3}{"n":>4}{"pairwise":>10}{"forest":>8}'

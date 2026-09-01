@@ -1,6 +1,6 @@
 """Minimum vertex cover of the graph underlying a chygraph.
 
-:mod:`chygraph_statmech.hittingset` covers every *hyperedge*: a hyperedge is
+:mod:`statmech.hittingset` covers every *hyperedge*: a hyperedge is
 satisfied as soon as one member is taken, so at most ``c-1`` members may be
 left out.  Vertex cover of the graph a chygraph induces is the other end of the
 same family.  Two members of a clique are adjacent, so leaving both out leaves
@@ -23,14 +23,14 @@ With ``sigma_l`` the chance a node reached through a layer-``l`` complex has
 
 against ``tau_l = sigma_l^{c_l-1}`` and an outer complement for hitting set.
 Both collapse to the same thing at ``c = 2``, which is the graph, and both are
-order-reversing, so :mod:`chygraph_statmech.antimonotone` solves them.
+order-reversing, so :mod:`statmech.antimonotone` solves them.
 
 **Where this is exact, and where it is not.**  At ``c = 2`` the cover size
 reduces to Weigt-Hartmann and the solution is exact wherever leaf removal
 certifies it, i.e. below the core threshold ``<kappabar> = e``.  At ``c >= 3``
 it is *never* certified, and the formalism says so itself: a chygraph carrying
 any layer of cardinality three or more has no core-free branch
-(:mod:`chygraph_statmech.core`), so the leaf-removal core is always extensive
+(:mod:`statmech.core`), so the leaf-removal core is always extensive
 and replica symmetry is never established.  The degeneracy rule inherited from
 the graph -- a node at ``z = 0`` counted as half taken -- is the visible
 symptom.  On a single triangle every vertex sits at ``z = 0``, the rule gives
@@ -39,8 +39,8 @@ symptom.  On a single triangle every vertex sits at ``z = 0``, the rule gives
 
 import numpy as np
 
-from chygraph_statmech import antimonotone as am
-from chygraph_statmech.hittingset import (layer_symbols, poisson_phi,  # noqa: F401
+from statmech import antimonotone as am
+from statmech.hittingset import (layer_symbols, poisson_phi,  # noqa: F401
                                           two_class_phi)
 from sympy import diff, lambdify
 
@@ -51,7 +51,7 @@ class CliqueCover:
     Args:
         cardinalities: clique size per complex layer; ``[2]`` is a graph.
         phi: joint chy-degree generating function, sympy expression in
-            :func:`~chygraph_statmech.hittingset.layer_symbols`.
+            :func:`~statmech.hittingset.layer_symbols`.
     """
 
     def __init__(self, cardinalities, phi):
@@ -114,7 +114,7 @@ class CliqueCover:
         """Whether the replica-symmetric value can be trusted.
 
         False whenever any layer has cardinality >= 3, because then
-        :mod:`chygraph_statmech.core` has no core-free branch: leaf removal
+        :mod:`statmech.core` has no core-free branch: leaf removal
         leaves an extensive core at every density and never certifies a
         minimum cover.
         """

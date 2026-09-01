@@ -4,8 +4,8 @@ import numpy as np
 import pytest
 import sympy as sp
 
-import chygraph_statmech as cs
-from chygraph_statmech.population import CavityPopulation
+import statmech as cs
+from statmech.population import CavityPopulation
 
 beta, J = sp.symbols('beta J', positive=True)
 

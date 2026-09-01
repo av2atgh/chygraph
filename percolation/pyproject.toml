@@ -3,7 +3,7 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "chygraph"
+name = "percolation"
 version = "0.1.0"
 description = "Symbolic calculation of percolation in chygraphs, hypergraphs, and higher-order networks"
 readme = "README.md"

@@ -16,7 +16,7 @@ sys.path.insert(0, str(CC))
 import leafremoval as lr  # noqa: E402
 from hrg import to_csr  # noqa: E402
 
-import chygraph_statmech.core as cp  # noqa: E402
+import statmech.core as cp  # noqa: E402
 
 
 def clique_graph(n, c, k, rng=1):

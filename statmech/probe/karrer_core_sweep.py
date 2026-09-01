@@ -25,7 +25,7 @@ import numpy as np
 from scipy.optimize import brentq
 
 sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph' / 'src'))
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech'
+sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech'
                       / 'book' / 'figs'))
 
 from merge import karrer_graph, merge_closure  # noqa: E402

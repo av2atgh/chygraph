@@ -15,7 +15,7 @@ import time
 
 import numpy as np
 
-from chygraph_statmech.population import CavityPopulation, critical_coupling
+from statmech.population import CavityPopulation, critical_coupling
 
 T_TRI = (7 - np.sqrt(45)) / 2          # 6t/(1-t+t^2) = 1, WP1 closed form
 PRED = {'graph, k_L = 6': np.arctanh(1 / 6.0),

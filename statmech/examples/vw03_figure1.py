@@ -10,7 +10,7 @@ map closes on, so it exists on both sides, and stability is asked separately.
 Rows past the break are marked: the number is a fixed point, not the answer.
 """
 
-from chygraph_statmech import vertexcover as vc
+from statmech import vertexcover as vc
 
 DMAX = 800
 

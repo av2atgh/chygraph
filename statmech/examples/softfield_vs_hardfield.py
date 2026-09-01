@@ -11,8 +11,8 @@ import numpy as np
 from scipy.special import lambertw
 from sympy import Symbol
 
-import chygraph_statmech.hittingset as hs
-from chygraph_statmech.softfield import (HittingSetBP, regular_entropy,
+import statmech.hittingset as hs
+from statmech.softfield import (HittingSetBP, regular_entropy,
                                          regular_field)
 
 MU = 60.0

@@ -13,7 +13,7 @@ branching matrix on the ``L`` complex layers is
 
 and the transition is at ``det(I - B) = 0``, i.e. Perron root 1.  For the
 ferromagnetic line ``u'_m`` is the cavity derivative of
-:mod:`chygraph_statmech.cavity`; squaring it gives the de Almeida-Thouless line
+:mod:`statmech.cavity`; squaring it gives the de Almeida-Thouless line
 instead, exactly as in WP1.
 
 ``u'`` has no useful closed form beyond a triangle --
@@ -36,7 +36,7 @@ from scipy.optimize import brentq
 def clique_derivative(c, beta_J):
     """``u'`` at zero field for a ``c``-clique, numerically.
 
-    The same enumeration as :func:`chygraph_statmech.cavity.cavity_derivative`,
+    The same enumeration as :func:`statmech.cavity.cavity_derivative`,
     evaluated rather than kept symbolic so it can be swept over temperature.
     """
     m = c - 1

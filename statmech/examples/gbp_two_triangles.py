@@ -13,10 +13,10 @@ the zero-counting singletons are pruned the region family is
 
 import numpy as np
 
-from chygraph_statmech import Chygraph
-from chygraph_statmech.gbp import (GBP, clique_edges, exact_log_Z,
+from statmech import Chygraph
+from statmech.gbp import (GBP, clique_edges, exact_log_Z,
                                    ising_factors, static_log_Z)
-from chygraph_statmech.region import RegionGraph
+from statmech.region import RegionGraph
 
 CX = [[0, 1, 2], [1, 2, 3]]
 

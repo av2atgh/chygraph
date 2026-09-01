@@ -7,7 +7,7 @@ documented in chygraph/applications.py and in manuscript_3.
 
 from sympy import Rational, exp, expand, nsolve, simplify, symbols
 
-from chygraph import (and_or_hypergraph, correlated_cardinality_hypergraph,
+from percolation import (and_or_hypergraph, correlated_cardinality_hypergraph,
                       two_class_joint_degree, household_epidemic,
                       clique_network, clique_cluster_distribution,
                       stc_percolation)

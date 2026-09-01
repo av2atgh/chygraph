@@ -30,9 +30,9 @@ import numpy as np
 CC = Path.home() / 'av2atg' / 'computational_complexity' / 'code'
 sys.path.insert(0, str(CC))
 sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph' / 'src'))
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech'
+sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech'
                       / 'book' / 'figs'))
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech' / 'probe'))
+sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech' / 'probe'))
 
 import leafremoval as lr  # noqa: E402
 

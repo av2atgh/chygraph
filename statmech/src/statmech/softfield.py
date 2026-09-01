@@ -1,6 +1,6 @@
 """Hitting set with the O(1) cavity fields kept (soft fields).
 
-:mod:`chygraph_statmech.hittingset` takes ``mu -> inf`` with *hard* fields --
+:mod:`statmech.hittingset` takes ``mu -> inf`` with *hard* fields --
 warning propagation, the ansatz of Vazquez & Weigt.  That is exact at
 cardinality two and wrong above it, because the limit discards an ``O(1)``
 contribution that survives it.  Two symptoms: on disjoint 3-hyperedges, where

@@ -32,8 +32,8 @@ sys.path.insert(0, str(CC))
 import leafremoval as lr  # noqa: E402
 from hrg import erased_configuration_model, hrg_calibrated, to_csr  # noqa: E402
 
-import chygraph_statmech.core as cp  # noqa: E402
-from chygraph_statmech.region import overlap_profile  # noqa: E402
+import statmech.core as cp  # noqa: E402
+from statmech.region import overlap_profile  # noqa: E402
 
 CMAX = 8          # cardinalities 2..CMAX get their own layer; larger are pooled
 

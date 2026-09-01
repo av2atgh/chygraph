@@ -24,9 +24,9 @@ import networkx as nx
 import numpy as np
 
 sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph' / 'src'))
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech'
+sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech'
                       / 'book' / 'figs'))
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech' / 'probe'))
+sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech' / 'probe'))
 
 from merge import merge_closure  # noqa: E402
 

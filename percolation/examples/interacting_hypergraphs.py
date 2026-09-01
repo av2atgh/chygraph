@@ -6,7 +6,7 @@ WARNING: eigenvalue calculations for the general-degree interacting graph
 can consume significant time and memory.
 """
 
-from chygraph import InteractingHypergraphs
+from percolation import InteractingHypergraphs
 
 
 def example_interacting_hypergraphs_poisson():

@@ -17,7 +17,7 @@ with ``Z_a`` the exact partition function *inside* a complex given the cavity
 fields of its members, and ``Z_i = 2 cosh(h_i)``.
 
 Those weights are not a coincidence.  They are exactly the Mobius counting
-numbers of :mod:`chygraph_statmech.region` in the treelike case: ``1`` on every
+numbers of :mod:`statmech.region` in the treelike case: ``1`` on every
 complex and ``1 - k_v`` on every node.  WP5 computes the counting, WP6
 evaluates the free energy with it, and where complexes overlap both are wrong
 in the same way.
@@ -33,14 +33,14 @@ textbook ``ln 2 + (c/2) ln cosh(beta J)``.
 import numpy as np
 from scipy.special import logsumexp
 
-from chygraph_statmech.population import CavityPopulation
+from statmech.population import CavityPopulation
 
 
 class BetheFreeEnergy:
     """Free energy per spin of an Ising chygraph, from cavity populations.
 
     Args:
-        population: a converged :class:`~chygraph_statmech.population.CavityPopulation`.
+        population: a converged :class:`~statmech.population.CavityPopulation`.
     """
 
     def __init__(self, population):

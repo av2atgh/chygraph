@@ -4,7 +4,7 @@ Two figures, and the numbers quoted in the chapter.
 
   fig-households   final size of an SIR epidemic with two levels of mixing,
                    households of size three on a Poisson global contact
-                   network, computed with `chygraph.household_epidemic`; the
+                   network, computed with `percolation.household_epidemic`; the
                    marked thresholds are the household reproduction number
                    R* = 1;
   fig-contagion    onset of a contagion in which a group transmits only when
@@ -25,7 +25,7 @@ import numpy as np
 from sympy import Rational, exp, nsolve, simplify, symbols
 
 sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph' / 'src'))
-from chygraph import (clique_excess_pgf, household_epidemic,  # noqa: E402
+from percolation import (clique_excess_pgf, household_epidemic,  # noqa: E402
                       size_biased)
 
 OUT = Path(__file__).resolve().parent

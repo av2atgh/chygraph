@@ -8,7 +8,7 @@ import math
 
 from sympy import symbols, nsolve, expand, simplify
 
-from chygraph import hypergraph_giant, graph_with_triangles_giant
+from percolation import hypergraph_giant, graph_with_triangles_giant
 
 
 def example_hypergraph():

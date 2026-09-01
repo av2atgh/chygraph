@@ -1,6 +1,6 @@
 """Chygraphs with statistically dependent layers.
 
-:mod:`chygraph.giant` takes the chy-degree generating function of a layer-``l``
+:mod:`percolation.giant` takes the chy-degree generating function of a layer-``l``
 complex to factorise over target layers,
 ``Phi^l(x_0, ..., x_{L-1}) = prod_k Phi^l_k(x_k)``, and likewise for the
 intra-complex component sizes.  That covers every mapping in
@@ -61,7 +61,7 @@ moment, and both the threshold and the order parameter change.
 
 from sympy import Symbol, diff, simplify, sympify
 
-from chygraph.giant import Chygraph
+from percolation.giant import Chygraph
 
 
 class JointChygraph(Chygraph):

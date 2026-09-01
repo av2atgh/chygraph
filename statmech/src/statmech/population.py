@@ -15,7 +15,7 @@ complex sends back down, and each is carried as a population of samples:
 
 The up step is the chy-degree step of any chygraph, with a convolution in place
 of a generating-function product.  The down step is the exact solve *inside* the
-complex from :mod:`chygraph_statmech.cavity`, evaluated numerically rather than
+complex from :mod:`statmech.cavity`, evaluated numerically rather than
 symbolically.  That is the substitution the README states as the whole content
 of the extension: **argument scalar -> argument measure, product -> convolution.**
 

@@ -4,7 +4,7 @@ The threshold calculation of Vazquez, Phys. Rev. E 107, 024316 (2023) returns
 ``theta = -det(A)`` and ``Lambda = max eig(-A)`` from the tensor ``A``, whose
 entries are the first moments ``<k>``, ``<K>``, ``<s>``, ``<S>``.  ``A = I - J``
 is the Jacobian of the non-linear self-consistency map ``F`` at its trivial
-fixed point (see :mod:`chygraph.giant`).  Carrying the expansion of ``F`` one
+fixed point (see :mod:`percolation.giant`).  Carrying the expansion of ``F`` one
 order further gives the *amplitude* of the order parameter, still in closed
 form.
 
@@ -49,7 +49,7 @@ Reference:
 
 from sympy import Eq, Matrix, Symbol, eye, nsimplify, simplify, solve, sympify, zeros
 
-from chygraph.giant import GiantComponent
+from percolation.giant import GiantComponent
 
 
 def _default_probe(free):
@@ -64,7 +64,7 @@ class CriticalAmplitude:
     """Closed-form critical amplitude ``B`` in ``S ~ B * Lambda``.
 
     Args:
-        model: a :class:`chygraph.giant.GiantComponent`.
+        model: a :class:`percolation.giant.GiantComponent`.
         probe: optional ``{symbol: value}`` used only to pick the Perron branch
             among the symbolic eigenvalues.  Any generic point works.
 

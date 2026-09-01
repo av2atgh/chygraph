@@ -8,7 +8,7 @@ replica-symmetric solution reduces to one scalar per excess-degree class,
 
 with ``pi_d`` the probability that an edge entering a vertex of degree ``d+1``
 carries a constraint.  No field distribution survives, so this is the same shape
-``chygraph.giant.Chygraph`` solves — with one difference that matters.  A
+``percolation.giant.Chygraph`` solves — with one difference that matters.  A
 generating function is order-*preserving*, so the percolation map is monotone
 and ``Chygraph.solve`` can iterate upward from ``Q = 0``.  Eq. (16) is
 order-*reversing*: raising any ``pi`` lowers every ``pi``.  Plain iteration

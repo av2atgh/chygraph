@@ -3,10 +3,10 @@
 import numpy as np
 import pytest
 
-from chygraph_statmech.freeenergy import (BetheFreeEnergy, free_energy_gap,
+from statmech.freeenergy import (BetheFreeEnergy, free_energy_gap,
                                           graph_paramagnetic, paramagnetic)
-from chygraph_statmech.population import CavityPopulation
-from chygraph_statmech.region import RegionGraph
+from statmech.population import CavityPopulation
+from statmech.region import RegionGraph
 
 T_TRI = (7 - np.sqrt(45)) / 2
 SYSTEMS = {'graph': ([2], [6.0], np.arctanh(1 / 6.0)),

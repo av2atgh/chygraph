@@ -1,6 +1,6 @@
 """Giant component fraction in chygraphs.
 
-The percolation threshold in ``chygraph.percolation`` is obtained from the
+The percolation threshold in ``percolation.percolation`` is obtained from the
 tensor ``A`` of Vazquez, Phys. Rev. E 107, 024316 (2023), Eq. (34), whose
 entries are the first moments <k>, <K>, <s>, <S>.  That tensor is exactly the
 Jacobian, at the trivial fixed point, of the nonlinear self-consistency map of
@@ -41,7 +41,7 @@ Reference:
 
 from sympy import Symbol, Matrix, eye, exp, lambdify, sympify
 
-from chygraph.percolation import PercolationMatrix
+from percolation.percolation import PercolationMatrix
 
 
 # ---------------------------------------------------------------------------
@@ -69,7 +69,7 @@ def moment_pgf(mean, second):
     """Quadratic surrogate ``1 + <x>(t-1) + <x(x-1)>(t-1)^2/2``.
 
     Only the first two derivatives at ``t = 1`` enter the critical amplitude
-    (:mod:`chygraph.amplitude`), so this surrogate makes the amplitude of an
+    (:mod:`percolation.amplitude`), so this surrogate makes the amplitude of an
     *arbitrary* distribution exactly computable from its first two factorial
     moments.  It is not a probability generating function and must not be used
     for the fixed point itself.
@@ -241,7 +241,7 @@ class Chygraph:
 
     # -- the linearisation and its next order ------------------------------
     #
-    # Implemented in chygraph.amplitude and exposed here so that one object
+    # Implemented in percolation.amplitude and exposed here so that one object
     # answers all three questions about a chygraph: where the transition is,
     # how steeply the order parameter rises out of it, and what it is away from
     # the threshold.  The import is deferred to avoid a circular one.
@@ -249,7 +249,7 @@ class Chygraph:
     @property
     def _amplitude(self):
         if getattr(self, '_amp_cache', None) is None:
-            from chygraph.amplitude import CriticalAmplitude
+            from percolation.amplitude import CriticalAmplitude
             self._amp_cache = CriticalAmplitude(
                 self, probe=getattr(self, 'perron_probe', None))
         return self._amp_cache
@@ -346,7 +346,7 @@ class Chygraph:
 
 
 # ---------------------------------------------------------------------------
-# Models, mirroring those in chygraph.percolation
+# Models, mirroring those in percolation.percolation
 # ---------------------------------------------------------------------------
 
 def _tables(L):

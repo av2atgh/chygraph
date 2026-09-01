@@ -1,6 +1,6 @@
 """Stability of the *non-trivial* fixed point (WP2).
 
-``chygraph.giant.Chygraph.jacobian`` computes ``J = dF/dQ`` and substitutes
+``percolation.giant.Chygraph.jacobian`` computes ``J = dF/dQ`` and substitutes
 ``Q = 1``.  That is the trivial fixed point, and its Perron root is
 ``lambda = 1 + Lambda``: the threshold diagnostic of WP1.  It says where the
 giant component appears, and nothing about the solution once it has.
@@ -41,7 +41,7 @@ class FixedPointStability:
     """Jacobian of a chygraph map at the fixed point it actually reaches.
 
     Args:
-        model: a ``chygraph.giant.Chygraph`` (or ``GiantComponent``).
+        model: a ``percolation.giant.Chygraph`` (or ``GiantComponent``).
     """
 
     def __init__(self, model):
@@ -97,7 +97,7 @@ class FixedPointStability:
 
         The unambiguous form of the question the eigenvalue sign cannot answer.
         Generating functions give ``+1``; the ``mu -> inf`` vertex-cover map of
-        :mod:`chygraph_statmech.vertexcover` gives ``-1``.
+        :mod:`statmech.vertexcover` gives ``-1``.
         """
         J = self.jacobian(subs, **kw)
         if (J >= -1e-12).all():

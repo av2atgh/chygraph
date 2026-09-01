@@ -9,10 +9,10 @@ import math
 
 from sympy import symbols, nsolve, simplify, expand, Rational
 
-from chygraph.giant import (
+from percolation.giant import (
     hypergraph_giant, multiplex_hypergraph_giant, graph_with_triangles_giant,
 )
-from chygraph.amplitude import CriticalAmplitude
+from percolation.amplitude import CriticalAmplitude
 
 
 # ---------------------------------------------------------------------------
@@ -128,7 +128,7 @@ def test_curvature_is_positive_for_a_continuous_transition():
 def _hypergraph_moments(graph=False):
     """Site-bond percolation with the degree and cardinality distributions
     represented by their first two factorial moments only."""
-    from chygraph.giant import GiantComponent, thin, moment_pgf as mp
+    from percolation.giant import GiantComponent, thin, moment_pgf as mp
     p, q = symbols('p q')
     k, kb, kb1 = symbols('k kbar kbar1')
     c, cb, cb1 = symbols('c cbar cbar1')
@@ -207,7 +207,7 @@ def test_curvature_vanishes_only_for_the_two_regular_graph():
     every step along the critical direction is deterministic and unique, which
     for a graph means k = 2: a union of cycles, where lambda = sqrt(pq) is
     critical only at the boundary p = q = 1 and every Q is a fixed point."""
-    from chygraph.giant import constant_pgf
+    from percolation.giant import constant_pgf
     p, q = symbols('p q')
     for kk, want_zero in ((2, True), (3, False), (4, False)):
         G = hypergraph_giant(degree=constant_pgf(kk),
@@ -227,7 +227,7 @@ def test_amplitude_diverges_on_approach_to_the_two_regular_limit():
     eps -> 0.  Then B = 4<k>^2 / [m(m-1)(m-2) eps] diverges like 1/eps: an
     amplitude can be made arbitrarily large, but by degenerating towards one
     dimension, not by any explosive mechanism."""
-    from chygraph.giant import finite_pgf
+    from percolation.giant import finite_pgf
     p, q = symbols('p q')
     m = 4
     for eps in (Rational(1, 4), Rational(1, 10), Rational(1, 100)):

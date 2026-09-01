@@ -5,9 +5,9 @@ import itertools
 import pytest
 import sympy as sp
 
-import chygraph_statmech as cs
-from chygraph.percolation import PercolationMatrix
-from chygraph_statmech.stability import StabilityMatrix
+import statmech as cs
+from percolation.percolation import PercolationMatrix
+from statmech.stability import StabilityMatrix
 
 t = sp.Symbol('t', positive=True)
 beta, J = sp.Symbol('beta', positive=True), sp.Symbol('J', positive=True)
@@ -32,7 +32,7 @@ def test_unit_weights_are_the_percolation_matrix(L):
 
 
 def test_graph_percolation_matches_chygraph():
-    from chygraph import HypergraphPercolation
+    from percolation import HypergraphPercolation
     p = sp.Symbol('p')
     theirs = HypergraphPercolation(graph=True).A.A.subs(
         {sp.Symbol('q'): p, sp.Symbol('p'): 1})

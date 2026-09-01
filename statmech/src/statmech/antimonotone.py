@@ -1,6 +1,6 @@
 """Solving order-reversing message maps (WP3).
 
-``chygraph.giant.Chygraph.solve`` iterates upward from ``Q = 0`` and relies on
+``percolation.giant.Chygraph.solve`` iterates upward from ``Q = 0`` and relies on
 the map being order-*preserving*: a probability generating function has
 non-negative coefficients, so raising any message raises every message, and the
 iteration converges monotonically to the smallest fixed point.

@@ -3,7 +3,7 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "chygraph_statmech"
+name = "statmech"
 version = "0.0.1"
 description = "Statistical mechanics on chygraphs: Bethe-Peierls beyond graphs"
 readme = "README.md"
@@ -11,7 +11,7 @@ license-files = ["LICENSE"]
 requires-python = ">=3.9"
 dependencies = [
     "sympy",
-    "chygraph",
+    "percolation",
     "numpy",
     "scipy",
 ]
@@ -21,7 +21,7 @@ test = ["pytest"]
 
 [project.urls]
 "Vazquez & Weigt 2003" = "https://arxiv.org/abs/cond-mat/0207035"
-"chygraph" = "https://github.com/av2atgh/chygraph"
+"Repository" = "https://github.com/av2atgh/chygraph"
 
 [tool.setuptools.packages.find]
 where = ["src"]

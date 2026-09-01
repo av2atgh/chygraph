@@ -50,8 +50,8 @@ At ``c = 2`` these are ``delta`` and ``lambda``, the map collapses to
 ``Gbar'(1 - lambda) = 1``, which is ``c = e`` on Erdos-Renyi.
 
 The map is order-*preserving* in ``(lambda, delta)``, so it is solved by
-monotone iteration from zero exactly as ``chygraph.giant.Chygraph.solve`` does,
-and unlike the hitting-set map of :mod:`chygraph_statmech.hittingset`.  Its
+monotone iteration from zero exactly as ``percolation.giant.Chygraph.solve`` does,
+and unlike the hitting-set map of :mod:`statmech.hittingset`.  Its
 Jacobian has zero diagonal blocks and a spectrum symmetric about zero -- the
 bipartite core structure of WP2.
 """
@@ -59,7 +59,7 @@ bipartite core structure of WP2.
 import numpy as np
 from sympy import diff, lambdify
 
-from chygraph_statmech.hittingset import layer_symbols, poisson_phi, two_class_phi  # noqa: F401
+from statmech.hittingset import layer_symbols, poisson_phi, two_class_phi  # noqa: F401
 
 
 class CorePercolation:
@@ -70,7 +70,7 @@ class CorePercolation:
             ``[2]`` is an ordinary graph.
         phi: joint chy-degree generating function -- the number of layer-``l``
             complexes a node belongs to -- as a sympy expression in
-            :func:`~chygraph_statmech.hittingset.layer_symbols`.
+            :func:`~statmech.hittingset.layer_symbols`.
     """
 
     def __init__(self, cardinalities, phi):

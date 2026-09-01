@@ -38,7 +38,7 @@ sys.path.insert(0, str(CC))
 import leafremoval as lr  # noqa: E402
 from hrg import erased_configuration_model, hrg_calibrated, to_csr  # noqa: E402
 
-from chygraph_statmech import Chygraph  # noqa: E402
+from statmech import Chygraph  # noqa: E402
 
 TAUS = (2.1, 2.5, 2.9)
 KBARS = (0.05, 0.1, 0.2, 0.4, 0.8, 1.5, 3.0, 6.0)

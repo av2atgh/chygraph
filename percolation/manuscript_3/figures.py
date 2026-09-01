@@ -7,10 +7,10 @@ from scipy.sparse import coo_matrix
 from scipy.sparse.csgraph import connected_components
 from sympy import symbols, nsolve, Rational
 
-from chygraph.giant import hypergraph_giant, graph_with_triangles_giant, finite_pgf
-from chygraph.joint import JointGiantComponent
-from chygraph.amplitude import CriticalAmplitude
-from chygraph.applications import (and_or_hypergraph, household_epidemic,
+from percolation.giant import hypergraph_giant, graph_with_triangles_giant, finite_pgf
+from percolation.joint import JointGiantComponent
+from percolation.amplitude import CriticalAmplitude
+from percolation.applications import (and_or_hypergraph, household_epidemic,
                                    correlated_cardinality_hypergraph,
                                    two_class_joint_degree)
 

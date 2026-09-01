@@ -69,7 +69,7 @@ def uprime(q, beta_J):
 
         u' = (e^a - 1) / (2^{q-1} + e^a - 1),
 
-    per neighbour, matching :func:`chygraph_statmech.ising.clique_derivative`
+    per neighbour, matching :func:`statmech.ising.clique_derivative`
     so that the multiplicity ``c-1`` is supplied once, by the branching matrix,
     and not twice.  Differentiating instead with respect to a field common to
     all ``q-1`` other members multiplies this by ``q-1``; that is the form which

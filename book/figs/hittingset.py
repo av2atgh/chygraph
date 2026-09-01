@@ -17,9 +17,9 @@ from pathlib import Path
 import numpy as np
 from scipy.special import lambertw
 
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech' / 'src'))
-import chygraph_statmech.hittingset as hs  # noqa: E402
-from chygraph_statmech.softfield import (HittingSetBP, regular_density,  # noqa: E402
+sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech' / 'src'))
+import statmech.hittingset as hs  # noqa: E402
+from statmech.softfield import (HittingSetBP, regular_density,  # noqa: E402
                                          regular_entropy, regular_field)
 
 OUT = Path(__file__).resolve().parent

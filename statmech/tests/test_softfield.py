@@ -1,7 +1,7 @@
 """Hitting set with the O(1) cavity fields kept.
 
 Pinned against Mezard & Tarzia, Phys. Rev. E 76, 041124 (2007), and against
-the cases the hard-field ansatz of :mod:`chygraph_statmech.hittingset` gets
+the cases the hard-field ansatz of :mod:`statmech.hittingset` gets
 wrong.
 """
 
@@ -10,8 +10,8 @@ import pytest
 from scipy.special import lambertw
 from sympy import Symbol
 
-import chygraph_statmech.hittingset as hs
-from chygraph_statmech.softfield import (HittingSetBP, regular_density,
+import statmech.hittingset as hs
+from statmech.softfield import (HittingSetBP, regular_density,
                                          regular_entropy, regular_field)
 
 MU = 60.0

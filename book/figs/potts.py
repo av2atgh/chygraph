@@ -15,7 +15,7 @@ returns the intra-complex generating function Gbar of Sec. 2.8, which is what
 had to be shown.
 
 Checked here for a link, a triangle, a 4-clique, a 5-clique, a hyperedge under
-OR-logic, and a path -- against `chygraph.clique_excess_pgf` and against direct
+OR-logic, and a path -- against `percolation.clique_excess_pgf` and against direct
 enumeration, symbolically in the bond probability.
 """
 
@@ -27,7 +27,7 @@ from sympy import (Rational, binomial, expand, factor, limit, simplify,
                    symbols, together)
 
 sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph' / 'src'))
-from chygraph import clique_excess_pgf  # noqa: E402
+from percolation import clique_excess_pgf  # noqa: E402
 
 OUT = Path(__file__).resolve().parent
 DARK, MID, LIGHT = '0.10', '0.45', '0.70'
@@ -198,7 +198,7 @@ def check(name, members, edges):
 
 
 def check_against_package():
-    """The symmetric case, against `chygraph.clique_excess_pgf`."""
+    """The symmetric case, against `percolation.clique_excess_pgf`."""
     p, y = symbols('p y')
     for n in (2, 3, 4, 5):
         members, edges = clique(n)
@@ -217,10 +217,10 @@ def check_ising():
     unnormalised message as ``1`` on one state and ``y = exp(-2h)`` on the
     other, the emitted ratio is ``exp(-2u)`` with ``u`` the emitted cavity
     field of Ch. 9.  Checked against an independent enumeration in
-    ``chygraph_statmech.cavity``.
+    ``statmech.cavity``.
     """
-    sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech' / 'src'))
-    from chygraph_statmech.cavity import emitted_field, ising_clique
+    sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech' / 'src'))
+    from statmech.cavity import emitted_field, ising_clique
     from sympy import exp, log, symbols as sym
 
     beta, J, v = sym('beta J v', positive=True)

@@ -14,12 +14,12 @@ from pathlib import Path
 import numpy as np
 from scipy.optimize import brentq
 
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech' / 'src'))
+sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech' / 'src'))
 sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph' / 'src'))
-from chygraph import hypergraph_giant  # noqa: E402
-from chygraph_statmech import Chygraph  # noqa: E402
-from chygraph_statmech.freeenergy import paramagnetic  # noqa: E402
-from chygraph_statmech.fixedpoint import FixedPointStability  # noqa: E402
+from percolation import hypergraph_giant  # noqa: E402
+from statmech import Chygraph  # noqa: E402
+from statmech.freeenergy import paramagnetic  # noqa: E402
+from statmech.fixedpoint import FixedPointStability  # noqa: E402
 
 OUT = Path(__file__).resolve().parent
 DARK, MID, LIGHT = '0.10', '0.45', '0.70'
@@ -50,7 +50,7 @@ def check_uprime_is_tau():
     from sympy import Rational, cancel, diff, simplify, symbols
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     from potts import clique, emitted_ratio
-    from chygraph_statmech.ising import clique_derivative
+    from statmech.ising import clique_derivative
 
     q, v, t = symbols('q v t')
     for c in (2, 3, 4):

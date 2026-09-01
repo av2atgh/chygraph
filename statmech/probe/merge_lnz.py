@@ -24,17 +24,17 @@ import networkx as nx
 import numpy as np
 
 sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph' / 'src'))
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech'
+sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech'
                       / 'book' / 'figs'))
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech' / 'probe'))
+sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech' / 'probe'))
 
 from merge import merge_closure  # noqa: E402
 
 from cavity_clique import ChygraphBP  # noqa: E402  the Ch. 14 solver
 
-from chygraph_statmech.gbp import (GBP, exact_log_Z, ising_factors,  # noqa: E402
+from statmech.gbp import (GBP, exact_log_Z, ising_factors,  # noqa: E402
                                    static_log_Z)
-from chygraph_statmech.region import RegionGraph, overlap_profile  # noqa: E402
+from statmech.region import RegionGraph, overlap_profile  # noqa: E402
 
 RESULTS = Path(__file__).parent / 'results'
 OUT = RESULTS / 'merge_lnz.json'

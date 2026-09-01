@@ -6,7 +6,7 @@ References:
     https://arxiv.org/abs/2308.00987
 """
 
-from chygraph.percolation import (
+from percolation.percolation import (
     PercolationMatrix,
     vec2A,
     HypergraphPercolation,
@@ -14,7 +14,7 @@ from chygraph.percolation import (
     InteractingHypergraphs,
     GraphWithTriangles,
 )
-from chygraph.giant import (
+from percolation.giant import (
     Chygraph,
     GiantComponent,
     poisson_pgf,
@@ -26,9 +26,9 @@ from chygraph.giant import (
     multiplex_hypergraph_giant,
     graph_with_triangles_giant,
 )
-from chygraph.amplitude import CriticalAmplitude
-from chygraph.joint import JointChygraph, JointGiantComponent
-from chygraph.applications import (
+from percolation.amplitude import CriticalAmplitude
+from percolation.joint import JointChygraph, JointGiantComponent
+from percolation.applications import (
     clique_cluster_distribution,
     clique_excess_pgf,
     clique_pgf,

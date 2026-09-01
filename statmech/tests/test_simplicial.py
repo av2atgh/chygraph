@@ -6,7 +6,7 @@ arXiv:2411.19080; Commun. Phys. (2026), doi:10.1038/s42005-026-02724-2.
 import numpy as np
 import pytest
 
-from chygraph_statmech.simplicial import (SimplicialChygraph, emitted,
+from statmech.simplicial import (SimplicialChygraph, emitted,
                                           uprime)
 
 
@@ -76,7 +76,7 @@ def test_uprime_saturates_at_one():
 def test_both_routes_to_the_spinodal_agree():
     """SimplicialChygraph supplies (q-1) itself; Chygraph.branching_matrix does
     too.  Their Perron roots must both be 1 at the spinodal."""
-    from chygraph_statmech import Chygraph
+    from statmech import Chygraph
     for q, k in ((2, 4), (3, 4), (6, 4)):
         M = SimplicialChygraph([q], [k], [1.0])
         Ts = M.spinodal(lo=1e-2, hi=60.0)

@@ -21,9 +21,9 @@ from pathlib import Path
 
 import numpy as np
 
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech' / 'src'))
-from chygraph_statmech import Chygraph, ising  # noqa: E402
-from chygraph_statmech.simplicial import SimplicialChygraph, uprime  # noqa: E402
+sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech' / 'src'))
+from statmech import Chygraph, ising  # noqa: E402
+from statmech.simplicial import SimplicialChygraph, uprime  # noqa: E402
 
 OUT = Path(__file__).resolve().parent
 DARK, MID, LIGHT = '0.10', '0.45', '0.70'

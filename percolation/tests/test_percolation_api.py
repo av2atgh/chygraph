@@ -10,7 +10,7 @@ import math
 
 from sympy import symbols, nsolve, simplify, sqrt
 
-from chygraph import (Chygraph, GiantComponent, JointChygraph,
+from percolation import (Chygraph, GiantComponent, JointChygraph,
                       JointGiantComponent, CriticalAmplitude,
                       hypergraph_giant, graph_with_triangles_giant,
                       stc_percolation)

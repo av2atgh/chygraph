@@ -29,8 +29,8 @@ from pathlib import Path
 import networkx as nx
 import numpy as np
 
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech' / 'src'))
-from chygraph_statmech.region import overlap_profile  # noqa: E402
+sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech' / 'src'))
+from statmech.region import overlap_profile  # noqa: E402
 
 DATA = Path.home() / 'av2atg' / 'LocalNetworkGrowth' / 'figs' / 'data' / 'netzschleuder'
 OUT = Path(__file__).resolve().parent

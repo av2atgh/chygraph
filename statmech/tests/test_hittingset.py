@@ -4,8 +4,8 @@ import numpy as np
 import pytest
 from scipy.special import lambertw
 
-from chygraph_statmech import antimonotone as am
-from chygraph_statmech import hittingset as hs
+from statmech import antimonotone as am
+from statmech import hittingset as hs
 
 E = np.e
 

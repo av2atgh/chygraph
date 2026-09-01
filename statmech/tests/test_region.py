@@ -2,7 +2,7 @@
 
 import pytest
 
-from chygraph_statmech.region import RegionGraph, overlap_profile
+from statmech.region import RegionGraph, overlap_profile
 
 
 def test_counting_numbers_are_valid():

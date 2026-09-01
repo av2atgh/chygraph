@@ -2,7 +2,7 @@
 
 Section VII of the manuscript measures how far a chygraph is from treelike and
 attributes the resulting deficit to overlap; the repair it names is generalised
-belief propagation on the region graph.  ``chygraph_statmech.gbp`` implements
+belief propagation on the region graph.  ``statmech.gbp`` implements
 it, and this probe asks how far it actually gets on the structures that
 motivated the paper.
 
@@ -34,9 +34,9 @@ import numpy as np
 sys.path.insert(0, str(Path.home() / 'av2atg' / 'computational_complexity' / 'code'))
 from hrg import hrg_calibrated  # noqa: E402
 
-from chygraph_statmech.gbp import (GBP, exact_log_Z, ising_factors,  # noqa: E402
+from statmech.gbp import (GBP, exact_log_Z, ising_factors,  # noqa: E402
                                    static_log_Z)
-from chygraph_statmech.region import RegionGraph, overlap_profile  # noqa: E402
+from statmech.region import RegionGraph, overlap_profile  # noqa: E402
 
 OUT = Path(__file__).parent / 'results' / 'gbp_cliques.json'
 SIZES = ((14, 3.5), (18, 5.0), (20, 7.0))

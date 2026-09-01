@@ -1,6 +1,6 @@
 """The reweighted stability tensor (WP1).
 
-``chygraph.percolation.PercolationMatrix`` builds ``A = I - J`` from four
+``percolation.percolation.PercolationMatrix`` builds ``A = I - J`` from four
 ``L x L`` moment tables ``k``, ``K``, ``s``, ``S``.  Its entries are *first
 moments* because in percolation the message derivative is identically the
 occupation probability, and thinning has already folded that into
@@ -26,7 +26,7 @@ Where the weights go.  A chygraph has two kinds of step.  Going *up* through a
 chy-degree, a complex reports its own cavity field to a complex that includes
 it; that is a pure relay and carries weight 1.  Going *down* through the
 intra-complex hypergraph, the interaction inside the complex transforms the
-field, and the weight is the ``u'`` of :mod:`chygraph_statmech.cavity`.  So
+field, and the weight is the ``u'`` of :mod:`statmech.cavity`.  So
 ``wkappa = 1`` and ``ws`` carries the physics.  For percolation both are 1 and
 ``StabilityMatrix`` reduces to ``PercolationMatrix`` identically.
 
@@ -36,12 +36,12 @@ average over the complex's internal structure.  Writing it as
 That is not a restriction so much as a definition of what a layer is: a class of
 complexes with the same statistical properties.  When ``u'`` depends on
 cardinality, split the layer by cardinality — the same device
-``chygraph.applications.correlated_cardinality_hypergraph`` already uses.
+``percolation.applications.correlated_cardinality_hypergraph`` already uses.
 """
 
 from sympy import Matrix, ones, sympify
 
-from chygraph.percolation import PercolationMatrix
+from percolation.percolation import PercolationMatrix
 
 
 def _elementwise(table, weights):
@@ -63,7 +63,7 @@ class StabilityMatrix(PercolationMatrix):
 
     Args:
         k, K, s, S: the four moment tables, exactly as in
-            ``chygraph.percolation.PercolationMatrix``.
+            ``percolation.percolation.PercolationMatrix``.
         wkappa: ``L x L`` weights on the inclusion channel.  ``None`` means 1.
         ws: ``L x L`` weights on the intra-complex channel.  ``None`` means 1.
 

@@ -29,9 +29,9 @@ from pathlib import Path
 import numpy as np
 from scipy.special import lambertw
 
-import chygraph_statmech.hittingset as hs
-from chygraph_statmech.hittingset import layer_symbols
-from chygraph_statmech.softfield import HittingSetBP, regular_entropy
+import statmech.hittingset as hs
+from statmech.hittingset import layer_symbols
+from statmech.softfield import HittingSetBP, regular_entropy
 
 OUT = Path(__file__).parent / 'results' / 'hittingset.json'
 

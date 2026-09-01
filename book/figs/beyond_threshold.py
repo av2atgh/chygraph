@@ -23,7 +23,7 @@ from scipy.sparse.csgraph import connected_components
 from sympy import Rational, nsolve, symbols
 
 sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph' / 'src'))
-from chygraph import (CriticalAmplitude, JointGiantComponent,  # noqa: E402
+from percolation import (CriticalAmplitude, JointGiantComponent,  # noqa: E402
                       and_or_hypergraph, correlated_cardinality_hypergraph,
                       finite_pgf, hypergraph_giant, two_class_joint_degree)
 

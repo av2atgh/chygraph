@@ -3,7 +3,7 @@
 Demonstrates HypergraphPercolation for both hypergraph and graph cases.
 """
 
-from chygraph import HypergraphPercolation
+from percolation import HypergraphPercolation
 
 
 def example_hypergraph():

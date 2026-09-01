@@ -8,7 +8,7 @@ sees only the marginals and predicts the independent case for all three.
 
 from sympy import Rational, symbols, nsolve
 
-from chygraph import JointChygraph
+from percolation import JointChygraph
 
 q = symbols('q')
 HALF = Rational(1, 2)

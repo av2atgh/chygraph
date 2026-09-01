@@ -4,8 +4,8 @@ import numpy as np
 import pytest
 import sympy as sp
 
-import chygraph_statmech as cs
-from chygraph_statmech.ising import (branching_matrix, clique_derivative,
+import statmech as cs
+from statmech.ising import (branching_matrix, clique_derivative,
                                      critical_coupling, critical_temperature,
                                      perron_root)
 

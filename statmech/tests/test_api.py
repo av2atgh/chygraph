@@ -8,14 +8,14 @@ import numpy as np
 import pytest
 from sympy import Symbol
 
-import chygraph_statmech.core as _core
-import chygraph_statmech.cover as _cover
-import chygraph_statmech.freeenergy as _fe
-import chygraph_statmech.hittingset as _hs
-import chygraph_statmech.ising as _ising
-import chygraph_statmech.simplicial as _simp
-from chygraph_statmech import Chygraph
-from chygraph_statmech.cavity import ising_edge_derivative
+import statmech.core as _core
+import statmech.cover as _cover
+import statmech.freeenergy as _fe
+import statmech.hittingset as _hs
+import statmech.ising as _ising
+import statmech.simplicial as _simp
+from statmech import Chygraph
+from statmech.cavity import ising_edge_derivative
 
 E = np.e
 
@@ -174,7 +174,7 @@ def test_emitted_field_is_reachable_for_any_interior():
 def test_fixed_point_stability_gives_the_exchange_relation():
     """rho(J(Q*)) = 1 - Lambda + O(Lambda^2), Sec. II D."""
     import sympy as sp
-    from chygraph import hypergraph_giant
+    from percolation import hypergraph_giant
     M = hypergraph_giant()
     S = Chygraph([2], [1.0]).fixed_point_stability(M)
     k, c, p, q = sp.symbols('k c p q')

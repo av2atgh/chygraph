@@ -1,6 +1,6 @@
 """Generalised belief propagation on the region graph (WP5, the standing item).
 
-:mod:`chygraph_statmech.region` builds the region graph and assigns Mobius
+:mod:`statmech.region` builds the region graph and assigns Mobius
 counting numbers, and it stops there: it *measures* how far a chygraph is from
 treelike without repairing anything.  The repair is generalised belief
 propagation [Yedidia, Freeman & Weiss, IEEE Trans. Inf. Theory 51, 2282
@@ -140,7 +140,7 @@ class GBP:
     """Parent-to-child generalised belief propagation on a region graph.
 
     Args:
-        region_graph: a :class:`~chygraph_statmech.region.RegionGraph`, or any
+        region_graph: a :class:`~statmech.region.RegionGraph`, or any
             object exposing ``counting`` as ``{frozenset(vars): counting
             number}``.
         log_factors: sequence of ``(scope, array)``.  ``scope`` is a tuple of

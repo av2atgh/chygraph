@@ -1,24 +1,24 @@
-"""chygraph_statmech — statistical mechanics on chygraphs.
+"""statmech — statistical mechanics on chygraphs.
 
 Extends the Bethe-Peierls treatment of Vazquez & Weigt, Phys. Rev. E 67, 027101
 (2003) from correlated random graphs to chygraphs.  See the README for the
 programme; this package is WP1, the reweighted stability tensor.
 """
 
-from chygraph_statmech.api import Chygraph
-from chygraph_statmech.cavity import (cavity_derivative, emitted_field,
+from statmech.api import Chygraph
+from statmech.cavity import (cavity_derivative, emitted_field,
                                       in_tanh, ising_clique,
                                       ising_edge_derivative,
                                       ising_triangle_derivative, tanh_of)
-from chygraph_statmech.fixedpoint import FixedPointStability
-from chygraph_statmech.population import CavityPopulation, critical_coupling
-from chygraph_statmech.models import (graph_ising, graph_percolation,
+from statmech.fixedpoint import FixedPointStability
+from statmech.population import CavityPopulation, critical_coupling
+from statmech.models import (graph_ising, graph_percolation,
                                       graph_with_triangles_ising)
-from chygraph_statmech import (antimonotone, core, cover, freeenergy,
+from statmech import (antimonotone, core, cover, freeenergy,
                                gbp, hittingset, ising, region, simplicial,
                                softfield, vertexcover)
-from chygraph_statmech.gbp import GBP
-from chygraph_statmech.stability import (StabilityMatrix, reweight,
+from statmech.gbp import GBP
+from statmech.stability import (StabilityMatrix, reweight,
                                          uniform_weights)
 
 __all__ = [

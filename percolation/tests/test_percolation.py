@@ -12,7 +12,7 @@ which ``Matrix.eigenvals()`` returns its keys.
 
 from sympy import symbols, sqrt, simplify, Float
 
-from chygraph import (
+from percolation import (
     HypergraphPercolation,
     MultiplexHypergraph,
     GraphWithTriangles,

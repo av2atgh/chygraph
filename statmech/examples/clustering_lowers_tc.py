@@ -30,7 +30,7 @@ The lost branch wins.
 
 import numpy as np
 
-from chygraph_statmech import Chygraph, ising
+from statmech import Chygraph, ising
 
 
 def T_c(cardinalities, degrees, excess):

@@ -38,12 +38,12 @@ import numpy as np
 from scipy.special import logsumexp
 
 sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph' / 'src'))
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech'
+sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech'
                       / 'book' / 'figs'))
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech' / 'probe'))
+sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech' / 'probe'))
 
-from chygraph_statmech.gbp import exact_log_Z, ising_factors  # noqa: E402
-from chygraph_statmech.region import overlap_profile  # noqa: E402
+from statmech.gbp import exact_log_Z, ising_factors  # noqa: E402
+from statmech.region import overlap_profile  # noqa: E402
 
 RESULTS = Path(__file__).parent / 'results'
 OUT = RESULTS / 'cavity_clique.json'

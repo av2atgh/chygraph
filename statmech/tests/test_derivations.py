@@ -14,11 +14,11 @@ import numpy as np
 import pytest
 import sympy as sp
 
-from chygraph_statmech import Chygraph
-from chygraph_statmech import freeenergy, ising
-from chygraph_statmech import simplicial as simp
-from chygraph_statmech.hittingset import layer_symbols
-from chygraph_statmech.softfield import (regular_density, regular_entropy,
+from statmech import Chygraph
+from statmech import freeenergy, ising
+from statmech import simplicial as simp
+from statmech.hittingset import layer_symbols
+from statmech.softfield import (regular_density, regular_entropy,
                                          regular_field)
 
 
@@ -302,8 +302,8 @@ def test_no_core_free_branch_above_cardinality_two():
 def test_core_map_reduces_to_the_graph_at_cardinality_two():
     """S6 A.  ``zeta = delta^{c-1}`` and ``kappa = (c-1)delta^{c-2}lambda`` are
     the graph recursion at ``c = 2`` and nothing else."""
-    from chygraph_statmech.core import CorePercolation
-    from chygraph_statmech.hittingset import poisson_phi
+    from statmech.core import CorePercolation
+    from statmech.hittingset import poisson_phi
     m = CorePercolation([2], poisson_phi([1.0]))
     for lam, delta in ((0.3, 0.4), (0.0, 1.0), (0.62, 0.11)):
         assert m.zeta(np.array([delta]))[0] == pytest.approx(delta)

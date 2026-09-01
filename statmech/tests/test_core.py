@@ -3,8 +3,8 @@
 import numpy as np
 import pytest
 
-import chygraph_statmech.core as cp
-from chygraph_statmech.hittingset import poisson_phi
+import statmech.core as cp
+from statmech.hittingset import poisson_phi
 
 E = np.e
 
@@ -50,7 +50,7 @@ def test_core_fraction_matches_simulation():
 
 def test_map_is_monotone():
     """Order-preserving, unlike the hitting-set map: solvable by iteration
-    upward from zero, exactly as chygraph.giant.Chygraph.solve does."""
+    upward from zero, exactly as percolation.giant.Chygraph.solve does."""
     for m in (cp.graph(mean=4.0), cp.clique_network(3, 1.0),
               cp.clique_network(4, 0.5)):
         assert (m.jacobian() >= -1e-9).all()
@@ -154,7 +154,7 @@ def test_core_threshold_is_the_vertex_cover_instability():
     <k> = e for c = 2; Bauer-Golinelli put the core-percolation threshold at the
     same place.  The paper computes both, and they must agree.
     """
-    import chygraph_statmech.hittingset as _hs
+    import statmech.hittingset as _hs
     core_thr = cp.core_threshold(lambda k: cp.graph(mean=k))
     hard_thr = _hs.rsb_point([2], [1.0])
     assert core_thr == pytest.approx(E, rel=1e-9)
@@ -166,7 +166,7 @@ def test_core_threshold_is_the_vertex_cover_instability():
 def test_certification_is_the_core_free_branch(cs):
     """The cover size of Eq. (18) can be believed exactly when Eq. (21) admits
     gamma = 0.  Not two conditions that happen to coincide -- one condition."""
-    import chygraph_statmech.cover as _cv
+    import statmech.cover as _cv
     means = [1.0] * len(cs)
     assert (_cv.poisson(cs, means).certified()
             == cp.CorePercolation(cs, poisson_phi(means)).has_core_free_branch())

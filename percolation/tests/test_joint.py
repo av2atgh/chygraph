@@ -9,9 +9,9 @@ the latter against Monte Carlo reference values.
 
 from sympy import symbols, exp, simplify, zeros, Rational, nsolve
 
-from chygraph.giant import hypergraph_giant, graph_with_triangles_giant
-from chygraph.joint import JointGiantComponent
-from chygraph.amplitude import CriticalAmplitude
+from percolation.giant import hypergraph_giant, graph_with_triangles_giant
+from percolation.joint import JointGiantComponent
+from percolation.amplitude import CriticalAmplitude
 
 
 q, kL, kT, k, c, p = symbols('q k_L k_T k c p')

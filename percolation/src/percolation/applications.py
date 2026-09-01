@@ -4,8 +4,8 @@ Every construction here is stated as an explicit chygraph mapping: which layer
 holds which objects, what the chy-degree generating functions ``Phi^l`` are, and
 what the intra-complex generating functions ``G^l`` are.  Once those are written
 down the threshold, the giant component fraction and the critical amplitude all
-follow from the generic machinery in :mod:`chygraph.percolation`,
-:mod:`chygraph.giant`, :mod:`chygraph.joint` and :mod:`chygraph.amplitude`.
+follow from the generic machinery in :mod:`percolation.percolation`,
+:mod:`percolation.giant`, :mod:`percolation.joint` and :mod:`percolation.amplitude`.
 
 The three families are
 
@@ -35,8 +35,8 @@ The three families are
 
 from sympy import Rational, binomial, expand, symbols, sympify
 
-from chygraph.giant import GiantComponent, poisson_pgf
-from chygraph.joint import JointGiantComponent
+from percolation.giant import GiantComponent, poisson_pgf
+from percolation.joint import JointGiantComponent
 
 
 # ---------------------------------------------------------------------------
@@ -177,7 +177,7 @@ def correlated_cardinality_hypergraph(cardinalities, joint_degree_pgf, p=None):
     cardinality of the hyperedges it joins is exactly a correlation in this
     joint distribution, and enters the threshold tensor through the
     inclusion-biased moments ``<kappabar^(m)>_{0k} = <kappa_m kappa_k>/<kappa_m>``
-    of :mod:`chygraph.joint`.  Marginal hyperdegree distributions alone do not
+    of :mod:`percolation.joint`.  Marginal hyperdegree distributions alone do not
     determine it.
 
     ``Gbar^l_0(y) = (1 - p + p y)^{c_l - 1}``: a hyperedge of cardinality
@@ -334,7 +334,7 @@ def stc_percolation(backbone_degree=None, phi=None, poisson=True):
 
     The whole range-2 rule is carried by letting ``Gbar`` depend on the layer the
     complex was entered from -- the same freedom needed for motifs in
-    :class:`chygraph.joint.JointGiantComponent`.  Occupation is reinstated at
+    :class:`percolation.joint.JointGiantComponent`.  Occupation is reinstated at
     the root, so ``S_0`` is the fraction of *all* backbone nodes.
 
     For a Poisson backbone this gives

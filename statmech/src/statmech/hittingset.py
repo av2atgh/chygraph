@@ -27,9 +27,9 @@ node's participation across cardinalities can be correlated,
 with ``Phi`` the joint generating function of the hyperdegrees ``(k_1..k_L)``
 and ``Phibar^(m) = (dPhi/dx_m) / (dPhi/dx_m|_1)`` its inclusion-biased excess,
 exactly as in ``chygraph``'s ``JointChygraph``.  Layer refinement by cardinality
-is the device of ``chygraph.applications.correlated_cardinality_hypergraph``.
+is the device of ``percolation.applications.correlated_cardinality_hypergraph``.
 
-The map is order-reversing, so :mod:`chygraph_statmech.antimonotone` solves it.
+The map is order-reversing, so :mod:`statmech.antimonotone` solves it.
 At ``L = 1``, ``c = 2`` and Poisson hyperdegree it reduces to
 ``sigma = exp(-k sigma)`` with instability at ``k sigma = 1``, i.e. ``k = e``:
 the Bauer-Golinelli core-percolation point, which is the Erdos-Renyi control in
@@ -40,7 +40,7 @@ import numpy as np
 from sympy import Symbol, diff, lambdify, prod, exp as sexp
 from scipy.optimize import brentq
 
-from chygraph_statmech import antimonotone as am
+from statmech import antimonotone as am
 
 
 class HittingSet:

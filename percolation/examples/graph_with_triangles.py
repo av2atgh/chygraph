@@ -9,7 +9,7 @@ Covers both general and Poisson degree distributions, plus numerical evaluation.
 
 import matplotlib.pyplot as plt
 from sympy import symbols
-from chygraph import GraphWithTriangles
+from percolation import GraphWithTriangles
 
 plt.rcParams.update({'font.size': 14})
 

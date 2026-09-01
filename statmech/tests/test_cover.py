@@ -4,9 +4,9 @@ import numpy as np
 import pytest
 from scipy.special import lambertw
 
-import chygraph_statmech.cover as cv
-from chygraph_statmech import antimonotone as am
-import chygraph_statmech.core as cp
+import statmech.cover as cv
+from statmech import antimonotone as am
+import statmech.core as cp
 
 
 @pytest.mark.parametrize('k', [0.5, 1.0, 2.0, 2.7, 5.0, 10.0])

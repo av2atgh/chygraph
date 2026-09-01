@@ -9,13 +9,13 @@ import math
 
 from sympy import Rational, expand, nsolve, simplify, symbols, diff
 
-from chygraph.applications import (
+from percolation.applications import (
     clique_cluster_distribution, clique_excess_pgf, size_biased,
     and_or_hypergraph, correlated_cardinality_hypergraph,
     two_class_joint_degree, household_epidemic, clique_network, _mixture,
     stc_percolation,
 )
-from chygraph.amplitude import CriticalAmplitude
+from percolation.amplitude import CriticalAmplitude
 
 q, p, pH, T, k, y = symbols('q p p_H T k y')
 
@@ -188,7 +188,7 @@ def test_clique_network_of_pairs_is_ordinary_bond_percolation():
 def test_clique_network_of_triangles_matches_the_triangle_model():
     """Cliques of size three must agree with graph_with_triangles_giant at
     <k>_| = 0, which is an independent code path."""
-    from chygraph.giant import graph_with_triangles_giant
+    from percolation.giant import graph_with_triangles_giant
     got = clique_network({3: 1}, p_bond=q).theta()
     want = graph_with_triangles_giant().theta().subs(
         {symbols('k_L'): 0, symbols('k_T'): k})

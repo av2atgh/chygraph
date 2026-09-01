@@ -6,7 +6,7 @@ holds the *structure* --- the complex layers, their cardinalities, and the
 chy-degree distribution --- and its methods are the calculations, delegating to
 those modules rather than reimplementing them.
 
-    >>> from chygraph_statmech import Chygraph
+    >>> from statmech import Chygraph
     >>> g = Chygraph([2, 3], [4.0, 2.0])          # links and triangles
     >>> g.critical_coupling()                      # Ising T_c, Sec. IV
     >>> g.core().core_fraction()                   # leaf-removal core, Sec. VI
@@ -16,7 +16,7 @@ A chygraph is specified by ``cardinalities`` and ``degrees``; ``excess``
 defaults to ``degrees`` (Poisson chy-degree, its own excess) and is
 ``degrees - 1`` when ``regular=True``.  Where a calculation needs the full
 generating function rather than its moments, ``phi`` may be given as a sympy
-expression in :func:`~chygraph_statmech.hittingset.layer_symbols`; otherwise the
+expression in :func:`~statmech.hittingset.layer_symbols`; otherwise the
 independent-Poisson form is built from ``degrees``.
 
 Which method gives which result is listed in the paper; the docstrings name the
@@ -25,18 +25,18 @@ section each belongs to.
 
 import numpy as np
 
-from chygraph_statmech import antimonotone as _am
-from chygraph_statmech import cavity as _cavity
-from chygraph_statmech import core as _core
-from chygraph_statmech import cover as _cover
-from chygraph_statmech import freeenergy as _fe
-from chygraph_statmech import hittingset as _hs
-from chygraph_statmech import ising as _ising
-from chygraph_statmech import population as _pop
-from chygraph_statmech import region as _region
-from chygraph_statmech import simplicial as _simp
-from chygraph_statmech import softfield as _soft
-from chygraph_statmech import stability as _stab
+from statmech import antimonotone as _am
+from statmech import cavity as _cavity
+from statmech import core as _core
+from statmech import cover as _cover
+from statmech import freeenergy as _fe
+from statmech import hittingset as _hs
+from statmech import ising as _ising
+from statmech import population as _pop
+from statmech import region as _region
+from statmech import simplicial as _simp
+from statmech import softfield as _soft
+from statmech import stability as _stab
 
 
 class Chygraph:
@@ -130,7 +130,7 @@ class Chygraph:
 
     def regions(self, complexes):
         """Region graph and Mobius counting numbers for an explicit complex
-        list (Sec. VII).  Returns :class:`~chygraph_statmech.region.RegionGraph`."""
+        list (Sec. VII).  Returns :class:`~statmech.region.RegionGraph`."""
         return _region.RegionGraph(complexes)
 
     @staticmethod
@@ -144,7 +144,7 @@ class Chygraph:
 
         Takes an explicit list of complexes and the Ising coupling of Eq. (16),
         builds the closed region family and its Mobius counting numbers, and
-        returns a :class:`~chygraph_statmech.gbp.GBP` ready to ``run()``.  Each
+        returns a :class:`~statmech.gbp.GBP` ready to ``run()``.  Each
         pair inside a complex is counted once however many complexes contain
         it, so overlapping complexes do not double the coupling on a shared
         bond.
@@ -152,7 +152,7 @@ class Chygraph:
         This is the instance-level calculation; every other method on this
         class works at the level of an ensemble.
         """
-        from chygraph_statmech import gbp as _gbp
+        from statmech import gbp as _gbp
         rg = _region.RegionGraph(complexes)
         factors = _gbp.ising_factors(_gbp.clique_edges(complexes), beta_J,
                                      field=field)
@@ -241,21 +241,21 @@ class Chygraph:
         """The symbolic ``2L^2`` tensor of Sec. II C, reweighted (Eq. 7).
 
         Takes the four moment tables directly, as
-        :class:`~chygraph_statmech.stability.StabilityMatrix` does.
+        :class:`~statmech.stability.StabilityMatrix` does.
         """
         return _stab.StabilityMatrix(k, K, s, S, wkappa=wkappa, ws=ws)
 
     def population(self, beta_J, **kw):
         """Field distributions by population dynamics (Sec. IV C).
 
-        Returns :class:`~chygraph_statmech.population.CavityPopulation`.
+        Returns :class:`~statmech.population.CavityPopulation`.
         """
         return _pop.CavityPopulation(self.c, self.k, beta_J, **kw)
 
     def free_energy(self, beta_J, sweeps=250, **kw):
         """Bethe free energy of the Ising model, Eq. (13) (Sec. II E).
 
-        Returns :class:`~chygraph_statmech.freeenergy.BetheFreeEnergy` on a
+        Returns :class:`~statmech.freeenergy.BetheFreeEnergy` on a
         converged population.
         """
         return _fe.BetheFreeEnergy(self.population(beta_J, **kw).run(sweeps))
@@ -271,7 +271,7 @@ class Chygraph:
     def simplicial(self, couplings):
         """The simplicial Ising model on this chygraph (Sec. IV D).
 
-        Returns :class:`~chygraph_statmech.simplicial.SimplicialChygraph`,
+        Returns :class:`~statmech.simplicial.SimplicialChygraph`,
         which carries ``spinodal``, ``coexistence``, ``transition`` and
         ``minus_beta_f``.  Fixed chy-degree is assumed, as in Ref. [SLG26].
         """
@@ -292,7 +292,7 @@ class Chygraph:
     def hitting_set_bp(self, mu=60.0, **kw):
         """Hitting set with the ``O(1)`` fields kept, Eq. (31) (Sec. V E).
 
-        Returns :class:`~chygraph_statmech.softfield.HittingSetBP`; call
+        Returns :class:`~statmech.softfield.HittingSetBP`; call
         ``.run()`` before reading ``density`` or ``entropy``.
         """
         return _soft.HittingSetBP(self.c, self.k, regular=self.regular, mu=mu,
@@ -309,7 +309,7 @@ class Chygraph:
     def core(self):
         """Leaf-removal core as a chygraph fixed point, Eq. (35) (Sec. VI).
 
-        Returns :class:`~chygraph_statmech.core.CorePercolation`.
+        Returns :class:`~statmech.core.CorePercolation`.
         """
         return _core.CorePercolation(self.c, self.phi())
 
@@ -336,19 +336,19 @@ class Chygraph:
     def fixed_point_stability(self, model):
         """Jacobian at the fixed point reached, not at ``Q = 1`` (Sec.~II D).
 
-        Takes a ``chygraph.giant.Chygraph`` and returns
-        :class:`~chygraph_statmech.fixedpoint.FixedPointStability`, whose
+        Takes a ``percolation.giant.Chygraph`` and returns
+        :class:`~statmech.fixedpoint.FixedPointStability`, whose
         ``spectral_radius`` obeys ``rho = 1 - Lambda + O(Lambda^2)`` and whose
         ``monotonicity`` reads entry signs rather than the eigenvalue sign.
         """
-        from chygraph_statmech import fixedpoint as _fp
+        from statmech import fixedpoint as _fp
         return _fp.FixedPointStability(model)
 
     @staticmethod
     def vertex_cover_correlated(gamma, r, dmax=800):
         """Vertex cover on a scale-free graph with the degree correlations of
         Ref. [VW03] Eq. (18) (Sec. V B).  Returns ``(cover_size, unstable)``."""
-        from chygraph_statmech import vertexcover as _vc
+        from statmech import vertexcover as _vc
         p = _vc.scale_free(gamma, dmax)
         e, q, _ = _vc.excess(p)
         pi = _vc.solve(r, e, q)

@@ -23,9 +23,9 @@ import numpy as np
 import pytest
 from scipy.special import logsumexp
 
-from chygraph_statmech.gbp import (GBP, clique_edges, exact_log_Z,
+from statmech.gbp import (GBP, clique_edges, exact_log_Z,
                                    ising_factors, static_log_Z)
-from chygraph_statmech.region import RegionGraph
+from statmech.region import RegionGraph
 
 
 # ---------------------------------------------------------------------------

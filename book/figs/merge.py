@@ -38,8 +38,8 @@ from pathlib import Path
 import numpy as np
 
 sys.path.insert(0, str(Path.home() / 'av2atg' / 'computational_complexity' / 'code'))
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech' / 'src'))
-from chygraph_statmech.region import overlap_profile  # noqa: E402
+sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech' / 'src'))
+from statmech.region import overlap_profile  # noqa: E402
 from hrg import hrg_calibrated  # noqa: E402
 
 OUT = Path(__file__).resolve().parent
@@ -111,7 +111,7 @@ def cliques_of(G):
 def overlap_stats(cl):
     """(number of complex PAIRS sharing two or more atoms, shared_2+ ratio).
 
-    Both come out of `chygraph_statmech.region.overlap_profile`, which is the
+    Both come out of `statmech.region.overlap_profile`, which is the
     routine Sec. 3.3 measures real networks with, so the two chapters are
     counting the same thing.  The ratio is what Ch. 3 reports; the raw count is
     what `check_overlap_is_not_extensive` needs, because the number of
@@ -214,7 +214,7 @@ def check_merge_on_real(quiet=False):
     families split here as they did there, and for the same reason -- a network
     whose cliques the data placed has a bounded number of merges to make.
     """
-    sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech'
+    sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech'
                            / 'probe'))
     from gbp_real import NETWORKS, load
     rows = []

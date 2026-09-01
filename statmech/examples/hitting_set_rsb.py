@@ -10,7 +10,7 @@ are at matched mean degree in the underlying graph sense.
 
 import numpy as np
 
-from chygraph_statmech import hittingset as hs
+from statmech import hittingset as hs
 
 E = np.e
 CS, M = [2, 6], [0.75, 0.25]

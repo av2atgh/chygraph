@@ -45,9 +45,9 @@ import numpy as np
 
 sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph' / 'src'))
 
-from chygraph_statmech.gbp import (GBP, exact_log_Z, ising_factors,  # noqa: E402
+from statmech.gbp import (GBP, exact_log_Z, ising_factors,  # noqa: E402
                                    static_log_Z)
-from chygraph_statmech.region import RegionGraph, overlap_profile  # noqa: E402
+from statmech.region import RegionGraph, overlap_profile  # noqa: E402
 
 OUT = Path(__file__).parent / 'results' / 'gbp_real.json'
 SHARDS = Path(__file__).parent / 'results' / 'gbp_real_parts'

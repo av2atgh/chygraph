@@ -31,14 +31,14 @@ import networkx as nx
 import numpy as np
 
 sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph' / 'src'))
-sys.path.insert(0, str(Path.home() / 'av2atg' / 'chygraph_statmech'
+sys.path.insert(0, str(Path.home() / 'av2atg' / 'statmech'
                       / 'book' / 'figs'))
 
 from merge import karrer_graph  # noqa: E402  the book's one definition of it
 
-from chygraph_statmech.gbp import (GBP, exact_log_Z, ising_factors,  # noqa: E402
+from statmech.gbp import (GBP, exact_log_Z, ising_factors,  # noqa: E402
                                    static_log_Z)
-from chygraph_statmech.region import RegionGraph, overlap_profile  # noqa: E402
+from statmech.region import RegionGraph, overlap_profile  # noqa: E402
 
 OUT = Path(__file__).parent / 'results' / 'gbp_karrer.json'
 

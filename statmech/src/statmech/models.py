@@ -1,16 +1,16 @@
 """Named models: a chygraph plus a Hamiltonian.
 
-Each constructor returns a :class:`~chygraph_statmech.stability.StabilityMatrix`
+Each constructor returns a :class:`~statmech.stability.StabilityMatrix`
 built from the same four moment tables the percolation calculation uses, with
-the cavity weights of :mod:`chygraph_statmech.cavity` on the intra-complex
+the cavity weights of :mod:`statmech.cavity` on the intra-complex
 channel.
 """
 
 from sympy import Symbol, eye, ones, symbols, zeros
 
-from chygraph_statmech.cavity import (ising_edge_derivative,
+from statmech.cavity import (ising_edge_derivative,
                                       ising_triangle_derivative)
-from chygraph_statmech.stability import StabilityMatrix
+from statmech.stability import StabilityMatrix
 
 
 def _bare_graph_tables():
@@ -57,7 +57,7 @@ def graph_with_triangles_ising(beta=None, J=None, squared=False):
     """Ferromagnetic Ising on a graph with links and triangles.
 
     Layer 0 nodes, layer 1 links, layer 2 triangles, following
-    ``chygraph.percolation.GraphWithTriangles``.  The triangle is solved exactly
+    ``percolation.percolation.GraphWithTriangles``.  The triangle is solved exactly
     inside the complex, so its cavity factor is ``t / (1 - t + t^2)`` rather than
     ``t``: the clustering that the ``{p_d, e_dd'}`` ensemble of Vazquez & Weigt
     cannot encode enters here as a different weight on layer 2.

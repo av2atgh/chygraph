@@ -3,7 +3,7 @@
 Demonstrates MultiplexHypergraph with 2 types, 3 types, and Poisson distributions.
 """
 
-from chygraph import MultiplexHypergraph
+from percolation import MultiplexHypergraph
 
 
 def example_multiplex_2types():

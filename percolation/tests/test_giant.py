@@ -10,8 +10,8 @@ import math
 from sympy import symbols, zeros, simplify, expand, nsolve
 import pytest
 
-from chygraph.percolation import PercolationMatrix, GraphWithTriangles
-from chygraph.giant import (
+from percolation.percolation import PercolationMatrix, GraphWithTriangles
+from percolation.giant import (
     GiantComponent, hypergraph_giant, multiplex_hypergraph_giant,
     graph_with_triangles_giant,
 )

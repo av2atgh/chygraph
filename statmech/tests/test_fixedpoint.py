@@ -5,9 +5,9 @@ import pytest
 import sympy as sp
 from scipy.special import lambertw
 
-from chygraph import hypergraph_giant
-from chygraph_statmech import FixedPointStability
-from chygraph_statmech import vertexcover as vc
+from percolation import hypergraph_giant
+from statmech import FixedPointStability
+from statmech import vertexcover as vc
 
 k, c, p, q = sp.symbols('k c p q')
 
