@@ -1256,9 +1256,69 @@ grep -c 'Overfull \\hbox' main.log       # 1 known (cover.tex:239--249); a 2nd i
 grep -o 'Output written.*' main.log      # page count
 ```
 
-Underfull vboxes are not a defect here: all 26 are `while \output is active`,
+Underfull vboxes are not a defect here: all 35 are `while \output is active`,
 which is page-breaking around floats. An **overfull hbox** is, since it puts ink
-in the margin; the one that survives is recorded in Status.
+in the margin; the three that survive are recorded in Status.
+
+### Two checks the build cannot make
+
+A clean build is not evidence of either of these, because both fail silently.
+Run them after any pass that moves a figure or renumbers a chapter.
+
+**Every included figure is in the repository.** `.gitignore` carries `*.pdf`, so
+a figure that was never force-added is invisible to `git status` and present
+only on the machine that drew it — the book builds there and nowhere else. This
+found two, in Sept 2026, after an earlier pass had found six by eye and stopped:
+
+```sh
+cd book
+for f in $(grep -rho 'fig-[a-z-]*\.pdf' *.tex | sort -u); do
+    git ls-files --error-unmatch "figs/$f" >/dev/null 2>&1 ||
+        echo "UNTRACKED (but included): figs/$f"
+done
+```
+
+Reverse it to find orphans — figures still generated but included nowhere — by
+looping over `figs/fig-*.pdf` and grepping the `.tex` for each. Both directions
+should print nothing.
+
+**Every section reference in the code still resolves.** The scripts cite the
+book by number (`Sec. 15.4`, `Chapter 16`) rather than by label, so nothing
+breaks when a chapter is renumbered; the comments just start lying. Part IV
+splitting into three chapters left eleven stale references behind. This
+compares them against the numbers LaTeX actually assigned:
+
+```sh
+cd book && python3 - <<'EOF'
+import re, glob, pathlib
+sec, cha = {}, {}
+for f in glob.glob('*.aux'):
+    txt = open(f).read()
+    for m in re.finditer(r'\\newlabel\{[^}]*\}\{\{(\d+(?:\.\d+)*)\}\{\d+\}\{(.*?)\}\{(section|chapter|subsection)\.', txt):
+        (cha if m.group(3) == 'chapter' else sec)[m.group(1)] = m.group(2)[:52]
+    for m in re.finditer(r'\\contentsline \{(subsection|section)\}\{\\numberline \{(\d+(?:\.\d+)*)\}(.*?)\}\{', txt):
+        sec.setdefault(m.group(2), m.group(3)[:52])
+for r in ('figs', '../probe', '../src', '../tests', '../examples'):
+    for p in sorted(pathlib.Path(r).rglob('*.py')):
+        if '__pycache__' in str(p):
+            continue
+        for i, line in enumerate(p.read_text(errors='ignore').split('\n'), 1):
+            for m in re.finditer(r'\b(?:Sec\.?|Section)s?\s+(\d+\.\d+(?:\.\d+)?)', line):
+                if m.group(1) not in sec:
+                    print(f'{p}:{i}  Sec. {m.group(1)}  {line.strip()[:70]}')
+            for m in re.finditer(r'\b(?:Ch\.?|Chapter)s?\s+(\d+)\b', line):
+                if m.group(1) not in cha:
+                    print(f'{p}:{i}  Ch. {m.group(1)}  {line.strip()[:70]}')
+EOF
+```
+
+It should print nothing. Two caveats learned the hard way: index **subsections**
+as well as sections, or `Sec. 5.6.2` reads as broken, and match the title
+non-greedily, or `Sec. 9.4` does — its title contains `\texorpdfstring`. And
+resolving is weaker than being right: a reference can point at a section that
+exists and is the wrong one, which is how `Sec. 14.2's claim` survived in
+`overlap.py` after 14.2 became a different section. The audit narrows the
+reading; it does not do it.
 
 Build into a scratch directory --- `latexmk -pdf -interaction=nonstopmode
 -outdir=/tmp/bookbuild main.tex` --- when the point is to verify rather than to
