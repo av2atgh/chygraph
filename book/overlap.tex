@@ -5,21 +5,21 @@ Every calculation in Parts~II and~III rests on one assumption, stated in
 Sec.~\ref{sec:treelike} and repeated whenever it mattered: complexes meet in at
 most one node. This part is about what to do when they do not.
 
-Overlap as such is not the difficulty. Two complexes sharing a single node
-satisfy the assumption exactly, and the incidence structure stays a tree; the
-recursions are built to handle it. The difficulty is the pair that shares
-\emph{two or more} nodes, which is what \emph{non-trivial overlap} means here
-and for the three chapters that follow. Section~\ref{sec:price} says exactly
-what it is and draws it.
+Two complexes sharing a single node satisfy the assumption: the incidence
+structure stays a tree and the recursions handle it. The case at issue is the
+pair sharing \emph{two or more} nodes, which is what \emph{non-trivial overlap}
+means here and in the two chapters that follow. Section~\ref{sec:price} draws
+it.
 
-The question the part answers is what a calculation that assumes it away
-actually costs, and whether anything cheap repairs it. This chapter establishes
-the failure: it takes the Ising model, solves it on three classes of network by
-the cavity method of Sec.~\ref{sec:cavity}, and measures how wrong the answer
-is. Chapter~\ref{ch:gbp} tries the repair the literature already has, and
-Chapter~\ref{ch:metacomplex} tries the one the chygraph construction supplies of
-itself. Neither closes the problem, and Chapter~\ref{ch:outlook} states
-what would.
+The part runs one model, the Ising model, on three classes of network, and three
+calculations on each. This chapter runs the cavity recursion on the chygraph,
+$\mathrm{BP}_{\chi}$, and measures how wrong it is.
+Chapter~\ref{ch:gbp} runs generalised belief propagation, the repair the
+literature already has, and finds it does not recover the failure.
+Chapter~\ref{ch:metacomplex} runs the cavity recursion on the merged chygraph,
+$\mathrm{BP}_{\chi_{m}}$, which is exact on every real network and every
+hyperbolic instance measured here, and which has a threshold beyond which it is
+not.
 
 The assumption buys the whole apparatus, and on the networks
 Chapter~\ref{ch:data} measured it is false.
@@ -220,13 +220,11 @@ Computed by \code{probe/core\_fraction.py}.}
 \label{fig:corebonds}
 \end{figure}
 
-Every one of the $240$ runs reaches a fixed point, so nothing here is an
-artefact of an iteration that failed to settle. On hyperbolic random graphs the
+All $240$ runs reach a fixed point. On hyperbolic random graphs the
 error runs from $3.8\times10^{-2}$ to $61.2$ in $\ln Z$, with a median of
 $2.72$; on the placed ensemble from $1.2\times10^{-2}$ to $24.7$, median $0.29$;
 and on the real neighbourhoods from $8\times10^{-3}$ to $447$, median $5.06$. A
-median of five in $\ln Z$ is a factor of $150$ in $Z$. These are not small
-corrections to a working calculation.
+median of five in $\ln Z$ is a factor of $150$ in $Z$.
 
 These are not instances on which propagation had an easy question to answer.
 Figure~\ref{fig:corebonds} plots
@@ -252,42 +250,24 @@ $\mathrm{shared}_{2+}$ of Chapter~\ref{ch:data} --- gives a weaker signal, and
 on the placed ensemble almost none, $+0.18$. What predicts the damage is how
 much of the graph is double-counted, not how many complexes happen to intersect.
 
-\section{The deficit in the leaf-removal core}
+\section{The cause is the overlap}
 \label{sec:deficit}
 
-The Ising model is not the only place the deficit shows, and
-Chapter~\ref{ch:cover} measured it on a different one.
+The error above is attributed to overlap. That attribution is a measurement, not
+an inference, and it is the \emph{rewired control} of Sec.~\ref{sec:hrg}.
 
-On hyperbolic random graphs with maximal cliques as complexes, the chygraph accounts for $77$
-to $100$ per cent of the leaf-removal core, with the shortfall tracking the clique overlap: negligible in a sparse
-graph, where cliques rarely share edges; irrelevant once almost everything is
-core; worst in between.
+Take the measured clique ensemble and rearrange it so that complexes meet in at
+most one node, holding the ensemble fixed and changing only the arrangement. The
+prediction agrees with that control to $10^{-3}$. The map is therefore right on
+its own terms, and the whole remaining discrepancy against the real graph is
+overlap. Without the control a wrong recursion and a violated assumption give
+the same signature.
 
-The \emph{rewired control} of Sec.~\ref{sec:hrg} isolates overlap from
-everything else. Take the measured clique ensemble and rearrange it so
-that complexes meet in at most one node, holding the ensemble fixed and changing
-only the arrangement. The prediction agrees with that control to $10^{-3}$. So
-the map is right on its own terms, and the entire remaining discrepancy against
-the real graph is overlap and nothing else. Without that control a wrong recursion
-and a violated assumption are not distinguishable.
-
-\paragraph{A prior question: does the ensemble exist?} Taking maximal cliques as
-complexes presumes the clique-size distribution has a limit --- specifically that
-the excess cardinality $\ave{\sbar}=\ave{c^{2}}/\ave{c}-1$ of
-Eq.~\eqref{eq:sbaru} converges. The check separates two things.
-
-Measured against a degree-matched control at identical degree sequence and seed,
-so that $P(k)$ and assortativity are held fixed and clustering is the only
-difference, the paired ratio $\ave{\sbar}_{\mathrm{HRG}}
-/\ave{\sbar}_{\mathrm{control}}$ is a converged constant between $1.8$ and $4.8$
-for $\tau\ge2.5$, flat over $n=10^{3}$ to $3\times10^{5}$. The clustering signal
-is a multiplicative factor, not a finite-size artefact. At $\tau=2.1$ both
-diverge and the control diverges \emph{faster}, so the ratio decays toward one
-and nothing measured there separates clustering from the tail. That is why
-Sec.~\ref{sec:hrg}'s $\tau=2.1$ row behaved differently from the others, and it
-is a caution rather than a result: below $\tau=2.5$ the measured ensemble is not
-converged, and neither is anything built on it.
-
+The same deficit shows outside the Ising model. On hyperbolic random graphs with
+maximal cliques as complexes, Chapter~\ref{ch:cover} finds the chygraph
+accounting for $77$ to $100$ per cent of the leaf-removal core, the shortfall
+tracking the clique overlap: negligible in a sparse graph where cliques rarely
+share edges, irrelevant once almost everything is core, largest in between.
 
 \section{Checks}
 \label{sec:cavity-checks}
@@ -318,6 +298,16 @@ because the first is the defect and the second only a proxy for it; the two give
 $+0.65$, $+0.63$, $+0.83$ and $+0.53$, $+0.18$, $+0.68$ respectively.
 
 \checkhead{Partial results}
+Taking maximal cliques as complexes presumes the clique-size distribution has a
+limit, that is, that the excess cardinality $\ave{\sbar}$ of
+Eq.~\eqref{eq:sbaru} converges. Against a degree-matched control at identical
+degree sequence and seed, the paired ratio
+$\ave{\sbar}_{\mathrm{HRG}}/\ave{\sbar}_{\mathrm{control}}$ is a converged
+constant between $1.8$ and $4.8$ for $\tau\ge2.5$, flat over $n=10^{3}$ to
+$3\times10^{5}$. At $\tau=2.1$ both diverge and the control diverges faster, so
+below $\tau=2.5$ the measured ensemble is not converged and neither is anything
+built on it. The instances here are drawn at $\tau=2.5$.
+
 This part works with the Ising model throughout, and does so by choice: one
 model across three ensembles isolates the effect of where the triangles come
 from, which three models on one ensemble would not. The \emph{criterion} of

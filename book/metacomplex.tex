@@ -389,9 +389,9 @@ reaching $0.28$, $0.16$ and $0.09$ at $b=1.6$ on the three lines. The rise is
 continuous rather than a jump, which makes it a second-order transition in the
 usual sense.
 
-The finite-size evidence is worth stating exactly, because
-Table~\ref{tab:knfinite} shows this part is not immune to reading a crossover as
-a transition. Below the threshold the core \emph{falls} with $n$, from $0.0067$
+The finite-size evidence, stated exactly, since Table~\ref{tab:knfinite} shows
+this part is not immune to reading a crossover as a transition. Below the
+threshold the core \emph{falls} with $n$, from $0.0067$
 at $n=200$ to $0.0030$ at $n=1600$ at $b=1$, as it must if it is heading for
 zero. Above it the core rises with $n$ but converges: at $b=1.6$ the steps are
 $+0.007$, $+0.012$ and $+0.0007$ across the four sizes, so $n=800$ and $n=1600$
@@ -418,20 +418,18 @@ ensemble put there.
 \section{Conclusions}
 \label{sec:part4-conclusions}
 
-\paragraph{On real networks the repair works.} That is the result to take from
-the part, and it is the case the book is about. Chapter~\ref{ch:overlap}
+\paragraph{On real networks the repair works.} Chapter~\ref{ch:overlap}
 measured the cavity method erring by a median of $5.06$ in $\ln Z$ on the $120$
 real neighbourhoods --- a factor of $150$ in $Z$ --- because their complexes
 share more than one atom. Merging those complexes and solving the resulting
 chygraph removes the error entirely: all $120$ come out exact, the worst
 discrepancy being $3\times10^{-13}$, which is the arithmetic and not the
-approximation. The same holds on all $60$ hyperbolic instances. Two of the three
-classes are repaired completely by a construction the chygraph already
-contained, and by one that leaves the formalism where it found it --- a merged
-complex is a complex, and a merged chygraph is a chygraph.
+approximation. The same holds on all $60$ hyperbolic instances. The construction
+does not leave the formalism: a merged complex is a complex, and a merged
+chygraph is a chygraph.
 
-\paragraph{And it works for a reason that can be stated.} The chygraph
-recursion is exact when the incidence structure of its complexes is a forest.
+\paragraph{The condition it meets.} The chygraph recursion is exact when the
+incidence structure of its complexes is a forest.
 Merging does not guarantee that --- it removes pairwise overlap, and three
 complexes can still close a cycle through three single atoms, as
 Fig.~\ref{fig:ring} shows with four triangles that pass Sec.~\ref{sec:treelike}'s
@@ -442,9 +440,9 @@ exactly. Over all $240$ runs the criterion is exact in both directions: every on
 of the $200$ acyclic families is exact, every one of the $40$ cyclic ones is
 not, by $5\times10^{-3}$ to $2.25$ in $\ln Z$. Nothing falls on the wrong side.
 
-\paragraph{Where it does not, there is a phase transition behind it.} All $40$
-cyclic families are Karrer--Newman, and Sec.~\ref{sec:coretransition} says why
-in terms of the ensemble's own parameters rather than the outcome. Following an
+\paragraph{Phase transition in the Karrer--Newman ensemble.} All $40$ cyclic
+families are Karrer--Newman, and Sec.~\ref{sec:coretransition} locates the cause
+in the ensemble's parameters. Following an
 atom into a complex of cardinality $c$ and out through its $c-1$ other atoms
 gives an incidence branching $b=s+2t$; the 2-core of that structure is what a
 branching process at ratio $b$ leaves behind, so it should appear at $b=1$
@@ -455,12 +453,11 @@ rather than a jump, which makes it second-order, and at $t=0$ the statement
 reduces to the Erd\H{o}s--R\'enyi $2$-core at mean degree one, which fixes the
 scale from outside this book.
 
-That transition is what explains the instances of Sec.~\ref{sec:mergeerror}
-rather than merely restating them. Those were drawn at $b$ between $3.5$ and
-$7$, far above threshold, so two thirds of them keeping a core is where they
-were sampled and not a peculiarity of the ensemble. Any ensemble put there would
-do the same, and the hyperbolic and real neighbourhoods --- whose closures leave
-one to three complexes --- are on the other side of it.
+The instances of Sec.~\ref{sec:mergeerror} were drawn at $b$ between $3.5$ and
+$7$, far above threshold, so two thirds of them keeping a core follows from
+where they were sampled rather than from the ensemble. The hyperbolic and real
+neighbourhoods, whose closures leave one to three complexes, are on the other
+side of it.
 
 \paragraph{What remains open.} All of this is instance-level. It takes an
 explicit list of complexes and an explicit interaction, where every other
