@@ -243,7 +243,7 @@ def figure_hrg():
 
 
 def table_real_core():
-    """Table 11.1: leaf removal on sixteen real networks, three ways.
+    """Table 11.2: leaf removal on sixteen real networks, three ways.
 
     Reads probe/results/real_core.json -- measured core, the Eq. (11.4)
     prediction on the maximal-clique ensemble of that same graph, and the
@@ -283,6 +283,69 @@ def table_real_core():
     print(f"  {len(dense)} where the control is core too (>0.5), so the comparison is empty")
 
 
+# ----------------------------------------- (5) the five structures of Fig. 2.5
+FIVE = [
+    ('A graph',                 [2]),
+    ('A hypergraph',            [3]),
+    ('A multiplex network',     [2, 2]),
+    ('Interacting graphs',      [2, 2, 2]),
+    ('Interacting hypergraphs', [3, 3, 3]),
+    ('A clustered graph',       [2, 3]),
+]
+
+
+def _split(cards, kbar):
+    """Layer chy-degrees splitting an induced mean degree ``kbar`` evenly.
+
+    A layer-``l`` complex supplies ``c_l - 1`` neighbours per member, so the
+    induced mean degree is ``sum_l kappa_l (c_l - 1)``.  Holding that fixed is
+    what makes the six rows comparable: they are the same graph density
+    arranged into different complexes.
+    """
+    return [kbar / len(cards) / (c - 1) for c in cards]
+
+
+def table_five_structures(kbar=2.0):
+    """Table 11.1: Chapter 11's three methods on the structures of Fig. 2.5.
+
+    Everything is evaluated at one induced mean degree, below the graph's own
+    threshold, because that is where the structures disagree: the all-c=2 rows
+    have no core and a certified cover there, and the others do not.
+    """
+    out = [r'\begin{tabular}{lccrrc}', r'\hline\hline',
+           r'structure & $c$ & threshold & $P_{C}$ & cover & certified\\',
+           r'\hline']
+    print(f'  at induced mean degree <k> = {kbar}')
+    rows = []
+    for label, cards in FIVE:
+        kap = _split(cards, kbar)
+        core = co.CorePercolation(cards, hs.poisson_phi(kap))
+        cover = cv.CliqueCover(cards, hs.poisson_phi(kap))
+        sigma = cover.solve()
+        free = core.has_core_free_branch()
+        thr = r'$\ave{k}=e$' if free else 'none'
+        pc, cs = core.core_fraction(), cover.cover_size(sigma)
+        lo, hi = cover.cover_bracket(sigma)
+        cert = 'yes' if cover.certified() else 'no'
+        assert free == cover.certified()
+        if all(c >= 3 for c in cards):        # leaf removal never fires
+            assert abs(pc - (1 - np.exp(-sum(kap)))) < 1e-9, (label, pc)
+        rows.append((pc, cs))
+        cs_txt = f'{cs:.4f}' if free else f'{cs:.4f}$^{{*}}$'
+        out.append(f"{label} & ${','.join(map(str, cards))}$ & {thr} & "
+                   f"{pc:.4f} & {cs_txt} & {cert}\\\\")
+        print(f'    {label:24s} c={str(cards):12s} core={pc:.4f} '
+              f'cover={cs:.4f} [{lo:.4f},{hi:.4f}] certified={cert}')
+    out += [r'\hline\hline', r'\end{tabular}']
+    (OUT / 'tab-five-structures.tex').write_text('\n'.join(out) + '\n')
+    two = [r for (label, cards), r in zip(FIVE, rows) if all(c == 2 for c in cards)]
+    assert max(abs(a - b) for a, b in zip(two[0], two[1])) < 1e-9
+    assert max(abs(a - b) for a, b in zip(two[0], two[2])) < 1e-9
+    print(f'  the {len(two)} cardinality-two rows agree: layering does not move the point')
+    print('  the pure-clique rows are 1 - Phi(0), every non-isolated vertex')
+    print('  wrote tab-five-structures.tex')
+
+
 if __name__ == '__main__':
     print('one point, three names:')
     check_threshold()
@@ -296,6 +359,8 @@ if __name__ == '__main__':
     check_against_leaf_removal()
     print('hyperbolic random graphs:')
     check_hrg()
+    print('the five structures of Fig. 2.5:')
+    table_five_structures()
     print('figures:')
     figure_core()
     figure_hrg()

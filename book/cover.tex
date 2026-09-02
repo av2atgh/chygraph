@@ -24,7 +24,11 @@ Sec.~\ref{sec:leafremoval-intro}'s combinatorial rule, which that recursion
 turns out to describe exactly. Section~\ref{sec:coreobstruction} treats what
 the rule gets stuck on --- the core --- by the LCZP map of \citet{liu2012}, a
 cavity calculation carrying three states rather than one, since a node may be
-settled in either of two ways or in neither. Sections~\ref{sec:hrg} and~\ref{sec:realcore} then put the predictions
+settled in either of two ways or in neither.
+Section~\ref{sec:fivecover} then runs the three of them over the five
+structures of Fig.~\ref{fig:mappings}, one paragraph each, which is where
+Chapter~\ref{ch:chygraphs}'s claim about substitution is paid out or is not.
+Sections~\ref{sec:hrg} and~\ref{sec:realcore} put the predictions
 against networks nobody designed to suit them: a synthetic ensemble whose
 clustering can be turned, and sixteen real ones where it cannot.
 
@@ -424,6 +428,45 @@ cover exactly when there is no core; there is no core exactly when the
 hard-field map is stable; and the hard-field map is stable exactly where the
 integer messages carry the whole answer.} Three statements, one condition.
 
+\paragraph{Over several layers.} The threshold above is the one-layer form,
+and the general one is worth writing down because three of
+Fig.~\ref{fig:mappings}'s five structures carry more than one layer. The
+core-free branch is a \emph{vector}, $\psi_{m}=\bar\Phi^{(m)}(1-\psi)$ with one
+entry per layer, since a node reached along a layer-$m$ inclusion is
+size-biased in layer $m$ alone and two layers share a $\psi$ only when they are
+statistically alike. Linearising Eq.~\eqref{eq:core} there gives a Jacobian
+$\bigl(\begin{smallmatrix}0&A\\A&0\end{smallmatrix}\bigr)$ --- at $c=2$ the
+$\psi$ row moves only with $\zeta=\delta$ and the $\delta$ row only with
+$\xi=\psi$ --- so its spectrum is $\pm$ that of
+\begin{equation}
+  A_{ml}=\frac{\partial\bar\Phi^{(m)}}{\partial x_{l}}\bigg|_{x=1-\psi},
+  \qquad\text{and the core appears at}\quad \rho(A)=1.
+  \label{eq:corethresh}
+\end{equation}
+Those eigenvalues are real: $A_{ml}$ is $\partial^{2}\Phi/\partial
+x_{m}\partial x_{l}$, symmetric, divided by the mean layer-$m$ chy-degree. At
+$L=1$ it is $\bar\Phi'(1-\psi)=1$ again. This is
+\code{core\_\allowbreak free\_\allowbreak spectral}.
+
+For Poisson layers it collapses much further. Every $\bar\Phi^{(m)}$ is then
+$\Phi$ itself, so $\psi$ is common to the layers and $A_{ml}=\kappa_{l}\psi$
+does not depend on $m$: $A$ has rank one, $\rho(A)=\psi\sum_{l}\kappa_{l}$, and
+with $\psi=e^{-\psi\sum_{l}\kappa_{l}}$ the threshold is
+\begin{equation}
+  \sum_{l}\kappa_{l}=e.
+  \label{eq:sumkappae}
+\end{equation}
+The \emph{total} chy-degree, however it is split. So the multiplex and the
+interacting graphs of Fig.~\ref{fig:mappings} sit at the graph's own threshold
+rather than somewhere else, and adding a link type moves nothing;
+Eq.~\eqref{eq:sumkappae} is checked against Eq.~\eqref{eq:corethresh} to
+$2\times10^{-10}$ at one, two, three and five layers. Layers move the point only
+when they differ in \emph{shape} and not merely in mean. A multiplex of a
+diluted matching layer and a Poisson layer cores at total $\ave{k}=2.6196$,
+against $2.6994$ for the single graph with the same pooled degree distribution
+--- the difference being the degree correlation multiplexing imposes on the
+matching layer's own links, which pooling destroys.
+
 \paragraph{Which replica-symmetry-breaking point.} The first of
 Sec.~\ref{sec:onestep}'s two, and it is worth being explicit because the
 distinction costs a chapter elsewhere. This is where the solution space
@@ -509,6 +552,158 @@ chy-degree $1$ and the predicted core is $1.8\times10^{-4}$: non-zero, as
 Eq.~\eqref{eq:factored} requires, and of no practical consequence whatever. The
 statement is about a branch of a fixed point, and a statement about a branch is
 not a statement about a magnitude.
+
+\paragraph{How small, exactly.} The magnitude has a closed form, and it is
+worth having because Sec.~\ref{sec:realcore} meets it four times in data. Put a
+clique layer of cardinality $c$ and chy-degree $\kappa_{c}$ on a link layer and
+expand Eq.~\eqref{eq:core} to first order in $\kappa_{c}$. Writing $\psi_{0}$
+for the link layer's own leaf-ready probability, $\psi_{0}=\bar\Phi(1-\psi_{0})$,
+and $\delta_{0}=1-\psi_{0}$,
+\begin{equation}
+  P_{C}(\mathrm{VC},\chi)\simeq\kappa_{c}\,\psi_{0}
+    \Bigl[1-\delta_{0}^{\,c-1}-(c-1)\,\psi_{0}\,\delta_{0}^{\,c-2}\Bigr].
+  \label{eq:smallcore}
+\end{equation}
+The bracket is $1-\zeta-\xi$ evaluated on the link background: the chance that
+the clique neither leaves the entering node free nor deletes it, which is the
+chance it leaves it core-side. At $c=2$ it is zero identically, as it must be,
+and at $c=3$ the whole expression is $\kappa_{\triangle}\psi_{0}^{3}$ --- one
+triangle in the core exactly when all three of its branches are leaf-ready,
+which is the combinatorial statement one would write down directly. At link
+chy-degree $1$ and $\kappa_{\triangle}=10^{-3}$ it gives $1.824\times10^{-4}$,
+the number quoted above.
+
+Two things follow, and they are the point of writing it out. The core is
+\emph{linear} in the clique density with a bounded slope, so
+Eq.~\eqref{eq:factored} constrains a slope and not a magnitude --- which is the
+previous paragraph, now with a coefficient. And Eq.~\eqref{eq:smallcore} does
+not diverge at $\ave{k}=e$. The cavity $\gamma$ does, carrying a factor
+$1/[1-\bar\Phi'(1-\psi_{0})]$, but the core fraction multiplies it by the same
+factor and the two cancel exactly. So the transition a link layer has at $e$
+does not turn into a divergence when a few triangles are added to it. It turns
+into nothing at all, and Eq.~\eqref{eq:smallcore} passes through $e$ without
+registering it.
+
+\paragraph{Where the three names separate.} Section~\ref{sec:onepoint}'s
+identification is a statement about $c=2$, and above $c=2$ its three names come
+apart. The core has no threshold at all, which is what
+Eq.~\eqref{eq:factored} has just said. The two hard-field maps still have one
+each, and those two are no longer the same point either. Eliminating
+$\kappa$ between the Poisson fixed point of Eq.~\eqref{eq:vc},
+$\sigma=e^{\kappa(u^{c-1}-1)}$ with $u=1-\sigma$, and its instability
+$\kappa(c-1)\sigma u^{c-2}=1$ leaves one transcendental equation in $\sigma$
+alone:
+\begin{equation}
+  \ln\sigma=\frac{u^{\,c-1}-1}{(c-1)\,\sigma\,u^{\,c-2}},
+  \qquad
+  \ave{k}_{c}=\frac{1}{\sigma\,u^{\,c-2}},
+  \label{eq:vcinstab}
+\end{equation}
+where $\ave{k}_{c}=\kappa(c-1)$ is the induced mean degree. It returns $e$ at
+$c=2$, and then $4.7836$, $7.0871$, $9.5736$ at $c=3,4,5$: covering a clique
+network gets harder, in neighbours per node, as the cliques grow. Read the same
+way Chapter~\ref{ch:hittingset} reads Eq.~\eqref{eq:kc}, the hitting-set point
+does not move at all --- $\ave{k}(c-1)=e$ for every cardinality. So the two
+instabilities coincide at $c=2$ and separate immediately above it, and three
+names for one point is precisely what cardinality two buys.
+
+\section{The five structures}
+\label{sec:fivecover}
+
+Chapter~\ref{ch:chygraphs} claimed that a calculation done once on a chygraph
+is a calculation done for all five structures of Fig.~\ref{fig:mappings}, and
+that specialising it is substitution rather than rederivation. The chapter is
+now far enough along to pay that out. What follows is the five, in
+Sec.~\ref{sec:everything}'s order and under its names. None of it is a new
+calculation: every entry is Eq.~\eqref{eq:vc} or Eq.~\eqref{eq:core} with a
+list of cardinalities substituted, and Table~\ref{tab:five} is what comes back.
+
+One number decides the whole table. Equation~\eqref{eq:factored} says the
+core-free branch survives exactly when every layer has cardinality two, so the
+five split two against three, and which side a structure falls on is a property
+of its layer list and of nothing else --- not of its density, not of its degree
+distribution, not of how many layers it carries.
+
+\begin{table}[t]
+\centering\small
+\begin{adjustbox}{max width=\linewidth}
+\input{figs/tab-five-structures}
+\end{adjustbox}
+\caption{\textbf{The three methods on the structures of
+Fig.~\ref{fig:mappings}.} All six rows at one induced mean degree,
+$\ave{k}=2$, below the graph's own threshold $e$. A layer-$l$ complex supplies
+$c_{l}-1$ neighbours per member, so $\ave{k}=\sum_{l}\kappa_{l}(c_{l}-1)$ is
+what is held fixed; the chy-degree is split evenly across the layers and
+Poisson in each. $P_{C}$ is the core fraction of Eq.~\eqref{eq:core} and
+\emph{cover} the size of Eq.~\eqref{eq:vc}; a star marks a cover size leaf
+removal does not certify, where Sec.~\ref{sec:corefree} says it never will and
+\code{cover\_\allowbreak bracket} is the honest statement. The three
+cardinality-two rows agree to every digit shown, which is
+Eq.~\eqref{eq:sumkappae}. Generated by
+\code{figs/\allowbreak cover.\allowbreak py:table\_\allowbreak five\_\allowbreak structures}.}
+\label{tab:five}
+\end{table}
+
+\paragraph{A graph} is the row the others are read against. All three methods
+work and agree: Eq.~\eqref{eq:vc} returns the Weigt--Hartmann cover size, leaf
+removal certifies it below $\ave{k}=e$, and Sec.~\ref{sec:onepoint}'s three
+names are one point. Nothing here is new, and that is what makes it the
+baseline.
+
+\paragraph{A hypergraph} loses all of it at once, and the loss is structural
+rather than a matter of density. Note first which problem is being solved: this
+chapter covers the \emph{induced} graph, so a hyperedge is a clique and every
+pair inside it must be covered. Hitting the hyperedges themselves is
+Chapter~\ref{ch:hittingset}'s problem with the other constraint,
+Eq.~\eqref{eq:Hvc} against Eq.~\eqref{eq:Hhs}. Then, at cardinality three or
+more, no vertex of a clique ever has degree one, so leaf removal never fires at
+all: the core is the whole of $1-\Phi(0)$, every non-isolated vertex, at every
+density. This is the strong reading of Sec.~\ref{sec:corefree} in the one place
+where it does hold, which is where \emph{every} layer is above cardinality two.
+Equation~\eqref{eq:vc}'s cover size is then an approximation with nothing to
+certify it, and the row carries a star.
+
+\paragraph{A multiplex network} is on the good side and stays there however many
+link types it has, every layer being a link layer at $c=2$. What the extra
+layers do change is where the point sits, and the answer is nowhere:
+Eq.~\eqref{eq:sumkappae} puts the threshold at the \emph{total} chy-degree $e$
+for Poisson layers, so a multiplex of five sparse layers cores exactly where the
+single graph carrying their sum does. That is why the three cardinality-two rows
+of Table~\ref{tab:five} are the same row. Layers earn their keep only when they
+differ in shape, where Eq.~\eqref{eq:corethresh}'s matrix is needed and the
+pooled graph gets the point wrong.
+
+\paragraph{Interacting graphs and hypergraphs} is the panel that can land on
+either side, and the layer list decides which. As Fig.~\ref{fig:mappings} draws
+it --- cardinality two throughout, including the cross layer --- it is a
+multiplex as far as this chapter is concerned, and the previous paragraph
+applies unchanged. Interacting \emph{hypergraphs} put their own layers at
+cardinality three or more and it is lost, whatever the cross layer does. So is
+the converse case, two graphs interacting through a cross layer of hyperedges of
+size three or more: the cross layer alone is enough. Both readings are in the
+table because the distinction between them is the whole content of the panel.
+
+\paragraph{A clustered graph} is formally on the bad side and is the interesting
+one. It is the mapping Part~III rests on, and the mapping
+Secs.~\ref{sec:hrg} and~\ref{sec:realcore} spend two sections measuring. Its
+triangle layer sits at $c=3$, so Eq.~\eqref{eq:factored} removes the core-free
+branch and leaf removal certifies nothing at any density. What
+Eq.~\eqref{eq:smallcore} adds is the price: the core is linear in the triangle
+chy-degree with a bounded slope, so a sparse link layer carrying a few triangles
+has a core of order $10^{-4}$ and is, to any measurement, the graph of the first
+paragraph. Table~\ref{tab:five}'s row is at triangle chy-degree $0.5$, which is
+not a few, and its core is $0.129$. The distance between $10^{-4}$ and $0.129$
+is what the clustered mapping is for, and Sec.~\ref{sec:realcore} finds both
+ends of it in data: four networks where the prediction is $10^{-4}$ and leaf
+removal finds nothing, five where it is per cent and leaf removal finds them.
+
+\paragraph{What the list establishes.} Not that the five behave alike. They do
+not, and Table~\ref{tab:five} is mostly a table of differences --- two of the
+six rows certify nothing, and one of those is the row the rest of the book
+cares about most. What the list establishes is
+Chapter~\ref{ch:chygraphs}'s narrower claim, which is that the differences are
+all substitutions. Six rows, one map, one solver, and the only thing that
+changes from row to row is a list of integers.
 
 \section{Hyperbolic random graphs}
 \label{sec:hrg}
@@ -697,7 +892,18 @@ hard-field instability of Chapter~\ref{ch:hittingset}, computed independently,
 agree to $2.5\times10^{-10}$. The LCZP map is compared with pure
 leaf removal on graphs built to match it, at $n=4\times10^{5}$, over eleven
 ensembles at cardinalities two, three and four, with an error running from
-$8.7\times10^{-5}$ to $3.1\times10^{-3}$.
+$8.7\times10^{-5}$ to $3.1\times10^{-3}$. The multi-layer threshold
+Eq.~\eqref{eq:corethresh} returns Eq.~\eqref{eq:sumkappae}'s total chy-degree
+$e$ to $2\times10^{-10}$ at one, two, three and five Poisson layers, evenly and
+unevenly split. Equation~\eqref{eq:vcinstab} is checked by evaluating the
+instability of Eq.~\eqref{eq:vc} at its own root, which returns $1$ to ten
+digits at $c=2,\dots,10$. Equation~\eqref{eq:smallcore} agrees with the
+numerical map to $10^{-4}$ relative or better at $c=3,4,5,8$ and three link
+densities, and reproduces the $1.8\times10^{-4}$ of
+Sec.~\ref{sec:corefree}'s constructed example. Table~\ref{tab:five} recomputes
+nothing: each row is Eq.~\eqref{eq:vc} and Eq.~\eqref{eq:core} on one list of
+cardinalities, and its three cardinality-two rows agree with each other, and its
+hypergraph rows with the closed form $1-\Phi(0)$, to every digit printed.
 
 \checkhead{Partial results}
 Section~\ref{sec:realcore} establishes less than sixteen rows suggest, and the
