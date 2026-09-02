@@ -165,6 +165,108 @@ def check_mixed():
           'correlation')
 
 
+# ----------------------------------------- (5) the five structures of Fig. 2.5
+FIVE = [
+    ('A graph',                 [2]),
+    ('A hypergraph',            [3]),
+    ('A multiplex network',     [2, 2]),
+    ('Interacting graphs',      [2, 2, 2]),
+    ('Interacting hypergraphs', [3, 3, 3]),
+    ('A clustered graph',       [2, 3]),
+]
+
+
+def _split(cards, nu):
+    """Layer chy-degrees splitting ``nu`` neighbours per node evenly.
+
+    A layer-``l`` complex supplies ``c_l - 1`` neighbours per member, so
+    ``nu = sum_l kappa_l (c_l - 1)``.  Holding that fixed is what makes the
+    rows comparable: the same density of constraints, arranged into complexes
+    of different sizes.
+    """
+    return [nu / len(cards) / (c - 1) for c in cards]
+
+
+def _instability_closed_form(cards, direction):
+    """Neighbours per node at the Eq. (10.4) instability, in closed form.
+
+    With Poisson layers and ``y_l = kappa_l sigma^{c_l-1}``, the fixed point is
+    ``sigma = exp(-Y)`` with ``Y = sum_l y_l``, and ``|F'| = 1`` reads
+    ``sum_l (c_l-1) y_l = 1``.  Substituting ``sigma`` leaves the pair
+
+        sum_l kappa_l exp(-(c_l-1) Y) = Y,
+        sum_l (c_l-1) kappa_l exp(-(c_l-1) Y) = 1,
+
+    in the scale of ``kappa`` and in ``Y``.  When every ``c_l`` is the same
+    ``c`` the second sum is ``(c-1)`` times the first, so dividing gives
+    ``(c-1) Y = 1`` and hence ``(sum_l kappa_l)(c-1) = e`` -- Eq. (10.4) with
+    the *total* chy-degree, at any number of layers.  A spread in cardinality
+    is what leaves nothing to divide.
+    """
+    from scipy.optimize import brentq
+    c = np.asarray(cards, float)
+    d = np.asarray(direction, float)
+
+    def gap(Y):
+        # dividing the two sums removes the scale of kappa and leaves one
+        # equation in Y; at a single cardinality it is (c-1) - 1/Y.
+        e = np.exp(-(c - 1) * Y)
+        return float(((c - 1) * d * e).sum() / (d * e).sum()) - 1.0 / Y
+
+    Y = brentq(gap, 1e-9, 50.0, xtol=1e-14)
+    e = np.exp(-(c - 1) * Y)
+    t = Y / float((d * e).sum())               # the scale kappa = t * direction
+    return float((t * d * (c - 1)).sum())
+
+
+def check_five_instabilities():
+    """One cardinality puts the point at e; only a spread moves it."""
+    print('  instability in neighbours per node, closed form against rsb_point:')
+    for label, cards in FIVE:
+        kap = _split(cards, 1.0)
+        closed = _instability_closed_form(cards, kap)
+        t = hs.rsb_point(cards, kap)
+        num = t * sum(k * (c - 1) for k, c in zip(kap, cards))
+        assert abs(closed - num) < 1e-8, (label, closed, num)
+        flag = '' if len(set(cards)) > 1 else '  = e'
+        print(f'    {label:24s} {closed:.10f}{flag}')
+    print(f'    e = {np.e:.10f}; only the mixed-cardinality row moves')
+
+
+def table_five_structures(nu=2.0):
+    """Table 10.1: Chapter 10's two treatments on the structures of Fig. 2.5.
+
+    Hard field against soft field at one density of constraints, with the
+    instability point of each structure beside them.  The soft-field column is
+    population dynamics and carries the scatter of Sec. 10.7's partial results,
+    so it is quoted to three decimals.
+    """
+    out = [r'\begin{tabular}{lccrrc}', r'\hline\hline',
+           r'structure & $c$ & instability & hard & soft & hard exact\\',
+           r'\hline']
+    print(f'  at {nu} neighbours per node')
+    for label, cards in FIVE:
+        kap = _split(cards, nu)
+        m = hs.HittingSet(cards, hs.poisson_phi(kap))
+        sigma = m.solve()
+        hard = m.cover_size(sigma)
+        lo, hi = m.cover_bracket(sigma)
+        soft, spread = soft_density(cards, kap)
+        ok = m.certified()
+        nu_c = _instability_closed_form(cards, kap)
+        out.append(f"{label} & ${','.join(map(str, cards))}$ & {nu_c:.3f} & "
+                   f"{hard:.4f} & {soft:.3f} & {'yes' if ok else 'no'}\\\\")
+        print(f'    {label:24s} nu_c={nu_c:.4f}  hard={hard:.4f} '
+              f'[{lo:.4f},{hi:.4f}]  soft={soft:.3f}+-{spread:.3f}  '
+              f"exact={'yes' if ok else 'no'}")
+        if ok:
+            assert abs(hard - soft) < 5e-3, (label, hard, soft)
+    out += [r'\hline\hline', r'\end{tabular}']
+    (OUT / 'tab-five-structures-hs.tex').write_text('\n'.join(out) + '\n')
+    print('  the cardinality-two rows agree hard with soft; the others do not')
+    print('  wrote tab-five-structures-hs.tex')
+
+
 # ------------------------------------------------------------ (5) the figure
 def figure_density():
     plt = _mpl()
@@ -240,6 +342,9 @@ if __name__ == '__main__':
     check_regular()
     print('mixed cardinalities and correlation:')
     check_mixed()
+    print('the five structures of Fig. 2.5:')
+    check_five_instabilities()
+    table_five_structures()
     print('the entropy criterion:')
     check_entropy_is_not_necessary()
     print('figure:')
