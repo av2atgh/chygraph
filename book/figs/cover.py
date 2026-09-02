@@ -219,7 +219,7 @@ def figure_hrg():
         ax.loglog(k, [x['hrg_measured'] for x in r], 'o', ms=3.4, color=DARK,
                   label='measured')
         ax.loglog(k, [x['hrg_chygraph'] for x in r], 's', ms=3.4, mfc='white',
-                  mew=0.9, color=DARK, label='chygraph')
+                  mew=0.9, color=DARK, label='LCZP')
         ctrl = np.array([x['cfg_measured'] for x in r])
         floor = 3e-6
         ax.loglog(k, np.where(ctrl > 0, ctrl, floor), '^', ms=3.2,
@@ -259,7 +259,7 @@ def table_real_core():
            r' & & & \multicolumn{3}{c}{core fraction '
            r'$P_{C}(\mathrm{VC},\cdot)$}\\',
            r'network & $\ave{k}$ & $C$ & leaf removal '
-           r'& Eq.~\eqref{eq:core} & leaf removal\\',
+           r'& LCZP & leaf removal\\',
            r' & & & on the graph & on its cliques & rewired\\',
            r'\hline']
     for r in rows:
