@@ -283,6 +283,54 @@ def table_real_core():
     print(f"  {len(dense)} where the control is core too (>0.5), so the comparison is empty")
 
 
+def check_vc_instability():
+    """Eq. (11.10): the cover map's own hard-field instability at cardinality c.
+
+    Eliminating kappa between the Poisson fixed point sigma = exp(k(u^{c-1}-1)),
+    u = 1 - sigma, and |F'| = k(c-1) sigma u^{c-2} = 1 leaves one transcendental
+    equation in sigma, and <k>_c = 1/(sigma u^{c-2}) is the induced mean degree
+    there.  Checked by evaluating |F'| at the root the closed form gives.
+    """
+    from scipy.optimize import brentq
+    print('   c    sigma*        <k>_c        |F\'| at that point')
+    for c in range(2, 11):
+        f = lambda x: np.log(x) - ((1 - x)**(c - 1) - 1) / ((c - 1) * x * (1 - x)**(c - 2))
+        sig = brentq(f, 1e-9, 1 - 1e-9, xtol=1e-15)
+        k = 1.0 / (sig * (1 - sig)**(c - 2))
+        m = cv.CliqueCover([c], hs.poisson_phi([k / (c - 1)]))
+        s = m.solve()
+        slope = (k / (c - 1)) * (c - 1) * s[0] * (1 - s[0])**(c - 2)
+        assert abs(slope - 1.0) < 1e-9, (c, slope)
+        print(f'  {c:2d}   {sig:.10f}  {k:.10f}   {slope:.10f}')
+    assert abs(1.0 / (0.3678794411714423 * 1.0) - np.e) < 1e-9
+    print('    e at c = 2, then 4.7836, 7.0871, 9.5736; Eq. (10.4) does not move')
+
+
+def check_small_core():
+    """Eq. (11.9): the core is linear in the clique chy-degree, with that slope.
+
+    core ~ kappa_c psi0 [1 - d^{c-1} - (c-1) psi0 d^{c-2}], d = 1 - psi0, with
+    psi0 the link layer's own leaf-ready probability.  The bracket is
+    1 - zeta - xi on the link background and vanishes identically at c = 2.
+    """
+    from scipy.optimize import brentq
+    print('   <k>  c    numeric/eps     formula      rel')
+    for k in (0.5, 1.0, 2.0):
+        p0 = brentq(lambda p: np.exp(-k * p) - p, 1e-12, 1.0, xtol=1e-15)
+        d = 1 - p0
+        for c in (3, 4, 5, 8):
+            pred = p0 * (1 - d**(c - 1) - (c - 1) * p0 * d**(c - 2))
+            num = co.CorePercolation([2, c],
+                                     hs.poisson_phi([k, 1e-5])).core_fraction() / 1e-5
+            rel = abs(num - pred) / pred
+            assert rel < 1e-3, (k, c, num, pred)
+            print(f'  {k:4} {c:2d}   {num:.8f}   {pred:.8f}   {rel:.1e}')
+        assert abs(p0 * (1 - d - 1 * p0 * 1)) < 1e-12      # c = 2 vanishes
+    p0 = brentq(lambda p: np.exp(-p) - p, 1e-12, 1.0, xtol=1e-15)
+    print(f'    at <k> = 1, kappa_tri = 1e-3: {1e-3 * p0**3:.6e}, '
+          "Sec. 11.5's 1.8e-4")
+
+
 # ----------------------------------------- (5) the five structures of Fig. 2.5
 FIVE = [
     ('A graph',                 [2]),
@@ -355,6 +403,8 @@ if __name__ == '__main__':
     check_core_free()
     check_factorisation()
     check_core_can_be_tiny()
+    check_small_core()
+    check_vc_instability()
     print('against pure leaf removal:')
     check_against_leaf_removal()
     print('hyperbolic random graphs:')

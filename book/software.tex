@@ -98,7 +98,7 @@ Table~\ref{tab:map} is the map. Where a chapter has no manuscript behind it the
 and the check is in the same file.
 
 {\scriptsize\setlength{\tabcolsep}{3pt}
-\begin{longtable}{@{}L{0.08\textwidth} L{0.24\textwidth} L{0.36\textwidth} L{0.18\textwidth}@{}}
+\begin{longtable}{@{}L{0.085\textwidth} L{0.235\textwidth} L{0.36\textwidth} L{0.18\textwidth}@{}}
 \caption{\textbf{Every computed equation, and what checks it.} Routines are in
 \code{percolation/} for Part~II and \code{statmech/} for Parts~III and~IV
 unless a path is given. Tests are the packages' own suites; \code{figs/} entries are the
@@ -170,21 +170,30 @@ Eq. & what it is & evaluated by & checked in\\
 \eqref{eq:simH} & the unanimity rule & \code{simplicial.\allowbreak emitted} & \code{test\_\allowbreak simplicial}\\
 \eqref{eq:BW} & its infinite-connectivity limit & \code{simplicial.\allowbreak SimplicialChygraph.\allowbreak spinodal} & \code{test\_\allowbreak derivations}\\
 \eqref{eq:Cq} & the residual $C_{q}$ & \code{simplicial.\allowbreak SimplicialChygraph.\allowbreak spinodal} & \code{figs/\allowbreak ising.\allowbreak py}\\
+\eqref{eq:tcmulti} & $T_{c}$ over several layers & \code{ising.\allowbreak branching\_\allowbreak matrix} & \code{figs/\allowbreak ising.\allowbreak py}\\
+\ref{tab:fiveising} & the five structures at one degree & \code{figs/\allowbreak ising.\allowbreak py:\allowbreak table\_\allowbreak five\_\allowbreak structures} & same file\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:hittingset}, hitting set}}\\
 \eqref{eq:Hhs} & the constraint & \code{hittingset.\allowbreak HittingSet} & \code{test\_\allowbreak hittingset}\\
 \eqref{eq:zhs} & warning propagation & \code{hittingset.\allowbreak HittingSet.\allowbreak F} & \code{test\_\allowbreak hittingset}\\
 \eqref{eq:hs} & the hard-field map & \code{hittingset.\allowbreak HittingSet.\allowbreak solve} & \code{test\_\allowbreak hittingset}\\
 \eqref{eq:kc} & $\ave{k}(c-1)=e$ & \code{hittingset.\allowbreak rsb\_\allowbreak point} & \code{test\_\allowbreak derivations}\\
+\eqref{eq:kcmulti} & the instability over several layers & \code{hittingset.\allowbreak rsb\_\allowbreak scale} & \code{figs/\allowbreak hittingset.\allowbreak py}\\
 \eqref{eq:soft} & soft-field BP & \code{softfield.\allowbreak HittingSetBP.\allowbreak sweep} & \code{test\_\allowbreak softfield}\\
 \eqref{eq:hRS} & the regular solution & \code{softfield.\allowbreak regular\_\allowbreak field} & \code{test\_\allowbreak derivations}\\
 \eqref{eq:sgen} & the entropy & \code{softfield.\allowbreak HittingSetBP.\allowbreak entropy} & \code{test\_\allowbreak softfield}\\
 \eqref{eq:entropy} & its regular closed form & \code{softfield.\allowbreak regular\_\allowbreak entropy} & \code{test\_\allowbreak derivations}\\
+\ref{tab:fivehs} & the five structures, hard against soft & \code{figs/\allowbreak hittingset.\allowbreak py:\allowbreak table\_\allowbreak five\_\allowbreak structures} & same file\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:cover}, cover and core}}\\
 \eqref{eq:Hvc} & the tighter constraint & \code{cover.\allowbreak CliqueCover} & \code{test\_\allowbreak cover}\\
 \eqref{eq:vcz} & the $\max$ rule inside a complex & \code{cover.\allowbreak CliqueCover.\allowbreak tau} & \code{test\_\allowbreak cover}\\
 \eqref{eq:vc} & the cover map & \code{cover.\allowbreak CliqueCover.\allowbreak solve} & \code{test\_\allowbreak cover}\\
 \eqref{eq:core} & the LCZP map, three-state leaf removal & \code{core.\allowbreak CorePercolation.\allowbreak solve} & \code{test\_\allowbreak core}\\
+\eqref{eq:corethresh} & the core threshold over several layers & \code{core.\allowbreak CorePercolation.\allowbreak core\_\allowbreak free\_\allowbreak spectral} & \code{test\_\allowbreak core}\\
+\eqref{eq:sumkappae} & total chy-degree $e$, Poisson layers & \code{core.\allowbreak core\_\allowbreak threshold} & \code{test\_\allowbreak core}\\
 \eqref{eq:factored} & no core-free branch above $c=2$ & \code{core.\allowbreak CorePercolation.\allowbreak has\_\allowbreak core\_\allowbreak free\_\allowbreak branch} & \code{figs/\allowbreak cover.\allowbreak py}\\
+\eqref{eq:smallcore} & the core at small clique chy-degree & \code{core.\allowbreak CorePercolation.\allowbreak core\_\allowbreak fraction} & \code{figs/\allowbreak cover.\allowbreak py}\\
+\eqref{eq:vcinstab} & the cover instability at cardinality $c$ & \code{cover.\allowbreak CliqueCover.\allowbreak solve} & \code{figs/\allowbreak cover.\allowbreak py}\\
+\ref{tab:five} & the five structures & \code{figs/\allowbreak cover.\allowbreak py:\allowbreak table\_\allowbreak five\_\allowbreak structures} & same file\\
 \ref{tab:realcore} & leaf removal on real networks & \code{statmech/\allowbreak probe/\allowbreak real\_\allowbreak core.\allowbreak py} & \code{figs/\allowbreak cover.\allowbreak py:\allowbreak table\_\allowbreak real\_\allowbreak core}\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:colouring}, colouring}}\\
 \eqref{eq:taucol} & proper colouring, $-1/(q-1)$ & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak tau\_\allowbreak closed} & same file\\
@@ -193,6 +202,8 @@ Eq. & what it is & evaluated by & checked in\\
 \eqref{eq:coltwo} & proper against hypergraph & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak check\_\allowbreak cardinality} & same file\\
 \eqref{eq:tridisagree} & triangles against the graph reading & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak triangle\_\allowbreak family} & same file\\
 \eqref{eq:trifamily} & the family at fixed degree & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak check\_\allowbreak triangles\_\allowbreak at\_\allowbreak fixed\_\allowbreak degree} & same file\\
+\eqref{eq:colmulti} & the stability line over several layers & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak stability\_\allowbreak threshold\_\allowbreak layers} & same file\\
+\ref{tab:fivecol} & the five structures, both rules & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak table\_\allowbreak five\_\allowbreak structures} & same file\\
 \eqref{eq:colsp} & the survey update & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak sp\_\allowbreak update} & same file\\
 \eqref{eq:colsigma} & its complexity, against $c_{q}$ & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak sp\_\allowbreak threshold} & same file\\
 \eqref{eq:hypsp} & cardinality, above two & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak hyp\_\allowbreak converge} & same file\\

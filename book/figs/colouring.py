@@ -13,7 +13,7 @@ derived by hand, and the two are required to agree.
 The survey-propagation section goes one level up, to 1RSB at m = 0, and reaches
 the colourability threshold that Sec. 12.3's stability line is not: the
 complexity vanishes at Mulet's c_q for q = 3, 4 and 5, and the density at which
-the surveys stop being trivial is his c_d. Both columns of Table 12.1 out of one
+the surveys stop being trivial is his c_d. Both columns of Table 12.2 out of one
 population, neither used in getting there.
 
 Benchmarks, from `~/Downloads/chygraph_references/`:
@@ -395,7 +395,7 @@ def check_survey_branch_is_clustering():
         print(f'  {q:>4}   {r:>14.3f}   {c_d:>15.2f}')
     print('    A by-product: the density at which the surveys stop being')
     print('    trivial is the clustering transition, so the same population')
-    print('    carries both columns of Table 12.1.')
+    print('    carries both columns of Table 12.2.')
 
 
 # ---------------------------------------------------------------------------
@@ -735,7 +735,7 @@ def _sv_bisect(q, c, lo, hi, rule, iters=9):
     return 0.5 * (lo + hi)
 
 
-# Mulet's colourability thresholds, the graph column of Table 12.4.
+# Mulet's colourability thresholds, the graph column of Table 12.5.
 MULET_CQ = {3: 4.69, 4: 8.90, 5: 13.69}
 
 
@@ -802,6 +802,96 @@ def check_clustered_cq():
     print('    line gets used as a rough locator at all. On triangles the proxy')
     print('    reports either no effect or the wrong SIGN, depending on which')
     print('    ensemble it is taken in.')
+
+
+# ----------------------------------------- (7) the five structures of Fig. 2.5
+FIVE = [
+    ('A graph',                 [2]),
+    ('A hypergraph',            [3]),
+    ('A multiplex network',     [2, 2]),
+    ('Interacting graphs',      [2, 2, 2]),
+    ('Interacting hypergraphs', [3, 3, 3]),
+    ('A clustered graph',       [2, 3]),
+]
+
+
+def stability_threshold_layers(cards, q, rule, regular=False):
+    """Neighbours per node at the stability line, for a list of layers.
+
+    Eq. (8.7) with ``u' -> tau^2`` puts the excess chy-degree on the diagonal
+    and the ordinary one off it, multiplying both by ``(c_m-1) tau_m^2``, so
+    the branching matrix is rank one plus a diagonal and ``det(I - B) = 0``
+    collapses to one sum,
+
+        sum_l  kappa_l (c_l-1) tau_l^2 / D_l = 1,
+        D_l = 1 - (kbar_l - kappa_l)(c_l-1) tau_l^2,
+
+    which is ``kbar (c-1) tau^2 = 1`` at one layer and Eq. (12.7) at two.
+    Splitting the neighbours evenly across the layers makes it explicit:
+    ``kappa_l (c_l-1) = nu / L``, so ``nu = L / sum_l tau_l^2 / D_l``.  With
+    Poisson layers every ``D_l`` is 1; with regular ones ``kbar - kappa = -1``
+    and ``D_l = 1 + (c_l-1) tau_l^2``, neither depending on ``nu``, so the
+    answer is closed rather than solved for.
+    """
+    L = len(cards)
+    tot = F(0)
+    for c in cards:
+        t2 = tau_closed(c, q, rule) ** 2
+        D = 1 + (c - 1) * t2 if regular else F(1)
+        tot += t2 / D
+    return F(L) / tot
+
+
+def check_five_layers():
+    """The layer formula against the one- and two-layer cases it generalises."""
+    for q in (3, 4, 5, 6):
+        for rule in ('proper', 'hyper'):
+            for c in (2, 3):
+                if rule == 'proper' and q < c:
+                    continue
+                for reg in (False, True):
+                    got = stability_threshold_layers([c], q, rule, reg)
+                    want = stability_threshold(c, q, rule, reg)
+                    assert abs(float(got) - want) < 1e-12, (q, rule, c, reg)
+        # the clustered row against Eq. (12.7), exactly, in rational arithmetic
+        assert stability_threshold_layers([2, 3], q, 'proper', True) == \
+            triangle_family(q, F(1, 2)), q
+    print('  one layer reproduces stability_threshold at c = 2, 3, both rules,')
+    print('  Poisson and regular; the clustered row equals Eq. (12.7) at f = 1/2,')
+    print('  exactly, in rational arithmetic')
+
+
+def table_five_structures(q=4):
+    """Table 12.1: the five structures of Fig. 2.5, both interior rules.
+
+    Neighbours per node at the stability line, with the degree split evenly
+    across the layers.  The proper column is constant down the table and the
+    hypergraph column is not, which is Sec. 12.3's contrast read structure by
+    structure rather than cardinality by cardinality.
+    """
+    out = [r'\begin{tabular}{lcrrr}', r'\hline\hline',
+           r'structure & $c$ & proper & proper, regular & hypergraph\\',
+           r'\hline']
+    print(f'  neighbours per node at the stability line, q = {q}:')
+    prop, hyp = [], []
+    for label, cards in FIVE:
+        a = stability_threshold_layers(cards, q, 'proper')
+        b = stability_threshold_layers(cards, q, 'proper', regular=True)
+        h = stability_threshold_layers(cards, q, 'hyper')
+        prop.append(a)
+        hyp.append(float(h))
+        out.append(f"{label} & ${','.join(map(str, cards))}$ & "
+                   f"{float(a):.0f} & {float(b):.3f} & {float(h):.2f}\\\\")
+        print(f'    {label:24s} proper {float(a):>6.2f}  regular {float(b):>7.3f}'
+              f'  hypergraph {float(h):>7.2f}')
+    out += [r'\hline\hline', r'\end{tabular}']
+    (OUT / 'tab-five-structures-col.tex').write_text('\n'.join(out) + '\n')
+    assert len(set(prop)) == 1 and prop[0] == (q - 1) ** 2, prop
+    assert max(hyp) / min(hyp) > 20, hyp
+    print(f'    the proper column is {(q-1)**2} on every row -- one number, six '
+          'structures')
+    print(f'    the hypergraph column spans {min(hyp):.2f} to {max(hyp):.2f}')
+    print('  wrote tab-five-structures-col.tex')
 
 
 def figure_threshold():
@@ -924,6 +1014,9 @@ if __name__ == '__main__':
     check_cardinality()
     print('a graph with triangles, at fixed degree:')
     check_triangles_at_fixed_degree()
+    print('the five structures of Fig. 2.5:')
+    check_five_layers()
+    table_five_structures()
     print('survey propagation, against the colourability thresholds:')
     check_survey_thresholds()
     print('and the clustering threshold, as a by-product:')
