@@ -32,19 +32,26 @@ $\chi$, $\chi_{m}$ & a chygraph, and the chygraph its merge closure returns:
                     the complexes of $\chi_{m}$ are the unions of every set of
                     complexes of $\chi$ that share two or more atoms
                     (Ch.~\ref{ch:metacomplex})\\[2pt]
-$P_{C}(\text{model},\text{BP})$ & core fraction: the share of atoms a removal
-                algorithm cannot strip, run to a fixed point. Both arguments are
-                needed, because both decide what gets stripped. The
-                \emph{model} decides what a message can force --- a covering
-                constraint forces more than a coupling does --- and
-                $\mathrm{BP}_{\chi}$ or $\mathrm{BP}_{\chi_{m}}$ says which
-                structure the messages run on. So
-                $P_{C}(\mathrm{VC},\mathrm{BP}_{\chi})$ is
+$\mathrm{BP}_{\chi}$, $\mathrm{BP}_{\chi_{m}}$ & the cavity recursion of
+                    Ch.~\ref{ch:statmech} run on a chygraph, and run on its
+                    merge closure --- the two calculations Part~IV
+                    compares\\[2pt]
+$P_{C}(\text{model},\text{structure})$ & core fraction: the share of atoms a
+                removal rule cannot strip, run to a fixed point
+                (Sec.~\ref{sec:leafremoval-intro}). Both arguments are needed,
+                because both decide what gets stripped. The \emph{model}
+                decides what counts as forced --- a covering constraint forces
+                more than a coupling does --- and the \emph{structure} says
+                what the rule runs on: $\mathrm{G}$ a graph, $\mathrm{H}$ a
+                hypergraph, $\chi$ a chygraph, $\chi_{m}$ its merge closure.
+                In this slot $\mathrm{G}$ is a structure and not the
+                intra-complex generating function two rows above. So
+                $P_{C}(\mathrm{VC},\chi)$ is
                 Chapter~\ref{ch:cover}'s leaf-removal core, which takes a
                 chy-degree-one atom together with its complex;
-                $P_{C}(\mathrm{Ising},\mathrm{BP}_{\chi})$ is
+                $P_{C}(\mathrm{Ising},\chi)$ is
                 Chapter~\ref{ch:overlap}'s, which takes the atom and leaves the
-                complex; and $P_{C}(\mathrm{Ising},\mathrm{BP}_{\chi_{m}})$ is
+                complex; and $P_{C}(\mathrm{Ising},\chi_{m})$ is
                 the same after merging. The first two differ on the same object
                 --- a ring of triangles glued at single atoms gives $0$ and
                 $1/2$ --- which is why the model is an argument and not a

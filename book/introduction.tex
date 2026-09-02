@@ -363,7 +363,8 @@ and \emph{proved} it minimum. When it stalls, what is left is called the
 For a Poisson random graph, leaf removal succeeds when the mean degree is below
 $e=2.718\ldots$ and stalls above it \citep{bauer2001,weigt2000}. That number
 will reappear, from a completely different direction, in
-Chapter~\ref{ch:hittingset}.
+Chapter~\ref{ch:hittingset}. The rule itself is more general than the problem
+it is stated on, and Sec.~\ref{sec:leafremoval-intro} takes it out.
 
 \subsection{Hitting set}
 \label{sec:hs-intro}
@@ -542,6 +543,53 @@ $T\to0$ inside an approximation is not the same as taking it in the exact
 answer, and Chapter~\ref{ch:hittingset} exhibits a case, simple enough to check
 by hand, where the standard zero-temperature treatment gives $1/2$ and the truth
 is $1/3$.
+
+\subsection{Leaf removal, and the core}
+\label{sec:leafremoval-intro}
+\index{leaf removal}
+\index{core}
+\index{core fraction|textbf}
+
+Section~\ref{sec:cover-intro} deleted a leaf and its neighbour and repeated.
+That rule is not a fact about vertex cover. Each model above has variables its
+surroundings decide for it, and where a variable is decided there is nothing
+left to compute: fix it, delete it, delete whatever fixing it consumes, and put
+the question again to what remains. Run to a fixed point, the procedure either
+empties the object or stalls, and what it stalls on is the \emph{core}. Three
+chapters use it, on three models and three kinds of object.
+
+It is an algorithm at zero temperature, and as a solver it is approximate. Zero
+temperature, because forcing is a statement about ground states: at any $T>0$ a
+variable merely leans, and leaning is not a reason to delete it. Approximate,
+because emptying the object proves the answer it built while stalling proves
+nothing --- a core is only where local forcing ran out, and what it costs still
+has to be computed by the methods of the rest of this chapter. The caveat above
+about taking $T\to0$ inside an approximation is a caveat about this rule too.
+
+What survives the stripping earns a name and a symbol, because the book
+measures it repeatedly. Write
+\[
+  P_{C}(\text{model},\text{structure})
+\]
+for the \emph{core fraction}, the share of atoms the rule cannot strip. Both
+arguments do work. The \emph{model} fixes what counts as forced, and different
+models consume different amounts: a covering constraint on a link forces the
+neighbour into the cover and takes it out of the graph, while an Ising coupling
+determines an atom and eliminates nothing else. The \emph{structure} is what
+the rule runs on --- $\mathrm{G}$ a graph, $\mathrm{H}$ a hypergraph, $\chi$ a
+chygraph, and $\chi_{m}$ the merged chygraph of
+Chapter~\ref{ch:metacomplex}.
+
+So $P_{C}(\mathrm{VC},\mathrm{G})$ is Sec.~\ref{sec:cover-intro}'s core, zero
+below $\ave{k}=e$ on a Poisson graph and positive above it.
+$P_{C}(\mathrm{VC},\chi)$ is the same rule on a chygraph, and
+Chapter~\ref{ch:cover} finds it has no core-free phase at all once a complex
+holds three members --- the threshold does not move, it ceases to exist.
+$P_{C}(\mathrm{Ising},\chi)$ is the milder rule Part~IV runs, and it is a
+different number on the same object: a ring of triangles glued at single atoms
+gives $0$ for the covering rule, which takes the complex around a forced atom,
+and $1/2$ for the coupling, which leaves it. That is why the model is an
+argument and not a remark.
 
 \section{Mean field}
 \label{sec:meanfield}

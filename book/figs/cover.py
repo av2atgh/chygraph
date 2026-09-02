@@ -256,7 +256,8 @@ def table_real_core():
     rows = json.loads((PROBE / 'real_core.json').read_text())
     rows.sort(key=lambda r: r['kbar'])
     out = [r'\begin{tabular}{lrrrrr}', r'\hline\hline',
-           r' & & & \multicolumn{3}{c}{core fraction}\\',
+           r' & & & \multicolumn{3}{c}{core fraction '
+           r'$P_{C}(\mathrm{VC},\cdot)$}\\',
            r'network & $\ave{k}$ & $C$ & leaf removal '
            r'& Eq.~\eqref{eq:core} & leaf removal\\',
            r' & & & on the graph & on its cliques & rewired\\',
