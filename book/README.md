@@ -13,7 +13,7 @@ carried were removed on 2026-09-01, and the environment with them.
 | — | `preface.tex` | **Drafted.** The tree assumption, the bargain, what the book claims |
 | — | `software.tex` | **Drafted.** Repo links; equation-to-method-to-test table; how to reproduce a figure |
 | **I** | | **Foundations** |
-| 1 | `introduction.tex` | **Drafted.** Percolation; Ising, vertex cover, hitting set; mean field, cavity, replicas, BP; why real networks break treelikeness |
+| 1 | `introduction.tex` | **Drafted.** Percolation; Ising, vertex cover, hitting set; leaf removal and the core fraction $P_C$; mean field, cavity, replicas, BP; why real networks break treelikeness |
 | 2 | `chygraphs.tex` | **Drafted.** The object: complexes whose vertices are complexes; every higher-order structure as one thing |
 | 3 | `data.tex` | **Drafted.** Chygraph representation of real systems: papers, protein complexes, reactions, schedules; cliques of a clustered graph; how much overlap there is |
 | **II** | | **Percolation** |

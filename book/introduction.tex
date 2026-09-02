@@ -348,23 +348,9 @@ The energy is just the number of guards, the constraint is hard --- infinitely
 costly to violate --- and the minimum vertex cover is the ground state. Asking
 for the ground state of a disordered system is asking an optimisation question,
 and the whole apparatus of statistical mechanics becomes available for it. This
-was the move that opened the subject \citep{weigt2000}.
-
-One fact about vertex cover will matter repeatedly. Consider a node of degree
-one --- a \emph{leaf}. Its single link must be covered, and covering it at the
-leaf can never be better than covering it at the neighbour, since the neighbour
-may cover other links too. So there is always a minimum cover that takes the
-neighbour and not the leaf, and one can simply remove both, together with every
-link the neighbour touched, and repeat. This is \emph{leaf removal}
-\citep{bauer2001}. When it consumes the whole graph it has found a minimum cover
-and \emph{proved} it minimum. When it stalls, what is left is called the
-\emph{core}, and it is the hard part.
-
-For a Poisson random graph, leaf removal succeeds when the mean degree is below
-$e=2.718\ldots$ and stalls above it \citep{bauer2001,weigt2000}. That number
-will reappear, from a completely different direction, in
-Chapter~\ref{ch:hittingset}. The rule itself is more general than the problem
-it is stated on, and Sec.~\ref{sec:leafremoval-intro} takes it out.
+was the move that opened the subject \citep{weigt2000}. It also has a rule that
+solves it outright wherever the graph is thin enough, which is
+Sec.~\ref{sec:leafremoval-intro}.
 
 \subsection{Hitting set}
 \label{sec:hs-intro}
@@ -544,27 +530,48 @@ answer, and Chapter~\ref{ch:hittingset} exhibits a case, simple enough to check
 by hand, where the standard zero-temperature treatment gives $1/2$ and the truth
 is $1/3$.
 
-\subsection{Leaf removal, and the core}
+\section{Leaf removal}
 \label{sec:leafremoval-intro}
-\index{leaf removal}
-\index{core}
+\index{leaf removal|textbf}
+\index{core|textbf}
 \index{core fraction|textbf}
 
-Section~\ref{sec:cover-intro} deleted a leaf and its neighbour and repeated.
-That rule is not a fact about vertex cover. Each model above has variables its
-surroundings decide for it, and where a variable is decided there is nothing
-left to compute: fix it, delete it, delete whatever fixing it consumes, and put
-the question again to what remains. Run to a fixed point, the procedure either
-empties the object or stalls, and what it stalls on is the \emph{core}. Three
-chapters use it, on three models and three kinds of object.
+Before any approximation there is something to be had for nothing. Some
+variables are decided by their surroundings alone, and a variable that is
+decided does not have to be computed: fix it, delete it, and put the question
+again to what remains. It is worth doing this first, because what it leaves
+behind is what everything after it has to work on.
+
+Vertex cover shows the rule in its plainest form. Consider a node of degree one
+--- a \emph{leaf}. Its single link must be covered, and covering it at the leaf
+can never be better than covering it at the neighbour, since the neighbour may
+cover other links too. So there is always a minimum cover that takes the
+neighbour and not the leaf, and one can simply remove both, together with every
+link the neighbour touched, and repeat. This is \emph{leaf removal}
+\citep{bauer2001}. When it consumes the whole graph it has found a minimum
+cover and \emph{proved} it minimum. When it stalls, what is left is called the
+\emph{core}, and it is the hard part.
+
+For a Poisson random graph, leaf removal succeeds when the mean degree is below
+$e=2.718\ldots$ and stalls above it \citep{bauer2001,weigt2000}. That number
+will reappear, from a completely different direction, in
+Chapter~\ref{ch:hittingset}.
+
+None of that was a fact about vertex cover. Each model of
+Sec.~\ref{sec:models} has variables its surroundings decide for it, and where
+one is decided the recipe is the same: fix it, delete it, delete whatever
+fixing it consumes, and ask again of what is left. Run to a fixed point the
+procedure either empties the object or stalls, and what it stalls on is the
+core. Three chapters use it, on three models and three kinds of object.
 
 It is an algorithm at zero temperature, and as a solver it is approximate. Zero
 temperature, because forcing is a statement about ground states: at any $T>0$ a
 variable merely leans, and leaning is not a reason to delete it. Approximate,
 because emptying the object proves the answer it built while stalling proves
 nothing --- a core is only where local forcing ran out, and what it costs still
-has to be computed by the methods of the rest of this chapter. The caveat above
-about taking $T\to0$ inside an approximation is a caveat about this rule too.
+has to be computed by the methods that follow. The caveat that closes
+Sec.~\ref{sec:models}, about taking $T\to0$ inside an approximation, is a
+caveat about this rule too.
 
 What survives the stripping earns a name and a symbol, because the book
 measures it repeatedly. Write
@@ -580,8 +587,8 @@ the rule runs on --- $\mathrm{G}$ a graph, $\mathrm{H}$ a hypergraph, $\chi$ a
 chygraph, and $\chi_{m}$ the merged chygraph of
 Chapter~\ref{ch:metacomplex}.
 
-So $P_{C}(\mathrm{VC},\mathrm{G})$ is Sec.~\ref{sec:cover-intro}'s core, zero
-below $\ave{k}=e$ on a Poisson graph and positive above it.
+So $P_{C}(\mathrm{VC},\mathrm{G})$ is the core just described, zero below
+$\ave{k}=e$ on a Poisson graph and positive above it.
 $P_{C}(\mathrm{VC},\chi)$ is the same rule on a chygraph, and
 Chapter~\ref{ch:cover} finds it has no core-free phase at all once a complex
 holds three members --- the threshold does not move, it ceases to exist.
