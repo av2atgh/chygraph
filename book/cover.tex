@@ -2,48 +2,56 @@
 \label{ch:cover}
 \index{vertex cover}
 
-In this chapter we show that three objects are one. An \emph{algorithm}, leaf
-removal, which sometimes solves minimum vertex cover exactly and sometimes gets
-stuck. A \emph{structure}, the core, which is what it gets stuck on, and which
-has a percolation transition of its own at mean degree $e$. And the
-\emph{instability} of Chapter~\ref{ch:hittingset}'s hard-field map,
-Eq.~\eqref{eq:kc}, which also sits at $e$. They are not three results sharing a
-number but one point computed three ways, and Sec.~\ref{sec:onepoint} gives the
-digits.
+A \emph{vertex cover} is a set of nodes touching every link, and the problem is
+to find the smallest one. Section~\ref{sec:cover-intro} put it as a model ---
+$x_{i}\in\{0,1\}$ on every node, the energy $\sum_{i}x_{i}$ to be minimised, and
+a hard constraint $x_{i}+x_{j}\ge1$ on every link --- and it is NP-hard
+\citep{karp1972}. It is also Chapter~\ref{ch:hittingset}'s hitting set at
+cardinality two, which is why the two chapters are adjacent.
 
-They are taken in the order Chapter~\ref{ch:statmech} sets and
-Chapters~\ref{ch:ising} and~\ref{ch:hittingset} follow. Section~\ref{sec:twoconstraints}
-writes the interior down and reads off what a complex transmits, which is the
-recursion; Sec.~\ref{sec:leafremoval} is the algorithm that recursion turns out
-to describe; and Sec.~\ref{sec:coreobstruction} is the three-state cavity
-treatment of what stops it. The algorithm is the famous object here, but it is
-not the one the method starts from. None of the three is new --- leaf removal is due to \citet{bauer2001}
-and the core and its transition to \citet{liu2012} --- but the identification
-of all three at one point, and everything above cardinality two, is first done
-here.
+This chapter solves it on a chygraph. The constraint is then read over every
+pair inside every complex, so a complex is a clique that has to be covered, and
+what the chapter asks is what that changes: how small a cover can be when the
+links arrive in triangles and cliques rather than one at a time, and how much
+harder it is to find one.
 
-We then do what Chapter~\ref{ch:hittingset} did: raise the cardinality and
-watch something break. Above cardinality two the core-free
-branch disappears entirely, so leaf removal never certifies anything --- which
-is precisely why the hard-field cover size stopped being trustworthy there.
+Three methods answer that, in the order Chapter~\ref{ch:statmech} sets and
+Chapters~\ref{ch:ising} and~\ref{ch:hittingset} follow.
+Section~\ref{sec:twoconstraints} writes the interior down and reads off what a
+complex transmits, which is the cavity recursion.
+Section~\ref{sec:leafremoval} is leaf removal,
+Sec.~\ref{sec:leafremoval-intro}'s combinatorial rule, which that recursion
+turns out to describe exactly. Section~\ref{sec:coreobstruction} treats what
+the rule gets stuck on --- the core --- by a cavity calculation carrying three
+states rather than one, since a node may be settled in either of two ways or in
+neither. Sections~\ref{sec:hrg} and~\ref{sec:realcore} then put the predictions
+against networks nobody designed to suit them: a synthetic ensemble whose
+clustering can be turned, and sixteen real ones where it cannot.
+
+Two results come out. The algorithm, the core and
+Chapter~\ref{ch:hittingset}'s hard-field instability, Eq.~\eqref{eq:kc}, are
+not three results sharing a number but one point computed three ways --- all
+three sit at mean degree $e$, and Sec.~\ref{sec:onepoint} gives the digits. And
+raising the cardinality breaks something, as it did in
+Chapter~\ref{ch:hittingset}: above cardinality two the core-free branch
+disappears entirely, so leaf removal never certifies anything, which is
+precisely why the hard-field cover size stopped being trustworthy there.
 Section~\ref{sec:corefree} proves it in three lines, and blocks the reading of
 it that is too strong.
 
-Sections~\ref{sec:hrg} and~\ref{sec:realcore} are the empirical payoff, and the
-place where a chygraph prediction is tested against networks nobody designed to
-suit it --- a synthetic ensemble whose clustering can be turned, and then
-sixteen real ones where it cannot.
+None of the ingredients is new --- leaf removal is due to \citet{bauer2001} and
+the core and its transition to \citet{liu2012} --- but the identification of
+all three at one point, and everything above cardinality two, is first done
+here.
 
 \section{Vertex cover as a hard-core problem}
 \label{sec:twoconstraints}
-\index{vertex cover|textbf}
+\index{vertex cover}
 
-Minimum vertex cover was introduced in Sec.~\ref{sec:cover-intro}: choose as few
-nodes as possible so that every link has at least one endpoint chosen. It is
-NP-hard \citep{karp1972}. Chapter~\ref{ch:statmech} says what to do with a model
-once its interior is written down, so the chapter begins where
-Chapters~\ref{ch:ising} and~\ref{ch:hittingset} began: with the interior, and
-with what a complex therefore transmits.
+Chapter~\ref{ch:statmech} says what to do with a model once its interior is
+written down, so the chapter begins where Chapters~\ref{ch:ising}
+and~\ref{ch:hittingset} began: with the interior, and with what a complex
+therefore transmits.
 
 Chapter~\ref{ch:hittingset} deferred the comparison that fixes it. Hitting set
 and vertex cover minimise the same thing, $\mathcal{H}=\mu\sum_ix_i$, and differ
