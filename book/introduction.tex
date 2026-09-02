@@ -536,11 +536,13 @@ is $1/3$.
 \index{core|textbf}
 \index{core fraction|textbf}
 
-Before any approximation there is something to be had for nothing. Some
-variables are decided by their surroundings alone, and a variable that is
-decided does not have to be computed: fix it, delete it, and put the question
-again to what remains. It is worth doing this first, because what it leaves
-behind is what everything after it has to work on.
+At low temperature, and where the local structure is simple enough, the optimal
+value of a variable can sometimes be read off its immediate neighbourhood
+without solving the model at all. Such a variable can be assigned that value
+and deleted, together with whatever else the assignment settles, which leaves a
+smaller instance of the same problem. Iterating this reduces the instance
+before any approximation is applied, and the methods of the following sections
+are then applied to whatever is left.
 
 Vertex cover shows the rule in its plainest form. Consider a node of degree one
 --- a \emph{leaf}. Its single link must be covered, and covering it at the leaf
@@ -557,12 +559,12 @@ $e=2.718\ldots$ and stalls above it \citep{bauer2001,weigt2000}. That number
 will reappear, from a completely different direction, in
 Chapter~\ref{ch:hittingset}.
 
-None of that was a fact about vertex cover. Each model of
-Sec.~\ref{sec:models} has variables its surroundings decide for it, and where
-one is decided the recipe is the same: fix it, delete it, delete whatever
-fixing it consumes, and ask again of what is left. Run to a fixed point the
-procedure either empties the object or stalls, and what it stalls on is the
-core. Three chapters use it, on three models and three kinds of object.
+None of that was specific to vertex cover. Every model of
+Sec.~\ref{sec:models} has variables its surroundings can decide, and the
+procedure above applies wherever they do; only what counts as decided, and what
+the deletion takes with it, change from model to model. Run to a fixed point it
+either empties the object or stalls, and what it stalls on is the core. Three
+chapters use it, on three models and three kinds of object.
 
 It is an algorithm at zero temperature, and as a solver it is approximate. Zero
 temperature, because forcing is a statement about ground states: at any $T>0$ a
@@ -573,8 +575,7 @@ has to be computed by the methods that follow. The caveat that closes
 Sec.~\ref{sec:models}, about taking $T\to0$ inside an approximation, is a
 caveat about this rule too.
 
-What survives the stripping earns a name and a symbol, because the book
-measures it repeatedly. Write
+The book measures what is left often enough to need a symbol for it. Write
 \[
   P_{C}(\text{model},\text{structure})
 \]
