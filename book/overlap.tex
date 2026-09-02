@@ -283,15 +283,27 @@ much of the graph is double-counted, not how many complexes happen to intersect.
 \section{The cause is the non-trivial overlap}
 \label{sec:deficit}
 
-The error above is attributed to overlap. That attribution is a measurement, not
-an inference, and it is the \emph{rewired control} of Sec.~\ref{sec:hrg}.
+The error above is attributed to overlap. That attribution rests on a control,
+because without one a wrong recursion and a violated assumption give the same
+signature.
 
-Take the measured clique ensemble and rearrange it so that complexes meet in at
-most one atom, holding the ensemble fixed and changing only the arrangement. The
-prediction agrees with that control to $10^{-3}$. The map is therefore right on
-its own terms, and the whole remaining discrepancy against the real graph is
-overlap. Without the control a wrong recursion and a violated assumption give
-the same signature.
+The control is the recursion run where the assumption holds. On chygraphs whose
+complexes meet in at most one atom --- chains, stars, two triangles glued at a
+vertex, trees of triangles --- the same solver returns the exact $\ln Z$ to
+$2\times10^{-15}$, at every coupling tried and with no bond lying in two
+complexes. The recursion and its implementation are therefore not what is
+failing on the three ensembles of Fig.~\ref{fig:cavityfail}, and what is left to
+fail is the condition those instances violate.
+
+Two things that control is not. It is not the degree-matched rewiring of
+Sec.~\ref{sec:hrg}, which destroys the cliques rather than rearranging them.
+And it is not the placed ensemble of Sec.~\ref{sec:threeclasses}: that ensemble
+does satisfy the pairwise condition by construction, but it is one of the three
+measured here and its own error runs from $1.2\times10^{-2}$ to $24.7$, because
+satisfying the condition pairwise is not the same as being treelike over
+complexes --- Sec.~\ref{sec:treelike} makes the distinction and
+Sec.~\ref{sec:coretransition} locates where the wiring acquires a core. What the
+constructed instances add is the case where both hold.
 
 The same deficit shows outside the Ising model. On hyperbolic random graphs with
 maximal cliques as complexes, Chapter~\ref{ch:cover} finds the chygraph
