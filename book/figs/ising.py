@@ -342,6 +342,100 @@ def figure_unanimity():
     print(f'  wrote {OUT / "fig-unanimity.pdf"}')
 
 
+# ----------------------------------------- (6) the five structures of Fig. 2.5
+FIVE = [
+    ('A graph',                 [2],       [6]),
+    ('A hypergraph',            [3],       [3]),
+    ('A multiplex network',     [2, 2],    [3, 3]),
+    ('Interacting graphs',      [2, 2, 2], [2, 2, 2]),
+    ('Interacting hypergraphs', [3, 3, 3], [1, 1, 1]),
+    ('A clustered graph',       [2, 3],    [2, 2]),
+]
+FIVE_DEGREE = 6
+
+
+def _secular(cards, kappa, excess, beta_J):
+    """``sum_l v_l / (1 - d_l)``, which is 1 at the transition.
+
+    The branching matrix is ``B_lm = deg (c_m - 1) u'_m`` with the excess
+    chy-degree on the diagonal and the ordinary one off it, so it is a rank-one
+    matrix plus a diagonal:
+
+        B = 1 v^T + diag(d),
+        v_l = kappa_l (c_l - 1) u'(c_l),
+        d_l = (kappabar_l - kappa_l)(c_l - 1) u'(c_l),
+
+    and ``det(B - I) = 0`` is the scalar equation returned here.  With Poisson
+    layers ``d = 0`` and it collapses to ``sum_l kappa_l (c_l-1) u'(c_l) = 1``;
+    on a graph that is ``<kappabar> tanh(beta J) = 1``, Eq. (9.3).
+    """
+    c = np.asarray(cards, float)
+    k = np.asarray(kappa, float)
+    K = np.asarray(excess, float)
+    u = np.array([ising.clique_derivative(int(x), beta_J) for x in cards])
+    v = k * (c - 1) * u
+    d = (K - k) * (c - 1) * u
+    return float((v / (1.0 - d)).sum())
+
+
+def check_five_secular():
+    """The secular equation against the Perron root, on each layer list."""
+    from scipy.optimize import brentq
+    print('  T_c from the secular equation against the Perron root:')
+    for label, cards, kap in FIVE:
+        exc = [x - 1 for x in kap]
+        bj = brentq(lambda b: _secular(cards, kap, exc, b) - 1.0,
+                    1e-9, 20.0, xtol=1e-14)
+        closed = 1.0 / bj
+        perron = ising.critical_temperature(cards, kap, excess=exc)
+        assert abs(closed - perron) < 1e-9, (label, closed, perron)
+        print(f'    {label:24s} {closed:.10f}')
+    print('    agreement to 1e-9 on all six')
+
+
+def table_five_structures():
+    """Table 9.3: the five structures of Fig. 2.5, at one degree.
+
+    Regular layers, so every vertex sits at degree exactly ``FIVE_DEGREE`` and
+    the six rows share a degree distribution -- the matched null of
+    Sec. 9.4.  The Poisson column is the same layer lists with the excess
+    chy-degree left equal to the mean, which matches the mean degree and
+    nothing else, and is the comparison Sec. 9.4 warns about.
+    """
+    out = [r'\begin{tabular}{lccrrr}', r'\hline\hline',
+           r'structure & $c$ & $\kappa$ & $T_{c}$ & $T_{c}$ Poisson & AT\\',
+           r'\hline']
+    print(f'  regular layers, every vertex at degree {FIVE_DEGREE}:')
+    reg, poi = [], []
+    for label, cards, kap in FIVE:
+        deg = sum(k * (c - 1) for k, c in zip(kap, cards))
+        assert deg == FIVE_DEGREE, (label, deg)
+        exc = [x - 1 for x in kap]
+        tc = ising.critical_temperature(cards, kap, excess=exc)
+        tp = ising.critical_temperature(cards, kap)          # excess = mean
+        at = 1.0 / ising.critical_coupling(cards, kap, excess=exc, squared=True)
+        reg.append(tc)
+        poi.append(tp)
+        out.append(f"{label} & ${','.join(map(str, cards))}$ & "
+                   f"${','.join(map(str, kap))}$ & "
+                   f"{tc:.4f} & {tp:.4f} & {at:.4f}\\\\")
+        print(f'    {label:24s} T_c = {tc:.4f}   Poisson {tp:.4f}   AT {at:.4f}')
+    out += [r'\hline\hline', r'\end{tabular}']
+    (OUT / 'tab-five-structures-ising.tex').write_text('\n'.join(out) + '\n')
+    # the three cardinality-two rows agree, and so do the two pure-clique rows
+    two = [t for (_, cs, _), t in zip(FIVE, reg) if all(c == 2 for c in cs)]
+    three = [t for (_, cs, _), t in zip(FIVE, reg) if all(c == 3 for c in cs)]
+    assert max(two) - min(two) < 1e-9 and max(three) - min(three) < 1e-9
+    assert max(three) < min(two), 'clustering must lower T_c at fixed degree'
+    assert min(reg) <= reg[-1] <= max(reg), 'the mixed row lies between'
+    # and the Poisson column reverses the sign, which is the warning
+    ptwo = [t for (_, cs, _), t in zip(FIVE, poi) if all(c == 2 for c in cs)]
+    pthree = [t for (_, cs, _), t in zip(FIVE, poi) if all(c == 3 for c in cs)]
+    assert min(pthree) > max(ptwo), 'the unmatched null should reverse the sign'
+    print('    matched null: the clique rows are colder; Poisson: they are not')
+    print('  wrote tab-five-structures-ising.tex')
+
+
 if __name__ == '__main__':
     print('what a clique transmits:')
     check_uprime()
@@ -355,6 +449,9 @@ if __name__ == '__main__':
     check_unanimity()
     print('where it stops being continuous:')
     check_tricritical()
+    print('the five structures of Fig. 2.5:')
+    check_five_secular()
+    table_five_structures()
     print('figures:')
     figure_transmission()
     figure_clustering()
