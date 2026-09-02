@@ -53,14 +53,16 @@ expensive measurements, with their outputs cached under
 \code{statmech/\allowbreak probe/\allowbreak results/}: the Monte
 Carlo of Eq.~\eqref{eq:mc}, the leaf-removal validation of
 Sec.~\ref{sec:cover-checks}, the hyperbolic-graph scan behind
-Fig.~\ref{fig:hrgc}, the sixteen real networks of Table~\ref{tab:realcore}, and
-the seven measurements of Part~IV --- the cavity method on
+Fig.~\ref{fig:hrgc} and the clustering of those same graphs, the core sweep
+along the correlation axis behind Figs.~\ref{fig:vw} and~\ref{fig:vwt} and the
+clustering scan quoted beside it, the sixteen real networks of
+Table~\ref{tab:realcore}, and the seven measurements of Part~IV --- the cavity method on
 the clique chygraph behind Fig.~\ref{fig:cavityfail}, the sixty region graphs
 behind Fig.~\ref{fig:gbp}, the placed-motif instances of
 Sec.~\ref{sec:karrer}, the real neighbourhoods behind Fig.~\ref{fig:gbpreal},
 the meta-complex error of Fig.~\ref{fig:mergeerror}, the propagation cores of
 Figs.~\ref{fig:corebonds} and~\ref{fig:coremeta}, and the branching sweep of
-Fig.~\ref{fig:coretransition}. Those eleven are the only places
+Fig.~\ref{fig:coretransition}. Those fourteen are the only places
 where the book quotes a number it does not recompute at build time, and each
 says so where it is used. The real-network probe needs graph-tool and a network
 connection the first time it runs, to pull its networks from Netzschleuder; it
@@ -195,6 +197,12 @@ Eq. & what it is & evaluated by & checked in\\
 \eqref{eq:vcinstab} & the cover instability at cardinality $c$ & \code{cover.\allowbreak CliqueCover.\allowbreak solve} & \code{figs/\allowbreak cover.\allowbreak py}\\
 \ref{tab:five} & the five structures & \code{figs/\allowbreak cover.\allowbreak py:\allowbreak table\_\allowbreak five\_\allowbreak structures} & same file\\
 \ref{tab:realcore} & leaf removal on real networks & \code{statmech/\allowbreak probe/\allowbreak real\_\allowbreak core.\allowbreak py} & \code{figs/\allowbreak cover.\allowbreak py:\allowbreak table\_\allowbreak real\_\allowbreak core}\\
+\eqref{eq:vwpi} & the correlated-graph hard-field map & \code{vertexcover.\allowbreak solve} & \code{test\_\allowbreak fixedpoint}\\
+\eqref{eq:vwxc} & its cover size, Weigt--Hartmann at $r=0$ & \code{vertexcover.\allowbreak cover\_\allowbreak size} & \code{test\_\allowbreak fixedpoint}\\
+\eqref{eq:rc} & where replica symmetry breaks in $r$ & \code{vertexcover.\allowbreak rsb\_\allowbreak point} & \code{test\_\allowbreak fixedpoint}\\
+\ref{fig:vw} & the core measured along that axis & \code{statmech/\allowbreak probe/\allowbreak vw\_\allowbreak core.\allowbreak py} & \code{figs/\allowbreak cover.\allowbreak py:\allowbreak figure\_\allowbreak vw}\\
+\ref{fig:hrgc} & clustering of the hyperbolic graphs & \code{statmech/\allowbreak probe/\allowbreak hrg\_\allowbreak transitivity.\allowbreak py} & \code{figs/\allowbreak cover.\allowbreak py:\allowbreak figure\_\allowbreak hrg\_\allowbreak c}\\
+--- & clustering along the correlation axis & \code{statmech/\allowbreak probe/\allowbreak vw\_\allowbreak clustering.\allowbreak py} & --- (measurement)\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:colouring}, colouring}}\\
 \eqref{eq:taucol} & proper colouring, $-1/(q-1)$ & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak tau\_\allowbreak closed} & same file\\
 \eqref{eq:tauhyp} & hypergraph colouring & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak tau\_\allowbreak closed} & same file\\

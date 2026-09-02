@@ -74,6 +74,10 @@ $\tau$ & transmission factor $\tau_{c}(q,v)$ (Chs.~\ref{ch:potts},
          \ref{ch:overlap}); infectious period (Ch.~\ref{ch:epidemics});
          hard-field message (Chs.~\ref{ch:hittingset},
          \ref{ch:cover})\\[3pt]
+$r$ & the assortativity parameter of Eq.~\eqref{eq:vwr}, interpolating from
+      uncorrelated to fully assortative (Sec.~\ref{sec:vw}); the number of
+      infected members a complex needs (Ch.~\ref{ch:epidemics}); a contraction
+      vector (Ch.~\ref{ch:giant})\\[3pt]
 $\theta$ & the threshold determinant $-\det(\mathrm{vec}^{2}A)$
            (Chs.~\ref{ch:percolation}, \ref{ch:giant}); a growth or core
            exponent (Chs.~\ref{ch:data}, \ref{ch:cover})\\[3pt]
@@ -90,7 +94,7 @@ $B$ & critical amplitude (Ch.~\ref{ch:giant}); external field
       (Ch.~\ref{ch:statmech}, where it is a matrix and set upright in
       $\det(I-B)$)\\[3pt]
 $C$, $c$ & cardinality (throughout); clustering coefficient
-           (Chs.~\ref{ch:introduction}, \ref{ch:data}); the amplitude
+           (Chs.~\ref{ch:introduction}, \ref{ch:data}, \ref{ch:cover}); the amplitude
            denominator $C$ (Ch.~\ref{ch:giant}); the residual $C_{q}$
            (Sec.~\ref{sec:unanimity}); a counting number $c_{R}$
            (Ch.~\ref{ch:overlap}); a clause $C_{a}$
@@ -100,7 +104,8 @@ $C$, $c$ & cardinality (throughout); clustering coefficient
            (Ch.~\ref{ch:colouring})\\[3pt]
 $\delta$ & Kronecker delta (Chs.~\ref{ch:percolation}, \ref{ch:statmech});
            probability that a vertex is deleted (Ch.~\ref{ch:cover})\\[3pt]
-$T$ & transmissibility (Ch.~\ref{ch:epidemics}); temperature (Part~III)\\[3pt]
+$T$ & transmissibility (Ch.~\ref{ch:epidemics}); temperature (Part~III);
+      transitivity, $3\times$ triangles over triples (Sec.~\ref{sec:vw})\\[3pt]
 $\mu$ & chemical potential conjugate to the cover size
         (Chs.~\ref{ch:hittingset}, \ref{ch:cover}); an external field, the
         shift $\delta_{\mu}$ of Eq.~\eqref{eq:ensemblemap}
@@ -147,6 +152,13 @@ $\psi,\delta,\gamma$ & leaf-ready, deleted and core probabilities, with $\zeta$
                        node (Ch.~\ref{ch:cover}). \citet{liu2012} write
                        $\psi$ and $\delta$ as $\alpha$ and $\beta$, both
                        of which are spoken for here\\[3pt]
+$p_{d}$, $q_{d}$, $e_{dd'}$ & degree distribution, excess-degree
+            distribution $(d+1)p_{d+1}/\ave{k}$, and the symmetric joint
+            distribution of the excess degrees at the two ends of a link
+            (Sec.~\ref{sec:vw})\\[3pt]
+$\pi_{d}$ & probability that a link entering a vertex of degree $d+1$ is not
+            already covered from the other end, Eq.~\eqref{eq:vwpi}
+            (Sec.~\ref{sec:vw})\\[3pt]
 $\alpha$ & clause density (Ch.~\ref{ch:satisfiability})\\[3pt]
 $v$ & random-cluster weight $e^{\beta J}-1$ (Ch.~\ref{ch:potts})\\[3pt]
 $\Sigma$ & the complexity: the number of clusters of solutions, per node, on a
