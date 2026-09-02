@@ -856,7 +856,18 @@ def check_five_layers():
         # the clustered row against Eq. (12.7), exactly, in rational arithmetic
         assert stability_threshold_layers([2, 3], q, 'proper', True) == \
             triangle_family(q, F(1, 2)), q
+        # L layers of one cardinality c, proper rule: (q-1)^2 with Poisson
+        # layers and (q-1)^2 + (c-1) with regular ones, independent of L.
+        # At c = 2 and c = 3 that pair is Eq. (12.6).
+        for cards in ([2], [2, 2], [2, 2, 2], [3], [3, 3, 3], [4, 4], [5]):
+            c = cards[0]
+            if c > q:
+                continue
+            assert stability_threshold_layers(cards, q, 'proper') == F((q - 1) ** 2)
+            assert stability_threshold_layers(cards, q, 'proper', True) == \
+                F((q - 1) ** 2 + c - 1), (q, cards)
     print('  one layer reproduces stability_threshold at c = 2, 3, both rules,')
+    print('  L layers of one cardinality give (q-1)^2 and (q-1)^2+(c-1);')
     print('  Poisson and regular; the clustered row equals Eq. (12.7) at f = 1/2,')
     print('  exactly, in rational arithmetic')
 

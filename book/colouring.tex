@@ -428,9 +428,12 @@ Poisson degree and $10$ for a regular one. Both are
 used the pair as the chapter's check.
 
 \paragraph{A hypergraph} is one layer of cardinality $c$, and it is where the
-two rules separate. The single term is $\ave{\kbar}(c-1)\tau_{c}^{2}=1$, so in
-neighbours per node the line is $(q-1)^{2}$ for the proper rule, since $\tau$
-does not depend on $c$, and $(q^{\,c-1}-1)^{2}$ for the hypergraph one. That is
+two rules separate. The single term is $\ave{\kbar}(c-1)\tau_{c}^{2}=1$. In
+neighbours per node the proper rule gives $(q-1)^{2}$ with a Poisson degree,
+since $\tau$ does not depend on $c$, and $(q-1)^{2}+(c-1)$ with a regular one
+--- cardinality reaching the answer only through the excess convention, and
+only by $c-1$ in degree, which is Eq.~\eqref{eq:tridisagree}'s pair of lines at
+$c=2$ and $c=3$. The hypergraph rule gives $(q^{\,c-1}-1)^{2}$. That is
 Eq.~\eqref{eq:coltwo}. For example, at $q=4$ and $c=3$ --- three-cliques under
 the proper rule, $3$-hyperedges under the weaker one --- the two give $9$ and
 $225$. The separation is the whole content of
@@ -443,16 +446,23 @@ three agree, and that one word is worth a factor of twenty-five.
 
 \paragraph{A multiplex network} is $L$ link layers on the same vertices. Every
 layer is at $c=2$, where the two rules coincide and $\tau$ is the same in every
-layer, so with Poisson layers Eq.~\eqref{eq:colmulti} collapses to the total
-neighbours per node and the line is $(q-1)^{2}$ whatever $L$ is. For example,
-two link layers sharing the degree evenly give $9$ at $q=4$, the graph's number
-under both rules. A multiplex is a graph carrying labels that proper colouring
+layer, so Eq.~\eqref{eq:colmulti} reads
+\[
+  \sum_{l}\frac{\ave{\kappa}_{l}\tau^{2}}
+                {1-\bigl(\ave{\kbar}_{l}-\ave{\kappa}_{l}\bigr)\tau^{2}}=1,
+\]
+and only the total survives: $(q-1)^{2}$ neighbours per node with Poisson
+layers, $(q-1)^{2}+1$ with regular ones, whatever $L$ is. For example, two link
+layers sharing the degree evenly give $9$ at $q=4$, the graph's number under
+both rules. A multiplex is a graph carrying labels that proper colouring
 cannot read.
 
 \paragraph{Interacting graphs and hypergraphs} is $L$ layers whose
-cardinalities need not agree. Under the proper rule that costs nothing, every
-$\tau_{l}$ being $-1/(q-1)$ regardless, so the line stays at $(q-1)^{2}$
-neighbours per node; under the hypergraph rule each layer carries its own
+cardinalities need not agree. Under the proper rule that costs almost nothing,
+every $\tau_{l}$ being $-1/(q-1)$ regardless: for $L$ layers of one cardinality
+$c$ the line is $(q-1)^{2}$ neighbours per node with Poisson layers and
+$(q-1)^{2}+(c-1)$ with regular ones, the same pair the single layer gives and
+independent of $L$. Under the hypergraph rule each layer carries its own
 $\tau_{c_{l}}$ and the terms no longer share a factor. For example, three link
 layers sharing the degree equally give $9$, and three layers of cardinality
 three give $225$ under the weaker rule and $9$ under the proper one. The panel

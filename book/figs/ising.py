@@ -404,22 +404,21 @@ def check_five_collapses():
     behave as one layer of that cardinality at the total chy-degree.
     """
     from scipy.optimize import brentq
-    print('  regular layers, all c = 2:  (K-1) t = 1')
-    for kap in ([6], [3, 3], [2, 2, 2], [4, 1, 1]):
-        K = sum(kap)
-        want = 1.0 / np.arctanh(1.0 / (K - 1))
-        got = ising.critical_temperature([2] * len(kap), kap,
-                                         excess=[k - 1 for k in kap])
-        assert abs(want - got) < 1e-9, (kap, want, got)
-        print(f'    kappa = {str(kap):12s} K = {K}   T_c = {got:.6f}')
-    print("  regular layers, one cardinality c:  (K-1)(c-1) u'(c) = 1")
-    for cards, kap in (([3], [3]), ([3, 3, 3], [1, 1, 1]), ([4, 4], [2, 2])):
+    print("  one cardinality c, K = sum kappa:  Poisson K(c-1)u'(c) = 1,")
+    print("                                     regular (K-1)(c-1)u'(c) = 1")
+    for cards, kap in (([2], [6]), ([2, 2], [3, 3]), ([2, 2, 2], [2, 2, 2]),
+                       ([2, 2, 2], [4, 1, 1]), ([3], [3]), ([3, 3, 3], [1, 1, 1]),
+                       ([4, 4], [2, 2])):
         c, K = cards[0], sum(kap)
-        b = brentq(lambda b: (K - 1) * (c - 1) * ising.clique_derivative(c, b) - 1.0,
-                   1e-9, 20.0, xtol=1e-14)
-        got = ising.critical_temperature(cards, kap, excess=[k - 1 for k in kap])
-        assert abs(1.0 / b - got) < 1e-9, (cards, kap, 1.0 / b, got)
-        print(f'    c = {c}  kappa = {str(kap):12s} K = {K}   T_c = {got:.6f}')
+        for label, mult, exc in (('Poisson', K, None),
+                                 ('regular', K - 1, [k - 1 for k in kap])):
+            b = brentq(lambda b: mult * (c - 1) * ising.clique_derivative(c, b) - 1.0,
+                       1e-9, 20.0, xtol=1e-14)
+            got = ising.critical_temperature(cards, kap, excess=exc)
+            assert abs(1.0 / b - got) < 1e-9, (cards, kap, label, 1.0 / b, got)
+        print(f'    c = {c}  kappa = {str(kap):12s} K = {K}   '
+              f'Poisson {ising.critical_temperature(cards, kap):.6f}   '
+              f'regular {ising.critical_temperature(cards, kap, excess=[k-1 for k in kap]):.6f}')
 
 
 def table_five_structures():

@@ -343,29 +343,33 @@ which is Sec.~\ref{sec:clustering}'s result, arrived at here as one entry in a
 list rather than as the chapter's headline.
 
 \paragraph{A multiplex network} is $L$ link layers on the same vertices. Every
-layer has $c=2$, so every $u'$ is the same $t$; with regular layers
-$\ave{\kbar}_{l}=\ave{\kappa}_{l}-1$ makes every denominator of
-Eq.~\eqref{eq:tcmulti} equal to $1+t$, and the condition collapses to
+layer has $c=2$, so every $u'$ is the same $t$ and Eq.~\eqref{eq:tcmulti} is
 \[
-  (K-1)\,t=1,
-  \qquad
-  K=\sum_{l}\ave{\kappa}_{l},
+  \sum_{l}\frac{\ave{\kappa}_{l}\,t}
+                {1-\bigl(\ave{\kbar}_{l}-\ave{\kappa}_{l}\bigr)t}=1,
 \]
-with $K$ the total number of links at a vertex. A regular multiplex is the
-$K$-regular graph, whatever $L$ is and however the links are shared out. For
-example, two $3$-regular link layers give $K=6$ and $T_{c}=4.9326$, the graph's
-number exactly. An Ising spin cannot read a layer label, and what
+which is as far as one gets without saying what the degree distribution is. Two
+conventions close it. With Poisson layers every
+$\ave{\kbar}_{l}=\ave{\kappa}_{l}$, the denominators are $1$, and it is
+$Kt=1$ with $K=\sum_{l}\ave{\kappa}_{l}$ the total number of links at a
+vertex; with regular layers $\ave{\kbar}_{l}=\ave{\kappa}_{l}-1$, every
+denominator is $1+t$, and it is $(K-1)t=1$. Either way only $K$ survives, so a
+multiplex is the graph of the same total degree, whatever $L$ is and however the
+links are shared out. For example, two $3$-regular link layers give $K=6$, so
+$(K-1)t=1$ and $T_{c}=4.9326$, the graph's number exactly. An Ising spin cannot read a layer label, and what
 Eq.~\eqref{eq:Hising} sees is the union; that the formalism keeps the layers
 apart and still returns one number is the check, not the result.
 
 \paragraph{Interacting graphs and hypergraphs} is $L$ layers of one cardinality
 $c$ --- link layers for the graph reading, layers of $c$-cliques for the
-hypergraph one. One cardinality means one $u'$, so the same collapse applies and
-with regular layers Eq.~\eqref{eq:tcmulti} becomes
+hypergraph one. One cardinality means one $u'$, so the previous paragraph goes
+through with $(c-1)u'(c)$ in place of $t$:
 \[
-  (K-1)(c-1)\,u'(c)=1 :
+  \text{Poisson: } K(c-1)\,u'(c)=1,
+  \qquad
+  \text{regular: } (K-1)(c-1)\,u'(c)=1 .
 \]
-interacting layers of a single cardinality behave as one layer of that
+Interacting layers of a single cardinality behave as one layer of that
 cardinality carrying the total chy-degree. For example, three $2$-regular link
 layers give $K=6$ and the graph's $4.9326$; three triangle layers at one
 triangle per vertex give $K=3$ and the hypergraph's $4.7209$. So the panel adds
