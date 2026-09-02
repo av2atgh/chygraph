@@ -331,9 +331,13 @@ Eq.~\eqref{eq:tcgraph}. For example, the $6$-regular random graph has
 $\ave{\kbar}=5$, so $t=1/5$ and $T_{c}=4.9326$. That is the Bethe value, and
 the row the others are read against.
 
-\paragraph{A hypergraph} is one layer of cardinality $c$. The single term gives
+\paragraph{A hypergraph} is one complex layer with the cardinality free. Where
+that layer carries a single size $c$, which is how every layer in
+Chapters~\ref{ch:ising}--\ref{ch:cover} is built, the single term gives
 $\ave{\kbar}(c-1)u'(c)=1$ --- the multiplicity $c-1$ against the transmission
-$u'(c)$, which is Sec.~\ref{sec:clustering}'s accounting on one line. For
+$u'(c)$, which is Sec.~\ref{sec:clustering}'s accounting on one line. Where it
+carries a distribution of sizes instead, Eq.~\eqref{eq:sbaru}'s size-biased
+average takes the place of $(c-1)u'(c)$ and nothing else moves. For
 example, a network of triangles at three per vertex, meeting only at vertices so
 that the degree is again six, has $\ave{\kbar}=2$, and $2\cdot2\,u'(3)=1$ gives
 $T_{c}=4.7209$: the same degree arranged into cliques instead of links, and
@@ -360,16 +364,19 @@ $(K-1)t=1$ and $T_{c}=4.9326$, the graph's number exactly. An Ising spin cannot 
 Eq.~\eqref{eq:Hising} sees is the union; that the formalism keeps the layers
 apart and still returns one number is the check, not the result.
 
-\paragraph{Interacting graphs and hypergraphs} is $L$ layers of one cardinality
-$c$ --- link layers for the graph reading, layers of $c$-cliques for the
-hypergraph one. One cardinality means one $u'$, so the previous paragraph goes
-through with $(c-1)u'(c)$ in place of $t$:
+\paragraph{Interacting graphs and hypergraphs} is $L$ layers whose cardinalities
+need not agree --- one layer per interacting structure and a cross layer per
+interacting pair, each free to have its own size. In general nothing
+simplifies: Eq.~\eqref{eq:tcmulti} stands as it is, one term per layer, and the
+layer list is substituted into it. Where the cardinalities do agree, all equal
+to $c$, one $u'$ is shared and the previous paragraph goes through with
+$(c-1)u'(c)$ in place of $t$:
 \[
   \text{Poisson: } K(c-1)\,u'(c)=1,
   \qquad
-  \text{regular: } (K-1)(c-1)\,u'(c)=1 .
+  \text{regular: } (K-1)(c-1)\,u'(c)=1 ,
 \]
-Interacting layers of a single cardinality behave as one layer of that
+so interacting layers of a single cardinality behave as one layer of that
 cardinality carrying the total chy-degree. For example, three $2$-regular link
 layers give $K=6$ and the graph's $4.9326$; three triangle layers at one
 triangle per vertex give $K=3$ and the hypergraph's $4.7209$. So the panel adds
@@ -381,10 +388,11 @@ cross layer contributes its own term to the sum, and the sum is all there is.
 The panel that carried the most weight in the two neighbouring chapters carries
 the least in this one.
 
-\paragraph{A clustered graph} is two layers on the same vertices, links at
-$c=2$ and triangles at $c=3$. Two cardinalities mean two different $u'$ and
-there is no collapse: Eq.~\eqref{eq:tcmulti} keeps both terms, and expanded it
-is Eq.~\eqref{eq:LT}. For example, two links and two triangles per vertex,
+\paragraph{A clustered graph} is a link layer together with one layer per clique
+size the graph contains, which is Sec.~\ref{sec:everything}'s mapping. Two
+cardinalities or more mean two or more different $u'$ and there is no collapse
+to be had: Eq.~\eqref{eq:tcmulti} keeps one term per layer, and at two layers,
+expanded, it is Eq.~\eqref{eq:LT}. For example, two links and two triangles per vertex,
 degree six for the last time, sits at $4.7952$, between the two. It is Fig.~\ref{fig:clustering}'s family at
 $f=2/3$: four of a vertex's six neighbours reached through a triangle, and a
 temperature two-thirds of the way from the link value to the triangle one.

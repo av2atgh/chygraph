@@ -411,8 +411,9 @@ hitting an edge and covering it are the same constraint, so this row is
 Chapter~\ref{ch:cover}'s row: hard and soft agree, both returning the
 Weigt--Hartmann size, and the instability is at $\ave{k}=e$.
 
-\paragraph{A hypergraph} is one layer of cardinality $c$. The division is the
-same one and gives $\ave{k}(c-1)=e$: the instability does not move at all, at
+\paragraph{A hypergraph} is one complex layer with the cardinality free. Where
+it carries a single size $c$ the division is the same one and gives
+$\ave{k}(c-1)=e$: the instability does not move at all, at
 any cardinality, when it is counted in neighbours per node. For example, the
 row is a Poisson layer of $3$-hyperedges at chy-degree one, the same two
 neighbours per node as the graph. This is the structure this chapter was
@@ -458,10 +459,11 @@ the cross layer pairwise links instead and the list is mixed and the point moves
 to $3.31$; make it cardinality four and it moves to $2.86$. The same edit to the
 same layer crosses one line and not the other.
 
-\paragraph{A clustered graph} is a link layer at $c=2$ beside a clique layer at
-$c=3$. Two cardinalities leave the two sums of Eq.~\eqref{eq:kcmulti} out of
-proportion, so there is no division to make and no closed form: the pair is
-solved, and the answer depends on how the degree is split between the layers.
+\paragraph{A clustered graph} is a link layer together with one layer per clique
+size present. Two cardinalities or more leave the two sums of
+Eq.~\eqref{eq:kcmulti} out of proportion, so there is no division to make and no
+closed form: the pair is solved, and the answer depends on how the degree is
+split between the layers.
 For example, the row is a Poisson link layer at chy-degree one beside a Poisson
 triangle layer at chy-degree one half. It is the only one of the five whose
 layer list is mixed by construction, and so the only row whose instability is
