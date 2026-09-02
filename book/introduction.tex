@@ -79,8 +79,9 @@ $e_{i}$ of the $\binom{k_{i}}{2}$ possible links among them exist, then
 and $C$ is the average of $C_{i}$ over nodes of degree two or more. A high $C$
 means the network is full of triangles. Table~\ref{tab:real} in
 Chapter~\ref{ch:data} measures it for ten real networks; the values run from
-$0.006$ to $0.65$. Section~\ref{sec:treebreaks} is about this quantity, and so,
-in the end, is the book.
+$0.006$ to $0.65$. Every method in this chapter assumes $C=0$, and
+Sec.~\ref{sec:treebreaks} measures how far real networks are from that
+assumption.
 
 \paragraph{The configuration model.} Throughout, ``a random network with degree
 distribution $p(k)$'' means the following construction. Give node $i$ a number
@@ -142,8 +143,7 @@ zero.}
 \label{fig:basics}
 \end{figure}
 
-Figure~\ref{fig:basics} fixes those three quantities, and the third of them
-is the one this chapter is about.
+Figure~\ref{fig:basics} shows the three quantities.
 
 \section{Percolation}
 \label{sec:percolation-intro}
@@ -575,12 +575,12 @@ has to be computed by the methods that follow. The caveat that closes
 Sec.~\ref{sec:models}, about taking $T\to0$ inside an approximation, is a
 caveat about this rule too.
 
-The book measures what is left often enough to need a symbol for it. Write
+The fraction of nodes that cannot be removed is the \emph{core fraction}, and
+it will be denoted by
 \[
-  P_{C}(\text{model},\text{structure})
+  P_{C}(\text{model},\text{structure}).
 \]
-for the \emph{core fraction}, the share of atoms the rule cannot strip. Both
-arguments do work. The \emph{model} fixes what counts as forced, and different
+Both arguments are needed. The \emph{model} fixes what counts as forced, and different
 models consume different amounts: a covering constraint on a link forces the
 neighbour into the cover and takes it out of the graph, while an Ising coupling
 determines an atom and eliminates nothing else. The \emph{structure} is what
@@ -640,15 +640,16 @@ number becomes a message, and then a distribution of messages.
 \index{Bethe--Peierls approximation|textbf}
 \index{message passing}
 
-The cavity method is geometric before it is a calculation.
+The cavity method rests on a property of trees, and the calculation follows
+from it.
 
 Take a node $i$ and remove it, leaving a hole --- a \emph{cavity}. On a tree,
 removing $i$ disconnects its neighbours from one another completely: the
 branches that hung off $i$ are now separate networks with no path between them.
 Whatever is going on in one branch is therefore independent of whatever is going
-on in another. That independence is the trick, and it converts a problem
-in which every variable is coupled to every other into a problem about one
-branch at a time.
+on in another. That independence is what the method uses: a problem in which
+every variable is coupled to every other becomes a problem about one branch at
+a time.
 
 Concretely, let each neighbour $j$ of $i$ send $i$ a summary of what its branch
 would do if $i$ were absent. Call that summary a \emph{message}. For the Ising
@@ -716,8 +717,8 @@ message carries.}
 \label{fig:cavity}
 \end{figure}
 
-Figure~\ref{fig:cavity} is the construction, and the whole of the method is in
-it: remove a node, and what is left summarises itself.
+Figure~\ref{fig:cavity} draws it: the removed node, the branches its removal
+separates, and the message each of them sends.
 
 Two ways of using Eq.~\eqref{eq:cavity-intro} run side by side throughout the
 book and should not be confused.
@@ -907,9 +908,8 @@ more carefully, or by correlating the degrees of adjacent nodes
 nodes and links. The
 information that distinguishes the two graphs is not in that description at all.
 
-That is the gap this book is written to close: the method works, and the
-property of real networks that says it should not is structural rather than a
-matter of measuring $p(k)$ more carefully.
+Supplying a description that does contain it is the subject of
+Chapter~\ref{ch:chygraphs} and of everything after it.
 
 \section{Generalised belief propagation}
 \label{sec:gbp-intro}
