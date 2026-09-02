@@ -70,6 +70,45 @@ def test_core_free_branch_is_stable_below_and_unstable_above():
         assert cp.graph(mean=c).core_free_spectral() > 1.0
 
 
+@pytest.mark.parametrize('split', [[0.5, 0.5], [0.9, 0.1],
+                                   [0.4, 0.35, 0.25], [0.2] * 5])
+def test_threshold_is_total_chy_degree_e_however_the_layers_split(split):
+    """Poisson layers of cardinality two: rho(A) = 1 at sum_l kappa_l = e.
+
+    A_ml = kappa_l lambda has rank one there, so only the total matters.  The
+    single-layer derivative this used to take instead returned e / (number of
+    layers) worth of stability and put the threshold at 14.8 for two layers.
+    """
+    def build(total):
+        return cp.CorePercolation([2] * len(split),
+                                  poisson_phi([total * f for f in split]))
+
+    assert cp.core_threshold(build) == pytest.approx(E, rel=1e-8)
+
+
+def test_layers_that_differ_in_shape_move_the_threshold():
+    """Pooling is exact for Poisson layers and not in general.
+
+    A matching layer plus a Poisson layer cores earlier than the single graph
+    with the same pooled degree distribution: multiplexing correlates the
+    degrees at the ends of a matching link, and pooling destroys that.
+    """
+    import sympy as sp
+    from scipy.optimize import brentq
+    from statmech.hittingset import layer_symbols
+
+    q = 0.6
+    x, (y,) = layer_symbols(2), layer_symbols(1)
+    layered = lambda m: cp.CorePercolation(
+        [2, 2], ((1 - q) + q * x[0]) * sp.exp(m * (x[1] - 1)))
+    pooled = lambda m: cp.CorePercolation(
+        [2], ((1 - q) + q * y) * sp.exp(m * (y - 1)))
+    f = lambda build: brentq(lambda m: build(m).core_free_spectral() - 1.0,
+                             0.5, 4.0, xtol=1e-10)
+    assert q + f(layered) == pytest.approx(2.6196, abs=1e-3)
+    assert q + f(pooled) == pytest.approx(2.6994, abs=1e-3)
+
+
 def test_three_state_message_sums_to_one():
     for m in (cp.graph(mean=4.0), cp.clique_network(3, 0.7)):
         lam, delta, gamma = m.state()

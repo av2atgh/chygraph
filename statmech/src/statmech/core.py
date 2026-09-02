@@ -47,7 +47,9 @@ configuration, and
 
 At ``c = 2`` these are ``delta`` and ``lambda``, the map collapses to
 ``lambda = Gbar(delta)``, ``delta = 1 - Gbar(1 - lambda)``, and the threshold is
-``Gbar'(1 - lambda) = 1``, which is ``c = e`` on Erdos-Renyi.
+``Gbar'(1 - lambda) = 1``, which is ``c = e`` on Erdos-Renyi.  Over several
+layers that derivative becomes the matrix ``A_ml = d Phibar^(m) / d x_l`` and
+the threshold is ``rho(A) = 1``; see :meth:`CorePercolation.core_free_spectral`.
 
 The map is order-*preserving* in ``(lambda, delta)``, so it is solved by
 monotone iteration from zero exactly as ``percolation.giant.Chygraph.solve`` does,
@@ -260,29 +262,57 @@ class CorePercolation:
         return bool((self.c == 2).all())
 
     def core_free_lambda(self):
-        """``lambda`` on the ``gamma = 0`` branch, from ``lambda = Phibar(1-lambda)``."""
+        """``lambda`` on the ``gamma = 0`` branch, one entry per layer.
+
+        Setting ``delta = 1 - lambda`` in the node step leaves
+        ``lambda_m = Phibar^(m)(1 - lambda)``.  That is a *vector* equation: a
+        node reached along a layer-``m`` inclusion is size-biased in layer ``m``
+        alone, so two layers share a ``lambda`` only when they are
+        statistically alike.  The map is order-*reversing* -- raising any
+        ``lambda`` lowers every ``Phibar`` -- so it is solved by the bracket of
+        :mod:`statmech.antimonotone`, as the hard-field maps are, and not by
+        the monotone iteration :meth:`solve` uses on the full map.
+        """
         if not self.has_core_free_branch():
             raise ValueError("no core-free branch: some cardinality is >= 3")
-        from scipy.optimize import brentq
-        f = self._phibar[0]
-        return brentq(lambda x: float(f(*(np.full(self.L, 1.0 - x)))) - x,
-                      1e-15, 1.0, xtol=1e-15, rtol=8.9e-16)
+        from statmech import antimonotone as am
+
+        def F(lam):
+            u = 1.0 - np.asarray(lam, float)
+            return np.array([float(f(*u)) for f in self._phibar])
+
+        return am.fixed_point(F, self.L)
 
     def core_free_spectral(self):
-        """``Phibar'(1-lambda)`` on the core-free branch; the core appears at 1.
+        """``rho(A)`` on the core-free branch; the core appears at 1.
 
-        The Jacobian there has zero diagonal blocks and eigenvalues
-        ``+-Phibar'(1-lambda)``, the bipartite structure of WP2, so this single
-        number decides stability.  On Erdos-Renyi it is ``k lambda`` with
-        ``lambda = exp(-k lambda)``, giving the threshold ``k = e`` exactly.
+        ``A_ml = d Phibar^(m) / d x_l`` at ``x = 1 - lambda``, one entry per
+        ordered pair of layers.  The Jacobian of the full map there is
+        ``[[0, A], [A, 0]]`` -- at ``c = 2`` ``lambda`` moves only with
+        ``zeta = delta`` and ``delta`` only with ``kappa = lambda`` -- so its
+        spectrum is ``+-eig(A)``, the bipartite structure of WP2, and the
+        spectral radius of ``A`` is the single number that decides stability.
+        Those eigenvalues are real: ``A = diag(<kappa>)^-1 H`` with
+        ``H_ml = d2 Phi / dx_m dx_l`` symmetric.
+
+        At ``L = 1`` this is ``Phibar'(1-lambda)``, which on Erdos-Renyi is
+        ``k lambda`` with ``lambda = exp(-k lambda)`` and gives ``k = e``.  For
+        Poisson layers of any number, ``A_ml = kappa_l lambda`` has rank one and
+        ``rho(A) = lambda sum_l kappa_l``, so the threshold sits at *total* mean
+        degree ``e`` however the degree is split across layers.  Layers move it
+        only when they differ in shape rather than in mean.
         """
         lam = self.core_free_lambda()
-        u = np.full(self.L, 1.0 - lam)
+        u = 1.0 - np.asarray(lam, float)
         h = 1e-6
-        up, dn = u.copy(), u.copy()
-        up[0] += h
-        dn[0] -= h
-        return (float(self._phibar[0](*up)) - float(self._phibar[0](*dn))) / (2 * h)
+        A = np.empty((self.L, self.L))
+        for l in range(self.L):
+            up, dn = u.copy(), u.copy()
+            up[l] = min(1.0, u[l] + h)
+            dn[l] = max(0.0, u[l] - h)
+            A[:, l] = [(float(f(*up)) - float(f(*dn))) / (up[l] - dn[l])
+                       for f in self._phibar]
+        return float(np.max(np.abs(np.linalg.eigvals(A))))
 
 
 def graph(degree_pgf=None, mean=None):
