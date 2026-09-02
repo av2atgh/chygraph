@@ -393,6 +393,35 @@ def check_five_secular():
     print('    agreement to 1e-9 on all six')
 
 
+def check_five_collapses():
+    """The two collapses Sec. 9.5 states for regular layers.
+
+    With every layer at cardinality two, every u' is the same t and every
+    denominator of Eq. (9.4) is 1 + t, so the condition becomes (K-1) t = 1
+    with K the total number of links at a vertex: a regular multiplex is the
+    K-regular graph.  With every layer at one cardinality c the same cancellation
+    gives (K-1)(c-1) u'(c) = 1, so interacting layers of a single cardinality
+    behave as one layer of that cardinality at the total chy-degree.
+    """
+    from scipy.optimize import brentq
+    print('  regular layers, all c = 2:  (K-1) t = 1')
+    for kap in ([6], [3, 3], [2, 2, 2], [4, 1, 1]):
+        K = sum(kap)
+        want = 1.0 / np.arctanh(1.0 / (K - 1))
+        got = ising.critical_temperature([2] * len(kap), kap,
+                                         excess=[k - 1 for k in kap])
+        assert abs(want - got) < 1e-9, (kap, want, got)
+        print(f'    kappa = {str(kap):12s} K = {K}   T_c = {got:.6f}')
+    print("  regular layers, one cardinality c:  (K-1)(c-1) u'(c) = 1")
+    for cards, kap in (([3], [3]), ([3, 3, 3], [1, 1, 1]), ([4, 4], [2, 2])):
+        c, K = cards[0], sum(kap)
+        b = brentq(lambda b: (K - 1) * (c - 1) * ising.clique_derivative(c, b) - 1.0,
+                   1e-9, 20.0, xtol=1e-14)
+        got = ising.critical_temperature(cards, kap, excess=[k - 1 for k in kap])
+        assert abs(1.0 / b - got) < 1e-9, (cards, kap, 1.0 / b, got)
+        print(f'    c = {c}  kappa = {str(kap):12s} K = {K}   T_c = {got:.6f}')
+
+
 def table_five_structures():
     """Table 9.3: the five structures of Fig. 2.5, at one degree.
 
@@ -451,6 +480,7 @@ if __name__ == '__main__':
     check_tricritical()
     print('the five structures of Fig. 2.5:')
     check_five_secular()
+    check_five_collapses()
     table_five_structures()
     print('figures:')
     figure_transmission()
