@@ -282,7 +282,7 @@ class Chygraph:
                          for m in range(self.L)])
 
     def susceptibility(self, beta_J, interaction='clique'):
-        """``chi = dm/dmu = -d^2 f/dmu^2`` at ``mu -> 0``, above the transition.
+        """``chi = dm/dB = -d^2 f/dB^2`` at ``B -> 0``, above the transition.
 
         ``1 + w . (I - B)^{-1} 1`` with ``B`` the branching matrix of Eq. (8.7)
         and ``w`` of :meth:`_response_vector`.  Diverges exactly where

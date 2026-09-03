@@ -44,11 +44,14 @@ $Q^{lk}$ for the law of the field a layer-$k$ complex emits onto a layer-$l$
 complex, the law $P^{ml}$ of the field a layer-$l$ complex sends up into a
 layer-$m$ complex is
 \begin{equation}
-  P^{ml}=\delta_{\mu}\ast\Bigl(\ast_{k}\,
+  P^{ml}=\delta_{B}\ast\Bigl(\ast_{k}\,
     \bigl[\bar\Phi^{l}_{k}\bigr]_{k=m}\!\ast\,Q^{lk}\Bigr),
   \label{eq:ensemblemap}
 \end{equation}
-with $\delta_{\mu}$ a shift by any external field and
+with $\delta_{B}$ the point mass at the external field $B$ --- the letter
+Eq.~\eqref{eq:Hising} uses, and the branching matrix below is the only other
+$B$ in the chapter, always either carrying two layer indices or standing inside
+$\det(I-B)$ --- and
 $[\bar\Phi]_{k=m}$ the same bracket as Fig.~\ref{fig:themap} --- excess on the
 layer arrived through, ordinary on every other. Nothing else about
 Chapter~\ref{ch:percolation}'s index structure has changed. The layers, the
@@ -84,7 +87,7 @@ and they are of quite different character (Fig.~\ref{fig:twosteps}).
 On one realisation, what a node tells a complex it belongs to is the sum of
 what its \emph{other} complexes have told it:
 \begin{equation}
-  h_{i\to a}=\mu+\sum_{b\ni i,\ b\ne a}u_{b\to i}.
+  h_{i\to a}=B+\sum_{b\ni i,\ b\ne a}u_{b\to i}.
   \label{eq:up}
 \end{equation}
 Fields add. That is the up step, and it is why the ensemble
@@ -534,7 +537,7 @@ failure rather than merely observe it.
 
 Section~\ref{sec:branching} linearises the map and gives the transition.
 Section~\ref{sec:freeenergy} gives the free energy. Differentiating that free
-energy with respect to the external field $\mu$ of Eq.~\eqref{eq:up} gives the
+energy with respect to the external field $B$ of Eq.~\eqref{eq:up} gives the
 two observables either side of the transition --- how large the order parameter
 is below, how strongly the system answers a field above --- and neither step
 uses what is inside a complex. So both are done here, once, and
@@ -544,54 +547,54 @@ one into Eq.~\eqref{eq:branch}.
 \paragraph{The one-site partition function.} Take the definitions from $Z$, as
 usual:
 \begin{equation}
-  m=\frac{1}{N}\frac{\partial\ln Z}{\partial(\beta\mu)}
-   =-\frac{\partial f}{\partial\mu},
+  m=\frac{1}{N}\frac{\partial\ln Z}{\partial(\beta B)}
+   =-\frac{\partial f}{\partial B},
   \qquad
-  \chi=\frac{\partial m}{\partial\mu}
-      =-\frac{\partial^{2}f}{\partial\mu^{2}}.
+  \chi=\frac{\partial m}{\partial B}
+      =-\frac{\partial^{2}f}{\partial B^{2}}.
   \label{eq:mfromZ}
 \end{equation}
 The object to differentiate is already in Eq.~\eqref{eq:bethe}. Cut one complex
 out of the chygraph. On a treelike object the complexes that include it are
 then independent, so each contributes the factor $e^{u_{b\to i}\sigma_{i}}$ it
-emits, the external field contributes $e^{\mu\sigma_{i}}$, and
+emits, the external field contributes $e^{B\sigma_{i}}$, and
 \begin{equation}
   Z_{i}=\sum_{\sigma=\pm1}e^{H_{i}\sigma}=2\cosh H_{i},
   \qquad
-  H_{i}=\mu+\sum_{b\ni i}u_{b\to i}.
+  H_{i}=B+\sum_{b\ni i}u_{b\to i}.
   \label{eq:Zi}
 \end{equation}
 This is Eq.~\eqref{eq:up} with nothing excluded, because nothing is being
 passed onward: $H_{i}$ is the \emph{full} field where $h_{i\to a}$ is the cavity
 field, and the difference between them is one term. Since the Bethe free energy
-is stationary in the messages, differentiating Eq.~\eqref{eq:bethe} in $\mu$
+is stationary in the messages, differentiating Eq.~\eqref{eq:bethe} in $B$
 picks up only this explicit dependence, and Eq.~\eqref{eq:mfromZ} gives
-$m_{i}=\partial\ln Z_{i}/\partial\mu=\tanh H_{i}$.
+$m_{i}=\partial\ln Z_{i}/\partial B=\tanh H_{i}$.
 
 Over an ensemble the substitution of Sec.~\ref{sec:substitution} applies to
 $H$ as it applied to $h$. The law of the full field at a layer-$l$ complex is
 Eq.~\eqref{eq:ensemblemap} with the \emph{ordinary} chy-degree in place of the
 excess, since no inclusion is being discounted, so
 \begin{equation}
-  R^{l}=\delta_{\mu}\ast\Bigl(\ast_{k}\,\Phi^{l}_{k}\!\ast\,Q^{lk}\Bigr),
+  R^{l}=\delta_{B}\ast\Bigl(\ast_{k}\,\Phi^{l}_{k}\!\ast\,Q^{lk}\Bigr),
   \qquad
   m_{l}=\int\tanh(H)\,\mathrm{d}R^{l}(H).
   \label{eq:orderparam}
 \end{equation}
 The order parameter is one more convolution and not a new object. Everything
-below is Eq.~\eqref{eq:orderparam} evaluated: at $\mu=0$ below the transition,
-and differentiated once more at $\mu\to0$ above it.
+below is Eq.~\eqref{eq:orderparam} evaluated: at $B=0$ below the transition,
+and differentiated once more at $B\to0$ above it.
 
-\paragraph{The response.} Above the transition every message is $O(\mu)$, so
+\paragraph{The response.} Above the transition every message is $O(B)$, so
 the down step is its linearisation Eq.~\eqref{eq:uprime} and the up step
-Eq.~\eqref{eq:up} adds the field at the complex. Write $\hat\chi_{m}$ for the
-mean cavity field sent into a layer-$m$ complex, divided by $\mu$. A complex
-reached through a layer-$m$ inclusion still belongs to $\ave{\kbar}_{m}$ further
-layer-$m$ complexes and $\ave{\kappa}_{l}$ layer-$l$ complexes for $l\ne m$,
-each of which delivers $\ave{\sbar u'}_{l}$ per unit field --- which is
+Eq.~\eqref{eq:up} adds the field at the complex. Write $\hat\chi_{l}$ for the
+mean cavity field sent into a layer-$l$ complex, divided by $B$. A complex
+reached through a layer-$l$ inclusion still belongs to $\ave{\kbar}_{l}$ further
+layer-$l$ complexes and $\ave{\kappa}_{k}$ layer-$k$ complexes for $k\ne l$,
+each of which delivers $\ave{\sbar u'}_{k}$ per unit field --- which is
 Eq.~\eqref{eq:branch} entry by entry. So
 \begin{equation}
-  \hat\chi_{m}=1+\sum_{l}B_{ml}\,\hat\chi_{l}.
+  \hat\chi_{l}=1+\sum_{k}B_{lk}\,\hat\chi_{k}.
   \label{eq:chicav}
 \end{equation}
 By Eq.~\eqref{eq:Zi} the full field counts the ordinary chy-degree instead of
@@ -638,20 +641,22 @@ collapses to a point mass exactly when every message on a layer is one number,
 and that needs two things: a whole-number chy-degree, so that every complex of
 a layer has the same number of neighbours, and one cardinality per layer, so
 that they all emit the same field. Call such a chygraph \emph{regular}. Writing
-$\bar u_{l}(h)$ for the field a layer-$l$ complex emits when all $c_{l}-1$
+$\bar u_{k}(h)$ for the field a layer-$k$ complex emits when all $c_{k}-1$
 incoming fields equal $h$, Eqs.~\eqref{eq:up} and~\eqref{eq:orderparam} become
 \begin{equation}
-  h_{m}=\mu+\sum_{l}\bigl(\kappa_{l}-\delta_{lm}\bigr)\,\bar u_{l}(h_{l}),
+  h_{l}=B+\sum_{k}\bigl(\kappa_{k}-\delta_{kl}\bigr)\,\bar u_{k}(h_{k}),
   \qquad
-  m=\tanh\Bigl(\mu+\sum_{l}\kappa_{l}\,\bar u_{l}(h_{l})\Bigr),
+  m=\tanh\Bigl(B+\sum_{k}\kappa_{k}\,\bar u_{k}(h_{k})\Bigr),
   \label{eq:magclosure}
 \end{equation}
-$L$ scalars and no population. The Kronecker delta is the excess bracket of
+$L$ scalars and no population --- and $m$ without a layer index is the
+magnetisation, where $m$ with one would be a layer, which is why the sums here
+run over $k$. The Kronecker delta is the excess bracket of
 Sec.~\ref{sec:map} once more, and the difference between the two lines is the
 difference between $h$ and $H$ in Eq.~\eqref{eq:Zi}.
 
 For the amplitude, expand. Whatever the interior, it is odd under a spin flip,
-so $\bar u_{l}(h)=a^{(l)}_{1}h+a^{(l)}_{3}h^{3}+O(h^{5})$, and both
+so $\bar u_{k}(h)=a^{(k)}_{1}h+a^{(k)}_{3}h^{3}+O(h^{5})$, and both
 coefficients are cumulants of one quantity. Writing $S$ for the total spin of
 the other $c-1$ members under the Gibbs weight of the isolated complex with the
 entered member held at $+1$, spin-flip symmetry makes $Z(-1)$ at $h$ equal
@@ -671,7 +676,7 @@ one order more.
 
 Putting $h=\epsilon r$ along the Perron direction and projecting on $\ell$
 annihilates the linear term and leaves $\epsilon^{2}=(\lambda-1)/D$ with
-$D=-\sum_{ml}\ell_{m}(\kappa_{l}-\delta_{lm})a^{(l)}_{3}r_{l}^{3}$, positive
+$D=-\sum_{lk}\ell_{l}(\kappa_{k}-\delta_{kl})a^{(k)}_{3}r_{k}^{3}$, positive
 whenever the interior saturates. Since $m\simeq(w\cdot r)\,\epsilon$ and
 $\lambda-1$ vanishes linearly in $T_{c}-T$, the exponent is $\beta=1/2$ and
 \begin{equation}
