@@ -506,16 +506,16 @@ for every complex $a$ containing $i$, so the overlaps do not depend on which
 complex is being subtracted. What is left is one term per complex and $1-k_{i}$
 per node,
 \begin{equation}
-  -\beta f=\sum_{l}n_{l}\ave{\ln Z^{(l)}_{a}}+\ave{(1-k)\ln Z_{i}},
+  -\beta f=\sum_{l}n_{l}\ave{\ln Z^{(l)}_{a}}+\ave{(1-\kappa)\ln Z_{i}},
   \qquad
-  n_{l}=\ave{k_{l}}/c_{l},
+  n_{l}=\ave{\kappa_{l}}/c_{l},
   \label{eq:bethe}
 \end{equation}
 with $Z_{a}$ the exact partition function inside a complex --- the same
 enumeration as Eq.~\eqref{eq:emitted}, reused --- and $Z_{i}=2\cosh h_{i}$. At
 zero cavity field this closes,
 \begin{equation}
-  -\beta f_{\mathrm{para}}=\ln2+\sum_{l}\frac{\ave{k_{l}}}{c_{l}}
+  -\beta f_{\mathrm{para}}=\ln2+\sum_{l}\frac{\ave{\kappa_{l}}}{c_{l}}
     \ln\bigl(Z^{(l)}_{c}/2^{c_{l}}\bigr),
   \label{eq:para}
 \end{equation}
@@ -726,6 +726,171 @@ it: those carry a distribution of fields, the mean cardinality is not a summary
 of one, and the route is the population. \code{Chygraph.\allowbreak
 magnetisation} refuses such a structure rather than returning a number for it.
 
+\section{The free energy from replicas}
+\label{sec:replicas-chy}
+\index{replica method|textbf}
+\index{functional order parameter|textbf}
+\index{Bethe free energy}
+
+Sections~\ref{sec:freeenergy} and~\ref{sec:response} took the Bethe free energy
+as given and differentiated it. It can instead be derived, from
+Eq.~\eqref{eq:Z-intro} and nothing else, and the derivation is worth having for
+what comes with it rather than for the free energy, which it returns unchanged.
+It produces Eq.~\eqref{eq:bethe}'s counting numbers instead of assuming them.
+It produces the two steps of Sec.~\ref{sec:twosteps}, excess bracket included,
+as a stationarity condition instead of as bookkeeping put in by hand. And it
+defines an order parameter \emph{before} any assumption about the number of
+states, which is the object Sec.~\ref{sec:onestep} then breaks the symmetry of.
+
+The calculation is \citet{leone2002}'s for a graph and
+\citet{vazquez2003vw}'s with degree correlations, carried to a chygraph. The
+formalism is \citet{mezard1987}; the diluted case in the form used here is
+\citet{franz2003}.
+
+One note on letters. In this section $n$ is the number of replicas and
+$r=1,\dots,n$ indexes them, which is the only place in the book either does
+that job; $\vec\sigma_{i}=(\sigma^{1}_{i},\dots,\sigma^{n}_{i})$ collects the
+$n$ copies of the variable at atom $i$.
+
+\paragraph{The object to average.} Take one atom layer and $L$ complex layers,
+layer $l$ carrying cardinality $c_{l}$ and interior weight
+$\chi_{l}=e^{-\beta H_{l}}$ --- the same $-\beta H$ Eq.~\eqref{eq:emitted} sums.
+Then Eq.~\eqref{eq:Z-intro} reads
+\begin{equation}
+  Z=\sum_{\{\sigma\}}\ \prod_{i}e^{\beta B\sigma_{i}}
+    \prod_{l}\prod_{a\in l}\chi_{l}\bigl(\{\sigma_{j}\}_{j\in a}\bigr),
+  \label{eq:Zchy}
+\end{equation}
+and the free energy is $-\beta f=\overline{\ln Z}/N$, the bar an average over
+which atoms each complex holds. That average is what the replica identity of
+Sec.~\ref{sec:replicas} is for: $\overline{\ln Z}=\lim_{n\to0}
+(\overline{Z^{n}}-1)/n$, with
+\begin{equation}
+  \overline{Z^{n}}=\sum_{\{\vec\sigma\}}\prod_{i}
+    e^{\beta B\sum_{r}\sigma^{r}_{i}}\ \
+    \overline{\prod_{l}\prod_{a\in l}\prod_{r}
+      \chi_{l}\bigl(\{\sigma^{r}_{j}\}_{j\in a}\bigr)}.
+  \label{eq:Zn}
+\end{equation}
+The chy-degrees are prescribed, so the average carries one constraint per atom
+per layer, written in the integral form
+$\delta\bigl(\sum_{a\in l}\alpha_{ia}-\kappa^{l}_{i}\bigr)
+=\int\frac{\mathrm{d}\psi^{l}_{i}}{2\pi}
+ e^{\mathrm{i}(\sum_{a\in l}\alpha_{ia}-\kappa^{l}_{i})\psi^{l}_{i}}$
+with $\alpha$ the chy-adjacency matrix of Eq.~\eqref{eq:alpha}. This is the one
+place a chygraph costs more than a graph: an edge is a pair by construction, so
+a graph needs this constraint once, while a complex has a cardinality of its own
+and needs it on both margins of $\alpha$.
+
+\paragraph{The order parameter.} Tracing over the variables and integrating out
+the $\psi$'s leaves everything expressed through one function per layer,
+\begin{equation}
+  \rho_{l}(\vec\sigma)=\frac{1}{N}\sum_{i}
+     \delta_{\vec\sigma,\vec\sigma_{i}}\ e^{\mathrm{i}\psi^{l}_{i}},
+  \label{eq:rhochy}
+\end{equation}
+and its conjugate $\hat\rho_{l}(\vec\sigma)$. It is a distribution over the
+$2^{n}$ replica states, resolved by layer, and it is a \emph{functional} order
+parameter: not a number, and not yet a field. Nothing has been assumed about it.
+With
+\begin{equation}
+  \Xi_{l}[\rho]=\!\!\sum_{\vec\sigma_{1}\dots\vec\sigma_{c_{l}}}\
+    \prod_{j=1}^{c_{l}}\rho_{l}(\vec\sigma_{j})
+    \prod_{r}\chi_{l}\bigl(\sigma^{r}_{1},\dots,\sigma^{r}_{c_{l}}\bigr)
+  \label{eq:Xichy}
+\end{equation}
+the interior sum in replica space, $\overline{Z^{n}}=\int\prod_{l,\vec\sigma}
+\mathrm{d}\rho_{l}\,\mathrm{d}\hat\rho_{l}\ e^{-nNF}$ with
+\begin{equation}
+  \begin{aligned}
+  -nF=&-\sum_{l}\ave{\kappa_{l}}\sum_{\vec\sigma}
+        \rho_{l}(\vec\sigma)\hat\rho_{l}(\vec\sigma)\\
+      &+\Bigl\langle\ln\sum_{\vec\sigma}e^{\beta B\sum_{r}\sigma^{r}}
+        \prod_{l}\hat\rho_{l}(\vec\sigma)^{\kappa_{l}}\Bigr\rangle
+       +\sum_{l}\frac{\ave{\kappa_{l}}}{c_{l}}\,\Xi_{l}[\rho],
+  \end{aligned}
+  \label{eq:Fchy}
+\end{equation}
+additive constants dropped.
+
+\paragraph{What the three terms are.} They are one per complex, one per atom and
+one subtracted per inclusion --- which is Sec.~\ref{sec:freeenergy}'s
+un-collapsed free energy, term for term. The complex term carries
+$\ave{\kappa_{l}}/c_{l}$, which is Eq.~\eqref{eq:bethe}'s $n_{l}$: a chygraph
+has that many layer-$l$ complexes per atom. The inclusion term carries
+$\ave{\kappa_{l}}$, one per inclusion. So Eq.~\eqref{eq:bethe}'s counting
+numbers are not a choice made to make a tree work. They are the structure of
+Eq.~\eqref{eq:Fchy}, and they were already the M\"obius numbers of
+Chapter~\ref{ch:gbp}'s region graph. Three routes, one set of weights.
+
+\paragraph{The saddle point is the two steps.} Setting the variations of
+Eq.~\eqref{eq:Fchy} to zero gives
+\begin{align}
+  \hat\rho_{l}(\vec\sigma)&=\!\!\sum_{\vec\sigma_{2}\dots\vec\sigma_{c_{l}}}
+    \prod_{j=2}^{c_{l}}\rho_{l}(\vec\sigma_{j})
+    \prod_{r}\chi_{l}\bigl(\sigma^{r},\sigma^{r}_{2},\dots,
+      \sigma^{r}_{c_{l}}\bigr),\label{eq:saddledown}\\
+  \rho_{l}(\vec\sigma)&=\Bigl\langle\frac{\kappa_{l}}{\ave{\kappa_{l}}}\,
+    \frac{e^{\beta B\sum_{r}\sigma^{r}}\hat\rho_{l}(\vec\sigma)^{\kappa_{l}-1}
+          \prod_{m\ne l}\hat\rho_{m}(\vec\sigma)^{\kappa_{m}}}
+         {\sum_{\vec\sigma'}e^{\beta B\sum_{r}\sigma'^{r}}
+          \prod_{m}\hat\rho_{m}(\vec\sigma')^{\kappa_{m}}}\Bigr\rangle.
+  \label{eq:saddleup}
+\end{align}
+Read them against Sec.~\ref{sec:twosteps}. Equation~\eqref{eq:saddledown} is the
+down step: a complex reports what its other $c_{l}-1$ members do, summed over
+its interior exactly. Equation~\eqref{eq:saddleup} is the up step, and it
+carries two things that Sec.~\ref{sec:map} put in by hand. The weight
+$\kappa_{l}/\ave{\kappa_{l}}$ is the size-biasing of
+Sec.~\ref{sec:branching} --- a complex is reached in proportion to how many
+inclusions it has. And the exponent is $\kappa_{l}-1$ in the layer arrived
+through and $\kappa_{m}$ in every other, which is the excess bracket
+$[\bar\Phi]_{k=m}$ of Fig.~\ref{fig:themap}. Neither was an assumption. Both
+are what stationarity returns.
+
+\paragraph{Replica symmetry, and Eq.~\eqref{eq:bethe}.} The
+replica-symmetric ansatz is that a replica state is a superposition of product
+states weighted by a field,
+\begin{equation}
+  \rho_{l}(\vec\sigma)=\!\int\!\mathrm{d}h\,P_{l}(h)
+    \prod_{r}\frac{e^{h\sigma^{r}}}{2\cosh h},
+  \qquad
+  \hat\rho_{l}(\vec\sigma)=\!\int\!\mathrm{d}u\,Q_{l}(u)
+    \prod_{r}\frac{e^{u\sigma^{r}}}{2\cosh u},
+  \label{eq:rsansatz}
+\end{equation}
+which is where a field first enters the calculation --- and it enters as an
+ansatz, not as a definition. Substituting Eq.~\eqref{eq:rsansatz} into
+Eq.~\eqref{eq:saddledown} makes $Q_{l}$ the law of the field a complex emits
+when its other members carry fields drawn from $P_{l}$, and the emitted field is
+Eq.~\eqref{eq:emitted}. Substituting into Eq.~\eqref{eq:saddleup} makes $P_{l}$
+the law of $B$ plus the fields arriving from the other complexes, which is the
+convolution Eq.~\eqref{eq:ensemblemap}. Substituting into Eq.~\eqref{eq:Fchy}
+returns Eq.~\eqref{eq:bethe}. So the whole of this chapter up to
+Sec.~\ref{sec:response} is Eq.~\eqref{eq:Fchy} under one ansatz, and at
+$c_{l}=2$ and one layer it is \citeauthor{leone2002}'s graph result.
+
+\paragraph{The stability line, derived.} Expanding Eq.~\eqref{eq:Fchy} to second
+order about the replica-symmetric saddle splits the fluctuations into sectors
+that do not mix, classified by how they transform under permutations of the
+replicas, and the one that goes unstable first is the \emph{replicon}. Its
+eigenvalue is Eq.~\eqref{eq:branch} with $u'$ replaced by $u'^{2}$, which is the
+elementwise reweighting of Eq.~\eqref{eq:reweight} and so
+Sec.~\ref{sec:atline}'s de~Almeida--Thouless line. That section reaches the same
+condition from the argument that a perturbation of random sign is transmitted
+with $u'$ and its effect measured by squaring. The Hessian route is the one that
+would establish it rather than motivate it, and the sectors are named here
+without being computed.
+
+\paragraph{What this does not do.} It does not make one-step replica symmetry
+breaking cheap. Equation~\eqref{eq:Fchy} is the object a one-step ansatz acts
+on, and Sec.~\ref{sec:onestep} writes that ansatz down; what neither supplies is
+a solution where the message is a real field rather than a warning.
+Section~\ref{sec:hsrsb} is where that is met and declined, and
+Sec.~\ref{sec:notdone} lists it. The derivation moves the difficulty from
+\emph{what object to write} to \emph{how to solve it}, which is progress of a
+limited kind and is worth saying plainly.
+
 \section{One step of replica symmetry breaking}
 \label{sec:onestep}
 \index{replica symmetry breaking!one-step, on a chygraph|textbf}
@@ -775,19 +940,42 @@ Eq.~\eqref{eq:bethe} at $m=0$ turns the Bethe expression into a count of
 clusters --- the \emph{complexity}
 \begin{equation}
   \Sigma=\ave{\ln Z_{i}}
-        +\sum_{l}\frac{\ave{k_{l}}}{c_{l}}\ave{\ln Z^{(l)}_{a}}
-        -\sum_{l}\ave{k_{l}}\ave{\ln Z^{(l)}_{ia}},
+        +\sum_{l}\frac{\ave{\kappa_{l}}}{c_{l}}\ave{\ln Z^{(l)}_{a}}
+        -\sum_{l}\ave{\kappa_{l}}\ave{\ln Z^{(l)}_{ia}},
   \label{eq:sigmagen}
 \end{equation}
 the same three objects the free energy is built from --- a node, a complex, an
-inclusion --- evaluated on surveys instead of on fields, with $\ave{k_{l}}/c_{l}$
-complexes and $\ave{k_{l}}$ inclusions per node in layer $l$. Where $\Sigma$
+inclusion --- evaluated on surveys instead of on fields, with
+$\ave{\kappa_{l}}/c_{l}$ complexes and $\ave{\kappa_{l}}$ inclusions per node in
+layer $l$. Where $\Sigma$
 falls to zero the clusters have run out, and that is the threshold. Note that
 the overlap term does not collapse here as it did in
 Eq.~\eqref{eq:bethe}: the argument that made $h_{i\to a}+u_{a\to i}$ the same
 full field for every complex is an argument about one field, and the
 reweighting is what breaks it. Three terms rather than two is the whole
 bookkeeping cost of the step.
+
+\paragraph{The same step, on the replica order parameter.}
+Equation~\eqref{eq:survey} is a definition, and
+Sec.~\ref{sec:replicas-chy} says what it is an ansatz \emph{for}. Replica
+symmetry was Eq.~\eqref{eq:rsansatz}, every replica carrying the same field.
+Break the $n$ replicas into $n/m$ blocks of $m$, let the field be common within
+a block and drawn from a distribution across blocks, and
+Eq.~\eqref{eq:rhochy} becomes
+\begin{equation}
+  \rho_{l}(\vec\sigma)=\int\!\mathcal{D}Q\ \mathcal{P}_{l}[Q]
+    \prod_{\text{blocks}}\Bigl[\int\!\mathrm{d}h\,Q(h)
+      \prod_{r\in\text{block}}\frac{e^{h\sigma^{r}}}{2\cosh h}\Bigr],
+  \label{eq:rsbansatz}
+\end{equation}
+with $Q$ the survey of Eq.~\eqref{eq:survey} and $\mathcal{P}_{l}$ the law over
+surveys that the ensemble carries. Two things then follow instead of being
+imposed. The reweighting $e^{-m\Delta F}$ is what the sum over blocks produces,
+so $m$ is a block size rather than a parameter added to taste. And substituting
+Eq.~\eqref{eq:rsbansatz} into Eq.~\eqref{eq:Fchy} returns
+Eq.~\eqref{eq:sigmagen}, which also says why the overlap term does not collapse
+here as it did in Eq.~\eqref{eq:bethe}: that collapse used one field per
+inclusion, and Eq.~\eqref{eq:rsbansatz} carries a distribution of them.
 
 \paragraph{Two transitions, not one.} The survey recursion therefore carries two
 pieces of information and they should not be confused. The trivial survey ---
@@ -866,6 +1054,9 @@ Chapter~\ref{ch:overlap} takes up: what happens when the cliques of a real
 network share edges rather than vertices.
 
 \emph{Replica symmetry.} One field per inclusion presumes a single pure state.
+Equation~\eqref{eq:rsansatz} is that presumption written down, and
+Sec.~\ref{sec:replicas-chy} is where it can be seen as an ansatz on something
+more general rather than as the definition of a message.
 Section~\ref{sec:onestep} is what replaces it where the state space shatters,
 and it is a repair rather than a limit --- but a partial one, since it is
 carried out at $m=0$ throughout this book.
@@ -959,3 +1150,11 @@ Sec.~\ref{sec:assumes}'s three --- treelikeness at the level of atoms, replica
 symmetry, and an enumerable interior --- are assumed throughout and checked
 nowhere here. The one-step scheme of Sec.~\ref{sec:onestep} is written at $m=0$
 only.
+Section~\ref{sec:replicas-chy} is a derivation and not a computation. It
+returns Eq.~\eqref{eq:bethe}, which is checked above, and adds no number of its
+own. The reductions it claims --- Eq.~\eqref{eq:saddledown} to
+Eq.~\eqref{eq:emitted}, Eq.~\eqref{eq:saddleup} to
+Eq.~\eqref{eq:ensemblemap}, and Eq.~\eqref{eq:Fchy} to Eq.~\eqref{eq:bethe}
+under Eq.~\eqref{eq:rsansatz} --- are stated as algebra and are not
+machine-checked, which is a weaker footing than the rest of the chapter stands
+on. Equation~\eqref{eq:rsbansatz} is written and not solved.
