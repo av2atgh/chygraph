@@ -102,3 +102,203 @@ def test_excess_defaults_to_the_mean():
     B1 = branching_matrix([2, 3], [3.0, 1.0], 0.2)
     B2 = branching_matrix([2, 3], [3.0, 1.0], 0.2, excess=[3.0, 1.0])
     assert np.allclose(B1, B2)
+
+
+# ---------------------------------------------------------------------------
+# The order parameter and the response
+# ---------------------------------------------------------------------------
+
+from statmech.ising import (emitted_common, emitted_common_derivative,
+                            interior_cumulants, magnetisation,
+                            magnetisation_amplitude, susceptibility,
+                            susceptibility_amplitude)
+
+
+@pytest.mark.parametrize('c', [2, 3, 4, 5])
+@pytest.mark.parametrize('bJ', [0.1, 0.4, 0.9])
+def test_a1_is_the_transmission(c, bJ):
+    """a1 = (c-1) u': the amplitude expansion starts where the threshold ends."""
+    a1, _ = interior_cumulants(c, bJ)
+    assert a1 == pytest.approx((c - 1) * clique_derivative(c, bJ), rel=1e-12)
+
+
+@pytest.mark.parametrize('bJ', [0.2, 0.7, 1.3])
+def test_a3_closed_form_on_an_edge(bJ):
+    """ubar = atanh(t tanh h) on a link, so a3 = t(t^2-1)/3."""
+    t = np.tanh(bJ)
+    _, a3 = interior_cumulants(2, bJ)
+    assert a3 == pytest.approx(t * (t * t - 1) / 3, abs=1e-13)
+
+
+@pytest.mark.parametrize('c', [2, 3, 4])
+@pytest.mark.parametrize('bJ', [0.15, 0.6])
+def test_cumulants_are_the_taylor_coefficients(c, bJ):
+    """a1 and a3 against finite differences of the enumeration itself."""
+    a1, a3 = interior_cumulants(c, bJ)
+    e = 1e-3
+    d1 = (emitted_common(c, bJ, e) - emitted_common(c, bJ, -e)) / (2 * e)
+    d3 = (emitted_common(c, bJ, 2 * e) - 2 * emitted_common(c, bJ, e)
+          + 2 * emitted_common(c, bJ, -e) - emitted_common(c, bJ, -2 * e))
+    assert float(d1) == pytest.approx(a1, abs=1e-5)
+    assert float(d3) / (2 * e ** 3 * 6) == pytest.approx(a3, abs=1e-4)
+
+
+@pytest.mark.parametrize('c', [2, 3, 4])
+@pytest.mark.parametrize('h', [0.0, 0.3, 1.5])
+def test_emitted_derivative_is_exact(c, h):
+    e = 1e-5
+    fd = (emitted_common(c, 0.45, h + e) - emitted_common(c, 0.45, h - e)) / (2 * e)
+    assert emitted_common_derivative(c, 0.45, h) == pytest.approx(float(fd),
+                                                                 abs=1e-8)
+
+
+@pytest.mark.parametrize('k', [3, 4, 6])
+@pytest.mark.parametrize('bJ', [0.05, 0.15, 0.25])
+def test_susceptibility_bethe_lattice(k, bJ):
+    """chi = (1+t)/(1-(k-1)t) on a regular graph -- the textbook result."""
+    t = np.tanh(bJ)
+    got = susceptibility([2], [float(k)], bJ, excess=[k - 1.0])
+    assert got == pytest.approx((1 + t) / (1 - (k - 1) * t), rel=1e-11)
+
+
+@pytest.mark.parametrize('k', [2.0, 3.0, 5.0])
+@pytest.mark.parametrize('bJ', [0.05, 0.15])
+def test_susceptibility_poisson_graph(k, bJ):
+    """chi = 1/(1 - <k> t), a Poisson degree being its own excess."""
+    t = np.tanh(bJ)
+    assert susceptibility([2], [k], bJ) == pytest.approx(1 / (1 - k * t),
+                                                         rel=1e-11)
+
+
+@pytest.mark.parametrize('spec', [([2], [4.0], [3.0]), ([3], [2.0], [1.0]),
+                                  ([2, 3], [2.0, 1.0], [1.0, 0.0]),
+                                  ([2, 3], [3.0, 1.0], None)])
+def test_susceptibility_diverges_at_the_transition(spec):
+    """1/chi -> 0 exactly where det(I - B) = 0.  One condition, two readings."""
+    cards, k, kbar = spec
+    bc = critical_coupling(cards, k, excess=kbar)
+    prev = np.inf
+    for eps in (1e-3, 1e-4, 1e-5):
+        inv = 1.0 / susceptibility(cards, k, bc * (1 - eps), excess=kbar)
+        assert 0 < inv < prev
+        prev = inv
+    assert prev < 1e-4
+
+
+@pytest.mark.parametrize('spec', [([2], [4.0]), ([3], [2.0]), ([2, 3], [2.0, 1.0])])
+def test_susceptibility_amplitude_is_the_limit(spec):
+    """chi (T/T_c - 1) -> C, so gamma = 1."""
+    cards, k = spec
+    kbar = [x - 1.0 for x in k]
+    C = susceptibility_amplitude(cards, k, excess=kbar)
+    Tc = 1.0 / critical_coupling(cards, k, excess=kbar)
+    got = susceptibility(cards, k, 1.0 / (Tc * (1 + 1e-4)), excess=kbar) * 1e-4
+    assert got == pytest.approx(C, rel=2e-3)
+
+
+@pytest.mark.parametrize('spec', [([2], [4.0]), ([3], [2.0]), ([2], [6.0]),
+                                  ([4], [2.0]), ([2, 3], [2.0, 1.0])])
+def test_magnetisation_amplitude_is_the_limit(spec):
+    """m / sqrt(1 - T/T_c) -> A, so beta = 1/2."""
+    cards, k = spec
+    A = magnetisation_amplitude(cards, k)
+    Tc = 1.0 / critical_coupling(cards, k, excess=[x - 1.0 for x in k])
+    for eps, rel in ((1e-4, 3e-3), (1e-6, 2e-4)):
+        got = magnetisation(cards, k, 1.0 / (Tc * (1 - eps))) / np.sqrt(eps)
+        assert got == pytest.approx(A, rel=rel)
+
+
+@pytest.mark.parametrize('k', [3, 4, 6, 10])
+def test_graph_amplitude_closed_form(k):
+    """A = k/(k-1) sqrt(3(k-1)J/T_c) on a k-regular graph."""
+    Tc = 1.0 / critical_coupling([2], [float(k)], excess=[k - 1.0])
+    want = k / (k - 1) * np.sqrt(3 * (k - 1) / Tc)
+    assert magnetisation_amplitude([2], [float(k)]) == pytest.approx(want,
+                                                                     rel=1e-8)
+
+
+def test_amplitude_tends_to_the_curie_weiss_value():
+    """A -> sqrt(3) as the degree grows: mean field, from outside the book."""
+    prev = np.inf
+    for k in (10.0, 100.0, 1000.0):
+        A = magnetisation_amplitude([2], [k])
+        assert A > np.sqrt(3) and A < prev
+        prev = A
+    assert prev == pytest.approx(np.sqrt(3), abs=2e-3)
+
+
+def test_magnetisation_vanishes_above_the_transition():
+    for cards, k in (([2], [4.0]), ([3], [2.0]), ([2, 3], [2.0, 1.0])):
+        Tc = 1.0 / critical_coupling(cards, k, excess=[x - 1.0 for x in k])
+        assert magnetisation(cards, k, 1.0 / (Tc * 1.02)) == 0.0
+        assert magnetisation(cards, k, 1.0 / (Tc * 0.98)) > 0.0
+
+
+def test_magnetisation_matches_the_population():
+    """The scalar closure against a population of samples, regular chy-degree.
+
+    A regular chygraph collapses the population onto one value, so this checks
+    the excess bookkeeping of both routes rather than the physics of either.
+    """
+    for cards, k in (([2], [4.0]), ([3], [2.0])):
+        g = cs.Chygraph(cards, k, regular=True)
+        Tc = g.critical_temperature()
+        for frac in (0.6, 0.9):
+            bJ = 1.0 / (Tc * frac)
+            pop = g.population(bJ, size=40_000, seed=1).run(300).magnetisation()
+            assert g.magnetisation(bJ) == pytest.approx(pop, abs=1e-9)
+
+
+@pytest.mark.parametrize('spec', [([2], [4.0]), ([3], [2.0]), ([4], [2.0]),
+                                  ([2, 3], [2.0, 1.0])])
+@pytest.mark.parametrize('frac', [1.05, 1.3, 2.0])
+def test_susceptibility_is_the_field_derivative_of_the_magnetisation(spec, frac):
+    """chi = dm/dB, the two halves of Sec. 9.4 against each other.
+
+    One is a linearisation in closed form and the other a finite difference of
+    the full closure at a small field; nothing but the definition connects them.
+    """
+    cards, k = spec
+    kbar = [x - 1.0 for x in k]
+    bJ = critical_coupling(cards, k, excess=kbar) / frac
+    e = 1e-5
+    fd = (magnetisation(cards, k, bJ, field=e)
+          - magnetisation(cards, k, bJ, field=-e)) / (2 * e)
+    assert susceptibility(cards, k, bJ, excess=kbar) == pytest.approx(fd,
+                                                                     rel=1e-5)
+
+
+def test_magnetisation_follows_the_field_it_is_given():
+    """m rises with B either side of the transition, and is odd above it.
+
+    Below the transition it is not: started from saturation the solver returns
+    the branch continuously connected to it, which at a negative field is the
+    metastable state a sweep would follow, not the equilibrium one.
+    """
+    cards, k = [2], [4.0]
+    Tc = 1.0 / critical_coupling(cards, k, excess=[3.0])
+    for frac in (0.8, 1.2):
+        bJ = 1.0 / (Tc * frac)
+        row = [magnetisation(cards, k, bJ, field=B)
+               for B in (0.0, 0.01, 0.05, 0.2)]
+        assert all(b > a for a, b in zip(row, row[1:]))
+    above = 1.0 / (Tc * 1.2)
+    assert magnetisation(cards, k, above, field=-0.05) == pytest.approx(
+        -magnetisation(cards, k, above, field=0.05), abs=1e-9)
+    below = 1.0 / (Tc * 0.8)
+    assert magnetisation(cards, k, below, field=-0.05) > 0.0
+
+
+def test_clustering_raises_the_amplitude_it_lowers_the_temperature():
+    """At degree four: T_c falls by 13.9 per cent, A rises by 20 per cent."""
+    graph = cs.Chygraph([2], [4.0], regular=True)
+    triangles = cs.Chygraph([3], [2.0], regular=True)
+    assert triangles.critical_temperature() < graph.critical_temperature()
+    assert triangles.magnetisation_amplitude() > graph.magnetisation_amplitude()
+    assert triangles.susceptibility_amplitude() > graph.susceptibility_amplitude()
+
+
+def test_scalar_closure_is_refused_off_the_regular_ensemble():
+    g = cs.Chygraph([2], [4.0])
+    with pytest.raises(NotImplementedError, match='regular'):
+        g.magnetisation(0.5)

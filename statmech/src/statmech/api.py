@@ -245,11 +245,51 @@ class Chygraph:
         """
         return _stab.StabilityMatrix(k, K, s, S, wkappa=wkappa, ws=ws)
 
+    def susceptibility(self, beta_J):
+        """``chi = dm/dB = -d^2 f/dB^2`` at ``B -> 0``, above the transition.
+
+        ``1 + w . (I - B)^{-1} 1`` with ``B`` the branching matrix and
+        ``w_l = <kappa>_l <sbar u'>_l``.  Diverges exactly where
+        :meth:`critical_coupling` puts the transition, since both are
+        ``det(I - B) = 0``.  Valid for any chy-degree distribution.
+        """
+        return _ising.susceptibility(self.c, self.k, beta_J, excess=self.kbar)
+
+    def susceptibility_amplitude(self):
+        """``C`` in ``chi ~ C / (T/T_c - 1)``, so ``gamma = 1`` (Sec. IV C)."""
+        return _ising.susceptibility_amplitude(self.c, self.k, excess=self.kbar)
+
+    def magnetisation(self, beta_J, field=0.0):
+        """``m = d ln Z_i / dB``, the first derivative of the free energy.
+
+        Exact and closed on a *regular* chygraph, where every message on a layer
+        is one number; for any other chy-degree distribution the fields carry a
+        distribution and :meth:`population` is the route.  ``field`` is the
+        external field of Eq. (9.1), zero by default.
+        """
+        if not self.regular:
+            raise NotImplementedError(
+                "the scalar closure is exact only for a regular chygraph; "
+                "use population(beta_J).run().magnetisation()")
+        return _ising.magnetisation(self.c, self.k, beta_J, field=field)
+
+    def magnetisation_amplitude(self):
+        """``A`` in ``m ~ A (1 - T/T_c)^(1/2)``, so ``beta = 1/2`` (Sec. IV C).
+
+        Needs the third Taylor coefficient of the interior sum and nothing else
+        the threshold did not already need.
+        """
+        if not self.regular:
+            raise NotImplementedError(
+                "the amplitude is derived from the regular scalar closure")
+        return _ising.magnetisation_amplitude(self.c, self.k)
+
     def population(self, beta_J, **kw):
         """Field distributions by population dynamics (Sec. IV C).
 
         Returns :class:`~statmech.population.CavityPopulation`.
         """
+        kw.setdefault('regular', self.regular)
         return _pop.CavityPopulation(self.c, self.k, beta_J, **kw)
 
     def free_energy(self, beta_J, sweeps=250, **kw):

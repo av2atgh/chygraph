@@ -35,18 +35,28 @@ class CavityPopulation:
     Args:
         cardinalities: clique size of each complex layer.  ``[2]`` is an
             ordinary graph, ``[2, 3]`` a graph with links and triangles.
-        means: Poisson mean chy-degree per layer -- how many layer-``l``
-            complexes a node belongs to.  Poisson is its own excess, so the
-            cavity and full distributions coincide.
+        means: mean chy-degree per layer -- how many layer-``l`` complexes a
+            node belongs to.  Poisson is its own excess, so the cavity and full
+            distributions coincide and ``exclude`` below does nothing.
         beta_J: inverse temperature times coupling, one per layer or a scalar.
         size: population size.
         seed: RNG seed.
+        regular: fixed rather than Poisson chy-degree.  The excess then differs
+            from the mean, so a cavity field sums over ``kappa_l - 1`` complexes
+            of the layer it is being sent into and ``kappa_l`` of every other.
+            This is the ensemble Sec. 9.4's matched null uses, and the one on
+            which the scalar closure of :func:`statmech.ising.magnetisation` is
+            exact -- so the two are independent routes to the same number.
     """
 
-    def __init__(self, cardinalities, means, beta_J, size=100_000, seed=0):
+    def __init__(self, cardinalities, means, beta_J, size=100_000, seed=0,
+                 regular=False):
         self.c = np.asarray(cardinalities, dtype=int)
         self.L = len(self.c)
         self.means = np.asarray(means, dtype=float)
+        self.regular = bool(regular)
+        if self.regular and np.any(np.abs(self.means - np.rint(self.means)) > 1e-12):
+            raise ValueError("a regular chy-degree must be a whole number")
         bj = np.asarray(beta_J, dtype=float)
         self.beta_J = np.full(self.L, float(bj)) if bj.ndim == 0 else bj
         self.size = size
@@ -83,14 +93,26 @@ class CavityPopulation:
 
     # -- the chy-degree step ------------------------------------------------
 
-    def _sum_over_complexes(self, n):
-        """Sample ``sum_l sum_{d_l} u`` with ``d_l ~ Poisson(means[l])``.
+    def _counts(self, layer, n, exclude=None):
+        """How many layer-``layer`` complexes each of ``n`` nodes sends to.
+
+        ``exclude`` is the layer the message is being sent into, whose arriving
+        inclusion must not be counted again -- Chapter 4's excess bracket.  A
+        Poisson count is its own excess and ignores it.
+        """
+        if not self.regular:
+            return self.rng.poisson(self.means[layer], n)
+        k = int(round(self.means[layer])) - (1 if layer == exclude else 0)
+        return np.full(n, max(k, 0), dtype=int)
+
+    def _sum_over_complexes(self, n, exclude=None):
+        """Sample ``sum_l sum_{d_l} u`` over the node's layer counts.
 
         The convolution that replaces the generating-function product.
         """
         out = np.zeros(n)
         for k in range(self.L):
-            d = self.rng.poisson(self.means[k], n)
+            d = self._counts(k, n, exclude)
             total = int(d.sum())
             if total == 0:
                 continue
@@ -119,7 +141,8 @@ class CavityPopulation:
                                     (self.size, int(self.c[l]) - 1))
             newQ.append(self.emitted(self.P[l][idx], l))
         self.Q = newQ
-        self.P = [self._sum_over_complexes(self.size) for _ in range(self.L)]
+        self.P = [self._sum_over_complexes(self.size, exclude=l)
+                  for l in range(self.L)]
 
     def run(self, sweeps=300, field=1.0):
         self.initialise(field)

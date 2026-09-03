@@ -4,6 +4,9 @@
   fig-clustering  the headline: at fixed degree, clustering lowers T_c, with
                   the Monte Carlo of `probe/results/ising_mc.log` on the same
                   axes
+  fig-magnetisation  the order parameter and the response, for the matched
+                  pair of Sec. 9.4, with the Monte Carlo of
+                  `probe/results/ising_mc.log` on the same axes
   fig-unanimity   the unanimity interaction: the spinodal against cardinality
                   at finite and infinite chy-degree, and the double transition
                   at q = 16 where the spinodal is not the transition
@@ -162,6 +165,18 @@ MC = {'links': (2.894, [(2.600, .6627, .6656), (2.750, .6466, .6610),
                             (2.450, .5662, .6148), (2.490, .4720, .4597),
                             (2.550, .2746, .1346), (2.700, .0372, -.0144)])}
 
+# <m^2>^{1/2} on the ordered side, same log, same runs: (T, n = 3000, n = 12000)
+MC_M = {'links': [(1.200, .9970, .9971), (1.600, .9805, .9806),
+                  (2.000, .9283, .9287), (2.300, .8409, .8405),
+                  (2.550, .7004, .6995), (2.700, .5566, .5526)],
+        'triangles': [(1.000, .9994, .9992), (1.400, .9904, .9903),
+                      (1.750, .9561, .9563), (2.000, .8899, .8900),
+                      (2.200, .7740, .7739), (2.350, .5953, .5939)]}
+
+# the matched null of Sec. 9.4: degree exactly four either way
+PAIR = (('4-regular graph', [2], [4.0]),
+        ('two triangles per vertex', [3], [2.0]))
+
 
 def figure_clustering():
     plt = _mpl()
@@ -197,6 +212,171 @@ def figure_clustering():
     print(f'  shift: Monte Carlo {100*(MC["triangles"][0]/MC["links"][0]-1):+.1f}%, '
           f'theory {100*(Tc_family(4,1)/Tc_family(4,0)-1):+.1f}%')
     print(f'  wrote {OUT / "fig-clustering.pdf"}')
+
+
+# ------------------------------------------- (3) magnetisation and susceptibility
+def check_susceptibility():
+    """chi against the two textbook closed forms, and its divergence at T_c."""
+    for k in (3, 4, 6):
+        for bJ in (0.05, 0.15, 0.25):
+            t = np.tanh(bJ)
+            got = Chygraph([2], [float(k)], regular=True).susceptibility(bJ)
+            assert abs(got - (1 + t) / (1 - (k - 1) * t)) < 1e-11, (k, bJ)
+    print('  regular graph:  chi = (1+t)/(1-(k-1)t)   OK')
+    for k in (2.0, 3.0, 5.0):
+        for bJ in (0.05, 0.15):
+            t = np.tanh(bJ)
+            got = Chygraph([2], [k]).susceptibility(bJ)
+            assert abs(got - 1 / (1 - k * t)) < 1e-11, (k, bJ)
+    print('  Poisson graph:  chi = 1/(1-<k>t)   OK')
+    for name, cards, deg in PAIR:
+        g = Chygraph(cards, deg, regular=True)
+        Tc, C = g.critical_temperature(), g.susceptibility_amplitude()
+        row = [g.susceptibility(1.0 / (Tc * (1 + e))) * e for e in (1e-3, 1e-5)]
+        assert abs(row[-1] - C) / C < 1e-3, (name, row, C)
+        print(f'  {name:<26} T_c={Tc:.4f}  C={C:.4f}  '
+              f'chi(T/T_c-1) -> {row[-1]:.4f}')
+    print('  1/chi vanishes where det(I-B) does: gamma = 1   OK')
+    # chi is the field derivative of m: the two halves against each other
+    worst = 0.0
+    for name, cards, deg in PAIR:
+        g = Chygraph(cards, deg, regular=True)
+        Tc, e = g.critical_temperature(), 1e-5
+        for frac in (1.05, 1.3, 2.0):
+            bJ = 1.0 / (Tc * frac)
+            fd = (g.magnetisation(bJ, field=e)
+                  - g.magnetisation(bJ, field=-e)) / (2 * e)
+            worst = max(worst, abs(fd - g.susceptibility(bJ)) / fd)
+    assert worst < 1e-5, worst
+    print(f'  chi = dm/dB against a finite difference of the closure, '
+          f'worst {worst:.0e}   OK')
+
+
+def check_magnetisation():
+    """The scalar closure: its amplitude, its limits, and the Monte Carlo."""
+    for name, cards, deg in PAIR:
+        g = Chygraph(cards, deg, regular=True)
+        Tc, A = g.critical_temperature(), g.magnetisation_amplitude()
+        row = [g.magnetisation(1.0 / (Tc * (1 - e))) / np.sqrt(e)
+               for e in (1e-3, 1e-5, 1e-7)]
+        assert abs(row[-1] - A) / A < 1e-3, (name, row, A)
+        assert g.magnetisation(1.0 / (Tc * 1.02)) == 0.0
+        print(f'  {name:<26} T_c={Tc:.4f}  A={A:.4f}  '
+              f'm/sqrt(1-T/T_c) -> {row[-1]:.4f}')
+    # the k-regular graph has a closed form, and it tends to Curie-Weiss
+    for k in (3, 4, 6, 10):
+        g = Chygraph([2], [float(k)], regular=True)
+        want = k / (k - 1) * np.sqrt(3 * (k - 1) / g.critical_temperature())
+        assert abs(g.magnetisation_amplitude() - want) < 1e-8, k
+    big = Chygraph([2], [1000.0], regular=True).magnetisation_amplitude()
+    assert abs(big - np.sqrt(3)) < 2e-3, big
+    print(f'  k-regular graph: A = k/(k-1) sqrt(3(k-1)/T_c), '
+          f'-> sqrt(3) = {np.sqrt(3):.4f} (got {big:.4f} at k = 1000)   OK')
+    # against the Wolff simulations, which use no cavity equation
+    worst = 0.0
+    for (name, cards, deg), key in zip(PAIR, ('links', 'triangles')):
+        g = Chygraph(cards, deg, regular=True)
+        for T, _, m12 in MC_M[key]:
+            th = g.magnetisation(1.0 / T)
+            worst = max(worst, abs(m12 - th) / th)
+    print(f'  Monte Carlo agrees over the whole ordered side, worst '
+          f'{100*worst:.2f}%   OK')
+    # clustering lowers T_c and raises both amplitudes
+    gr = Chygraph([2], [4.0], regular=True)
+    tr = Chygraph([3], [2.0], regular=True)
+    assert tr.critical_temperature() < gr.critical_temperature()
+    assert tr.magnetisation_amplitude() > gr.magnetisation_amplitude()
+    assert tr.susceptibility_amplitude() > gr.susceptibility_amplitude()
+    print(f'  clustering: T_c {100*(tr.critical_temperature()/gr.critical_temperature()-1):+.1f}%, '
+          f'A {100*(tr.magnetisation_amplitude()/gr.magnetisation_amplitude()-1):+.1f}%, '
+          f'C {100*(tr.susceptibility_amplitude()/gr.susceptibility_amplitude()-1):+.1f}%')
+
+
+def check_amplitude_null():
+    """Sec. 9.5's table: the matched null of Sec. 9.4, one degree per row.
+
+    An n-regular graph against n/2 triangles per vertex.  Both are regular
+    chygraphs, so the closure applies to both; the intermediate members of
+    Fig. 9.3's family are mixtures and it does not.
+    """
+    print('   n      A links    A triangles   change      C links   C triangles'
+          '   change')
+    for n in (4, 6, 8, 10, 20):
+        g = Chygraph([2], [float(n)], regular=True)
+        t = Chygraph([3], [n / 2.0], regular=True)
+        AL, AT = g.magnetisation_amplitude(), t.magnetisation_amplitude()
+        CL, CT = g.susceptibility_amplitude(), t.susceptibility_amplitude()
+        assert AT > AL and CT > CL, n
+        assert t.critical_temperature() < g.critical_temperature(), n
+        print(f'  {n:>2}   {AL:9.4f}   {AT:10.4f}   {100*(AT/AL-1):+6.1f}%   '
+              f'{CL:9.4f}   {CT:10.4f}   {100*(CT/CL-1):+6.1f}%')
+    # both effects die with degree, as the T_c shift does
+    for name, f_ in (('A', lambda x: x.magnetisation_amplitude()),
+                     ('C', lambda x: x.susceptibility_amplitude())):
+        gaps = [f_(Chygraph([3], [n / 2.0], regular=True))
+                / f_(Chygraph([2], [float(n)], regular=True)) - 1
+                for n in (4, 6, 8, 10, 20)]
+        assert all(b < a for a, b in zip(gaps, gaps[1:])), (name, gaps)
+    print('  both gaps shrink monotonically with degree, as the T_c gap does'
+          '   OK')
+    # the closure is refused where it does not apply
+    for bad in (lambda: Chygraph([2], [3.5], regular=True).magnetisation(0.4),
+                lambda: Chygraph([2], [2.0], regular=True).magnetisation_amplitude()):
+        try:
+            bad()
+        except ValueError:
+            continue
+        raise AssertionError('the closure should have refused this structure')
+    print('  a fractional chy-degree and a two-regular graph are both refused'
+          '   OK')
+
+
+def figure_magnetisation():
+    plt = _mpl()
+    fig, axes = plt.subplots(1, 2, figsize=(4.6, 2.5))
+    styles = ((DARK, 'o'), (MID, 's'))
+
+    ax = axes[0]
+    for (name, cards, deg), (col, mk), key in zip(PAIR, styles,
+                                                  ('links', 'triangles')):
+        g = Chygraph(cards, deg, regular=True)
+        Tc, A = g.critical_temperature(), g.magnetisation_amplitude()
+        T = np.linspace(0.35 * Tc, Tc, 220)
+        ax.plot(T, [g.magnetisation(1.0 / x) for x in T], '-', lw=1.4,
+                color=col, label=name.replace(' per vertex', ''))
+        near = np.linspace(0.92 * Tc, Tc, 60)
+        ax.plot(near, A * np.sqrt(1 - near / Tc), ':', lw=1.0, color=col,
+                clip_on=True)
+        ax.plot([r[0] for r in MC_M[key]], [r[2] for r in MC_M[key]], mk,
+                ms=3.6, color=col, mfc='white', mew=0.9)
+    ax.set_xlabel(r'$T$', fontsize=8.5)
+    ax.set_ylabel(r'magnetisation $m$', fontsize=8.5)
+    ax.set_ylim(0, 1.06)
+    ax.set_xlim(0.9, 3.05)
+    ax.text(0.95, 0.30, 'open symbols:\nMonte Carlo', fontsize=6.5,
+            color='0.25')
+    ax.legend(frameon=False, fontsize=7, loc='lower left')
+    _tidy(ax)
+
+    ax = axes[1]
+    for (name, cards, deg), (col, _) in zip(PAIR, styles):
+        g = Chygraph(cards, deg, regular=True)
+        Tc = g.critical_temperature()
+        T = np.linspace(Tc * 1.004, 2.1 * Tc, 300)
+        ax.plot(T / Tc, [g.susceptibility(1.0 / x) for x in T], '-', lw=1.4,
+                color=col)
+        C = g.susceptibility_amplitude()
+        near = np.linspace(Tc * 1.004, Tc * 1.18, 60)
+        ax.plot(near / Tc, C / (near / Tc - 1), ':', lw=1.0, color=col)
+    ax.set_yscale('log')
+    ax.set_xlim(1.0, 2.1)
+    ax.set_xlabel(r'$T/T_{c}$', fontsize=8.5)
+    ax.set_ylabel(r'susceptibility $\chi$', fontsize=8.5)
+    _tidy(ax)
+
+    fig.tight_layout()
+    fig.savefig(OUT / 'fig-magnetisation.pdf')
+    print(f'  wrote {OUT / "fig-magnetisation.pdf"}')
 
 
 # --------------------------------------------------------------- (3) the AT line
@@ -471,6 +651,12 @@ if __name__ == '__main__':
     check_clustering()
     print('the comparison that misleads:')
     check_misleading_comparison()
+    print('the magnetisation:')
+    check_magnetisation()
+    print('the susceptibility:')
+    check_susceptibility()
+    print('what clustering does to the amplitudes:')
+    check_amplitude_null()
     print('the de Almeida-Thouless line:')
     check_at_line()
     print('the unanimity interaction:')
@@ -484,4 +670,5 @@ if __name__ == '__main__':
     print('figures:')
     figure_transmission()
     figure_clustering()
+    figure_magnetisation()
     figure_unanimity()

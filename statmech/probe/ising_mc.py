@@ -136,6 +136,31 @@ def run(kind, label, sizes, temps, nsweep=1600):
     return table
 
 
+def run_magnetisation(kind, label, sizes, temps, nsweep=1600):
+    """<m^2>^{1/2} against temperature, for the order-parameter curve.
+
+    The same Wolff runs as :func:`run`, keeping the second return of
+    :func:`binder` rather than the first.  Below T_c this converges to the
+    magnetisation as n grows; above it, it decays as n^{-1/2} rather than
+    vanishing, so only the ordered side is quoted.
+    """
+    print(f"\n{label}")
+    print(f"{'T':>7}" + "".join(f"{('m n=%d' % n):>12}" for n in sizes))
+    for T in temps:
+        row = f"{T:>7.3f}"
+        for n in sizes:
+            ms = []
+            for s in range(SEEDS):
+                rng = np.random.default_rng(1000 * s + n)
+                a, b = (regular_graph(n, 4, rng) if kind == 'links'
+                        else triangle_network(n, 2, rng))
+                ip, idx = csr(n, a, b)
+                _, m = binder(ip, idx, n, T, nsweep, 7 * s + 13)
+                ms.append(m)
+            row += f"{np.mean(ms):>9.4f}\u00b1{np.std(ms)/np.sqrt(SEEDS):.3f}"
+        print(row, flush=True)
+
+
 if __name__ == '__main__':
     # n must be divisible by 3 so that 2n stubs make whole triangles
     sizes = (3000, 12000)
@@ -145,3 +170,8 @@ if __name__ == '__main__':
         (2.60, 2.75, 2.85, 2.89, 2.95, 3.10))
     run('tri', 'triangles (two per node, degree 4)', sizes,
         (2.20, 2.35, 2.45, 2.49, 2.55, 2.70))
+    print("\nOrder parameter on the ordered side, for Sec. 9.5.")
+    run_magnetisation('links', 'links (4-regular graph), m(T)', sizes,
+                      (1.20, 1.60, 2.00, 2.30, 2.55, 2.70))
+    run_magnetisation('tri', 'triangles (two per node), m(T)', sizes,
+                      (1.00, 1.40, 1.75, 2.00, 2.20, 2.35))

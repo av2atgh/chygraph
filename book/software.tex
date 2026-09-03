@@ -169,6 +169,11 @@ Eq. & what it is & evaluated by & checked in\\
 \eqref{eq:uclique} & $u'$ for $c=2,3,4$ & \code{ising.\allowbreak clique\_\allowbreak derivative} & \code{test\_\allowbreak derivations}\\
 \eqref{eq:tcgraph} & the graph $T_{c}$ & \code{api.\allowbreak Chygraph.\allowbreak critical\_\allowbreak coupling} & \code{test\_\allowbreak ising}\\
 \eqref{eq:mc} & Monte Carlo $T_{c}$ & \code{statmech/\allowbreak probe/\allowbreak ising\_\allowbreak mc.\allowbreak py} & --- (simulation)\\
+\eqref{eq:magclosure} & the magnetisation, regular chygraph & \code{api.\allowbreak Chygraph.\allowbreak magnetisation} & \code{test\_\allowbreak ising}\\
+\eqref{eq:a1a3} & the interior cumulants $a_{1}$, $a_{3}$ & \code{ising.\allowbreak interior\_\allowbreak cumulants} & \code{test\_\allowbreak ising}\\
+\eqref{eq:magamp} & its critical amplitude & \code{api.\allowbreak Chygraph.\allowbreak magnetisation\_\allowbreak amplitude} & \code{test\_\allowbreak ising}\\
+\eqref{eq:chi} & the susceptibility & \code{api.\allowbreak Chygraph.\allowbreak susceptibility} & \code{test\_\allowbreak ising}\\
+\eqref{eq:chiamp} & its critical amplitude & \code{api.\allowbreak Chygraph.\allowbreak susceptibility\_\allowbreak amplitude} & \code{test\_\allowbreak ising}\\
 \eqref{eq:simH} & the unanimity rule & \code{simplicial.\allowbreak emitted} & \code{test\_\allowbreak simplicial}\\
 \eqref{eq:BW} & its infinite-connectivity limit & \code{simplicial.\allowbreak SimplicialChygraph.\allowbreak spinodal} & \code{test\_\allowbreak derivations}\\
 \eqref{eq:Cq} & the residual $C_{q}$ & \code{simplicial.\allowbreak SimplicialChygraph.\allowbreak spinodal} & \code{figs/\allowbreak ising.\allowbreak py}\\
@@ -314,7 +319,7 @@ directory and prints the checks it performs, so
 \begin{quote}
 \code{python figs/\allowbreak ising.\allowbreak py}
 \end{quote}
-regenerates Chapter~\ref{ch:ising}'s three figures and reports, among other
+regenerates Chapter~\ref{ch:ising}'s four figures and reports, among other
 things, that $u'$ agrees with its closed form, that $T_{c}$ falls monotonically
 with clustering at every degree, and where the unanimity transition stops being
 continuous. The build then picks up the new PDFs with no further intervention.
