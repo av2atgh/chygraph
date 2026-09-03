@@ -207,7 +207,7 @@ the diagnostic is the fraction of intersecting clique pairs that share two or
 more atoms. Call it $\mathrm{shared}_{2+}$. It is zero for a treelike chygraph
 and one for a family in which every intersection is an edge or larger.
 
-Table~\ref{tab:real} and Figure~\ref{fig:realoverlap} report both for ten real
+Table~\ref{tab:real} and Fig.~\ref{fig:realoverlap} report both for ten real
 networks --- eight protein interaction datasets, a power grid and a road network
 --- each carried alongside its degree-matched configuration model, which
 rewires everything at fixed degree sequence. (Whether that destroys the
@@ -264,9 +264,9 @@ purification recovers a group of proteins together, and the public network
 records that group by joining all pairs within it. The graph is a union of
 cliques, one per purification, and it is a union of \emph{overlapping} cliques
 because proteins belong to several complexes. So the dataset was on route (a) of
-Figure~\ref{fig:tworoutes}, and somebody flattened it onto route (b). Trying to
+Fig.~\ref{fig:tworoutes}, and somebody flattened it onto route (b). Trying to
 recover the groups by clique promotion is an attempt to invert that flattening,
-and Figure~\ref{fig:realoverlap}b shows what comes back: a cardinality
+and Fig.~\ref{fig:realoverlap}b shows what comes back: a cardinality
 distribution running to $33$ with no characteristic size, because the maximal
 cliques of a union of overlapping cliques are not the original groups but every
 combination the overlaps permit.
@@ -280,7 +280,7 @@ destroyed before the file was written.
 \paragraph{The control is not always the cleaner object.} Destroying the
 clustering might be expected only to reduce the overlap, so that the
 configuration model would always sit below the real network in
-Figure~\ref{fig:realoverlap}a. In four of the ten it sits \emph{above}. For the
+Fig.~\ref{fig:realoverlap}a. In four of the ten it sits \emph{above}. For the
 Figeys human interactome the control's $\mathrm{shared}_{2+}$ is $0.155$ against
 the real network's $0.022$, a factor of seven the wrong way, and its $\bar s$ is
 $2.37$ against $1.21$.
@@ -450,7 +450,7 @@ A closing note on what this chapter does not contain. Every empirical number in
 it is measured on a \emph{graph} --- ten real ones and one synthetic family ---
 and on the chygraphs recovered from them by promotion. None is measured on a
 dataset that came with its groups intact. The publications chygraph of
-Figure~\ref{fig:publications} is drawn and not measured; so are the reaction and
+Fig.~\ref{fig:publications} is drawn and not measured; so are the reaction and
 project constructions of Sec.~\ref{sec:systems}. Building those objects from
 real records, measuring their layer structure and the correlations between
 layers, and running the machinery of the following chapters on them, is the most
