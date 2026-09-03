@@ -3,6 +3,9 @@
   fig-exchange   the two Perron roots leaving 1 in opposite directions at the
                  same rate: the trivial fixed point loses stability exactly
                  where the non-trivial one gains it.
+  fig-response   the order parameter and the response for one clique layer at
+                 three cardinalities, all at six neighbours per node, so that
+                 only the interior differs
 
 Everything else here is a check.  Chapter 8's other figure, the two steps, is
 TikZ in `statmech.tex`.
@@ -219,6 +222,119 @@ def figure_exchange():
     print(f'  wrote {OUT / "fig-exchange.pdf"}')
 
 
+# --------------------------------------- (6) the order parameter and the response
+# One clique layer, cardinality c at chy-degree kappa, with kappa (c-1) = 6 held
+# fixed.  Every member has six neighbours and the same degree distribution; the
+# only thing that changes down the family is what is inside a complex.
+FAMILY = ((2, 6.0), (3, 3.0), (4, 2.0))
+
+
+def check_response():
+    """chi and m for an arbitrary interior, and what each of them requires."""
+    print('   c  kappa      T_c       A_m     A_chi')
+    prev = None
+    for c, k in FAMILY:
+        g = Chygraph([c], [k], regular=True)
+        Tc, Am, Ax = (g.critical_temperature(), g.magnetisation_amplitude(),
+                      g.susceptibility_amplitude())
+        if prev is not None:
+            assert Tc < prev[0] and Am > prev[1] and Ax > prev[2], c
+        prev = (Tc, Am, Ax)
+        print(f'  {c:>2}  {k:>5.1f}  {Tc:8.4f}  {Am:8.4f}  {Ax:8.4f}')
+    print('  at fixed neighbours per node, cardinality lowers T_c and raises')
+    print('  both amplitudes   OK')
+    # gamma = 1 and beta = 1/2, on every member
+    for c, k in FAMILY:
+        g = Chygraph([c], [k], regular=True)
+        Tc, Am, Ax = (g.critical_temperature(), g.magnetisation_amplitude(),
+                      g.susceptibility_amplitude())
+        assert abs(g.susceptibility(1.0 / (Tc * (1 + 1e-5))) * 1e-5
+                   - Ax) / Ax < 1e-3, c
+        assert abs(g.magnetisation(1.0 / (Tc * (1 - 1e-7))) / np.sqrt(1e-7)
+                   - Am) / Am < 1e-3, c
+    print('  chi (T/T_c-1) -> A_chi and m/sqrt(1-T/T_c) -> A_m on all three'
+          '   OK')
+
+
+def check_response_is_general():
+    """The susceptibility takes a cardinality distribution; the closure does not.
+
+    Same three ways as `check_size_biased`, one order up: a mixed layer must
+    agree with the same layer split into one layer per cardinality, and must
+    disagree with the mean-cardinality substitution.  The scalar closure of the
+    magnetisation refuses the mixed layer instead of returning a number for it.
+    """
+    mixed = Chygraph([{3: 0.5, 5: 0.5}], [4.0])
+    split = Chygraph([3, 5], [4.0 * 3 * 0.5 / 4.0, 4.0 * 5 * 0.5 / 4.0])
+    naive = Chygraph([4], [4.0])
+    bJ = mixed.critical_coupling()
+    for frac in (1.1, 1.5, 2.5):
+        a, b = (m.susceptibility(bJ / frac) for m in (mixed, split))
+        assert abs(a - b) < 1e-9 * max(1.0, a), (frac, a, b)
+    n = naive.susceptibility(bJ / 1.5)
+    m_ = mixed.susceptibility(bJ / 1.5)
+    print(f'  chi at 1.5 T_c: mixed layer {m_:.6f}, split {split.susceptibility(bJ/1.5):.6f}'
+          f' (identical), mean c = 4 {n:.6f}')
+    print(f'    the mean-cardinality substitution is wrong by '
+          f'{100 * abs(n - m_) / m_:.1f}%')
+    assert abs(n - m_) / m_ > 0.05
+    for bad in (lambda: mixed.magnetisation(0.1),
+                lambda: Chygraph([3], [2.5], regular=True).magnetisation(0.1)):
+        try:
+            bad()
+        except (NotImplementedError, ValueError):
+            continue
+        raise AssertionError('the closure should have refused this structure')
+    print('  a mixed layer and a fractional chy-degree are both refused for m'
+          '   OK')
+
+
+def figure_response():
+    plt = _mpl()
+    fig, axes = plt.subplots(1, 2, figsize=(4.6, 2.5))
+    cols = (LIGHT, MID, DARK)
+
+    # left in absolute temperature, so the T_c shift is visible alongside the
+    # shape; right in reduced temperature, so the amplitudes are comparable
+    ax = axes[0]
+    for (c, k), col in zip(FAMILY, cols):
+        g = Chygraph([c], [k], regular=True)
+        Tc = g.critical_temperature()
+        T = np.linspace(0.3 * Tc, Tc, 200)
+        ax.plot(T, [g.magnetisation(1.0 / x) for x in T], '-', lw=1.4,
+                color=col, label=f'$c={c}$, $\\kappa={k:.0f}$')
+        near = np.linspace(0.93 * Tc, Tc, 50)
+        A = g.magnetisation_amplitude()
+        ax.plot(near, A * np.sqrt(1 - near / Tc), ':', lw=1.0, color=col)
+        ax.plot([Tc], [0.0], 'v', ms=3.2, color=col, clip_on=False)
+    ax.set_xlabel(r'$T$', fontsize=8.5)
+    ax.set_ylabel(r'magnetisation $m$', fontsize=8.5)
+    ax.set_ylim(0, 1.06)
+    ax.set_xlim(1.3, 5.2)
+    ax.legend(frameon=False, fontsize=7, loc='lower left')
+    _tidy(ax)
+
+    ax = axes[1]
+    for (c, k), col in zip(FAMILY, cols):
+        g = Chygraph([c], [k], regular=True)
+        Tc = g.critical_temperature()
+        x = np.linspace(1.004, 2.1, 300)
+        ax.plot(x, [g.susceptibility(1.0 / (Tc * t)) for t in x], '-', lw=1.4,
+                color=col)
+        near = np.linspace(1.004, 1.18, 50)
+        A = g.susceptibility_amplitude()
+        ax.plot(near, A / (near - 1), ':', lw=1.0, color=col)
+    ax.set_yscale('log')
+    ax.set_xlim(1.0, 2.1)
+    ax.set_xlabel(r'$T/T_{c}$', fontsize=8.5)
+    ax.set_ylabel(r'susceptibility $\chi$', fontsize=8.5)
+    _tidy(ax)
+
+    fig.tight_layout()
+    fig.savefig(OUT / 'fig-response.pdf')
+    print(f'  wrote {OUT / "fig-response.pdf"}')
+
+
 if __name__ == '__main__':
     print("Chapter 7's tau at q = 2 against Chapter 8's u':")
     check_uprime_is_tau()
@@ -230,5 +346,9 @@ if __name__ == '__main__':
     check_free_energy()
     print('the exchange of stability:')
     check_exchange()
-    print('figure:')
+    print('the order parameter and the response:')
+    check_response()
+    check_response_is_general()
+    print('figures:')
     figure_exchange()
+    figure_response()

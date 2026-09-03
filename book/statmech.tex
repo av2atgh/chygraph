@@ -525,6 +525,201 @@ the treelike case. Where complexes overlap, the counting and the free energy are
 wrong in the same way, which is why Chapter~\ref{ch:overlap} can diagnose the
 failure rather than merely observe it.
 
+\section{The order parameter and the response}
+\label{sec:response}
+\index{magnetisation|textbf}
+\index{susceptibility|textbf}
+\index{critical amplitude}
+\index{critical exponents}
+
+Section~\ref{sec:branching} linearises the map and gives the transition.
+Section~\ref{sec:freeenergy} gives the free energy. Differentiating that free
+energy with respect to the external field $\mu$ of Eq.~\eqref{eq:up} gives the
+two observables either side of the transition --- how large the order parameter
+is below, how strongly the system answers a field above --- and neither step
+uses what is inside a complex. So both are done here, once, and
+Chapter~\ref{ch:ising} substitutes an interaction into them as it substitutes
+one into Eq.~\eqref{eq:branch}.
+
+\paragraph{The one-site partition function.} Take the definitions from $Z$, as
+usual:
+\begin{equation}
+  m=\frac{1}{N}\frac{\partial\ln Z}{\partial(\beta\mu)}
+   =-\frac{\partial f}{\partial\mu},
+  \qquad
+  \chi=\frac{\partial m}{\partial\mu}
+      =-\frac{\partial^{2}f}{\partial\mu^{2}}.
+  \label{eq:mfromZ}
+\end{equation}
+The object to differentiate is already in Eq.~\eqref{eq:bethe}. Cut one complex
+out of the chygraph. On a treelike object the complexes that include it are
+then independent, so each contributes the factor $e^{u_{b\to i}\sigma_{i}}$ it
+emits, the external field contributes $e^{\mu\sigma_{i}}$, and
+\begin{equation}
+  Z_{i}=\sum_{\sigma=\pm1}e^{H_{i}\sigma}=2\cosh H_{i},
+  \qquad
+  H_{i}=\mu+\sum_{b\ni i}u_{b\to i}.
+  \label{eq:Zi}
+\end{equation}
+This is Eq.~\eqref{eq:up} with nothing excluded, because nothing is being
+passed onward: $H_{i}$ is the \emph{full} field where $h_{i\to a}$ is the cavity
+field, and the difference between them is one term. Since the Bethe free energy
+is stationary in the messages, differentiating Eq.~\eqref{eq:bethe} in $\mu$
+picks up only this explicit dependence, and Eq.~\eqref{eq:mfromZ} gives
+$m_{i}=\partial\ln Z_{i}/\partial\mu=\tanh H_{i}$.
+
+Over an ensemble the substitution of Sec.~\ref{sec:substitution} applies to
+$H$ as it applied to $h$. The law of the full field at a layer-$l$ complex is
+Eq.~\eqref{eq:ensemblemap} with the \emph{ordinary} chy-degree in place of the
+excess, since no inclusion is being discounted, so
+\begin{equation}
+  R^{l}=\delta_{\mu}\ast\Bigl(\ast_{k}\,\Phi^{l}_{k}\!\ast\,Q^{lk}\Bigr),
+  \qquad
+  m_{l}=\int\tanh(H)\,\mathrm{d}R^{l}(H).
+  \label{eq:orderparam}
+\end{equation}
+The order parameter is one more convolution and not a new object. Everything
+below is Eq.~\eqref{eq:orderparam} evaluated: at $\mu=0$ below the transition,
+and differentiated once more at $\mu\to0$ above it.
+
+\paragraph{The response.} Above the transition every message is $O(\mu)$, so
+the down step is its linearisation Eq.~\eqref{eq:uprime} and the up step
+Eq.~\eqref{eq:up} adds the field at the complex. Write $\hat\chi_{m}$ for the
+mean cavity field sent into a layer-$m$ complex, divided by $\mu$. A complex
+reached through a layer-$m$ inclusion still belongs to $\ave{\kbar}_{m}$ further
+layer-$m$ complexes and $\ave{\kappa}_{l}$ layer-$l$ complexes for $l\ne m$,
+each of which delivers $\ave{\sbar u'}_{l}$ per unit field --- which is
+Eq.~\eqref{eq:branch} entry by entry. So
+\begin{equation}
+  \hat\chi_{m}=1+\sum_{l}B_{ml}\,\hat\chi_{l}.
+  \label{eq:chicav}
+\end{equation}
+By Eq.~\eqref{eq:Zi} the full field counts the ordinary chy-degree instead of
+the excess, and $m\simeq\ave{H}$ at small field, so Eq.~\eqref{eq:mfromZ} gives
+\begin{equation}
+  \chi=1+\sum_{l}w_{l}\,\hat\chi_{l},
+  \qquad
+  w_{l}=\ave{\kappa}_{l}\ave{\sbar u'}_{l}.
+  \label{eq:chi}
+\end{equation}
+Equation~\eqref{eq:chicav} is $\hat\chi=(I-B)^{-1}\mathbf{1}$, so $\chi$
+diverges exactly where $\det(I-B)$ vanishes --- which is Eq.~\eqref{eq:det}.
+The condition that locates the transition and the divergence of the response
+are one statement, and neither had to be assumed of the other.
+
+Equation~\eqref{eq:chi} is general in everything Eq.~\eqref{eq:branch} is
+general in, and for the same reason: only the linearisation entered it. Any
+interaction inside a complex, through $u'$ alone; any distribution of
+cardinalities within a layer, through the size-biased $\ave{\sbar u'}_{l}$ of
+Eq.~\eqref{eq:sbaru}; any chy-degree distribution; any number of layers. The
+size-biasing is not decoration here either. For the $3$-and-$5$ layer of
+Sec.~\ref{sec:branching}, splitting it into one layer per cardinality returns
+the same $\chi$ to machine precision and substituting its mean cardinality does
+not, by $14.6$ per cent at $1.5\,T_{c}$ --- the same failure that moved
+$T_{c}$ by $10.1$ per cent there.
+
+Since $\det(I-B)$ vanishes linearly in $T-T_{c}$ for any interior that can be
+enumerated, the exponent is $\gamma=1$:
+\begin{equation}
+  \chi\simeq\frac{A_{\chi}}{T/T_{c}-1},
+  \qquad
+  A_{\chi}=\frac{(w\cdot r)(\ell\cdot\mathbf{1})}
+                {T_{c}\,\bigl|\mathrm{d}\lambda/\mathrm{d}T\bigr|_{T_{c}}},
+  \label{eq:chiamp}
+\end{equation}
+with $\lambda$ the Perron root of $B$ and $r$, $\ell$ its right and left Perron
+vectors normalised so that $\ell\cdot r=1$ --- the same vectors
+Sec.~\ref{sec:amplitude} needed for percolation, doing the same job.
+
+\paragraph{The order parameter, and where it closes.} Below the transition the
+response is not the question and the shape of $R^{l}$ is. In general it has to
+be carried, which is the population dynamics of Sec.~\ref{sec:substitution}. It
+collapses to a point mass exactly when every message on a layer is one number,
+and that needs two things: a whole-number chy-degree, so that every complex of
+a layer has the same number of neighbours, and one cardinality per layer, so
+that they all emit the same field. Call such a chygraph \emph{regular}. Writing
+$\bar u_{l}(h)$ for the field a layer-$l$ complex emits when all $c_{l}-1$
+incoming fields equal $h$, Eqs.~\eqref{eq:up} and~\eqref{eq:orderparam} become
+\begin{equation}
+  h_{m}=\mu+\sum_{l}\bigl(\kappa_{l}-\delta_{lm}\bigr)\,\bar u_{l}(h_{l}),
+  \qquad
+  m=\tanh\Bigl(\mu+\sum_{l}\kappa_{l}\,\bar u_{l}(h_{l})\Bigr),
+  \label{eq:magclosure}
+\end{equation}
+$L$ scalars and no population. The Kronecker delta is the excess bracket of
+Sec.~\ref{sec:map} once more, and the difference between the two lines is the
+difference between $h$ and $H$ in Eq.~\eqref{eq:Zi}.
+
+For the amplitude, expand. Whatever the interior, it is odd under a spin flip,
+so $\bar u_{l}(h)=a^{(l)}_{1}h+a^{(l)}_{3}h^{3}+O(h^{5})$, and both
+coefficients are cumulants of one quantity. Writing $S$ for the total spin of
+the other $c-1$ members under the Gibbs weight of the isolated complex with the
+entered member held at $+1$, spin-flip symmetry makes $Z(-1)$ at $h$ equal
+$Z(+1)$ at $-h$, so with $g$ the cumulant generating function of $S$ the emitted
+field is $\bar u(h)=[g(h)-g(-h)]/2$ and
+\begin{equation}
+  a_{1}=\ave{S},
+  \qquad
+  a_{3}=\tfrac{1}{6}\,\kappa_{3}(S).
+  \label{eq:a1a3}
+\end{equation}
+The first is $\ave{\sbar u'}$, the transmission Eq.~\eqref{eq:branch} already
+needs, so the amplitude costs one further odd cumulant of a sum that has been
+computed anyway --- which is the same accounting Chapter~\ref{ch:giant} found
+for percolation, where the threshold took first moments and the amplitude took
+one order more.
+
+Putting $h=\epsilon r$ along the Perron direction and projecting on $\ell$
+annihilates the linear term and leaves $\epsilon^{2}=(\lambda-1)/D$ with
+$D=-\sum_{ml}\ell_{m}(\kappa_{l}-\delta_{lm})a^{(l)}_{3}r_{l}^{3}$, positive
+whenever the interior saturates. Since $m\simeq(w\cdot r)\,\epsilon$ and
+$\lambda-1$ vanishes linearly in $T_{c}-T$, the exponent is $\beta=1/2$ and
+\begin{equation}
+  m\simeq A_{m}\bigl(1-T/T_{c}\bigr)^{1/2},
+  \qquad
+  A_{m}=(w\cdot r)\sqrt{
+    \frac{T_{c}\,\bigl|\mathrm{d}\lambda/\mathrm{d}T\bigr|_{T_{c}}}{D}}.
+  \label{eq:magamp}
+\end{equation}
+Both amplitudes are built from the same Perron data; the response needs
+$\lambda$ and its slope, and the order parameter needs $a_{3}$ as well.
+
+\paragraph{One layer, three interiors.} Figure~\ref{fig:response} is the pair
+of them over a family in which the interior is the only thing that moves: one
+clique layer of cardinality $c$ at chy-degree $\kappa$, with $\kappa(c-1)=6$
+held fixed, so that every member has six neighbours and the same degree
+distribution whatever $c$ is. Raising the cardinality lowers $T_{c}$ ---
+$4.9326$, $4.7209$, $4.4044$ --- and raises both amplitudes, $A_{m}$ from
+$2.0926$ to $2.4869$ and $A_{\chi}$ from $1.2332$ to $1.5862$.
+Chapter~\ref{ch:ising} reads the first two members of that family as a
+statement about clustering and measures what they cost against a Monte Carlo;
+here they are three substitutions into Eqs.~\eqref{eq:chi}
+and~\eqref{eq:magclosure} with nothing else changed.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig-response.pdf}
+\caption{\textbf{One formula, three interiors.} A single clique layer of
+cardinality $c$ at chy-degree $\kappa$, with $\kappa(c-1)=6$ held fixed, so
+every member has six neighbours either way and only what is inside a complex
+differs. Left: the order parameter from Eq.~\eqref{eq:magclosure} in absolute
+temperature, with the square-root asymptote Eq.~\eqref{eq:magamp} dotted and
+each $T_{c}$ marked; it falls as the cardinality rises. Right: the response
+from Eq.~\eqref{eq:chi} against reduced temperature, with the $\gamma=1$
+asymptote Eq.~\eqref{eq:chiamp} dotted. Generated by
+\code{figs/\allowbreak statmech.\allowbreak py}.}
+\label{fig:response}
+\end{figure}
+
+\paragraph{What each of the two requires.} They are not equally general, and
+the difference is the shape of the measure. Equation~\eqref{eq:chi} needs only
+the linearisation, so it holds wherever Eq.~\eqref{eq:branch} does.
+Equation~\eqref{eq:magclosure} needs the measure to be a point mass, so a
+Poisson chy-degree, a fractional one, or a layer mixing cardinalities all leave
+it: those carry a distribution of fields, the mean cardinality is not a summary
+of one, and the route is the population. \code{Chygraph.\allowbreak
+magnetisation} refuses such a structure rather than returning a number for it.
+
 \section{One step of replica symmetry breaking}
 \label{sec:onestep}
 \index{replica symmetry breaking!one-step, on a chygraph|textbf}
@@ -703,7 +898,24 @@ of a formula.
 
 \checkhead{New results}
 Nothing else in this chapter has appeared elsewhere, so the checks are against
-independent evaluations of the same object. That $u'$ is
+independent evaluations of the same object.
+Section~\ref{sec:response}'s two observables are checked as limits rather than
+at a point: $m/(1-T/T_{c})^{1/2}$ against $A_{m}$ and $\chi\,(T/T_{c}-1)$
+against $A_{\chi}$, over three decades of reduced temperature and on five
+structures, agreeing to a part in a thousand at the closest, so the exponents
+$\beta=1/2$ and $\gamma=1$ are measured rather than asserted. That $1/\chi$
+vanishes exactly where $\det(I-B)$ does is checked on four layer lists rather
+than argued from Eq.~\eqref{eq:chicav}. Equation~\eqref{eq:mfromZ} asserts one
+thing the derivation does not enforce, that the response is the field
+derivative of the order parameter, and it is checked directly: the closed form
+Eq.~\eqref{eq:chi} against a finite difference of Eq.~\eqref{eq:magclosure} in
+the field, on four structures at three temperatures each, agreeing to five
+digits --- the accuracy of the difference and not of either expression.
+Equation~\eqref{eq:chi} is checked to be general in the cardinality
+distribution by the two routes Eq.~\eqref{eq:sbaru} is: a mixed layer against
+the same layer split into one layer per cardinality, agreeing to machine
+precision at three temperatures, and against the mean-cardinality substitution,
+which must not agree and does not, by $14.6$ per cent. That $u'$ is
 Chapter~\ref{ch:potts}'s $\tau_{c}$ is checked directly: the symbolic
 $q$-derivative of Sec.~\ref{sec:transmission}, evaluated at $q=2$ and rewritten
 in $t=\tanh\beta J$, agrees with the independent enumeration behind
@@ -723,6 +935,17 @@ the difference between demonstrating an order and quoting a number that happens
 to be small.
 
 \checkhead{Partial results}
+Equation~\eqref{eq:magclosure} holds only where the message measure is a point
+mass, which needs a whole-number chy-degree and one cardinality per layer.
+Everything else --- a Poisson layer, a fractional chy-degree, a layer mixing
+cardinalities --- carries a distribution of fields and needs the population,
+which is a sample and not a closed form; the routine refuses such a structure
+rather than returning a number for it. Equation~\eqref{eq:chi} has no such
+restriction, so the two are not equally general and the section says which is
+which. Nothing in Sec.~\ref{sec:response} is tested against a simulation
+here: Chapter~\ref{ch:ising} does that, on the two structures where the
+closure applies and against a Monte Carlo that has never heard of a cavity
+equation.
 Agreements reported to eight, ten or twelve digits are between two evaluations
 of the \emph{same} analytic object, and establish that the implementation is
 faithful rather than that the physics is right. Nothing in this chapter is

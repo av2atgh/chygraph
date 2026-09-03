@@ -162,6 +162,30 @@ class Chygraph:
     # Sec. IV: the Ising model
     # ======================================================================
 
+    def _require_point_mass(self):
+        """The scalar closure needs every message on a layer to be one number.
+
+        That needs two things, and a mixed cardinality breaks the second even
+        when the chy-degree is regular: complexes of different size in one layer
+        emit different fields, so the layer carries a distribution and the mean
+        cardinality is not a summary of it -- which is Eq. (8.8)'s point.
+        """
+        if not self.regular:
+            raise NotImplementedError(
+                "the scalar closure is exact only for a regular chygraph; "
+                "use population(beta_J).run().magnetisation()")
+        if np.any(np.abs(self.k - np.rint(self.k)) > 1e-12):
+            raise NotImplementedError(
+                "a regular chygraph needs whole-number chy-degrees; a "
+                "fractional one is a mixture, whose messages carry a "
+                "distribution")
+        if any(len(d) > 1 for d in self.cdist):
+            raise NotImplementedError(
+                "a layer with a distribution of cardinalities emits a "
+                "distribution of fields; the scalar closure needs one "
+                "cardinality per layer, or split the layer into one layer per "
+                "cardinality with chy-degrees in the ratio c p_c")
+
     def _u_of_c(self, c, beta_J, interaction):
         if interaction == 'simplicial':
             return _simp.uprime(int(c), beta_J)
@@ -245,19 +269,56 @@ class Chygraph:
         """
         return _stab.StabilityMatrix(k, K, s, S, wkappa=wkappa, ws=ws)
 
-    def susceptibility(self, beta_J):
-        """``chi = dm/dB = -d^2 f/dB^2`` at ``B -> 0``, above the transition.
+    def _response_vector(self, beta_J, interaction='clique'):
+        """``w_l = <kappa>_l <sbar u'>_l``: what a node's layer-``l`` complexes
+        deliver to it per unit field.
 
-        ``1 + w . (I - B)^{-1} 1`` with ``B`` the branching matrix and
-        ``w_l = <kappa>_l <sbar u'>_l``.  Diverges exactly where
-        :meth:`critical_coupling` puts the transition, since both are
-        ``det(I - B) = 0``.  Valid for any chy-degree distribution.
+        The same size-biased ``<sbar u'>`` as :meth:`transmission`, weighted by
+        the ordinary chy-degree rather than the excess, because the full field
+        at a node counts every complex containing it.
         """
-        return _ising.susceptibility(self.c, self.k, beta_J, excess=self.kbar)
+        bj = np.broadcast_to(np.asarray(beta_J, float), (self.L,))
+        return np.array([self.k[m] * self.transmission(m, bj[m], interaction)
+                         for m in range(self.L)])
 
-    def susceptibility_amplitude(self):
-        """``C`` in ``chi ~ C / (T/T_c - 1)``, so ``gamma = 1`` (Sec. IV C)."""
-        return _ising.susceptibility_amplitude(self.c, self.k, excess=self.kbar)
+    def susceptibility(self, beta_J, interaction='clique'):
+        """``chi = dm/dmu = -d^2 f/dmu^2`` at ``mu -> 0``, above the transition.
+
+        ``1 + w . (I - B)^{-1} 1`` with ``B`` the branching matrix of Eq. (8.7)
+        and ``w`` of :meth:`_response_vector`.  Diverges exactly where
+        :meth:`critical_coupling` puts the transition, since both are
+        ``det(I - B) = 0``.
+
+        General in everything the branching matrix is general in: any interior
+        through ``u'``, any cardinality distribution through the size-biased
+        ``<sbar u'>``, any chy-degree distribution, any number of layers.  Only
+        the linearisation enters, so unlike :meth:`magnetisation` it does not
+        need the messages on a layer to be one number.
+        """
+        B = self.branching_matrix(beta_J, interaction)
+        w = self._response_vector(beta_J, interaction)
+        return 1.0 + float(w @ np.linalg.solve(np.eye(self.L) - B,
+                                               np.ones(self.L)))
+
+    def susceptibility_amplitude(self, interaction='clique'):
+        """``A_chi`` in ``chi ~ A_chi / (T/T_c - 1)``, so ``gamma = 1``.
+
+        Near the transition ``(I - B)^{-1}`` is dominated by the Perron
+        projector ``r l^T / (1 - lambda)``, and ``1 - lambda`` vanishes linearly
+        in ``T - T_c`` for any interior that can be enumerated.
+        """
+        Tc = 1.0 / self.critical_coupling(interaction)
+        B = self.branching_matrix(1.0 / Tc, interaction)
+        r, l = _ising._perron_pair(B)
+        w = self._response_vector(1.0 / Tc, interaction)
+
+        def lam(T):
+            return float(np.max(np.abs(np.linalg.eigvals(
+                self.branching_matrix(1.0 / T, interaction)))))
+
+        e = 1e-5 * Tc
+        dldT = abs((lam(Tc + e) - lam(Tc - e)) / (2.0 * e))
+        return float((w @ r) * l.sum() / (Tc * dldT))
 
     def magnetisation(self, beta_J, field=0.0):
         """``m = d ln Z_i / dB``, the first derivative of the free energy.
@@ -267,10 +328,7 @@ class Chygraph:
         distribution and :meth:`population` is the route.  ``field`` is the
         external field of Eq. (9.1), zero by default.
         """
-        if not self.regular:
-            raise NotImplementedError(
-                "the scalar closure is exact only for a regular chygraph; "
-                "use population(beta_J).run().magnetisation()")
+        self._require_point_mass()
         return _ising.magnetisation(self.c, self.k, beta_J, field=field)
 
     def magnetisation_amplitude(self):
@@ -279,9 +337,7 @@ class Chygraph:
         Needs the third Taylor coefficient of the interior sum and nothing else
         the threshold did not already need.
         """
-        if not self.regular:
-            raise NotImplementedError(
-                "the amplitude is derived from the regular scalar closure")
+        self._require_point_mass()
         return _ising.magnetisation_amplitude(self.c, self.k)
 
     def population(self, beta_J, **kw):

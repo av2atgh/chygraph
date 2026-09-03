@@ -163,17 +163,20 @@ Eq. & what it is & evaluated by & checked in\\
 \eqref{eq:exchange} & the exchange of stability & \code{fixedpoint.\allowbreak FixedPointStability} & \code{test\_\allowbreak fixedpoint}\\
 \eqref{eq:bethe} & the Bethe free energy & \code{freeenergy.\allowbreak BetheFreeEnergy} & \code{test\_\allowbreak freeenergy}\\
 \eqref{eq:para} & its paramagnetic closed form & \code{freeenergy.\allowbreak paramagnetic} & \code{test\_\allowbreak freeenergy}\\
+\eqref{eq:magclosure} & the magnetisation, regular chygraph & \code{api.\allowbreak Chygraph.\allowbreak magnetisation} & \code{test\_\allowbreak ising}\\
+\eqref{eq:a1a3} & the interior cumulants $a_{1}$, $a_{3}$ & \code{ising.\allowbreak interior\_\allowbreak cumulants} & \code{test\_\allowbreak ising}\\
+\eqref{eq:magamp} & its critical amplitude & \code{api.\allowbreak Chygraph.\allowbreak magnetisation\_\allowbreak amplitude} & \code{test\_\allowbreak ising}\\
+\eqref{eq:chi} & the susceptibility & \code{api.\allowbreak Chygraph.\allowbreak susceptibility} & \code{test\_\allowbreak ising}\\
+\eqref{eq:chiamp} & its critical amplitude & \code{api.\allowbreak Chygraph.\allowbreak susceptibility\_\allowbreak amplitude} & \code{test\_\allowbreak ising}\\
 \eqref{eq:sigmagen} & the complexity at $m=0$ & \code{figs/\allowbreak colouring.\allowbreak py:\allowbreak \_\allowbreak sv\_\allowbreak sigma} & same file\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:ising}, the Ising model}}\\
 \eqref{eq:Hising} & the Hamiltonian & \code{cavity.\allowbreak ising\_\allowbreak clique} & \code{test\_\allowbreak ising}\\
 \eqref{eq:uclique} & $u'$ for $c=2,3,4$ & \code{ising.\allowbreak clique\_\allowbreak derivative} & \code{test\_\allowbreak derivations}\\
 \eqref{eq:tcgraph} & the graph $T_{c}$ & \code{api.\allowbreak Chygraph.\allowbreak critical\_\allowbreak coupling} & \code{test\_\allowbreak ising}\\
 \eqref{eq:mc} & Monte Carlo $T_{c}$ & \code{statmech/\allowbreak probe/\allowbreak ising\_\allowbreak mc.\allowbreak py} & --- (simulation)\\
-\eqref{eq:magclosure} & the magnetisation, regular chygraph & \code{api.\allowbreak Chygraph.\allowbreak magnetisation} & \code{test\_\allowbreak ising}\\
-\eqref{eq:a1a3} & the interior cumulants $a_{1}$, $a_{3}$ & \code{ising.\allowbreak interior\_\allowbreak cumulants} & \code{test\_\allowbreak ising}\\
-\eqref{eq:magamp} & its critical amplitude & \code{api.\allowbreak Chygraph.\allowbreak magnetisation\_\allowbreak amplitude} & \code{test\_\allowbreak ising}\\
-\eqref{eq:chi} & the susceptibility & \code{api.\allowbreak Chygraph.\allowbreak susceptibility} & \code{test\_\allowbreak ising}\\
-\eqref{eq:chiamp} & its critical amplitude & \code{api.\allowbreak Chygraph.\allowbreak susceptibility\_\allowbreak amplitude} & \code{test\_\allowbreak ising}\\
+\eqref{eq:a3edge} & $a_{3}$ for a bond & \code{ising.\allowbreak interior\_\allowbreak cumulants} & \code{test\_\allowbreak ising}\\
+\eqref{eq:chibethe} & the Bethe-lattice $\chi$ & \code{api.\allowbreak Chygraph.\allowbreak susceptibility} & \code{test\_\allowbreak ising}\\
+\eqref{eq:magampgraph} & the graph amplitude & \code{api.\allowbreak Chygraph.\allowbreak magnetisation\_\allowbreak amplitude} & \code{test\_\allowbreak ising}\\
 \eqref{eq:simH} & the unanimity rule & \code{simplicial.\allowbreak emitted} & \code{test\_\allowbreak simplicial}\\
 \eqref{eq:BW} & its infinite-connectivity limit & \code{simplicial.\allowbreak SimplicialChygraph.\allowbreak spinodal} & \code{test\_\allowbreak derivations}\\
 \eqref{eq:Cq} & the residual $C_{q}$ & \code{simplicial.\allowbreak SimplicialChygraph.\allowbreak spinodal} & \code{figs/\allowbreak ising.\allowbreak py}\\

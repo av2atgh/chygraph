@@ -298,6 +298,29 @@ def test_clustering_raises_the_amplitude_it_lowers_the_temperature():
     assert triangles.susceptibility_amplitude() > graph.susceptibility_amplitude()
 
 
+@pytest.mark.parametrize('frac', [1.1, 1.5, 2.5])
+def test_susceptibility_takes_a_cardinality_distribution(frac):
+    """A mixed layer against the same layer split, and against its mean.
+
+    The two routes of Sec. 8.3, one order up: splitting a mixed-cardinality
+    layer into one layer per cardinality with chy-degrees in the ratio c p_c
+    must give the same chi, and substituting the mean cardinality must not.
+    """
+    mixed = cs.Chygraph([{3: 0.5, 5: 0.5}], [4.0])
+    split = cs.Chygraph([3, 5], [1.5, 2.5])
+    naive = cs.Chygraph([4], [4.0])
+    bJ = mixed.critical_coupling() / frac
+    assert mixed.susceptibility(bJ) == pytest.approx(split.susceptibility(bJ),
+                                                     rel=1e-12)
+    assert abs(naive.susceptibility(bJ) - mixed.susceptibility(bJ)) > 0.05
+
+
+def test_mixed_cardinality_is_refused_for_the_closure():
+    """A layer of two sizes emits two fields, so the closure does not apply."""
+    with pytest.raises(NotImplementedError, match='cardinalit'):
+        cs.Chygraph([{3: 0.5, 5: 0.5}], [4.0], regular=True).magnetisation(0.1)
+
+
 def test_scalar_closure_is_refused_off_the_regular_ensemble():
     g = cs.Chygraph([2], [4.0])
     with pytest.raises(NotImplementedError, match='regular'):

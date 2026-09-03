@@ -220,6 +220,10 @@ def susceptibility(cardinalities, means, beta_J, excess=None):
     threshold condition and the divergence of the response are one statement.
 
     Valid for any chy-degree distribution, since only the linearisation enters.
+    Takes one cardinality per layer, as :func:`branching_matrix` does; for a
+    layer carrying a distribution of cardinalities the size-biased
+    ``<sbar u'>`` is needed and :meth:`statmech.api.Chygraph.susceptibility` is
+    the general form.
     """
     B = branching_matrix(cardinalities, means, beta_J, excess)
     L = B.shape[0]

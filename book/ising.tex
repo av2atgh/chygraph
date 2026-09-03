@@ -12,11 +12,10 @@ and its result here is a sign that goes the other way from the obvious one.
 Clustering \emph{lowers} the critical temperature at fixed degree, and it does
 so even though a triangle transmits \emph{more} per traversal than a link does.
 Both halves hold, and they pull in opposite directions.
-Section~\ref{sec:magnetisation} carries the expansion of
-Sec.~\ref{sec:tc} one order further and takes the two observables either side
-of the transition, the magnetisation and the susceptibility, from the free
-energy; Sec.~\ref{sec:clustering} is then the accounting, on a null model where
-all three quantities are exact. There the two effects come apart: clustering
+Section~\ref{sec:magnetisation} substitutes the same interior into
+Sec.~\ref{sec:response}'s magnetisation and susceptibility, where it closes
+twice against textbook answers; Sec.~\ref{sec:clustering} is then the
+accounting, on a null model where all three quantities are exact. There the two effects come apart: clustering
 costs the transition temperature and buys a steeper rise out of it.
 Section~\ref{sec:isingfive} runs the whole of it over the five structures of
 Fig.~\ref{fig:mappings}, one paragraph each, where the accounting turns out to
@@ -41,12 +40,13 @@ differentiates:
 the first sum over complexes, the second over nodes, and $N$ the number of
 nodes. A complex of cardinality $c$ therefore carries $\binom{c}{2}$ bonds,
 and a graph is the case $c=2$ where each carries one. The external field $B$ is
-zero except in Sec.~\ref{sec:magnetisation}, which differentiates $f$ with
-respect to it; it is written $B$ rather than $h$ because $h$ is the cavity
-field of Eq.~\eqref{eq:up}, the busiest symbol in Part~III, and because
+zero except where Sec.~\ref{sec:response} differentiates $f$ with respect to
+it; it is written $B$ rather than $h$ because $h$ is the cavity field of
+Eq.~\eqref{eq:up}, the busiest symbol in Part~III, and because
 Chapter~\ref{ch:introduction} introduced the field under that letter.
-Where a $B$ carries two layer indices it is the branching matrix of
-Eq.~\eqref{eq:branch} and not a field.
+Chapter~\ref{ch:statmech} writes the same field $\mu$, which is its own
+Eq.~\eqref{eq:up}. Where a $B$ carries two layer indices it is the branching
+matrix of Eq.~\eqref{eq:branch} and not a field.
 
 The Ising model on graph ensembles with prescribed motifs has been treated
 directly \citep{yoon2011}; the point here is that no separate treatment is
@@ -188,180 +188,57 @@ the sum survives.
 
 \section{Magnetisation and susceptibility}
 \label{sec:magnetisation}
-\index{magnetisation|textbf}
-\index{susceptibility|textbf}
+\index{magnetisation}
+\index{susceptibility}
 \index{critical amplitude}
-\index{critical exponents}
 
-Section~\ref{sec:tc} locates the transition and stops there. The two
-observables either side of it --- how large the magnetisation is below, how
-strongly the system answers a field above --- are the first and second
-derivatives of a free energy in that field, and this section takes them. They
-need no new recursion, and the accounting is Chapter~\ref{ch:giant}'s for
-percolation: the threshold needs the first derivative of the interior sum, the
-two critical amplitudes need the third, and the order parameter away from the
-transition needs the whole field distribution.
+Section~\ref{sec:response} took the two observables either side of the
+transition for an arbitrary interior: the order parameter
+Eq.~\eqref{eq:magclosure} and the response Eq.~\eqref{eq:chi}, with the
+exponents $\beta=1/2$ and $\gamma=1$ and the two amplitudes
+Eqs.~\eqref{eq:magamp} and~\eqref{eq:chiamp}. Substituting the Ising interior
+into them is this section, and it costs what substituting into
+Eq.~\eqref{eq:branch} cost in Sec.~\ref{sec:tc}: an enumeration and nothing
+else. The external field written $\mu$ there is the $B$ of
+Eq.~\eqref{eq:Hising} here.
 
-\paragraph{The one-site partition function.} Take the definitions from $Z$, as
-usual. With the field $B$ of Eq.~\eqref{eq:Hising} restored,
+\paragraph{What the interior supplies.} Equation~\eqref{eq:a1a3} asks for two
+cumulants of the interior magnetisation $S$, and for the all-pairs clique they
+are had from the same enumeration as Sec.~\ref{sec:transmits}. The first is
+$a_{1}=(c-1)u'$ with $u'$ of Eq.~\eqref{eq:uclique}, so nothing new is computed
+for it. The second has a closed form at $c=2$: expanding
+$\bar u(h)=\mathrm{atanh}(t\tanh h)$ gives
 \begin{equation}
-  m=\frac{1}{N}\frac{\partial\ln Z}{\partial(\beta B)}=-\frac{\partial f}{\partial B},
-  \qquad
-  \chi=\frac{\partial m}{\partial B}=-\frac{\partial^{2}f}{\partial B^{2}}.
-  \label{eq:mfromZ}
+  a_{3}=\tfrac{1}{3}\,t\,(t^{2}-1),
+  \label{eq:a3edge}
 \end{equation}
-The free energy is Sec.~\ref{sec:freeenergy}'s, and the object to
-differentiate is the one-site term already in it. Cut node $i$ out of the
-chygraph. On a treelike object its complexes are then independent, so each
-contributes to $\sigma_{i}$ the factor $e^{u_{b\to i}\sigma_{i}}$ it emits, the
-external field contributes $e^{B\sigma_{i}}$, and
-\begin{equation}
-  Z_{i}=\sum_{\sigma=\pm1}e^{H_{i}\sigma}=2\cosh H_{i},
-  \qquad
-  H_{i}=B+\sum_{b\ni i}u_{b\to i}.
-  \label{eq:Zi}
-\end{equation}
-This is Eq.~\eqref{eq:up} with nothing excluded, because nothing is being
-passed onward: $H_{i}$ is the \emph{full} field at $i$ where $h_{i\to a}$ is the
-cavity field. Since the Bethe free energy is stationary in the messages,
-differentiating Eq.~\eqref{eq:bethe} in $B$ picks up only this explicit
-dependence, and Eq.~\eqref{eq:mfromZ} gives
-\begin{equation}
-  m_{i}=\frac{\partial\ln Z_{i}}{\partial B}=\tanh H_{i},
-  \qquad
-  m=\ave{\tanh H},
-  \label{eq:mtanh}
-\end{equation}
-the average over the ensemble. Everything below is Eq.~\eqref{eq:mtanh}
-evaluated: at $B=0$ below the transition, and differentiated once more at
-$B\to0$ above it.
+negative on $0<t<1$ because a bond saturates, which is the condition
+Eq.~\eqref{eq:magamp} needs to have a continuous branch at all. Above $c=2$ it
+is a number from the enumeration, as $u'$ is.
 
-\paragraph{The magnetisation.} At zero field the distribution of $H$ is the
-whole of the problem. On a \emph{regular} chygraph it collapses: every node
-lies in exactly $\kappa_{l}$ layer-$l$ complexes, so by symmetry every message
-on a layer is the same number and the recursion closes on $L$ scalars. Writing
-$\bar u_{l}(h)$ for the field a layer-$l$ complex emits when all $c_{l}-1$
-incoming fields equal $h$, Eqs.~\eqref{eq:up} and~\eqref{eq:mtanh} become
-\begin{equation}
-  h_{m}=\sum_{l}\bigl(\kappa_{l}-\delta_{lm}\bigr)\,\bar u_{l}(h_{l}),
-  \qquad
-  m=\tanh\Bigl(\sum_{l}\kappa_{l}\,\bar u_{l}(h_{l})\Bigr).
-  \label{eq:magclosure}
-\end{equation}
-The Kronecker delta is the excess bracket of Sec.~\ref{sec:map} once more: the
-inclusion arrived by is discounted from its own layer and from no other. The
-cavity equation carries $\kappa_{l}-\delta_{lm}$ and the observable carries
-$\kappa_{l}$, which is the difference between $h$ and $H$ in
-Eq.~\eqref{eq:Zi}. Equation~\eqref{eq:magclosure} is exact and needs no population.
-It is solved by Newton from above, which the concavity of $\bar u$ makes
-reliable where plain iteration slows to the critical rate, in
-\code{Chygraph.\allowbreak magnetisation}.
-
-For the amplitude, expand. The interior is odd under a spin flip, so
-\begin{equation}
-  \bar u_{l}(h)=a^{(l)}_{1}h+a^{(l)}_{3}h^{3}+O(h^{5}),
-  \label{eq:ubarexp}
-\end{equation}
-and both coefficients are cumulants of one quantity. Writing $S$ for the total
-spin of the other $c-1$ members under the Gibbs weight of the isolated complex
-with the entered member held at $+1$, and $g$ for the cumulant generating
-function of $S$, the emitted field is $\bar u(h)=[g(h)-g(-h)]/2$. Hence
-\begin{equation}
-  a_{1}=\ave{S},
-  \qquad
-  a_{3}=\tfrac{1}{6}\,\kappa_{3}(S),
-  \label{eq:a1a3}
-\end{equation}
-the mean and the third cumulant of the interior magnetisation. The first is
-$(c-1)u'$ --- the transmission Eq.~\eqref{eq:branch} already needs --- so the
-amplitude costs exactly one further odd cumulant of a sum that has been
-computed anyway. At $c=2$ it is $a_{3}=t(t^{2}-1)/3$, negative on $0<t<1$
-because a bond saturates.
-
-Putting $h=\epsilon r$ along the Perron direction of $B$ and projecting on its
-left Perron vector $\ell$, normalised so that $\ell\cdot r=1$, annihilates the
-linear term and leaves $\epsilon^{2}=(\lambda-1)/D$ with
-$D=-\sum_{ml}\ell_{m}(\kappa_{l}-\delta_{lm})a^{(l)}_{3}r_{l}^{3}$, positive
-whenever the interior saturates. Since $m\simeq(w\cdot r)\,\epsilon$ with
-$w_{l}=\ave{\kappa}_{l}\ave{\sbar u'}_{l}$, and $\lambda-1$ vanishes linearly in
-$T_{c}-T$, the exponent is $\beta=1/2$ and
-\begin{equation}
-  m\simeq A_{m}\bigl(1-T/T_{c}\bigr)^{1/2},
-  \qquad
-  A_{m}=(w\cdot r)\sqrt{
-    \frac{T_{c}\,\bigl|\mathrm{d}\lambda/\mathrm{d}T\bigr|_{T_{c}}}{D}}.
-  \label{eq:magamp}
-\end{equation}
-Two limits fix it from outside. On a $k$-regular graph Eq.~\eqref{eq:magamp} is
-\begin{equation}
-  A_{m}=\frac{k}{k-1}\sqrt{\frac{3(k-1)J}{T_{c}}},
-  \label{eq:magampgraph}
-\end{equation}
-which returns $2.3548$ at $k=4$; and as $k$ grows $T_{c}\to J(k-1)$ and
-$A_{m}\to\sqrt3$, the Curie--Weiss amplitude of the fully connected magnet.
-Where the theory has to reduce to mean field, it does.
-
-\paragraph{The susceptibility.} Now the second derivative, above the
-transition where $m$ vanishes without a field. Every message is then $O(B)$, so
-the down step is its linearisation Eq.~\eqref{eq:uprime} and the up step
-Eq.~\eqref{eq:up} adds the field at the node. Write $\hat\chi_{m}$ for the mean
-cavity field sent into a layer-$m$ complex, divided by $B$. A node reached
-through a layer-$m$ complex still belongs to $\ave{\kbar}_{m}$ further layer-$m$
-complexes and $\ave{\kappa}_{l}$ layer-$l$ complexes for $l\ne m$, each of which
-delivers $\ave{\sbar u'}_{l}$ per unit field --- which is
-Eq.~\eqref{eq:branch} entry by entry. So
-\begin{equation}
-  \hat\chi_{m}=1+\sum_{l}B_{ml}\,\hat\chi_{l}.
-  \label{eq:chicav}
-\end{equation}
-By Eq.~\eqref{eq:Zi} the full field counts the ordinary chy-degree instead of
-the excess, which is the vector $w$ of Eq.~\eqref{eq:magamp} again, and
-$m\simeq\ave{H}$ at small field, so Eq.~\eqref{eq:mfromZ} gives
-\begin{equation}
-  \chi=\frac{\partial m}{\partial B}\bigg|_{B=0}
-      =1+\sum_{l}w_{l}\,\hat\chi_{l}.
-  \label{eq:chi}
-\end{equation}
-Equation~\eqref{eq:chicav} is $\hat\chi=(I-B)^{-1}\mathbf{1}$, so $\chi$
-diverges exactly where $\det(I-B)$ vanishes --- which is Eq.~\eqref{eq:det}.
-The condition that locates the transition and the divergence of the response
-are one statement, and neither had to be assumed of the other.
-
-On a graph there is one layer at $c=2$, $u'=t$, and Eq.~\eqref{eq:chi} is
-$\chi=1+\ave{k}t/(1-\ave{\kbar}t)$. For a $k$-regular graph
-$\ave{\kbar}=k-1$ and this is
+\paragraph{The susceptibility on a graph.} One layer at $c=2$ with $u'=t$
+reduces Eq.~\eqref{eq:chi} to $\chi=1+\ave{k}t/(1-\ave{\kbar}t)$. For a
+$k$-regular graph $\ave{\kbar}=k-1$ and this is
 \begin{equation}
   \chi=\frac{1+t}{1-(k-1)t},
   \label{eq:chibethe}
 \end{equation}
-the Bethe-lattice susceptibility; for a Poisson degree, its own excess,
-it is $\chi=1/(1-\ave{k}t)$. Both are textbook, and both come out of
-Eq.~\eqref{eq:chi} without adjustment.
+the Bethe-lattice susceptibility; for a Poisson degree, its own excess, it is
+$\chi=1/(1-\ave{k}t)$. Both are textbook, and both come out of
+Eq.~\eqref{eq:chi} without adjustment --- which is the reassurance this chapter
+wants before trusting the same expression on a clique layer.
+Equation~\eqref{eq:chiamp} then collapses to $A_{\chi}=T_{c}/(k-2)$.
 
-Since $\det(I-B)$ vanishes linearly in $T-T_{c}$ for any interior that can be
-enumerated, the exponent is $\gamma=1$:
+\paragraph{The amplitude on a graph.} Equation~\eqref{eq:magamp} likewise
+closes at $c=2$:
 \begin{equation}
-  \chi\simeq\frac{A_{\chi}}{T/T_{c}-1},
-  \qquad
-  A_{\chi}=\frac{(w\cdot r)(\ell\cdot\mathbf{1})}
-                {T_{c}\,\bigl|\mathrm{d}\lambda/\mathrm{d}T\bigr|_{T_{c}}},
-  \label{eq:chiamp}
+  A_{m}=\frac{k}{k-1}\sqrt{\frac{3(k-1)J}{T_{c}}},
+  \label{eq:magampgraph}
 \end{equation}
-with $\lambda$, $r$ and $\ell$ the same Perron data Eq.~\eqref{eq:magamp}
-needed --- and the same vectors Sec.~\ref{sec:amplitude} needed for
-percolation, doing the same job. For a $k$-regular graph
-Eq.~\eqref{eq:chiamp} collapses to $A_{\chi}=T_{c}/(k-2)$.
-
-\paragraph{What each of the two requires.} Only the linearisation entered
-Eq.~\eqref{eq:chi}, so the susceptibility holds for any chy-degree
-distribution. Equation~\eqref{eq:magclosure} is exact only where the
-chy-degree is a whole number layer by layer, since that is what makes the
-messages on a layer one number rather than a distribution. A Poisson layer, or
-any mixture, carries a distribution of fields and does not collapse; there the
-route is the population dynamics of Sec.~\ref{sec:substitution}, and
-\code{Chygraph.\allowbreak magnetisation} refuses the structure rather than
-returning the wrong answer for it. Section~\ref{sec:clustering} puts both to a
-pair of structures on which they are exact.
+which returns $2.3548$ at $k=4$. As $k$ grows $T_{c}\to J(k-1)$ and
+$A_{m}\to\sqrt3$, the Curie--Weiss amplitude of the fully connected magnet: the
+second check from outside, and the one that says the machinery reduces to mean
+field where it has to.
 
 \section{Clustering lowers \texorpdfstring{$T_{c}$}{Tc}}
 \label{sec:clustering}
@@ -835,12 +712,13 @@ looks for the crossing.
 On a graph the condition $\ave{\kbar}\tanh\beta J=1$ is the textbook Bethe
 temperature, and Sec.~\ref{sec:tc}'s $u'$ is Chapter~\ref{ch:potts}'s
 $\tau_{c}(2,v)$, checked in Sec.~\ref{sec:statmech-checks}.
-The amplitude Eq.~\eqref{eq:magamp} reduces on a $k$-regular graph to
+With the Ising interior substituted, Eq.~\eqref{eq:chi} returns the
+Bethe-lattice susceptibility Eq.~\eqref{eq:chibethe} on a regular graph and
+$1/(1-\ave{k}t)$ on a Poisson one, to eleven digits at three couplings each;
+both are textbook. Equation~\eqref{eq:magamp} reduces to
 Eq.~\eqref{eq:magampgraph}, checked to $10^{-8}$ at $k=3,4,6,10$, and tends to
 the Curie--Weiss value $\sqrt3$ as the degree grows --- $1.7338$ at $k=1000$
-against $1.7321$. Equation~\eqref{eq:chi} returns the Bethe-lattice
-susceptibility $(1+t)/[1-(k-1)t]$ on a regular graph and $1/(1-\ave{k}t)$ on a
-Poisson one, to eleven digits at three couplings each; both are textbook. Equation~\eqref{eq:BW}'s infinite-connectivity limit
+against $1.7321$. Equation~\eqref{eq:BW}'s infinite-connectivity limit
 $T^{*}\to q(q-1)/2^{q-1}$ is \citeauthor{son2026}'s mean-field value, recovered
 here by expanding the spinodal condition in $1/k$.
 
@@ -855,25 +733,16 @@ Table~\ref{tab:fiveising}'s six layer lists. That table's graph and hypergraph
 rows are the $n=6$ line of Table~\ref{tab:trianglenull} reached by the other
 route; its three cardinality-two rows are checked to agree, its two pure-clique
 rows likewise, and the mixed row to lie between them.
-Section~\ref{sec:magnetisation}'s two amplitudes have no published counterpart
-either. Each is checked as a limit rather than at a point:
-$m/(1-T/T_{c})^{1/2}$ against $A_{m}$ and $\chi\,(T/T_{c}-1)$ against
-$A_{\chi}$, over three decades of reduced temperature and on five structures,
-agreeing to a part in a thousand at the closest. That $1/\chi$ vanishes exactly
-where $\det(I-B)$ does is checked on four layer lists rather than argued from
-Eq.~\eqref{eq:chicav}. The two halves of Sec.~\ref{sec:magnetisation} are also
-checked against each other, which is what Eq.~\eqref{eq:mfromZ} asserts and
-nothing else in the derivation enforces: the closed form
-Eq.~\eqref{eq:chi} against a finite difference of Eq.~\eqref{eq:magclosure} in
-the field, on four structures at three temperatures each, agreeing to five
-digits --- the accuracy of the difference and not of either expression. Equation~\eqref{eq:a1a3}'s cumulants are checked twice:
-$a_{1}$ against the transmission $(c-1)u'$ the threshold already uses, to twelve
-digits at $c=2,\dots,5$, and $a_{3}$ against the closed form $t(t^{2}-1)/3$ at
-$c=2$ and against finite differences of the enumeration itself above it. And
-Eq.~\eqref{eq:magclosure} reproduces the whole ordered branch, not one point:
-against the Wolff simulations at $n=12000$ it agrees to $0.06$ per cent or
-better at six temperatures on each of the two structures, from $T/T_{c}=0.40$ to
-$0.95$. Equation~\eqref{eq:Cq} is checked against the
+The two amplitudes are Sec.~\ref{sec:response}'s and are checked there; what
+this chapter adds to them is the interior. Equation~\eqref{eq:a1a3}'s cumulants
+are checked twice for the all-pairs clique: $a_{1}$ against the transmission
+$(c-1)u'$ the threshold already uses, to twelve digits at $c=2,\dots,5$, and
+$a_{3}$ against Eq.~\eqref{eq:a3edge} at $c=2$ and against finite differences of
+the enumeration itself above it. And Eq.~\eqref{eq:magclosure} reproduces the
+whole ordered branch, not one point: against the Wolff simulations at $n=12000$
+it agrees to $0.06$ per cent or better at six temperatures on each of the two
+structures of Sec.~\ref{sec:clustering}, from $T/T_{c}=0.40$ to $0.95$. That is
+the one test of the order parameter from outside the formalism. Equation~\eqref{eq:Cq} is checked against the
 spinodal computed from Eq.~\eqref{eq:det} at $k=200$ for $q=2,\dots,8$,
 including the case $q=4$ where the prediction is that the correction
 \emph{vanishes} and the residual duly falls to $2\times10^{-5}$. Carrying the
@@ -889,13 +758,10 @@ the sign and the size of the clustering effect. That is the only number in the
 chapter that could have come out differently.
 
 \checkhead{Partial results}
-Equation~\eqref{eq:magclosure} is exact only where every chy-degree is a whole
-number, since that is what makes the messages on a layer one number rather than
-a distribution. It therefore covers the two ends of
-Fig.~\ref{fig:clustering}'s family and none of its interior, and the routine
-refuses a fractional chy-degree instead of returning a number for it; the
-population dynamics is what carries a mixture, and it is a population and not a
-closed form. Checking the closure against that population on a \emph{regular}
+Equation~\eqref{eq:magclosure} carries Sec.~\ref{sec:response}'s restriction
+into this chapter: it covers the two ends of Fig.~\ref{fig:clustering}'s family
+and none of its interior, whose members give a vertex a fractional number of
+triangles. Checking the closure against a population on a \emph{regular}
 chygraph tests the excess bookkeeping of both routes and not the physics of
 either, because a regular chygraph collapses the population onto one value; the
 Monte Carlo above is the check that is not of that kind.
