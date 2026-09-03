@@ -108,12 +108,35 @@ repair is affordable exactly while that graph has \emph{no giant component} ---
 and the moment it has one, the merging swallows a finite fraction of the network
 into a single complex whose interior cannot be enumerated at any price.
 
-Two details make the closure slightly more than one pass of connected
-components. Merging is iterated: two meta-complexes assembled from disjoint
-components can still share two atoms between their \emph{unions}, so the
-procedure must be run to a fixed point. And the merged complex inherits every
-inclusion of its parts, so its chy-degree is the sum --- which is what makes the
-component grow.
+\paragraph{The closure, written out.} With $C$ the complex set and $C_{a}$ the
+vertex set of complex $a$, in the notation of Sec.~\ref{sec:vocabulary}:
+
+\begin{quote}
+\small
+\textbf{repeat}\\
+\hspace*{1.1em}$E\leftarrow\bigl\{\,\{a,b\}\subseteq C\ :\
+  |C_{a}\cap C_{b}|\ge2\,\bigr\}$\\
+\hspace*{1.1em}\textbf{if} $E=\emptyset$ \textbf{return} the chygraph\\
+\hspace*{1.1em}\textbf{for each} component $K$ of $(C,E)$ with $|K|>1$\\
+\hspace*{2.2em}$C_{m}\leftarrow\bigcup_{a\in K}C_{a}$,\qquad
+  $\kappa_{m}\leftarrow\sum_{a\in K}\kappa_{a}$\\
+\hspace*{2.2em}$C\leftarrow\bigl(C\setminus K\bigr)\cup\{m\}$
+\end{quote}
+
+\noindent
+What it returns is the \emph{merge closure} $\chi_{m}$, the object the rest of
+the chapter measures against $\chi$.
+
+Two of those lines are what make the closure more than one pass of connected
+components. The \textbf{repeat} is needed because two meta-complexes assembled
+from disjoint components can still share two atoms between their
+\emph{unions}, so the procedure has to be run to a fixed point. And the
+$\kappa_{m}$ line is what makes the components grow: the merged complex
+inherits every inclusion of its parts, so its chy-degree is the sum.
+\code{figs/\allowbreak merge.\allowbreak py:merge\_\allowbreak closure} is the
+loop, which reaches the same partition by indexing the complexes that hold each
+shared pair of atoms rather than by testing pairs of complexes, and returns the
+number of rounds alongside the family.
 
 \section{Non-trivial overlap loops}
 \label{sec:mergeerror}
