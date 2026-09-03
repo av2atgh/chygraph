@@ -1,6 +1,29 @@
 \chapter{Epidemics and higher-order spreading}
 \label{ch:epidemics}
 
+A disease passes from an infected person to someone they meet. A worm passes
+from an infected machine to another one it can reach. A rumour, a fashion, a
+piece of misinformation, an idea: each passes from someone who holds it to
+someone they talk to. The particulars could hardly be less alike --- a virion,
+a packet, a sentence --- and neither could the timescales, from the years of a
+pandemic to the minutes in which a worm takes an entire network. What the four
+share is a shape. There is a population of holders and non-holders; there are
+contacts along which the thing can pass and pairs between which it cannot; each
+contact either carries it or does not; and the question asked of all of them is
+the same one. Does the thing die out among a handful of early holders, or does
+it reach a finite fraction of everybody?
+
+That question does not need the particulars. Decide in advance, for each
+contact, whether a passing along it would have succeeded, and keep the contacts
+that would have carried it. The set of people, or machines, reached from a
+given starting point is then the connected component containing it, and the
+question above has become the question of whether a giant component exists. So
+the threshold separating a fizzle from an outbreak, and the fraction of the
+population an outbreak reaches, are percolation quantities, and they can be had
+without knowing anything about virology, or protocols, or why one rumour
+travels and another does not. What is lost in the trade is the time course:
+percolation says who is reached in the end and never says when.
+
 In this chapter we apply the two before it. An epidemic is
 a percolation problem; a population that mixes both inside households and
 across a wider contact network is a chygraph with three layers and nothing
@@ -17,7 +40,7 @@ would have to. That is where an outbreak can become explosive, and the rule
 behind it is Chapter~\ref{ch:ising}'s unanimity interaction, stated for a
 spreading process rather than for a Hamiltonian.
 
-\section{An epidemic is a percolation problem}
+\section{Mapping to percolation}
 \label{sec:sirperc}
 \index{SIR model|textbf}
 \index{epidemic|textbf}
