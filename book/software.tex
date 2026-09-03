@@ -329,9 +329,20 @@ continuous. The build then picks up the new PDFs with no further intervention.
 
 Several of the scripts are slow, and for the same reason: they bisect a
 threshold or a coexistence window, over more than one seed.
-\code{figs/\allowbreak colouring.\allowbreak py} is the slowest in the book at
-about fourteen minutes and \code{figs/\allowbreak satisfiability.\allowbreak py}
-takes about five, both because of their survey-propagation sections;
+\code{figs/\allowbreak colouring.\allowbreak py} is the slowest in the book by
+a wide margin, and almost all of it is one function: locating the
+colourability fold of Sec.~\ref{sec:colouring-cq} at the population where it
+has converged costs about eighty minutes, against fourteen for everything else
+in the file put together. That is the price of the third decimal in
+Table~\ref{tab:cq}. It is bisection over three seeds and two values of $q$ at
+$60\,000$ samples, and it buys little at the last digit: a fifth of the
+population returns $3.074$ where the converged run returns $3.073$, and the
+conclusion the number is used for --- an inequality --- is indifferent to
+either. A reader who wants the file to finish quickly should pass a smaller
+\code{size} to \code{check\_\allowbreak clustered\_\allowbreak cq} and
+expect the last digit to move.
+\code{figs/\allowbreak satisfiability.\allowbreak py} takes about five minutes,
+also for its survey propagation;
 \code{figs/\allowbreak merge.\allowbreak py},
 \code{figs/\allowbreak ising.\allowbreak py} and
 \code{figs/\allowbreak potts.\allowbreak py} take a few minutes each. The rest
