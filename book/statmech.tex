@@ -848,18 +848,23 @@ through and $\kappa_{m}$ in every other, which is the excess bracket
 $[\bar\Phi]_{k=m}$ of Fig.~\ref{fig:themap}. Neither was an assumption. Both
 are what stationarity returns.
 
-\paragraph{Replica symmetry, and Eq.~\eqref{eq:bethe}.} The
-replica-symmetric ansatz is that a replica state is a superposition of product
-states weighted by a field,
+\paragraph{Replica symmetry, and Eq.~\eqref{eq:bethe}.} Write
+$\nu_{h}(\sigma)$ for the normalised one-site law that a message $h$ stands
+for: $e^{h\sigma}/2\cosh h$ for an Ising spin, a distribution over $q$ colours
+in Chapter~\ref{ch:colouring}, a warning in
+Chapter~\ref{ch:satisfiability}. What a message \emph{is} is the only thing
+that changes from model to model, and Sec.~\ref{sec:onestep} is where it decides
+what the next step costs. The replica-symmetric ansatz is then that a replica
+state is a superposition of product states weighted by one message,
 \begin{equation}
   \rho_{l}(\vec\sigma)=\!\int\!\mathrm{d}h\,P_{l}(h)
-    \prod_{r}\frac{e^{h\sigma^{r}}}{2\cosh h},
+    \prod_{r}\nu_{h}(\sigma^{r}),
   \qquad
   \hat\rho_{l}(\vec\sigma)=\!\int\!\mathrm{d}u\,Q_{l}(u)
-    \prod_{r}\frac{e^{u\sigma^{r}}}{2\cosh u},
+    \prod_{r}\nu_{u}(\sigma^{r}),
   \label{eq:rsansatz}
 \end{equation}
-which is where a field first enters the calculation --- and it enters as an
+which is where a message first enters the calculation --- and it enters as an
 ansatz, not as a definition. Substituting Eq.~\eqref{eq:rsansatz} into
 Eq.~\eqref{eq:saddledown} makes $Q_{l}$ the law of the field a complex emits
 when its other members carry fields drawn from $P_{l}$, and the emitted field is
@@ -965,7 +970,7 @@ Eq.~\eqref{eq:rhochy} becomes
 \begin{equation}
   \rho_{l}(\vec\sigma)=\int\!\mathcal{D}Q\ \mathcal{P}_{l}[Q]
     \prod_{\text{blocks}}\Bigl[\int\!\mathrm{d}h\,Q(h)
-      \prod_{r\in\text{block}}\frac{e^{h\sigma^{r}}}{2\cosh h}\Bigr],
+      \prod_{r\in\text{block}}\nu_{h}(\sigma^{r})\Bigr],
   \label{eq:rsbansatz}
 \end{equation}
 with $Q$ the survey of Eq.~\eqref{eq:survey} and $\mathcal{P}_{l}$ the law over

@@ -845,16 +845,42 @@ colouring on a graph and locate $c_{q}$, the density at which proper colourings
 run out; what follows writes that calculation for a chygraph and runs it on a
 network of triangles.
 
-\paragraph{The extension.} Their survey update, their Eq.~(20), combines
-messages arriving along edges; their complexity, their Eq.~(21), is a site term
-over the degree distribution plus a term per link. Neither has anywhere to put a
-complex. Equations~\eqref{eq:colsp} and~\eqref{eq:colsigma} are the same two
-expressions one level up: the chy-degree distribution in place of the degree, a
-contribution per complex in place of the link term, and the complex's interior
-enumerated at whatever cardinality it has --- now over the subsets each member
-has left open, since that is what the survey carries. The shape of both is
-unchanged: this is Chapter~\ref{ch:statmech}'s substitution applied to the
-one-step calculation rather than to the cavity recursion.
+\paragraph{Where the equations come from.} Not from extending
+\citeauthor{krzakala2004}'s by analogy. Section~\ref{sec:onestep}'s
+Eq.~\eqref{eq:rsbansatz} is the one-step ansatz for any model on a chygraph,
+and everything below is that equation with one thing named: $\nu_{h}$, the
+one-site law a message stands for. Here a message is the set $T\subseteq
+\{1,\dots,q\}$ of colours a cluster leaves open to a member, and $\nu_{T}$ is
+the uniform law on $T$, so the survey $Q$ of Eq.~\eqref{eq:rsbansatz} is a
+distribution over the $2^{q}$ subsets and $\mathcal{P}_{l}[Q]$ is what the
+population carries. Nothing else in Eq.~\eqref{eq:rsbansatz} moves.
+
+Two consequences, and they are what make the section possible. The interior sum
+is Eq.~\eqref{eq:Xichy} with that alphabet: given the sets the other $c-1$
+members leave open, the set left open to the member entered by is the one Hall's
+condition permits, and Eq.~\eqref{eq:colsp}'s inclusion--exclusion is that
+count. And the complexity is Eq.~\eqref{eq:sigmagen} on the same alphabet ---
+one term per atom, $\ave{\kappa}/c$ per complex and $\ave{\kappa}$ subtracted
+per inclusion --- which is Eq.~\eqref{eq:colsigma}. Neither had to be guessed
+at one level up, because Eq.~\eqref{eq:Fchy} was never written for two-body
+interactions in the first place.
+
+The subsets do not all have to be carried. Colouring is symmetric under
+permuting the colours, so a survey depends on a subset only through its size,
+and the population stores $q+1$ numbers per sample rather than $2^{q}$. What
+the node update needs is the chance that an emitted set contains a given
+$t$-subset, which is a hypergeometric weight over the sizes; that reduction, and
+not the ansatz, is the whole of what makes the calculation run.
+
+\paragraph{What \citet{krzakala2004} supply.} The check. Their survey update,
+their Eq.~(20), combines messages arriving along edges, and their complexity,
+their Eq.~(21), is a site term over the degree distribution plus a term per
+link. Neither has anywhere to put a complex, which is why the extension had to
+come from Eq.~\eqref{eq:rsbansatz} rather than from them --- but at $c=2$ the
+two must agree, and that agreement is one of the two gates the apparatus passes
+before it is turned on triangles. The other is \citeauthor{gabrie2017} at $c=3$
+under the hypergraph rule, which exercises the cardinality-three scaffolding
+with the interior swapped and nothing else.
 
 At $c=2$ the extension must return the original, and it does. Writing
 $\eta=e/q$ --- their letter, and for this paragraph only, not
