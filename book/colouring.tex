@@ -490,7 +490,7 @@ say that structure is irrelevant to colouring. It says that this
 line on the wrong side of the colourability threshold from $q=4$ upward, and
 Sec.~\ref{sec:colouring-cq} measures what the constant column misses: promoting
 links into triangles at fixed degree lowers $c_{q}$ by a third, from $4.69$ to
-$3.08$ at $q=3$, while the proper column here does not move by so much as a
+$3.07$ at $q=3$, while the proper column here does not move by so much as a
 digit. A reader who took the constant column as a statement about colouring
 would have the sign of the largest effect in the chapter replaced by a zero.
 The table is a statement about local stability, and the chapter says from
@@ -909,14 +909,36 @@ replica-symmetric default --- one cluster because nothing has shattered --- and
 not a count of anything.
 
 So what the calculation delivers is a bound from above. Proper colourings have
-certainly run out by degree $3.08$ at $q=3$; that they survive all the way to it
+certainly run out by degree $3.07$ at $q=3$; that they survive all the way to it
 is the assumption that the shattered phase has zero width rather than a width
 too narrow to resolve at this population. On a graph the two ends are pinned
 together by the arc, which is continuous and crosses zero once, and $c_{q}$ is
 bracketed from both sides. A fold offers no such argument, and losing the window
 costs exactly that. What it does not cost is the conclusion, which needs the
-bound alone: $3.08$ against a graph's $4.69$ says the colourings have gone, and
+bound alone: $3.07$ against a graph's $4.69$ says the colourings have gone, and
 a true threshold lower still would only widen the gap.
+
+\paragraph{That assumption, tested.} It has two halves and they fail together
+or not at all. Whether the window is too narrow to resolve is a question about
+the population: the onset moves from degree $3.078$ to $3.073$ between $4\,000$
+samples and $60\,000$, with the spread over seeds falling from $0.004$ to
+$0.001$, so the fold is converged rather than resolution-limited. Whether a
+shattered solution hides below it is a question about the reweighting, and at
+zero temperature that reweighting is not a free choice: $y$ is the Parisi
+parameter rescaled, $y=\beta m$ with $\beta\to\infty$, so a scan in $y$
+\emph{is} the finite-$m$ calculation rather than a substitute for one.
+Softening the constraint --- a member left with no colour surviving at weight
+$e^{-y}$ instead of being discarded --- moves the onset by less than $10^{-3}$
+in degree between $y=0.5$ and $y=\infty$, from a population started
+\emph{in} the shattered state, so that below the fold it collapses rather than
+failing to be found. And $\Sigma$ at the lift-off is $-0.10$, falling to
+$-0.20$ by degree $3.4$: it does not approach zero from below.
+
+So the window is absent and not unresolved, and the bound is a bound for that
+reason rather than for want of looking. One thing this does not reach is
+condensation, which sorts clusters by size where $y$ sorts them by energy, and
+which needs the $m=1$ object Sec.~\ref{sec:onestep} does not carry;
+Sec.~\ref{sec:notdone} keeps it.
 
 \begin{figure}[t]
 \centering
@@ -998,7 +1020,7 @@ are $c_{d}$ and $c_{q}$. On a network of triangles the middle state never
 occurs: the shattered solution has $\Sigma<0$ wherever it exists, meaning fewer
 than one cluster, so the colourings have run out no later than the density where
 they would have shattered. One boundary instead of two, and it arrives earlier
---- $3.08$ against $4.69$ in degree at $q=3$.}
+--- $3.07$ against $4.69$ in degree at $q=3$.}
 \label{fig:phases}
 \end{figure}
 
@@ -1009,8 +1031,8 @@ they would have shattered. One boundary instead of two, and it arrives earlier
 $q$ & graph & triangles & change\\
 \hline
 \multicolumn{4}{@{}l}{\rule{0pt}{2.6ex}\itshape colourability threshold $c_{q}$, in degree; Poisson}\\
-$3$ & $4.69$ & $\le3.078\,(0.005)$ & $\le-34.4\%$\\
-$4$ & $8.90$ & $\le6.763\,(0.007)$ & $\le-24.0\%$\\
+$3$ & $4.69$ & $\le3.073\,(0.001)$ & $\le-34.5\%$\\
+$4$ & $8.90$ & $\le6.754\,(0.001)$ & $\le-24.1\%$\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.6ex}\itshape stability line, Poisson: Eq.~\eqref{eq:trifamily} at $f=0,1$}\\
 $3$ & $4$ & $4$ & $0\%$\\
 $4$ & $9$ & $9$ & $0\%$\\
@@ -1025,11 +1047,12 @@ Eq.~\eqref{eq:colsigma}; the graph column is \citeauthor{mulet2002}'s and the
 triangle column is
 computed here, both for a Poisson chy-degree. The graph value is a crossing and
 is bracketed from both sides; the triangle value is a lift-off and bounds
-$c_{q}$ from above only, which is why it carries a $\le$. Bracketed figures are the spread
-over three seeds, and they measure scatter only: the triangle threshold is a
-fold rather than a crossing, and the other fold in this chapter --- $c_{d}$ in
-Sec.~\ref{sec:colouring-sp} --- sits a per cent to three off its published value
-with a spread no larger. Below, where the
+$c_{q}$ from above only, which is why it carries a $\le$. Bracketed figures are
+the spread over three seeds at a population of $60\,000$, where the fold is
+converged; they measure scatter and not accuracy, since the triangle threshold
+is a fold rather than a crossing, and the other fold in this chapter ---
+$c_{d}$ in Sec.~\ref{sec:colouring-sp} --- sits a per cent to three off its
+published value with a spread no larger. Below, where the
 replica-symmetric solution loses local stability --- first in that same Poisson
 ensemble, where Sec.~\ref{sec:colouring-triangles} found it blind to triangles,
 then in the regular one, where the excess-degree correction survives. Promoting
@@ -1041,9 +1064,9 @@ moves the other way. Generated by
 \end{table}
 
 \paragraph{Triangles make colouring harder.} Table~\ref{tab:cq} is the result.
-A triangle-clustered graph has stopped being $3$-colourable by degree $3.08$
+A triangle-clustered graph has stopped being $3$-colourable by degree $3.07$
 where a triangle-free one survives to $4.69$, and stopped being $4$-colourable
-by $6.76$ against $8.90$: a third and a quarter of the range, gone.
+by $6.75$ against $8.90$: a third and a quarter of the range, gone.
 
 Set that beside Sec.~\ref{sec:colouring-triangles}, and be careful about which
 ensemble is being quoted, because the stability line does two different things
@@ -1110,7 +1133,13 @@ graph the complexity arcs above zero and crosses it once, so $c_{q}$ is
 bracketed from both sides; on triangles $\Sigma$ is negative wherever the
 shattered branch exists, so the threshold is where that branch appears --- a fold
 rather than a crossing, and the worse-determined of the two, as the $c_{d}$
-figures already show. What is checked is the statement the number is used for:
+figures already show. What makes it a bound is checked rather than assumed:
+the onset is converged in the population, it does not move with the
+reweighting $y$ --- which at zero temperature is the Parisi parameter and not
+a separate knob --- and $\Sigma$ at the lift-off is $-0.10$ rather than nearly
+zero, so the shattered window is absent and not unresolved. What is not
+reached is condensation. What is checked is the statement the number is used
+for:
 that it lies below the graph's $c_{q}$ and below the stability line. Both are
 inequalities, so the direction --- clustering makes colouring harder --- does not
 depend on the third figure or on the bound being tight. Two further limits:

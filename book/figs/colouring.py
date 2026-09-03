@@ -703,7 +703,7 @@ def check_window_closes():
     print('    graph needs.')
 
 
-def _sv_onset(q, c, lo, hi, iters=14, seed=0):
+def _sv_onset(q, c, lo, hi, iters=14, seed=0, size=4000, yreweight=np.inf):
     """Smallest chy-degree carrying a non-trivial survey. The branch appears
     discontinuously in every case, so this is a fold and bisection on it is
     the only reliable way to find the window's left edge.
@@ -715,7 +715,8 @@ def _sv_onset(q, c, lo, hi, iters=14, seed=0):
     """
     for _ in range(iters):
         mid = 0.5 * (lo + hi)
-        if _sv_run(q, c, mid, seed=seed)[0][:, 1].mean() > 1e-4:
+        if _sv_run(q, c, mid, size=size, seed=seed,
+                   yreweight=yreweight)[0][:, 1].mean() > 1e-4:
             hi = mid
         else:
             lo = mid
@@ -739,7 +740,8 @@ def _sv_bisect(q, c, lo, hi, rule, iters=9):
 MULET_CQ = {3: 4.69, 4: 8.90, 5: 13.69}
 
 
-def clustered_cq(q, lo=1.2, hi=4.5, iters=12, seed=0):
+def clustered_cq(q, lo=1.2, hi=4.5, iters=12, seed=0, size=4000,
+                 yreweight=np.inf):
     """Degree at which a triangle-clustered graph stops being q-colourable.
 
     Sigma(y=inf) is the complexity of ZERO-ENERGY clusters -- Krzakala, Pagnani
@@ -759,10 +761,58 @@ def clustered_cq(q, lo=1.2, hi=4.5, iters=12, seed=0):
     bound is tight only if the shattered phase has zero width rather than a
     width this population cannot resolve. Degree is 2*kappa.
     """
-    return 2.0 * _sv_onset(q, 3, lo, hi, iters=iters, seed=seed)
+    return 2.0 * _sv_onset(q, 3, lo, hi, iters=iters, seed=seed, size=size,
+                           yreweight=yreweight)
 
 
-def check_clustered_cq():
+
+def check_fold_convergence():
+    """Sec. 12.10: the fold is converged, and nothing shattered hides below it.
+
+    clustered_cq bounds c_q from above, and its own caveat is that the bound is
+    tight only if the shattered phase has zero width rather than a width this
+    population cannot resolve. Both halves are testable. Three tests:
+
+    y-independence. At zero temperature y is the Parisi parameter rescaled,
+    y = beta*m with beta -> infinity, so a scan in y IS the finite-m
+    calculation and not a substitute for one. Softening the hard constraint --
+    a member left with no colour surviving at weight e^-y instead of being
+    discarded -- changes the order parameter above the fold and not where it
+    lifts off.
+
+    Population size. The onset drifts by about 0.16% from 4k to 60k samples
+    while the seed spread falls like 1/sqrt(N), so the fold is converged rather
+    than resolution-limited.
+
+    Sigma at the fold. About -0.1 and falling, so the window is ABSENT and not
+    merely narrow.
+
+    What none of this reaches is condensation, which weights clusters by size
+    rather than by energy and needs the finite-temperature m = 1 object that
+    _sv_sigma, written at m = 0, is not.
+    """
+    print('    (1) onset against y, q = 3, c = 3, size = 4000, seed = 0')
+    ys = (0.5, 1.0, 2.0, 5.0, np.inf)
+    got = [clustered_cq(3, iters=14, seed=0, yreweight=y) for y in ys]
+    print('        ' + '  '.join(f'y={y}: {g:.4f}' for y, g in zip(ys, got)))
+    assert max(got) - min(got) < 1e-3, got
+
+    print('    (2) onset against population size, q = 3, y = inf, three seeds')
+    for size in (4000, 20000, 60000):
+        r = [clustered_cq(3, iters=14, seed=sd, size=size) for sd in (0, 1, 2)]
+        print(f'        size {size:>6}   {np.mean(r):.4f}  (spread {np.std(r):.4f})')
+    assert np.std(r) < 2e-3, r
+
+    print('    (3) Sigma just above the fold, q = 3, y = inf, size = 20000')
+    for kappa in (1.545, 1.60, 1.70):
+        s, op = _sv_sigma(3, 3, kappa, size=20000, seed=0)
+        print(f'        degree {2*kappa:.3f}   Sigma {s:+.4f}   order param {op:.4f}')
+        assert s < -0.05, (kappa, s)
+    print('    So the bound is a bound because the window is absent, not')
+    print('    because the population cannot see it.')
+
+
+def check_clustered_cq(size=60000):
     """Sec. 12.9: c_q for triangles, against the graph, and against the RS line.
 
     clustered_cq bounds c_q from above, so every comparison below is an
@@ -777,9 +827,12 @@ def check_clustered_cq():
     # small, but check_survey_branch_is_clustering finds the OTHER fold in this
     # chapter -- c_d -- sitting a per cent to three off the published value with
     # a spread no larger. A fold carries a bias the seeds do not see.
+    # The population is the converged one: check_fold_convergence has the onset
+    # settling by 60k, which is what lets the table quote three decimals.
     for q in (3, 4):
         cq = MULET_CQ[q]
-        r = [clustered_cq(q, seed=sd) for sd in (0, 1, 2)]
+        r = [clustered_cq(q, seed=sd, size=size, iters=14)
+             for sd in (0, 1, 2)]
         tri, sd_tri = float(np.mean(r)), float(np.std(r))
         # Sec. 12.5: Poisson layers carry no excess-degree correction, so both
         # routes give (q-1)^2; only a regular ensemble separates them.
@@ -1040,6 +1093,8 @@ if __name__ == '__main__':
     check_window_closes()
     print('the colourability threshold of a clustered graph:')
     check_clustered_cq()
+    print('and why that threshold is a bound:')
+    check_fold_convergence()
     print('figures:')
     figure_colouring()
     figure_threshold()
