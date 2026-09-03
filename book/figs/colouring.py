@@ -122,6 +122,14 @@ def check_closed_forms():
             got, want = tau_enumerated(c, q, 'proper'), tau_closed(c, q, 'proper')
             assert got == want, (c, q, got, want)
         print(f'    q = {q}: c = 2 .. {min(q, 5)}   all equal {want}   OK')
+    print('  and Ch. 7 reaches it from the other side: tau_c(q, v) at v = -1')
+    for q in (3, 4, 5, 6, 7):
+        v = F(-1)
+        t2 = v / (q + v)
+        t3 = v * (q + 3*v + v**2) / (q**2 + 3*q*v + 3*v**2 + v**3)
+        want = tau_closed(2, q, 'proper')
+        assert t2 == want and t3 == want, (q, t2, t3, want)
+        print(f'    q = {q}: Eq. (7.6) = Eq. (7.8) = {want}   OK')
     print('  hypergraph colouring:  tau = -1/(q^(c-1) - 1)')
     for q in (3, 4, 5):
         for c in (2, 3, 4):
@@ -381,7 +389,7 @@ def check_survey_thresholds():
 def check_survey_branch_is_clustering():
     """The survey branch appears at Mulet's clustering threshold c_d."""
     print('     q   branch appears   c_d (published)')
-    for q, lo, hi in ((3, 4.0, 5.0), (4, 7.6, 8.8)):
+    for q, lo, hi in ((3, 4.0, 5.0), (4, 7.6, 8.8), (5, 11.5, 13.5)):
         c_d = MULET[q][0]
         lo_, hi_ = lo, hi
         for _ in range(9):
