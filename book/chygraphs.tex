@@ -4,9 +4,9 @@
 \section{A paper is not a set of links}
 \label{sec:paper}
 
-In this chapter we define the chygraph and show what it represents that a graph
-or a hypergraph cannot. We motivate it with the scientific literature, which
-has been mapped many times over, whose maps disagree with one another, and
+This chapter defines the chygraph and shows what it represents that a graph
+or a hypergraph cannot. The motivating example is the scientific literature,
+which has been mapped many times over, whose maps disagree with one another, and
 where the reason they disagree is exactly the subject of the chapter.
 
 The system itself is simple. A paper is written by some authors. It cites
@@ -93,8 +93,8 @@ and it has a reference list. The author list is a set of people. The reference
 list is a set of \emph{other papers}. And the two lists do not mix --- no author
 appears in the bibliography as a reference, and no reference is a co-author.
 
-Suppose we agree to call the paper one object and its two lists the internal structure of that object.
-Then the paper's interior is not a single group but two disjoint groups: a
+Call the paper one object, and its two lists the internal structure of that
+object. Then the paper's interior is not a single group but two disjoint groups: a
 person entering the paper through the author list can reach the other authors
 and stops there, and a paper entering through the reference list can reach the
 other references and stops there. To get from an author of a paper to something
@@ -169,15 +169,15 @@ so an interaction among five things is one hyperedge rather than ten links
 move of the modern higher-order-network literature. It meets the second
 demand only barely --- a hyperedge is a flat set, with no internal organisation
 --- and it does not meet the first at all. Hyperedges contain vertices. They do
-not contain hyperedges. Our paper cannot cite.
+not contain hyperedges. A paper cannot cite.
 
 The first demand was met by Joslyn and Nowak, who defined \emph{ubergraphs}
-\citep{joslyn2017}. We restate their construction in the language this book uses
-throughout. Begin by dividing the things in a system into
-those we have chosen not to decompose any further --- call them \emph{atoms} ---
+\citep{joslyn2017}. Their construction is restated here in the language this
+book uses throughout. Begin by dividing the things in a system into those the
+modelling declines to decompose any further --- call them \emph{atoms} ---
 and those that are made of other things --- call them \emph{complexes}. Which is
 which is a modelling decision, not a fact about the world: an author is an atom
-here because we have decided not to model people as made of parts, and nothing
+here because people are not modelled as made of parts, and nothing
 stops someone else deciding otherwise. Then:
 
 \begin{quote}
@@ -186,7 +186,7 @@ complexes $C$, where each complex is a subset of $A\cup C$.
 \end{quote}
 
 The clause that does the work is $A\cup C$ rather than $A$. A complex may
-contain complexes. Our paper can now cite --- and it still cannot tell its
+contain complexes. A paper can now cite --- and it still cannot tell its
 authors from its references, because a complex is still a flat set. Both lists
 are merged into one.
 
@@ -199,7 +199,7 @@ are merged into one.
 
 The remaining step is small. If the trouble
 is that a complex's interior is a flat set, give the interior the same treatment
-we have just given the exterior: make it a hypergraph.
+just given to the exterior: make it a hypergraph.
 
 \begin{quote}
 \emph{A complex hypergraph} (chygraph) $\chi(A,C)$ is a set of atoms $A$ and a
@@ -209,7 +209,7 @@ lies in $A\cup C$ \citep{vazquez2023pre}.
 
 There is a tighter way to say it that will be more convenient from
 Chapter~\ref{ch:percolation} onward. An atom is nothing but a complex that
-happens to include no complexes, so we need not carry $A$ separately:
+happens to include no complexes, so $A$ need not be carried separately:
 
 \begin{quote}
 A chygraph is a set of complexes, where complexes are hypergraphs with a vertex
@@ -395,7 +395,8 @@ picture with a probability attached to each arrow; the cavity recursion
 Cardinality and component size coincide whenever a complex's interior hypergraph
 has a single hyperedge --- which is to say, on ubergraphs, and therefore on
 graphs, hypergraphs and every structure in Sec.~\ref{sec:everything} below.
-They part company only for genuinely compound complexes like our publications.
+They part company only for genuinely compound complexes like the publications
+above.
 The theory is written in terms of $s$ throughout, so both cases are covered by
 one calculation, and a reader who only ever cares about hypergraphs may read $s$
 as the cardinality, and its excess $\bar s$ of Eq.~\eqref{eq:excess} as
@@ -413,7 +414,7 @@ literature example, publications and authors are different sorts of object with
 different chy-degree distributions, and inside a publication the author list and
 the reference list behave differently too. In a multiplex network, a friendship
 link and a co-worker link join the same people and are not interchangeable. So
-we partition the complexes into \emph{layers}, indexed $l=0,\dots,L-1$, with the
+the complexes are partitioned into \emph{layers}, indexed $l=0,\dots,L-1$, with the
 understanding that complexes within a layer are statistically alike and
 complexes in different layers need not be.
 
@@ -554,9 +555,8 @@ the specialisation is substitution rather than rederivation.}
 The list is the argument for the whole construction. The
 higher-order-network literature has produced a separate percolation calculation
 for hypergraphs, for multiplex networks, for interacting networks, for
-interdependent networks, for simplicial complexes, and for clustered graphs, and
-the number of independent derivations keeps growing
-\citep{battiston2020,bianconi2021}. If all six
+simplicial complexes and for clustered graphs
+\citep{battiston2020,bianconi2021}. If all of them
 are chygraphs, one calculation covers them, and the differences between them
 become differences in what one substitutes at the end. Chapter~\ref{ch:percolation}
 carries that out.
@@ -625,7 +625,7 @@ message can reach. Neither adds anything to the other.}
 \index{ensemble}
 
 The rest of the book computes averages over ensembles rather than properties of
-one object, so we need to say what specifying an ensemble amounts to. It amounts
+one object. Specifying an ensemble amounts
 to specifying, for every ordered pair of layers, how many complexes of one layer
 attach to a complex of the other, in each of the two directions of
 Sec.~\ref{sec:vocabulary} --- and that is all.
@@ -679,7 +679,7 @@ the subject of Chapter~\ref{ch:giant} and not a defect to be repaired.
 \index{treelike|textbf}
 \index{overlap!between complexes}
 
-We close the chapter with the property that motivates everything after
+The chapter closes with the property that motivates everything after
 Chapter~\ref{ch:percolation}, and with its price, which is structural rather
 than a matter of care.
 
@@ -780,9 +780,10 @@ graph, which overlap along edges as a matter of course
 
 This is stated in the chapter that defines the object rather than in a remark
 at the end of the book. The next eleven chapters develop what the construction
-buys; Chapter~\ref{ch:overlap} returns to Fig.~\ref{fig:price}b, measures the damage
-on hyperbolic random graphs --- between $77$ and $100$ per cent of the answer
-recovered --- and describes what would be needed to recover the rest. Clustering
+buys; Chapter~\ref{ch:cover} measures the damage on hyperbolic random graphs,
+where the chygraph recovers between $77$ and $100$ per cent of the leaf-removal
+core, and Chapter~\ref{ch:overlap} returns to Fig.~\ref{fig:price}b and
+describes what would be needed to recover the rest. Clustering
 is not one obstruction but a hierarchy of them: promoting
 triangles removes the loops within triangles and exposes the loops between them.
 Whether that hierarchy terminates usefully is, as of this writing, open.
