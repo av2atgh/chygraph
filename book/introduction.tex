@@ -267,14 +267,55 @@ changes from chapter to chapter is what a branch is and what it carries.}
 Figure~\ref{fig:branching} draws the argument: one branch begetting more than
 one branch, and why it is exact on a tree.
 
-\section{Models on networks}
+\section{Statistical mechanics}
 \label{sec:models}
+\index{partition function|textbf}
+\index{Boltzmann measure|textbf}
+\index{free energy}
 
 Percolation asks about the network itself. The rest of the book puts something
-\emph{on} the network --- a variable at every node, and an energy that says which
-combinations of variables are cheap. Five of the models that run through the
-book are introduced here, and all five appear now on the same small graph, so
-the family resemblance is visible. For the wider map --- spin models, $k$-core percolation, epidemic
+\emph{on} the network --- a variable $\sigma_{i}$ at every node, and an energy
+$\mathcal{H}(\sigma)$ that says which combinations of variables are cheap. One
+sum over configurations then carries everything:
+\begin{equation}
+  Z=\sum_{\{\sigma\}}
+    e^{-\beta\bigl[\mathcal{H}(\sigma)-B\sum_{i}\sigma_{i}\bigr]},
+  \qquad
+  \beta=1/T,
+  \label{eq:Z-intro}
+\end{equation}
+the \emph{partition function}, with $\beta$ the inverse temperature and $B$ the
+parameter conjugate to $\sum_{i}\sigma_{i}$: an external field where the
+variables are spins, and a chemical potential where they count the members of a
+set, which Chapters~\ref{ch:hittingset} and~\ref{ch:cover} write $\mu$ and
+charge for rather than reward. It is held beside $\mathcal{H}$ rather than
+inside it because it is the parameter Eq.~\eqref{eq:lnZ-intro} differentiates;
+a model may equally write it in, as Eq.~\eqref{eq:ising-intro} does. Each
+configuration carries the weight in the exponent and $Z$ normalises those
+weights, so a configuration's share of $Z$ is its probability --- the Boltzmann
+measure.
+
+Equation~\eqref{eq:Z-intro} is a generating function, in the sense
+Sec.~\ref{sec:percolation-intro} used for $G_{0}$: a weighted sum over the
+objects of interest, arranged so that what one wants of them comes out by
+differentiating rather than by counting. What it generates is decided by what
+stands beside $\mathcal{H}$ in the exponent. Differentiating in the field,
+\begin{equation}
+  m=\frac{1}{N}\frac{\partial\ln Z}{\partial(\beta B)},
+  \qquad
+  \chi=\frac{\partial m}{\partial B},
+  \label{eq:lnZ-intro}
+\end{equation}
+the mean variable per node and its response to the field: one derivative, and
+then a second. The logarithm and not $Z$ itself, because $\ln Z$ grows with the
+number of nodes, so its derivatives are quantities per node; $f=-\ln Z/\beta N$
+is the \emph{free energy}, which Chapter~\ref{ch:statmech} computes for a
+chygraph and then differentiates.
+
+Five of the models that run through the book are introduced next, and all five
+appear on the same small graph, so the family resemblance is visible. What
+changes from one to the next is $\mathcal{H}$ and nothing else. For the wider
+map --- spin models, $k$-core percolation, epidemic
 thresholds and the rest, on equilibrium and growing networks alike ---
 \citet{dorogovtsev2008} is the review to read alongside this chapter, which
 takes only what the later chapters use.
@@ -291,9 +332,10 @@ moment pointing up or down --- and let neighbouring nodes prefer to agree:
   \label{eq:ising-intro}
 \end{equation}
 the first sum over links, the second over nodes, $J>0$ the strength of the
-preference and $B$ an external field pushing every spin one way. Configurations
-occur with the Boltzmann probability $\propto e^{-\beta\mathcal{H}}$, where
-$\beta=1/T$ is the inverse temperature.
+preference and $B$ an external field pushing every spin one way. It is the first
+thing to put into Eq.~\eqref{eq:Z-intro}, with the field written into
+$\mathcal{H}$ rather than held beside it; the $B$ here and the $B$ there are the
+same one.
 
 The behaviour is a competition. At high temperature the spins are essentially
 independent and the average magnetisation $m=\ave{\sigma}$ is zero. At low
@@ -341,9 +383,11 @@ $x_{i}\in\{0,1\}$ on every node, $1$ meaning covered, and write
 \begin{equation}
   \mathcal{H}=\sum_{i}x_{i},
   \qquad\text{subject to}\quad
-  x_{i}+x_{j}\ge1 \ \ \text{on every link}.
+  \prod_{\langle ij\rangle}\bigl[1-(1-x_{i})(1-x_{j})\bigr]=1,
   \label{eq:vc-intro}
 \end{equation}
+the bracket vanishing on a link with neither endpoint covered, so the product is
+one exactly when every link is watched.
 The energy is just the number of guards, the constraint is hard --- infinitely
 costly to violate --- and the minimum vertex cover is the ground state. Asking
 for the ground state of a disordered system is asking an optimisation question,
@@ -362,8 +406,16 @@ collection of elements meeting every one of them. That is the \emph{hitting set}
 problem \citep{mezard2007}, and vertex cover is the special case in which every
 set has two members.
 
-The Hamiltonian is Eq.~\eqref{eq:vc-intro} with the constraint read over
-hyperedges rather than links, $\sum_{i\in a}x_{i}\ge1$ for every set $a$.
+The Hamiltonian is Eq.~\eqref{eq:vc-intro} with the constraint read over sets
+rather than links:
+\begin{equation}
+  \mathcal{H}=\sum_{i}x_{i},
+  \qquad\text{subject to}\quad
+  \prod_{a}\Bigl[1-\prod_{i\in a}(1-x_{i})\Bigr]=1,
+  \label{eq:hs-intro}
+\end{equation}
+the inner product running over as many members as the set $a$ has, and the
+bracket vanishing on a set none of whose members is taken.
 Nothing about the formulation changes; what changes is that the constraint now
 couples three, four or ten variables at once, and Chapter~\ref{ch:hittingset}
 shows that a limit everybody takes for granted on graphs stops being correct the
@@ -410,6 +462,23 @@ the signs with which it names its variables. The density of clauses per
 variable, $\alpha=M/N$, plays the part that the density of links plays for
 colouring: below some $\alpha$ a random formula can be satisfied and above it
 cannot \citep{mezard2002science,montanari2008}.
+
+It is the same shape of model once more. A clause is a disjunction of $k$
+\emph{literals}, a literal being a variable or its negation, and a formula is a
+conjunction of clauses --- an \textsc{and} of \textsc{or}s:
+\begin{equation}
+  \begin{aligned}
+    F&=\bigwedge_{a=1}^{M}C_{a},
+      \qquad C_{a}=\bigvee_{i\in a}\ell_{i},\\
+    \mathcal{H}&=\sum_{a=1}^{M}\bigl(1-C_{a}\bigr).
+  \end{aligned}
+  \label{eq:sat-intro}
+\end{equation}
+With $C_{a}\in\{0,1\}$ the truth value of clause $a$, $\mathcal{H}$ counts the
+clauses left false, and a satisfying assignment is a configuration of zero
+energy, exactly as a proper colouring is one of Eq.~\eqref{eq:col-intro}. A
+clause is false only when all $k$ of its literals are, which is the one
+assignment it rules out.
 
 Colouring and satisfiability differ in one thing, and Chapter~\ref{ch:satisfiability}
 turns on it. A monochromatic edge is forbidden whatever the colour, so colouring
@@ -506,8 +575,8 @@ decorates the nodes and what is paid for, not in the object underneath.
 
 \subsection{What these have in common}
 
-All five are a variable at every node, an energy summing local terms, and a
-Boltzmann measure $\propto e^{-\beta\mathcal{H}}$. Optimisation is the
+All five are a variable at every node, an energy summing local terms, and the
+Boltzmann measure of Eq.~\eqref{eq:Z-intro}. Optimisation is the
 zero-temperature limit of that measure: as $\beta\to\infty$ all the weight
 concentrates on the lowest-energy configurations, so ``find the minimum vertex
 cover'' and ``take $T\to0$ in this model'' are the same instruction. The
@@ -637,6 +706,8 @@ number becomes a message, and then a distribution of messages.
 \label{sec:cavity}
 \index{cavity method|textbf}
 \index{belief propagation|textbf}
+\index{belief}
+\index{Bethe free energy}
 \index{Bethe--Peierls approximation|textbf}
 \index{message passing}
 
@@ -733,6 +804,29 @@ becomes an equation for a probability distribution $P(h)$, self-consistent in
 the sense that a message built out of $\bar k$ messages drawn from $P$ is itself
 drawn from $P$. This gives the typical behaviour of the whole class of graphs at
 once, and it is what all the thresholds in this book are.
+
+\paragraph{What belief propagation (BP) returns.} The messages are not themselves
+the answer. Once they have stopped changing, the \emph{belief} at a node --- its
+marginal, the probability that it takes each of its values --- is what the
+messages arriving there multiply out to, and the belief on a link is the same
+statement for the pair at its two ends. On a tree both are exact.
+
+So is the free energy, and how that one is assembled is the part
+Sec.~\ref{sec:gbp-intro} generalises. A tree is exhausted by its links and its
+nodes, so $\ln Z$ is one term per link plus one per node, the node terms
+discounted because a node of degree $k$ has already been counted once inside
+each of the $k$ links that hold it:
+\begin{equation}
+  \ln Z=\sum_{\langle ij\rangle}\ln Z_{ij}
+        +\sum_{i}\bigl(1-k_{i}\bigr)\ln Z_{i},
+  \label{eq:bethe-intro}
+\end{equation}
+with $Z_{ij}$ and $Z_{i}$ the local partition functions the messages build. This
+is the \emph{Bethe free energy}. What makes it right on a tree is that every
+variable and every interaction is counted exactly once in it, and that ---
+rather than the message update --- is the property Sec.~\ref{sec:gbp-intro}
+keeps when it goes past trees. Chapter~\ref{ch:statmech} writes
+Eq.~\eqref{eq:bethe-intro} for a chygraph.
 
 For Eq.~\eqref{eq:ising-intro} the message function is
 \[
@@ -922,11 +1016,10 @@ There is an established answer to loops, and it is worth stating here because
 this book uses it later and because it is the alternative to the route the rest
 of the book takes.
 
-Belief propagation is exact on a tree because a tree decomposes into nodes and
-links with every variable, and every interaction, counted exactly once. When the
-network is not a tree that bookkeeping fails. The remedy, due to Kikuchi and
-given its message-passing form by \citet{yedidia2005}, is to keep the
-bookkeeping and enlarge the units: work with \emph{regions} --- sets of
+Equation~\eqref{eq:bethe-intro} is exact on a tree because every variable and
+every interaction in it is counted once. When the network is not a tree that
+counting fails. The remedy, due to Kikuchi and given its message-passing form by
+\citet{yedidia2005}, is to keep the counting and enlarge the units: work with \emph{regions} --- sets of
 variables treated as single objects --- and close the family of regions under
 intersection. Each region $R$ is assigned a counting number fixed by
 M\"obius inversion,
@@ -936,11 +1029,13 @@ M\"obius inversion,
 \end{equation}
 which is precisely the condition that every variable and every interaction is
 counted once across the whole family. Messages then pass from each region to its
-sub-regions rather than from node to node.
+sub-regions rather than from node to node. This is \emph{generalised belief
+propagation}, $\mathrm{GBP}$ for short.
 
 Three properties matter for what follows. The scheme \emph{contains} the
 cavity method: when the regions are the interactions and the single variables,
-Eq.~\eqref{eq:mobius-intro} returns $c_{v}=1-k$ and the update reduces to
+Eq.~\eqref{eq:mobius-intro} returns $c_{v}=1-k$, which is
+Eq.~\eqref{eq:bethe-intro}, and the update reduces to
 Eq.~\eqref{eq:cavity-intro}. It is \emph{exact} whenever the closed family of
 regions forms a junction tree, which is the loop-free condition one level up. And
 it costs $2^{|R|}$ per region, so it buys accuracy with enumeration, and the

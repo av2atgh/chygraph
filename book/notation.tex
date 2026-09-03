@@ -32,10 +32,15 @@ $\chi$, $\chi_{m}$ & a chygraph, and the chygraph its merge closure returns:
                     the complexes of $\chi_{m}$ are the unions of every set of
                     complexes of $\chi$ that share two or more atoms
                     (Ch.~\ref{ch:metacomplex})\\[2pt]
-$\mathrm{BP}_{\chi}$, $\mathrm{BP}_{\chi_{m}}$ & the cavity recursion of
-                    Ch.~\ref{ch:statmech} run on a chygraph, and run on its
-                    merge closure --- the two calculations Part~IV
-                    compares\\[2pt]
+$\mathrm{BP}$ & belief propagation: the cavity recursion of
+                    Ch.~\ref{ch:statmech} run on one instance
+                    (Sec.~\ref{sec:cavity}). Written
+                    $\mathrm{BP}(\text{model},\text{structure})$ where both
+                    arguments matter, as for $P_{C}$ below, so that
+                    $\mathrm{BP}(\mathrm{Ising},\chi)$ and
+                    $\mathrm{BP}(\mathrm{Ising},\chi_{m})$ are the two
+                    calculations Part~IV compares. $\mathrm{GBP}$ is its
+                    generalised form, Sec.~\ref{sec:gbp-intro}\\[2pt]
 $P_{C}(\text{model},\text{structure})$ & core fraction: the share of atoms a
                 removal rule cannot strip, run to a fixed point
                 (Sec.~\ref{sec:leafremoval-intro}). Both arguments are needed,

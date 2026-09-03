@@ -544,7 +544,7 @@ def figure_core_meta():
         return
     fig, ax = plt.subplots(figsize=(4.3, 2.3))
     _by_class(ax, d, 'merged_core_frac')
-    ax.set_ylabel(r'$P_C(\mathrm{Ising},\,\mathrm{BP}_{\chi_m})$', fontsize=9)
+    ax.set_ylabel(r'$P_C(\mathrm{Ising},\,\chi_m)$', fontsize=9)
     ax.set_ylim(-0.05, 1.05)
     ax.set_yticks([0, 0.5, 1])
     fig.tight_layout()
@@ -568,7 +568,7 @@ def figure_core_bonds():
                 mfc='white', color=col, label=f'{name} ({len(sel)})')
     ax.set_xlabel('fraction of bonds lying inside two or more complexes',
                   fontsize=8)
-    ax.set_ylabel(r'$P_C(\mathrm{Ising},\,\mathrm{BP}_\chi)$', fontsize=9)
+    ax.set_ylabel(r'$P_C(\mathrm{Ising},\,\chi)$', fontsize=9)
     ax.set_xlim(-0.03, 1.03)
     ax.set_ylim(-0.05, 1.05)
     ax.set_yticks([0, 0.5, 1])
@@ -632,7 +632,7 @@ def figure_gbp_against_bp():
     floor = 3e-15
     ax.semilogy([r['doubled'] for r in d],
                 np.maximum([r['bp'] for r in d], floor), 'o', ms=3.0, mew=0.8,
-                mfc='white', color=LIGHT, label=r'$\mathrm{BP}_\chi$')
+                mfc='white', color=LIGHT, label=r'$\mathrm{BP}$')
     ax.semilogy([r['doubled'] for r in d if r['chordal']],
                 np.maximum([r['gbp'] for r in d if r['chordal']], floor),
                 's', ms=3.0, mew=0.8, mfc='white', color=DARK,
@@ -832,7 +832,7 @@ def figure_core_transition():
     ax.axvline(1.0, color='0.75', lw=0.7, ls=':')
     ax.annotate('$b=1$', xy=(1.04, 0.34), fontsize=6.8, color='0.45')
     ax.set_xlabel('incidence branching $b=s+2t$', fontsize=8)
-    ax.set_ylabel(r'$P_C(\mathrm{Ising},\,\mathrm{BP}_{\chi_m})$', fontsize=9)
+    ax.set_ylabel(r'$P_C(\mathrm{Ising},\,\chi_m)$', fontsize=9)
     ax.set_ylim(-0.03, 0.75)
     ax.set_xlim(-0.05, 2.55)
     ax.legend(fontsize=6.4, frameon=False, loc='upper left')

@@ -5,7 +5,8 @@
 A \emph{vertex cover} is a set of nodes touching every link, and the problem is
 to find the smallest one. Section~\ref{sec:cover-intro} put it as a model ---
 $x_{i}\in\{0,1\}$ on every node, the energy $\sum_{i}x_{i}$ to be minimised, and
-a hard constraint $x_{i}+x_{j}\ge1$ on every link --- and it is NP-hard
+a hard constraint forbidding a link with neither endpoint taken,
+Eq.~\eqref{eq:vc-intro} --- and it is NP-hard
 \citep{karp1972}. It is also Chapter~\ref{ch:hittingset}'s hitting set at
 cardinality two, which is why the two chapters are adjacent.
 
