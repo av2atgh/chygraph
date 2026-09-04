@@ -23,7 +23,7 @@ Benchmarks, from `~/Downloads/chygraph_references/`:
     -- survey propagation for colouring; the update below is its m = 0 form
   Gabrie, Dani, Semerjian & Zdeborova, J. Phys. A 50, 505002 (2017), Table 1
     -- q-colouring of K-uniform hypergraphs; its Eq. (43) is the stability
-    threshold this chapter derives, and its l_col benchmarks Sec. 12.8
+    threshold this chapter derives, and its l_col benchmarks Sec. 12.9
 """
 
 import itertools
@@ -410,7 +410,7 @@ def check_survey_branch_is_clustering():
 # survey propagation above cardinality two
 # ---------------------------------------------------------------------------
 #
-# Sec. 12.8. Everything turns on how many colours ONE complex can forbid at
+# Sec. 12.9. Everything turns on how many colours ONE complex can forbid at
 # once.
 #
 #   hypergraph rule: at most ONE -- a complex is violated only when all its
@@ -504,10 +504,10 @@ def check_hypergraph_thresholds():
 
 
 # ---------------------------------------------------------------------------
-# set-valued survey propagation: Sec. 12.9
+# set-valued survey propagation: Sec. 12.10
 # ---------------------------------------------------------------------------
 #
-# Sec. 12.8's substitution reaches the hypergraph rule and not the proper one,
+# Sec. 12.9's substitution reaches the hypergraph rule and not the proper one,
 # because a complex of cardinality c can close up to c-1 colours at once. This
 # carries the survey as a SET and does the proper rule at c = 3.
 #
@@ -676,7 +676,7 @@ def check_setvalued_gates():
 
 
 def check_window_closes():
-    """Sec. 12.9: on triangles the proper rule leaves no window for m = 0.
+    """Sec. 12.10: on triangles the proper rule leaves no window for m = 0.
 
     A crossing needs a range where a non-trivial survey exists AND Sigma is
     still positive. The graph has one; the triangle network does not. Losing it
@@ -744,8 +744,11 @@ def _sv_bisect(q, c, lo, hi, rule, iters=9):
     return 0.5 * (lo + hi)
 
 
-# Mulet's colourability thresholds, the graph column of Table 12.5.
+# Mulet's published colourability thresholds, the right column of Table 12.3.
 MULET_CQ = {3: 4.69, 4: 8.90, 5: 13.69}
+
+# Brackets that sp_threshold bisects for the Poisson column of Table 12.5.
+GRAPH_BRACKET = {3: (4.55, 4.95), 4: (8.65, 9.25)}
 
 
 def clustered_cq(q, lo=1.2, hi=4.5, iters=12, seed=0, size=4000,
@@ -821,12 +824,12 @@ def check_fold_convergence():
 
 
 def check_clustered_cq(size=60000):
-    """Sec. 12.9: c_q for triangles, against the graph, and against the RS line.
+    """Sec. 12.10: c_q for triangles, against the graph, and against the RS line.
 
     clustered_cq bounds c_q from above, so every comparison below is an
     inequality -- which is the form the conclusion needs anyway.
     """
-    print('     q   graph c_q   triangles c_q <=   change   RS line, Poisson'
+    print('     q   Poisson c_q   Poisson_tri c_q <=   change   RS line, Poisson'
           '   RS line, regular')
     # The triangle threshold is a FOLD, not a crossing: the branch lifts off
     # with Sigma already negative, so there is nothing to bisect Sigma on and
@@ -838,7 +841,14 @@ def check_clustered_cq(size=60000):
     # The population is the converged one: check_fold_convergence has the onset
     # settling by 60k, which is what lets the table quote three decimals.
     for q in (3, 4):
-        cq = MULET_CQ[q]
+        # Both columns of Table 12.5 are computed here, in the same ensemble
+        # and over the same three seeds, so the change is a comparison between
+        # two numbers this file produced rather than one against a quoted one.
+        # MULET_CQ is kept as the gate on the graph column, not as its value.
+        lo, hi = GRAPH_BRACKET[q]
+        g = [sp_threshold(q, lo, hi, seed=sd) for sd in (0, 1, 2)]
+        cq, sd_cq = float(np.mean(g)), float(np.std(g))
+        assert abs(cq - MULET_CQ[q]) / MULET_CQ[q] < 0.01, (q, cq, MULET_CQ[q])
         r = [clustered_cq(q, seed=sd, size=size, iters=14)
              for sd in (0, 1, 2)]
         tri, sd_tri = float(np.mean(r)), float(np.std(r))
@@ -851,7 +861,7 @@ def check_clustered_cq(size=60000):
         assert tri < rs_p, (q, tri, rs_p)
         # and triangles must be HARDER, which is what neither RS line reports
         assert tri < cq, (q, tri, cq)
-        print(f'  {q:>4}   {cq:>9.2f}   {tri:>9.3f}({sd_tri:.3f})'
+        print(f'  {q:>4}   {cq:>8.3f}({sd_cq:.3f})   {tri:>12.3f}({sd_tri:.3f})'
               f'   {100*(tri-cq)/cq:>+6.1f}%'
               f'    {rs_p:>7} -> {rs_p}   {rs_g:>7} -> {rs_t}')
     print('    The RS line does not track c_q in EITHER ensemble. Promoting')
@@ -859,7 +869,7 @@ def check_clustered_cq(size=60000):
     print('    colourings actually run out, by AT LEAST a third. In the Poisson')
     print('    ensemble the RS line does not move at all; in a regular one it')
     print('    moves the other way. On a graph the two at least land near one')
-    print('    another -- 4 against 4.69, 9 against 8.90 -- which is why the RS')
+    print('    another -- 4 against 4.68, 9 against 8.90 -- which is why the RS')
     print('    line gets used as a rough locator at all. On triangles the proxy')
     print('    reports either no effect or the wrong SIGN, depending on which')
     print('    ensemble it is taken in.')
@@ -938,7 +948,7 @@ def table_five_structures(q=4):
 
     Neighbours per node at the stability line, with the degree split evenly
     across the layers.  The proper column is constant down the table and the
-    hypergraph column is not, which is Sec. 12.3's contrast read structure by
+    hypergraph column is not, which is Sec. 12.4's contrast read structure by
     structure rather than cardinality by cardinality.
     """
     out = [r'\begin{tabular}{lcrrr}', r'\hline\hline',
@@ -967,7 +977,7 @@ def table_five_structures(q=4):
 
 
 def figure_threshold():
-    """Sec. 12.9: how the threshold is located, and why triangles differ.
+    """Sec. 12.10: how the threshold is located, and why triangles differ.
 
     Left, a graph: the survey is trivial and Sigma is zero until the branch
     lifts off, Sigma is POSITIVE over an arc, and the arc falls through zero at
