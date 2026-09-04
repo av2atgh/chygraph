@@ -116,15 +116,16 @@ counterpart on a graph. Above it they are different problems, and
 Chapter~\ref{ch:cover}'s pairing of hitting set with vertex cover was the same
 distinction one family earlier: how much of a complex may be left alone.
 
-\section{What a complex transmits}
+\section{The stability condition}
 \label{sec:colouring-scalar}
+\label{sec:colouringthreshold}
 \index{transmission factor}
+\index{de Almeida--Thouless line}
 
-Either rule on a single complex of cardinality $c$: what it emits to one member
-when the others are given. No structure enters yet --- that is
-Sec.~\ref{sec:colouringthreshold} --- and the $\bar{Z}(\sigma_{0})$ below is this
-one-complex sum, not the partition function of Eq.~\eqref{eq:colZp}
-or~\eqref{eq:colZh}.
+Either rule, any structure. What a complex does to the calculation enters
+through a single number, and this section is what that number has to satisfy;
+computing it for each rule is Secs.~\ref{sec:colouring-proper}
+and~\ref{sec:colouring-hyper}.
 
 The uniform assignment $\eta\equiv1/q$ is always a fixed point --- every colour
 equally likely everywhere, which is the replica-symmetric solution. Linearise
@@ -147,7 +148,50 @@ because colouring fixes the temperature. Proper colouring is the
 antiferromagnetic Potts model at $\beta\to\infty$, which is $v=-1$ in
 Chapter~\ref{ch:potts}'s variable, so only the number of colours is left free.
 
-\emph{Proper colouring}, Eq.~\eqref{eq:colZp}. The emitted quantity is
+Substituting into Eq.~\eqref{eq:branch} needs one decision, and it is the
+decision Chapter~\ref{ch:ising} already made in Sec.~\ref{sec:atline}.
+
+There is no ordered phase to look for here: the uniform solution \emph{is} the
+replica-symmetric solution, and what one asks is whether a perturbation of
+\emph{random sign} grows. That perturbation is transmitted with $\tau$ and its
+effect measured by squaring, so the operative condition is the de
+Almeida--Thouless form --- $\ave{u'}$ replaced by $\ave{u'^{2}}$ everywhere,
+which by Eq.~\eqref{eq:reweight} is an elementwise reweighting and nothing more.
+For a single layer,
+\begin{equation}
+  \ave{\kbar}\,(c-1)\,\tau_{c}^{2}=1.
+  \label{eq:colthresh}
+\end{equation}
+
+\paragraph{Over several layers.} Equation~\eqref{eq:colthresh} is a
+one-layer statement, and three of
+Fig.~\ref{fig:mappings}'s five structures carry more than one. The
+generalisation costs nothing. As in Sec.~\ref{sec:tc},
+Eq.~\eqref{eq:branch} with $u'^{2}$ puts $\ave{\kbar}_{m}$ on the diagonal and
+$\ave{\kappa}_{m}$ off it and multiplies both by the same
+$(c_{m}-1)\tau_{m}^{2}$, so $B$ is a rank-one matrix plus a diagonal and
+$\det(I-B)=0$ is a single sum:
+\begin{equation}
+  \sum_{l}\frac{\ave{\kappa}_{l}(c_{l}-1)\,\tau_{l}^{2}}
+               {1-\bigl(\ave{\kbar}_{l}-\ave{\kappa}_{l}\bigr)(c_{l}-1)\,\tau_{l}^{2}}
+  =1.
+  \label{eq:colmulti}
+\end{equation}
+At one layer the $\ave{\kappa}$'s cancel and it is Eq.~\eqref{eq:colthresh}; at
+two, expanded, it is Eq.~\eqref{eq:trifamily}, which
+Sec.~\ref{sec:colouring-triangles} reaches by writing the determinant out
+longhand. With Poisson layers every denominator is $1$ and the condition is
+$\sum_{l}\ave{\kappa}_{l}(c_{l}-1)\tau_{l}^{2}=1$: one term per layer, and the
+layers simply add.
+
+\section{Proper colouring}
+\label{sec:colouring-proper}
+
+The proper rule, Eq.~\eqref{eq:colZp}, on a single complex of cardinality $c$.
+The $\bar{Z}(\sigma_{0})$ below is that one-complex sum, not the partition
+function.
+
+The emitted quantity is
 \[
   \bar{Z}(\sigma_{0})=\!\!\sum_{\substack{\sigma_{1}\dots\sigma_{c-1}\ \text{distinct}\\
     \text{and all}\ \ne\sigma_{0}}}\ \prod_{j}\eta_{j}(\sigma_{j}).
@@ -184,24 +228,25 @@ Equations~\eqref{eq:tau2} and~\eqref{eq:tau3} at $v=-1$ are both $-1/(q-1)$,
 so the cardinality-independence is already visible in the Potts transmission at
 $c=2$ and $c=3$, before this section derives it for every $c$.
 
-\emph{Hypergraph colouring}, Eq.~\eqref{eq:colZh}. Here the constraint removes a
-single configuration,
-so
-\[
-  \bar{Z}(\sigma_{0})=1-\prod_{j}\eta_{j}(\sigma_{0}),
-\]
-and expanding the product to first order gives $\bar{Z}_{0}=1-q^{1-c}$ and
-$\delta \bar{Z}(\sigma_{0})=-q^{2-c}w_{1}(\sigma_{0})$, traceless again, so the same
-division by $q$ gives
+Put this into Eq.~\eqref{eq:colthresh}, where the rule enters only through
+$\tau_{c}$. The stability line is
 \begin{equation}
-  \tau^{\mathrm{hyp}}_{c}(q)=-\frac{1}{q^{\,c-1}-1}.
-  \label{eq:tauhyp}
+  \ave{\kbar}\,(c-1)=(q-1)^{2},
+  \label{eq:colproperline}
 \end{equation}
-At $c=2$ this is Eq.~\eqref{eq:taucol}, as it must be. \code{figs/\allowbreak colouring.\allowbreak py:tau\_\allowbreak closed} carries both closed forms, and checks them against an enumeration of the interior in rational arithmetic, so the agreement is an identity rather than a numerical coincidence.
+neighbours per node --- a complex of cardinality $c$ supplies $c-1$ of them to
+each member --- at every cardinality and every $q$. For a Poisson chy-degree
+$\ave{\kbar}=\ave{\kappa}$ and the left-hand side is $\ave{k}$ itself; a regular
+one has $\ave{\kbar}=\ave{\kappa}-1$ and adds $c-1$ to it. A network of
+$c$-cliques loses stability at exactly the same number of neighbours per node as
+a graph does: promoting motifs to complexes changes nothing at all here.
 
-Figure~\ref{fig:colouring} draws both: three cardinalities lie exactly on top
-of one another for the proper rule, and fan out over three decades for the
-hypergraph one.
+Over several layers it is settled in one line too. In the Poisson form of
+Eq.~\eqref{eq:colmulti} every $\tau_{l}$ is the same $-1/(q-1)$ whatever the
+cardinalities, so the sum
+is $\sum_{l}\ave{\kappa}_{l}(c_{l}-1)$ times a constant --- the total
+neighbours per node and nothing else. The layer list has left the problem
+entirely.
 
 \paragraph{Why the cardinality cancels, in words.} What one member
 of a clique learns from another is a single fact: \emph{not that colour}. It
@@ -217,6 +262,39 @@ it at the next. Chapter~\ref{ch:statmech} warned that the sign of the entries,
 not of the leading eigenvalue, is what classifies a map, and this is the third
 map in the book whose entries are negative --- after the hard-field maps of
 Chapters~\ref{ch:hittingset} and~\ref{ch:cover}.
+
+\section{Hypergraph colouring}
+\label{sec:colouring-hyper}
+
+The hypergraph rule, Eq.~\eqref{eq:colZh}, on the same complex.
+
+Here the constraint removes a single configuration,
+so
+\[
+  \bar{Z}(\sigma_{0})=1-\prod_{j}\eta_{j}(\sigma_{0}),
+\]
+and expanding the product to first order gives $\bar{Z}_{0}=1-q^{1-c}$ and
+$\delta \bar{Z}(\sigma_{0})=-q^{2-c}w_{1}(\sigma_{0})$, traceless again, so the same
+division by $q$ gives
+\begin{equation}
+  \tau^{\mathrm{hyp}}_{c}(q)=-\frac{1}{q^{\,c-1}-1}.
+  \label{eq:tauhyp}
+\end{equation}
+At $c=2$ this is Eq.~\eqref{eq:taucol}, as it must be. \code{figs/\allowbreak colouring.\allowbreak py:tau\_\allowbreak closed} carries both closed forms, and checks them against an enumeration of the interior in rational arithmetic, so the agreement is an identity rather than a numerical coincidence.
+
+Into Eq.~\eqref{eq:colthresh} again,
+\begin{equation}
+  \ave{\kbar}\,(c-1)=\bigl(q^{\,c-1}-1\bigr)^{2},
+  \label{eq:colhyperline}
+\end{equation}
+neighbours per node, and this one runs away: at $q=4$ it is $9$, $225$ and
+$3969$ for $c=2,3,4$.
+
+\section{The two constraints diverge above cardinality two}
+\label{sec:twoconstraints-col}
+
+One clique network, read under each rule in turn: Eq.~\eqref{eq:colZp} against
+Eq.~\eqref{eq:colZh} on the same object.
 
 \begin{figure}[t]
 \centering
@@ -235,114 +313,12 @@ Sec.~\ref{sec:colouring-sp-graph}. Generated by \code{figs/\allowbreak colouring
 \label{fig:colouring}
 \end{figure}
 
-\section{The replica-symmetric threshold}
-\label{sec:colouringthreshold}
-\index{de Almeida--Thouless line}
+Figure~\ref{fig:colouring} draws both: three cardinalities lie exactly on top
+of one another for the proper rule, and fan out over three decades for the
+hypergraph one.
 
-One layer of a chygraph, under either rule. The rule enters only through
-$\tau_{c}$, so Eqs.~\eqref{eq:colZp} and~\eqref{eq:colZh} are carried to a
-single line and separated afterwards.
-
-Substituting into Eq.~\eqref{eq:branch} needs one decision, and it is the
-decision Chapter~\ref{ch:ising} already made in Sec.~\ref{sec:atline}.
-
-There is no ordered phase to look for here: the uniform solution \emph{is} the
-replica-symmetric solution, and what one asks is whether a perturbation of
-\emph{random sign} grows. That perturbation is transmitted with $\tau$ and its
-effect measured by squaring, so the operative condition is the de
-Almeida--Thouless form --- $\ave{u'}$ replaced by $\ave{u'^{2}}$ everywhere,
-which by Eq.~\eqref{eq:reweight} is an elementwise reweighting and nothing more.
-For a single layer,
-\begin{equation}
-  \ave{\kbar}\,(c-1)\,\tau_{c}^{2}=1.
-  \label{eq:colthresh}
-\end{equation}
-
-\paragraph{The graph case, against the literature.} Put $c=2$, where a complex
-is an edge and the chy-degree is the ordinary degree. What is left to choose is
-the degree distribution. For a \emph{Poisson} one, $\ave{\kbar}=\ave{k}$ ---
-a Poisson distribution being its own excess --- and Eq.~\eqref{eq:colthresh}
-gives $\ave{k}=(q-1)^{2}$. For a \emph{regular} one, a node of degree $k$ has
-$k-1$ other edges, so $\ave{\kbar}=\ave{k}-1$ and it gives
-$\ave{k}=(q-1)^{2}+1$. Both are
-\citeauthor{zdeborova2007}'s Eq.~(18) \citep{zdeborova2007}, which reads
-$c_{\mathrm{RS}}^{\mathrm{ER}}=q^{2}-2q+1$ and
-$c_{\mathrm{RS}}^{\mathrm{reg}}=q^{2}-2q+2$; the stability analysis and its
-large-$q$ asymptotics are worked out by \citet{krzakala2004}, and the
-replica treatment of the same ensemble by \citet{vanmourik2002}.
-
-Two published expressions from one $\tau$, and the difference between them is
-exactly the excess-degree convention this book has been carrying since
-Sec.~\ref{sec:map}. That is the check the chapter needed, and it is a stronger
-one than a single number would have been, because a formalism that had the
-excess bookkeeping wrong would reproduce at most one of the two lines.
-
-\paragraph{Cardinality, and the two constraints.} Now raise it. Counting in
-\emph{neighbours} per node --- a complex of cardinality $c$ supplies $c-1$ of
-them --- Eq.~\eqref{eq:colthresh} gives
-\begin{equation}
-  \text{proper: } (q-1)^{2},
-  \qquad
-  \text{hypergraph: } \bigl(q^{\,c-1}-1\bigr)^{2}.
-  \label{eq:coltwo}
-\end{equation}
-The first does not move. A network of $c$-cliques loses stability at exactly the
-same number of neighbours per node as a graph does, for every cardinality and
-every $q$: promoting motifs to complexes changes nothing at all here. The second
-runs away --- at $q=4$ it is $9$, $225$, $3969$ for $c=2,3,4$.
-
-The second line agrees with the bound obtained by \citet{gabrie2017} for
-$q$-colouring of $K$-uniform random hypergraphs: their Eq.~(43) reads
-$\ell^{\mathrm{RS}}_{\mathrm{stab}}=(q^{K-1}-1)^{2}/(K-1)$ for a Poisson degree
-of mean $\ell$, which is $(q^{c-1}-1)^{2}$ neighbours per node, and so
-Eq.~\eqref{eq:coltwo}. Its Appendix~B derives the transmission at
-finite temperature and Eq.~\eqref{eq:tauhyp} is that expression at
-$\beta\to\infty$. What is left to this chapter is the first line and the
-contrast: that the same substitution gives both rules, and that they part
-company only above cardinality two.
-
-The first of these is the same phenomenon as Eq.~\eqref{eq:kc}, which found
-$\ave{k}(c-1)=e$ for hitting set: counted in neighbours, hyperedge size does not
-move the point. Two hard-core problems, two different constants, one structure.
-The reason is the same both times --- what a complex transmits and how many
-neighbours it supplies move in exactly compensating ways. This is the
-\emph{opposite} of the Ising model, where Sec.~\ref{sec:clustering} found the two effects failing to compensate and
-the multiplicity winning.
-
-\paragraph{Over several layers.} Equations~\eqref{eq:colthresh}
-and~\eqref{eq:coltwo} are one-layer statements, and three of
-Fig.~\ref{fig:mappings}'s five structures carry more than one. The
-generalisation costs nothing. As in Sec.~\ref{sec:tc},
-Eq.~\eqref{eq:branch} with $u'^{2}$ puts $\ave{\kbar}_{m}$ on the diagonal and
-$\ave{\kappa}_{m}$ off it and multiplies both by the same
-$(c_{m}-1)\tau_{m}^{2}$, so $B$ is a rank-one matrix plus a diagonal and
-$\det(I-B)=0$ is a single sum:
-\begin{equation}
-  \sum_{l}\frac{\ave{\kappa}_{l}(c_{l}-1)\,\tau_{l}^{2}}
-               {1-\bigl(\ave{\kbar}_{l}-\ave{\kappa}_{l}\bigr)(c_{l}-1)\,\tau_{l}^{2}}
-  =1.
-  \label{eq:colmulti}
-\end{equation}
-At one layer the $\ave{\kappa}$'s cancel and it is Eq.~\eqref{eq:colthresh}; at
-two, expanded, it is Eq.~\eqref{eq:trifamily}, which
-Sec.~\ref{sec:colouring-triangles} reaches by writing the determinant out
-longhand. With Poisson layers every denominator is $1$ and the condition is
-$\sum_{l}\ave{\kappa}_{l}(c_{l}-1)\tau_{l}^{2}=1$: one term per layer, and the
-layers simply add.
-
-For proper colouring that last form settles the whole question in one line.
-Every $\tau_{l}$ is the same $-1/(q-1)$ whatever the cardinalities, so the sum
-is $\sum_{l}\ave{\kappa}_{l}(c_{l}-1)$ times a constant --- the total
-neighbours per node and nothing else. The layer list has left the problem
-entirely.
-
-\section{The two constraints diverge above cardinality two}
-\label{sec:twoconstraints-col}
-
-One clique network, read under each rule in turn: Eq.~\eqref{eq:colZp} against
-Eq.~\eqref{eq:colZh} on the same object.
-
-Equation~\eqref{eq:coltwo} says the following.
+Equations~\eqref{eq:colproperline} and~\eqref{eq:colhyperline} say the
+following.
 
 Proper colouring of a clique network is, at this level of description,
 indistinguishable from colouring a graph with the same number of neighbours.
@@ -365,6 +341,159 @@ and separate by three orders of magnitude above it. The pattern is not a
 coincidence. Cardinality two is degenerate in a specific way --- a complex with
 two members has no room for a partial violation --- and a great deal of what
 looks like general theory is an artefact of working there.
+
+The first of these is the same phenomenon as Eq.~\eqref{eq:kc}, which found
+$\ave{k}(c-1)=e$ for hitting set: counted in neighbours, hyperedge size does not
+move the point. Two hard-core problems, two different constants, one structure.
+The reason is the same both times --- what a complex transmits and how many
+neighbours it supplies move in exactly compensating ways. This is the
+\emph{opposite} of the Ising model, where Sec.~\ref{sec:clustering} found the two effects failing to compensate and
+the multiplicity winning.
+
+\section{Structured networks}
+\label{sec:colfive}
+
+Chapter~\ref{ch:chygraphs} claimed that one calculation covers the five
+structures of Fig.~\ref{fig:mappings}. Sections~\ref{sec:isingfive},
+\ref{sec:hsfive} and~\ref{sec:fivecover} pay that out for the critical
+temperature, for hitting set and for vertex cover. Here it is paid out twice,
+once per interior rule --- Eq.~\eqref{eq:colZp} and then
+Eq.~\eqref{eq:colZh} --- and the two answers are as far apart as they can be:
+one column of Table~\ref{tab:fivecol} is constant down its whole length and the
+other spans a factor of twenty-five. Same five structures, same
+Eq.~\eqref{eq:colmulti}, and the only thing changed between the columns is what
+a complex forbids.
+
+\begin{table}[t]
+\centering\small
+\begin{adjustbox}{max width=\linewidth}
+\input{figs/tab-five-structures-col}
+\end{adjustbox}
+\caption{\textbf{The five structures, both interior rules.} Neighbours per node
+at the stability line, Eq.~\eqref{eq:colmulti} at $q=4$, with the degree split
+evenly across the layers. \emph{Proper} and \emph{hypergraph} are Poisson
+layers; \emph{proper, regular} is the same proper rule with
+$\ave{\kbar}=\ave{\kappa}-1$, the only column in which the layer list is
+visible at all. Read what these numbers are before reading them:
+Sec.~\ref{sec:colouring-sp} says this line is not where the colourings run
+out, and Sec.~\ref{sec:colouring-cq} measures how badly the two part company on
+exactly the clustered row. Generated by
+\code{figs/\allowbreak colouring.\allowbreak py:table\_\allowbreak five\_\allowbreak structures}.}
+\label{tab:fivecol}
+\end{table}
+
+\paragraph{A graph} is one layer of links. One term in
+Eq.~\eqref{eq:colmulti} gives $\ave{\kbar}\tau^{2}=1$, which is
+Eq.~\eqref{eq:colthresh}, and with $\tau=-1/(q-1)$ the stability line is
+\begin{equation}
+  \ave{\kbar}=(q-1)^{2},
+  \label{eq:colgraphline}
+\end{equation}
+neighbours per node on the left and colours on the right. The two rules
+coincide at cardinality two, so this is the whole row. What is left to choose is
+the degree distribution. For a \emph{Poisson} one $\ave{\kbar}=\ave{k}$ --- a
+Poisson distribution being its own excess --- and the line is
+$\ave{k}=(q-1)^{2}$; for a \emph{regular} one a node of degree $k$ has $k-1$
+other edges, so $\ave{\kbar}=\ave{k}-1$ and the line is
+$\ave{k}=(q-1)^{2}+1$. At $q=4$ that is $9$ and $10$. Both are
+\citeauthor{zdeborova2007}'s Eq.~(18) \citep{zdeborova2007}, which reads
+$c_{\mathrm{RS}}^{\mathrm{ER}}=q^{2}-2q+1$ and
+$c_{\mathrm{RS}}^{\mathrm{reg}}=q^{2}-2q+2$; the stability analysis and its
+large-$q$ asymptotics are worked out by \citet{krzakala2004}, and the replica
+treatment of the same ensemble by \citet{vanmourik2002}. Two published
+expressions from one $\tau$, and the difference between them is exactly the
+excess-degree convention this book has been carrying since Sec.~\ref{sec:map}.
+That is the check the chapter needed, and it is a stronger one than a single
+number would have been, because a formalism that had the excess bookkeeping
+wrong would reproduce at most one of the two lines.
+
+\paragraph{A hypergraph} is one complex layer with the cardinality free, and it
+is where the two rules separate. Take it at a single size $c$. The single term is $\ave{\kbar}(c-1)\tau_{c}^{2}=1$. In
+neighbours per node the proper rule gives $(q-1)^{2}$ with a Poisson degree,
+since $\tau$ does not depend on $c$, and $(q-1)^{2}+(c-1)$ with a regular one
+--- cardinality reaching the answer only through the excess convention, and
+only by $c-1$ in degree, which is Eq.~\eqref{eq:tridisagree}'s pair of lines at
+$c=2$ and $c=3$. The hypergraph rule gives $(q^{\,c-1}-1)^{2}$,
+Eq.~\eqref{eq:colhyperline}, which agrees with the bound obtained by
+\citet{gabrie2017} for $q$-colouring of $K$-uniform random hypergraphs: their
+Eq.~(43) reads $\ell^{\mathrm{RS}}_{\mathrm{stab}}=(q^{K-1}-1)^{2}/(K-1)$ for a
+Poisson degree of mean $\ell$, which is $(q^{c-1}-1)^{2}$ neighbours per node.
+Its Appendix~B derives the transmission at finite temperature and
+Eq.~\eqref{eq:tauhyp} is that expression at $\beta\to\infty$. What is left to
+this chapter is the proper line and the contrast: that the same substitution
+gives both rules, and that they part company only above cardinality two. For example, at $q=4$ and $c=3$ --- three-cliques under
+the proper rule, $3$-hyperedges under the weaker one --- the two give $9$ and
+$225$. The separation is the whole content of
+Sec.~\ref{sec:twoconstraints-col} read structure by structure. Under the proper rule it is still $9$: a triangle
+forbids what its three edges forbid, transmits what an edge transmits, and
+supplies twice the neighbours at half the chy-degree, so nothing moves. Under
+the hypergraph rule it is $225$. The object on the page is identical in the two
+cases. What differs is whether all three members must disagree or merely not all
+three agree, and that one word is worth a factor of twenty-five.
+
+\paragraph{A multiplex network} is $L$ link layers on the same vertices. Every
+layer is at $c=2$, where the two rules coincide and $\tau$ is the same in every
+layer, so Eq.~\eqref{eq:colmulti} reads
+\[
+  \sum_{l}\frac{\ave{\kappa}_{l}\tau^{2}}
+                {1-\bigl(\ave{\kbar}_{l}-\ave{\kappa}_{l}\bigr)\tau^{2}}=1,
+\]
+and only the total survives: $(q-1)^{2}$ neighbours per node with Poisson
+layers, $(q-1)^{2}+1$ with regular ones, whatever $L$ is. For example, two link
+layers sharing the degree evenly give $9$ at $q=4$, the graph's number under
+both rules. A multiplex is a graph carrying labels that proper colouring
+cannot read.
+
+\paragraph{Interacting graphs and hypergraphs} is $L$ layers whose
+cardinalities need not agree. Under the proper rule that costs almost nothing,
+every $\tau_{l}$ being $-1/(q-1)$ regardless: for $L$ layers of one cardinality
+$c$ the line is $(q-1)^{2}$ neighbours per node with Poisson layers and
+$(q-1)^{2}+(c-1)$ with regular ones, the same pair the single layer gives and
+independent of $L$. Under the hypergraph rule each layer carries its own
+$\tau_{c_{l}}$ and the terms no longer share a factor. For example, three link
+layers sharing the degree equally give $9$, and three layers of cardinality
+three give $225$ under the weaker rule and $9$ under the proper one. The panel
+follows its layer list and adds nothing else. As in
+Chapter~\ref{ch:ising} and unlike Chapters~\ref{ch:hittingset}
+and~\ref{ch:cover}, the cross layer is not a special case: it contributes its
+term and the sum is all there is.
+
+\paragraph{A clustered graph} is a link layer together with one layer per clique
+size present, here a link layer and a triangle layer. Under the proper rule
+every layer carries the same $\tau$, so with Poisson
+layers the two terms still add to the total neighbours per node and nothing
+moves; with regular layers the denominators of Eq.~\eqref{eq:colmulti} differ
+between the layers, $1+\tau^{2}$ against $1+2\tau^{2}$, and the answer lies
+strictly between the two pure cases. For example, half the degree in each gives
+$10.476$ --- which is Eq.~\eqref{eq:trifamily} at $f=1/2$, exactly, and lies
+between the $10$ of all links and the $11$ of all triangles as that equation
+says it must. Under the Poisson convention it is $9$ like everything else. The
+row is Sec.~\ref{sec:colouring-triangles}'s result appearing as one entry in a
+list, and the interval it lies in is one in degree wide.
+
+\paragraph{The column that is constant, and what it does not say.} It does not
+say that structure is irrelevant to colouring. It says that this
+\emph{line} cannot see it. Section~\ref{sec:colouring-sp-graph} puts the
+line on the wrong side of the colourability threshold from $q=4$ upward, and
+Sec.~\ref{sec:colouring-cq} measures what the constant column misses: promoting
+links into triangles at fixed degree lowers the colourability threshold
+$\kbar_{q}$ of Sec.~\ref{sec:colouring-sp} by a third, from $4.68$ to $3.07$ at
+$q=3$, while the proper column here does not move by so much as a
+digit. A reader who took the constant column as a statement about colouring
+would have the sign of the largest effect in the chapter replaced by a zero.
+The table is a statement about local stability, and the chapter says from
+Sec.~\ref{sec:colouring-sp} onwards that local stability is not the
+question.
+
+\paragraph{What the list establishes.} That the five structures are one
+substitution, which is Chapter~\ref{ch:chygraphs}'s claim, and that what the
+substitution is worth depends entirely on the interior. Nothing in
+Table~\ref{tab:fivecol} varies between the columns except what a complex
+forbids, and that alone moves the answer from a constant to a factor of
+twenty-five. Promoting a motif to a complex is always the right treatment of
+its loop; proper colouring is the case where the right treatment is worth
+nothing, and the hypergraph rule on the same six rows is the case where it is
+worth everything.
 
 \section{A graph with triangles}
 \label{sec:colouring-triangles}
@@ -442,12 +571,12 @@ So this is not a statement that clustering moves the colouring threshold. What
 moves is the excess-degree bookkeeping: a regular vertex reached through a
 triangle has one fewer triangle to pass the message on to, and that lost branch
 is the entire effect. It is the same lost branch that separates
-$(q-1)^{2}$ from $(q-1)^{2}+1$ in Sec.~\ref{sec:colouringthreshold}, arriving
+$(q-1)^{2}$ from $(q-1)^{2}+1$ in Sec.~\ref{sec:colfive}, arriving
 somewhere it is easy to mistake for physics.
 
 \paragraph{Why only one branch.} Because proper colouring cannot see
 cardinality. A triangle transmits precisely what an edge transmits,
-Sec.~\ref{sec:colouring-scalar}, so absorbing its loop into a complex changes
+Sec.~\ref{sec:colouring-proper}, so absorbing its loop into a complex changes
 how many branches leave a vertex and leaves what travels along them alone. Only
 the count is corrected, and a count is worth one.
 
@@ -458,132 +587,6 @@ three orders of magnitude, from the identical operation on the identical
 structure. Promoting a motif to a complex is always the right treatment of its
 loop. What that treatment is worth in numbers is decided by the interaction
 inside the complex, and proper colouring is the case where it is worth least.
-
-\section{Structured networks}
-\label{sec:colfive}
-
-Chapter~\ref{ch:chygraphs} claimed that one calculation covers the five
-structures of Fig.~\ref{fig:mappings}. Sections~\ref{sec:isingfive},
-\ref{sec:hsfive} and~\ref{sec:fivecover} pay that out for the critical
-temperature, for hitting set and for vertex cover. Here it is paid out twice,
-once per interior rule --- Eq.~\eqref{eq:colZp} and then
-Eq.~\eqref{eq:colZh} --- and the two answers are as far apart as they can be:
-one column of Table~\ref{tab:fivecol} is constant down its whole length and the
-other spans a factor of twenty-five. Same five structures, same
-Eq.~\eqref{eq:colmulti}, and the only thing changed between the columns is what
-a complex forbids.
-
-\begin{table}[t]
-\centering\small
-\begin{adjustbox}{max width=\linewidth}
-\input{figs/tab-five-structures-col}
-\end{adjustbox}
-\caption{\textbf{The five structures, both interior rules.} Neighbours per node
-at the stability line, Eq.~\eqref{eq:colmulti} at $q=4$, with the degree split
-evenly across the layers. \emph{Proper} and \emph{hypergraph} are Poisson
-layers; \emph{proper, regular} is the same proper rule with
-$\ave{\kbar}=\ave{\kappa}-1$, the only column in which the layer list is
-visible at all. Read what these numbers are before reading them:
-Sec.~\ref{sec:colouring-sp} says this line is not where the colourings run
-out, and Sec.~\ref{sec:colouring-cq} measures how badly the two part company on
-exactly the clustered row. Generated by
-\code{figs/\allowbreak colouring.\allowbreak py:table\_\allowbreak five\_\allowbreak structures}.}
-\label{tab:fivecol}
-\end{table}
-
-\paragraph{A graph} is one layer of links. One term in
-Eq.~\eqref{eq:colmulti} gives $\ave{\kbar}\tau^{2}=1$, which is
-Eq.~\eqref{eq:colthresh}, and with $\tau=-1/(q-1)$ the stability line is
-\begin{equation}
-  \ave{\kbar}=(q-1)^{2},
-  \label{eq:colgraphline}
-\end{equation}
-neighbours per node on the left and colours on the right. The two rules
-coincide at cardinality two, so this is the whole row. For example, at $q=4$ that is $9$ neighbours per node for a
-Poisson degree and $10$ for a regular one. Both are
-\citeauthor{zdeborova2007}'s, and Sec.~\ref{sec:colouringthreshold} has already
-used the pair as the chapter's check.
-
-\paragraph{A hypergraph} is one complex layer with the cardinality free, and it
-is where the two rules separate. Take it at a single size $c$. The single term is $\ave{\kbar}(c-1)\tau_{c}^{2}=1$. In
-neighbours per node the proper rule gives $(q-1)^{2}$ with a Poisson degree,
-since $\tau$ does not depend on $c$, and $(q-1)^{2}+(c-1)$ with a regular one
---- cardinality reaching the answer only through the excess convention, and
-only by $c-1$ in degree, which is Eq.~\eqref{eq:tridisagree}'s pair of lines at
-$c=2$ and $c=3$. The hypergraph rule gives $(q^{\,c-1}-1)^{2}$. That is
-Eq.~\eqref{eq:coltwo}. For example, at $q=4$ and $c=3$ --- three-cliques under
-the proper rule, $3$-hyperedges under the weaker one --- the two give $9$ and
-$225$. The separation is the whole content of
-Sec.~\ref{sec:twoconstraints-col} read structure by structure. Under the proper rule it is still $9$: a triangle
-forbids what its three edges forbid, transmits what an edge transmits, and
-supplies twice the neighbours at half the chy-degree, so nothing moves. Under
-the hypergraph rule it is $225$. The object on the page is identical in the two
-cases. What differs is whether all three members must disagree or merely not all
-three agree, and that one word is worth a factor of twenty-five.
-
-\paragraph{A multiplex network} is $L$ link layers on the same vertices. Every
-layer is at $c=2$, where the two rules coincide and $\tau$ is the same in every
-layer, so Eq.~\eqref{eq:colmulti} reads
-\[
-  \sum_{l}\frac{\ave{\kappa}_{l}\tau^{2}}
-                {1-\bigl(\ave{\kbar}_{l}-\ave{\kappa}_{l}\bigr)\tau^{2}}=1,
-\]
-and only the total survives: $(q-1)^{2}$ neighbours per node with Poisson
-layers, $(q-1)^{2}+1$ with regular ones, whatever $L$ is. For example, two link
-layers sharing the degree evenly give $9$ at $q=4$, the graph's number under
-both rules. A multiplex is a graph carrying labels that proper colouring
-cannot read.
-
-\paragraph{Interacting graphs and hypergraphs} is $L$ layers whose
-cardinalities need not agree. Under the proper rule that costs almost nothing,
-every $\tau_{l}$ being $-1/(q-1)$ regardless: for $L$ layers of one cardinality
-$c$ the line is $(q-1)^{2}$ neighbours per node with Poisson layers and
-$(q-1)^{2}+(c-1)$ with regular ones, the same pair the single layer gives and
-independent of $L$. Under the hypergraph rule each layer carries its own
-$\tau_{c_{l}}$ and the terms no longer share a factor. For example, three link
-layers sharing the degree equally give $9$, and three layers of cardinality
-three give $225$ under the weaker rule and $9$ under the proper one. The panel
-follows its layer list and adds nothing else. As in
-Chapter~\ref{ch:ising} and unlike Chapters~\ref{ch:hittingset}
-and~\ref{ch:cover}, the cross layer is not a special case: it contributes its
-term and the sum is all there is.
-
-\paragraph{A clustered graph} is a link layer together with one layer per clique
-size present, here a link layer and a triangle layer. Under the proper rule
-every layer carries the same $\tau$, so with Poisson
-layers the two terms still add to the total neighbours per node and nothing
-moves; with regular layers the denominators of Eq.~\eqref{eq:colmulti} differ
-between the layers, $1+\tau^{2}$ against $1+2\tau^{2}$, and the answer lies
-strictly between the two pure cases. For example, half the degree in each gives
-$10.476$ --- which is Eq.~\eqref{eq:trifamily} at $f=1/2$, exactly, and lies
-between the $10$ of all links and the $11$ of all triangles as that equation
-says it must. Under the Poisson convention it is $9$ like everything else. The
-row is Sec.~\ref{sec:colouring-triangles}'s result appearing as one entry in a
-list, and the interval it lies in is one in degree wide.
-
-\paragraph{The column that is constant, and what it does not say.} It does not
-say that structure is irrelevant to colouring. It says that this
-\emph{line} cannot see it. Section~\ref{sec:colouring-sp-graph} puts the
-line on the wrong side of the colourability threshold from $q=4$ upward, and
-Sec.~\ref{sec:colouring-cq} measures what the constant column misses: promoting
-links into triangles at fixed degree lowers the colourability threshold
-$\kbar_{q}$ of Sec.~\ref{sec:colouring-sp} by a third, from $4.68$ to $3.07$ at
-$q=3$, while the proper column here does not move by so much as a
-digit. A reader who took the constant column as a statement about colouring
-would have the sign of the largest effect in the chapter replaced by a zero.
-The table is a statement about local stability, and the chapter says from
-Sec.~\ref{sec:colouring-sp} onwards that local stability is not the
-question.
-
-\paragraph{What the list establishes.} That the five structures are one
-substitution, which is Chapter~\ref{ch:chygraphs}'s claim, and that what the
-substitution is worth depends entirely on the interior. Nothing in
-Table~\ref{tab:fivecol} varies between the columns except what a complex
-forbids, and that alone moves the answer from a constant to a factor of
-twenty-five. Promoting a motif to a complex is always the right treatment of
-its loop; proper colouring is the case where the right treatment is worth
-nothing, and the hypergraph rule on the same six rows is the case where it is
-worth everything.
 
 \section{Replica symmetry breaking}
 \label{sec:colouring-sp}
@@ -812,7 +815,8 @@ existing. The same ordering is reported for Erd\H{o}s--R\'enyi graphs by
 \citet{zdeborova2007}, who find the instability inside the colourable phase for
 $q=3$ alone.
 
-One part of Eq.~\eqref{eq:coltwo} survives all of this unchanged. That
+One part of Secs.~\ref{sec:colouring-proper} and~\ref{sec:colouring-hyper}
+survives all of this unchanged. That
 cardinality drops out of the proper constraint and dominates the hypergraph one
 is a statement about what a complex transmits, and Eqs.~\eqref{eq:taucol}
 and~\eqref{eq:tauhyp} are properties of an interior rather than of an ansatz.
@@ -896,7 +900,7 @@ Table~\ref{tab:hypsp} is the result.
 
 The three rows agree with the colourability thresholds obtained by
 \citet{gabrie2017}, whose Eq.~(43) is also
-Sec.~\ref{sec:colouringthreshold}'s hypergraph line. What the agreement
+Eq.~\eqref{eq:colhyperline}. What the agreement
 establishes is that Eq.~\eqref{eq:hypsp} is the
 whole of the difference --- that once a complex can forbid at most one colour,
 cardinality enters the one-step calculation through a single scalar and through
@@ -1176,8 +1180,8 @@ here. What is settled is where the colourings run out, not how badly.
 \checkhead{Known results}
 Equation~\eqref{eq:colthresh} at $c=2$ returns $(q-1)^{2}$ for a Poisson degree
 distribution and $(q-1)^{2}+1$ for a regular one, which are the two lines of
-\citeauthor{zdeborova2007}'s Eq.~(18), and Eq.~\eqref{eq:coltwo}'s hypergraph
-line is \citeauthor{gabrie2017}'s Eq.~(43). Section~\ref{sec:colouring-sp-graph}
+\citeauthor{zdeborova2007}'s Eq.~(18), and Eq.~\eqref{eq:colhyperline} is
+\citeauthor{gabrie2017}'s Eq.~(43). Section~\ref{sec:colouring-sp-graph}
 returns \citeauthor{mulet2002}'s $\kbar_{q}$ at cardinality two for $q=3,4,5$ to a
 tenth of a per cent, and the clustering threshold $\kbar_{d}$ out of the same
 population as the density at which the survey stops being trivial.

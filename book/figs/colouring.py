@@ -23,7 +23,7 @@ Benchmarks, from `~/Downloads/chygraph_references/`:
     -- survey propagation for colouring; the update below is its m = 0 form
   Gabrie, Dani, Semerjian & Zdeborova, J. Phys. A 50, 505002 (2017), Table 1
     -- q-colouring of K-uniform hypergraphs; its Eq. (43) is the stability
-    threshold this chapter derives, and its l_col benchmarks Sec. 12.9
+    threshold this chapter derives, and its l_col benchmarks Sec. 12.10
 """
 
 import itertools
@@ -410,7 +410,7 @@ def check_survey_branch_is_clustering():
 # survey propagation above cardinality two
 # ---------------------------------------------------------------------------
 #
-# Sec. 12.9. Everything turns on how many colours ONE complex can forbid at
+# Sec. 12.10. Everything turns on how many colours ONE complex can forbid at
 # once.
 #
 #   hypergraph rule: at most ONE -- a complex is violated only when all its
@@ -504,10 +504,10 @@ def check_hypergraph_thresholds():
 
 
 # ---------------------------------------------------------------------------
-# set-valued survey propagation: Sec. 12.10
+# set-valued survey propagation: Sec. 12.11
 # ---------------------------------------------------------------------------
 #
-# Sec. 12.9's substitution reaches the hypergraph rule and not the proper one,
+# Sec. 12.10's substitution reaches the hypergraph rule and not the proper one,
 # because a complex of cardinality c can close up to c-1 colours at once. This
 # carries the survey as a SET and does the proper rule at c = 3.
 #
@@ -676,7 +676,7 @@ def check_setvalued_gates():
 
 
 def check_window_closes():
-    """Sec. 12.10: on triangles the proper rule leaves no window for m = 0.
+    """Sec. 12.11: on triangles the proper rule leaves no window for m = 0.
 
     A crossing needs a range where a non-trivial survey exists AND Sigma is
     still positive. The graph has one; the triangle network does not. Losing it
@@ -756,7 +756,7 @@ def clustered_cq(q, lo=1.2, hi=4.5, iters=12, seed=0, size=4000,
     """Degree at which a triangle-clustered graph stops being q-colourable.
 
     Sigma(y=inf) is the complexity of ZERO-ENERGY clusters -- Krzakala, Pagnani
-    & Weigt Eq. (20), which Eq. (12.14) reproduces term for term. Negative means
+    & Weigt Eq. (20), which Eq. (12.15) reproduces term for term. Negative means
     none exist. On a graph the sequence is: trivial survey, then a branch with
     Sigma > 0, then Sigma crossing zero at c_q. On triangles the middle step is
     missing -- the branch arrives with Sigma already negative -- so the
@@ -778,7 +778,7 @@ def clustered_cq(q, lo=1.2, hi=4.5, iters=12, seed=0, size=4000,
 
 
 def check_fold_convergence():
-    """Sec. 12.10: the fold is converged, and nothing shattered hides below it.
+    """Sec. 12.11: the fold is converged, and nothing shattered hides below it.
 
     clustered_cq bounds c_q from above, and its own caveat is that the bound is
     tight only if the shattered phase has zero width rather than a width this
@@ -824,7 +824,7 @@ def check_fold_convergence():
 
 
 def check_clustered_cq(size=60000):
-    """Sec. 12.10: c_q for triangles, against the graph, and against the RS line.
+    """Sec. 12.11: c_q for triangles, against the graph, and against the RS line.
 
     clustered_cq bounds c_q from above, so every comparison below is an
     inequality -- which is the form the conclusion needs anyway.
@@ -852,7 +852,7 @@ def check_clustered_cq(size=60000):
         r = [clustered_cq(q, seed=sd, size=size, iters=14)
              for sd in (0, 1, 2)]
         tri, sd_tri = float(np.mean(r)), float(np.std(r))
-        # Sec. 12.5: Poisson layers carry no excess-degree correction, so both
+        # Sec. 12.7: Poisson layers carry no excess-degree correction, so both
         # routes give (q-1)^2; only a regular ensemble separates them.
         rs_p = (q - 1) ** 2
         rs_g, rs_t = rs_p + 1, rs_p + 2
@@ -897,7 +897,7 @@ def stability_threshold_layers(cards, q, rule, regular=False):
         sum_l  kappa_l (c_l-1) tau_l^2 / D_l = 1,
         D_l = 1 - (kbar_l - kappa_l)(c_l-1) tau_l^2,
 
-    which is ``kbar (c-1) tau^2 = 1`` at one layer and Eq. (12.11) at two.
+    which is ``kbar (c-1) tau^2 = 1`` at one layer and Eq. (12.13) at two.
     Splitting the neighbours evenly across the layers makes it explicit:
     ``kappa_l (c_l-1) = nu / L``, so ``nu = L / sum_l tau_l^2 / D_l``.  With
     Poisson layers every ``D_l`` is 1; with regular ones ``kbar - kappa = -1``
@@ -924,12 +924,12 @@ def check_five_layers():
                     got = stability_threshold_layers([c], q, rule, reg)
                     want = stability_threshold(c, q, rule, reg)
                     assert abs(float(got) - want) < 1e-12, (q, rule, c, reg)
-        # the clustered row against Eq. (12.11), exactly, in rational arithmetic
+        # the clustered row against Eq. (12.13), exactly, in rational arithmetic
         assert stability_threshold_layers([2, 3], q, 'proper', True) == \
             triangle_family(q, F(1, 2)), q
         # L layers of one cardinality c, proper rule: (q-1)^2 with Poisson
         # layers and (q-1)^2 + (c-1) with regular ones, independent of L.
-        # At c = 2 and c = 3 that pair is Eq. (12.10).
+        # At c = 2 and c = 3 that pair is Eq. (12.12).
         for cards in ([2], [2, 2], [2, 2, 2], [3], [3, 3, 3], [4, 4], [5]):
             c = cards[0]
             if c > q:
@@ -939,7 +939,7 @@ def check_five_layers():
                 F((q - 1) ** 2 + c - 1), (q, cards)
     print('  one layer reproduces stability_threshold at c = 2, 3, both rules,')
     print('  L layers of one cardinality give (q-1)^2 and (q-1)^2+(c-1);')
-    print('  Poisson and regular; the clustered row equals Eq. (12.11) at f = 1/2,')
+    print('  Poisson and regular; the clustered row equals Eq. (12.13) at f = 1/2,')
     print('  exactly, in rational arithmetic')
 
 
@@ -948,7 +948,7 @@ def table_five_structures(q=4):
 
     Neighbours per node at the stability line, with the degree split evenly
     across the layers.  The proper column is constant down the table and the
-    hypergraph column is not, which is Sec. 12.4's contrast read structure by
+    hypergraph column is not, which is Sec. 12.5's contrast read structure by
     structure rather than cardinality by cardinality.
     """
     out = [r'\begin{tabular}{lcrrr}', r'\hline\hline',
@@ -977,7 +977,7 @@ def table_five_structures(q=4):
 
 
 def figure_threshold():
-    """Sec. 12.10: how the threshold is located, and why triangles differ.
+    """Sec. 12.11: how the threshold is located, and why triangles differ.
 
     Left, a graph: the survey is trivial and Sigma is zero until the branch
     lifts off, Sigma is POSITIVE over an arc, and the arc falls through zero at
