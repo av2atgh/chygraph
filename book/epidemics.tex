@@ -100,13 +100,26 @@ the standard model of this --- \emph{two levels
 of mixing} --- and it has an epidemiological literature of its own.
 
 It is a chygraph with three layers, and drawing it is most of the work
-(Fig.~\ref{fig:households}):
-\begin{itemize}
-\item layer $0$: individuals, as atoms;
-\item layer $1$: households, as complexes whose intra-complex graph is the
-      complete graph on their members;
-\item layer $2$: global contacts, as complexes holding two individuals.
-\end{itemize}
+(Fig.~\ref{fig:households}).
+
+\begin{model}{Two levels of mixing, as a chygraph}
+\begin{rules}
+\rl{1}{Individuals} Layer $0$ is the individuals, one atom each.
+\rl{2}{Households} Layer $1$ is the households: one complex per household, whose
+intra-complex graph is the complete graph on its members, so that inside a
+household everybody meets everybody. Each individual is included in exactly one
+of these.
+\rl{3}{Global contacts} Layer $2$ is the contacts made outside the household:
+one complex per contact, holding the two individuals it joins.
+\end{rules}
+\end{model}
+
+What the three rules produce is the standard model of two levels of mixing with
+no epidemiology written into it anywhere --- no infectious period, no rate, no
+household size distribution beyond the one in $G^{1}_{0}$. Everything the model
+is usually specified with has been pushed into the two occupation probabilities
+$p_{H}$ and $T$ and into the layer data, which is what makes it a substitution
+into Chapter~\ref{ch:percolation} rather than a fresh calculation.
 
 Two features of the mapping carry all of the content, and both are statements
 one would make in words about households anyway.

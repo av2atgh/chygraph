@@ -90,12 +90,29 @@ remedy is to work with larger \emph{regions} --- sets of variables treated as
 units --- and to choose counting numbers so that every variable, and every
 interaction, is still counted once.
 
-Close the complex family under intersection and assign counting numbers by
-M\"obius inversion:
+Which regions, and which counting numbers, is the whole of the construction, and
+it is three lines.
+
+\begin{model}{The region graph}
+\begin{rules}
+\rl{1}{Seed} Take the complexes of the chygraph as the initial regions.
+\rl{2}{Close} Add the intersection of every pair of regions already present, and
+repeat until no new set appears. The family is then closed under intersection.
+\rl{3}{Count} Give each region $R$ the counting number fixed by M\"obius
+inversion,
 \begin{equation}
-  c_{R}=1-\sum_{R'\supsetneq R}c_{R'}.
+  c_{R}=1-\sum_{R'\supsetneq R}c_{R'},
   \label{eq:mobius}
 \end{equation}
+working downwards from the regions contained in nothing, which take $c_{R}=1$.
+\end{rules}
+\end{model}
+
+What the rules produce is a family in which every variable and every interaction
+is counted exactly once, which is the property a tree had for free and the
+property Eq.~\eqref{eq:mobius} is engineered to restore. Rule~2 is the expensive
+one: nothing bounds the size of the closure in advance, and
+Sec.~\ref{sec:realoverlap} is where that bites.
 
 The counting numbers are what a free energy is built from. Evaluated on regions
 treated as isolated --- an estimate, not yet a fixed point --- it is
