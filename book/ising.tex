@@ -71,8 +71,8 @@ point where all of them vanish, are
   \begin{aligned}
     u'&=\frac{\partial u}{\partial h_{1}}\bigg|_{h=0},
       \qquad
-      u=\tfrac12\ln\frac{Z(\sigma_{0}=+1)}{Z(\sigma_{0}=-1)},\\[4pt]
-    Z(\sigma_{0})&=\!\!\!\sum_{\sigma_{1}\dots\sigma_{c-1}=\pm1}\!\!\!
+      u=\tfrac12\ln\frac{\bar{Z}(\sigma_{0}=+1)}{\bar{Z}(\sigma_{0}=-1)},\\[4pt]
+    \bar{Z}(\sigma_{0})&=\!\!\!\sum_{\sigma_{1}\dots\sigma_{c-1}=\pm1}\!\!\!
       e^{\,\beta J\sum_{0\le i<j\le c-1}\sigma_{i}\sigma_{j}
          \,+\,\sum_{j\ge1}h_{j}\sigma_{j}}.
   \end{aligned}
@@ -89,7 +89,7 @@ Take $c=2$ explicitly, both because it has to come out as a link and because
 every other cardinality is the same three steps with a longer sum. There is one
 other member and one bond, so the sum has two terms:
 \[
-  Z(\sigma_{0})=\sum_{\sigma_{1}=\pm1}
+  \bar{Z}(\sigma_{0})=\sum_{\sigma_{1}=\pm1}
     e^{\beta J\sigma_{0}\sigma_{1}+h_{1}\sigma_{1}}
   =2\cosh(\beta J\sigma_{0}+h_{1}).
 \]
@@ -128,7 +128,7 @@ formalism already lives under.
 
 By Eq.~\eqref{eq:emitted},
 \[
-  u'=\frac{\partial}{\partial h_{1}}\tfrac12\bigl[\ln Z(+)-\ln Z(-)\bigr]
+  u'=\frac{\partial}{\partial h_{1}}\tfrac12\bigl[\ln \bar{Z}(+)-\ln \bar{Z}(-)\bigr]
      \bigg|_{h=0}
     =\tfrac12\Bigl[\ave{\sigma_{1}}_{+}-\ave{\sigma_{1}}_{-}\Bigr],
 \]
@@ -656,7 +656,7 @@ Write the rule as $1+(e^{a}-1)\delta$, $a=\beta J_{q}$, splitting the interior
 sum into a free part and one correction. With cavity fields
 $h_{1},\dots,h_{q-1}$ on the other members,
 \[
-  Z(\sigma_{0})=\prod_{j=1}^{q-1}\bigl(2\cosh h_{j}\bigr)
+  \bar{Z}(\sigma_{0})=\prod_{j=1}^{q-1}\bigl(2\cosh h_{j}\bigr)
                 +(e^{a}-1)\,e^{\sigma_{0}\sum_{j}h_{j}},
 \]
 the correction surviving only where every $\sigma_{j}=\sigma_{0}$.

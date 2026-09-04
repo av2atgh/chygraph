@@ -110,8 +110,8 @@ a complex holding $c$ members with internal energy $-\beta H(\sigma)$, the field
 it emits onto member $0$ given the cavity fields of the others is
 \begin{equation}
   \begin{split}
-    u&=\tfrac12\ln\frac{Z(\sigma_{0}=+1)}{Z(\sigma_{0}=-1)},\\
-    Z(\sigma_{0})&=\!\!\sum_{\sigma_{1}\dots\sigma_{c-1}}\!\!
+    u&=\tfrac12\ln\frac{\bar{Z}(\sigma_{0}=+1)}{\bar{Z}(\sigma_{0}=-1)},\\
+    \bar{Z}(\sigma_{0})&=\!\!\sum_{\sigma_{1}\dots\sigma_{c-1}}\!\!
       e^{-\beta H(\sigma)+\sum_{j}h_{j}\sigma_{j}}.
   \end{split}
   \label{eq:emitted}
@@ -121,12 +121,12 @@ everything outside the complex.
 
 Equation~\eqref{eq:emitted} reads like a definition and is not. What the complex
 has to tell member $0$ is the whole of its effect on that member, which is the
-function $\hat\nu(\sigma_{0})\propto Z(\sigma_{0})$. A function of one Ising
+function $\hat\nu(\sigma_{0})\propto \bar{Z}(\sigma_{0})$. A function of one Ising
 variable takes two values, and only their ratio is used, because the message
 enters a normalised measure. So the message is one number however large the
 complex is --- the enumeration behind it grows as $2^{c}$, what comes out of it
 does not --- and writing that number in the exponential form the up step needs,
-$\hat\nu(\sigma_{0})\propto e^{u\sigma_{0}}$, fixes $e^{u}/e^{-u}=Z(+1)/Z(-1)$,
+$\hat\nu(\sigma_{0})\propto e^{u\sigma_{0}}$, fixes $e^{u}/e^{-u}=\bar{Z}(+1)/\bar{Z}(-1)$,
 which is Eq.~\eqref{eq:emitted}. The $\tfrac12$ is there because
 $\sigma_{0}=\pm1$ rather than $0,1$. It is the same parameterisation that makes
 Eq.~\eqref{eq:up} a sum: messages compose by multiplication, and $h$ is the
@@ -135,7 +135,7 @@ exponent in which multiplication is addition.
 At $c=2$ this returns what Chapter~\ref{ch:introduction} already had. One other
 member and one bond give
 \begin{align*}
-  Z(\sigma_{0})&=\sum_{\sigma_{1}}
+  \bar{Z}(\sigma_{0})&=\sum_{\sigma_{1}}
     e^{\beta J\sigma_{0}\sigma_{1}+h_{1}\sigma_{1}}
     =2\cosh(\beta J\sigma_{0}+h_{1}),\\
   u&=\tfrac12\ln\frac{\cosh(\beta J+h_{1})}{\cosh(\beta J-h_{1})}
@@ -660,8 +660,8 @@ For the amplitude, expand. Whatever the interior, it is odd under a spin flip,
 so $\bar u_{k}(h)=a^{(k)}_{1}h+a^{(k)}_{3}h^{3}+O(h^{5})$, and both
 coefficients are cumulants of one quantity. Writing $S$ for the total spin of
 the other $c-1$ members under the Gibbs weight of the isolated complex with the
-entered member held at $+1$, spin-flip symmetry makes $Z(-1)$ at $h$ equal
-$Z(+1)$ at $-h$, so with $g$ the cumulant generating function of $S$ the emitted
+entered member held at $+1$, spin-flip symmetry makes $\bar{Z}(-1)$ at $h$ equal
+$\bar{Z}(+1)$ at $-h$, so with $g$ the cumulant generating function of $S$ the emitted
 field is $\bar u(h)=[g(h)-g(-h)]/2$ and
 \begin{equation}
   a_{1}=\ave{S},

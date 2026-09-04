@@ -196,11 +196,11 @@ the interior sum was.
 
 Give member $j$ of a complex an unnormalised message: weight $1$ on one
 distinguished state and weight $y_{j}$ on each of the other $q-1$ states. The
-complex emits onto member $i$ the pair of sums $Z_{a\to i}(\sigma_{i})$ with
+complex emits onto member $i$ the pair of sums $\bar{Z}_{a\to i}(\sigma_{i})$ with
 $\sigma_{i}$ distinguished or not, and only their ratio
 \[
-  \rho_{a\to i}=\frac{Z_{a\to i}(\sigma_{i}\ \text{not distinguished})}
-                     {Z_{a\to i}(\sigma_{i}\ \text{distinguished})}
+  \rho_{a\to i}=\frac{\bar{Z}_{a\to i}(\sigma_{i}\ \text{not distinguished})}
+                     {\bar{Z}_{a\to i}(\sigma_{i}\ \text{distinguished})}
 \]
 matters. At a member belonging to several complexes the messages multiply,
 $y_{i\to b}=\prod_{a\ne b}\rho_{a\to i}$, which is already the shape of
@@ -210,13 +210,13 @@ Take the complex to be a single link $\{i,j\}$, carrying $1+v\delta$. If
 $\sigma_{i}$ is distinguished, $j$ either matches it --- weight $1$, bond
 $1+v$ --- or takes one of the $q-1$ other states, weight $y_{j}$ each:
 \[
-  Z(\text{dist.})=(1+v)+(q-1)y_{j}.
+  \bar{Z}(\text{dist.})=(1+v)+(q-1)y_{j}.
 \]
 If $\sigma_{i}$ is one fixed non-distinguished state, $j$ may match it
 ($y_{j}$, bond $1+v$), take the distinguished state ($1$), or take one of the
 remaining $q-2$ states ($y_{j}$ each):
 \[
-  Z(\text{not dist.})=(1+v)y_{j}+1+(q-2)y_{j}.
+  \bar{Z}(\text{not dist.})=(1+v)y_{j}+1+(q-2)y_{j}.
 \]
 Both are polynomials in $q$, so both continue to real $q$ on their own. At
 $q=1$,
@@ -290,7 +290,7 @@ coupling $J$ an Ising bond of coupling $J/2$ --- the textbook Ising cavity
 factor, and Chapter~\ref{ch:ising}'s entire link layer.
 
 The interior first matters at $c=3$, and the same two sums give it. One
-simplification first: at the symmetric point $Z_{a\to i}$ does not depend on
+simplification first: at the symmetric point $\bar{Z}_{a\to i}$ does not depend on
 which state $\sigma_{i}$ is in, so the two partition functions are equal there
 and the quotient rule collapses to
 \begin{equation}

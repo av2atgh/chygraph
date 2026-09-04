@@ -69,13 +69,49 @@ they are not the same.
 \emph{Proper colouring} of the induced graph: every pair inside a complex is an
 edge, so all $c$ members must take \emph{distinct} colours. This needs $q\ge c$
 and is what one means by colouring a clustered graph whose motifs have been
-promoted to complexes.
+promoted to complexes,
+\begin{equation}
+  \mathcal{H}_{\mathrm{p}}=\sum_{a}\ \sum_{\{i,j\}\subset a}
+     \delta_{\sigma_{i}\sigma_{j}},
+  \label{eq:colHp}
+\end{equation}
+with $\sigma_{i}\in\{1,\dots,q\}$, $a$ running over the complexes and the inner
+sum over the unordered pairs inside one. In the $\beta\to\infty$ limit the
+partition function $Z=\sum_{\{\sigma\}}e^{-\beta\mathcal{H}}$ reads
+\begin{equation}
+  Z_{\mathrm{p}}=\sum_{\{\sigma\}}\ \prod_{a}\ \prod_{\{i,j\}\subset a}
+     \bigl(1-\delta_{\sigma_{i}\sigma_{j}}\bigr).
+  \label{eq:colZp}
+\end{equation}
 
 \emph{Hypergraph colouring}: only a \emph{monochromatic} complex is forbidden.
 Two members may agree as long as not all of them do. This is the standard
-higher-order generalisation, and it is strictly weaker.
+higher-order generalisation, and it is strictly weaker,
+\begin{equation}
+  \mathcal{H}_{\mathrm{h}}=\sum_{a}\ \sum_{\gamma=1}^{q}\ \prod_{i\in a}
+     \delta_{\sigma_{i}\gamma},
+  \label{eq:colHh}
+\end{equation}
+the inner sum over the $q$ colours a complex could be monochromatic in. In the
+same limit
+\begin{equation}
+  Z_{\mathrm{h}}=\sum_{\{\sigma\}}\ \prod_{a}
+     \Bigl(1-\sum_{\gamma=1}^{q}\ \prod_{i\in a}
+     \delta_{\sigma_{i}\gamma}\Bigr).
+  \label{eq:colZh}
+\end{equation}
 
-At $c=2$ the two coincide, which is exactly why the distinction has no
+Both energies count violations --- monochromatic pairs for the proper rule,
+monochromatic complexes for the hypergraph one --- so each $Z$ counts the
+configurations of zero energy and nothing else, and a colouring exists exactly
+when the count is non-zero. On a graph every complex is a single pair,
+$\mathcal{H}_{\mathrm{p}}$ is Eq.~\eqref{eq:col-intro}, and both rules return
+it.
+
+At $c=2$ the two coincide: a complex $a=\{i,j\}$ has one pair, and
+$\sum_{\gamma}\delta_{\sigma_{i}\gamma}\delta_{\sigma_{j}\gamma}
+=\delta_{\sigma_{i}\sigma_{j}}$, so the two products agree factor by
+factor. That is exactly why the distinction has no
 counterpart on a graph. Above it they are different problems, and
 Chapter~\ref{ch:cover}'s pairing of hitting set with vertex cover was the same
 distinction one family earlier: how much of a complex may be left alone.
@@ -83,6 +119,12 @@ distinction one family earlier: how much of a complex may be left alone.
 \section{What a complex transmits}
 \label{sec:colouring-scalar}
 \index{transmission factor}
+
+Either rule on a single complex of cardinality $c$: what it emits to one member
+when the others are given. No structure enters yet --- that is
+Sec.~\ref{sec:colouringthreshold} --- and the $\bar{Z}(\sigma_{0})$ below is this
+one-complex sum, not the partition function of Eq.~\eqref{eq:colZp}
+or~\eqref{eq:colZh}.
 
 The uniform assignment $\eta\equiv1/q$ is always a fixed point --- every colour
 equally likely everywhere, which is the replica-symmetric solution. Linearise
@@ -105,9 +147,9 @@ because colouring fixes the temperature. Proper colouring is the
 antiferromagnetic Potts model at $\beta\to\infty$, which is $v=-1$ in
 Chapter~\ref{ch:potts}'s variable, so only the number of colours is left free.
 
-\emph{Proper colouring.} The emitted quantity is
+\emph{Proper colouring}, Eq.~\eqref{eq:colZp}. The emitted quantity is
 \[
-  Z(\sigma_{0})=\!\!\sum_{\substack{\sigma_{1}\dots\sigma_{c-1}\ \text{distinct}\\
+  \bar{Z}(\sigma_{0})=\!\!\sum_{\substack{\sigma_{1}\dots\sigma_{c-1}\ \text{distinct}\\
     \text{and all}\ \ne\sigma_{0}}}\ \prod_{j}\eta_{j}(\sigma_{j}).
 \]
 Differentiate with respect to $\eta_{1}(s)$. The result is zero unless
@@ -119,17 +161,17 @@ been excluded and not on which. So the linear response is
   =A\Bigl(\sum_{s}w_{1}(s)-w_{1}(\sigma_{0})\Bigr)=-A\,w_{1}(\sigma_{0}),
 \]
 the first sum vanishing by tracelessness. At the uniform point
-$Z_{0}=q^{1-c}(q-1)!/(q-c)!$ --- one factor $1/q$ per other member, times the
+$\bar{Z}_{0}=q^{1-c}(q-1)!/(q-c)!$ --- one factor $1/q$ per other member, times the
 number of ways to colour them distinctly and all differently from $\sigma_{0}$
 --- and $A=q^{2-c}(q-2)!/(q-c)!$ by the same count with one more colour excluded
-and one factor fewer, so $A/Z_{0}=q/(q-1)$.
+and one factor fewer, so $A/\bar{Z}_{0}=q/(q-1)$.
 
-What is emitted is $Z$ normalised, $\eta_{0}(\sigma_{0})=Z(\sigma_{0})/
-\sum_{\sigma}Z(\sigma)$, and that last step is where the remaining factor comes
+What is emitted is $\bar{Z}$ normalised, $\eta_{0}(\sigma_{0})=\bar{Z}(\sigma_{0})/
+\sum_{\sigma}\bar{Z}(\sigma)$, and that last step is where the remaining factor comes
 from. The perturbation of the numerator is traceless as well,
-$\sum_{\sigma_{0}}\delta Z(\sigma_{0})=-A\sum_{\sigma_{0}}w_{1}(\sigma_{0})=0$,
+$\sum_{\sigma_{0}}\delta \bar{Z}(\sigma_{0})=-A\sum_{\sigma_{0}}w_{1}(\sigma_{0})=0$,
 so the denominator does not move at first order and stays at $qZ_{0}$. Hence
-$w_{0}=\delta Z/(qZ_{0})=-(A/Z_{0})\,w_{1}/q$ --- one division by $q$ and nothing
+$w_{0}=\delta\bar{Z}/(qZ_{0})=-(A/\bar{Z}_{0})\,w_{1}/q$ --- one division by $q$ and nothing
 else --- giving
 \begin{equation}
   \tau_{c}(q)=-\frac{1}{q-1}.
@@ -142,13 +184,14 @@ Equations~\eqref{eq:tau2} and~\eqref{eq:tau3} at $v=-1$ are both $-1/(q-1)$,
 so the cardinality-independence is already visible in the Potts transmission at
 $c=2$ and $c=3$, before this section derives it for every $c$.
 
-\emph{Hypergraph colouring.} Here the constraint removes a single configuration,
+\emph{Hypergraph colouring}, Eq.~\eqref{eq:colZh}. Here the constraint removes a
+single configuration,
 so
 \[
-  Z(\sigma_{0})=1-\prod_{j}\eta_{j}(\sigma_{0}),
+  \bar{Z}(\sigma_{0})=1-\prod_{j}\eta_{j}(\sigma_{0}),
 \]
-and expanding the product to first order gives $Z_{0}=1-q^{1-c}$ and
-$\delta Z(\sigma_{0})=-q^{2-c}w_{1}(\sigma_{0})$, traceless again, so the same
+and expanding the product to first order gives $\bar{Z}_{0}=1-q^{1-c}$ and
+$\delta \bar{Z}(\sigma_{0})=-q^{2-c}w_{1}(\sigma_{0})$, traceless again, so the same
 division by $q$ gives
 \begin{equation}
   \tau^{\mathrm{hyp}}_{c}(q)=-\frac{1}{q^{\,c-1}-1}.
@@ -195,6 +238,10 @@ Sec.~\ref{sec:colouring-sp-graph}. Generated by \code{figs/\allowbreak colouring
 \section{The replica-symmetric threshold}
 \label{sec:colouringthreshold}
 \index{de Almeida--Thouless line}
+
+One layer of a chygraph, under either rule. The rule enters only through
+$\tau_{c}$, so Eqs.~\eqref{eq:colZp} and~\eqref{eq:colZh} are carried to a
+single line and separated afterwards.
 
 Substituting into Eq.~\eqref{eq:branch} needs one decision, and it is the
 decision Chapter~\ref{ch:ising} already made in Sec.~\ref{sec:atline}.
@@ -292,6 +339,9 @@ entirely.
 \section{The two constraints diverge above cardinality two}
 \label{sec:twoconstraints-col}
 
+One clique network, read under each rule in turn: Eq.~\eqref{eq:colZp} against
+Eq.~\eqref{eq:colZh} on the same object.
+
 Equation~\eqref{eq:coltwo} says the following.
 
 Proper colouring of a clique network is, at this level of description,
@@ -318,6 +368,9 @@ looks like general theory is an artefact of working there.
 
 \section{A graph with triangles}
 \label{sec:colouring-triangles}
+
+The proper rule, Eq.~\eqref{eq:colZp}, on a clustered graph: links promoted into
+triangles at fixed degree.
 
 The previous section left cardinality out of the proper-colouring threshold
 entirely. This section asks what that means for a clustered graph, which is
@@ -413,7 +466,8 @@ Chapter~\ref{ch:chygraphs} claimed that one calculation covers the five
 structures of Fig.~\ref{fig:mappings}. Sections~\ref{sec:isingfive},
 \ref{sec:hsfive} and~\ref{sec:fivecover} pay that out for the critical
 temperature, for hitting set and for vertex cover. Here it is paid out twice,
-once per interior rule, and the two answers are as far apart as they can be:
+once per interior rule --- Eq.~\eqref{eq:colZp} and then
+Eq.~\eqref{eq:colZh} --- and the two answers are as far apart as they can be:
 one column of Table~\ref{tab:fivecol} is constant down its whole length and the
 other spans a factor of twenty-five. Same five structures, same
 Eq.~\eqref{eq:colmulti}, and the only thing changed between the columns is what
@@ -536,6 +590,9 @@ worth everything.
 \index{survey propagation}
 \index{replica symmetry breaking}
 
+Either rule, any structure: what the line of Sec.~\ref{sec:colouringthreshold}
+does not settle.
+
 \begin{figure}[t]
 \centering
 \begin{adjustbox}{max width=\linewidth}
@@ -628,6 +685,9 @@ one:
 \label{sec:colouring-sp-graph}
 \index{survey propagation}
 \index{replica symmetry breaking!one-step, graphs}
+
+The proper rule, Eq.~\eqref{eq:colZp}, on a Poisson graph --- where it is also
+Eq.~\eqref{eq:colZh}, the two coinciding at $c=2$.
 
 Start with graph colouring, borrowing the results of \citet{mulet2002} and the
 algorithm of \citet{braunstein2003}.
@@ -763,6 +823,9 @@ A one-step treatment inherits them.
 \index{survey propagation}
 \index{replica symmetry breaking!one-step, hypergraphs}
 
+The hypergraph rule, Eq.~\eqref{eq:colZh}, on one complex layer of cardinality
+$c$.
+
 In the hard-field limit the
 message from a complex is the set of colours it forbids the member it is
 speaking to. Everything about how that message combines with the others at a
@@ -850,12 +913,11 @@ the table for that reason and not because they disagree.
 \index{survey propagation}
 \index{replica symmetry breaking!one-step, clustered graphs}
 
-This section solves the problem on a clustered graph: a graph whose links have
-been promoted into triangles, the construction of
-Sec.~\ref{sec:colouring-triangles}, coloured under the proper rule. It is the
-one calculation in the chapter whose answer is not already known.
+This section investigates the difference between randomly distributed links and
+links distributed within triangles, coloured under the proper rule,
+Eq.~\eqref{eq:colZp}.
 
-Both ensembles here are Poisson, and are written $\mathrm{Poisson}$ and
+Each scenario is represented by its own graph ensemble, $\mathrm{Poisson}$ and
 $\mathrm{Poisson}_{\triangle}$. The first is a Poisson graph of mean degree
 $\ave{k}$. In the second an atom sits in a Poisson number of triangles of mean
 $\ave{\kappa}$, and each triangle gives it two neighbours. The two are compared

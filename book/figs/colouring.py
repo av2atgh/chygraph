@@ -756,7 +756,7 @@ def clustered_cq(q, lo=1.2, hi=4.5, iters=12, seed=0, size=4000,
     """Degree at which a triangle-clustered graph stops being q-colourable.
 
     Sigma(y=inf) is the complexity of ZERO-ENERGY clusters -- Krzakala, Pagnani
-    & Weigt Eq. (20), which Eq. (12.8) reproduces term for term. Negative means
+    & Weigt Eq. (20), which Eq. (12.14) reproduces term for term. Negative means
     none exist. On a graph the sequence is: trivial survey, then a branch with
     Sigma > 0, then Sigma crossing zero at c_q. On triangles the middle step is
     missing -- the branch arrives with Sigma already negative -- so the
@@ -897,7 +897,7 @@ def stability_threshold_layers(cards, q, rule, regular=False):
         sum_l  kappa_l (c_l-1) tau_l^2 / D_l = 1,
         D_l = 1 - (kbar_l - kappa_l)(c_l-1) tau_l^2,
 
-    which is ``kbar (c-1) tau^2 = 1`` at one layer and Eq. (12.7) at two.
+    which is ``kbar (c-1) tau^2 = 1`` at one layer and Eq. (12.11) at two.
     Splitting the neighbours evenly across the layers makes it explicit:
     ``kappa_l (c_l-1) = nu / L``, so ``nu = L / sum_l tau_l^2 / D_l``.  With
     Poisson layers every ``D_l`` is 1; with regular ones ``kbar - kappa = -1``
@@ -924,12 +924,12 @@ def check_five_layers():
                     got = stability_threshold_layers([c], q, rule, reg)
                     want = stability_threshold(c, q, rule, reg)
                     assert abs(float(got) - want) < 1e-12, (q, rule, c, reg)
-        # the clustered row against Eq. (12.7), exactly, in rational arithmetic
+        # the clustered row against Eq. (12.11), exactly, in rational arithmetic
         assert stability_threshold_layers([2, 3], q, 'proper', True) == \
             triangle_family(q, F(1, 2)), q
         # L layers of one cardinality c, proper rule: (q-1)^2 with Poisson
         # layers and (q-1)^2 + (c-1) with regular ones, independent of L.
-        # At c = 2 and c = 3 that pair is Eq. (12.6).
+        # At c = 2 and c = 3 that pair is Eq. (12.10).
         for cards in ([2], [2, 2], [2, 2, 2], [3], [3, 3, 3], [4, 4], [5]):
             c = cards[0]
             if c > q:
@@ -939,7 +939,7 @@ def check_five_layers():
                 F((q - 1) ** 2 + c - 1), (q, cards)
     print('  one layer reproduces stability_threshold at c = 2, 3, both rules,')
     print('  L layers of one cardinality give (q-1)^2 and (q-1)^2+(c-1);')
-    print('  Poisson and regular; the clustered row equals Eq. (12.7) at f = 1/2,')
+    print('  Poisson and regular; the clustered row equals Eq. (12.11) at f = 1/2,')
     print('  exactly, in rational arithmetic')
 
 
