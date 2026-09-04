@@ -999,9 +999,9 @@ def figure_threshold():
 
     fig, axes = plt.subplots(1, 2, figsize=(4.6, 2.3))
     for ax, deg, sig, on, cq, ttl, note in (
-            (axes[0], gdeg, gsig, 8.08, 8.90, 'graph',
-             'an arc above zero;\nit crosses at $c_q$'),
-            (axes[1], tdeg, tsig, 6.77, 6.77, 'triangles',
+            (axes[0], gdeg, gsig, 8.08, 8.90, r'Poisson',
+             'an arc above zero;\nit crosses at $\\bar{\\kappa}_q$'),
+            (axes[1], tdeg, tsig, 6.77, 6.77, r'Poisson$_\triangle$',
              'no arc: the branch\nstarts below zero')):
         ax.axhline(0.0, lw=0.8, color=MID, zorder=1)
         ax.plot([deg[0] - 1.3, on], [0, 0], lw=2.4, color=LIGHT,
@@ -1015,7 +1015,7 @@ def figure_threshold():
         lo, hi = min(sig.min(), 0.0), max(sig.max(), 0.0)
         pad = 0.32 * (hi - lo) if hi > lo else 0.05
         ax.set_ylim(lo - pad, hi + 1.5 * pad)
-        ax.annotate('$c_q$', xy=(cq, hi + 0.95 * pad), fontsize=8,
+        ax.annotate(r'$\bar{\kappa}_q$', xy=(cq, hi + 0.95 * pad), fontsize=8,
                     color='0.25', ha='center')
         ax.annotate(note, xy=(0.62, 0.06), xycoords='axes fraction',
                     fontsize=6.6, color='0.30', ha='center')

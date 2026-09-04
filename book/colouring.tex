@@ -513,7 +513,7 @@ say that structure is irrelevant to colouring. It says that this
 line on the wrong side of the colourability threshold from $q=4$ upward, and
 Sec.~\ref{sec:colouring-cq} measures what the constant column misses: promoting
 links into triangles at fixed degree lowers the colourability threshold
-$\kbar_{q}$ of Sec.~\ref{sec:colouring-sp} by a third, from $4.69$ to $3.07$ at
+$\kbar_{q}$ of Sec.~\ref{sec:colouring-sp} by a third, from $4.68$ to $3.07$ at
 $q=3$, while the proper column here does not move by so much as a
 digit. A reader who took the constant column as a statement about colouring
 would have the sign of the largest effect in the chapter replaced by a zero.
@@ -843,16 +843,31 @@ solution being unstable to noise propagation there. The calculation above will
 return a number for those cases and it would mean nothing; they are omitted from
 the table for that reason and not because they disagree.
 
-\section{A survey that carries a set}
+\section{One-step replica symmetry breaking, clustered graphs}
 \label{sec:colouring-cq}
 \index{survey propagation}
 
-The previous section paid the cost for one rule and left the other stranded. For
-the hypergraph rule a complex forbids at most one colour, the message stays the
-same kind of object it was at cardinality two, and Eq.~\eqref{eq:hypsp} was the
-whole of the difference. For the proper rule a complex forbids up to $c-1$
-colours at once, the message is a set of colours rather than one colour, and
-there is no scalar to substitute.
+This section solves the problem on a clustered graph: a graph whose links have
+been promoted into triangles, the construction of
+Sec.~\ref{sec:colouring-triangles}, coloured under the proper rule. It is the
+one calculation in the chapter whose answer is not already known.
+
+Both ensembles here are Poisson, and are written $\mathrm{Poisson}$ and
+$\mathrm{Poisson}_{\triangle}$. The first is a Poisson graph of mean degree
+$\ave{k}$. In the second an atom sits in a Poisson number of triangles of mean
+$\ave{\kappa}$, and each triangle gives it two neighbours. The two are compared
+at the same $\ave{k}$, setting $\ave{\kappa}=\ave{k}/2$.
+Section~\ref{sec:colouring-triangles} made the same promotion in a
+\emph{regular} ensemble, where a vertex sits in exactly $\kappa$ triangles. The
+two are not interchangeable: they give opposite readings of the stability line,
+which is where this section ends.
+
+The new difficulty is what a message has to carry. For the hypergraph rule a
+complex forbids at most one colour, so the message stayed the kind of object it
+was at cardinality two and Eq.~\eqref{eq:hypsp} was the whole of the
+difference. For the proper rule a complex forbids up to $c-1$ colours at once.
+The message is then a set of colours rather than one colour, and there is no
+scalar to substitute.
 
 So the survey has to get heavier. In place of the single $e$ of
 Sec.~\ref{sec:colouring-sp-graph} it carries one number for each subset of colours a
@@ -891,10 +906,8 @@ the node update needs is the chance that an emitted set contains a given
 $t$-subset, a hypergeometric weight over the sizes; that reduction, and not the
 ansatz, is what makes the calculation run.
 
-\paragraph{Two gates before it is used.} At $c=2$ the extension must return the
-original, and it does: writing $\eta=e/q$ --- \citeauthor{krzakala2004}'s
-letter, and for this sentence only, not Sec.~\ref{sec:colouring-scalar}'s
-message --- the update becomes the one they obtain term for term, and
+\paragraph{Two gates before it is used.} At $c=2$, writing $\eta=e/q$, the
+update matches \citeauthor{krzakala2004}'s term for term, and
 Eq.~\eqref{eq:colsigma} becomes their site sum together with
 $-\tfrac{\ave{k}}{2}\ln(1-q\eta_{1}\eta_{2})$, which is why
 Sec.~\ref{sec:colouring-sp-graph} returns \citeauthor{mulet2002}'s $\kbar_{q}$ to a
@@ -902,69 +915,21 @@ tenth of a per cent. The second gate is \citeauthor{gabrie2017} at $c=3$ under
 the hypergraph rule, which exercises the cardinality-three scaffolding with the
 interior swapped and nothing else. Only then is it turned on triangles.
 
-\paragraph{Where the colourable phase ends.} $\Sigma(y=\infty)$ counts
-zero-energy clusters --- clusters of proper colourings --- so the phase ends
-where it stops being positive. On a graph that happens at a crossing: the survey
-is trivial, a branch appears at $\kbar_{d}$ with $\Sigma>0$, and the arc it makes
-falls through zero. On a network of triangles the branch appears with $\Sigma$
-already negative, the arc is absent, and the phase ends where the branch does.
-Figures~\ref{fig:threshold} and~\ref{fig:phases} draw the two cases: a graph
-passes through one cluster, then exponentially many, then none, while triangles
-go from one cluster to none with the shattered phase skipped.
-
-\paragraph{Which end of that is computed.} Not both, and the asymmetry decides
-how the triangle number should be read. \emph{Above} the lift-off there is a
-solution and it carries $\Sigma<0$: fewer than one cluster of proper colourings,
-so the colourings are gone. That is a result. \emph{Below} it there is no
-solution but the trivial one, and the $\Sigma=0$ recorded there is the
-replica-symmetric default --- one cluster because nothing has shattered --- and
-not a count of anything.
-
-So what the calculation delivers is a bound from above. Proper colourings have
-certainly run out by degree $3.07$ at $q=3$; that they survive all the way to it
-is the assumption that the shattered phase has zero width rather than a width
-too narrow to resolve at this population. On a graph the two ends are pinned
-together by the arc, which is continuous and crosses zero once, and $\kbar_{q}$ is
-bracketed from both sides. A fold offers no such argument, and losing the window
-costs exactly that. What it does not cost is the conclusion, which needs the
-bound alone: $3.07$ against a graph's $4.69$ says the colourings have gone, and
-a true threshold lower still would only widen the gap.
-
-\paragraph{That assumption, tested.} It has two halves and they fail together
-or not at all. Whether the window is too narrow to resolve is a question about
-the population: the onset moves from degree $3.078$ to $3.073$ between $4\,000$
-samples and $60\,000$, with the spread over seeds falling from $0.004$ to
-$0.001$, so the fold is converged rather than resolution-limited. Whether a
-shattered solution hides below it is a question about the reweighting, and at
-zero temperature that reweighting is not a free choice: $y$ is the Parisi
-parameter rescaled, $y=\beta m$ with $\beta\to\infty$, so a scan in $y$
-\emph{is} the finite-$m$ calculation rather than a substitute for one.
-Softening the constraint --- a member left with no colour surviving at weight
-$e^{-y}$ instead of being discarded --- moves the onset by less than $10^{-3}$
-in degree between $y=0.5$ and $y=\infty$, from a population started
-\emph{in} the shattered state, so that below the fold it collapses rather than
-failing to be found. And $\Sigma$ at the lift-off is $-0.10$, falling to
-$-0.20$ by degree $3.4$: it does not approach zero from below.
-
-So the window is absent and not unresolved, and the bound is a bound for that
-reason rather than for want of looking. One thing this does not reach is
-condensation, which sorts clusters by size where $y$ sorts them by energy, and
-which needs the $m=1$ object Sec.~\ref{sec:onestep} does not carry;
-Sec.~\ref{sec:notdone} keeps it.
-
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figs/fig-threshold.pdf}
 \caption{\textbf{Two ways for a colourable phase to end.} The complexity of
-Eq.~\eqref{eq:colsigma} against degree, at $q=4$. The pale bar is the trivial
-survey, where $\Sigma$ vanishes identically and there is one cluster. Left, a
-graph: the branch lifts off with $\Sigma$ positive, and the arc it makes falls
-through zero at $\kbar_{q}$ --- the threshold is the crossing. Right, a network of
-triangles: the branch lifts off already below zero, there is no arc and no
-crossing, and $\Sigma<0$ wherever a solution exists --- so the colourings are
-gone by the lift-off, which bounds the threshold from above. Note the vertical scales, which differ by a factor of six: the
-graph's arc peaks at $+0.06$ where the triangle branch falls to $-0.4$. Averaged
-over three seeds; generated by \code{figs/\allowbreak colouring.\allowbreak py:figure\_\allowbreak threshold}.}
+Eq.~\eqref{eq:colsigma} against degree at $q=4$. The pale bar is the trivial survey, where $\Sigma$ vanishes
+identically and there is one cluster. Left, $\mathrm{Poisson}$: the branch
+lifts off with $\Sigma$ positive, and the arc it makes falls through zero at
+$\kbar_{q}$ --- the threshold is the crossing. Right,
+$\mathrm{Poisson}_{\triangle}$, the same mean degree with its links promoted
+into triangles: the branch lifts off already below zero,
+there is no arc and no crossing, and $\Sigma<0$ wherever a solution exists, so
+the colourings are gone by the lift-off and $\kbar_{q}$ is bounded from above.
+The vertical scales differ by a factor of six: the arc peaks at $+0.06$ where
+the triangle branch falls to $-0.4$. Averaged over three seeds; generated by
+\code{figs/\allowbreak colouring.\allowbreak py:figure\_\allowbreak threshold}.}
 \label{fig:threshold}
 \end{figure}
 
@@ -1036,48 +1001,82 @@ they would have shattered. One boundary instead of two, and it arrives earlier
 \label{fig:phases}
 \end{figure}
 
+\paragraph{Where the colourable phase ends.} $\Sigma(y=\infty)$ counts
+zero-energy clusters --- clusters of proper colourings --- so the phase ends
+where it stops being positive. On a graph that happens at a crossing: the survey
+is trivial, a branch appears at $\kbar_{d}$ with $\Sigma>0$, and the arc it makes
+falls through zero. On a network of triangles the branch appears with $\Sigma$
+already negative, the arc is absent, and the phase ends where the branch does.
+Figures~\ref{fig:threshold} and~\ref{fig:phases} draw the two cases: a graph
+passes through one cluster, then exponentially many, then none, while triangles
+go from one cluster to none with the shattered phase skipped.
+
+\paragraph{Which end of that is computed.} Not both, and the asymmetry decides
+how the triangle number should be read. \emph{Above} the lift-off there is a
+solution and it carries $\Sigma<0$: fewer than one cluster of proper colourings,
+so the colourings are gone. That is a result. \emph{Below} it there is no
+solution but the trivial one, and the $\Sigma=0$ recorded there is the
+replica-symmetric default --- one cluster because nothing has shattered --- and
+not a count of anything.
+
+So what the calculation delivers is a bound from above. Proper colourings have
+certainly run out by degree $3.07$ at $q=3$; that they survive all the way to it
+is the assumption that the shattered phase has zero width rather than a width
+too narrow to resolve at this population. On a graph the two ends are pinned
+together by the arc, which is continuous and crosses zero once, and $\kbar_{q}$ is
+bracketed from both sides. A fold offers no such argument, and losing the window
+costs exactly that. What it does not cost is the conclusion, which needs the
+bound alone: $3.07$ against a graph's $4.69$ says the colourings have gone, and
+a true threshold lower still would only widen the gap.
+
+\paragraph{That assumption, tested.} It has two halves and they fail together
+or not at all. Whether the window is too narrow to resolve is a question about
+the population: the onset moves from degree $3.078$ to $3.073$ between $4\,000$
+samples and $60\,000$, with the spread over seeds falling from $0.004$ to
+$0.001$, so the fold is converged rather than resolution-limited. Whether a
+shattered solution hides below it is a question about the reweighting, and at
+zero temperature that reweighting is not a free choice: $y$ is the Parisi
+parameter rescaled, $y=\beta m$ with $\beta\to\infty$, so a scan in $y$
+\emph{is} the finite-$m$ calculation rather than a substitute for one.
+Softening the constraint --- a member left with no colour surviving at weight
+$e^{-y}$ instead of being discarded --- moves the onset by less than $10^{-3}$
+in degree between $y=0.5$ and $y=\infty$, from a population started
+\emph{in} the shattered state, so that below the fold it collapses rather than
+failing to be found. And $\Sigma$ at the lift-off is $-0.10$, falling to
+$-0.20$ by degree $3.4$: it does not approach zero from below.
+
+So the window is absent and not unresolved, and the bound is a bound for that
+reason rather than for want of looking. One thing this does not reach is
+condensation, which sorts clusters by size where $y$ sorts them by energy, and
+which needs the $m=1$ object Sec.~\ref{sec:onestep} does not carry;
+Sec.~\ref{sec:notdone} keeps it.
+
+
 \begin{table}[t]
 \centering\small
 \begin{tabular}{lccr}
 \hline\hline
-$q$ & graph & triangles & change\\
+ & \multicolumn{3}{c}{$\kbar_{q}$}\\
+\cline{2-4}
+$q$ & $\mathrm{Poisson}$ & $\mathrm{Poisson}_{\triangle}$ & change\\
 \hline
-\multicolumn{4}{@{}l}{\rule{0pt}{2.6ex}\itshape colourability threshold $\kbar_{q}$, in degree; Poisson}\\
-$3$ & $4.69$ & $\le3.073\,(0.001)$ & $\le-34.5\%$\\
-$4$ & $8.90$ & $\le6.754\,(0.001)$ & $\le-24.1\%$\\
-\multicolumn{4}{@{}l}{\rule{0pt}{2.6ex}\itshape stability line, Poisson: Eq.~\eqref{eq:trifamily} at $f=0,1$}\\
-$3$ & $4$ & $4$ & $0\%$\\
-$4$ & $9$ & $9$ & $0\%$\\
-\multicolumn{4}{@{}l}{\rule{0pt}{2.6ex}\itshape stability line, regular: Eq.~\eqref{eq:tridisagree}}\\
-$3$ & $5$ & $6$ & $+20\%$\\
-$4$ & $10$ & $11$ & $+10\%$\\
+$3$ & $4.683\,(0.012)$ & $3.073\,(0.001)$ & $-34.4\%$\\
+$4$ & $8.901\,(0.012)$ & $6.754\,(0.001)$ & $-24.1\%$\\
 \hline\hline
 \end{tabular}
-\caption{\textbf{The stability line does not track $\kbar_{q}$ in either
-ensemble.} Above, where proper colourings actually run out, from
-Eq.~\eqref{eq:colsigma}; the graph column is \citeauthor{mulet2002}'s and the
-triangle column is
-computed here, both for a Poisson chy-degree. The graph value is a crossing and
-is bracketed from both sides; the triangle value is a lift-off and bounds
-$\kbar_{q}$ from above only, which is why it carries a $\le$. Bracketed figures are
-the spread over three seeds at a population of $60\,000$, where the fold is
-converged; they measure scatter and not accuracy, since the triangle threshold
-is a fold rather than a crossing, and the other fold in this chapter ---
-$\kbar_{d}$ in Sec.~\ref{sec:colouring-sp-graph} --- sits a per cent to three off its
-published value with a spread no larger. Below, where the
-replica-symmetric solution loses local stability --- first in that same Poisson
-ensemble, where Sec.~\ref{sec:colouring-triangles} found it blind to triangles,
-then in the regular one, where the excess-degree correction survives. Promoting
-links into triangles at fixed degree lowers $\kbar_{q}$ by a third; in the same
-ensemble the stability line does not move at all, and in the regular ensemble it
-moves the other way. Generated by
+\caption{\textbf{Triangles make colouring harder.} The colourability
+threshold $\kbar_{q}$ for the two Poisson ensembles of
+Sec.~\ref{sec:colouring-cq}: a graph, and the same mean degree with its links
+promoted into triangles; the $\mathrm{Poisson}_{\triangle}$ value is an upper
+bound. Bracketed figures are the spread over three seeds.
+Generated by
 \code{figs/\allowbreak colouring.\allowbreak py:check\_\allowbreak clustered\_\allowbreak cq}.}
 \label{tab:cq}
 \end{table}
 
 \paragraph{Triangles make colouring harder.} Table~\ref{tab:cq} is the result.
 A triangle-clustered graph has stopped being $3$-colourable by degree $3.07$
-where a triangle-free one survives to $4.69$, and stopped being $4$-colourable
+where a triangle-free one survives to $4.68$, and stopped being $4$-colourable
 by $6.75$ against $8.90$: a third and a quarter of the range, gone.
 
 Set that beside Sec.~\ref{sec:colouring-triangles}, and be careful about which
