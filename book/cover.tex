@@ -2,6 +2,18 @@
 \label{ch:cover}
 \index{vertex cover}
 
+A museum wants a guard standing at some of its junctions, positioned so that
+every corridor is watched from at least one end, and it wants to hire as few
+guards as it can. Nothing about the question is subtle, and no method is known
+that answers it quickly in general. What makes it a problem for statistical
+physics is that on a random graph it is not uniformly hard. Below a certain
+density a purely local rule --- look for a corridor with a dead end, put the
+guard at the other end of it, and repeat --- finds the smallest possible set of
+guards and proves that it is smallest. Above that density the rule runs out of
+dead ends and stops, with most of the museum still unwatched. The density at
+which it stops is a phase transition, and this chapter locates it three separate
+ways and then asks what happens when the corridors arrive in bunches.
+
 A \emph{vertex cover} is a set of nodes touching every link, and the problem is
 to find the smallest one. Section~\ref{sec:cover-intro} put it as a model ---
 $x_{i}\in\{0,1\}$ on every node, the energy $\sum_{i}x_{i}$ to be minimised, and

@@ -90,6 +90,37 @@
   regular polygon sides=#1, draw=black!60, fill=black!10, minimum size=2.5ex,
   inner sep=0pt, line width=0.5pt] {};}}
 
+% ---------------------------------------------------------------------------
+% Model boxes. A construction -- an ensemble, a sampling procedure, a message-
+% passing algorithm -- is specified as a short list of named rules set off from
+% the running text, and never as a paragraph the reader has to parse back into
+% steps. The shading is the black!7 of the complex boxes in the figures, so a
+% model box and a drawn complex read as the same kind of object: a thing the
+% book has stipulated rather than derived. Every such box is followed
+% immediately by a sentence saying what the rules produce.
+% ---------------------------------------------------------------------------
+\newsavebox{\modelbox}
+\newenvironment{model}[1]
+  {\par\addvspace{\medskipamount}\noindent
+   \begin{lrbox}{\modelbox}%
+   \begin{minipage}{\dimexpr\linewidth-2\fboxsep\relax}%
+   \smallskip
+   \noindent\textbf{#1}\par\nobreak\smallskip}
+  {\smallskip\end{minipage}\end{lrbox}%
+   \noindent\colorbox{black!7}{\usebox{\modelbox}}%
+   \par\addvspace{\medskipamount}\noindent\ignorespacesafterend}
+
+% The rule list inside a model box: tight, hanging-indented, with the rule name
+% carried by \rl so that renaming the convention is a one-line edit here.
+\newenvironment{rules}
+  {\begin{list}{}{%
+     \setlength{\leftmargin}{1.5em}\setlength{\itemindent}{-1.5em}%
+     \setlength{\labelwidth}{0pt}\setlength{\labelsep}{0pt}%
+     \setlength{\topsep}{0pt}\setlength{\parsep}{0pt}%
+     \setlength{\itemsep}{3pt plus 1pt}\setlength{\listparindent}{0pt}}}
+  {\end{list}}
+\newcommand{\rl}[2]{\item[]\makebox[1.5em][l]{(#1)}\textsc{#2}\hspace{0.4em}}
+
 % Compact running heads that fit the narrow 5x8 page.
 \usepackage{fancyhdr}
 \pagestyle{fancy}

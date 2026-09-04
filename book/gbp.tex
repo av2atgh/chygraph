@@ -1,6 +1,21 @@
 \chapter{Generalised belief propagation}
 \label{ch:gbp}
 
+When a method fails there are two things to do, and the second should be tried
+first: find out whether somebody has already repaired it. Somebody has. Kikuchi
+repaired this one in 1951, for reasons that had nothing to do with networks. He
+wanted a better free energy for an alloy than the Bethe approximation gave, and
+he got it by keeping the bookkeeping on clusters of sites rather than on single
+bonds. Half a century later \citet{yedidia2005} showed that the Bethe free
+energy is precisely what belief propagation minimises, that Kikuchi's is what a
+more elaborate message passing minimises, and wrote down the algorithm that does
+it.
+
+That algorithm is the obvious candidate here, because the obstruction of
+Chapter~\ref{ch:overlap} is exactly a cluster of sites that the pairwise
+bookkeeping counts twice. Whether it is the right candidate is the question this
+chapter answers, and the answer is not the expected one.
+
 Chapter~\ref{ch:overlap} measured what $\mathrm{BP}(\mathrm{Ising},\chi)$
 loses to
 non-trivial overlap. This chapter runs the repair the literature already has,

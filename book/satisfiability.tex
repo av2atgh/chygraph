@@ -2,6 +2,18 @@
 \label{ch:satisfiability}
 \index{satisfiability|textbf}
 
+Given a formula in Boolean logic, is there any assignment of true and false to
+its variables that makes the whole thing true? Cook and Levin showed,
+independently, that this question is hardest-in-class in a precise sense: every
+problem in NP reduces to it. Unlike most problems that carry that distinction,
+it is also one that people put to computers by the million. A modern solver will
+dispose of a formula with a million variables and then sit forever on one with a
+few hundred, and what separates the two is not size. In the random ensemble it
+is a phase transition, close enough in kind to the ones in the preceding
+chapters that the same machinery can be pointed at it.
+
+This chapter points it, and reports where it reaches and where it does not.
+
 Satisfiability completes Part~III's third family and is the last of its model
 chapters. It is also the one where the book's machinery is furthest from
 sufficient, and saying exactly how far is most of what this chapter does.
@@ -103,7 +115,30 @@ of the kind Eq.~\eqref{eq:taucol} provides.
 What is available is the hard-field limit, which is Chapter~\ref{ch:hittingset}
 transplanted. Keep only whether a message is a \emph{warning}: clause $a$ warns
 variable $i$ that $i$ must satisfy $a$, because every other member of $a$ has
-already been forced to falsify it.
+already been forced to falsify it. Everything else a message might have carried
+--- how strongly a variable leans, at what temperature, with what weight --- is
+thrown away, and what survives the discarding is a rule short enough to state in
+four lines.
+
+\begin{model}{Warning propagation}
+\begin{rules}
+\rl{1}{Initialise} Every clause begins by sending no warning to any of its
+members.
+\rl{2}{Clause to variable} A clause sends a warning to a member when all of its
+\emph{other} members have been forced to the values that falsify it. The clause
+then has exactly one way left to be satisfied, and the warning demands it.
+\rl{3}{Variable to clause} A variable is forced to a value when the warnings
+reaching it from its \emph{other} clauses demand that value and none demands the
+opposite. A variable warned both ways is a contradiction rather than a forcing,
+and passes nothing on.
+\rl{4}{Repeat} Apply rules~2 and~3 until no message changes.
+\end{rules}
+\end{model}
+
+What the rules produce is a fixed point, and it is a fixed point of a very
+coarse object: a message is one bit, so the state of the whole calculation is
+one number per inclusion rather than one function. The rest of this section is
+that fixed point averaged over the ensemble.
 
 Let $\eta$ be the probability that a clause sends a warning along an inclusion,
 and $\pi$ the probability that a variable reached along one is forced to a given

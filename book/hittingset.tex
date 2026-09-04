@@ -2,6 +2,16 @@
 \label{ch:hittingset}
 \index{hitting set problem}
 
+A committee has to contain at least one member of every department. A set of
+cameras has to watch every corridor. A test suite has to touch every branch of
+the code. In each case a family of sets is handed over and the task is to choose
+as few elements as possible while leaving no set in the family untouched. That
+is the \emph{hitting set} problem, one of the twenty-one Karp put on his
+original list \citep{karp1972}, and it is the natural higher-order relative of
+vertex cover: the sets are the complexes, and a set of two elements is an edge.
+
+It is also, for this book, the place where something breaks.
+
 Chapters~\ref{ch:potts}--\ref{ch:ising} carried one number per inclusion all the
 way from $q=1$ to $q=\infty$. This chapter is where that stops.
 The failure it identifies, and the repair, are new here; the closed forms it

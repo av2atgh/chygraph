@@ -614,13 +614,31 @@ before any approximation is applied, and the methods of the following sections
 are then applied to whatever is left.
 
 Vertex cover shows the rule in its plainest form. Consider a node of degree one
---- a \emph{leaf}. Its single link must be covered, and covering it at the leaf
-can never be better than covering it at the neighbour, since the neighbour may
-cover other links too. So there is always a minimum cover that takes the
-neighbour and not the leaf, and one can simply remove both, together with every
-link the neighbour touched, and repeat. This is \emph{leaf removal}
-\citep{bauer2001}. When it consumes the whole graph it has found a minimum
-cover and \emph{proved} it minimum. When it stalls, what is left is called the
+--- a \emph{leaf}. Its single link must be covered, and it can be covered at
+either end. Covering it at the leaf can never be better than covering it at the
+neighbour, because the leaf touches nothing else while the neighbour may touch a
+great deal: take any cover that contains the leaf, swap the leaf for the
+neighbour, and the result is a cover no larger than the one started from, since
+the one link the leaf was covering is covered by the neighbour as well. So there
+is always a minimum cover that takes the neighbour and leaves the leaf, and the
+two can be settled and struck out without looking at the rest of the graph.
+
+\begin{model}{Leaf removal for vertex cover}
+\begin{rules}
+\rl{1}{Find} Look for a node of degree one.
+\rl{2}{Decide} Put its neighbour into the cover; leave the leaf out.
+\rl{3}{Delete} Remove the leaf, the neighbour, and every link the neighbour
+touched --- all of those links are now covered.
+\rl{4}{Repeat} Return to rule~1 on what is left, and stop when no node of degree
+one remains.
+\end{rules}
+\end{model}
+
+This is \emph{leaf removal} \citep{bauer2001}, and what the rules produce is one
+of exactly two outcomes. When they consume the whole graph, the cover assembled
+along the way is a minimum cover, and the exchange argument above, applied once
+per step, is a proof that it is minimum. When they stall --- when what is left
+has no node of degree one anywhere in it --- that residue is called the
 \emph{core}, and it is the hard part.
 
 For a Poisson random graph, leaf removal succeeds when the mean degree is below
