@@ -270,8 +270,18 @@ Poisson, triangles & $\bigl(q\ave{k}_{|}
 \end{adjustbox}
 \caption{\textbf{Critical amplitudes} in $S=B\Lambda+O(\Lambda^{2})$, on the
 critical manifold $\lambda=1$. Sites are present with probability $p$, bonds or
-hyperedges with probability $q$. The arbitrary-distribution cases are
-Eqs.~\eqref{eq:Bgraph} and~\eqref{eq:Bhyper}.}
+hyperedges with probability $q$; the arbitrary-distribution cases are
+Eqs.~\eqref{eq:Bgraph} and~\eqref{eq:Bhyper}. Every $\lambda$ is a square root
+for the reason given below Eq.~\eqref{eq:Bgraph}: the map alternates between the
+two directions of Sec.~\ref{sec:threshold}, so $J$ has period two whatever the
+structure, and its Perron root is the square root of the two-step product. The
+amplitudes then say what the thresholds cannot. Each denominator is one plus a
+term counting how much second-moment weight the interior carries, so putting
+connectivity into larger complexes makes the giant component rise more slowly
+out of the threshold even where it lowers the threshold itself. The last row is
+the sharpest case: $\ave{k}_{\triangle}$ appears and $\ave{k}_{|}$ does not, so a
+link layer moves the transition without touching the slope on the far side of
+it.}
 \label{tab:amplitudes}
 \end{table}
 
@@ -457,6 +467,7 @@ following has been treated in the literature with a purpose-built calculation,
 and each is handled here by writing down the chygraph and substituting.
 
 \subsection{AND-logic against OR-logic}
+\label{sec:andor}
 
 \citet{bianconi2024} distinguish two rules for what a
 higher-order interaction does when some of its members are removed. Under
