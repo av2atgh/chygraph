@@ -896,6 +896,25 @@ of the model would look statistically alike. This is
 \emph{replica symmetry}, so called because in the older replica formalism
 \citep{mezard1987} it appears as a symmetry among $n$ copies of the system.
 
+The copies are worth a paragraph, because the derivation in
+Sec.~\ref{sec:replicas-chy} rests on them. What has to be averaged over the
+disorder is $\ln Z$, and there is no good way to average a logarithm. What can
+be averaged is a power, $\overline{Z^{n}}$, because for integer $n$ it is just
+$n$ independent copies --- \emph{replicas} --- of the same system, and the
+average factorises over the objects the disorder lives on. The two are joined by
+\begin{equation}
+  \overline{\ln Z}=\lim_{n\to0}\frac{\overline{Z^{n}}-1}{n},
+  \label{eq:replicatrick}
+\end{equation}
+which is the \emph{replica trick}. The step that is not justified is the last
+one. $\overline{Z^{n}}$ has been computed at the positive integers and the limit
+is taken at zero, so a function known on the integers is being continued to the
+real line, and nothing in the derivation shows that the continuation is unique
+or that the limit and the thermodynamic limit commute. It is a non-rigorous but
+very well tested method: its predictions have been confirmed case by case for
+half a century, and proved, for a few models, only much later. This book uses it
+once, in Sec.~\ref{sec:replicas-chy}, and says so there.
+
 For the Ising model at high temperature it is true. For an Ising model with
 random signs of $J$, a spin glass, it is false below a certain temperature: the
 energy landscape breaks into exponentially many valleys separated by barriers,

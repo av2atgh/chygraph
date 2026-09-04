@@ -354,14 +354,17 @@ return $T_{c}=15.3758$. Replacing the layer by its mean cardinality must not,
 and does not: $T_{c}=13.8218$, low by $10.1$ per cent. A mean cardinality is the wrong
 summary of a layer, and Eq.~\eqref{eq:sbaru} is the right one. \code{api.\allowbreak Chygraph.\allowbreak transmission} is Eq.~\eqref{eq:sbaru}, and it averages the product rather than multiplying the averages.
 
-\section{Structures}
+\section{One condition, every structure}
 \label{sec:structures}
 \index{threshold tensor}
 
 Everything above is fixed once the layers, their cardinalities and the
 chy-degree distribution are given. Each specialisation below is
 Eq.~\eqref{eq:branch} written out, with only $u'$ left for
-Eq.~\eqref{eq:emitted} to supply (Table~\ref{tab:structures}).
+Eq.~\eqref{eq:emitted} to supply (Table~\ref{tab:structures}). The five entries
+of Table~\ref{tab:structures} differ in how many onward branches a complex
+offers and in nothing else: the structure enters through a counting factor, the
+model enters through $u'$, and the two never mix.
 
 \begin{table}[b]
 \centering\small
@@ -773,9 +776,17 @@ Then Eq.~\eqref{eq:Z-intro} reads
   \label{eq:Zchy}
 \end{equation}
 and the free energy is $-\beta f=\overline{\ln Z}/N$, the bar an average over
-which atoms each complex holds. That average is what the replica identity of
-Sec.~\ref{sec:replicas} is for: $\overline{\ln Z}=\lim_{n\to0}
-(\overline{Z^{n}}-1)/n$, with
+which atoms each complex holds.
+
+Nobody knows how to do that average directly, because the logarithm does not
+come apart over the complexes the disorder lives on. So the calculation goes
+around it by Eq.~\eqref{eq:replicatrick}, the replica trick, $\overline{\ln
+Z}=\lim_{n\to0}(\overline{Z^{n}}-1)/n$. Everything below is done at positive
+integer $n$, where $\overline{Z^{n}}$ is an average over $n$ independent copies
+and does factorise, and the continuation to $n\to0$ is taken at the end without
+being justified --- which is the standing caveat of
+Sec.~\ref{sec:replicas} and is not repaired here. The quantity actually computed
+is therefore
 \begin{equation}
   \overline{Z^{n}}=\sum_{\{\vec\sigma\}}\prod_{i}
     e^{\beta B\sum_{r}\sigma^{r}_{i}}\ \
