@@ -311,16 +311,30 @@ depth, and satisfiability is a good place to see what that buys, because the
 answer turns out to be a class of formulas that flat CNF cannot hold without
 damage.
 
-\paragraph{Three levels.} Layer $0$ is the variables. Layer $1$ is clauses
-$C_{a}$, each a disjunction of $k_{1}$ literals. Layer $2$ is clauses $D_{b}$
-whose members are a \emph{mix}: $k_{2}$ variables and one layer-1 clause, the
-latter appearing negated,
+\begin{model}{Clauses of clauses}
+\begin{rules}
+\rl{0}{Variables} Layer $0$ is the variables, one atom each.
+\rl{1}{Sub-expressions} Layer $1$ is clauses $C_{a}$, each a disjunction of
+$k_{1}$ literals drawn from layer $0$. These are sub-expressions and not
+constraints in their own right: nothing in the formula requires a $C_{a}$ to be
+true.
+\rl{2}{Constraints} Layer $2$ is clauses $D_{b}$, whose members are a
+\emph{mix} --- $k_{2}$ variables and one layer-1 clause, the clause entering
+negated:
 \begin{equation}
-  D_{b}=\neg C_{a}\ \vee\ \ell_{1}\vee\cdots\vee\ell_{k_{2}},
+  D_{b}=\neg C_{a}\ \vee\ \ell_{1}\vee\cdots\vee\ell_{k_{2}}.
   \label{eq:nested}
 \end{equation}
-and the formula is the conjunction of the $D_{b}$. The layer-1 clauses are
-sub-expressions, not constraints in their own right.
+The formula is the conjunction of the $D_{b}$, and these are the only
+constraints in it.
+\end{rules}
+\end{model}
+
+What the three rules produce is a formula with a structure that the two-layer
+encoding cannot express: a constraint whose members are not all variables. The
+whole of the difference between this section and the rest of the chapter is
+rule~1 --- an object that is built out of variables, is entered like a variable,
+and is required of nothing.
 
 Equation~\eqref{eq:nested} has a reading that needs no logic at all: it is an
 \emph{implication}. ``If any of these $k_{1}$ things holds, then at least one of

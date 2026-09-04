@@ -80,6 +80,29 @@ and Sec.~\ref{sec:colouring-scalar} is the observation that rescues it.
 forbid, but on a chygraph a complex of $c$ members admits two natural rules and
 they are not the same.
 
+\begin{model}{Two ways to constrain a complex}
+\begin{rules}
+\rl{1}{Proper} No two members of a complex may share a colour, so a complex of
+$c$ members consumes $c$ distinct colours between them. The rule cannot be
+satisfied at all unless $q\ge c$.
+\rl{2}{Hypergraph} A complex may not be monochromatic. Any two members may
+agree, provided not all $c$ of them do, so $q=2$ suffices for a complex of any
+size whatever.
+\end{rules}
+\end{model}
+
+What the two rules produce is one problem at cardinality two and two quite
+different problems above it. The gap between them widens with $c$: the proper
+rule demands more of a complex the larger it is, while the hypergraph rule
+demands no more of a complex of nine than of a complex of three. That shows up
+in Sec.~\ref{sec:twoconstraints-col} as two stability lines that do not merely
+differ but differ in kind --- Eq.~\eqref{eq:colproperline} does not move with
+the cardinality at all, and Eq.~\eqref{eq:colhyperline} runs away with it, from
+$9$ to $3969$ between $c=2$ and $c=4$ at four colours. Both are written below as energies
+counting violations, and both are then handed to Eq.~\eqref{eq:emitted}
+unchanged, which is the point: the chapter does not solve two problems, it
+substitutes twice.
+
 \emph{Proper colouring} of the induced graph: every pair inside a complex is an
 edge, so all $c$ members must take \emph{distinct} colours. This needs $q\ge c$
 and is what one means by colouring a clustered graph whose motifs have been

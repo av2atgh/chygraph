@@ -99,9 +99,18 @@
 % book has stipulated rather than derived. Every such box is followed
 % immediately by a sentence saying what the rules produce.
 % ---------------------------------------------------------------------------
+% A run-in heading (\paragraph, \subparagraph) left pending with no text after
+% it puts its title into \everypar, which then fires when the box below starts
+% its paragraph -- setting the heading and the box side by side on one line and
+% pushing the box off the right margin. Flush any such heading onto its own line
+% first. An empty \everypar means there is nothing pending and nothing to do.
+\makeatletter
 \newsavebox{\modelbox}
 \newenvironment{model}[1]
-  {\par\addvspace{\medskipamount}\noindent
+  {\par
+   \edef\model@pendinghead{\the\everypar}%
+   \ifx\model@pendinghead\@empty\else\leavevmode\par\fi
+   \addvspace{\medskipamount}\noindent
    \begin{lrbox}{\modelbox}%
    \begin{minipage}{\dimexpr\linewidth-2\fboxsep\relax}%
    \smallskip
@@ -119,7 +128,11 @@
      \setlength{\topsep}{0pt}\setlength{\parsep}{0pt}%
      \setlength{\itemsep}{3pt plus 1pt}\setlength{\listparindent}{0pt}}}
   {\end{list}}
+% The 1.5em slot is the list's hanging indent, so continuation lines line up
+% under the rule name. Labels must fit it: number the rules, as the model boxes
+% in this book all do.
 \newcommand{\rl}[2]{\item[]\makebox[1.5em][l]{(#1)}\textsc{#2}\hspace{0.4em}}
+\makeatother
 
 % Compact running heads that fit the narrow 5x8 page.
 \usepackage{fancyhdr}
