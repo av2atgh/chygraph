@@ -4,11 +4,26 @@
 % git at commit 5ebd892, the last one before the deletion.
 \documentclass[10pt]{book}
 
-% Page layout held identical to ~/av2atg/LocalNetworkGrowth, so the two books
-% set as a matching pair: same trim, same margins, same head. Change it in both
-% or in neither.
+% Trim, head, floats and body size all follow ~/av2atg/LocalNetworkGrowth. The
+% margin SPLIT deliberately does not, and this is the one line where the two
+% books differ. inner+outer is 0.95in either way, so the split only slides the
+% block sideways and never reflows a line -- the page count is identical with
+% it at 0.55/0.4 and at 0.65/0.3.
+%
+% It is here at 0.65/0.3 because a print check put the body over the gutter
+% boundary: on a verso the flag lands at the right edge, on a recto at the
+% left, and both of those are the inner edge. 0.10in of slide toward the
+% outside is the most available, not a chosen round number -- microtype lets
+% glyphs hang up to 0.05in past the nominal block and a print check measures
+% ink, so nominal 0.30in outer already leaves only 0.249in of real clearance at
+% the TRIM edge, which is the unforgiving side: trim varies per copy, while a
+% tight gutter merely reads badly. Any further and the trim edge is the
+% violation instead.
+%
+% LocalNetworkGrowth needs none of this at 283 pages; this book is 364, and
+% printers step the required gutter up at 300.
 \usepackage[paperwidth=5in,paperheight=8in,includehead,
-            inner=0.55in,outer=0.4in,top=0.56in,bottom=0.64in]{geometry}
+            inner=0.65in,outer=0.3in,top=0.56in,bottom=0.64in]{geometry}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
