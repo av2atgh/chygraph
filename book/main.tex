@@ -10,20 +10,24 @@
 % block sideways and never reflows a line -- the page count is identical with
 % it at 0.55/0.4 and at 0.65/0.3.
 %
-% It is here at 0.65/0.3 because a print check put the body over the gutter
+% The split is here because a print check put the body over the gutter
 % boundary: on a verso the flag lands at the right edge, on a recto at the
-% left, and both of those are the inner edge. 0.10in of slide toward the
-% outside is the most available, not a chosen round number -- microtype lets
-% glyphs hang up to 0.05in past the nominal block and a print check measures
-% ink, so nominal 0.30in outer already leaves only 0.249in of real clearance at
-% the TRIM edge, which is the unforgiving side: trim varies per copy, while a
-% tight gutter merely reads badly. Any further and the trim edge is the
-% violation instead.
+% left, and both of those are the inner edge. Slid 0.1125in toward the outside
+% -- a letter width at 10pt plus an eighth, set by eye against the check rather
+% than derived.
+%
+% This is past the point where the trim edge has margin to spare. Microtype
+% hangs glyphs up to 0.05in beyond the nominal block and a print check measures
+% ink, so a nominal 0.2875in outer leaves about 0.237in of real clearance at
+% the trim, under the 0.25in floor such services usually set. Trim varies per
+% copy and cuts content off; a tight gutter only reads badly. Slide further and
+% the trim is the flag instead of the gutter, so if the gutter still fails the
+% answer is a narrower measure, not a bigger slide.
 %
 % LocalNetworkGrowth needs none of this at 283 pages; this book is 364, and
 % printers step the required gutter up at 300.
 \usepackage[paperwidth=5in,paperheight=8in,includehead,
-            inner=0.65in,outer=0.3in,top=0.56in,bottom=0.64in]{geometry}
+            inner=0.6625in,outer=0.2875in,top=0.56in,bottom=0.64in]{geometry}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
