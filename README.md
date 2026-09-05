@@ -7,7 +7,7 @@ whose complexes may contain other complexes. One repository, three parts.
 |---|---|---|
 | [`percolation/`](percolation/) | the `percolation` package: self-consistency map, threshold tensor, critical amplitude, correlated layers. Symbolic, on `sympy`. | Part II of the book |
 | [`statmech/`](statmech/) | the `statmech` package: cavity recursion with a general interior, branching matrix, Ising / hitting-set / core-percolation solvers, Bethe free energy, region graphs and GBP. Plus `probe/`, the expensive measurements and their cached results. | Parts III and IV |
-| [`book/`](book/) | *Phase transitions on complex hypergraphs* — 278 pages, seventeen chapters. Every number in it comes out of the two packages. | |
+| [`book/`](book/) | *Phase transitions on complex hypergraphs* — 364 pages, seventeen chapters. Every number in it comes out of the two packages. | |
 
 `statmech` builds on `percolation`: `statmech.stability` imports
 `PercolationMatrix`. That dependency is why the two live together.
@@ -53,8 +53,8 @@ implementation in a separate repository (`~/av2atg/computational_complexity`).
 Without `numba` that one test errors on import and the rest still pass.
 
 The book builds with `latexmk -pdf -interaction=nonstopmode main.tex` from
-`book/`; `book/README.md` is the working log and carries the build checks, the
-figure-script map and a dated record of every drafting and revision pass.
+`book/`; `book/README.md` carries the chapter map, the build checks, the
+figure-script map and the production conventions.
 
 Both packages were separate repositories until 2026-09-01 —
 `av2atgh/chygraph` and `av2atgh/chygraph_statmech`. The latter is archived; its
