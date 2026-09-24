@@ -656,8 +656,8 @@ overstating itself without them.
 \emph{It is $m=0$.} Section~\ref{sec:onestep} says what that value of the Parisi
 parameter is right for --- counting clusters of zero-energy solutions --- and
 here is the thing it is wrong for: the condensation transition that sits between
-$\alpha_{d}$ and $\alpha_{s}$ for $k\ge4$. That needs $m\ne0$, and this chapter
-does not do it.
+$\alpha_{d}$ and $\alpha_{s}$ for $k\ge4$. That needs $m\ne0$, and Sec.~\ref{sec:sat-m}
+does it for $k=3$.
 
 \emph{It is still treelike.} Equation~\eqref{eq:sp} inherits
 Eq.~\eqref{eq:up}'s assumption unchanged: surveys from a variable's clauses are
@@ -674,6 +674,144 @@ for an arbitrary chy-degree distribution and an arbitrary interior, so the
 nested clauses of Sec.~\ref{sec:nested} are a substitution rather than a
 derivation. That the numbers come out right for flat $k$-SAT is a check on the
 implementation, not a result.
+
+\section{One step, beyond $m=0$}
+\label{sec:sat-m}
+\index{Parisi parameter|textbf}
+\index{condensation transition|textbf}
+\index{replica symmetry breaking!one-step, at $m\ne0$}
+
+Section~\ref{sec:sat-sp} set $m=0$ and counted clusters. Section~\ref{sec:onestep}
+said what that is wrong for, and Sec.~\ref{sec:clusterchy} asked for the
+$m\ne0$ calculation by name, as the one that would test its conjecture. This
+section does it, on $3$-SAT, where the answer is known well enough to check
+against \citep{krzakala2007,montanari2008} and the block density of
+Sec.~\ref{sec:clusterchy} is measured in the same ensemble.
+
+\paragraph{What changes.} At $m=0$ the message was a warning and a survey a
+distribution over a finite alphabet. At $m\ne0$ the reweighting
+$e^{-m\Delta F}$ of Sec.~\ref{sec:onestep} is no longer trivial, so the
+message has to carry the free-energy shift it costs, and that is the
+solution-counting message of the replica-symmetric calculation rather than a
+warning: for a clause $a$ and a member $i$, the probability $\eta_{a\to i}$
+that the other members all take their unsatisfying values, and for a member
+$j$ and its clause, the probability $u_{j\to a}$ that $x_{j}$ takes the value
+unsatisfying $a$, which is $\Pi^{s}/(\Pi^{s}+\Pi^{o})$ with $\Pi^{s}$ the
+product of $1-\eta$ over the other clauses in which $j$ has the same sign
+and $\Pi^{o}$ over the opposite. Then $\eta_{a\to i}=\prod_{j\ne i}u_{j\to a}$
+--- Eq.~\eqref{eq:wp} with the hard field made soft --- and the two shifts
+the reweighting needs are the normalisations the recursion drops,
+\begin{equation}
+  z_{j\to a}=\frac{\Pi^{s}+\Pi^{o}}{\prod_{b}(2-\eta_{b\to j})},
+  \qquad
+  z_{a\to i}=2-\eta_{a\to i}.
+  \label{eq:satz}
+\end{equation}
+A survey is now a population of $\eta$'s, and the ensemble a population of
+populations, every update reweighted by $z^{m}$. The one-step potential is
+Eq.~\eqref{eq:sigmagen}'s three terms with $\ln Z$ replaced by
+$\ln\langle Z^{m}\rangle$ over the survey,
+\begin{equation}
+  \mathcal{F}(m)=\bigl\langle\ln\langle z_{i}^{m}\rangle\bigr\rangle
+   +\alpha\bigl\langle\ln\langle z_{a}^{m}\rangle\bigr\rangle
+   -k\alpha\bigl\langle\ln\langle z_{ia}^{m}\rangle\bigr\rangle,
+  \label{eq:Fm}
+\end{equation}
+the internal entropy of a cluster is $s(m)=\partial\mathcal{F}/\partial m$,
+and the complexity is $\Sigma(m)=\mathcal{F}-ms$. At $m=1$ the reweighting
+by $z$ makes the survey averages the replica-symmetric messages and
+$\mathcal{F}(1)$ is the replica-symmetric free entropy, which is used as a check. At $m\to0$ the
+reweighting disappears and $\Sigma$ would be Sec.~\ref{sec:sat-sp}'s count of
+clusters, if the population could hold the hard fields that carry that
+count; it cannot, for a reason given below.
+The routine is \code{statmech/\allowbreak probe/\allowbreak
+onestep\_\allowbreak sat.\allowbreak py}.
+
+\paragraph{What it finds.} Figure~\ref{fig:onestep} is the result: the
+complexity $\Sigma(m)$ against $m$ at eleven clause densities, and the
+range of $m$ within which it changes sign. Below the clustering point the
+surveys collapse to a single message at every $m$ --- the population's
+spread falls below $10^{-3}$ --- so $\Sigma\equiv0$,
+$\mathcal{F}(m)=m\,\mathcal{F}(1)$, and $\mathcal{F}(1)$ is the
+replica-symmetric free entropy: $0.1738$ and $0.1549$ at $\alpha=3.7$ and
+$3.8$ against $0.1750(34)$ and $0.1546(38)$ from the replica-symmetric
+population, which is the first check. From $\alpha=3.86$ the surveys open
+--- a spread of $0.05$ there, $0.17$ at $4.0$ --- and $\Sigma(m)$ becomes a
+curve of order $10^{-3}$, positive at small $m$ and negative at large: the
+state is condensed, dominated by a sub-exponential number of clusters. The
+published condensation point is $3.86$ \citep{krzakala2007,montanari2008},
+which is the second check, and a weak one: between $3.86$ and $3.95$ the
+whole curve sits within the noise band, and $\Sigma(1)$ is first clearly
+negative, at $-0.0028$, at $\alpha=4.0$.
+
+In the condensed phase the physical $m$ is the zero of $\Sigma$, and the
+calculation brackets it rather than locates it. The bracket runs from the
+largest $m$ at which $\Sigma$ is clearly positive to the smallest later
+$m$ at which it is clearly negative, or at which the population has frozen:
+$[0.7,0.9]$ at $\alpha=4.0$ and $4.05$, $[0.8,0.9]$ at $4.1$, $[0.5,0.6]$
+at $4.15$ and $[0.6,0.7]$ at $4.2$, the last three not in order, which is
+the noise speaking. Two things set the width. The potential is a
+difference of three terms of order one with heavy tails, estimated from
+$4\times10^{5}$ draws of $400$ combinations; between independent populations
+of $1000$ surveys it scatters by $8\times10^{-4}$ in $\Sigma$ on average
+and $4\times10^{-3}$ at worst, on a signal of a few $10^{-3}$, and five
+populations at the decisive points bring the standard error to
+$5\times10^{-4}$. And beyond $m^{*}$ the soft population does not survive:
+from $\alpha=4.05$ on, at $m$ above about $0.6$ to $0.9$, a growing
+fraction of the populations collapse onto hard fields --- a survey spread
+below $0.08$ and a complexity a hundred times the physical one, or a
+divergent potential --- and are discarded, $8$ of $29$ at $\alpha=4.05$,
+$17$ of $29$ at $4.2$, and every population above $m=0.3$ at $4.25$. The
+curves in the figure stop where the last soft population does, and the
+approach of $m^{*}$ to zero at $\alpha_{s}=4.267$ is not reached.
+
+One limit is a matter of definition. With soft messages $\Sigma(0)=0$
+identically, since every combination is non-contradictory, so the $m\to0$
+end of the curve is not Sec.~\ref{sec:sat-sp}'s count: that count needs the
+hard fields that exist only above the rigidity point, about $4.25$ for
+$3$-SAT \citep{montanari2008}, and the population here is kept strictly
+soft, which is also why it freezes where the reweighting tries to make it
+hard. The complexity of the soft clusters is ten times smaller than the
+hard-field count of Table~\ref{tab:satsp} at the same density; the two
+count different things, and \citet{montanari2008} say which is right where.
+
+\paragraph{The test.} Section~\ref{sec:clusterchy} conjectured that $m$ is
+a counting number in disguise, its chygraph analogue the density of blocks
+per free variable, and asked for exactly the two numbers now in hand. They
+do not agree. The block density measured by enumeration is $0.55$, flat
+across $\alpha=3.5$, $3.8$ and $4.0$ and across $N=16$ to $24$; $m^{*}$ is
+$1$ up to $\alpha=3.95$, lies in $[0.7,0.9]$ at $4.0$ and $4.05$, and falls
+into a bracket containing $0.55$ only at $4.15$. The two are compatible in
+one window and excluded everywhere the calculation resolves them. The
+conjecture in the form Sec.~\ref{sec:clusterchy} gave it --- $m^{*}$
+\emph{is} the block density --- is therefore false unless the block density
+at large $N$ moves with $\alpha$ in a way twenty-four variables cannot
+show, and the enumeration gives no reason to expect that. What survives is
+weaker: on a product cluster the reweighting factorises over blocks, so
+whatever $m$ multiplies is a sum of block entropies; the thing fixed by
+structure is the decomposition, not the exponent. The exponent is fixed, as
+it always was, by $\Sigma=0$.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig-onestep.pdf}
+\caption{\textbf{One step at $m\ne0$.} Top: the complexity $\Sigma(m)$ of
+Eq.~\eqref{eq:Fm} against $m$ for $3$-SAT at clause densities from $3.86$
+(light) to $4.25$ (dark), populations of $1000$ surveys of $200$ messages,
+averaged over the populations that stayed soft (two, and five at the points
+that decide the bracket); a curve stops where every population has frozen.
+Bottom: the bracket on $m^{*}$, from the largest $m$ with $\Sigma$ clearly
+positive to the smallest later $m$ with $\Sigma$ clearly negative or the
+population frozen; $m^{*}=1$ where $\Sigma(1)$ is within noise of zero.
+The block density of Sec.~\ref{sec:clusterchy} is the dashed line, the
+published $\alpha_{d}=3.86$ and $\alpha_{s}=4.267$ are dotted. Generated by
+\code{figs/\allowbreak onestep.\allowbreak py} from
+\code{statmech/\allowbreak probe/\allowbreak onestep\_\allowbreak
+sat.\allowbreak py}.}
+\label{fig:onestep}
+\end{figure}
+
+
 
 \section{Checks}
 \label{sec:sat-checks}
@@ -713,7 +851,8 @@ linearisation, and disagree above it by fifteen per cent and more, though both
 put the fold above $\alpha_{s}$. The chapter quotes the disagreement rather than
 one convention's numbers alone, and the hard-field results of
 Secs.~\ref{sec:sat-wp} to~\ref{sec:flatteningcost} are not satisfiability
-thresholds except at $k=2$. The one-step calculation is at $m=0$, so the
-condensation transition that sits between $\alpha_{d}$ and $\alpha_{s}$ for
-$k\ge4$ is outside it, and Eq.~\eqref{eq:sp} inherits Eq.~\eqref{eq:up}'s
-treelike assumption unchanged.
+thresholds except at $k=2$. Section~\ref{sec:sat-sp} is at $m=0$ and Sec.~\ref{sec:sat-m} at
+$m\ne0$, on $k=3$ only, anchored at $m=1$ to the replica-symmetric free
+entropy and at the condensation point to the published $3.86$; its $m\to0$
+end is not Sec.~\ref{sec:sat-sp}'s count, for the reason given there. Both
+inherit Eq.~\eqref{eq:up}'s treelike assumption unchanged.

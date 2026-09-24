@@ -26,7 +26,7 @@ ending on the routine that executes it.
 | 10 | `hittingset.tex` | Hard fields, where they fail off the graph, soft fields, RSB |
 | 11 | `cover.tex` | Vertex cover, leaf removal, core percolation; hyperbolic random graphs |
 | 12 | `colouring.tex` | Proper against hypergraph colouring; `tau = -1/(q-1)` independent of cardinality; `(q-1)^2`; a graph with triangles, where the graph calculation is wrong by one; survey propagation; and Sec. 12.9, extending Krzakala et al. to chygraphs to get `c_q` for a clustered graph |
-| 13 | `satisfiability.tex` | Clauses as complexes; `alpha = 1` exact at `k = 2`, no linear instability above it; clauses whose members are clauses, and what CNF flattening costs |
+| 13 | `satisfiability.tex` | Clauses as complexes; `alpha = 1` exact at `k = 2`, no linear instability above it; clauses whose members are clauses, and what CNF flattening costs; Sec. 13.10, one step at `m != 0` for 3-SAT (population of populations), the condensation point, `m*(alpha)`, and the test of Sec. 8.10's conjecture |
 | **IV** | | **Complexes with non-trivial overlap** |
 | 14 | `overlap.tex` | The price of treelikeness: what `BP_chi` loses to overlapping cliques, measured on three classes of network, with the rewired control that attributes it |
 | 15 | `gbp.tex` | The repair the literature already has: region graphs, Möbius counting, GBP over 240 runs — exact where the clique family is chordal, and chordality follows provenance, not clustering |
@@ -46,14 +46,14 @@ propagation at `m = 0`. PDFs of the references are under
 ## Status
 
 `main.pdf` builds with **0 errors, 0 undefined references and 0
-multiply-defined labels, across 379 pages.** Not box-clean: **two overfull
+multiply-defined labels, across 383 pages.** Not box-clean: **two overfull
 hboxes** — `cover.tex:483--493` (1.99pt, "Which replica-symmetry-breaking
 point") and `metacomplex.tex:383--389` (3.16pt) — and 52 underfull vboxes,
 every one of them `while \output is active`, which is page-breaking around
 floats and not a line running into the margin.
 
-62 figures, 32 numbered tables, 164 numbered equations, 83 references and a
-117-term index. Both checks under *Two checks the build cannot make* print
+63 figures, 32 numbered tables, 166 numbered equations, 84 references and a
+118-term index. Both checks under *Two checks the build cannot make* print
 nothing.
 
 **These counts are re-measured, not maintained by hand** — the recipes are
@@ -306,6 +306,18 @@ finder against `networkx.chordless_cycles` (150 graphs); the 1D line is
 chordal and the 1D ring is not; and on sixteen-vertex geometric graphs GBP
 over the clique region graph is exact in 1D (chordal) to 1e-6 and not in 2D,
 while node-level Bethe is off by 13 to 22 in `ln Z`.
+`figs/onestep.py` generates Figure 13.4 from
+`../statmech/probe/results/onestep_sat.csv`, the cached output of
+`../statmech/probe/onestep_sat.py scan` — the one-step calculation at
+`m != 0` for 3-SAT as a population of 1000 surveys of 200 messages, 300
+sweeps and 400000 samples for the potential, about four minutes per
+`(alpha, m)` point and an hour and a half for the grid on ten cores. It runs
+the two anchors first: BP's Bethe free entropy equals `ln(#solutions)` on a
+tree instance to 1e-6, and the `m = 1` potential on a replica-symmetric
+population equals the replica-symmetric free entropy to within the
+population scatter (about 0.01). `m = 0` is not an anchor: with soft messages
+`Sigma(0) = 0` identically, and the hard fields Sec. 13.9 counts exist only
+above the rigidity point.
 `figs/clusters.py` **writes no figures** either. It summarises
 `../statmech/probe/results/cluster_blocks.csv`, the cached output of
 `../statmech/probe/cluster_blocks.py` (exhaustive 3-SAT at N = 16..24, three

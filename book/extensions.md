@@ -181,3 +181,39 @@ The withdrawn WalkSAT-vs-tempering trend is not mentioned: its data are gone.
 
 Open: the m ≠ 0 population dynamics on 3-SAT that would test the conjecture;
 a higher-order (beyond pairwise) block test for the remaining fifth.
+
+## Status 2026-09-25 (later): the two open items of Sec. 8.10
+
+**Beyond-pairwise block test.** `cluster_blocks.py` now also finds the
+finest product partition (product decompositions are closed under common
+refinement, so it exists; it is a merging of the pairwise candidate blocks,
+found by testing the 2^k unions for separability). Of the non-product
+fifth, 0.19 split at a coarser grain, against 0.17 of the random controls;
+so 0.84 of multi-block clusters are products at the finest grain and the
+rest are one coupled block. Written into Sec. 8.10.
+
+**m ≠ 0 for 3-SAT.** `statmech/probe/onestep_sat.py`: entropic one-step
+calculation as a population of populations (M = 1000 surveys × P = 200
+messages, reweighting z^m at every update, potential by importance
+weighting over 4e5 draws × 400 combinations). Anchors: BP = exact on a tree
+instance to 1e-6; m = 1 potential = F_RS within population scatter (0.01);
+below α_d the surveys collapse and F(m) = m F_RS. Σ(0) ≡ 0 with soft
+messages (no anchor there). Results (Sec. 13.10, Fig. 13.2): Σ(m) of order
+1e-3 in the condensed phase; Σ(1) first clearly negative at α = 4.0; m*
+bracketed: [0.7, 0.9] at 4.0–4.05, [0.8, 0.9] at 4.1, [0.5, 0.6] at 4.15,
+[0.6, 0.7] at 4.2, not monotone — noise (population scatter 8e-4, worst
+4e-3, on a few 1e-3). Beyond m ≈ 0.6–0.9 at α ≥ 4.05 the soft population
+freezes (spread < 0.08, Σ ~ 0.1–0.8 or divergent) and is discarded; at
+4.25 everything above m = 0.3 freezes, so m* → 0 at α_s is not reached.
+
+**The test.** Block density 0.55 (flat in α and N at N ≤ 24) vs m*: equal
+only inside the 4.15 bracket, excluded at α ≤ 3.95 (m* = 1) and at 4.0–4.1.
+Conjecture in the "m* is the block density" form rejected; what survives is
+that the decomposition is structural, the exponent is not. Sec. 8.10 and
+the Outlook say so.
+
+Open: the hard fields at m → 0 (explicit delta weight in the survey, as
+Montanari–Ricci-Tersenghi–Semerjian do) — that would make the soft
+population stop freezing and reach α_s; k ≥ 4 where α_c ≠ α_d; a block
+density at large N by equilibrium sampling, which is the only way the
+conjecture's test could be reopened.

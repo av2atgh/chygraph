@@ -36,7 +36,13 @@ def summarise(rows, key):
         bpf = np.mean([int(r['nblocks']) / int(r['free']) for r in g if int(r['free']) > 0])
         frozen = np.mean([int(r['frozen']) / int(r['n']) for r in g])
         add = np.mean([abs(float(r['entropy']) - float(r['block_entropy'])) < 1e-9 for r in multi]) if multi else np.nan
+        # beyond pairwise: the finest product partition (unions of candidate blocks)
+        nonprod = [r for r in multi if not int(r['product'])]
+        fine_multi = np.mean([int(r['finest_nblocks']) >= 2 for r in multi]) if multi else np.nan
+        fine_rescued = np.mean([int(r['finest_nblocks']) >= 2 for r in nonprod]) if nonprod else np.nan
+        ctrl_fine = np.mean([int(r['ctrl_finest_nblocks']) >= 2 for r in g if int(r['free']) > 0])
         out.append(dict(key=k, clusters=len(g), multi=len(multi), product=prod,
+                        finest_multi=fine_multi, rescued=fine_rescued, ctrl_finest_multi=ctrl_fine,
                         ctrl_split=ctrl_split, ctrl_product=ctrl_prod,
                         blocks_per_free=bpf, frozen=frozen, additive=add,
                         mean_size=np.mean([int(r['size']) for r in g]),
@@ -64,7 +70,7 @@ def main():
     for name, key in (('by n', lambda r: int(r['n'])), ('by alpha', lambda r: float(r['alpha'])),
                       ('all', lambda r: 'all')):
         print(f'--- {name}')
-        print('key clusters multi product ctrl_split ctrl_product blocks/free frozen additive mean_size mean_blocks')
+        print('key clusters multi product finest_multi rescued ctrl_finest_multi ctrl_split ctrl_product blocks/free frozen additive mean_size mean_blocks')
         for o in summarise(rows, key):
             print(' '.join(f'{v:.3g}' if isinstance(v, float) else str(v) for v in o.values()))
 

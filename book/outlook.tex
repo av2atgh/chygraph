@@ -257,8 +257,8 @@ and Eq.~\eqref{eq:rsbansatz} is that ansatz, so what is missing here is a
 solution and no longer a formulation. Section~\ref{sec:clusterchy} adds what
 the object looks like from inside --- a cluster is a frozen core plus blocks
 that vary independently, at every size where it can be enumerated --- and a
-conjecture, that the Parisi $m$ is a counting number one level up, whose test
-needs the $m\ne0$ calculation below. Missing is the hitting
+conjecture, that the Parisi $m$ is a counting number one level up, which
+Sec.~\ref{sec:sat-m} tests and rejects in that form. Missing is the hitting
 set problem's own one-step answer, which needs a distribution over fields rather
 than over warnings, and which is where its interesting r\'egime begins.
 
@@ -279,18 +279,21 @@ analogue of Sec.~\ref{sec:breakdown}'s continuity proof. Supplying those for
 saddle-node onsets --- here and for the interdependent networks above --- is one
 problem, not two.
 
-\emph{One-step replica symmetry breaking, beyond $m=0$.}
+\emph{One-step replica symmetry breaking, beyond $m=0$, beyond $k=3$.}
 Sections~\ref{sec:colouring-sp} and~\ref{sec:sat-sp} do the one-step
 calculation at $m=0$ and reach both thresholds --- \citeauthor{mulet2002}'s
-$\kbar_{q}$ to a tenth of
-a per cent, the satisfiability threshold to three tenths. At $m=0$ clusters are
-counted without regard to their size, which is the wrong weighting for
-everything else: the condensation transition needs $m\ne0$, as does any
-statement about which clusters dominate. The machinery would carry it ---
-Eq.~\eqref{eq:sigmagen} is a reweighting of Chapter~\ref{ch:statmech}'s free
-energy, and the reweighting is where $m$ enters --- but nothing here optimises
-over $m$, and the hitting set problem of Chapter~\ref{ch:hittingset}, whose
-interesting r\'egime is exactly there, is untouched by either section.
+$\kbar_{q}$ to a tenth of a per cent, the satisfiability threshold to three
+tenths. Section~\ref{sec:sat-m} carries it to $m\ne0$ for $3$-SAT, as a
+population of populations reweighted by $z^{m}$: the condensation point,
+$m^{*}(\alpha)$ across the condensed phase, and the test of
+Sec.~\ref{sec:clusterchy}'s conjecture, which fails. What is not done is
+everything that calculation makes possible and does not do: $k\ge4$, where
+the condensation point separates from the clustering point; the hard
+fields at $m\to0$, which the soft population cannot hold and which are what
+Sec.~\ref{sec:sat-sp} counts; colouring at $m\ne0$; and the hitting set
+problem of Chapter~\ref{ch:hittingset}, whose interesting r\'egime is exactly
+there and which needs a survey over real fields, the object
+Sec.~\ref{sec:onestep} names as the line the book does not cross.
 
 \emph{The exponent of Sec.~\ref{sec:hrg}.} A sharper test would need an ensemble
 in which the predicted exponent is made to move, and an analytic account of what

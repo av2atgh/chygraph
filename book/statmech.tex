@@ -1118,10 +1118,16 @@ free variable, and on every one that is a product the entropy is additive
 over the blocks, $\ln|\mathcal{C}|=\sum_{B}\ln|\mathcal{C}_{B}|$, which is
 the same statement made twice. The remaining fifth are clusters whose
 pairwise-independent blocks are coupled at a higher order: a three-way
-constraint whose every pair projection is full. Merging the coupled blocks into one complex recovers a product with fewer
-complexes, so the picture survives them at a coarser grain --- in the limit
-one block, which says nothing --- and they are counted against it here
-rather than for it.
+constraint whose every pair projection is full. The pairwise test can draw
+a block too small, so the same routine also finds the \emph{finest} product
+partition --- product decompositions are closed under common refinement, so
+there is one, and it is a merging of the pairwise blocks --- and asks
+whether any of the fifth come apart at a coarser grain. Few do: $0.19$ of
+them, against $0.17$ of the random controls, which is the rate at which a
+random set happens to split at all. So $0.84$ of the multi-block clusters
+are products at the finest grain and the rest are one coupled block, a
+single complex whose interior is its whole free set. They are counted
+against the picture here rather than for it.
 
 \paragraph{What it means for the ansatz.} On a product cluster the entropy is
 additive over blocks, $\ln|\mathcal{C}|=\sum_{B}\ln|\mathcal{C}_{B}|$, and
@@ -1149,10 +1155,13 @@ by the ensemble rather than optimised over. The consequence that would test
 it is a relation between two numbers computed independently: the $m$ that
 extremises the one-step free energy at $m\ne0$, and the density of blocks
 per free variable measured in the same ensemble. The enumeration above
-supplies the second at sizes far too small to say anything about the first;
-a population dynamics at $m\ne0$, which Sec.~\ref{sec:notdone} lists as not
-done, would supply the first. The two agreeing would make $m$ a structural
-quantity; the two disagreeing would say where the block picture stops.
+supplies the second, at sizes far too small to carry a thermodynamic limit;
+Sec.~\ref{sec:sat-m} supplies the first, by the population dynamics at
+$m\ne0$ that Sec.~\ref{sec:onestep} left undone, and runs the comparison.
+The two do not agree --- $m^{*}$ runs from one to zero across the condensed
+phase while the block density does not move --- and Sec.~\ref{sec:sat-m}
+says what survives of the conjecture: the decomposition is structural, the
+exponent is not.
 
 Two things the enumeration cannot say, and they should be kept apart from
 what it can. It says nothing about how the clusters sit relative to one

@@ -1,0 +1,61 @@
+/Users/avazquez/av2atg/chygraph/statmech/probe/onestep_sat.py:280: RuntimeWarning: divide by zero encountered in log1p
+  a, b = self._wterm(m, np.log1p(-np.exp(logprod)), logw)
+F=0.052335 s=0.12605 Sigma=0.0019167 spread=0.16958 dead=0 alpha=4 m=0.4 seed=4 sec=436.1
+F=0.094713 s=0.11749 Sigma=0.00071798 spread=0.15918 dead=0 alpha=4 m=0.8 seed=2 sec=446.6
+F=0.046348 s=0.11513 Sigma=0.00029601 spread=0.15556 dead=0 alpha=4.05 m=0.4 seed=3 sec=454.5
+F=0.10145 s=0.11069 Sigma=0.0129 spread=0.20058 dead=0 alpha=4 m=0.8 seed=4 sec=458
+F=0.046345 s=0.11603 Sigma=-6.8888e-05 spread=0.087968 dead=0 alpha=4 m=0.4 seed=2 sec=484.2
+F=0.069333 s=0.11717 Sigma=-0.00097158 spread=0.14187 dead=0 alpha=4.05 m=0.6 seed=2 sec=498.6
+F=0.072633 s=0.10813 Sigma=0.0077579 spread=0.21932 dead=0 alpha=4.05 m=0.6 seed=4 sec=508.3
+F=0.077679 s=0.12905 Sigma=0.00025079 spread=0.12088 dead=0 alpha=4 m=0.6 seed=3 sec=510.4
+F=0.069373 s=0.11592 Sigma=-0.00017966 spread=0.12613 dead=0 alpha=4 m=0.6 seed=2 sec=436.1
+F=0.10291 s=0.12685 Sigma=0.0014291 spread=0.14751 dead=0 alpha=4 m=0.8 seed=3 sec=440.9
+F=0.046964 s=0.11834 Sigma=-0.00037137 spread=0.10832 dead=0 alpha=4.05 m=0.4 seed=2 sec=442.8
+F=0.049074 s=0.11991 Sigma=0.0011117 spread=0.17909 dead=0 alpha=4.05 m=0.4 seed=4 sec=449.5
+F=0.050749 s=0.12696 Sigma=-3.723e-05 spread=0.09896 dead=0 alpha=4 m=0.4 seed=3 sec=442.4
+F=0.072895 s=0.11364 Sigma=0.0047111 spread=0.21859 dead=0 alpha=4.05 m=0.6 seed=3 sec=451
+F=0.094781 s=0.12142 Sigma=-0.0023525 spread=0.15089 dead=0 alpha=4.05 m=0.8 seed=2 sec=443.9
+F=0.080899 s=0.11786 Sigma=0.010185 spread=0.21002 dead=0 alpha=4 m=0.6 seed=4 sec=458
+/Users/avazquez/av2atg/chygraph/statmech/probe/onestep_sat.py:280: RuntimeWarning: divide by zero encountered in log1p
+  a, b = self._wterm(m, np.log1p(-np.exp(logprod)), logw)
+/Users/avazquez/av2atg/chygraph/statmech/probe/onestep_sat.py:280: RuntimeWarning: divide by zero encountered in log1p
+  a, b = self._wterm(m, np.log1p(-np.exp(logprod)), logw)
+/Users/avazquez/av2atg/chygraph/statmech/probe/onestep_sat.py:280: RuntimeWarning: divide by zero encountered in log1p
+  a, b = self._wterm(m, np.log1p(-np.exp(logprod)), logw)
+/Users/avazquez/av2atg/chygraph/statmech/probe/onestep_sat.py:280: RuntimeWarning: divide by zero encountered in log1p
+  a, b = self._wterm(m, np.log1p(-np.exp(logprod)), logw)
+/Users/avazquez/av2atg/chygraph/statmech/probe/onestep_sat.py:280: RuntimeWarning: divide by zero encountered in log1p
+  a, b = self._wterm(m, np.log1p(-np.exp(logprod)), logw)
+/Users/avazquez/av2atg/chygraph/statmech/probe/onestep_sat.py:280: RuntimeWarning: divide by zero encountered in log1p
+  a, b = self._wterm(m, np.log1p(-np.exp(logprod)), logw)
+F=0.15469 s=0.0086825 Sigma=0.14948 spread=0.071565 dead=0 alpha=4.1 m=0.6 seed=3 sec=425.7
+F=0.042375 s=0.10497 Sigma=0.00038553 spread=0.16913 dead=0 alpha=4.1 m=0.4 seed=2 sec=450.5
+F=0.30967 s=-0.0594 Sigma=0.3572 spread=0.048352 dead=1.5e-05 alpha=4.1 m=0.8 seed=2 sec=429.3
+F=0.086518 s=0.10517 Sigma=0.0023862 spread=0.21265 dead=0 alpha=4.05 m=0.8 seed=3 sec=484.8
+F=0.046571 s=0.11499 Sigma=0.00057363 spread=0.15425 dead=0 alpha=4.1 m=0.4 seed=4 sec=462.7
+F=0.02346 s=0.076009 Sigma=-0.0069439 spread=0.25297 dead=0 alpha=4.15 m=0.4 seed=3 sec=447.5
+F=0.087765 s=0.10691 Sigma=0.0022346 spread=0.20276 dead=0 alpha=4.1 m=0.8 seed=4 sec=484.1
+F=0.052108 s=0.088156 Sigma=-0.00078567 spread=0.23335 dead=0 alpha=4.15 m=0.6 seed=2 sec=496.7
+F=0.047221 s=0.1185 Sigma=-0.00017828 spread=0.15 dead=0 alpha=4.1 m=0.4 seed=3 sec=455.7
+F=0.070517 s=0.10625 Sigma=0.006767 spread=0.22454 dead=0 alpha=4.1 m=0.6 seed=4 sec=464.7
+F=0.097184 s=0.10575 Sigma=0.012585 spread=0.2003 dead=0 alpha=4.05 m=0.8 seed=4 sec=444.2
+F=0.091061 s=0.10631 Sigma=0.0060147 spread=0.2015 dead=0 alpha=4.1 m=0.8 seed=3 sec=459.9
+F=0.062612 s=0.10243 Sigma=0.0011543 spread=0.21931 dead=0 alpha=4.1 m=0.6 seed=2 sec=456.2
+F=0.45869 s=-0.19083 Sigma=0.57319 spread=0.059076 dead=5.6667e-05 alpha=4.15 m=0.6 seed=3 sec=407.2
+F=0.033044 s=0.077442 Sigma=0.0020675 spread=0.2571 dead=0 alpha=4.15 m=0.4 seed=4 sec=473.4
+F=0.036846 s=0.078008 Sigma=0.0056428 spread=0.25272 dead=0 alpha=4.15 m=0.4 seed=2 sec=447.2
+/Users/avazquez/av2atg/chygraph/statmech/probe/onestep_sat.py:280: RuntimeWarning: divide by zero encountered in log1p
+  a, b = self._wterm(m, np.log1p(-np.exp(logprod)), logw)
+F=0.50254 s=-0.35271 Sigma=0.78471 spread=0.042007 dead=0.000105 alpha=4.15 m=0.8 seed=3 sec=366.1
+F=0.20407 s=-0.2872 Sigma=0.37639 spread=0.056007 dead=2.1667e-05 alpha=4.15 m=0.6 seed=4 sec=375.3
+F=0.16587 s=-0.091496 Sigma=0.20247 spread=0.082372 dead=3.3333e-06 alpha=4.2 m=0.4 seed=2 sec=399.8
+F=0.18694 s=-0.41588 Sigma=0.43647 spread=0.062088 dead=1.5e-05 alpha=4.2 m=0.6 seed=3 sec=389.8
+F=0.44471 s=-0.069244 Sigma=0.5001 spread=0.032643 dead=5.1667e-05 alpha=4.2 m=0.8 seed=4 sec=374.2
+F=0.30848 s=-0.034447 Sigma=0.33603 spread=0.049475 dead=1.5e-05 alpha=4.2 m=0.8 seed=2 sec=383.4
+F=0.035679 s=0.081209 Sigma=0.0031958 spread=0.25452 dead=0 alpha=4.2 m=0.4 seed=4 sec=445.3
+F=0.37243 s=-0.14595 Sigma=0.48919 spread=0.044821 dead=2.3333e-05 alpha=4.15 m=0.8 seed=4 sec=333.1
+F=0.37217 s=-0.086695 Sigma=0.44153 spread=0.041477 dead=3.6667e-05 alpha=4.15 m=0.8 seed=2 sec=329
+F=0.33997 s=-0.22424 Sigma=0.51936 spread=0.045424 dead=3.0833e-05 alpha=4.2 m=0.8 seed=3 sec=315
+F=0.18857 s=-0.062802 Sigma=0.22625 spread=0.062091 dead=7.5e-06 alpha=4.2 m=0.6 seed=2 sec=320.5
+F=0.054599 s=0.089933 Sigma=0.00063948 spread=0.22085 dead=0 alpha=4.2 m=0.6 seed=4 sec=373.9
+F=0.032413 s=0.075349 Sigma=0.0022731 spread=0.25877 dead=0 alpha=4.2 m=0.4 seed=3 sec=383.2

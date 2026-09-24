@@ -136,6 +136,57 @@ def block_decomposition(S):
     return frozen, blocks, is_product, sizes
 
 
+def finest_product(S, blocks):
+    """The finest partition of the free variables over which S is a product.
+
+    Product decompositions of a set of tuples are closed under common
+    refinement (if S = A x B over one cut and C x D over another, it is a
+    product over the four intersections), so a finest one exists and is
+    unique.  Every product partition is coarser than the pairwise one, so it
+    is a merging of the candidate `blocks`: a union U of candidates is
+    *separable* when |S| = |proj_U(S)| |proj_{F\\U}(S)|, and the
+    inclusion-minimal separable unions are the finest blocks.  Enumerates the
+    2^k unions for k candidates, k <= 12; above that, returns one block.
+    """
+    k = len(blocks)
+    size = S.shape[0]
+    if k <= 1:
+        return [list(b) for b in blocks]
+    if k > 12:
+        return [sorted(v for b in blocks for v in b)]
+    free = sorted(v for b in blocks for v in b)
+    cache = {}
+
+    def nproj(cols):
+        key = tuple(cols)
+        if key not in cache:
+            cache[key] = len(np.unique(S[:, list(cols)], axis=0)) if cols else 1
+        return cache[key]
+
+    separable = []
+    for mask in range(1, 1 << k):
+        if mask == (1 << k) - 1:
+            continue
+        U = sorted(v for i, b in enumerate(blocks) if mask >> i & 1 for v in b)
+        Uc = [v for v in free if v not in set(U)]
+        if nproj(U) * nproj(Uc) == size:
+            separable.append(mask)
+    minimal = [m for m in separable if not any(o != m and (o & m) == o for o in separable)]
+    if not minimal:
+        return [free]
+    covered = 0
+    out = []
+    for m in sorted(minimal, key=lambda m: bin(m).count('1')):
+        if covered & m:
+            continue
+        out.append(sorted(v for i, b in enumerate(blocks) if m >> i & 1 for v in b))
+        covered |= m
+    rest = [v for v in free if v not in {x for b in out for x in b}]
+    if rest:
+        out.append(rest)
+    return out
+
+
 def random_control(size, f, rng):
     """A uniformly random subset of {0,1}^f with `size` elements."""
     if f == 0:
@@ -166,6 +217,7 @@ def main(alphas=(3.5, 3.8, 4.0), seeds=range(30)):
                         continue
                     frozen, blocks, prod, sizes = block_decomposition(S)
                     f = S.shape[1] - len(frozen)
+                    fine = finest_product(S, blocks)
                     C = random_control(S.shape[0], f, rng)
                     _, cblocks, cprod, csizes = block_decomposition(C) if f else ([], [], True, [])
                     rows.append(dict(
@@ -176,6 +228,8 @@ def main(alphas=(3.5, 3.8, 4.0), seeds=range(30)):
                         entropy=float(np.log(S.shape[0])),
                         block_entropy=float(sum(np.log(s) for s in sizes)),
                         ctrl_nblocks=len(cblocks), ctrl_product=int(cprod),
+                        finest_nblocks=len(fine), finest_largest=max(len(b) for b in fine) if fine else 0,
+                        ctrl_finest_nblocks=len(finest_product(C, cblocks)) if f else 0,
                     ))
                 print(f'n={n} alpha={alpha} seed={seed} solutions={sols.shape[0]} '
                       f'clusters={len(cl)} ({time.time() - t0:.1f}s)', flush=True)

@@ -1,0 +1,5 @@
+alpha=3.5 m=1: F_RS=0.21009  F=0.19812 s=0.19812 Sigma=+0.00000 spread=0.0000 mean_eta=0.2466 rs_mean_eta=0.2494 (132s)
+alpha=4.0 m=1: F_RS=0.12044  F=0.10788 s=0.11115 Sigma=-0.00327 spread=0.1727 mean_eta=0.2175 rs_mean_eta=0.2520 (157s)
+alpha=4.15 m=0: F=0.00000 s=0.10580 Sigma=+0.00000 spread=0.0948 (160s)
+alpha=4.25 m=0: F=0.00000 s=0.09150 Sigma=+0.00000 spread=0.1424 (164s)
+alpha=4.35 m=0: F=0.00000 s=0.06253 Sigma=+0.00000 spread=0.2241 (169s)
