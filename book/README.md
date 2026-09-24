@@ -47,13 +47,13 @@ propagation at `m = 0`. PDFs of the references are under
 ## Status
 
 `main.pdf` builds with **0 errors, 0 undefined references and 0
-multiply-defined labels, across 397 pages.** Not box-clean: **two overfull
+multiply-defined labels, across 399 pages.** Not box-clean: **two overfull
 hboxes** — `cover.tex:483--493` (1.99pt, "Which replica-symmetry-breaking
 point") and `metacomplex.tex:383--389` (3.16pt) — and 52 underfull vboxes,
 every one of them `while \output is active`, which is page-breaking around
 floats and not a line running into the margin.
 
-64 figures, 34 numbered tables, 172 numbered equations, 92 references and a
+68 figures, 33 numbered tables, 172 numbered equations, 92 references and a
 124-term index. Both checks under *Two checks the build cannot make* print
 nothing.
 
@@ -307,12 +307,15 @@ finder against `networkx.chordless_cycles` (150 graphs); the 1D line is
 chordal and the 1D ring is not; and on sixteen-vertex geometric graphs GBP
 over the clique region graph is exact in 1D (chordal) to 1e-6 and not in 2D,
 while node-level Bethe is off by 13 to 22 in `ln Z`.
-`figs/localization.py` generates Figure 18.1 and Tables 18.1–18.2 from
-`../statmech/probe/results/anderson_lines.csv` and `anderson_wc.csv`, the
-cached outputs of `../statmech/probe/anderson.py scan` (five regular
+`figs/localization.py` generates Figures 18.2–18.5 and Table 18.1 from
+`../statmech/probe/results/anderson_{lines,wc,stability,growth,centre}.csv`,
+the cached outputs of `../statmech/probe/anderson.py scan` (five regular
 chygraphs, six disorders; the landscape and its percolation at 3e5 elements,
 the mobility edge at 1e6, about twenty to forty minutes per (ensemble, W) on
-eight cores, three hours for the grid). It runs Ch. 18's checks first: the
+eight cores, three hours for the grid) and `anderson.py side` (the stability
+crossing at W = 3, the joint-versus-separate percolation growth, and the
+band-centre growth rate against W; about forty minutes). Figure 18.1 is TikZ
+in `localization.tex`. It runs Ch. 18's checks first: the
 Schur-complement cavity against direct inversion on incidence trees of edges
 and triangles (1e-15), and the pure-hopping band bottoms -2 sqrt(2) and
 -2 sqrt(3). `anderson.py check` adds the random-instance checks quoted in the

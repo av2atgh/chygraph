@@ -272,3 +272,19 @@ extended states):
 
 Open: exponents (not computed); explicit hard fields for the imaginary parts
 would reduce the population bias; real-network clique chygraphs by layer.
+
+## 2026-09-26: Ch. 18 reworked around figures
+
+Table 18.1 (thirty rows of energies) dropped. The chapter now carries five
+figures: the Schur-interior schematic (TikZ), the two lines measured from
+the band edge (removes the −W/2 both share), the gap against W in one
+panel, the band-centre growth rate λ(1/2) against W for the five ensembles
+(the (0,2) curve lies on the (3,0) curve: the √2-per-triangle argument in
+one picture), and the two criteria at work (λ(1/2) against E − E_min at
+W = 3; percolation growth against E' with the triple drawn jointly and
+with p drawn separately: threshold 0.47 vs 0.52). Side data from
+`anderson.py side` and `anderson.py growth`; the latter uses a short
+iteration from a uniform p because renormalised power iteration goes
+extinct in the subcritical phase of a finite population. Error bars from
+seven points computed twice: 0.002 on the threshold, 0.003–0.03 on the
+mobility edge.

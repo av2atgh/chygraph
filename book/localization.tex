@@ -75,6 +75,50 @@ form,
 with the $2t$ in the numerator the loop: the path from $i$ to $j_{1}$ to
 $j_{2}$ and back, which is what the tree cannot have.
 
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}
+% A triangle complex a = {i, j1, j2}. The two members j carry the self-energies
+% of their other complexes (drawn as stubs); what a transmits to i is the Schur
+% complement over {j1, j2}, and the loop j1-j2 is the term the tree lacks.
+\node[hub] (i) at (0,0) {};
+\node[lb,anchor=north] at (0,-0.16) {$i$};
+\node[nd] (j1) at (-1.05,1.55) {};
+\node[nd] (j2) at (1.05,1.55) {};
+\node[lb,anchor=east] at (-1.20,1.55) {$j_{1}$};
+\node[lb,anchor=west] at (1.20,1.55) {$j_{2}$};
+\draw[lnk] (i)--(j1) (i)--(j2);
+\draw[lnk,line width=1.0pt] (j1)--(j2);
+\node[tb,anchor=south] at (0,1.66) {$t$: the loop};
+\begin{scope}[on background layer]
+  \node[cx,fit=(i)(j1)(j2)] (A) {};
+\end{scope}
+% stubs: the members' other complexes, folded into their cavity self-energies
+\draw[lnk,black!35] (j1)--++(-0.55,0.75) (j1)--++(-0.85,0.15);
+\draw[lnk,black!35] (j2)--++(0.55,0.75) (j2)--++(0.85,0.15);
+\node[lb,anchor=south east] at (-1.25,2.30) {$\Sigma_{j_{1}\to a}$};
+\node[lb,anchor=south west] at (1.25,2.30) {$\Sigma_{j_{2}\to a}$};
+% the transmitted self-energy
+\draw[msg] (0.20,0.95) -- (0.10,0.30);
+\node[lb,anchor=west] at (0.30,0.62) {$\Sigma_{a\to i}$};
+\node[lb,anchor=west,align=left] at (2.35,0.75)
+  {\emph{down}, Eq.~\eqref{eq:triangleG}:\\
+   invert the $2\times2$ block\\
+   $\begin{pmatrix} m_{1} & -t\\ -t & m_{2}\end{pmatrix}$,\\
+   $m_{j}=\epsilon_{j}-z-\Sigma_{j\to a}$,\\
+   and sum its entries.\\
+   The $-t$ off the diagonal\\
+   is the loop.};
+\end{tikzpicture}
+\caption{\textbf{The interior of a complex, for a resolvent.} A triangle
+$a=\{i,j_{1},j_{2}\}$: the members $j$ carry the self-energies of their
+other complexes, and what $a$ transmits to $i$ is the Schur complement of
+Eq.~\eqref{eq:schur} over $\{j_{1},j_{2}\}$, every path from $i$ into the
+complex and back, the hop $j_{1}j_{2}$ included. On an edge there is no
+such hop and the block is a number, which is the tree recursion.}
+\label{fig:schur}
+\end{figure}
+
 Two things follow. On any chygraph whose incidence structure is a tree
 Eq.~\eqref{eq:schur} is exact, and Sec.~\ref{sec:loc-checks} confirms it to
 $10^{-15}$ against direct inversion. And the cost is polynomial in the
@@ -172,8 +216,8 @@ site --- and the message $\Sigma_{a\to j}$, $\eta_{a\to j}$ that completes
 it is computed from the other members' cavity data in the same draw.
 Every population element is therefore a triple $(\Sigma,\eta,p)$ generated
 from one cavity draw. Generating $p$ separately, with the same marginals,
-moves the threshold by several per cent, which is the smoothness of $u$
-at work: open sites are found next to open sites.
+moves the threshold by a tenth (Fig.~\ref{fig:andersonmech}), which is the
+smoothness of $u$ at work: open sites are found next to open sites.
 
 The threshold is located by the growth rate of a small $p$ under
 Eq.~\eqref{eq:lltmap}, renormalised each generation, which is the
@@ -232,101 +276,153 @@ common.
 \section{What loops do}
 \label{sec:loops}
 
-Table~\ref{tab:andersonlines} and Fig.~\ref{fig:anderson} are the result:
-the mobility edge and the landscape percolation threshold at the bottom of
-the band, for the five ensembles at six disorders, with $10^{6}$
-elements for the edge and $3\times10^{5}$ for the threshold. Both are
-energies; a state is extended for $E>E_{c}^{\mathrm{loc}}$ and the landscape
-percolates for $E>E_{c}^{\mathrm{perc}}$, so the gap
+Three figures carry the result; the numbers behind them are cached with
+the probe's results and \code{figs/\allowbreak localization.\allowbreak py}
+prints them. Both lines are energies at the
+bottom of the band, a state being extended for $E>E_{c}^{\mathrm{loc}}$ and
+the landscape percolating for $E>E_{c}^{\mathrm{perc}}$; the gap
 $E_{c}^{\mathrm{perc}}-E_{c}^{\mathrm{loc}}$ is positive where the LLT misses
-extended states and negative where it invents them.
+extended states and negative where it invents them. Seven of the thirty
+points were computed twice from independent populations: the percolation
+threshold repeats to $0.002$ and the mobility edge to $0.003$ at $W=1.5$
+and $0.03$ at $W=6$, which are the error bars.
 
-\paragraph{On the trees.} The degree-three tree reproduces
-\citeauthor{tonetti2025}: the two lines are together at $W=1.5$, a gap of
-$0.006$, and separate as the disorder grows, to $0.30$ at $W=3$, $0.88$ at
-$6$ and $1.4$ at $9$, the percolation line staying within an energy unit of
-where it started while the mobility edge moves into the band. The
-degree-four tree adds the crossing they report: the gap is $-0.42$ at
-$W=1.5$, $-0.21$ at $3$, passes through zero near $W=4.3$ and grows to
-$1.3$ at $12$. At weak disorder on the denser tree the landscape percolates
-before the states extend; at strong disorder, long after.
+\paragraph{The lines, measured from the band edge.}
+Figure~\ref{fig:anderson} plots both lines as their distance above
+$E_{\min}$, which removes the $-W/2$ that every line shares and leaves what
+the disorder does. Three things are visible at once. The mobility edge
+climbs away from the band edge roughly linearly in $W$ on every ensemble:
+the localised skin at the bottom of the band thickens with disorder. The
+percolation line climbs faster on every ensemble, so the two cross where
+they are going to cross and separate thereafter; on the degree-three tree
+they start together, a gap of $0.006$ at $W=1.5$ against
+\citeauthor{tonetti2025}'s $0.013$, which is their small-disorder
+agreement, and on the degree-four tree the percolation line starts below
+the mobility edge and crosses it near $W=4.3$, which is the crossing they
+report. And the triangle ensembles lie above the trees on the percolation
+line and on top of them on the mobility edge: at degree three the two
+mobility edges are within $0.1$ of each other up to $W=3$ while the two
+percolation lines are $0.1$ to $0.7$ apart. Whatever the loops do, they do
+it to the landscape.
 
-\paragraph{With triangles, at degree three.} Replace two of the three edges
-at every site by one triangle and the gap opens where the tree had none:
-$0.20$ at $W=1.5$, $0.47$ at $3$, $0.74$ at $4.5$, against $0.006$, $0.30$
-and $0.60$ on the tree, meeting it at $0.88$ by $W=6$. The percolation line
-is the part that moves. On the tree it sits at $-3.11$ to $-3.53$ over that
-range; on the triangle graph at $-3.01$ to $-2.82$, nearer the band centre
-by a tenth to seven tenths of a unit, while the mobility edges of the two
-graphs stay within a tenth of each other up to $W=3$. Then the triangle
-graph does something the tree does not: at $W=9$ and $12$ the imaginary
-parts decay at every energy, the whole band is localised, and the landscape
-still percolates, at $-2.58$ and $-2.29$. That is the LLT failing
-qualitatively, not by a shift. The reason is in Table~\ref{tab:andersonwc}:
-the band-centre critical disorder of $(1,1)$ is $8.6$ against
-$17.4$ for the tree at the same degree. A triangle spends two of a site's
-three neighbours on each other, and a walk that leaves through the edge
-and enters a triangle has one way on where the tree offered two --- the
-number of paths grows as $\sqrt2$ per step rather than $2$ --- so the
-graph localises at a disorder the tree shrugs off. The landscape does not
-know this. It is a static, positive solution of a shifted linear problem,
-and the loop that halves the branching of the walk merely adds the $2t$ of
-Eq.~\eqref{eq:triangleG} to its denominator.
+\paragraph{The gap.} Figure~\ref{fig:andersongap} is the difference, and
+it is the chapter's result in one panel. At every disorder the gap
+increases with the number of triangles at fixed degree, and it does so by
+moving the crossing to weaker disorder: $W\approx4.3$ on the degree-four
+tree, $3.0$ with one triangle per site, $1.7$ with two. Above the crossing
+the ordering never changes --- $0.27$, $0.49$, $0.75$ at $W=6$ and $1.3$,
+$1.5$, $1.9$ at $W=12$ --- and at degree three the cactus opens a gap of
+$0.20$ where the tree has none. Then the cactus does something the tree
+does not. At $W=9$ its curve stops: the imaginary parts decay at every
+energy, the whole band is localised, and the landscape still percolates,
+at $E_{c}^{\mathrm{perc}}=-2.58$ and, at $W=12$, $-2.29$. That is not a shift
+of a line but a line drawn through a band in which nothing is extended,
+and the LLT has no way of knowing it.
 
-\paragraph{With triangles, at degree four.} Here the effect can be dosed:
-$(4,0)$, $(2,1)$ and $(0,2)$ replace zero, two or all four edges by
-triangles at the same degree. The crossing moves to weaker disorder with
-every triangle, from $W\approx4.3$ on the tree to $3.0$ with one triangle
-and $1.7$ with two, and above the crossing the gap grows with the triangle
-count at every disorder: $0.27$, $0.49$ and $0.75$ at $W=6$; $1.3$, $1.5$
-and $1.9$ at $W=12$. The percolation line again does most of the moving,
-by $0.4$ towards the band centre from $(4,0)$ to $(0,2)$ at $W=6$, while
-the mobility edge moves by $0.1$ the other way. The band-centre disorder
-falls from $32.3$ on the tree to $26.2$ and $18.1$, the last within a
-unit of the degree-three tree's, which is the $\sqrt2$ again: two
-triangles per site offer the walk the same growth as three edges did.
+\paragraph{Why the cactus localises first.} Figure~\ref{fig:andersoncentre}
+gives the reason, at the band centre where it is cleanest: the growth rate
+$\lambda(1/2)$ of Eq.~\eqref{eq:imlinear} against disorder for the five
+ensembles, the transition being where it crosses one.
+Table~\ref{tab:andersonwc} lists the crossings: $17.4$ on the degree-three
+tree, $8.6$ on the cactus at the same degree; $32.3$, $26.2$ and $18.1$ at
+degree four as edges become triangles. The last number is within a unit of
+the degree-three tree's, and that is the mechanism in one line. What the
+imaginary recursion propagates is amplitude along walks that never turn
+back, and a triangle spends two of a site's neighbours on each other: a
+walk that leaves through the edge of the cactus and enters a triangle has
+one way on where the tree offered two, so the number of such walks grows
+as $\sqrt2$ per step instead of $2$, and two triangles per site give
+$\sqrt2\cdot\sqrt2=2$, the degree-three tree's growth. Fewer walks, less
+interference to sustain an extended state, and the graph localises at a
+disorder the tree shrugs off. The landscape does not know this. It is a
+static, positive solution of a shifted linear problem, for which the loop
+is the $2t$ in the numerator of Eq.~\eqref{eq:triangleG}, a slightly
+larger self-energy and a slightly smoother $u$, and nothing about walks.
+
+\paragraph{The two mechanisms, checked.} Figure~\ref{fig:andersonmech}
+shows the two criteria at work. On the left, $\lambda(1/2)$ against energy
+at $W=3$ for the tree and the cactus: a smooth crossing of one, at
+$0.78$ above the band edge on the tree and $1.02$ on the cactus, which is
+the mobility edge as a stability line, with the cactus's localised skin
+thicker by a quarter of a unit. On the right, the percolation growth
+factor against $E'$ on the tree at $W=1.5$, with the $(\Sigma,\eta,p)$
+triple drawn jointly and with $p$ drawn from separate members of the
+population: the threshold moves from $E'=0.47$ to $0.52$, a tenth, which
+is what the smoothness of $u$ is worth, and a calculation that treats the
+landscape as independent site by site gets the LLT's own prediction wrong.
 
 \paragraph{What this says about the proposal.} \citeauthor{tonetti2025}
-found the landscape percolation and the localisation transition to differ
-on the tree and conjectured that loops, which carry the interference the
-landscape cannot see, would be where the two part company. On these
-graphs loops do part them, and in one direction: every triangle moves the
-percolation line towards the band centre and leaves the mobility edge
-nearly where it was, so the landscape's picture of a sea of allowed
-regions that connect at a threshold becomes a worse guide to where the
-states are the more the graph is clustered, until, on the degree-three
-cactus, it percolates through a fully localised band. The nearest thing
-to a mitigating case is the weak-disorder crossing on the degree-four
-graphs, where triangles bring the crossing down from $W=4.3$ to $1.7$
-and the two lines are briefly close; that is the regime of the
-three-dimensional agreement of \citet{filoche2012}, and it is narrow.
+found the two transitions apart on the tree and conjectured that loops,
+which carry the interference the landscape cannot see, would be where
+they part company. On these graphs loops do part them, in one direction
+and by one route: every triangle moves the percolation line towards the
+band centre and leaves the mobility edge nearly where it was, so the
+landscape's picture of allowed regions that connect at a threshold is a
+worse guide to where the states are the more the graph is clustered,
+until on the degree-three cactus it percolates through a band with no
+extended state in it. The one mitigating case is the weak-disorder
+crossing on the degree-four graphs, where triangles bring the crossing
+down to $W=1.7$ and the lines are briefly together; that is the regime of
+the three-dimensional agreement of \citet{filoche2012}, and it is narrow.
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=\linewidth]{figs/fig-anderson.pdf}
-\caption{\textbf{Two lines at the bottom of the band.} The mobility edge
+\caption{\textbf{Two lines above the band edge.} The mobility edge
 $E_{c}^{\mathrm{loc}}$ (solid, open markers) and the landscape percolation
-threshold $E_{c}^{\mathrm{perc}}$ (dashed, filled) against disorder, for
-regular chygraphs with $s$ edges and $t$ triangles per site, at degree
-three (top) and four (bottom), with the bottom of the spectrum dotted. A
-mobility-edge curve that stops is a band that has localised entirely.
-Generated by \code{figs/\allowbreak localization.\allowbreak py} from
-\code{statmech/\allowbreak probe/\allowbreak anderson.\allowbreak py}.}
+threshold $E_{c}^{\mathrm{perc}}$ (dashed, filled), each measured from the
+bottom of the spectrum $E_{\min}(W)$, against disorder, for regular
+chygraphs with $s$ edges and $t$ triangles per site at degree three (top)
+and four (bottom). A mobility-edge curve that stops is a band that has
+localised entirely. Generated by \code{figs/\allowbreak
+localization.\allowbreak py} from \code{statmech/\allowbreak
+probe/\allowbreak anderson.\allowbreak py}.}
 \label{fig:anderson}
 \end{figure}
 
-\begin{table}[t]
-\centering\small
-\begin{adjustbox}{max width=\linewidth}
-\input{figs/tab-anderson-lines.tex}
-\end{adjustbox}
-\caption{\textbf{The two lines.} Bottom of the spectrum, mobility edge and
-landscape percolation threshold at the bottom of the band, and their
-difference, for the five ensembles; ``none'' is a disorder at which every
-state is localised. Generated by \code{figs/\allowbreak
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig-anderson-gap.pdf}
+\caption{\textbf{The gap.} $E_{c}^{\mathrm{perc}}-E_{c}^{\mathrm{loc}}$
+against disorder for the five ensembles, dark for degree three and light
+for degree four: positive where the landscape misses extended states,
+negative where it invents them. At fixed degree the gap grows with the
+number of triangles at every disorder, and the cactus $(1,1)$ leaves the
+plot at $W=9$ because its band has localised entirely while its landscape
+still percolates. Generated by \code{figs/\allowbreak
 localization.\allowbreak py}.}
-\label{tab:andersonlines}
-\end{table}
+\label{fig:andersongap}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig-anderson-centre.pdf}
+\caption{\textbf{Where the band centre localises.} The growth rate
+$\lambda(1/2)$ of the linearised imaginary recursion, Eq.~\eqref{eq:imlinear},
+at $E=0$ against disorder; the band centre is extended above the dotted
+line. Two triangles per site, $(0,2)$, localise where three edges per
+site, $(3,0)$, do, which is the $\sqrt2$ per triangle of the walks that
+carry interference. Populations of $3\times10^{5}$; the crossings in
+Table~\ref{tab:andersonwc} use $10^{6}$. Generated by \code{figs/\allowbreak
+localization.\allowbreak py}.}
+\label{fig:andersoncentre}
+\end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=\linewidth]{figs/fig-anderson-mechanism.pdf}
+\caption{\textbf{The two criteria at work.} Left: $\lambda(1/2)$ against
+energy above the band edge at $W=3$ on the degree-three tree and cactus;
+the mobility edge is the crossing of one. Right: the growth factor of the
+landscape percolation message against $E'$ on the tree at $W=1.5$, with
+the $(\Sigma,\eta,p)$ triple drawn jointly, as Sec.~\ref{sec:lltperc}
+requires, and with $p$ drawn from separate members of the population; the
+threshold is the crossing of one and the difference is the smoothness of
+$u$. Generated by \code{figs/\allowbreak localization.\allowbreak py} from
+\code{statmech/\allowbreak probe/\allowbreak anderson.\allowbreak py},
+mode \code{side}.}
+\label{fig:andersonmech}
+\end{figure}
 
 \begin{table}[t]
 \centering\small
@@ -334,8 +430,8 @@ localization.\allowbreak py}.}
 \caption{\textbf{Band bottoms and band-centre critical disorder.} The
 pure-hopping band bottom $e_{\min}$ from the uniform fixed point of
 Eq.~\eqref{eq:schur}, and the disorder $W_{c}$ at which the band centre
-$E=0$ localises, from $\min_{\beta}\lambda(\beta)=1$ with $10^{6}$ elements;
-the tree value $17.4$ sits four per cent below the $18.17$ of
+localises, from $\min_{\beta}\lambda(\beta)=1$ with $10^{6}$ elements; the
+tree value $17.4$ sits four per cent below the $18.17$ of
 \citet{tikhonov2019}, which is the population bias of
 Sec.~\ref{sec:mobility}. Generated by \code{figs/\allowbreak
 localization.\allowbreak py}.}
@@ -362,7 +458,8 @@ and a static object cannot tell the difference.
 
 What is not done is the critical behaviour, which \citeauthor{tonetti2025}
 find to differ between the two transitions on the tree; nothing here
-computes an exponent. The population bias on the mobility edge is a few
+computes an exponent, and the lines are located to a few hundredths, the
+mobility edge less well than the threshold. The population bias on the mobility edge is a few
 per cent and common to the comparisons made. And the ensembles are
 regular; a chygraph of the maximal cliques of a real network, with the
 degree and cardinality distributions of Chapter~\ref{ch:data}, is the same

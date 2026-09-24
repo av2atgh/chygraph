@@ -306,7 +306,7 @@ class Ensemble:
         return g * (1 + E_eta[ie].sum(1) + T_eta[it].sum(1))
 
     # -- LLT percolation: linearised growth of the open-cluster message at E' = E - E_min
-    def percolation_growth(self, pops, Emin, Eprime, sweeps=200, transient=100):
+    def percolation_growth(self, pops, Emin, Eprime, sweeps=200, transient=100, joint=True):
         """Growth factor per generation of the percolation message p at
         landscape threshold u >= 1/E', with p kept small (linearised).
         Above 1: a giant cluster.  Every population element is a triple
@@ -333,6 +333,8 @@ class Ensemble:
                 nE_eta = hop * g * (1 + eta_cav)
                 back = rng.integers(0, P, P)
                 u_k = (1 + eta_cav + E_eta[back]) / (eps_k - Emin - cav - E_re[back])
+                if not joint:      # p from draws unrelated to the ones that made u_k
+                    ie = rng.integers(0, P, (P, s - 1)); itr = rng.integers(0, P, (P, t))
                 reach = 1 - np.prod(1 - E_p[ie], axis=1) * np.prod(1 - T_p[itr], axis=1)
                 nE_p = (u_k >= thr) * reach
             if t:
@@ -353,6 +355,8 @@ class Ensemble:
                     sig, et = msg(o1, o2)                                # the message to j
                     u_j = (1 + eta[j] + et) / (m[j] - sig)
                     ie, itr = idx[j]
+                    if not joint:
+                        ie = rng.integers(0, P, (P, s)); itr = rng.integers(0, P, (P, t - 1))
                     reach = 1 - np.prod(1 - E_p[ie], axis=1) * np.prod(1 - T_p[itr], axis=1)
                     p_j.append((u_j >= thr) * reach)
                 nT_p = 1 - (1 - p_j[0]) * (1 - p_j[1])
@@ -369,6 +373,16 @@ class Ensemble:
             if t:
                 T_re, T_eta, T_p = nT_re, nT_eta, np.minimum(nT_p * scale, 1.0)
         return float(np.exp(np.mean(logs))) if logs else 0.0
+
+    def percolation_growth_short(self, pops, Emin, Eprime, sweeps=8, transient=3, joint=True):
+        """The growth factor from a few sweeps starting at a uniform p.
+
+        Renormalised power iteration goes extinct in the subcritical phase:
+        the support of p shrinks geometrically in a finite population.  A
+        few sweeps from a uniform start cannot, and give the same crossing;
+        this is what the figure of growth against E' uses on both sides of
+        the threshold."""
+        return self.percolation_growth(pops, Emin, Eprime, sweeps=sweeps, transient=transient, joint=joint)
 
     def percolation_threshold(self, pops, Emin, lo, hi, iters=12, **kw):
         """E'_c where the growth factor crosses one, by bisection."""
@@ -503,3 +517,73 @@ def scan(P=1000000, seed=0, procs=8):
 
 if __name__ == '__main__' and len(sys.argv) > 1 and sys.argv[1] == 'scan':
     scan()
+
+
+# --------------------------------------------------- figures' side data
+
+def side_data(P=300000, seed=0):
+    """Three small scans behind the chapter's mechanism figures.
+
+    stability   lambda(1/2) against E at W = 3 for (3,0) and (1,1): the
+                mobility edge as a crossing of one
+    growth      the percolation growth factor against E' at W = 1.5 on
+                (3,0), with the (Sigma, eta, p) triple drawn jointly and
+                drawn separately: what the smoothness of u is worth
+    centre      lambda(1/2) at E = 0 against W for the five ensembles:
+                where each band centre localises
+    """
+    import csv
+    rows = []
+    for (s, t) in ((3, 0), (1, 1)):
+        e = Ensemble(s, t, 3.0, P=P, seed=seed)
+        Emin = e.E_min()
+        for E in np.linspace(Emin + 0.1, Emin + 2.5, 13):
+            lam = e.imaginary_growth(E, betas=(0.5,), sweeps=300, transient=150)[0.5]
+            rows.append(dict(s=s, t=t, W=3.0, E=E, lam=lam))
+            print(f'stability ({s},{t}) E={E:.3f} lambda={lam:.4f}', flush=True)
+    with open(OUT / 'anderson_stability.csv', 'w', newline='') as f:
+        w = csv.DictWriter(f, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
+
+    rows = []
+    e = Ensemble(3, 0, 1.5, P=P, seed=seed)
+    Emin = e.E_min()
+    pops = e.landscape_population(Emin, sweeps=300)
+    for Ep in np.linspace(0.35, 0.65, 13):
+        g_joint = e.percolation_growth_short(pops, Emin, Ep)
+        g_indep = e.percolation_growth_short(pops, Emin, Ep, joint=False)
+        rows.append(dict(s=3, t=0, W=1.5, Eprime=Ep, growth_joint=g_joint, growth_indep=g_indep))
+        print(f"growth E'={Ep:.3f} joint={g_joint:.4f} indep={g_indep:.4f}", flush=True)
+    with open(OUT / 'anderson_growth.csv', 'w', newline='') as f:
+        w = csv.DictWriter(f, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
+
+    rows = []
+    for (s, t) in ENSEMBLES:
+        e = Ensemble(s, t, 10.0, P=P, seed=seed)
+        for W in (4.0, 6.0, 8.0, 10.0, 12.0, 15.0, 18.0, 22.0, 26.0, 30.0, 35.0):
+            e.W = W
+            lam = e.imaginary_growth(0.0, betas=(0.5,), sweeps=300, transient=150)[0.5]
+            rows.append(dict(s=s, t=t, W=W, lam=lam))
+            print(f'centre ({s},{t}) W={W} lambda={lam:.4f}', flush=True)
+    with open(OUT / 'anderson_centre.csv', 'w', newline='') as f:
+        w = csv.DictWriter(f, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
+
+
+def side_growth(P=300000, seed=0):
+    import csv
+    rows = []
+    e = Ensemble(3, 0, 1.5, P=P, seed=seed)
+    Emin = e.E_min()
+    pops = e.landscape_population(Emin, sweeps=300)
+    for Ep in np.linspace(0.35, 0.65, 13):
+        g_joint = e.percolation_growth_short(pops, Emin, Ep)
+        g_indep = e.percolation_growth_short(pops, Emin, Ep, joint=False)
+        rows.append(dict(s=3, t=0, W=1.5, Eprime=Ep, growth_joint=g_joint, growth_indep=g_indep))
+        print(f"growth E'={Ep:.3f} joint={g_joint:.4f} indep={g_indep:.4f}", flush=True)
+    with open(OUT / 'anderson_growth.csv', 'w', newline='') as f:
+        w = csv.DictWriter(f, fieldnames=list(rows[0])); w.writeheader(); w.writerows(rows)
+
+
+if __name__ == '__main__' and len(sys.argv) > 1 and sys.argv[1] == 'side':
+    side_data()
+if __name__ == '__main__' and len(sys.argv) > 1 and sys.argv[1] == 'growth':
+    side_growth()
