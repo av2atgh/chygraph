@@ -3,7 +3,7 @@
 
 The preface claimed that giving up the graph as the fundamental object and
 keeping the tree brings the whole apparatus back. This chapter brings
-together what the sixteen chapters reported.
+together what the seventeen chapters reported.
 
 \section{One recursion, many models}
 \label{sec:onerecursion}
@@ -142,7 +142,7 @@ the tricritical boundary of Sec.~\ref{sec:unanimity} by one in cardinality.
 \section{What the book establishes}
 \label{sec:establishes}
 
-Seven results, in the order the chapters reach them.
+Eight results, in the order the chapters reach them.
 
 \emph{Each order of moment data buys exactly one more thing about the
 transition.} The four first-moment matrices fix the threshold and nothing else;
@@ -210,26 +210,40 @@ Sec.~\ref{sec:corefree} guarantees it. Only the exponent could have failed, and
 there the evidence is weaker than the central values suggest: the predicted
 exponent does not move with the tail while the measured one does.
 
+\emph{The recursion is exact iff the clique family has a join tree, and on
+an ensemble that is a local condition with a percolation threshold.}
+Chapter~\ref{ch:exactness} names what Part~IV had been measuring: chordal,
+join tree and $\alpha$-acyclic are one condition, certified by leaf removal
+on the incidence structure, and the ensemble version is the absence of short
+chordless cycles. Karrer--Newman satisfies it at every branching ratio and
+one-dimensional geometry at every density; two-dimensional geometry never
+does, and is exact at a finite cost up to an acyclicity-percolation
+threshold well above the graph's own; hyperbolic random graphs fail only at
+the centre. On real networks a rewired control sorts the short loops into
+those the groups absorb, those the degree sequence makes and those the
+geometry makes.
+
 \section{What the book does not do}
 \label{sec:notdone}
 
 In rough order of how much it would take to close.
 
-\emph{Overlapping complexes at the level of an ensemble.} The largest gap, and
-the subject of Part~IV. Two partial answers exist and neither closes it. The
-instance calculation is exact where the clique structure is chordal, and
-Sec.~\ref{sec:mergeerror} shows that merging the offending complexes into one is
-exact whenever the merged incidence structure is a forest, which on real
-neighbourhoods and hyperbolic random graphs it always is. Where it is not,
-Sec.~\ref{sec:coretransition} locates the obstruction in the ensemble's own
-parameters: a core appears continuously above an incidence branching of one, and
-the instances that keep one were drawn well above it. What is missing is a
-message indexed by region \emph{type}, over a region graph that is itself
-random. That needs two things: the distribution of intersection patterns among
-the maximal cliques of the ensemble, and what the parent-to-child update becomes
-when averaged over it. One warning is already in hand --- six of twenty
-non-chordal instances do not converge at damping $0.999$, so an ensemble
-treatment inherits an instability that damping alone will not fix.
+\emph{Overlapping complexes at the level of an ensemble, past the
+threshold.} The largest gap, and the subject of Part~IV.
+Chapter~\ref{ch:exactness} says on which ensembles there is no gap ---
+Karrer--Newman, one-dimensional geometry, hyperbolic graphs outside the
+centre, group-generated networks --- and on which the obstruction is finite
+islands that a meta-complex sums exactly. What remains is the r\'egime past
+acyclicity percolation, where the islands are extensive: two-dimensional
+geometry above $\ave{k}\approx7.5$, the interactomes at their finite size,
+the dense contact networks. What is missing there is a message indexed by
+separator \emph{type}, over a join tree that is itself random. That needs
+two things: the distribution of separators and of islands in the ensemble,
+which Chapter~\ref{ch:exactness} measures but does not derive, and what the
+clique-to-clique update becomes when averaged over it. One warning is
+already in hand --- six of twenty non-chordal instances do not converge at
+damping $0.999$, so an ensemble treatment inherits an instability that
+damping alone will not fix.
 
 \emph{Replica symmetry breaking, in general.} The book detects it and does not
 do it. Chapter~\ref{ch:hittingset} gives an entropy that proves the
@@ -321,12 +335,13 @@ covers ten networks and is a start.
 
 \emph{The hierarchy.} Clustering is a sequence of obstructions rather than one:
 a graph cannot see a triangle, a chygraph cannot see two triangles sharing an
-edge, a region graph cannot see whatever loops the regions form. Whether that
-sequence terminates for a given ensemble --- whether some finite level captures
-essentially all of the correlation --- is a well-posed question about a random
-geometric object, and Sec.~\ref{sec:sixty} reduces it to the distribution of
-chordality-violating motifs. The answer would say whether the construction in
-this book is one rung on a ladder or the last rung that matters.
+edge, a join tree cannot see a chordless cycle, a region graph cannot see
+whatever loops the regions form. Chapter~\ref{ch:exactness} shows the third
+rung is the one that matters on real data --- the wheel is rare, the
+chordless square is everywhere --- and turns ``does the sequence terminate''
+into ``do the islands percolate'', a question about a random geometric object
+with one end answered. Whether the ladder has a fourth rung worth climbing,
+a local treatment of the islands themselves, is open.
 
 \emph{Inference on the same object.} Everything here runs the recursion
 forward: given an ensemble, compute a threshold. Run backwards it is what
@@ -350,5 +365,7 @@ at all.
 
 It does not abolish the boundary. Chapter~\ref{ch:overlap} measures what is left
 on the far side, identifies the cause with a control that holds the ensemble
-fixed, and shows what recovers the difference one network at a time. The
-ensemble version is what the book leaves undone.
+fixed, and shows what recovers the difference one network at a time.
+Chapter~\ref{ch:exactness} names the boundary --- a join tree, locally ---
+and says which ensembles cross it and where. The calculation on the far side
+is what the book leaves undone.

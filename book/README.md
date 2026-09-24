@@ -31,7 +31,8 @@ ending on the routine that executes it.
 | 14 | `overlap.tex` | The price of treelikeness: what `BP_chi` loses to overlapping cliques, measured on three classes of network, with the rewired control that attributes it |
 | 15 | `gbp.tex` | The repair the literature already has: region graphs, Möbius counting, GBP over 240 runs — exact where the clique family is chordal, and chordality follows provenance, not clustering |
 | 16 | `metacomplex.tex` | The repair that stays inside the formalism: merge complexes sharing two or more atoms; exact iff the merged incidence structure is a forest; and Sec. 16.3, the core-percolation transition at incidence branching one |
-| 17 | `outlook.tex` | One recursion, many models; the two running threads; what is not done |
+| 17 | `exactness.tex` | When the method is exact: chordal = join tree = α-acyclic, GYO reduction as leaf removal on the incidence structure; the ensemble version is local (short chordless cycles, φ) and its loss is acyclicity percolation; 1D geometric graphs exact at every density, 2D and 3D not, HRG exact outside the centre; sixteen real networks against a rewired control |
+| 18 | `outlook.tex` | One recursion, many models; the two running threads; what is not done |
 | — | `software.tex` | Back matter. Repo links; equation-to-method-to-test table; how to reproduce a figure |
 
 **Chapters 12 and 13 have no manuscript behind them.** Every other chapter is
@@ -45,14 +46,14 @@ propagation at `m = 0`. PDFs of the references are under
 ## Status
 
 `main.pdf` builds with **0 errors, 0 undefined references and 0
-multiply-defined labels, across 364 pages.** Not box-clean: **two overfull
+multiply-defined labels, across 377 pages.** Not box-clean: **two overfull
 hboxes** — `cover.tex:483--493` (1.99pt, "Which replica-symmetry-breaking
 point") and `metacomplex.tex:383--389` (3.16pt) — and 52 underfull vboxes,
 every one of them `while \output is active`, which is page-breaking around
 floats and not a line running into the margin.
 
-60 figures, 31 numbered tables, 163 numbered equations, 74 references and a
-109-term index. Both checks under *Two checks the build cannot make* print
+62 figures, 32 numbered tables, 164 numbered equations, 83 references and a
+115-term index. Both checks under *Two checks the build cannot make* print
 nothing.
 
 **These counts are re-measured, not maintained by hand** — the recipes are
@@ -294,6 +295,17 @@ table, recomputed here since it is a four-spin enumeration; the 60-instance
 summary from `../statmech/probe/results/gbp_cliques.json` with the convergence threshold
 stated; and the clique-ensemble paired ratio read from
 `../statmech/probe/results/analysis.txt`.
+`figs/exactness.py` generates Figures 17.1 and 17.2 and Table 17.1 from the
+cached outputs of `../statmech/probe/acyclicity.py` (`acyclicity_rgg.csv`,
+`acyclicity_hrg.csv`, `acyclicity_fss.csv`; about an hour and a half for the
+three sweeps together, the 1D graphs and the hyperbolic hubs being the slow
+parts) and `real_acyclicity.py` (`real_acyclicity.csv`, a few minutes, five
+rewirings per network). It runs Ch. 17's checks: GYO reduction empties the
+clique family iff the graph is chordal (200 random graphs); the short-cycle
+finder against `networkx.chordless_cycles` (150 graphs); the 1D line is
+chordal and the 1D ring is not; and on sixteen-vertex geometric graphs GBP
+over the clique region graph is exact in 1D (chordal) to 1e-6 and not in 2D,
+while node-level Bethe is off by 13 to 22 in `ln Z`.
 `figs/merge.py` **writes no figures** — it says so at the top of the file. What
 it produces are numbers: the finite-size sweep behind Table 15.2
 (`check_placed_finite_size`), the merge closure on the six real networks, and
