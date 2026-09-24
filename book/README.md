@@ -21,7 +21,7 @@ ending on the routine that executes it.
 | 6 | `epidemics.tex` | SIR as percolation, two levels of mixing, the household reproduction number, contagion inside a group |
 | **III** | | **Statistical mechanics** |
 | 7 | `potts.tex` | Fortuin–Kasteleyn: percolation and Ising are one recursion at two values of $q$ |
-| 8 | `statmech.tex` | General theory: convolution up, exact interior sum down, the branching matrix |
+| 8 | `statmech.tex` | General theory: convolution up, exact interior sum down, the branching matrix; Sec. 8.10, a solution cluster is itself a chygraph (frozen core plus independent blocks, by exhaustive 3-SAT enumeration) and the conjecture that the Parisi $m$ is a counting number one level up |
 | 9 | `ising.tex` | Ising on chygraphs; clustering lowers $T_c$; the AT line; the unanimity interaction |
 | 10 | `hittingset.tex` | Hard fields, where they fail off the graph, soft fields, RSB |
 | 11 | `cover.tex` | Vertex cover, leaf removal, core percolation; hyperbolic random graphs |
@@ -46,14 +46,14 @@ propagation at `m = 0`. PDFs of the references are under
 ## Status
 
 `main.pdf` builds with **0 errors, 0 undefined references and 0
-multiply-defined labels, across 377 pages.** Not box-clean: **two overfull
+multiply-defined labels, across 379 pages.** Not box-clean: **two overfull
 hboxes** — `cover.tex:483--493` (1.99pt, "Which replica-symmetry-breaking
 point") and `metacomplex.tex:383--389` (3.16pt) — and 52 underfull vboxes,
 every one of them `while \output is active`, which is page-breaking around
 floats and not a line running into the margin.
 
 62 figures, 32 numbered tables, 164 numbered equations, 83 references and a
-115-term index. Both checks under *Two checks the build cannot make* print
+117-term index. Both checks under *Two checks the build cannot make* print
 nothing.
 
 **These counts are re-measured, not maintained by hand** — the recipes are
@@ -306,6 +306,13 @@ finder against `networkx.chordless_cycles` (150 graphs); the 1D line is
 chordal and the 1D ring is not; and on sixteen-vertex geometric graphs GBP
 over the clique region graph is exact in 1D (chordal) to 1e-6 and not in 2D,
 while node-level Bethe is off by 13 to 22 in `ln Z`.
+`figs/clusters.py` **writes no figures** either. It summarises
+`../statmech/probe/results/cluster_blocks.csv`, the cached output of
+`../statmech/probe/cluster_blocks.py` (exhaustive 3-SAT at N = 16..24, three
+clause densities, thirty instances each, about ten minutes), and prints the
+numbers Sec. 8.10 quotes: the fraction of multi-block clusters that are exact
+products of their block projections, the same for a size-matched random
+control, blocks per free variable and the frozen fraction.
 `figs/merge.py` **writes no figures** — it says so at the top of the file. What
 it produces are numbers: the finite-size sweep behind Table 15.2
 (`check_placed_finite_size`), the merge closure on the six real networks, and

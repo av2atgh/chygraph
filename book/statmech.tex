@@ -1068,6 +1068,102 @@ Sec.~\ref{sec:twoconstraints-col} collects, that cardinality two is degenerate
 and a good deal of what reads as general theory is an artefact of working
 there.
 
+\section{A cluster is itself a chygraph}
+\label{sec:clusterchy}
+\index{solution cluster|textbf}
+\index{frozen core}
+\index{Parisi parameter}
+
+Section~\ref{sec:onestep} treats a cluster as one pure state: one field per
+inclusion, drawn from a survey that varies across clusters and not within
+one. What a cluster looks like from inside is a separate question, and the
+book's own construction suggests an answer. A chygraph's second demand,
+Sec.~\ref{sec:treelike}, is that a complex be summed over exactly while the
+complexes multiply. Ask the same of a cluster of solutions: some variables
+are \emph{frozen}, taking the same value in every solution of the cluster,
+and if the free ones fall into blocks that vary independently of one another
+--- the cluster being exactly the Cartesian product of its projections onto
+the blocks --- then the cluster is a chygraph. The frozen core is its trivial
+layer, each block a complex whose interior is enumerated, and the product is
+the tree. That is a statement one can test by enumeration, and this section
+does, on the smallest instances where clusters exist at all.
+
+\paragraph{The measurement.} Random $3$-SAT at $N=16$ to $24$ variables and
+clause densities $\alpha=3.5$, $3.8$ and $4.0$, every assignment tried,
+thirty instances per size and density, unsatisfiable ones discarded.
+Solutions are clustered at Hamming distance one. For each cluster of at least
+two solutions: the frozen set; on the free set, the graph in which two
+variables are joined when the cluster's projection onto the pair is not the
+product of its two marginals; the connected components of that graph are the
+candidate blocks, and the cluster is a product iff its size equals the product
+of the block projection sizes. The control is a uniformly random subset of
+the free hypercube with the same number of elements, put through the same
+test. The routine is \code{statmech/\allowbreak probe/\allowbreak
+cluster\_\allowbreak blocks.\allowbreak py}.
+
+\paragraph{What it finds.} There are $1219$ clusters of two or more
+solutions across the five sizes, of a mean size of $22$ solutions, with
+$0.77$ of the variables frozen --- at these sizes a cluster is a handful of
+free variables around a large core. The $478$ clusters whose free variables
+split into two or more candidate blocks are the ones the question is about,
+and $0.81$ of them are \emph{exactly} the product of their block projections:
+$0.81$, $0.80$, $0.80$, $0.81$ and $0.82$ at $N=16$, $18$, $20$, $22$
+and $24$, and $0.80$, $0.79$ and $0.85$ at the three densities, with no
+trend in either. The control settles what that number means. A random set of
+the same size in the same hypercube passes the pairwise test into two or more
+candidate blocks $0.66$ of the time --- small sets are pairwise independent by
+accident --- and of those $0.25$ are products, against the clusters' $0.81$.
+The multi-block clusters carry $2.3$ blocks on average, $0.55$ blocks per
+free variable, and on every one that is a product the entropy is additive
+over the blocks, $\ln|\mathcal{C}|=\sum_{B}\ln|\mathcal{C}_{B}|$, which is
+the same statement made twice. The remaining fifth are clusters whose
+pairwise-independent blocks are coupled at a higher order: a three-way
+constraint whose every pair projection is full. Merging the coupled blocks into one complex recovers a product with fewer
+complexes, so the picture survives them at a coarser grain --- in the limit
+one block, which says nothing --- and they are counted against it here
+rather than for it.
+
+\paragraph{What it means for the ansatz.} On a product cluster the entropy is
+additive over blocks, $\ln|\mathcal{C}|=\sum_{B}\ln|\mathcal{C}_{B}|$, and
+the field a free variable carries within the cluster is fixed by its block
+alone: the one-field-per-inclusion picture of Eq.~\eqref{eq:rsansatz} is
+exact \emph{inside a block}, and the survey of Eq.~\eqref{eq:survey} is a
+law over which block configuration one is in as much as over which cluster.
+Nothing in Eq.~\eqref{eq:rsbansatz} contradicts this. What the ansatz has no
+room for is the block: it weights a cluster by $e^{-m\Delta F}$, a single
+exponent multiplying the whole free-energy shift, and on a product cluster
+the shift is a sum over blocks.
+
+\paragraph{A conjecture.} Section~\ref{sec:replicas-chy} found that the
+counting numbers $\ave{\kappa_{l}}/c_{l}$ of Eq.~\eqref{eq:bethe}, which the
+Bethe approximation puts in by hand, come out of Eq.~\eqref{eq:Fchy} as
+structure: a chygraph has that many layer-$l$ complexes per atom, and the
+free energy knows it. The Parisi parameter $m$ of Sec.~\ref{sec:onestep} is
+the one number in the one-step free energy that is still put in by hand and
+fixed by extremising. The conjecture is that $m$ is the tree's way of paying
+for a structure it cannot represent: on a chygraph whose complexes are the
+blocks of the clusters, the weight a cluster carries is a product over its
+blocks, and the exponent that multiplies a block's entropy is that block's
+counting number --- a chy-degree ratio $\ave{\kappa}/c$ one level up, fixed
+by the ensemble rather than optimised over. The consequence that would test
+it is a relation between two numbers computed independently: the $m$ that
+extremises the one-step free energy at $m\ne0$, and the density of blocks
+per free variable measured in the same ensemble. The enumeration above
+supplies the second at sizes far too small to say anything about the first;
+a population dynamics at $m\ne0$, which Sec.~\ref{sec:notdone} lists as not
+done, would supply the first. The two agreeing would make $m$ a structural
+quantity; the two disagreeing would say where the block picture stops.
+
+Two things the enumeration cannot say, and they should be kept apart from
+what it can. It says nothing about how the clusters sit relative to one
+another, which is the question the ultrametric tree of \citet{mezard1987}
+answers; at these sizes there are a handful of clusters and no geometry to
+speak of. And it says nothing about the thermodynamic limit: a block that is
+independent at $N=24$ may couple to another through a constraint that
+appears at $N=240$. What it does say is that the object the one-step ansatz
+calls a pure state has, at every size where it can be looked at, the
+internal structure of a chygraph.
+
 \section{What the scheme assumes}
 \label{sec:assumes}
 \index{replica symmetry breaking}
@@ -1185,3 +1281,14 @@ Eq.~\eqref{eq:ensemblemap}, and Eq.~\eqref{eq:Fchy} to Eq.~\eqref{eq:bethe}
 under Eq.~\eqref{eq:rsansatz} --- are stated as algebra and are not
 machine-checked, which is a weaker footing than the rest of the chapter stands
 on. Equation~\eqref{eq:rsbansatz} is written and not solved.
+
+Section~\ref{sec:clusterchy} is the one place in the chapter tested against
+an object outside the formalism: every satisfying assignment of the $415$
+satisfiable instances among $450$ random $3$-SAT instances drawn, with a
+random set of the same size as the control. The
+enumeration is \code{statmech/\allowbreak probe/\allowbreak cluster\_\allowbreak
+blocks.\allowbreak py}, about ten minutes, and
+\code{figs/\allowbreak clusters.\allowbreak py} prints from its cached output
+every number the section quotes. One thing it verifies on the way: a
+hand-built product of a two-element and a three-element block is recovered
+with exactly those blocks.

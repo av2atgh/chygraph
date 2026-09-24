@@ -156,3 +156,28 @@ geometry; (c) item 3, the replica conjecture as a section of Ch. 8;
 collapse); (e) whether φ on the interactomes vanishes in a growing ensemble
 with the same degree tail, which the rewired control suggests and does not
 prove.
+
+## Status 2026-09-25: item 3 carried out as Sec. 8.10
+
+The original `~/av2atg/replicas` notes are no longer on disk (only the memory
+note survives), so the section rests on a fresh enumeration:
+`statmech/probe/cluster_blocks.py` (exhaustive 3-SAT, N = 16–24, α = 3.5,
+3.8, 4.0, 30 instances each, 415 satisfiable of 450; clusters at Hamming
+distance one; frozen set, pairwise-dependency blocks, exact product test,
+size-matched random control) summarised by `book/figs/clusters.py`.
+
+Numbers: 1219 clusters of ≥ 2 solutions, mean size 22, frozen fraction 0.77;
+478 with ≥ 2 candidate blocks, of which 0.81 are exact products (0.80–0.82
+across N, 0.79–0.85 across α, no trend); control: 0.66 of random sets split
+pairwise, 0.25 of those are products; 2.3 blocks per multi-block cluster,
+0.55 blocks per free variable.
+
+Written into `statmech.tex` as Sec. 8.10 "A cluster is itself a chygraph":
+the measurement, what it means for Eq. (rsbansatz), the conjecture (m is a
+counting number ⟨κ⟩/c one level up) with its test (m from the m ≠ 0
+one-step calculation against the measured block density), and the two things
+the enumeration cannot say (inter-cluster geometry; the thermodynamic limit).
+The withdrawn WalkSAT-vs-tempering trend is not mentioned: its data are gone.
+
+Open: the m ≠ 0 population dynamics on 3-SAT that would test the conjecture;
+a higher-order (beyond pairwise) block test for the remaining fifth.
