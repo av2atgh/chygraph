@@ -217,3 +217,58 @@ Montanari–Ricci-Tersenghi–Semerjian do) — that would make the soft
 population stop freezing and reach α_s; k ≥ 4 where α_c ≠ α_d; a block
 density at large N by equilibrium sampling, which is the only way the
 conjecture's test could be reopened.
+
+## 2026-09-25: Ch. 18, localization on a clustered graph (in progress)
+
+Prompted by Tonetti, Cugliandolo, Tarzia, arXiv:2512.04037 (LLT vs Anderson
+on the K+1 = 3 Bethe lattice; the lines differ, blamed on the absence of
+loops). The chygraph version: the interior of a complex for the resolvent is
+a Schur complement, Σ_{a→i} = t² 1ᵀ[(ε_J − z) − tA_J − Σ_{J→a}]⁻¹ 1,
+polynomial in the cardinality; the landscape follows by linearity; LLT
+percolation is a dependent layer with a threshold rule; the mobility edge is
+the linearised imaginary map's growth rate min_β λ(β) = 1.
+
+`statmech/probe/anderson.py` (checks, populations, `scan`); `book/figs/anderson.py`;
+`book/localization.tex` drafted (theory sections; results pending the scan).
+
+Verified: cavity exact on incidence trees (1e-15); random instances' error
+falls with Im z (loops); landscape vs direct solve 1e-8 (trees), 3e-3 (densest
+triangle ensemble, n = 3000); band bottoms −2√2, −2√3; band-centre λ(1/2) at
+W = 18 rises 0.967 → 0.977 → 0.986 with P = 2e5, 1e6, 3e6 (W_c = 18.17 known);
+(3,0) at W = 1.5: E_c^loc = −3.106 (paper −3.152), E'_c = 0.473 →
+E_c^perc = 3.106 on the symmetric side (paper 3.165). LLT percolation also
+checked on a 60000-site instance with an exact (CG) landscape: onset at
+E' ≈ 0.45 (W = 1.5) and ≈ 2.1 (W = 6) vs population 0.47 and 2.30.
+
+Lesson: the (Σ, η, p) triple must be regenerated jointly in the percolation
+population; separate regeneration loses the smoothness of u and shifts the
+threshold by several per cent.
+
+First triangle result: (1,1) at W = 1.5: E_c^loc = −3.207, E_c^perc = −3.011,
+gap 0.20, where (3,0) has gap 0.006. Triangles open the gap at a disorder
+where the tree has none. Full scan (5 ensembles × 6 W, plus W_c at E = 0)
+running.
+
+## 2026-09-25 (night): Ch. 18 finished
+
+`book/localization.tex` complete; `figs/localization.py` (renamed from
+figs/anderson.py to avoid shadowing the probe module) draws Fig. 18.1 and
+writes Tables 18.1–18.2. Scan: `statmech/probe/results/anderson_lines.csv`,
+`anderson_wc.csv` (5 ensembles × 6 W; 1e6 elements for the edge, 3e5 for
+percolation; ~3 h on 8 cores).
+
+Results (bottom of the band; gap = E_c^perc − E_c^loc, positive = LLT misses
+extended states):
+- (3,0): gap 0.006, 0.30, 0.60, 0.88, 1.44, 1.37 at W = 1.5 … 12 — the paper's
+  picture (lines together at weak disorder, apart at strong).
+- (4,0): gap −0.42, −0.21, +0.03, +0.27, +0.75, +1.29 — the crossing near 4.3.
+- (1,1): gap 0.20, 0.47, 0.74, 0.88; at W = 9, 12 the whole band is localised
+  (W_c = 8.6 vs 17.4 for (3,0)) while the landscape still percolates.
+- Degree 4: crossing at W ≈ 4.3 (4,0), 3.0 (2,1), 1.7 (0,2); gap at W = 6:
+  0.27, 0.49, 0.75; at W = 12: 1.29, 1.49, 1.92. Percolation line moves
+  toward the centre with triangles (0.4 at W = 6), mobility edge barely.
+- W_c(E = 0): 17.4, 8.6, 32.3, 26.2, 18.1 — the √2 branching argument:
+  (0,2) ≈ (3,0).
+
+Open: exponents (not computed); explicit hard fields for the imaginary parts
+would reduce the population bias; real-network clique chygraphs by layer.

@@ -32,7 +32,8 @@ ending on the routine that executes it.
 | 15 | `gbp.tex` | The repair the literature already has: region graphs, Möbius counting, GBP over 240 runs — exact where the clique family is chordal, and chordality follows provenance, not clustering |
 | 16 | `metacomplex.tex` | The repair that stays inside the formalism: merge complexes sharing two or more atoms; exact iff the merged incidence structure is a forest; and Sec. 16.3, the core-percolation transition at incidence branching one |
 | 17 | `exactness.tex` | When the method is exact: chordal = join tree = α-acyclic, GYO reduction as leaf removal on the incidence structure; the ensemble version is local (short chordless cycles, φ) and its loss is acyclicity percolation; 1D geometric graphs exact at every density, 2D and 3D not, HRG exact outside the centre; sixteen real networks against a rewired control |
-| 18 | `outlook.tex` | One recursion, many models; the two running threads; what is not done |
+| 18 | `localization.tex` | The recursion with a Green's function for a message: the interior of a complex is a Schur complement (polynomial in the cardinality); Anderson localisation and the Localization Landscape on regular chygraphs with triangles, after Tonetti, Cugliandolo and Tarzia; the mobility edge as a stability line, LLT percolation as a dependent layer; what loops do to the gap between them |
+| 19 | `outlook.tex` | One recursion, many models; the two running threads; what is not done |
 | — | `software.tex` | Back matter. Repo links; equation-to-method-to-test table; how to reproduce a figure |
 
 **Chapters 12 and 13 have no manuscript behind them.** Every other chapter is
@@ -46,14 +47,14 @@ propagation at `m = 0`. PDFs of the references are under
 ## Status
 
 `main.pdf` builds with **0 errors, 0 undefined references and 0
-multiply-defined labels, across 383 pages.** Not box-clean: **two overfull
+multiply-defined labels, across 397 pages.** Not box-clean: **two overfull
 hboxes** — `cover.tex:483--493` (1.99pt, "Which replica-symmetry-breaking
 point") and `metacomplex.tex:383--389` (3.16pt) — and 52 underfull vboxes,
 every one of them `while \output is active`, which is page-breaking around
 floats and not a line running into the margin.
 
-63 figures, 32 numbered tables, 166 numbered equations, 84 references and a
-118-term index. Both checks under *Two checks the build cannot make* print
+64 figures, 34 numbered tables, 172 numbered equations, 92 references and a
+124-term index. Both checks under *Two checks the build cannot make* print
 nothing.
 
 **These counts are re-measured, not maintained by hand** — the recipes are
@@ -306,6 +307,18 @@ finder against `networkx.chordless_cycles` (150 graphs); the 1D line is
 chordal and the 1D ring is not; and on sixteen-vertex geometric graphs GBP
 over the clique region graph is exact in 1D (chordal) to 1e-6 and not in 2D,
 while node-level Bethe is off by 13 to 22 in `ln Z`.
+`figs/localization.py` generates Figure 18.1 and Tables 18.1–18.2 from
+`../statmech/probe/results/anderson_lines.csv` and `anderson_wc.csv`, the
+cached outputs of `../statmech/probe/anderson.py scan` (five regular
+chygraphs, six disorders; the landscape and its percolation at 3e5 elements,
+the mobility edge at 1e6, about twenty to forty minutes per (ensemble, W) on
+eight cores, three hours for the grid). It runs Ch. 18's checks first: the
+Schur-complement cavity against direct inversion on incidence trees of edges
+and triangles (1e-15), and the pure-hopping band bottoms -2 sqrt(2) and
+-2 sqrt(3). `anderson.py check` adds the random-instance checks quoted in the
+chapter. The band-centre benchmark (W_c = 18.17 on the K = 2 Bethe lattice)
+and the two lines at W = 1.5 against Tonetti et al. are the tests from
+outside the formalism.
 `figs/onestep.py` generates Figure 13.4 from
 `../statmech/probe/results/onestep_sat.csv`, the cached output of
 `../statmech/probe/onestep_sat.py scan` — the one-step calculation at

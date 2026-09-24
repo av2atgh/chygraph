@@ -1,0 +1,251 @@
+s=3 t=0 degree=3 W=4.5 P=1000000 seed=0 Emin=-5.0784 band_bottom=-2.8284 Eprime_c=1.6764 Ec_perc=-3.402 Ec_loc=-3.9976 gap=0.59558 sec=1129
+s=3 t=0 degree=3 W=12 P=1000000 seed=0 Emin=-8.8284 band_bottom=-2.8284 Eprime_c=4.8332 Ec_perc=-3.9952 Ec_loc=-5.3612 gap=1.366 sec=1136
+s=3 t=0 degree=3 W=9 P=1000000 seed=0 Emin=-7.3284 band_bottom=-2.8284 Eprime_c=3.5481 Ec_perc=-3.7804 Ec_loc=-5.219 gap=1.4387 sec=1140
+s=3 t=0 degree=3 W=3 P=1000000 seed=0 Emin=-4.3284 band_bottom=-2.8284 Eprime_c=1.074 Ec_perc=-3.2544 Ec_loc=-3.5522 gap=0.29773 sec=1142
+s=3 t=0 degree=3 W=1.5 P=1000000 seed=0 Emin=-3.5784 band_bottom=-2.8284 Eprime_c=0.47304 Ec_perc=-3.1054 Ec_loc=-3.111 gap=0.0056254 sec=1142
+s=3 t=0 degree=3 W=6 P=1000000 seed=0 Emin=-5.8284 band_bottom=-2.8284 Eprime_c=2.2965 Ec_perc=-3.532 Ec_loc=-4.4145 gap=0.88253 sec=1149
+s=1 t=1 degree=3 W=1.5 P=1000000 seed=0 Emin=-3.7155 band_bottom=-2.9655 Eprime_c=0.70466 Ec_perc=-3.0108 Ec_loc=-3.2074 gap=0.19656 sec=2235
+s=1 t=1 degree=3 W=3 P=1000000 seed=0 Emin=-4.4655 band_bottom=-2.9655 Eprime_c=1.489 Ec_perc=-2.9765 Ec_loc=-3.4502 gap=0.47377 sec=2274
+s=4 t=0 degree=4 W=3 P=1000000 seed=0 Emin=-4.9641 band_bottom=-3.4641 Eprime_c=0.63462 Ec_perc=-4.3295 Ec_loc=-4.1173 gap=-0.21222 sec=1444
+s=4 t=0 degree=4 W=1.5 P=1000000 seed=0 Emin=-4.2141 band_bottom=-3.4641 Eprime_c=0.12922 Ec_perc=-4.0849 Ec_loc=-3.6688 gap=-0.41607 sec=1451
+s=1 t=1 degree=3 W=12 P=1000000 seed=0 Emin=-8.9655 band_bottom=-2.9655 Eprime_c=6.6784 Ec_perc=-2.2871 Ec_loc=-0.002184 gap=-2.2849 sec=1859
+s=1 t=1 degree=3 W=9 P=1000000 seed=0 Emin=-7.4655 band_bottom=-2.9655 Eprime_c=4.8859 Ec_perc=-2.5796 Ec_loc=-0.0018177 gap=-2.5777 sec=1876
+s=1 t=1 degree=3 W=6 P=1000000 seed=0 Emin=-5.9655 band_bottom=-2.9655 Eprime_c=3.1479 Ec_perc=-2.8175 Ec_loc=-3.6941 gap=0.8766 sec=1885
+s=1 t=1 degree=3 W=4.5 P=1000000 seed=0 Emin=-5.2155 band_bottom=-2.9655 Eprime_c=2.3042 Ec_perc=-2.9113 Ec_loc=-3.6543 gap=0.74305 sec=1901
+s=4 t=0 degree=4 W=4.5 P=1000000 seed=0 Emin=-5.7141 band_bottom=-3.4641 Eprime_c=1.1077 Ec_perc=-4.6064 Ec_loc=-4.6334 gap=0.02699 sec=909
+s=4 t=0 degree=4 W=6 P=1000000 seed=0 Emin=-6.4641 band_bottom=-3.4641 Eprime_c=1.5579 Ec_perc=-4.9062 Ec_loc=-5.1745 gap=0.26826 sec=881
+s=4 t=0 degree=4 W=12 P=1000000 seed=0 Emin=-9.4641 band_bottom=-3.4641 Eprime_c=3.3322 Ec_perc=-6.132 Ec_loc=-7.4174 gap=1.2855 sec=745
+s=4 t=0 degree=4 W=9 P=1000000 seed=0 Emin=-7.9641 band_bottom=-3.4641 Eprime_c=2.4512 Ec_perc=-5.5129 Ec_loc=-6.2665 gap=0.75359 sec=758
+s=0 t=2 degree=4 W=1.5 P=1000000 seed=0 Emin=-4.5785 band_bottom=-3.8285 Eprime_c=0.48643 Ec_perc=-4.092 Ec_loc=-4.0565 gap=-0.035488 sec=763
+s=0 t=2 degree=4 W=3 P=1000000 seed=0 Emin=-5.3285 band_bottom=-3.8285 Eprime_c=1.0964 Ec_perc=-4.2321 Ec_loc=-4.4311 gap=0.19899 sec=766
+s=2 t=1 degree=4 W=3 P=1000000 seed=0 Emin=-5.1477 band_bottom=-3.6477 Eprime_c=0.83791 Ec_perc=-4.3098 Ec_loc=-4.3002 gap=-0.0095789 sec=1632
+s=2 t=1 degree=4 W=1.5 P=1000000 seed=0 Emin=-4.3977 band_bottom=-3.6477 Eprime_c=0.29456 Ec_perc=-4.1031 Ec_loc=-3.8743 gap=-0.22883 sec=1652
+s=2 t=1 degree=4 W=6 P=1000000 seed=0 Emin=-6.6477 band_bottom=-3.6477 Eprime_c=1.8689 Ec_perc=-4.7788 Ec_loc=-5.2701 gap=0.49133 sec=1626
+s=2 t=1 degree=4 W=4.5 P=1000000 seed=0 Emin=-5.8977 band_bottom=-3.6477 Eprime_c=1.3539 Ec_perc=-4.5438 Ec_loc=-4.7885 gap=0.24474 sec=1645
+s=2 t=1 degree=4 W=9 P=1000000 seed=0 Emin=-8.1477 band_bottom=-3.6477 Eprime_c=2.8767 Ec_perc=-5.2709 Ec_loc=-6.2684 gap=0.99746 sec=1628
+s=0 t=2 degree=4 W=4.5 P=1000000 seed=0 Emin=-6.0785 band_bottom=-3.8285 Eprime_c=1.7147 Ec_perc=-4.3637 Ec_loc=-4.8382 gap=0.47444 sec=719
+s=2 t=1 degree=4 W=12 P=1000000 seed=0 Emin=-9.6477 band_bottom=-3.6477 Eprime_c=3.8975 Ec_perc=-5.7502 Ec_loc=-7.2372 gap=1.487 sec=1665
+s=0 t=2 degree=4 W=6 P=1000000 seed=0 Emin=-6.8285 band_bottom=-3.8285 Eprime_c=2.3286 Ec_perc=-4.4999 Ec_loc=-5.2543 gap=0.75441 sec=714
+s=0 t=2 degree=4 W=12 P=1000000 seed=0 Emin=-9.8285 band_bottom=-3.8285 Eprime_c=4.8473 Ec_perc=-4.9812 Ec_loc=-6.899 gap=1.9178 sec=421
+s=0 t=2 degree=4 W=9 P=1000000 seed=0 Emin=-8.3285 band_bottom=-3.8285 Eprime_c=3.5736 Ec_perc=-4.7548 Ec_loc=-6.067 gap=1.3122 sec=428
+s=3 t=0 degree=3 P=1000000 seed=0 Wc=17.39 sec=299
+s=0 t=2 degree=4 P=1000000 seed=0 Wc=18.142 sec=319
+s=4 t=0 degree=4 P=1000000 seed=0 Wc=32.258 sec=357
+s=1 t=1 degree=3 P=1000000 seed=0 Wc=8.5718 sec=479
+s=2 t=1 degree=4 P=1000000 seed=0 Wc=26.208 sec=664
+on.py", line 384, in _send
+    n = write(self._handle, buf)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+BrokenPipeError: [Errno 32] Broken pipe
+s=3 t=0 degree=3 W=1.5 P=1000000 seed=0 Emin=-3.5784 band_bottom=-2.8284 Eprime_c=0.47241 Ec_perc=-3.106 Ec_loc=-3.1119 gap=0.0058623 sec=1233
+Process SpawnPoolWorker-1:
+Traceback (most recent call last):
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/pool.py", line 131, in worker
+    put((job, i, result))
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/queues.py", line 399, in put
+    self._writer.send_bytes(obj)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 427, in _send_bytes
+    self._send(header + buf)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 384, in _send
+    n = write(self._handle, buf)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+BrokenPipeError: [Errno 32] Broken pipe
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/pool.py", line 136, in worker
+    put((job, i, (False, wrapped)))
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/queues.py", line 399, in put
+    self._writer.send_bytes(obj)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 427, in _send_bytes
+    self._send(header + buf)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 384, in _send
+    n = write(self._handle, buf)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+BrokenPipeError: [Errno 32] Broken pipe
+s=3 t=0 degree=3 W=6 P=1000000 seed=0 Emin=-5.8284 band_bottom=-2.8284 Eprime_c=2.2974 Ec_perc=-3.531 Ec_loc=-4.4423 gap=0.91125 sec=1239
+Process SpawnPoolWorker-4:
+Traceback (most recent call last):
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/pool.py", line 131, in worker
+    put((job, i, result))
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/queues.py", line 399, in put
+    self._writer.send_bytes(obj)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 427, in _send_bytes
+    self._send(header + buf)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 384, in _send
+    n = write(self._handle, buf)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+BrokenPipeError: [Errno 32] Broken pipe
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/pool.py", line 136, in worker
+    put((job, i, (False, wrapped)))
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/queues.py", line 399, in put
+    self._writer.send_bytes(obj)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 427, in _send_bytes
+    self._send(header + buf)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 384, in _send
+    n = write(self._handle, buf)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+BrokenPipeError: [Errno 32] Broken pipe
+s=1 t=1 degree=3 W=3 P=1000000 seed=0 Emin=-4.4655 band_bottom=-2.9655 Eprime_c=1.4879 Ec_perc=-2.9776 Ec_loc=-3.4524 gap=0.47485 sec=2497
+Process SpawnPoolWorker-6:
+Traceback (most recent call last):
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/pool.py", line 131, in worker
+    put((job, i, result))
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/queues.py", line 399, in put
+    self._writer.send_bytes(obj)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 427, in _send_bytes
+    self._send(header + buf)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 384, in _send
+    n = write(self._handle, buf)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+BrokenPipeError: [Errno 32] Broken pipe
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/pool.py", line 136, in worker
+    put((job, i, (False, wrapped)))
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/queues.py", line 399, in put
+    self._writer.send_bytes(obj)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 427, in _send_bytes
+    self._send(header + buf)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 384, in _send
+    n = write(self._handle, buf)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+BrokenPipeError: [Errno 32] Broken pipe
+s=1 t=1 degree=3 W=1.5 P=1000000 seed=0 Emin=-3.7155 band_bottom=-2.9655 Eprime_c=0.70432 Ec_perc=-3.0112 Ec_loc=-3.2101 gap=0.19892 sec=2631
+Process SpawnPoolWorker-3:
+Traceback (most recent call last):
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/pool.py", line 131, in worker
+    put((job, i, result))
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/queues.py", line 399, in put
+    self._writer.send_bytes(obj)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 427, in _send_bytes
+    self._send(header + buf)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 384, in _send
+    n = write(self._handle, buf)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+BrokenPipeError: [Errno 32] Broken pipe
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/pool.py", line 136, in worker
+    put((job, i, (False, wrapped)))
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/queues.py", line 399, in put
+    self._writer.send_bytes(obj)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 427, in _send_bytes
+    self._send(header + buf)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 384, in _send
+    n = write(self._handle, buf)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+BrokenPipeError: [Errno 32] Broken pipe
+s=1 t=1 degree=3 W=6 P=1000000 seed=0 Emin=-5.9655 band_bottom=-2.9655 Eprime_c=2.9996 Ec_perc=-2.9658 Ec_loc=-3.6504 gap=0.68453 sec=2628
+Process SpawnPoolWorker-5:
+Traceback (most recent call last):
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/pool.py", line 131, in worker
+    put((job, i, result))
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/queues.py", line 399, in put
+    self._writer.send_bytes(obj)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 427, in _send_bytes
+    self._send(header + buf)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 384, in _send
+    n = write(self._handle, buf)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+BrokenPipeError: [Errno 32] Broken pipe
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/pool.py", line 136, in worker
+    put((job, i, (False, wrapped)))
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/queues.py", line 399, in put
+    self._writer.send_bytes(obj)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 427, in _send_bytes
+    self._send(header + buf)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 384, in _send
+    n = write(self._handle, buf)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+BrokenPipeError: [Errno 32] Broken pipe
+s=1 t=1 degree=3 W=4.5 P=1000000 seed=0 Emin=-5.2155 band_bottom=-2.9655 Eprime_c=2.3039 Ec_perc=-2.9116 Ec_loc=-3.6466 gap=0.73505 sec=2945
+Process SpawnPoolWorker-2:
+Traceback (most recent call last):
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/pool.py", line 131, in worker
+    put((job, i, result))
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/queues.py", line 399, in put
+    self._writer.send_bytes(obj)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 427, in _send_bytes
+    self._send(header + buf)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 384, in _send
+    n = write(self._handle, buf)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+BrokenPipeError: [Errno 32] Broken pipe
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/pool.py", line 136, in worker
+    put((job, i, (False, wrapped)))
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/queues.py", line 399, in put
+    self._writer.send_bytes(obj)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 200, in send_bytes
+    self._send_bytes(m[offset:offset + size])
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 427, in _send_bytes
+    self._send(header + buf)
+  File "/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/connection.py", line 384, in _send
+    n = write(self._handle, buf)
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+BrokenPipeError: [Errno 32] Broken pipe
+/Users/avazquez/anaconda3/envs/gt/lib/python3.12/multiprocessing/resource_tracker.py:279: UserWarning: resource_tracker: There appear to be 6 leaked semaphore objects to clean up at shutdown
+  warnings.warn('resource_tracker: There appear to be %d '
