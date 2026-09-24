@@ -47,13 +47,13 @@ propagation at `m = 0`. PDFs of the references are under
 ## Status
 
 `main.pdf` builds with **0 errors, 0 undefined references and 0
-multiply-defined labels, across 399 pages.** Not box-clean: **two overfull
+multiply-defined labels, across 401 pages.** Not box-clean: **two overfull
 hboxes** — `cover.tex:483--493` (1.99pt, "Which replica-symmetry-breaking
 point") and `metacomplex.tex:383--389` (3.16pt) — and 52 underfull vboxes,
 every one of them `while \output is active`, which is page-breaking around
 floats and not a line running into the margin.
 
-68 figures, 33 numbered tables, 172 numbered equations, 92 references and a
+68 figures, 33 numbered tables, 173 numbered equations, 92 references and a
 124-term index. Both checks under *Two checks the build cannot make* print
 nothing.
 

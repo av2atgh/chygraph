@@ -179,13 +179,17 @@ def figure_centre():
 def table_wc():
     rows = list(csv.DictReader(open(PROBE / 'anderson_wc.csv')))
     rows.sort(key=lambda r: (int(r['degree']), -int(r['t'])))
-    lines = [r'\begin{tabular}{ccrr}', r'\hline\hline',
-             r'$(s,t)$ & degree & band bottom & $W_{c}$ at $E=0$\\', r'\hline']
+    lines = [r'\begin{tabular}{ccrrr}', r'\hline\hline',
+             r'$(s,t)$ & degree & band bottom & branching & $W_{c}$ at $E=0$\\', r'\hline']
     bb = {(int(r['s']), int(r['t'])): float(r['band_bottom']) for r in
           csv.DictReader(open(PROBE / 'anderson_lines.csv'))}
     for r in rows:
         k = (int(r['s']), int(r['t']))
-        lines.append(f'$({k[0]},{k[1]})$ & {int(r["degree"])} & ${bb[k]:.4f}$ & ${float(r["Wc"]):.1f}$\\\\')
+        s_, t_ = k
+        # branching of the incidence tree: edge and triangle message counts grow by
+        # [[s-1, 2s], [t, 2(t-1)]] per generation (Eq. branchingloc)
+        br = max(abs(np.linalg.eigvals(np.array([[s_ - 1, 2 * s_], [t_, 2 * (t_ - 1)]], float))))
+        lines.append(f'$({k[0]},{k[1]})$ & {int(r["degree"])} & ${bb[k]:.4f}$ & ${br:.2f}$ & ${float(r["Wc"]):.1f}$\\\\')
     lines += [r'\hline\hline', r'\end{tabular}']
     (OUT / 'tab-anderson-wc.tex').write_text('\n'.join(lines) + '\n')
 

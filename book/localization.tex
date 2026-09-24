@@ -14,11 +14,13 @@ disorder \citep{anderson1958}. The occasion is a specific one.
 \citet{filoche2012} that the mobility edge is the percolation threshold of
 a classical landscape computed from the same Hamiltonian, and find that the
 two lines do not coincide and are of different universality classes. They
-attribute the discrepancy to interference, which lives on loops, of which
-the tree has none. A chygraph with triangles has the shortest loops, and
-treats them exactly. So the question this chapter asks is the one their
-paper leaves: what do loops do to the two lines, and to the gap between
-them.
+attribute the discrepancy to interference, which the landscape cannot see,
+and note that the agreement they and others find in three dimensions
+deteriorates with dimension and on tree-like structures --- which makes the
+tree the worst case and suggests that loops should help. A chygraph with
+triangles has the shortest loops, and treats them exactly. So the question
+this chapter asks is the one their paper leaves: do loops bring the two
+lines together. They do not; they part them further.
 
 \section{The resolvent as a message}
 \label{sec:resolvent}
@@ -30,9 +32,10 @@ The Anderson model on a graph is $\hat H=\sum_{i}\epsilon_{i}\,|i\rangle\langle
 i|-t\sum_{\langle ij\rangle}\bigl(|i\rangle\langle j|+|j\rangle\langle
 i|\bigr)$, with $\epsilon_{i}$ independent and uniform on $[-W/2,W/2]$ and
 $t=1$ throughout. Everything about localisation is in the resolvent
-$\mathcal{G}(z)=(\hat H-z)^{-1}$ at $z=E-\mathrm{i}0^{+}$: its diagonal
-element is the local density of states, and its imaginary part vanishes
-site by site in the localised phase and does not in the extended one.
+$\mathcal{G}(z)=(\hat H-z)^{-1}$ at $z=E+\mathrm{i}0^{+}$: the imaginary part
+of its diagonal element, over $\pi$, is the local density of states, and
+it vanishes site by site in the localised phase and does not in the
+extended one.
 
 On a tree the diagonal element obeys the two steps of
 Sec.~\ref{sec:twosteps} with an edge for a complex,
@@ -195,8 +198,8 @@ gets the percolation threshold wrong.
 The LLT proposal is that a state at energy $E'=E-E_{\min}$ is extended iff
 the set $\{i:u_{i}\ge1/E'\}$ percolates. That is site percolation with an
 occupation that is not independent from site to site but a function of a
-cavity field, which is the dependent-layer construction of
-Sec.~\ref{sec:joint} with a threshold rule of the kind Sec.~\ref{sec:groupcontagion}
+cavity field, in the spirit of the dependent layers of
+Sec.~\ref{sec:joint}, with a threshold rule of the kind Sec.~\ref{sec:groupcontagion}
 met: here the field is continuous, so the transition is continuous, and
 \citeauthor{tonetti2025} find it mean-field, $\gamma=1$, on the tree. On the
 chygraph the map is Part~II's,
@@ -294,21 +297,24 @@ the disorder does. Three things are visible at once. The mobility edge
 climbs away from the band edge roughly linearly in $W$ on every ensemble:
 the localised skin at the bottom of the band thickens with disorder. The
 percolation line climbs faster on every ensemble, so the two cross where
-they are going to cross and separate thereafter; on the degree-three tree
+they are going to cross and separate thereafter. On the degree-three tree
 they start together, a gap of $0.006$ at $W=1.5$ against
 \citeauthor{tonetti2025}'s $0.013$, which is their small-disorder
-agreement, and on the degree-four tree the percolation line starts below
-the mobility edge and crosses it near $W=4.3$, which is the crossing they
-report. And the triangle ensembles lie above the trees on the percolation
-line and on top of them on the mobility edge: at degree three the two
-mobility edges are within $0.1$ of each other up to $W=3$ while the two
-percolation lines are $0.1$ to $0.7$ apart. Whatever the loops do, they do
-it to the landscape.
+agreement; the double crossing they find there below $W\approx2.5$, at
+the level of a hundredth, is below the resolution of this calculation. On
+the degree-four tree, which they do not treat, the percolation line
+starts below the mobility edge and crosses it once, near $W=4.3$. And the
+triangle ensembles lie above the trees on both lines, further above on
+the percolation line: at degree three the two mobility edges are within
+$0.1$ of each other up to $W=3$ while the percolation lines are $0.1$ to
+$0.5$ apart, and at degree four, at $W=12$, the three mobility edges
+spread over $0.9$ and the three percolation lines over $1.5$. Both lines
+move with the loops; the landscape's moves about twice as far.
 
 \paragraph{The gap.} Figure~\ref{fig:andersongap} is the difference, and
-it is the chapter's result in one panel. At every disorder the gap
-increases with the number of triangles at fixed degree, and it does so by
-moving the crossing to weaker disorder: $W\approx4.3$ on the degree-four
+it is the chapter's result in one panel. At every disorder but one --- the two degree-three ensembles tie at
+$W=6$ --- the gap increases with the number of triangles at fixed degree,
+and it does so by moving the crossing to weaker disorder: $W\approx4.3$ on the degree-four
 tree, $3.0$ with one triangle per site, $1.7$ with two. Above the crossing
 the ordering never changes --- $0.27$, $0.49$, $0.75$ at $W=6$ and $1.3$,
 $1.5$, $1.9$ at $W=12$ --- and at degree three the cactus opens a gap of
@@ -326,18 +332,30 @@ ensembles, the transition being where it crosses one.
 Table~\ref{tab:andersonwc} lists the crossings: $17.4$ on the degree-three
 tree, $8.6$ on the cactus at the same degree; $32.3$, $26.2$ and $18.1$ at
 degree four as edges become triangles. The last number is within a unit of
-the degree-three tree's, and that is the mechanism in one line. What the
-imaginary recursion propagates is amplitude along walks that never turn
-back, and a triangle spends two of a site's neighbours on each other: a
-walk that leaves through the edge of the cactus and enters a triangle has
-one way on where the tree offered two, so the number of such walks grows
-as $\sqrt2$ per step instead of $2$, and two triangles per site give
-$\sqrt2\cdot\sqrt2=2$, the degree-three tree's growth. Fewer walks, less
-interference to sustain an extended state, and the graph localises at a
-disorder the tree shrugs off. The landscape does not know this. It is a
-static, positive solution of a shifted linear problem, for which the loop
-is the $2t$ in the numerator of Eq.~\eqref{eq:triangleG}, a slightly
-larger self-energy and a slightly smoother $u$, and nothing about walks.
+the degree-three tree's, and that is the mechanism in one line. It is not
+a matter of walks on the graph --- walks that never turn back grow as
+$2$ per step on any graph of degree three, triangles or not --- but of
+the tree the recursion runs on. A site reached through an edge passes the
+imaginary part on through $s-1$ edges and $t$ triangles; a triangle
+reaches two sites, each of which passes it on through $s$ edges and $t-1$
+triangles. So the numbers of edge and triangle messages grow by the matrix
+\begin{equation}
+  \begin{pmatrix} s-1 & 2s\\ t & 2(t-1)\end{pmatrix},
+  \label{eq:branchingloc}
+\end{equation}
+whose leading eigenvalue is the branching of the incidence tree:
+$2$ for $(3,0)$, $\sqrt2$ for $(1,1)$, $3$, $2.56$ and $2$ at degree four,
+the column beside $W_{c}$ in Table~\ref{tab:andersonwc}, which it orders.
+A triangle spends two of a site's neighbours on each other, and a message
+that leaves the cactus's site through its edge and enters a triangle is
+passed on to two sites that each have one edge to pass it on: $2$ per two
+steps, $\sqrt2$ per step, and two triangles per site give
+$\sqrt2\cdot\sqrt2=2$, the degree-three tree's growth. Fewer branches,
+less interference to sustain an extended state, and the graph localises
+at a disorder the tree shrugs off. The landscape does not know this. It is
+a static, positive solution of a shifted linear problem, for which the
+loop is the $2t$ in the numerator of Eq.~\eqref{eq:triangleG}, one more
+term in a self-energy, and nothing about branching.
 
 \paragraph{The two mechanisms, checked.} Figure~\ref{fig:andersonmech}
 shows the two criteria at work. On the left, $\lambda(1/2)$ against energy
@@ -352,18 +370,16 @@ is what the smoothness of $u$ is worth, and a calculation that treats the
 landscape as independent site by site gets the LLT's own prediction wrong.
 
 \paragraph{What this says about the proposal.} \citeauthor{tonetti2025}
-found the two transitions apart on the tree and conjectured that loops,
-which carry the interference the landscape cannot see, would be where
-they part company. On these graphs loops do part them, in one direction
-and by one route: every triangle moves the percolation line towards the
-band centre and leaves the mobility edge nearly where it was, so the
-landscape's picture of allowed regions that connect at a threshold is a
-worse guide to where the states are the more the graph is clustered,
-until on the degree-three cactus it percolates through a band with no
-extended state in it. The one mitigating case is the weak-disorder
-crossing on the degree-four graphs, where triangles bring the crossing
-down to $W=1.7$ and the lines are briefly together; that is the regime of
-the three-dimensional agreement of \citet{filoche2012}, and it is narrow.
+found the two transitions apart on the tree and read the tree as the worst
+case, the agreement being good in three dimensions and worse the fewer
+the loops. On these graphs the shortest loops make it worse still, in one
+direction: every triangle moves both lines towards the band centre and
+the percolation line about twice as far, so the landscape's picture of
+allowed regions that connect at a threshold is a worse guide to where the
+states are the more the graph is clustered, until on the degree-three
+cactus it percolates through a band with no extended state in it. The
+only regime where the lines agree is the crossing, which the triangles
+move to weaker disorder, and it is narrow.
 
 \begin{figure}[t]
 \centering
@@ -429,7 +445,8 @@ mode \code{side}.}
 \input{figs/tab-anderson-wc.tex}
 \caption{\textbf{Band bottoms and band-centre critical disorder.} The
 pure-hopping band bottom $e_{\min}$ from the uniform fixed point of
-Eq.~\eqref{eq:schur}, and the disorder $W_{c}$ at which the band centre
+Eq.~\eqref{eq:schur}, the branching of the incidence tree from
+Eq.~\eqref{eq:branchingloc}, and the disorder $W_{c}$ at which the band centre
 localises, from $\min_{\beta}\lambda(\beta)=1$ with $10^{6}$ elements; the
 tree value $17.4$ sits four per cent below the $18.17$ of
 \citet{tikhonov2019}, which is the population bias of
@@ -448,13 +465,15 @@ cardinality where every other chapter paid $2^{c}$. On that footing the
 two problems of \citet{tonetti2025} close on any chygraph of cliques, and
 on regular graphs of edges and triangles they answer the question their
 paper raised. Loops separate the landscape percolation line from the
-mobility edge rather than joining them: the percolation line moves towards
-the band centre with every triangle, the mobility edge scarcely moves, the
-gap grows with the triangle count at fixed degree and disorder, and on the
+mobility edge rather than joining them, against what the tree being the
+worst case would suggest: both lines move towards the band centre with
+every triangle, the percolation line about twice as far, the gap grows
+with the triangle count at fixed degree and disorder, and on the
 degree-three cactus the landscape percolates through a band in which
-nothing is extended. The mechanism is that loops halve the growth of the
-walks that carry interference while adding a term to a static denominator,
-and a static object cannot tell the difference.
+nothing is extended. The mechanism is that a triangle cuts the branching
+of the tree the imaginary parts propagate on, from $2$ to $\sqrt2$ at
+degree three, while adding one term to a static self-energy, and a static
+object cannot tell the difference.
 
 What is not done is the critical behaviour, which \citeauthor{tonetti2025}
 find to differ between the two transitions on the tree; nothing here
@@ -477,9 +496,15 @@ py check} adds the random instances: on $600$ atoms the error of the
 cavity resolvent falls from $4\times10^{-2}$ to $6\times10^{-6}$ as the
 imaginary part of $z$ goes from $0.2$ to $3$, which is what long loops do
 and short ones do not, and the landscape agrees with the direct solve to
-$10^{-8}$ on the trees. The two benchmarks against \citet{tonetti2025} and
-the band-centre $W_{c}$ are the tests from outside the formalism, and the
-population bias is quoted rather than hidden. Everything in this chapter is
+$10^{-8}$ on the trees. The percolation threshold is located by renormalised
+iteration of Eq.~\eqref{eq:lltmap}, whose subcritical side shows as
+extinction --- the support of a small $p$ shrinks geometrically in a
+finite population --- so the growth curve of Fig.~\ref{fig:andersonmech}
+is measured instead from a few generations started at a uniform $p$,
+which cannot go extinct and gives the same crossing. The two benchmarks
+against \citet{tonetti2025} and the band-centre $W_{c}$ are the tests from
+outside the formalism, and the population bias is quoted rather than
+hidden. Everything in this chapter is
 at the level of the mobility edge and the threshold; nothing here computes
 a critical exponent, and \citeauthor{tonetti2025}'s finding that the two
 transitions differ in class is taken from them, not reproduced.
