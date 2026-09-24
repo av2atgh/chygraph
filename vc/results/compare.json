@@ -1,0 +1,458 @@
+[
+ {
+  "tau": 2.5,
+  "r": 0.0,
+  "n": 2000,
+  "seed": 0,
+  "m": 1635,
+  "leaf": 760,
+  "core": 0,
+  "isolated": 0,
+  "exact": 760.0,
+  "exact_status": 0,
+  "exact_gap": 0.0,
+  "exact_secs": 0.002682924270629883,
+  "bp": [
+   {
+    "smax": 0,
+    "regions": 2000,
+    "singletons": 2000,
+    "ext_edges": 1635,
+    "iters": 42,
+    "resid": 8.276401786133647e-08,
+    "bethe": 759.999999999909,
+    "cover": 760,
+    "secs": 11.684390306472778
+   },
+   {
+    "smax": 128,
+    "regions": 2000,
+    "singletons": 2000,
+    "ext_edges": 1635,
+    "iters": 42,
+    "resid": 8.276401786133647e-08,
+    "bethe": 759.999999999909,
+    "cover": 760,
+    "secs": 11.727452039718628
+   }
+  ]
+ },
+ {
+  "tau": 2.5,
+  "r": 0.5,
+  "n": 2000,
+  "seed": 0,
+  "m": 1584,
+  "leaf": 901,
+  "core": 0,
+  "isolated": 0,
+  "exact": 901.0,
+  "exact_status": 0,
+  "exact_gap": 0.0,
+  "exact_secs": 0.0027320384979248047,
+  "bp": [
+   {
+    "smax": 0,
+    "regions": 2000,
+    "singletons": 2000,
+    "ext_edges": 1584,
+    "iters": 66,
+    "resid": 7.91706794567304e-08,
+    "bethe": 900.9999999999993,
+    "cover": 901,
+    "secs": 14.428297996520996
+   },
+   {
+    "smax": 128,
+    "regions": 2000,
+    "singletons": 2000,
+    "ext_edges": 1584,
+    "iters": 66,
+    "resid": 7.91706794567304e-08,
+    "bethe": 900.9999999999993,
+    "cover": 901,
+    "secs": 14.072589874267578
+   }
+  ]
+ },
+ {
+  "tau": 2.5,
+  "r": 0.8,
+  "n": 2000,
+  "seed": 0,
+  "m": 1497,
+  "leaf": 914,
+  "core": 117,
+  "isolated": 1,
+  "exact": 976.0,
+  "exact_status": 0,
+  "exact_gap": 0.0,
+  "exact_secs": 0.006432056427001953,
+  "bp": [
+   {
+    "smax": 0,
+    "regions": 2000,
+    "singletons": 2000,
+    "ext_edges": 1497,
+    "iters": 400,
+    "resid": 0.29696539149755813,
+    "bethe": 974.3786165999693,
+    "cover": 978,
+    "secs": 44.36916208267212
+   },
+   {
+    "smax": 128,
+    "regions": 1821,
+    "singletons": 1818,
+    "ext_edges": 1217,
+    "iters": 400,
+    "resid": 0.010063654856635296,
+    "bethe": 974.5203492199194,
+    "cover": 977,
+    "secs": 49.49642610549927
+   }
+  ]
+ },
+ {
+  "tau": 2.5,
+  "r": 1.0,
+  "n": 2000,
+  "seed": 0,
+  "m": 1424,
+  "leaf": 762,
+  "core": 474,
+  "isolated": 2,
+  "exact": 1020.9999999999994,
+  "exact_status": 0,
+  "exact_gap": 0.0,
+  "exact_secs": 0.9715621471405029,
+  "bp": [
+   {
+    "smax": 0,
+    "regions": 2000,
+    "singletons": 2000,
+    "ext_edges": 1424,
+    "iters": 400,
+    "resid": 0.4811075358728326,
+    "bethe": 1022.2263971023717,
+    "cover": 1023,
+    "secs": 44.935041189193726
+   },
+   {
+    "smax": 128,
+    "regions": 1684,
+    "singletons": 1678,
+    "ext_edges": 917,
+    "iters": 25,
+    "resid": 5.960464477539063e-08,
+    "bethe": 1020.0,
+    "cover": 1021,
+    "secs": 67.15873408317566
+   }
+  ]
+ },
+ {
+  "tau": 2.5,
+  "r": 0.0,
+  "n": 5000,
+  "seed": 0,
+  "m": 4193,
+  "leaf": 1880,
+  "core": 0,
+  "isolated": 0,
+  "exact": 1880.0,
+  "exact_status": 0,
+  "exact_gap": 0.0,
+  "exact_secs": 0.00646209716796875,
+  "bp": [
+   {
+    "smax": 0,
+    "regions": 5000,
+    "singletons": 5000,
+    "ext_edges": 4193,
+    "iters": 45,
+    "resid": 9.736231731949374e-08,
+    "bethe": 1879.999999999966,
+    "cover": 1880,
+    "secs": 39.823347091674805
+   },
+   {
+    "smax": 128,
+    "regions": 5000,
+    "singletons": 5000,
+    "ext_edges": 4193,
+    "iters": 45,
+    "resid": 9.736231731949374e-08,
+    "bethe": 1879.999999999966,
+    "cover": 1880,
+    "secs": 39.9678258895874
+   }
+  ]
+ },
+ {
+  "tau": 2.5,
+  "r": 0.5,
+  "n": 5000,
+  "seed": 0,
+  "m": 3995,
+  "leaf": 2264,
+  "core": 5,
+  "isolated": 0,
+  "exact": 2267.0,
+  "exact_status": 0,
+  "exact_gap": 0.0,
+  "exact_secs": 0.00698089599609375,
+  "bp": [
+   {
+    "smax": 0,
+    "regions": 5000,
+    "singletons": 5000,
+    "ext_edges": 3995,
+    "iters": 400,
+    "resid": 0.3820489866743089,
+    "bethe": 2266.7944406681895,
+    "cover": 2267,
+    "secs": 113.56259298324585
+   },
+   {
+    "smax": 128,
+    "regions": 4915,
+    "singletons": 4914,
+    "ext_edges": 3829,
+    "iters": 78,
+    "resid": 7.171748572787351e-08,
+    "bethe": 2266.9999999999973,
+    "cover": 2267,
+    "secs": 117.0150089263916
+   }
+  ]
+ },
+ {
+  "tau": 2.5,
+  "r": 0.8,
+  "n": 5000,
+  "seed": 0,
+  "m": 3917,
+  "leaf": 2324,
+  "core": 232,
+  "isolated": 0,
+  "exact": 2444.0,
+  "exact_status": 0,
+  "exact_gap": 0.0,
+  "exact_secs": 0.028924942016601562,
+  "bp": [
+   {
+    "smax": 0,
+    "regions": 5000,
+    "singletons": 5000,
+    "ext_edges": 3917,
+    "iters": 400,
+    "resid": 0.37888065077112815,
+    "bethe": 2442.1225563327084,
+    "cover": 2445,
+    "secs": 136.9106969833374
+   },
+   {
+    "smax": 128,
+    "regions": 4685,
+    "singletons": 4680,
+    "ext_edges": 3374,
+    "iters": 223,
+    "resid": 8.505838776325744e-08,
+    "bethe": 2443.500000000001,
+    "cover": 2444,
+    "secs": 127.05302095413208
+   }
+  ]
+ },
+ {
+  "tau": 2.5,
+  "r": 1.0,
+  "n": 5000,
+  "seed": 0,
+  "m": 3754,
+  "leaf": 2080,
+  "core": 837,
+  "isolated": 3,
+  "exact": 2563.0,
+  "exact_status": 0,
+  "exact_gap": 0.0,
+  "exact_secs": 9.959250926971436,
+  "bp": [
+   {
+    "smax": 0,
+    "regions": 5000,
+    "singletons": 5000,
+    "ext_edges": 3754,
+    "iters": 400,
+    "resid": 0.6094147194532255,
+    "bethe": 2560.8163957847705,
+    "cover": 2566,
+    "secs": 67.75471305847168
+   },
+   {
+    "smax": 128,
+    "regions": 4749,
+    "singletons": 4743,
+    "ext_edges": 3109,
+    "iters": 400,
+    "resid": 0.44548829239025234,
+    "bethe": 2557.9539872311225,
+    "cover": 2566,
+    "secs": 133.04122114181519
+   }
+  ]
+ },
+ {
+  "tau": 2.5,
+  "r": 0.0,
+  "n": 10000,
+  "seed": 0,
+  "m": 8391,
+  "leaf": 3765,
+  "core": 0,
+  "isolated": 0,
+  "exact": 3765.0,
+  "exact_status": 0,
+  "exact_gap": 0.0,
+  "exact_secs": 0.13980484008789062,
+  "bp": [
+   {
+    "smax": 0,
+    "regions": 10000,
+    "singletons": 10000,
+    "ext_edges": 8391,
+    "iters": 51,
+    "resid": 6.523829387816704e-08,
+    "bethe": 3764.9999999999873,
+    "cover": 3765,
+    "secs": 89.84856796264648
+   },
+   {
+    "smax": 128,
+    "regions": 10000,
+    "singletons": 10000,
+    "ext_edges": 8391,
+    "iters": 51,
+    "resid": 6.523829387816704e-08,
+    "bethe": 3764.9999999999873,
+    "cover": 3765,
+    "secs": 88.91796875
+   }
+  ]
+ },
+ {
+  "tau": 2.5,
+  "r": 0.5,
+  "n": 10000,
+  "seed": 0,
+  "m": 8150,
+  "leaf": 4492,
+  "core": 0,
+  "isolated": 0,
+  "exact": 4492.0,
+  "exact_status": 0,
+  "exact_gap": 0.0,
+  "exact_secs": 0.09843707084655762,
+  "bp": [
+   {
+    "smax": 0,
+    "regions": 10000,
+    "singletons": 10000,
+    "ext_edges": 8150,
+    "iters": 72,
+    "resid": 7.831823082427742e-08,
+    "bethe": 4491.999999999995,
+    "cover": 4492,
+    "secs": 180.15372800827026
+   },
+   {
+    "smax": 128,
+    "regions": 10000,
+    "singletons": 10000,
+    "ext_edges": 8150,
+    "iters": 72,
+    "resid": 7.831823082427742e-08,
+    "bethe": 4491.999999999995,
+    "cover": 4492,
+    "secs": 178.80389595031738
+   }
+  ]
+ },
+ {
+  "tau": 2.5,
+  "r": 0.8,
+  "n": 10000,
+  "seed": 0,
+  "m": 7886,
+  "leaf": 4658,
+  "core": 435,
+  "isolated": 0,
+  "exact": 4883.0,
+  "exact_status": 0,
+  "exact_gap": 0.0,
+  "exact_secs": 0.19431805610656738,
+  "bp": [
+   {
+    "smax": 0,
+    "regions": 10000,
+    "singletons": 10000,
+    "ext_edges": 7886,
+    "iters": 400,
+    "resid": 0.4284139474802644,
+    "bethe": 4880.344448803267,
+    "cover": 4883,
+    "secs": 176.91387486457825
+   },
+   {
+    "smax": 128,
+    "regions": 9371,
+    "singletons": 9365,
+    "ext_edges": 7120,
+    "iters": 400,
+    "resid": 0.4422010399677798,
+    "bethe": 4882.362071989132,
+    "cover": 4883,
+    "secs": 464.3009693622589
+   }
+  ]
+ },
+ {
+  "tau": 2.5,
+  "r": 1.0,
+  "n": 10000,
+  "seed": 0,
+  "m": 7721,
+  "leaf": 4119,
+  "core": 1758,
+  "isolated": 4,
+  "exact": 5126.0,
+  "exact_status": 1,
+  "exact_gap": 0.017301038062284124,
+  "exact_secs": 1168.0598301887512,
+  "bp": [
+   {
+    "smax": 0,
+    "regions": 10000,
+    "singletons": 10000,
+    "ext_edges": 7721,
+    "iters": 400,
+    "resid": 0.5759970774673677,
+    "bethe": 5150.531415542781,
+    "cover": 5133,
+    "secs": 203.73246097564697
+   },
+   {
+    "smax": 128,
+    "regions": 9527,
+    "singletons": 9516,
+    "ext_edges": 6807,
+    "iters": 400,
+    "resid": 0.5759970774673677,
+    "bethe": 5121.216170478185,
+    "cover": 5133,
+    "secs": 273.4601788520813
+   }
+  ]
+ }
+]

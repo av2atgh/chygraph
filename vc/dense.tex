@@ -1,0 +1,217 @@
+% Working notes -- vertex cover on nearly complete graphs, as a chygraph
+% problem.  Temporary: chygraph/vc/.  Numbers come from the scripts in this
+% folder (ensemble.py, sbm_sizes.py, chybp.py, compare.py; results/).
+\documentclass[11pt]{article}
+\usepackage{amsmath,amssymb,booktabs,graphicx,hyperref}
+\usepackage[margin=1.1in]{geometry}
+\newcommand{\ave}[1]{\langle #1\rangle}
+\newcommand{\VC}{\mathrm{VC}}
+\title{Vertex cover on nearly complete graphs:\\ dense complexes, tree-like propagation}
+\author{working notes}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{The question}
+
+Figure 11.5 of the book runs vertex cover along the assortativity axis
+$e_{dd'}=q_d[r\delta_{dd'}+(1-r)q_{d'}]$ at fixed $p_d\sim d^{-\tau}$. Left of
+$r_c$ the graph is tree-like and replica symmetry is exact; right of $r_c$ the
+fixed point of the hard-field map is not an answer. The standard move is
+replica-symmetry breaking. The question here is whether the $r\to1$ end has a
+better description than that, since at $r=1$ the ensemble is a union of
+degree-class blocks, and the starved high-degree classes are nearly complete
+graphs. What follows is not a replica ansatz. It is a decomposition.
+
+\section{The complete graph and its neighbourhood}
+
+\paragraph{$K_m$.} An uncovered set is independent and the largest independent
+set of $K_m$ is a vertex, so the minimum cover is $m-1$, attained by the $m$
+covers that leave one vertex out. Any two differ in two vertices, all pairwise
+overlaps equal $1-2/m$: the ground states form a simplex, which is the
+replica-symmetric overlap structure. The partition function at chemical
+potential $\mu$ per uncovered vertex is $Z=1+m e^{\mu}$ (times the cover
+prefactor), entropy $\ln m$, non-extensive. Nothing here calls for RSB.
+
+What fails on $K_m$ is the Bethe approximation, not the ansatz. The hard-field
+cavity map of the book, Eq.~(11.11) with one class of excess degree $m-1$, is
+$\pi=(1-\pi)^{m-1}$, giving $\pi\simeq\ln m/m$ and an uncovered set of
+$\simeq(\ln m)^2/2$ vertices instead of one (nine at $m=100$, nineteen at
+$m=1000$), with a Jacobian $|J|=(m-1)(1-\pi)^{m-2}\sim\ln m$ that grows without
+bound. The cavity treats the $m-1$ neighbours as conditionally independent; on
+a clique they are maximally dependent.
+
+\paragraph{$K_m-H$.} Complementation turns the problem inside out: an
+independent set of $K_m-H$ is a clique of $H$,
+\begin{equation}
+  Z_{K_m-H}(\lambda)=\sum_{C\ \text{clique of }H}\lambda^{|C|}
+  =1+m\lambda+|E(H)|\lambda^2+T(H)\lambda^3+\dots
+  \label{eq:cliquepoly}
+\end{equation}
+truncating at $\omega(H)$. For a sparse random $H$, $\omega\le3$ w.h.p. and
+the coefficients are the vertex, edge and triangle counts of $H$. The dense
+side of vertex cover therefore has its own exact expansion, in the missing
+links rather than the present ones, and it is a finite one: the cover is
+$m-\omega(H)$, exposed set a maximum clique of $H$, degeneracy $N_\omega(H)$.
+Bethe expands around the empty graph in present links; this expands around the
+complete graph in missing links. The reason the dense side is trivial is that
+the maximum clique of a sparse graph is bounded.
+
+\section{The bracket}
+
+Let $\{b\}$ be vertex-disjoint dense blocks of $G$ (cliques, or $K_{m_b}-H_b$
+with $H_b$ sparse) and $R$ the rest of the graph, the blocks deleted. Vertex
+cover is superadditive over vertex-disjoint induced subgraphs, and covering
+every block entirely is a valid cover, so
+\begin{equation}
+  \VC(R)+\sum_b\bigl(m_b-\omega_b\bigr)\ \le\ \VC(G)\ \le\ \VC(R)+\sum_b m_b .
+  \label{eq:bracket}
+\end{equation}
+The width is $\sum_b\omega_b$, one vertex per clique, and both ends are
+computations on $R$, which is sparse. Two regimes:
+\begin{enumerate}
+\item Few or small blocks: the width is $O(\#\text{blocks})$ and the
+  ambiguity is resolved exactly --- each block exposes one clique of $H_b$,
+  chosen among $N_\omega$ candidates, the exposed vertices force their
+  external neighbours into the cover, and this is a hard-core problem on the
+  block graph with a finite alphabet per block. It is the chygraph cavity with
+  the block as a complex: Eq.~(11.3) of the book with the $\max$ taken over
+  cliques of $H_b$ rather than over members.
+\item Large blocks: the width is $o(\sum_b m_b)$, and the lower end is
+  attained as soon as a block has a candidate exposure whose external
+  neighbours are already covered, expected number $N_\omega\,x^{\omega
+  d_{\rm ext}}\gg1$. The block then costs exactly $m_b-\omega_b$ and imposes
+  nothing on the outside: delete it, cover all but $\omega_b$, solve $R$.
+\end{enumerate}
+The tree-like approach to the $r\to1$ limit is therefore: remove the dense
+blocks, run the ordinary cavity on what is left, add
+$\sum_b(m_b-\omega_b)$. The dense part contributes a number, not a field.
+A minimum cover contains at least $m-1$ vertices of every $m$-clique, so the
+dense part is forced and only its complement is a statistical-mechanics
+problem.
+
+\paragraph{Where one vertex per block is not negligible.} For the cover size it
+is. For the core it is not: leaf removal never enters a clique of size $\ge3$,
+so every block sits in the core whole, however large. The lower panel of
+Fig.~11.5 is an $O(1)$-per-block-sensitive diagnostic and $x_c$ is not; near
+$r=1$ the two can disagree without either being wrong.
+
+\paragraph{Where the instability of Eq.~(11.11) actually lives.} The Jacobian
+along the $r$ axis is diagonal plus rank one, and the unstable eigenvalue
+solves $1=(1-r)\sum_d q_d a_d/(\Lambda-r a_d)$ with
+$a_d=d(1-\pi_d)^{d-1}$. Weighting each class by its term in that sum (cutoff
+$10^3$; reproduces $r_c=0.70$, $0.78$):
+\begin{center}
+\begin{tabular}{lc}
+\toprule
+ & classes carrying the instability (quartiles, 90\%, 99\%)\\
+\midrule
+$\tau=2.5$, $r=r_c=0.70$ & $k=3,\ 5,\ 6,\ 9,\ 18$\\
+$\tau=3.0$, $r=r_c=0.78$ & $k=3,\ 4,\ 6,\ 7,\ 13$\\
+$\tau=2.5$, $r=0.99$ & $k=172,\ 174,\ 175,\ 178,\ 205$\\
+\bottomrule
+\end{tabular}
+\end{center}
+At $r_c$ the instability is in $k=3$--$9$: at $n=2\times10^5$ these are
+random regular graphs of $10^3$--$10^4$ vertices, genuinely sparse, and the
+transition is theirs. As $r\to1$ the instability migrates to high $k$; by
+$r=0.99$ it sits at $k\approx170$--$200$, where the class saturates
+($np_k\lesssim k$, i.e. $k\gtrsim(n/\zeta(\tau))^{1/(\tau+1)}\approx30$ at
+$\tau=2.5$, $\approx20$ at $\tau=3$) or is empty. The right-hand end of the
+dashed curve is the map describing classes that in the graphs are cliques or
+absent. That end is not ``unstable, go to RSB''; it is outside the map's
+domain, and Eq.~\eqref{eq:bracket} is its answer.
+
+\section{The chygraph version: communities as complexes}
+
+The proposal to test: take a graph, find its communities with the nested
+degree-corrected SBM, make each community a complex, solve exactly inside the
+complex and propagate tree-like between complexes. Two questions.
+
+\subsection{Are the communities small and $n$-independent here?}
+
+In the growth models and the real networks of the community-persistence
+programme the bottom-level SBM communities have of order $20$--$100$ vertices
+and that number does not grow with $n$. On the degree-correlated ensemble it
+does not hold. Nested DC-SBM (\texttt{sbm\_sizes.py}, $\tau=2.5$, one seed):
+\begin{center}
+\small
+\begin{tabular}{rrrrrrrl}
+\toprule
+$r$ & $n$ & blocks & node-median size & max & nodes in blocks $\le50$ & internal edges & what the blocks are\\
+\midrule
+0.0 & $2\times10^3$--$5\times10^4$ & 1 & $n$ & $n$ & 0 & 1.00 & nothing to find\\
+0.5 & $2\times10^3$--$2\times10^4$ & 1--2 & $n$ & $n$ & 0 & 0.93--1.00 & at most one hub block\\
+0.5 & $5\times10^4$ & 4 & $n$ & 48559 & 0 & 0.86 & two hub blocks ($\ave k\approx7,10$, sparse)\\
+0.8 & $2\times10^3$ & 5 & 1387 & 1387 & 0.01 & 0.95 & degree classes, loosely\\
+0.8 & $5\times10^4$ & 34 & 67 & 11586 & 0.00 & 0.61 & degree classes, loosely\\
+1.0 & $2\times10^3$ & 8 & 1522 & 1522 & 0.04 & 1.00 & degree classes exactly (sd $k\approx0$)\\
+1.0 & $2\times10^4$ & 23 & 37 & 5290 & 0.01 & 0.65 & degree classes exactly\\
+1.0 & $5\times10^4$ & 30 & 282 & 30961 & 0.01 & 0.99 & degree classes exactly\\
+\bottomrule
+\end{tabular}
+\end{center}
+Three readings. At $r\le0.5$ the degree-corrected model finds one block:
+the configuration model \emph{is} its null, and there are no communities to
+find. At $r=1$ the blocks are the degree classes to the digit
+($\ave{k}=1.00,2.00,2.98,3.96,\dots$ with standard deviation $\lesssim0.3$),
+so their sizes are $np_k$ and grow linearly with $n$; the largest block is
+the $k=1$ class, a perfect matching on half the graph. Between, at $r=0.8$,
+the blocks are degree classes blurred by the $(1-r)$ random links. The only
+small, $n$-stable blocks are the saturated classes, of size $\approx k+1$ for
+$k\gtrsim(n/\zeta)^{1/(\tau+1)}$, which hold a few per cent of the vertices
+at most. So the community scale of this ensemble is not $50$: it is the class
+size $np_k$, and the statement from the growth models does not transfer.
+
+\subsection{Exact interior, tree-like exterior}
+
+\texttt{chybp.py} implements the scheme regardless: regions are the SBM
+blocks of at most $s_{\max}$ vertices (singletons otherwise, so $s_{\max}=0$
+is the node-level cavity), the interior is a weighted vertex cover solved by
+branch and bound, the exterior is zero-temperature min-sum with the exact
+region-to-vertex message, and the min-sum Bethe energy
+$E=\sum_R\varepsilon_R+\sum_e\varepsilon_e-\sum_i(d_i-1)\varepsilon_i$ is
+exact when the region graph is a tree (checked against brute force on 200
+random tree-glued instances). A valid cover is read off by decimation and
+compared with the exact optimum from an integer program.
+
+% RESULTS TABLE: filled from results/compare.json
+\input{results/compare_table.tex}
+
+\section{Line graphs: dense-block chygraphs that are RS-exact at every density}
+
+If every vertex is in at most two cliques (chy-degree $\le2$), $G$ is a line
+graph (Krausz) and an independent set is a set of vertices no two sharing a
+clique, i.e.\ a matching in the clique graph $D$ (nodes $=$ complexes, edges
+$=$ vertices, node degree $=$ cardinality):
+\begin{equation}
+  \VC(G)=|V|-\nu(D).
+\end{equation}
+Maximum matching is polynomial (Edmonds), has no phase transition on any
+graph at any fugacity (Heilmann--Lieb), is RS-exact under the cavity method
+(Zdeborov\'a--M\'ezard 2006), and its ground state is Karp--Sipser (Poisson) or
+Bohman--Frieze 2011 (arbitrary degree sequence, here the cardinality
+distribution). Cardinality is irrelevant to hardness: it is only the dual
+degree. Chy-degree is the dual hyperedge size, and at $\ge3$ the dual is
+hypergraph matching, where NP-hardness and presumably RSB live. This is the
+dual of the book's Sec.~11.6: vertex-level leaf removal never certifies at
+$c\ge3$, but for chy-degree $\le2$ a certificate exists, Karp--Sipser on $D$.
+
+\section{Literature}
+
+Replica theory near the complete graph is the large-connectivity expansion
+around SK (Kanter--Sompolinsky 1987; de Dominicis--Goldschmidt 1989;
+M\'ezard--Parisi 2001, $c\to\infty$ of the Bethe spin glass), and there the
+correct ansatz becomes Parisi full RSB, not something simpler. For vertex
+cover the dense limit is degenerate: on $G(n,p)$ at fixed $p$,
+$\alpha=O(\log n)$, and on $K_n-H$, $\VC=n-\omega(H)$. The nontrivial dense
+results are the large-$c$ asymptotics (Frieze 1990, matched at leading order
+by the Weigt--Hartmann RS formula), the planted-clique analysis
+(Deshpande--Montanari 2015, AMP as the cavity on $K_n$) and the algorithmic
+gap (Karp's $\log_2n$ vs $2\log_2n$; Gamarnik--Sudan's overlap gap property).
+On the object that dominates $x_c(r=1)$, the random regular graph, the
+answer is 1RSB (Zhou 2003; Weigt--Zhou 2006; Barbier et al.\ 2013) and proven
+so at large degree (Ding--Sly--Sun 2016).
+
+\end{document}
