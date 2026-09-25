@@ -208,6 +208,19 @@ number, $t^{2}\mathcal{G}$ --- and the up step is a sum over complexes,
 which is the linearity of the self-energy in the branches. The line is
 the case $K=1$.
 
+The name is the physics. Eq.~\eqref{eq:treeG} says that site $i$, as the
+particle sees it, is a level at $\epsilon_{i}+\operatorname{Re}\Sigma_{i}$
+with a width $\operatorname{Im}\Sigma_{i}$, where
+$\Sigma_{i}=\sum_{a\ni i}\Sigma_{a\to i}$ is the self-energy: the branches
+shift the level, by the particle's excursions into them and back, and
+broaden it, by the rate at which a particle placed on $i$ leaks into them
+and does not return. Everything that follows is about that width. A
+finite one means the particle escapes to infinity and a vanishing one
+means it does not, and since
+$\operatorname{Im}\Sigma_{a\to i}=t^{2}\operatorname{Im}\mathcal{G}_{k\to i}$,
+the width of a site is fed by the widths of its neighbours, which is what
+makes it a message.
+
 At $W=0$ the recursion closes on itself as it did on the line. Every site
 energy is zero and every cavity element sees the same tree, so
 $\mathcal{G}_{k\to i}$ is one number $\mathcal{G}$ fed by the $K$ edges
@@ -334,10 +347,18 @@ The spectrum of the pure hopping problem on $(s,t)$ has a bottom $e_{\min}$
 that the uniform fixed point of Eq.~\eqref{eq:schur} locates --- the largest
 $E$ below which a real solution exists --- and an isolated eigenvalue
 $-t(s+2t)$ carried by the uniform vector, as on any regular graph
-\citep{biroli2010}. With disorder the bottom of the spectrum is
-$E_{\min}(W)=e_{\min}-W/2$ once that lies below the isolated eigenvalue,
-which for $(3,0)$ is $W>0.34$ and agrees with \citeauthor{tonetti2025}'s
-$W_{\min}$; every disorder used here is above it. Table~\ref{tab:andersonwc}
+\citep{biroli2010}: the state with the same amplitude on every site is an
+eigenstate at $-t$ times the degree, one state in $N$, invisible in the
+density of states but the lowest level there is. With disorder the bottom
+of the spectrum is $E_{\min}(W)=e_{\min}-W/2$ once that lies below the
+isolated eigenvalue, which for $(3,0)$ is $W>0.34$ and agrees with
+\citeauthor{tonetti2025}'s $W_{\min}$; every disorder used here is above
+it. That bottom is reached only on a region where every site energy is
+near $-W/2$, which the uniform disorder makes rare. The states near
+$E_{\min}$ live on such regions, are few, and are localised on them; this
+is the tail of the spectrum the opening paragraph spoke of, and it is
+what the disorder thickens into the localised skin of
+Sec.~\ref{sec:loops}. Table~\ref{tab:andersonwc}
 lists $e_{\min}$: $-2\sqrt2$ and $-2\sqrt3$ for the two trees, which is the
 check, and lower for the triangle ensembles, since a triangle's lowest
 eigenvalue is $-2t$ against an edge's $-t$.
@@ -350,8 +371,16 @@ The Localization Landscape is $u=(\hat H-E_{\min})^{-1}\mathbf{1}$, the
 solution of a linear equation with the spectrum shifted to make the
 operator positive, and \citet{arnold2016} show that $1/u$ is an effective
 confining potential: eigenstates of $\hat H-E_{\min}$ at energy $E'$ live
-where $1/u\le E'$. Its $i$th component is a row sum of the resolvent at
-real $z=E_{\min}$, where nothing needs regularising, and on the Bethe
+where $1/u\le E'$. The reason is a bound. Since
+$\psi=(\hat H-E_{\min})^{-1}E'\psi$ and the resolvent at $E_{\min}$ has
+no negative entries, $|\psi(i)|\le E'\,u_{i}\max_{j}|\psi(j)|$: where
+$u$ is small no state of energy $E'$ can have much amplitude, so $1/u$
+acts as a wall and $u$ is a map of the wells. Physically $u$ is the
+response of the graph to a unit source on every site, a membrane under a
+uniform load in \citeauthor{filoche2012}'s original picture, and it is
+large where the particle can spread and small where the site energies
+fence it in. Its $i$th component is a row sum of the resolvent at real
+$z=E_{\min}$, where nothing needs regularising, and on the Bethe
 lattice \citeauthor{tonetti2025} write it as $u_{i}=\mathcal{G}_{ii}\eta_{i}$
 with $\eta_{i}=1+t\sum_{k}\mathcal{G}_{k\to i}\eta_{k\to i}$, their Eqs.~(5)
 to~(7): the row sum of a branch is the row sum of its root times what the
@@ -383,7 +412,12 @@ gets the percolation threshold wrong.
 \index{dependent layer}
 
 The LLT proposal is that a state at energy $E'=E-E_{\min}$ is extended iff
-the set $\{i:u_{i}\ge1/E'\}$ percolates. That is site percolation with an
+the set $\{i:u_{i}\ge1/E'\}$ percolates. The set is the region the state
+is allowed into, the sites where the wall $1/u$ is below the energy, that
+is, the wells of the landscape at that depth. A state confined to a
+finite well is localised, and the proposal is that a state is extended
+only if the wells at its energy connect across the graph, which is a
+percolation question. That is site percolation with an
 occupation that is not independent from site to site but a function of a
 cavity field, in the spirit of the dependent layers of
 Sec.~\ref{sec:joint}, with a threshold rule of the kind Sec.~\ref{sec:groupcontagion}
@@ -426,11 +460,18 @@ compared there.
 \index{de Almeida--Thouless line}
 
 The localised phase is the fixed point of Eq.~\eqref{eq:schur} at real
-$z=E$: every message real, the imaginary parts zero. The extended phase is
-where that fixed point is unstable to an infinitesimal imaginary part, and
-the criterion is the one this book has used for every transition, the
-linearised map at the trivial fixed point, applied to the imaginary parts
-with the real parts frozen at their distribution. Writing $M_{a}$ for the
+$z=E$: every message real, the imaginary parts zero, no site with a width,
+a particle placed anywhere with no rate of escape. The extended phase is
+where that fixed point is unstable to an infinitesimal imaginary part.
+The perturbation has a physical form. Give $z$ a small $\eta$, an
+absorber at infinity that removes the particle at a vanishing rate, and
+ask whether the widths it induces are amplified or damped as they
+propagate inwards through Eq.~\eqref{eq:treeG}: amplified, and the
+particle reaches infinity and the state is extended; damped, and the
+widths vanish with $\eta$ and the particle stays. The criterion is the
+one this book has used for every transition, the linearised map at the
+trivial fixed point, applied to the imaginary parts with the real parts
+frozen at their distribution. Writing $M_{a}$ for the
 real matrix of Eq.~\eqref{eq:schur} and $v=M_{a}^{-1}\mathbf{1}$,
 \begin{equation}
   \operatorname{Im}\Sigma_{a\to i}=t^{2}\sum_{j\in J}v_{j}^{2}
@@ -440,8 +481,13 @@ real matrix of Eq.~\eqref{eq:schur} and $v=M_{a}^{-1}\mathbf{1}$,
 a linear map with positive random weights: $t^{2}\mathcal{G}_{k\to i}^{2}$ on
 an edge, which is \citeauthor{tonetti2025}'s Eq.~(S14), and
 $t^{2}[(m_{2}+t)/(m_{1}m_{2}-t^{2})]^{2}$ and its partner on a triangle.
+A weight is large where the neighbour is resonant, its level
+$\epsilon_{k}+\operatorname{Re}\Sigma_{k}$ within about $t$ of $E$, and
+small otherwise, so a width propagates along chains of resonant sites.
 Because the weights have heavy tails the right growth rate is not that of
-the mean but of a fractional moment: the localised phase is stable iff
+the mean, which a rare chain of exact resonances dominates, but of a
+fractional moment, which weighs the rare chain against the typical one as
+the transition does: the localised phase is stable iff
 $\lambda(\beta)<1$ for some $\beta\in(0,1)$, where $\lambda(\beta)$ is the
 growth factor per generation of $\langle(\operatorname{Im}\Sigma)^{\beta}\rangle$
 under Eq.~\eqref{eq:imlinear}, and the transition is where
@@ -538,8 +584,8 @@ that leaves the cactus's site through its edge and enters a triangle is
 passed on to two sites that each have one edge to pass it on: $2$ per two
 steps, $\sqrt2$ per step, and two triangles per site give
 $\sqrt2\cdot\sqrt2=2$, the degree-three tree's growth. Fewer branches,
-less interference to sustain an extended state, and the graph localises
-at a disorder the tree shrugs off. The landscape does not know this. It is
+fewer independent routes for a width to escape along, and the graph
+localises at a disorder the tree shrugs off. The landscape does not know this. It is
 a static, positive solution of a shifted linear problem, for which the
 loop is the $2t$ in the numerator of Eq.~\eqref{eq:triangleG}, one more
 term in a self-energy, and nothing about branching.
