@@ -457,3 +457,36 @@ Open: the ensemble loop series (terms indexed by the loops Ch. 17 counts);
 the Bethe-Hessian check of Sec. 24.5; Part IV's tables rerun with bonds
 assigned once (a one-flag change in cavity_clique.py) — the cheapest
 follow-up and the one that changes Ch. 14's story.
+
+## 2026-09-26: the endogeny test, run (Sec. 20.5)
+
+`statmech/src/statmech/endogeny.py`: `BivariateSpinGlass` (±J Ising on a
+Poisson/regular graph in a field, two copies sharing containers, neighbours
+and coupling signs), `BivariateHittingSet` (the soft-field population of
+Ch. 10 doubled, shared draws and shared damping masks), `endogeny_boundary`.
+Tests `tests/test_endogeny.py` (6, ~90 s). Probe `probe/endogeny.py scan`
+(~70 min, cache `results/endogeny.json`); `figs/endogeny.py` draws.
+
+Results. Spin glass, degree 3: linearised boundary (perturbation carried
+with the field) → exact T_c with a H^(2/3) law (a = 0.78, residuals 0.003);
+shuffled-pair boundary 2–5% below it (fixed sweep budget); the annealed
+line ⟨k̄⟩⟨u'²⟩ = 1 is 25–60% above and does not tend to T_c (1.52 at
+H = 0.02): Sec. 9.7's substitution is exact only at the trivial fixed point.
+Hitting set, Poisson c = 2, 3, 4: the stationary rate collapses in
+⟨k⟩(c−1)/e and crosses zero at 1.034, 1.040, 1.029 × the hard-field line
+(vertex cover: 2.81 vs e), entropy still positive there — the test sides
+with the hard-field line; μ-independent (30–120), damping-independent,
+plateau size-independent (5e4–4e5). Regular (Mézard–Tarzia, exact
+entropy): K = 3 with s < 0 non-endogenous (distance 0.8–1.0, rate +0.08);
+K = 4, 6 with s < 0 (L = 3,4) endogenous to the last digit, rate −0.06 to
+−0.12: **endogenous and wrong** — the discontinuous case; only the entropy
+sees it.
+
+Method notes: the rate must be read from long stationary windows (short
+windows read the transient and put the vertex-cover crossing at 2.95); the
+"linear" perturbation in a near-hard-field population is flip-dominated and
+noisy, so the two halves of the window are compared; the shuffled criterion
+under-reads the boundary where decay is slow.
+
+Open: the ensemble loop series; the Bethe-Hessian check of Sec. 24.5;
+Part IV rerun with bonds assigned once.

@@ -35,7 +35,7 @@ ending on the routine that executes it.
 | 18 | `localization.tex` | The recursion with a Green's function for a message: the interior of a complex is a Schur complement (polynomial in the cardinality); Anderson localisation and the Localization Landscape on regular chygraphs with triangles, after Tonetti, Cugliandolo and Tarzia; the mobility edge as a stability line, LLT percolation as a dependent layer; what loops do to the gap between them |
 | **V** | | **The math connection** |
 | 19 | `chyequation.tex` | The recursion written once: the factor graph of α+I (every complex a variable and a factor), chygraph belief propagation, and the chygraph equation as its density evolution; what the pair yields (the 2L² threshold operator with the own-leg derivative û′, the readout, the counting numbers) |
-| 20 | `rde.tex` | Probability: the chygraph equation as a system of recursive distributional equations; endogeny = replica symmetry, bivariate uniqueness = the AT line at the linear level; the smoothing transform and Ch. 18's mobility edge; the local weak limit as a multitype branching process whose mean matrix is the threshold tensor |
+| 20 | `rde.tex` | Probability: the chygraph equation as a system of recursive distributional equations; endogeny = replica symmetry, bivariate uniqueness = the AT line at the linear level and the trivial fixed point; the smoothing transform and Ch. 18's mobility edge; the local weak limit as a multitype branching process whose mean matrix is the threshold tensor; the test **run** in Sec. 20.5 (spin-glass anchor with the H^(2/3) law; hitting set: sides with the hard-field line within 4%, entropy silent; regular cases endogenous and wrong) |
 | 21 | `species.tex` | Combinatorics: the excess functions are derivatives of a species, the excess bracket a partial derivative by sort; two kinds of hole; Lagrange inversion for the whole component distribution, **computed** in Sec. 21.4 (households against simulation, interactomes against data, Table 21.1); analytic functors on the Giry monad; the Hopf side (Dyson–Schwinger with two grafting operators) |
 | 22 | `operads.tex` | A complex is an operation; percolation is Com; the excess bracket is partial composition; treelike is cyclic, Part IV is modular (self-gluing, genus); a coloured operad; compound complexes are disconnected operations |
 | 23 | `marginal.tex` | Category theory: sum-product in a monoidal category; treelike as conditional independence; the marginal problem of Vorob'ev and Kellerer as Ch. 17's theorem sixty years early; sheaf obstruction (one-way); the level-wise statement as a corollary of Vorob'ev modulo a definition check |
@@ -43,11 +43,13 @@ ending on the routine that executes it.
 | 25 | `outlook.tex` | One recursion, many models; the two running threads; what is not done |
 | — | `software.tex` | Back matter. Repo links; equation-to-method-to-test table; how to reproduce a figure |
 
-**Part V computes two things: Sec. 21.4's finite-component distribution by
-layer** (`percolation/src/percolation/components.py`, `figs/components.py`)
-**and Sec. 24.3's loop series** (`statmech/src/statmech/loopseries.py`,
-`figs/loopseries.py`); Chs. 21 and 24 have Checks sections and the other
-four chapters do not. They
+**Part V computes three things: Sec. 20.5's endogeny test**
+(`statmech/src/statmech/endogeny.py`, `statmech/probe/endogeny.py`,
+`figs/endogeny.py`), **Sec. 21.4's finite-component distribution by layer**
+(`percolation/src/percolation/components.py`, `figs/components.py`) **and
+Sec. 24.3's loop series** (`statmech/src/statmech/loopseries.py`,
+`figs/loopseries.py`); Chs. 20, 21 and 24 have Checks sections and the other
+three chapters do not. They
 were written on 2026-09-25 from `~/Downloads/chygraph_master_equation/draft.tex`
 (Secs. 1–5 → Ch. 19, Secs. 6–10 → Chs. 20–24), anchored on the book's
 equations; the figures in it are TikZ in the chapter files. The draft's
@@ -65,15 +67,15 @@ propagation at `m = 0`. PDFs of the references are under
 ## Status
 
 `main.pdf` builds with **0 errors, 0 undefined references and 0
-multiply-defined labels, across 494 pages.** Not box-clean: **four overfull
+multiply-defined labels, across 498 pages.** Not box-clean: **four overfull
 hboxes** — `cover.tex:483--493` (1.99pt, "Which replica-symmetry-breaking
 point"), `metacomplex.tex:383--389` (3.16pt) and two of 0.66pt in
 `software.tex`'s Table 1 (lines 255–256, the Ch. 18 handle rows, present
-since that commit) — and 70 underfull vboxes, every one of them `while
+since that commit) — and 69 underfull vboxes, every one of them `while
 \output is active`, which is page-breaking around floats and not a line
 running into the margin.
 
-75 figures, 38 numbered tables, 213 numbered equations, 139 references and a
+76 figures, 39 numbered tables, 213 numbered equations, 139 references and a
 175-term index. Both checks under *Two checks the build cannot make* print
 nothing.
 
@@ -353,6 +355,16 @@ household outbreak-size distribution against bond-percolation simulation
 (12 realisations of 1e5 households) and the finite components of the nine
 cached networks with at least five components against the degree-distribution
 and clique-chygraph predictions. About 45 s.
+`figs/endogeny.py` generates Figure 20.1 and Table 20.1 from
+`../statmech/probe/results/endogeny.json`, the cache of
+`../statmech/probe/endogeny.py scan` (about seventy minutes: three boundaries
+bisected at seven fields for the ±J spin glass of degree three, populations
+of 1e5; the stationary perturbation rate over 600-sweep windows plus a
+shuffled pair and the entropy at eight mean chy-degrees for cardinalities
+2, 3, 4 of the soft-field hitting set at μ = 60; eight regular hypergraphs).
+`scan regular` reruns the regular block alone. The figure script checks the
+H^(2/3) approach to the exact zero-field transition (residuals < 0.03) and
+that the pair boundary is within 8% of the linearised one.
 `figs/loopseries.py` generates Figure 24.2 and Tables 24.1–24.2 from
 `statmech.loopseries`: the Chertkov–Chernyak loop series enumerated exactly
 on the pairwise and the promoted (α+I, bonds assigned once) factor graphs.

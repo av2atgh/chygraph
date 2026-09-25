@@ -7,8 +7,11 @@
 % Bandyopadhyay's recursive distributional equations and of the objective
 % method, and says which of the book's tests is which of theirs. The one
 % claim made for the first time -- that the de Almeida--Thouless tensor is
-% bivariate uniqueness at the linear level -- is stated for the linearised
-% problem only, and the nonlinear test it calls for has not been run.
+% bivariate uniqueness at the linear level -- holds at the trivial fixed
+% point; Sec. rde-computed runs both the linearised and the nonlinear test
+% (statmech.endogeny, probe/endogeny.py, figs/endogeny.py) and finds that
+% away from the trivial fixed point the perturbation must be carried with
+% the field, the annealed substitution overstating stability.
 
 The chygraph equation of Chapter~\ref{ch:chyequation} says that an unknown
 law is reproduced by a random number of independent copies of itself, passed
@@ -180,7 +183,10 @@ point $\ave{D^{2}}$ is multiplied by $u'^{2}$ per member leg and by
 $\ave{\sbar}$ legs per complex, which is Eq.~\eqref{eq:branch} with $u'$
 replaced by $u'^{2}$. That is Sec.~\ref{sec:atline}'s de Almeida--Thouless
 line, and the reweighting of Eq.~\eqref{eq:reweight} says that nothing else
-in the tensor moves.
+in the tensor moves. The step that needs the trivial fixed point is the
+factorisation of $\ave{u'^{2}D^{2}}$ into $\ave{u'^{2}}\ave{D^{2}}$: at a
+non-trivial fixed point the perturbation is not independent of the field
+it rides on, and Sec.~\ref{sec:rde-computed} measures what that costs.
 
 So the de Almeida--Thouless tensor --- the $2L^{2}$ operator of
 Sec.~\ref{sec:ce-yields} with $u'$ replaced by $u'^{2}$ --- \emph{is}
@@ -192,13 +198,14 @@ the linearised map, where the theorem's convergence is in law --- that the
 replica-symmetric fixed point is not endogenous; it is not sufficient,
 because a pair started far from the diagonal can fail to converge to it
 while every small perturbation decays. The nonlinear test, part~(c) of
-the theorem run as two coupled populations on each model of
-Table~\ref{tab:ce-substitutions}, has not been done, and it is the one
-place in this chapter where a computation is called for. What it would
-decide is whether the de Almeida--Thouless line, which
+the theorem run as two coupled populations, is done in
+Sec.~\ref{sec:rde-computed} for two of the models of
+Table~\ref{tab:ce-substitutions}, and on both the boundary it finds is the
+linearised one, properly carried. What it decides is whether the de Almeida--Thouless line, which
 Sec.~\ref{sec:atline} obtained from a local argument and
 Chapter~\ref{ch:hittingset} used as a warning, is the whole boundary of
-endogeny or only its local part.
+endogeny or only its local part; on the spin glass and the hitting set it
+is the whole of it.
 
 \section{The smoothing transform}
 \label{sec:rde-smoothing}
@@ -356,6 +363,147 @@ carry marks of their own. Both are unimodular random trees in the sense of
 \citet{aldouslyons2007}; neither has a name there, and the second in particular
 does not appear to have been studied.
 
+
+\section{The test, run}
+\label{sec:rde-computed}
+\index{endogeny!test, run|textbf}
+\index{de Almeida--Thouless line}
+\index{hitting set problem}
+
+The test of Sec.~\ref{sec:rde-endogeny} is two populations with one
+structure. \code{statmech.\allowbreak endogeny} carries two copies of every
+message, draws the containers, the members and the couplings once per
+update and applies the draw to both, and records the distance between the
+copies, $\ave{|h-h'|}/\ave{|h|}$, sweep by sweep. Started from independent
+draws of the fixed-point law, which is a shuffle of one population against
+the other, the copies either converge to the diagonal or settle at a finite
+distance: part~(c) of Theorem~11, run. Started from a small perturbation
+instead, the same two copies measure the linearised test, the growth rate
+of a perturbation carried alongside the field. Both were run on two
+problems, one where the answer is known and one where the book had two
+criteria that disagree.
+
+\paragraph{The anchor.} Figure~\ref{fig:endogeny}a is the $\pm J$ spin
+glass on a random regular graph of degree three, in a field $H$, where the
+replica-symmetric solution exists at every temperature and the question is
+where it stops being endogenous. Three boundaries in $\beta J$ are bisected
+at each field. The pair started from independent draws stops converging
+within a fixed budget of sweeps at the circles; the perturbation carried
+with the field stops decaying at the squares; and the annealed criterion,
+Sec.~\ref{sec:atline}'s substitution of $u'^{2}$ for $u'$ evaluated on the
+non-trivial fixed point, $\ave{\kbar}\ave{u'^{2}}=1$, crosses one at the
+triangles. Two things are settled by the picture. The linearised boundary
+approaches the exact zero-field transition, $2\tanh^{2}\beta J=1$ at
+$\beta J=0.881$, with the $H^{2/3}$ law of a de Almeida--Thouless line: a
+fit $\beta J_{c}+aH^{2/3}$ to the three smallest fields has residuals of
+$0.003$. And the pair boundary lies within two to five per cent of it, the
+gap largest at the smallest fields, where the decay is slowest and a fixed
+sweep budget under-reads the boundary. On this model endogeny is lost
+exactly where the linearised test says, and the nonlinear test adds
+nothing to it.
+
+The annealed line is not the same line. It lies twenty-five to sixty per
+cent above the other two in $\beta J$ and does not approach the zero-field
+transition at all, sitting at $1.52$ where the others are at $0.94$. The
+reason is the one Sec.~\ref{sec:rde-endogeny} passed over: a perturbation
+carried through the recursion is not independent of the field it rides on,
+because after a few steps it concentrates on the messages where $u'$ is
+large, and replacing the mean of the product by the product of the means
+overstates the stability. At the trivial fixed point there is nothing to
+concentrate on, the two coincide, and Sec.~\ref{sec:atline}'s line is
+exact; that is the only place the book uses it. Away from the trivial fixed
+point the linearised bivariate test is the joint growth rate and nothing
+simpler, and the two populations compute it at no extra cost.
+
+\begin{figure}[tp]
+\centering
+\includegraphics[width=0.82\linewidth]{figs/fig-endogeny.pdf}
+\caption{\textbf{The endogeny test.} (a) The $\pm J$ spin glass on a
+random regular graph of degree three in a field: the three boundaries in
+$\beta J$ bisected at each field. Circles, two copies started from
+independent draws of the fixed-point law stop converging; squares, a
+perturbation carried alongside the field stops decaying; triangles, the
+annealed criterion $\ave{\kbar}\ave{u'^{2}}=1$. The diamond is the exact
+zero-field transition and the line is $\beta J_{c}+0.78\,H^{2/3}$ fitted to
+the three smallest fields. (b) The hitting set on Poisson hypergraphs of
+cardinality two, three and four: the stationary rate of a perturbation, per
+sweep, against the mean chy-degree in units of the hard-field line
+$\ave{k}(c-1)=e$ of Eq.~\eqref{eq:kc}. The three cardinalities fall on one
+curve and cross zero at $1.03$ to $1.04$. Populations of $10^{5}$;
+\code{statmech/\allowbreak probe/\allowbreak endogeny.\allowbreak py} and
+\code{figs/\allowbreak endogeny.\allowbreak py}.}
+\label{fig:endogeny}
+\end{figure}
+
+\paragraph{The hitting set.} Chapter~\ref{ch:hittingset} had two criteria
+for where its replica-symmetric answer stops being trustworthy, and they
+disagree: the hard-field line $\ave{k}(c-1)=e$ of Eq.~\eqref{eq:kc}, which
+is the instability of the warning map, and the soft-field entropy of
+Eq.~\eqref{eq:sgen}, which on vertex cover is still positive at
+$\ave{k}=3$ where the hard-field line has been crossed at $e$.
+Figure~\ref{fig:endogeny}b and Table~\ref{tab:endogeny} run the test on
+the soft-field population of Sec.~\ref{sec:soft} itself, at $\mu=60$, for
+Poisson hypergraphs of cardinality two, three and four. Near the boundary
+the perturbation's decay slows to a crawl, so the rate is read from long
+stationary windows and the two halves of the window are checked against
+each other; measured that way it does not move with the chemical potential
+between $30$ and $120$ nor with the damping, and the pair started from
+independent draws settles at a size-independent plateau on the far side,
+a fifth of the pairs differing by more than one at $\ave{k}=2.9$ on
+vertex cover, at $5\times10^{4}$, $2\times10^{5}$ and $4\times10^{5}$
+elements alike. The rate crosses zero at $1.034$, $1.040$ and $1.029$
+times the hard-field line for the three cardinalities, which is
+$\ave{k}=2.81$ against $e=2.72$ for vertex cover, and the entropy at the
+crossing is still positive on all three. So the two criteria are sorted:
+the endogeny of the soft-field solution is lost within four per cent of
+the hard-field line, and the entropy is silent there because it is
+sufficient and not necessary, which Sec.~\ref{sec:hsrsb} said and could
+not weigh. That the three cardinalities collapse on one curve in the
+variable $\ave{k}(c-1)/e$ is Eq.~\eqref{eq:kc}'s claim that the
+hard-field line is the one thing the cardinality enters through, now
+measured on the soft fields.
+
+\begin{table}[tb]
+\centering\small
+\begin{adjustbox}{max width=\linewidth}
+\input{figs/tab-endogeny}
+\end{adjustbox}
+\caption{\textbf{Endogeny against the two criteria of
+Chapter~\ref{ch:hittingset}.} Top: Poisson hypergraphs; the hard-field line
+of Eq.~\eqref{eq:kc}, the zero of the stationary perturbation rate, their
+ratio, and the entropy of Eq.~\eqref{eq:sgen} at the zero. Bottom: the
+regular hypergraphs of \citet{mezard2007}, $L$ complexes of cardinality $K$
+at every atom, where the entropy is exact: the distance between two copies
+started from independent draws after $600$ sweeps, and the rate of a small
+perturbation. A negative entropy proves the replica-symmetric answer wrong;
+a converging pair says the fixed point is nonetheless endogenous.
+\code{figs/\allowbreak endogeny.\allowbreak py}.}
+\label{tab:endogeny}
+\end{table}
+
+\paragraph{Endogenous and wrong.} The bottom of Table~\ref{tab:endogeny}
+is the finding the test was not run for. On the regular hypergraphs the
+entropy is exact, Eq.~\eqref{eq:entropy}, and negative on five of the eight
+cases, which proves the replica-symmetric answer wrong on those five. At
+cardinality three the pair does not converge on either of them, the
+distance staying at $0.8$ and $1.0$ with a perturbation growing at
+$0.08$ per sweep: non-endogenous and wrong, the two signals together. At
+cardinalities four and six the three cases with negative entropy have a
+pair that converges to the last digit and a perturbation decaying at
+$0.06$ to $0.12$ per sweep: the fixed point is a function of the tree
+below it, and it is not the physical measure. Endogeny is a property of a
+solution of the recursive distributional equation, and a wrong solution
+can have it. What the contrast says is which kind of transition each case
+sits past. Where endogeny is lost at the boundary --- cardinality three
+here, vertex cover and the Poisson hypergraphs above --- the transition
+is continuous and the linearised test finds it; where the answer is wrong
+with endogeny intact, the physical measure has moved to a different
+solution while the replica-symmetric one is still stable, which is the
+discontinuous case of the Outlook's second pitfall, and no test on the
+replica-symmetric fixed point alone can see it. The entropy can, because
+it counts; the one-step calculation Sec.~\ref{sec:hsrsb} declines to do is
+what would say where.
+
 \section{What it gives the book}
 \label{sec:rde-gives}
 
@@ -370,16 +518,17 @@ or a stability line being crossed (Chapter~\ref{ch:ising}); in the
 probabilistic language the choice is a property of the solution, with a
 definition, and the two signals are two of its consequences.
 
-\emph{A criterion that could be run on every model in
-Table~\ref{tab:through}.} Bivariate uniqueness, Eq.~\eqref{eq:rde-bivariate},
-is a population dynamics with two entries per element, and every population
-the book already runs could carry the second entry at no change to the
-update. Section~\ref{sec:rde-endogeny} says what it would add to the de
-Almeida--Thouless line: whether the local boundary is the whole boundary.
-On the hitting set problem of Chapter~\ref{ch:hittingset}, where the
-entropy criterion and the stability line are the two tests the book has and
-they do not coincide, this is the third test and the one with a theorem
-behind it, part~(c) of \citeauthor{aldous2005}'s Theorem~11.
+\emph{A criterion, run.} Bivariate uniqueness,
+Eq.~\eqref{eq:rde-bivariate}, is a population dynamics with two entries
+per element, and Sec.~\ref{sec:rde-computed} runs it on the spin glass and
+on the hitting set problem of Chapter~\ref{ch:hittingset}, where the
+entropy criterion and the hard-field line are the two tests the book has
+and they do not coincide. The third test, the one with a theorem behind it,
+part~(c) of \citeauthor{aldous2005}'s Theorem~11, sides with the
+hard-field line to within four per cent at three cardinalities, and shows
+on the regular hypergraphs that a replica-symmetric answer can be
+endogenous and wrong, which is the discontinuous case and the reason the
+entropy is still needed.
 
 \emph{A target statement.} That the chygraph equation is the recursive
 distributional equation of the multitype branching process that is the
@@ -402,9 +551,12 @@ operator, and at the linear level it is decided by the kernel derivative
 alone: Sec.~\ref{sec:rde-endogeny}'s identification of the de
 Almeida--Thouless tensor with linearised bivariate uniqueness is a
 statement about every equation of the class at once, not a computation on
-one model. A criterion statable for a family, with the four moment matrices
-and the two kernel derivatives $u'$ and $\hat u'$ as its only inputs, is
-what the class supplies.
+one model. A criterion statable for a family, with the four moment
+matrices and the two kernel derivatives $u'$ and $\hat u'$ as its only
+inputs, is what the class supplies at the trivial fixed point; away from
+it, Sec.~\ref{sec:rde-computed} shows, the derivative has to be carried
+with the field it acts on, and the criterion is a growth rate rather than
+a moment.
 
 Second, the limit object. The local weak limit of a nested ensemble is a
 multitype branching process with a self channel, a type whose offspring
@@ -426,3 +578,40 @@ weights of Eq.~\eqref{eq:imlinear} on a triangle are not, since the two
 members of the same complex share the interior matrix, and what the
 classification says about correlated weights within a bounded arity is a
 question the book's ensembles pose in a concrete form.
+
+\section{Checks}
+\label{sec:rde-checks}
+
+\checkhead{Known results}
+\code{statmech/\allowbreak probe/\allowbreak endogeny.\allowbreak py}
+bisects, on the $\pm J$ spin glass of degree three, three boundaries at
+seven fields between $0.02$ and $1$, and
+\code{figs/\allowbreak endogeny.\allowbreak py} checks, before it draws,
+that the linearised boundary approaches the exact zero-field transition
+$2\tanh^{2}\beta J=1$ as $\beta J_{c}+aH^{2/3}$ with residuals below
+$0.03$, and that the pair boundary lies within eight per cent of it.
+\code{statmech/\allowbreak tests/\allowbreak test\_\allowbreak
+endogeny.\allowbreak py} pins that identical copies stay identical to the
+last bit, that the zero-field transition is where it should be, that a
+perturbation decays below the line and the pair fails to converge deep in
+the glass, and that on vertex cover the pair converges at $\ave{k}=2$ and
+does not at $4$.
+
+\checkhead{New results}
+The endogeny boundary of the soft-field hitting set at three
+cardinalities against the hard-field line and the entropy, and the
+regular cases of Table~\ref{tab:endogeny}. The rate is read from
+stationary windows of $600$ sweeps at damping one half, its two halves
+agreeing to $0.001$ per sweep near the boundary; the boundary is
+unchanged at chemical potentials $30$, $60$ and $120$ and at damping
+$0.2$, and the plateau of a non-converging pair is unchanged between
+$5\times10^{4}$ and $4\times10^{5}$ elements.
+
+\checkhead{Partial results}
+The pair boundary of the spin glass is bisected on a fixed budget of
+$600$ sweeps and a threshold of $10^{-2}$, and reads two to five per cent
+below the linearised one for that reason; it is not a separate
+determination of the line. The entropy on Poisson ensembles carries the
+scatter Sec.~\ref{sec:hs-checks} describes, $0.07$ on vertex cover, and
+one estimate near $e$ overflowed and is left out. The scan takes about
+seventy minutes and is cached; nothing in the chapter recomputes it.
