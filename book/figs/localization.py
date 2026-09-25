@@ -133,6 +133,40 @@ def figure_lines():
     plt.close(fig)
 
 
+def figure_phase():
+    """The (E, W) plane at the bottom of the band, per degree: bulk edge,
+    isolated eigenvalue below W_min, LLT percolation line and mobility
+    edge.  The bottom-edge half of Tonetti et al.'s Fig. S7."""
+    plt = _mpl()
+    by = load()
+    fig, axes = plt.subplots(1, 2, figsize=(4.6, 2.6))
+    for ax, degree in zip(axes, (3, 4)):
+        Wmax = 12.6
+        for k, rows in sorted(by.items(), key=lambda kv: -kv[0][1]):
+            if k[0] + 2 * k[1] != degree:
+                continue
+            col, mk = STYLE[k]
+            emin = rows[0]['band_bottom']
+            iso = -degree
+            Wmin = 2 * (degree + emin)
+            Wg = np.linspace(Wmin, Wmax, 50)
+            ax.plot(emin - Wg / 2, Wg, ':', color=col, lw=0.8)
+            ax.plot([iso, iso], [0, Wmin], '-', color=col, lw=2.2, solid_capstyle='butt')
+            ax.plot([r['Ec_perc'] for r in rows], [r['W'] for r in rows], '--', marker=mk, ms=4,
+                    color=col, mfc=col, label=f'({k[0]},{k[1]}) percolation')
+            ax.plot([r['Ec_loc'] for r in rows], [r['W'] for r in rows], '-', marker=mk, ms=4,
+                    color=col, mfc='white', label=f'({k[0]},{k[1]}) mobility edge')
+        ax.set_ylim(0, Wmax)
+        ax.set_title(f'degree {degree}', fontsize=9)
+        ax.set_xlabel('energy $E$', fontsize=8)
+        ax.legend(fontsize=5.5, frameon=False, loc='lower left')
+        _tidy(ax)
+    axes[0].set_ylabel('disorder $W$', fontsize=8)
+    fig.tight_layout()
+    fig.savefig(OUT / 'fig-anderson-phase.pdf')
+    plt.close(fig)
+
+
 def figure_gap():
     plt = _mpl()
     by = load()
@@ -239,8 +273,9 @@ if __name__ == '__main__':
     print_lines()
     figure_lines()
     figure_gap()
+    figure_phase()
     table_wc()
     if (PROBE / 'anderson_centre.csv').exists():
         figure_mechanism()
         figure_centre()
-    print('wrote fig-anderson.pdf, fig-anderson-gap.pdf, fig-anderson-mechanism.pdf, fig-anderson-centre.pdf, tab-anderson-wc.tex')
+    print('wrote fig-anderson.pdf, fig-anderson-gap.pdf, fig-anderson-phase.pdf, fig-anderson-mechanism.pdf, fig-anderson-centre.pdf, tab-anderson-wc.tex')
