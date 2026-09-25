@@ -28,14 +28,46 @@ lines together. They do not; they part them further.
 \index{Schur complement|textbf}
 \index{Anderson model|textbf}
 
-The Anderson model on a graph is $\hat H=\sum_{i}\epsilon_{i}\,|i\rangle\langle
-i|-t\sum_{\langle ij\rangle}\bigl(|i\rangle\langle j|+|j\rangle\langle
-i|\bigr)$, with $\epsilon_{i}$ independent and uniform on $[-W/2,W/2]$ and
-$t=1$ throughout. Everything about localisation is in the resolvent
-$\mathcal{G}(z)=(\hat H-z)^{-1}$ at $z=E+\mathrm{i}0^{+}$: the imaginary part
-of its diagonal element, over $\pi$, is the local density of states, and
-it vanishes site by site in the localised phase and does not in the
-extended one.
+The Anderson model on a graph is
+\begin{equation}
+  \hat H=\sum_{i}\epsilon_{i}\,|i\rangle\langle i|
+  -t\sum_{\langle ij\rangle}\bigl(|i\rangle\langle j|+|j\rangle\langle i|\bigr),
+  \label{eq:anderson}
+\end{equation}
+with $\epsilon_{i}$ independent and uniform on $[-W/2,W/2]$ and $t=1$
+throughout. Without disorder the eigenstates spread over the whole graph
+--- on the tree of degree $K+1$ they fill the band $|E|\le2\sqrt{K}\,t$ ---
+and a particle put on one site diffuses away from it. A weak disorder
+scatters those states without pinning them. A strong one pins each state
+to a few sites, with an amplitude that decays exponentially away from its
+centre, and a particle put on a site stays near it for ever
+\citep{anderson1958}. In between, above two dimensions and on the tree,
+the spectrum does both at once according to the energy: the states at the
+centre of the band are extended, and those in the tails, where the
+spectrum is thin and a state exists only on an unlikely run of site
+energies, are localised. The energy that separates the two is the
+mobility edge $E_{c}(W)$. It moves inwards as $W$ grows, until the two
+edges meet at the band centre at a critical disorder $W_{c}$ beyond which
+every state is localised. Diffusion, conductance and the statistics of the
+levels all change across this one line, which is why the chapter is about
+where it lies.
+
+The line is not read from the eigenstates. On an infinite graph the
+spectrum is dense and no single state can be followed; what distinguishes
+the phases is the spectrum as seen from one site. The resolvent
+$\mathcal{G}(z)=(\hat H-z)^{-1}$ at $z=E+\mathrm{i}\eta$ is that view. Its
+diagonal element is
+$\mathcal{G}_{ii}(z)=\sum_{n}|\psi_{n}(i)|^{2}/(E_{n}-z)$, and its
+imaginary part over $\pi$, at $\eta\to0^{+}$, is the local density of
+states, the weight the eigenstates near $E$ put on site $i$. In the
+extended phase infinitely many states contribute to it, each with an
+infinitesimal weight, and the sum is a smooth function of $E$. In the
+localised phase the states that reach site $i$ are a discrete set, the
+local density of states is a comb of $\delta$ peaks at their energies, and
+the imaginary part vanishes at almost every $E$. So the phase is decided
+site by site by whether $\operatorname{Im}\mathcal{G}_{ii}(E+\mathrm{i}0^{+})$
+is finite or zero: a single number per site, which is what a message can
+carry.
 
 On a tree the diagonal element obeys the two steps of
 Sec.~\ref{sec:twosteps} with an edge for a complex,
