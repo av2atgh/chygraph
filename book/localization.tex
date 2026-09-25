@@ -84,10 +84,23 @@ density of states,
 which is zero outside the band and diverges at its edges, where $E(k)$
 flattens and the states pile up.
 
-The resolvent packs the same information into one function.
+The resolvent packs the same information into one function, and it is
+the function behind the experiment of the opening paragraph.
 $\mathcal{G}(z)=(\hat H-z)^{-1}$ is defined off the real axis, at
-$z=E+\mathrm{i}\eta$, and its diagonal element at site $j$ is, in the
-basis of stationary states,
+$z=E+\mathrm{i}\eta$ with $\eta>0$. Put the particle on site $j$ at time
+zero: the amplitude to find it there at time $t$ is
+$\langle j|e^{-\mathrm{i}\hat Ht}|j\rangle$, with $\hbar=1$, and the
+diagonal element of the resolvent is that return amplitude transformed
+in time,
+$\mathcal{G}_{jj}(z)=\mathrm{i}\int_{0}^{\infty}dt\,e^{\mathrm{i}zt}
+\langle j|e^{-\mathrm{i}\hat Ht}|j\rangle$. The energy $E$ selects a
+frequency, and the factor $e^{-\eta t}$ cuts the integral off at times
+of order $1/\eta$, so $\mathcal{G}_{jj}(E+\mathrm{i}\eta)$ is the
+particle's return to $j$ at energy $E$, watched for a time $1/\eta$. A
+particle that spreads away has a return amplitude that decays and one
+that is pinned has a return amplitude that does not, and the resolvent
+turns that difference into a function of energy. In the basis of
+stationary states the diagonal element is
 \begin{equation}
   \begin{split}
   \mathcal{G}_{jj}(z)&=\sum_{n}\frac{|\psi_{n}(j)|^{2}}{E_{n}-z},\\
