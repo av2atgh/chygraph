@@ -15,8 +15,8 @@ from statmech.population import CavityPopulation, critical_coupling
 from statmech.models import (graph_ising, graph_percolation,
                                       graph_with_triangles_ising)
 from statmech import (antimonotone, core, cover, freeenergy,
-                               gbp, hittingset, ising, region, simplicial,
-                               softfield, vertexcover)
+                               gbp, hittingset, ising, region, resolvent,
+                               simplicial, softfield, vertexcover)
 from statmech.gbp import GBP
 from statmech.stability import (StabilityMatrix, reweight,
                                          uniform_weights)
@@ -30,4 +30,5 @@ __all__ = [
     "FixedPointStability", "vertexcover", "hittingset", "antimonotone",
     "CavityPopulation", "critical_coupling", "core", "cover", "ising",
     "region", "freeenergy", "softfield", "simplicial", "gbp", "GBP",
+    "resolvent",
 ]

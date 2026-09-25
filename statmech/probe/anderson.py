@@ -7,17 +7,12 @@ u = (H - E_min)^{-1} 1, whose threshold the LLT proposes as the mobility
 edge.  Their Eqs. (3)-(9) are the book's two steps at cardinality two with
 a Green's function for a message.  This probe carries the same recursion
 to a chygraph whose complexes are cliques -- edges and triangles here --
-where the interior sum of a complex is a Schur complement:
-
-    Sigma_{a->i}(z) = t^2 1^T [ (eps_J - z - Sigma_{J->a}) - t A_J ]^{-1} 1
-
-over the other members J of complex a, with A_J the clique's adjacency,
-Sigma_{J->a} the diagonal of the members' cavity self-energies from their
-other complexes, and G_ii = 1/(eps_i - z - sum_a Sigma_{a->i}).  Exact on
-an incidence tree, at a cost polynomial in the cardinality.  The landscape
-follows by linearity: eta_{a->i} = t 1^T M_a^{-1} eta_{J->a}, eta_i = 1 +
-sum_a eta_{a->i}, u_i = G_ii(E_min) eta_i; and LLT percolation is Part
-II's map with the threshold rule theta(1/E - u).
+where the interior sum of a complex is a Schur complement.  The message
+type itself -- the down step `transmit`, the instance solvers, the clean
+band and the incidence tree's branching -- is `statmech.resolvent`; this
+probe holds only what runs it on a random ensemble: the population
+dynamics of the self-energies, the landscape and the LLT percolation
+message, and the scans behind the chapter's figures.
 
 Ensembles: regular chy-degrees, every site in s single edges and t
 triangles ("Bethe with triangles"); (s, t) = (3, 0) is the paper's
@@ -32,121 +27,13 @@ from pathlib import Path
 
 import numpy as np
 
+_ROOT = Path(__file__).resolve().parents[2]
+for _p in (_ROOT / 'statmech' / 'src', _ROOT / 'percolation' / 'src'):
+    if str(_p) not in sys.path:
+        sys.path.insert(0, str(_p))
+from statmech import resolvent as R  # noqa: E402
+
 OUT = Path(__file__).parent / 'results'
-
-
-# ------------------------------------------------------------ instances
-
-def regular_chygraph(n, s, t, rng):
-    """Random regular chygraph: n atoms, each in s edges and t triangles.
-
-    Configuration model on stubs; returns the list of complexes (tuples of
-    atoms).  Degenerate complexes (repeated atoms) are redrawn a few times
-    and then dropped, which costs a vanishing fraction at large n.
-    """
-    complexes = []
-    if s:
-        stubs = np.repeat(np.arange(n), s)
-        for _ in range(20):
-            rng.shuffle(stubs)
-            pairs = stubs.reshape(-1, 2)
-            bad = pairs[:, 0] == pairs[:, 1]
-            if not bad.any():
-                break
-        complexes += [tuple(p) for p in pairs if p[0] != p[1]]
-    if t:
-        stubs = np.repeat(np.arange(n), t)
-        for _ in range(20):
-            rng.shuffle(stubs)
-            trip = stubs.reshape(-1, 3)
-            bad = (trip[:, 0] == trip[:, 1]) | (trip[:, 1] == trip[:, 2]) | (trip[:, 0] == trip[:, 2])
-            if not bad.any():
-                break
-        complexes += [tuple(p) for p in trip if len(set(p)) == 3]
-    return complexes
-
-
-def hamiltonian(n, complexes, eps, t=1.0):
-    H = np.diag(eps).astype(complex)
-    for c in complexes:
-        for a in c:
-            for b in c:
-                if a != b:
-                    H[a, b] -= t
-    return H
-
-
-def cavity_instance(n, complexes, eps, z, t=1.0, sweeps=200, damping=0.0):
-    """Message passing for the self-energies Sigma_{a->i} on one instance.
-
-    Returns G_ii for every atom and the converged messages.  Messages are
-    indexed by (complex index, position of i in the complex).
-    """
-    inc = [[] for _ in range(n)]
-    for ci, c in enumerate(complexes):
-        for p, a in enumerate(c):
-            inc[a].append((ci, p))
-    sig = {(ci, p): 0j for ci, c in enumerate(complexes) for p in range(len(c))}
-    for _ in range(sweeps):
-        # cavity sums per atom: total minus the message from the complex left out
-        tot = np.zeros(n, complex)
-        for (ci, p), v in sig.items():
-            tot[complexes[ci][p]] += v
-        new = {}
-        for ci, c in enumerate(complexes):
-            for p, i in enumerate(c):
-                J = [j for q, j in enumerate(c) if q != p]
-                m = len(J)
-                M = np.zeros((m, m), complex)
-                for r, j in enumerate(J):
-                    M[r, r] = eps[j] - z - (tot[j] - sig[(ci, c.index(j))])
-                    for r2 in range(m):
-                        if r2 != r:
-                            M[r, r2] = -t
-                ones = np.ones(m)
-                new[(ci, p)] = t * t * ones @ np.linalg.solve(M, ones)
-        if damping:
-            sig = {k: damping * sig[k] + (1 - damping) * new[k] for k in sig}
-        else:
-            sig = new
-    tot = np.zeros(n, complex)
-    for (ci, p), v in sig.items():
-        tot[complexes[ci][p]] += v
-    G = 1.0 / (eps - z - tot)
-    return G, sig, tot
-
-
-def landscape_instance(n, complexes, eps, emin, t=1.0, sweeps=200):
-    """The landscape u = (H - E_min)^{-1} 1 by cavity, real arithmetic."""
-    G, sig, tot = cavity_instance(n, complexes, eps, emin + 0j, t, sweeps)
-    inc = [[] for _ in range(n)]
-    for ci, c in enumerate(complexes):
-        for p, a in enumerate(c):
-            inc[a].append((ci, p))
-    eta = {k: 0.0 for k in sig}
-    for _ in range(sweeps):
-        etot = np.ones(n)
-        for (ci, p), v in eta.items():
-            etot[complexes[ci][p]] += v
-        new = {}
-        for ci, c in enumerate(complexes):
-            for p, i in enumerate(c):
-                J = [j for q, j in enumerate(c) if q != p]
-                m = len(J)
-                M = np.zeros((m, m))
-                rhs = np.zeros(m)
-                for r, j in enumerate(J):
-                    M[r, r] = (eps[j] - emin - (tot[j] - sig[(ci, c.index(j))])).real
-                    rhs[r] = etot[j] - eta[(ci, c.index(j))]      # cavity eta of j
-                    for r2 in range(m):
-                        if r2 != r:
-                            M[r, r2] = -t
-                new[(ci, p)] = t * np.ones(m) @ np.linalg.solve(M, rhs)
-        eta = new
-    etot = np.ones(n)
-    for (ci, p), v in eta.items():
-        etot[complexes[ci][p]] += v
-    return G.real * etot
 
 
 # --------------------------------------------------------------- checks
@@ -155,18 +42,18 @@ def check_instances(n=600, W=3.0, seed=0):
     rng = np.random.default_rng(seed)
     print('instance checks: cavity with Schur-complement interior against exact inversion, n =', n)
     for (s, t_) in ((3, 0), (1, 1), (0, 2), (2, 1)):
-        complexes = regular_chygraph(n, s, t_, rng)
+        complexes = R.regular_instance(n, [2, 3], [s, t_], rng)
         eps = rng.uniform(-W / 2, W / 2, n)
-        H = hamiltonian(n, complexes, eps)
+        H = R.hamiltonian(n, complexes, eps)
         # (1) resolvent at complex z
         z = 0.7 - 0.2j
         Gex = np.diag(np.linalg.inv(H - z * np.eye(n)))
-        G, _, _ = cavity_instance(n, complexes, eps, z, sweeps=150)
+        G, _, _ = R.cavity_instance(n, complexes, eps, z, sweeps=150)
         err = np.abs(G - Gex)
         # (2) landscape at E_min below the spectrum
         emin = np.linalg.eigvalsh(H.real).min() - 0.05
         uex = np.linalg.solve(H.real - emin * np.eye(n), np.ones(n))
-        u = landscape_instance(n, complexes, eps, emin, sweeps=150)
+        u = R.landscape_instance(n, complexes, eps, emin, sweeps=150)
         rel = np.abs(u - uex) / np.abs(uex)
         print(f'  (s,t)=({s},{t_}): {len(complexes)} complexes; |G_cav - G_exact| median {np.median(err):.2e} '
               f'max {err.max():.2e} (|G| ~ {np.median(np.abs(Gex)):.2f}); landscape rel err median {np.median(rel):.2e} max {rel.max():.2e}')
@@ -213,13 +100,12 @@ class Ensemble:
             # edge (i,k): k's cavity has s-1 edges and t triangles
             cav = self._cavity(E_re, T_re, s - 1, t, P)
             d = self._eps(P) - E - cav
-            newE = hop * hop / d
+            newE = R.transmit(d[:, None], hop).sigma
         if t:
             # triangle (i,j1,j2): each j has s edges and t-1 triangles
             m11 = self._eps(P) - E - self._cavity(E_re, T_re, s, t - 1, P)
             m22 = self._eps(P) - E - self._cavity(E_re, T_re, s, t - 1, P)
-            det = m11 * m22 - hop * hop
-            newT = hop * hop * (m11 + m22 + 2 * hop) / det
+            newT = R.transmit(np.stack([m11, m22], 1), hop).sigma
         return (newE if s else E_re), (newT if t else T_re)
 
     def real_population(self, E, sweeps=300, init=None):
@@ -233,36 +119,12 @@ class Ensemble:
     # -- band bottom of the pure hopping chygraph, from the uniform fixed point
     def band_bottom(self, lo=-12.0, hi=0.0, iters=60):
         """Largest E below which the uniform real fixed point exists (W = 0)."""
-        s, t, hop = self.s, self.t, self.hop
-
-        def has_solution(E):
-            se = st = 0.0
-            for _ in range(5000):
-                cav_e = (s - 1) * se + t * st
-                cav_t = s * se + (t - 1) * st
-                ne = hop * hop / (-E - cav_e) if s else 0.0
-                m = -E - cav_t
-                nt = hop * hop * (2 * m + 2 * hop) / (m * m - hop * hop) if t else 0.0
-                if not (np.isfinite(ne) and np.isfinite(nt)) or (-E - cav_e) <= 0 and s or (t and (m * m - hop * hop) <= 0):
-                    return False
-                if abs(ne - se) + abs(nt - st) < 1e-13:
-                    return True
-                se, st = 0.5 * (se + ne), 0.5 * (st + nt)
-            return False
-
-        for _ in range(iters):
-            mid = 0.5 * (lo + hi)
-            if has_solution(mid):
-                lo = mid
-            else:
-                hi = mid
-        return 0.5 * (lo + hi)
+        return R.band_bottom([2, 3], [self.s, self.t], self.hop, lo, hi, iters)
 
     def E_min(self):
         """Bottom of the spectrum at disorder W: band bottom minus W/2, or the
         isolated uniform eigenvalue -hop*degree when that lies below it."""
-        deg = self.s + 2 * self.t
-        return min(self.band_bottom() - self.W / 2, -self.hop * deg)
+        return R.spectral_bottom([2, 3], [self.s, self.t], self.W, self.hop)
 
     # -- landscape: joint (Sigma, eta) populations at E_min
     def landscape_step(self, E_re, T_re, E_eta, T_eta, Emin):
@@ -273,9 +135,8 @@ class Ensemble:
             ie = rng.integers(0, P, (P, s - 1)); it = rng.integers(0, P, (P, t))
             cav = E_re[ie].sum(1) + T_re[it].sum(1)
             eta_k = 1 + E_eta[ie].sum(1) + T_eta[it].sum(1)
-            g = 1.0 / (self._eps(P) - Emin - cav)
-            newE = hop * hop * g
-            newEe = hop * g * eta_k
+            out = R.transmit((self._eps(P) - Emin - cav)[:, None], hop, eta_k[:, None])
+            newE, newEe = out.sigma, out.eta
         if t:
             ie1 = rng.integers(0, P, (P, s)); it1 = rng.integers(0, P, (P, t - 1))
             ie2 = rng.integers(0, P, (P, s)); it2 = rng.integers(0, P, (P, t - 1))
@@ -283,10 +144,8 @@ class Ensemble:
             m22 = self._eps(P) - Emin - E_re[ie2].sum(1) - T_re[it2].sum(1)
             e1 = 1 + E_eta[ie1].sum(1) + T_eta[it1].sum(1)
             e2 = 1 + E_eta[ie2].sum(1) + T_eta[it2].sum(1)
-            det = m11 * m22 - hop * hop
-            # M^{-1} = [[m22, hop], [hop, m11]] / det
-            newT = hop * hop * (m11 + m22 + 2 * hop) / det
-            newTe = hop * ((m22 + hop) * e1 + (m11 + hop) * e2) / det
+            out = R.transmit(np.stack([m11, m22], 1), hop, np.stack([e1, e2], 1))
+            newT, newTe = out.sigma, out.eta
         return (newE if s else E_re), (newT if t else T_re), (newEe if s else E_eta), (newTe if t else T_eta)
 
     def landscape_population(self, Emin, sweeps=300):
@@ -328,9 +187,8 @@ class Ensemble:
                 cav = E_re[ie].sum(1) + T_re[itr].sum(1)
                 eta_cav = E_eta[ie].sum(1) + T_eta[itr].sum(1)
                 eps_k = self._eps(P)
-                g = 1.0 / (eps_k - Emin - cav)
-                nE_re = hop * hop * g
-                nE_eta = hop * g * (1 + eta_cav)
+                out = R.transmit((eps_k - Emin - cav)[:, None], hop, (1 + eta_cav)[:, None])
+                nE_re, nE_eta = out.sigma, out.eta
                 back = rng.integers(0, P, P)
                 u_k = (1 + eta_cav + E_eta[back]) / (eps_k - Emin - cav - E_re[back])
                 if not joint:      # p from draws unrelated to the ones that made u_k
@@ -345,10 +203,9 @@ class Ensemble:
                 m = [eps3[q] - Emin - cav[q] for q in range(3)]          # atoms i, j1, j2
 
                 def msg(o1, o2):
-                    det = m[o1] * m[o2] - hop * hop
-                    sig = hop * hop * (m[o1] + m[o2] + 2 * hop) / det
-                    et = hop * ((m[o2] + hop) * (1 + eta[o1]) + (m[o1] + hop) * (1 + eta[o2])) / det
-                    return sig, et
+                    out = R.transmit(np.stack([m[o1], m[o2]], 1), hop,
+                                     np.stack([1 + eta[o1], 1 + eta[o2]], 1))
+                    return out.sigma, out.eta
                 nT_re, nT_eta = msg(1, 2)                                # the message to i
                 p_j = []
                 for j, o1, o2 in ((1, 0, 2), (2, 0, 1)):
@@ -409,20 +266,19 @@ class Ensemble:
             newE = newT = None
             if s:
                 ie = rng.integers(0, P, (P, s - 1)); itr = rng.integers(0, P, (P, t))
-                g = 1.0 / (self._eps(P) - E - E_re[ie].sum(1) - T_re[itr].sum(1))
-                newE_re = hop * hop * g
-                newE = hop * hop * g * g * (E_im[ie].sum(1) + T_im[itr].sum(1))
+                out = R.transmit((self._eps(P) - E - E_re[ie].sum(1) - T_re[itr].sum(1))[:, None], hop)
+                newE_re = out.sigma
+                newE = R.linearised_imaginary(out.v, (E_im[ie].sum(1) + T_im[itr].sum(1))[:, None], hop)
             if t:
                 ie1 = rng.integers(0, P, (P, s)); it1 = rng.integers(0, P, (P, t - 1))
                 ie2 = rng.integers(0, P, (P, s)); it2 = rng.integers(0, P, (P, t - 1))
                 m11 = self._eps(P) - E - E_re[ie1].sum(1) - T_re[it1].sum(1)
                 m22 = self._eps(P) - E - E_re[ie2].sum(1) - T_re[it2].sum(1)
-                det = m11 * m22 - hop * hop
-                v1 = (m22 + hop) / det
-                v2 = (m11 + hop) / det
-                newT_re = hop * hop * (m11 + m22 + 2 * hop) / det
-                newT = hop * hop * (v1 * v1 * (E_im[ie1].sum(1) + T_im[it1].sum(1))
-                                    + v2 * v2 * (E_im[ie2].sum(1) + T_im[it2].sum(1)))
+                out = R.transmit(np.stack([m11, m22], 1), hop)
+                newT_re = out.sigma
+                newT = R.linearised_imaginary(
+                    out.v, np.stack([E_im[ie1].sum(1) + T_im[it1].sum(1),
+                                     E_im[ie2].sum(1) + T_im[it2].sum(1)], 1), hop)
             oldv = np.concatenate([E_im, T_im])
             newv = np.concatenate([newE if s else np.zeros(0), newT if t else np.zeros(0)])
             if it_ >= transient:

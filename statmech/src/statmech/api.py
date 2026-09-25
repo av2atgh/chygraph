@@ -34,6 +34,7 @@ from statmech import hittingset as _hs
 from statmech import ising as _ising
 from statmech import population as _pop
 from statmech import region as _region
+from statmech import resolvent as _res
 from statmech import simplicial as _simp
 from statmech import softfield as _soft
 from statmech import stability as _stab
@@ -465,6 +466,53 @@ class Chygraph:
         w /= w.sum()
         m1, m2 = (w * c).sum(), (w * c * c).sum()
         return float(m2 / m1 - 1.0)
+
+    # ======================================================================
+    # Chapter 18: the resolvent as a message
+    # ======================================================================
+
+    def _require_regular_integer(self):
+        if not self.regular or np.any(np.abs(self.k - np.rint(self.k)) > 1e-12):
+            raise NotImplementedError(
+                "this needs a regular chygraph with whole-number chy-degrees")
+
+    def instance(self, n, seed=0):
+        """A random regular chygraph of ``n`` atoms with this structure, as a
+        list of complexes (Sec.~18.2, the ensembles).  Configuration model on
+        stubs, one layer at a time."""
+        self._require_regular_integer()
+        return _res.regular_instance(n, self.c.astype(int), self.k.astype(int),
+                                     np.random.default_rng(seed))
+
+    def incidence_branching(self):
+        """Eq.~(18.13): the branching of the incidence tree, the matrix by which
+        the numbers of messages per layer grow per generation.  Its leading
+        eigenvalue orders the band-centre critical disorders of Table~18.1."""
+        self._require_regular_integer()
+        return _res.incidence_branching(self.c, self.k)
+
+    def band_bottom(self, hop=1.0):
+        """``e_min`` of the pure hopping problem, from the uniform real fixed
+        point of the resolvent recursion (Sec.~18.2)."""
+        self._require_regular_integer()
+        return _res.band_bottom(self.c, self.k, hop)
+
+    def spectral_bottom(self, W, hop=1.0):
+        """``E_min(W)``: the band bottom minus ``W/2``, or the isolated
+        eigenvalue when that lies below it."""
+        self._require_regular_integer()
+        return _res.spectral_bottom(self.c, self.k, W, hop)
+
+    @staticmethod
+    def resolvent_instance(n, complexes, eps, z, hop=1.0, **kw):
+        """Eqs.~(18.9) and (18.5) on an explicit complex list: ``G_ii`` at
+        ``z`` for every atom.  Returns ``(G, messages, totals)``."""
+        return _res.cavity_instance(n, complexes, eps, z, hop, **kw)
+
+    @staticmethod
+    def landscape_instance(n, complexes, eps, emin, hop=1.0, **kw):
+        """Eq.~(18.7): the Localization Landscape on an explicit complex list."""
+        return _res.landscape_instance(n, complexes, eps, emin, hop, **kw)
 
     # ======================================================================
     # solvers shared across sections

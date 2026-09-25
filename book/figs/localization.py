@@ -28,8 +28,10 @@ from pathlib import Path
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
-sys.path.insert(0, str(ROOT / 'statmech' / 'probe'))
-import anderson as A  # noqa: E402
+for _p in (ROOT / 'statmech' / 'src', ROOT / 'percolation' / 'src'):
+    sys.path.insert(0, str(_p))
+from statmech import Chygraph  # noqa: E402
+from statmech import resolvent as R  # noqa: E402
 
 OUT = Path(__file__).resolve().parent
 PROBE = ROOT / 'statmech' / 'probe' / 'results'
@@ -84,8 +86,7 @@ def figure_mechanism():
         st[(int(r['s']), int(r['t']))].append(r)
     for k, rows in sorted(st.items()):
         rows.sort(key=lambda r: r['E'])
-        e = A.Ensemble(k[0], k[1], 3.0, P=10)
-        Emin = e.E_min()
+        Emin = Chygraph([2, 3], [k[0], k[1]], regular=True).spectral_bottom(3.0)
         col, mk = STYLE[k]
         ax.plot([r['E'] - Emin for r in rows], [r['lam'] for r in rows], '-', marker=mk, ms=3.5,
                 color=col, mfc='white', label=_lab(k))
@@ -220,9 +221,8 @@ def table_wc():
     for r in rows:
         k = (int(r['s']), int(r['t']))
         s_, t_ = k
-        # branching of the incidence tree: edge and triangle message counts grow by
-        # [[s-1, 2s], [t, 2(t-1)]] per generation (Eq. branchingloc)
-        br = max(abs(np.linalg.eigvals(np.array([[s_ - 1, 2 * s_], [t_, 2 * (t_ - 1)]], float))))
+        # branching of the incidence tree, Eq. branchingloc: the leading eigenvalue
+        br = max(abs(np.linalg.eigvals(Chygraph([2, 3], [s_, t_], regular=True).incidence_branching())))
         lines.append(f'$({k[0]},{k[1]})$ & {int(r["degree"])} & ${bb[k]:.4f}$ & ${br:.2f}$ & ${float(r["Wc"]):.1f}$\\\\')
     lines += [r'\hline\hline', r'\end{tabular}']
     (OUT / 'tab-anderson-wc.tex').write_text('\n'.join(lines) + '\n')
@@ -238,34 +238,25 @@ def print_lines():
 
 
 def check_cavity():
+    """The recursion against exact inversion on incidence trees, and the pure
+    hopping band bottoms against their closed forms -- both from
+    statmech.resolvent, whose own tests pin the same things."""
     rng = np.random.default_rng(1)
-
-    def complex_tree(s, t, depth):
-        complexes, n, frontier = [], 1, [(0, 0)]
-        while frontier:
-            a, g = frontier.pop()
-            if g >= depth:
-                continue
-            for _ in range(s if g == 0 else s - 1):
-                complexes.append((a, n)); frontier.append((n, g + 1)); n += 1
-            for _ in range(t if g == 0 else t - 1):
-                complexes.append((a, n, n + 1)); frontier += [(n, g + 1), (n + 1, g + 1)]; n += 2
-        return n, complexes
     worst = 0.0
     for (s, t, depth) in ((3, 0, 5), (2, 1, 4), (1, 2, 3)):
-        n, cx = complex_tree(s, t, depth)
+        n, cx = R.incidence_tree([2, 3], [s, t], depth)
         eps = rng.uniform(-1.5, 1.5, n)
-        H = A.hamiltonian(n, cx, eps)
+        H = R.hamiltonian(n, cx, eps)
         z = 0.7 - 0.2j
         Gex = np.diag(np.linalg.inv(H - z * np.eye(n)))
-        G, _, _ = A.cavity_instance(n, cx, eps, z, sweeps=2 * depth + 5)
+        G, _, _ = R.cavity_instance(n, cx, eps, z, sweeps=2 * depth + 5)
         worst = max(worst, np.abs(G - Gex).max())
         print(f'incidence tree (s,t)=({s},{t}), n={n}: max |G_cavity - G_exact| = {np.abs(G - Gex).max():.1e}')
     assert worst < 1e-12
-    for (s, t) in ((3, 0), (4, 0)):
-        bb = A.Ensemble(s, t, 1.0, P=10).band_bottom()
-        print(f'band bottom ({s},{t}) = {bb:.6f} against -2 sqrt(K) = {-2 * np.sqrt(s - 1):.6f}')
-        assert abs(bb + 2 * np.sqrt(s - 1)) < 1e-4
+    for (s, t), want in (((3, 0), -2 * np.sqrt(2)), ((4, 0), -2 * np.sqrt(3)), ((0, 2), -(2 * np.sqrt(2) + 1))):
+        bb = Chygraph([2, 3], [s, t], regular=True).band_bottom()
+        print(f'band bottom ({s},{t}) = {bb:.6f} against {want:.6f}')
+        assert abs(bb - want) < 1e-3
 
 
 if __name__ == '__main__':
