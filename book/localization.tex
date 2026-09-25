@@ -37,8 +37,9 @@ The Anderson model on a graph is
 with $\epsilon_{i}$ independent and uniform on $[-W/2,W/2]$ and $t=1$
 throughout. Without disorder the eigenstates spread over the whole graph
 --- on the tree of degree $K+1$ they fill the band $|E|\le2\sqrt{K}\,t$ ---
-and a particle put on one site diffuses away from it. A weak disorder
-scatters those states without pinning them. A strong one pins each state
+and a particle put on one site spreads away from it. A weak disorder
+scatters those states without pinning them, and the spreading becomes
+diffusive. A strong one pins each state
 to a few sites, with an amplitude that decays exponentially away from its
 centre, and a particle put on a site stays near it for ever
 \citep{anderson1958}. In between, above two dimensions and on the tree,
@@ -82,7 +83,12 @@ edge with $i$ removed, computed from $k$'s other edges by the same rule.
 These are Eqs.~(3) and~(4) of \citet{tonetti2025}, and Eq.~(S11) of their
 supplement. The down step is the interior of the complex --- a single
 number, $t^{2}\mathcal{G}$ --- and the up step is a sum over complexes,
-which is the linearity of the self-energy in the branches.
+which is the linearity of the self-energy in the branches. At $W=0$ the
+recursion closes on itself: every cavity element is the same
+$\mathcal{G}$, fed by $K$ branches, and $\mathcal{G}^{-1}=-z-Kt^{2}\mathcal{G}$
+is a quadratic whose root at real $z=E$ has an imaginary part exactly on
+$|E|\le2\sqrt{K}\,t$, the band of the opening paragraph. The clean tree is
+the extended phase of the chapter's own criterion.
 
 On a chygraph the up step is unchanged and the down step is a matrix
 inverse. Let complex $a$ have members $i$ and $J=a\setminus i$, let $A_{J}$
