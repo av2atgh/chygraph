@@ -83,12 +83,34 @@ edge with $i$ removed, computed from $k$'s other edges by the same rule.
 These are Eqs.~(3) and~(4) of \citet{tonetti2025}, and Eq.~(S11) of their
 supplement. The down step is the interior of the complex --- a single
 number, $t^{2}\mathcal{G}$ --- and the up step is a sum over complexes,
-which is the linearity of the self-energy in the branches. At $W=0$ the
-recursion closes on itself: every cavity element is the same
-$\mathcal{G}$, fed by $K$ branches, and $\mathcal{G}^{-1}=-z-Kt^{2}\mathcal{G}$
-is a quadratic whose root at real $z=E$ has an imaginary part exactly on
-$|E|\le2\sqrt{K}\,t$, the band of the opening paragraph. The clean tree is
-the extended phase of the chapter's own criterion.
+which is the linearity of the self-energy in the branches.
+
+At $W=0$ the recursion closes on itself. Every site energy is zero and
+every cavity element sees the same tree, so $\mathcal{G}_{k\to i}$ is one
+number $\mathcal{G}$ fed by the $K$ edges beyond $k$, and
+Eq.~\eqref{eq:treeG} with one edge removed reads
+\begin{equation}
+  \mathcal{G}^{-1}=-z-Kt^{2}\mathcal{G},
+  \qquad\text{i.e.}\qquad
+  \mathcal{G}(z)=\frac{-z+\sqrt{z^{2}-4Kt^{2}}}{2Kt^{2}},
+  \label{eq:cleantree}
+\end{equation}
+the root with $\operatorname{Im}\mathcal{G}>0$ for $\operatorname{Im}z>0$.
+At real $z=E$ the square root is imaginary exactly when $E^{2}<4Kt^{2}$,
+so $\operatorname{Im}\mathcal{G}(E+\mathrm{i}0^{+})$ is nonzero on
+$|E|\le2\sqrt{K}\,t$ and zero outside it. The diagonal element adds the
+$(K+1)$th edge, $\mathcal{G}_{ii}^{-1}=-z-(K+1)t^{2}\mathcal{G}$, and its
+imaginary part over $\pi$,
+\begin{equation}
+  \rho(E)=\frac{K+1}{2\pi}\,
+  \frac{\sqrt{4Kt^{2}-E^{2}}}{(K+1)^{2}t^{2}-E^{2}},
+  \qquad |E|\le2\sqrt{K}\,t,
+  \label{eq:kestenmckay}
+\end{equation}
+is the density of states of the clean tree, supported on the band of the
+opening paragraph. The clean tree is the extended phase of the chapter's
+own criterion: the fixed point with a finite imaginary part is the only
+one inside the band, and there is none outside it.
 
 On a chygraph the up step is unchanged and the down step is a matrix
 inverse. Let complex $a$ have members $i$ and $J=a\setminus i$, let $A_{J}$
