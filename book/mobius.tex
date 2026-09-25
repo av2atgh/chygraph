@@ -2,7 +2,10 @@
 \label{ch:mobius}
 
 % Part V, added 2026-09-25 from ~/Downloads/chygraph_master_equation/draft.tex,
-% Sec. 10. Nothing is computed here. The one place the chapter goes beyond
+% Sec. 10. One thing is computed, Sec. mb-computed: the loop series on the
+% pairwise and the promoted factor graphs (statmech.loopseries,
+% figs/loopseries.py), and the split of Ch. 14's error into double count
+% and loop. The one further place the chapter goes beyond
 % the draft is Sec. mb-collapse, where the draft's "exactness is
 % collapsibility" is weakened to an implication, with the wheel as the
 % witness that the converse fails.
@@ -284,9 +287,154 @@ graph with every intra-clique loop resummed. That is not a term-by-term
 correspondence --- the two expansions are around different fixed points,
 and the four-cycle $1\,2\,4\,3$ of the pairwise graph has no single image
 in the promoted series --- and whether it holds as a statement about the
-two sums is what would be tested on the objects Part~IV already holds. If
-it does hold it turns Part~IV's corrections from a list of cases into the
-successive terms of one expansion.
+two sums is what would be tested on the objects Part~IV already holds. Section~\ref{sec:mb-computed} runs both series, and finds something the
+question did not anticipate.
+
+
+\section{The series, computed}
+\label{sec:mb-computed}
+\index{loop series!computed|textbf}
+\index{double counting}
+
+Everything in the previous section is now measured, and the measurement
+turns one of Part~IV's findings around.
+\code{statmech.\allowbreak loopseries} enumerates the generalised loops of a
+binary factor graph by backtracking over its factors, evaluates each term
+of Eq.~\eqref{eq:mb-loopseries} from the belief-propagation fixed point,
+and compares $\ln(1+\sum_{C}r_{C})$ with $\ln Z-\ln Z_{\mathrm{BP}}$ from
+exact enumeration. The identity holds to $10^{-15}$ on every factor graph
+tried, a triangle (where the one term is $\tanh^{3}\beta J$), two
+triangles sharing an edge, rings of four to six triangles and a random
+graph, on the pairwise factor graph and on the promoted one alike. The
+promoted factor graph is the one thing that has to be said precisely
+before any of this is run. The factor graph of $\alpha+I$ represents the
+Ising model only if every bond enters exactly one complex's kernel; where
+two cliques share an edge the kernel of one of them must leave that bond
+out. The chygraph recursion of Chapter~\ref{ch:overlap} gives both cliques
+the bond, which is a different model, and Chapter~\ref{ch:overlap} measured
+the recursion's error against the true $Z$. The loop series sorts that
+error into two parts, and the sorting is the result of this section.
+
+\paragraph{Rings.} Table~\ref{tab:loopseries-ring} is the ring of $k$
+triangles of Fig.~\ref{fig:ring} on both factor graphs. On the promoted one
+the series has one term, the ring itself, and it reproduces
+Table~\ref{tab:ring}'s error to the last digit, which is the arithmetic
+check Sec.~\ref{sec:mb-loops} promised. On the pairwise one the series has
+$103$, $323$ and $1019$ terms at $k=4$, $5$, $6$; its leading terms, the
+triangles, carry $0.81$ to $0.92$ of the whole at $\beta J=0.3$ and $0.32$
+to $0.36$ at $0.8$, and the partial sums reach one per cent of the whole
+only at loops of twelve to fourteen legs at the weak coupling and eighteen
+to twenty-four at the strong one (Fig.~\ref{fig:loopseries}a). The two
+expansions are around different fixed points, and the promoted one starts
+closer: its single term is $0.018$ against a pairwise error of $0.116$ at
+$k=4$ and $\beta J=0.3$, and $0.0024$ against $0.149$ at $k=6$, the ring
+loop weakening with the ring's length while the pairwise error grows with
+the number of triangles. That is the resummation of
+Sec.~\ref{sec:mb-loops} in the one case where it can be seen whole: every
+loop inside a triangle is gone from the promoted series, and what remains
+is the one loop between the triangles.
+
+\begin{table}[tb]
+\centering\small
+\begin{adjustbox}{max width=\linewidth}
+\input{figs/tab-loopseries-ring}
+\end{adjustbox}
+\caption{\textbf{The loop series on a ring of $k$ triangles, both factor
+graphs.} For the pairwise factor graph: the number of generalised loops,
+the error $\ln Z-\ln Z_{\mathrm{BP}}$, the share of $\sum_{C}r_{C}$ carried
+by the triangles alone, and the loop size at which the partial sum is
+within one per cent of the whole. For the promoted factor graph the series
+has one term, whose value is the error in the last column, and it is
+Table~\ref{tab:ring}'s. \code{figs/\allowbreak loopseries.\allowbreak py}.}
+\label{tab:loopseries-ring}
+\end{table}
+
+\begin{figure}[tp]
+\centering
+\includegraphics[width=0.8\linewidth]{figs/fig-loopseries.pdf}
+\caption{\textbf{Two factor graphs, two series.} (a) Partial sums of the
+pairwise loop series on a ring of six triangles, by loop size, as a
+fraction of the whole; the markers at twelve legs are the promoted series,
+which is one term. (b) Forty clustered instances --- ten atoms, four
+triangles placed at random and three further edges --- at two couplings:
+the error of belief propagation on the pairwise factor graph against the
+error on the promoted one with every bond in one clique. Every point lies
+below the diagonal. \code{figs/\allowbreak loopseries.\allowbreak py}.}
+\label{fig:loopseries}
+\end{figure}
+
+\paragraph{Clustered instances.} Figure~\ref{fig:loopseries}b puts the same
+comparison on forty instances small enough to enumerate exactly: ten atoms,
+four triangles placed at random, three further edges, so that triangles
+share atoms and edges and the maximal cliques are what
+Chapter~\ref{ch:data} would extract. The pairwise series has $814$ terms on
+average, the promoted one $285$; the pairwise error is $0.23$ at
+$\beta J=0.3$ and $2.24$ at $0.8$, the promoted one $0.14$ and $1.10$, and
+the promoted error is the smaller on every one of the forty at both
+couplings. So the claim of Sec.~\ref{sec:mb-loops} holds in the form it was
+stated in after the review: not term by term, since the two series expand
+around different fixed points, but as a statement about the two sums --- the
+promoted series is shorter, and it has less to do.
+
+\paragraph{What Part~IV's error was.} The chygraph recursion of
+Chapter~\ref{ch:overlap} is belief propagation on the factor graph of
+$\alpha+I$ with every clique given every bond inside it. Its error against
+the true $\ln Z$ therefore splits exactly in two,
+\begin{equation}
+  \ln Z^{\mathrm{dc}}_{\mathrm{BP}}-\ln Z
+  =\bigl(\ln Z^{\mathrm{dc}}-\ln Z\bigr)
+  +\bigl(\ln Z^{\mathrm{dc}}_{\mathrm{BP}}-\ln Z^{\mathrm{dc}}\bigr),
+  \label{eq:mb-decomposition}
+\end{equation}
+the first bracket the double count --- the exact partition function of the
+doubled Hamiltonian against that of the true one --- and the second the
+loop series of the doubled model's factor graph, which is what belief
+propagation itself gets wrong. Table~\ref{tab:loopseries-dc} evaluates both
+on the two triangles of Table~\ref{tab:twotriangles} and on twenty
+hyperbolic instances of fourteen atoms with overlapping cliques, drawn
+afresh from the ensemble of Chapter~\ref{ch:overlap}. The two parts have
+opposite signs on every instance. On two triangles at $\beta J=0.5$ the
+recursion's error of $+0.09$ is $+0.41$ of double count against $-0.32$ of
+loop; on the hyperbolic instances the double count is $+2.0$ against
+$-0.7$ at $\beta J=0.3$ and $+6.3$ against $-0.7$ at $0.8$, larger than the
+loop part on nineteen of twenty and on all twenty. What
+Chapter~\ref{ch:overlap} measured as the price of treelikeness is, on
+these instances, mostly not a loop effect at all: it is the bond counted
+twice, and the loop part is a fraction of it that does not grow with the
+coupling.
+
+\begin{table}[tb]
+\centering\small
+\begin{adjustbox}{max width=\linewidth}
+\input{figs/tab-loopseries-dc}
+\end{adjustbox}
+\caption{\textbf{The recursion's error, split by
+Eq.~\eqref{eq:mb-decomposition}.} Columns: the error of the chygraph
+recursion of Chapter~\ref{ch:overlap} against the true $\ln Z$; its
+double-count part; its loop part; and, for comparison, the error of belief
+propagation on the same factor graph with every bond assigned to one
+clique. Two triangles sharing an edge at the couplings of
+Table~\ref{tab:twotriangles}, and the mean over twenty hyperbolic
+instances of fourteen atoms with overlapping cliques.
+\code{figs/\allowbreak loopseries.\allowbreak py}.}
+\label{tab:loopseries-dc}
+\end{table}
+
+The last column of the table is the cheapest repair in Part~IV, and it was
+not among the three. Assign each bond to one of the cliques that contain it
+and run the same recursion: no region graph, no merging, the same messages
+on the same incidence structure with one kernel changed. On the hyperbolic
+instances that cuts the mean error by a factor of three at $\beta J=0.3$
+and six at $0.8$, and it is the smaller error on fifteen and nineteen of
+the twenty. What is left is the loop part proper, the Berge loops of
+Sec.~\ref{sec:mb-mobius} that no kernel assignment removes; on two
+triangles at weak coupling it is larger than the recursion's error, because
+there the recursion's two parts happen to cancel, which the table shows and
+Chapter~\ref{ch:overlap} could not have. Chapter~\ref{ch:gbp}'s region
+graph and Chapter~\ref{ch:metacomplex}'s merging both remove the double
+count and the loop together, at their respective costs; the assignment
+removes the double count alone, for nothing, and leaves the loop series to
+say what remains.
 
 \section{Collapsibility}
 \label{sec:mb-collapse}
@@ -451,13 +599,16 @@ weaker condition of Chapter~\ref{ch:exactness} is read off the same
 numbers on the closed family, and the two repairs of Part~IV are the two
 ways of returning the sum to one that Fig.~\ref{fig:mobiusposet} draws.
 
-\emph{A systematic expansion for Part~IV.} The loop series of
-Eq.~\eqref{eq:mb-loopseries} organises the corrections that
-Chapters~\ref{ch:overlap} to~\ref{ch:metacomplex} measured case by case,
-with the ring of Table~\ref{tab:ring} as its one-loop term and motif
-promotion as a partial resummation of it. That last reading is the one
-claim in this chapter that a calculation on the book's own examples would
-confirm or refute.
+\emph{A systematic expansion for Part~IV, and a correction to it.} The
+loop series of Eq.~\eqref{eq:mb-loopseries} organises the corrections
+that Chapters~\ref{ch:overlap} to~\ref{ch:metacomplex} measured case by
+case, with the ring of Table~\ref{tab:ring} as its one-loop term and
+motif promotion as a shorter series around a closer fixed point,
+Sec.~\ref{sec:mb-computed}. The same calculation splits the recursion's
+error into a double count and a loop part, Eq.~\eqref{eq:mb-decomposition},
+and finds the double count the larger on the overlapping instances: what
+Part~IV paid for was mostly the bond counted twice, and assigning each
+bond to one clique recovers most of it for nothing.
 
 \emph{A companion for the acyclicity transition.} It is no longer the only
 transition of its kind: the thresholds of \citet{linial2006} and
@@ -476,13 +627,12 @@ transition in the first Betti number become computable from the four moment
 matrices: a statistical topology of region graphs, of which acyclicity
 percolation is the first result.
 
-On the loop series, the resummation claim of Sec.~\ref{sec:mb-loops} cuts
-both ways. If motif promotion removes from the expansion every loop inside a
-complex, then the loop series over a clique chygraph is shorter than the
-series over the graph by every term that a clique absorbs, which is a
-statement about the convergence of the series and not only about its leading
-term, and it is one that the overlap examples of Chapter~\ref{ch:overlap} can
-test at small size.
+On the loop series, Sec.~\ref{sec:mb-computed} measured the resummation
+on small instances: the promoted series is shorter and its fixed point
+closer. What it did not do is the ensemble version, the loop series
+averaged over a random chygraph, where the terms would be indexed by the
+loops over complexes that Chapter~\ref{ch:exactness} counts and their
+expected weights would be moments of the four matrices.
 
 On random topology, the thresholds of \citet{linial2006} and
 \citet{aronshtam2013} are for uniform faces on a complete vertex set. The
@@ -496,3 +646,38 @@ And on sheaves, the linearised recursion determines a random cellular sheaf
 on the incidence structure whose restriction maps are kernel derivatives.
 Its spectral gap is a threshold that this book computes model by model; a
 theory of random sheaf Laplacians would compute it once.
+
+\section{Checks}
+\label{sec:mb-checks}
+
+\checkhead{Known results}
+\code{figs/\allowbreak loopseries.\allowbreak py} runs, before it draws
+anything: the single term of the series on a triangle against
+$\tanh^{3}\beta J$; the identity $Z=Z_{\mathrm{BP}}(1+\sum_{C}r_{C})$ on
+thirteen factor graphs --- two triangles sharing an edge on the pairwise,
+the promoted and the double-count factor graph at two couplings, rings of
+four, five and six triangles on both graphs, and a random graph of nine
+nodes --- to $10^{-15}$; and that the double-count factor graph's belief
+propagation is the recursion of Chapter~\ref{ch:overlap}, against
+\code{statmech/\allowbreak probe/\allowbreak cavity\_\allowbreak
+clique.\allowbreak py}, to $10^{-10}$ on the rings and on two triangles.
+\code{statmech/\allowbreak tests/\allowbreak test\_\allowbreak
+loopseries.\allowbreak py} pins the same identities and that the promoted
+factor graph with bonds assigned once has the pairwise model's exact
+partition function.
+
+\checkhead{New results}
+The series on the promoted factor graph, its single term on the rings
+against Table~\ref{tab:ring}, the comparison of the two series on forty
+clustered instances, and the split of Eq.~\eqref{eq:mb-decomposition} on
+two triangles and on twenty hyperbolic instances. The hyperbolic instances
+are fresh draws at $n=14$, $\ave{k}=3.5$, $\tau=2.5$ from a sampler in the
+script, since the generator behind Chapter~\ref{ch:overlap}'s instances is
+no longer on disk; they are the same ensemble and not the same graphs.
+
+\checkhead{Partial results}
+Loop enumeration is exponential in the number of factors, so every
+instance here is small enough to enumerate exactly, and the ensemble
+version of the series is not attempted. The identity has been checked on
+binary variables only, which is what Chertkov and Chernyak's form covers.
+The Bethe-Hessian half of Sec.~\ref{sec:mb-sheaf} is not computed.

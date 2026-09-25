@@ -425,3 +425,35 @@ correlation of Sec. 5.5, on data. Marking does not support site thinning.
 
 Open: measure the joint (cardinality, member chy-degree) distribution on the
 interactomes and run the marked map on Sec. 5.5's joint construction.
+
+## 2026-09-25: the loop series, computed (Sec. 24.3)
+
+`statmech/src/statmech/loopseries.py`: `BinaryFactorGraph` (BP + exact Z
+on any binary factor graph; constructors `pairwise` and `promoted` with
+`assign='once'` — every bond in one clique, the true model on α+I — or
+`'all'`, the recursion's double count), `generalised_loops` (backtracking
+with last-factor pruning), `loop_term`, `loop_series`, `partial_sums`.
+Tests `tests/test_loopseries.py` (6). Identity to 1e-15 everywhere.
+
+Results (`figs/loopseries.py`, ~2 min): rings k = 4–6: promoted 1 term =
+Table 16.1's error; pairwise 103/323/1019 terms, triangles 0.81–0.92 of the
+sum at βJ = 0.3, 0.32–0.36 at 0.8. Forty clustered n = 10 instances: promoted
+error 0.60× / 0.49× the pairwise, 285 vs 814 loops, smaller on 40/40.
+Decomposition ln Z_BP^dc − ln Z = (ln Z^dc − ln Z) + (ln Z_BP^dc − ln Z^dc):
+two triangles βJ = 0.5: +0.09 = +0.41 − 0.32; hyperbolic n = 14 (20 fresh
+draws, own sampler; `computational_complexity/code/hrg.py` is gone from
+disk): +1.29 = +2.02 − 0.73 (0.3), +5.54 = +6.27 − 0.73 (0.8); opposite
+signs on all; **the double count dominates**. Assigning each bond to one
+clique (BP on α+I for the true model) cuts the mean error to 0.32× / 0.16×
+of the recursion's, smaller on 15/20 and 19/20 — a free repair Part IV did
+not have. Caveat: on two triangles at weak coupling the assigned error is
+larger than the recursion's because the two parts cancel there.
+
+Bug found and fixed on the way (in the new module only; the probe's
+`ChygraphBP._factor` was checked on asymmetric bond sets and is right): a
+C-ordered 2^n table has position p on bit n−1−p.
+
+Open: the ensemble loop series (terms indexed by the loops Ch. 17 counts);
+the Bethe-Hessian check of Sec. 24.5; Part IV's tables rerun with bonds
+assigned once (a one-flag change in cavity_clique.py) — the cheapest
+follow-up and the one that changes Ch. 14's story.

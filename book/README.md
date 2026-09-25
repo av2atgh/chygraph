@@ -39,13 +39,15 @@ ending on the routine that executes it.
 | 21 | `species.tex` | Combinatorics: the excess functions are derivatives of a species, the excess bracket a partial derivative by sort; two kinds of hole; Lagrange inversion for the whole component distribution, **computed** in Sec. 21.4 (households against simulation, interactomes against data, Table 21.1); analytic functors on the Giry monad; the Hopf side (Dyson–Schwinger with two grafting operators) |
 | 22 | `operads.tex` | A complex is an operation; percolation is Com; the excess bracket is partial composition; treelike is cyclic, Part IV is modular (self-gluing, genus); a coloured operad; compound complexes are disconnected operations |
 | 23 | `marginal.tex` | Category theory: sum-product in a monoidal category; treelike as conditional independence; the marginal problem of Vorob'ev and Kellerer as Ch. 17's theorem sixty years early; sheaf obstruction (one-way); the level-wise statement as a corollary of Vorob'ev modulo a definition check |
-| 24 | `mobius.tex` | Topology: the counting numbers are the Möbius function of the inclusion poset; the chygraph recursion is exact iff b₁ = 0 (Berge-acyclic), the region-graph one iff α-acyclic; the loop series and motif promotion as partial resummation; GYO as collapsibility; acyclicity percolation beside Linial–Meshulam; the threshold as a sheaf-Laplacian gap |
+| 24 | `mobius.tex` | Topology: the counting numbers are the Möbius function of the inclusion poset; the chygraph recursion is exact iff b₁ = 0 (Berge-acyclic), the region-graph one iff α-acyclic; the loop series **computed** in Sec. 24.3 on both factor graphs (rings, forty clustered instances) and Ch. 14's error split into double count + loop, the double count the larger; GYO as collapsibility; acyclicity percolation beside Linial–Meshulam; the threshold as a sheaf-Laplacian gap |
 | 25 | `outlook.tex` | One recursion, many models; the two running threads; what is not done |
 | — | `software.tex` | Back matter. Repo links; equation-to-method-to-test table; how to reproduce a figure |
 
-**Part V computes one thing: Sec. 21.4's finite-component distribution by
-layer** (`percolation/src/percolation/components.py`, `figs/components.py`);
-Ch. 21 has a Checks section and the other five chapters do not. They
+**Part V computes two things: Sec. 21.4's finite-component distribution by
+layer** (`percolation/src/percolation/components.py`, `figs/components.py`)
+**and Sec. 24.3's loop series** (`statmech/src/statmech/loopseries.py`,
+`figs/loopseries.py`); Chs. 21 and 24 have Checks sections and the other
+four chapters do not. They
 were written on 2026-09-25 from `~/Downloads/chygraph_master_equation/draft.tex`
 (Secs. 1–5 → Ch. 19, Secs. 6–10 → Chs. 20–24), anchored on the book's
 equations; the figures in it are TikZ in the chapter files. The draft's
@@ -63,16 +65,16 @@ propagation at `m = 0`. PDFs of the references are under
 ## Status
 
 `main.pdf` builds with **0 errors, 0 undefined references and 0
-multiply-defined labels, across 490 pages.** Not box-clean: **four overfull
+multiply-defined labels, across 494 pages.** Not box-clean: **four overfull
 hboxes** — `cover.tex:483--493` (1.99pt, "Which replica-symmetry-breaking
 point"), `metacomplex.tex:383--389` (3.16pt) and two of 0.66pt in
 `software.tex`'s Table 1 (lines 255–256, the Ch. 18 handle rows, present
-since that commit) — and 69 underfull vboxes, every one of them `while
+since that commit) — and 70 underfull vboxes, every one of them `while
 \output is active`, which is page-breaking around floats and not a line
 running into the margin.
 
-74 figures, 36 numbered tables, 212 numbered equations, 139 references and a
-174-term index. Both checks under *Two checks the build cannot make* print
+75 figures, 38 numbered tables, 213 numbered equations, 139 references and a
+175-term index. Both checks under *Two checks the build cannot make* print
 nothing.
 
 **These counts are re-measured, not maintained by hand** — the recipes are
@@ -351,6 +353,16 @@ household outbreak-size distribution against bond-percolation simulation
 (12 realisations of 1e5 households) and the finite components of the nine
 cached networks with at least five components against the degree-distribution
 and clique-chygraph predictions. About 45 s.
+`figs/loopseries.py` generates Figure 24.2 and Tables 24.1–24.2 from
+`statmech.loopseries`: the Chertkov–Chernyak loop series enumerated exactly
+on the pairwise and the promoted (α+I, bonds assigned once) factor graphs.
+Checks first: tanh³ on a triangle, the identity to 1e-15 on thirteen factor
+graphs, the double-count factor graph = `probe/cavity_clique.py`'s recursion
+to 1e-10. Then rings k = 4–6, forty clustered instances (n = 10), and the
+decomposition of the recursion's error on two triangles and twenty fresh
+hyperbolic instances (n = 14; the original generator under
+`~/av2atg/computational_complexity/code/hrg.py` is no longer on disk, so
+the script carries its own sampler). About two minutes.
 `figs/onestep.py` generates Figure 13.4 from
 `../statmech/probe/results/onestep_sat.csv`, the cached output of
 `../statmech/probe/onestep_sat.py scan` — the one-step calculation at

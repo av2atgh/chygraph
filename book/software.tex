@@ -39,7 +39,7 @@ be reached without knowing which of the two defines it. Table~\ref{tab:map}
 names the defining package throughout, since that is what a reader looking for
 the source wants.
 
-A third source is the book's own \code{figs/} directory, which holds eighteen
+A third source is the book's own \code{figs/} directory, which holds nineteen
 scripts covering Chapter~\ref{ch:data} onward, most of them named for the
 chapter they serve. Those scripts generate the figures, and for
 Chapters~\ref{ch:potts}, \ref{ch:colouring} and~\ref{ch:satisfiability} they
@@ -264,6 +264,10 @@ Eq. & what it is & evaluated by & checked in\\
 \eqref{eq:sp-system} & the marked map, exact & \code{components.\allowbreak symbolic\_\allowbreak series} & \code{test\_\allowbreak components}\\
 \eqref{eq:sp-good} & Good's inversion & \code{components.\allowbreak good\_\allowbreak by\_\allowbreak layer} & \code{test\_\allowbreak components}\\
 \eqref{eq:sp-lagrange} & the Borel anchor & \code{components.\allowbreak borel} & \code{test\_\allowbreak components}\\
+\multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:mobius}, the loop series}}\\
+\eqref{eq:mb-loopseries} & generalised loops and their terms & \code{loopseries.\allowbreak generalised\_\allowbreak loops}, \code{loopseries.\allowbreak loop\_\allowbreak term} & \code{test\_\allowbreak loopseries}; Sec.~\ref{sec:mb-checks}\\
+\eqref{eq:chyup}, \eqref{eq:chydown} & belief propagation on a binary factor graph, pairwise or promoted & \code{loopseries.\allowbreak Binary\allowbreak Factor\allowbreak Graph} & \code{test\_\allowbreak loopseries}\\
+\eqref{eq:mb-decomposition} & the recursion's error split & \code{figs/\allowbreak loopseries.\allowbreak py:\allowbreak decomposition} & Sec.~\ref{sec:mb-checks}\\
 \end{longtable}
 }
 
