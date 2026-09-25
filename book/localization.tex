@@ -22,11 +22,11 @@ triangles has the shortest loops, and treats them exactly. So the question
 this chapter asks is the one their paper leaves: do loops bring the two
 lines together. They do not; they part them further.
 
-\section{The resolvent as a message}
-\label{sec:resolvent}
-\index{Green's function|textbf}
-\index{Schur complement|textbf}
+\section{The Anderson model on a line}
+\label{sec:line}
 \index{Anderson model|textbf}
+\index{Green's function|textbf}
+\index{local density of states|textbf}
 
 The Anderson model is one quantum particle on the vertices of a graph,
 \begin{equation}
@@ -58,25 +58,124 @@ is localised. Diffusion, conductance and the statistics of the levels all
 change across this one line, which is why the chapter is about where it
 lies.
 
-The line is not read from the eigenstates. On an infinite graph the
-spectrum is dense and no single state can be followed; what distinguishes
-the phases is the spectrum as seen from one site. The resolvent
-$\mathcal{G}(z)=(\hat H-z)^{-1}$ at $z=E+\mathrm{i}\eta$ is that view. Its
-diagonal element is
-$\mathcal{G}_{ii}(z)=\sum_{n}|\psi_{n}(i)|^{2}/(E_{n}-z)$, and its
-imaginary part over $\pi$, at $\eta\to0^{+}$, is the local density of
-states, the weight the eigenstates near $E$ put on site $i$. In the
-extended phase infinitely many states contribute to it, each with an
-infinitesimal weight, and the sum is a smooth function of $E$. In the
-localised phase the states that reach site $i$ are a discrete set, the
-local density of states is a comb of $\delta$ peaks at their energies, and
-the imaginary part vanishes at almost every $E$. So the phase is decided
-site by site by whether $\operatorname{Im}\mathcal{G}_{ii}(E+\mathrm{i}0^{+})$
-is finite or zero: a single number per site, which is what a message can
-carry.
+The line is the place to meet the objects the chapter computes, because
+on it everything can be done twice, once from the stationary states and
+once without them. Take a chain of $N$ sites with periodic boundaries and
+no disorder, $\epsilon_{j}=0$. Every site is alike, so the stationary
+states are plane waves, $\psi_{k}(j)=e^{\mathrm{i}kj}/\sqrt{N}$ with
+$k=2\pi n/N$, and Eq.~\eqref{eq:anderson} acting on one gives
+\begin{equation}
+  E(k)=-2t\cos k,
+  \label{eq:linedispersion}
+\end{equation}
+so the allowed energies fill the band $|E|\le2t$, and each state puts the
+same weight $1/N$ on every site: extended, in the sense of the opening
+paragraph. How many states there are per unit energy per site is the
+density of states,
+\begin{equation}
+  \rho(E)=\frac{1}{N}\sum_{k}\delta\bigl(E-E(k)\bigr)
+  \to\int_{-\pi}^{\pi}\frac{dk}{2\pi}\,\delta(E+2t\cos k)
+  =\frac{1}{\pi\sqrt{4t^{2}-E^{2}}},
+  \qquad |E|<2t,
+  \label{eq:linedos}
+\end{equation}
+which is zero outside the band and diverges at its edges, where $E(k)$
+flattens and the states pile up.
 
-On a tree the diagonal element obeys the two steps of
-Sec.~\ref{sec:twosteps} with an edge for a complex,
+The resolvent packs the same information into one function.
+$\mathcal{G}(z)=(\hat H-z)^{-1}$ is defined off the real axis, at
+$z=E+\mathrm{i}\eta$, and its diagonal element at site $j$ is, in the
+basis of stationary states,
+\begin{equation}
+  \mathcal{G}_{jj}(z)=\sum_{n}\frac{|\psi_{n}(j)|^{2}}{E_{n}-z},
+  \qquad
+  \frac{1}{\pi}\operatorname{Im}\mathcal{G}_{jj}(E+\mathrm{i}0^{+})
+  =\sum_{n}|\psi_{n}(j)|^{2}\,\delta(E-E_{n}),
+  \label{eq:ldos}
+\end{equation}
+the second by $\operatorname{Im}1/(x-\mathrm{i}\eta)\to\pi\delta(x)$. The
+right-hand side is the local density of states at $j$: the density of
+states, weighted by how much of each state sits on that site. On the
+clean line the weight is $1/N$ for every state, so the local density is
+Eq.~\eqref{eq:linedos} at every site, and the sum over $k$ can be done
+directly,
+\begin{equation}
+  \mathcal{G}_{jj}(z)=\int_{-\pi}^{\pi}\frac{dk}{2\pi}\,
+  \frac{1}{-2t\cos k-z}
+  =-\frac{1}{\sqrt{z^{2}-4t^{2}}},
+  \label{eq:lineG}
+\end{equation}
+on the branch with $\operatorname{Im}\mathcal{G}>0$ for
+$\operatorname{Im}z>0$. At $z=E+\mathrm{i}0^{+}$ inside the band the square
+root is imaginary and $\operatorname{Im}\mathcal{G}_{jj}/\pi$ is
+Eq.~\eqref{eq:linedos}; outside the band it is real and the imaginary
+part is zero.
+
+Now the second way, which needs no stationary states and survives
+disorder. Remove site $j$ from the chain. What is left is two half-lines,
+and the resolvent of the chain at $j$ is that of the isolated site,
+$1/(\epsilon_{j}-z)$, corrected by the hops out into each half-line and
+back,
+\begin{equation}
+  \mathcal{G}_{jj}^{-1}=\epsilon_{j}-z
+  -t^{2}\mathcal{G}_{j+1\to j}-t^{2}\mathcal{G}_{j-1\to j},
+  \label{eq:lineschur}
+\end{equation}
+where $\mathcal{G}_{j+1\to j}$ is the diagonal element, at its end site,
+of the half-line that starts at $j+1$ with $j$ removed. This is the corner
+element of the inverse of a bordered matrix, and it will return in
+Sec.~\ref{sec:resolvent} as a Schur complement. The end element of a
+half-line obeys the same rule with one neighbour instead of two, because
+a half-line with its end removed is a half-line again,
+\begin{equation}
+  \mathcal{G}_{j+1\to j}^{-1}=\epsilon_{j+1}-z-t^{2}\mathcal{G}_{j+2\to j+1},
+  \label{eq:linecavity}
+\end{equation}
+a recursion along the line, and an exact one. Without disorder every
+half-line is the same, so its end element is one number $g$,
+Eq.~\eqref{eq:linecavity} is the quadratic $g^{-1}=-z-t^{2}g$, and
+\begin{equation}
+  g(z)=\frac{-z+\sqrt{z^{2}-4t^{2}}}{2t^{2}},
+  \qquad
+  \mathcal{G}_{jj}^{-1}=-z-2t^{2}g=-\sqrt{z^{2}-4t^{2}},
+  \label{eq:lineg}
+\end{equation}
+which is Eq.~\eqref{eq:lineG} again. The band, the density of states and
+the extended character of every state have come out of a recursion that
+never mentioned a plane wave.
+
+That is the object the chapter computes, and the way it computes it.
+Eqs.~\eqref{eq:lineschur} and~\eqref{eq:linecavity} are written for
+arbitrary $\epsilon_{j}$: with disorder the plane waves are gone and there
+is no closed form, but the recursion runs as before, one site at a time,
+and each $\mathcal{G}_{jj}$ is still built from the site's own energy and
+the two half-lines beside it. Eq.~\eqref{eq:ldos} says what to read off
+it. In the extended phase infinitely many states contribute to the local
+density at $j$, each with an infinitesimal weight, and
+$\operatorname{Im}\mathcal{G}_{jj}(E+\mathrm{i}0^{+})$ is a smooth function
+of $E$, as on the clean line. In the localised phase the states that
+reach site $j$ are a discrete set, the local density is a comb of
+$\delta$ peaks at their energies, and the imaginary part vanishes at
+almost every $E$. So the phase is decided site by site by whether
+$\operatorname{Im}\mathcal{G}_{jj}(E+\mathrm{i}0^{+})$ is finite or zero, a
+single number per site, which is what a message can carry.
+
+The line shows only one of the two phases at finite disorder. On it every
+state is localised at any $W>0$ \citep{mott1961}, so the extended phase
+exists only at $W=0$ and there is no mobility edge to find: two half-lines
+are too few branches for an imaginary part to survive the scattering. The
+tree gives each site $K+1$ branches, and there the same recursion has an
+extended phase at finite disorder, a mobility edge, and everything the
+opening paragraph described.
+
+\section{The resolvent as a message}
+\label{sec:resolvent}
+\index{Schur complement|textbf}
+
+On a tree, removing site $i$ leaves one subtree per edge, as removing a
+site from the line left two half-lines, and the recursion of
+Eqs.~\eqref{eq:lineschur} and~\eqref{eq:linecavity} becomes the two steps
+of Sec.~\ref{sec:twosteps} with an edge for a complex,
 \begin{equation}
   \mathcal{G}_{ii}^{-1}=\epsilon_{i}-z-\sum_{a\ni i}\Sigma_{a\to i},
   \qquad
@@ -88,12 +187,13 @@ edge with $i$ removed, computed from $k$'s other edges by the same rule.
 These are Eqs.~(3) and~(4) of \citet{tonetti2025}, and Eq.~(S11) of their
 supplement. The down step is the interior of the complex --- a single
 number, $t^{2}\mathcal{G}$ --- and the up step is a sum over complexes,
-which is the linearity of the self-energy in the branches.
+which is the linearity of the self-energy in the branches. The line is
+the case $K=1$.
 
-At $W=0$ the recursion closes on itself. Every site energy is zero and
-every cavity element sees the same tree, so $\mathcal{G}_{k\to i}$ is one
-number $\mathcal{G}$ fed by the $K$ edges beyond $k$, and
-Eq.~\eqref{eq:treeG} with one edge removed reads
+At $W=0$ the recursion closes on itself as it did on the line. Every site
+energy is zero and every cavity element sees the same tree, so
+$\mathcal{G}_{k\to i}$ is one number $\mathcal{G}$ fed by the $K$ edges
+beyond $k$, and Eq.~\eqref{eq:treeG} with one edge removed reads
 \begin{equation}
   \mathcal{G}^{-1}=-z-Kt^{2}\mathcal{G},
   \qquad\text{i.e.}\qquad
@@ -112,7 +212,8 @@ imaginary part over $\pi$,
   \qquad |E|\le2\sqrt{K}\,t,
   \label{eq:kestenmckay}
 \end{equation}
-is the density of states of the clean tree. So the stationary states of
+is the density of states of the clean tree, and at $K=1$ it is
+Eq.~\eqref{eq:linedos}. So the stationary states of
 the tree of degree $K+1$ have energies in the band $|E|\le2\sqrt{K}\,t$
 and nowhere else, and every one of them is extended: the fixed point with
 a finite imaginary part is the only one inside the band, and there is
