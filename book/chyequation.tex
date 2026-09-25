@@ -53,7 +53,9 @@ One precedent to acknowledge before claiming it. Multi-edge-type ensembles of
 low-density parity-check codes \citep[Ch.~7]{richardson2008} already carry
 layer-indexed degree distributions, node-perspective and edge-perspective
 generating functions, and a density-evolution recursion in which the excess
-falls on the edge type of arrival. That is the two-level chygraph ---
+falls on the edge type of arrival; their node-perspective and edge-perspective
+distinction is the distinction between $\Phi$ and $\bar\Phi$, so the excess
+bracket already exists there in one direction. That is the two-level chygraph ---
 variables inside checks --- with a parity kernel and a log-likelihood message.
 What the chygraph equation adds relative to it is the general kernel; the
 nesting, with a complex's own state and its derivative at threshold
@@ -148,8 +150,13 @@ with the one-vertex marginal read off as
   \label{eq:chyread}
 \end{equation}
 The pair is belief propagation on the factor graph of $\alpha+I$, and is exact
-when that factor graph is a tree, which is the statement
-Chapter~\ref{ch:exactness} gave three names to.
+when that factor graph is a tree, which is the forest condition of
+Sec.~\ref{sec:mergeerror}: the incidence structure has no loops, which in
+the hierarchy of \citet{fagin1983} is \emph{Berge-acyclicity} of the
+complex family. That is a stronger condition than the three names of
+Chapter~\ref{ch:exactness}, which are $\alpha$-acyclicity and belong to
+the region-graph calculation of Chapter~\ref{ch:gbp}; two triangles
+sharing an edge separate the two, and Chapter~\ref{ch:mobius} says how.
 
 \begin{figure}[tb]
 \centering
@@ -247,7 +254,10 @@ on all of its legs but one. Then
   \label{eq:chyop}
 \end{equation}
 the semicolon separating the member legs from the complex's own leg, and the
-superscript $(i)$ naming the leg left open. The Hamiltonian enters $\Tint$ and
+superscript $(i)$ naming the leg left open. With nesting the operator has
+$c-1$ member legs and one own leg, the latter present only where
+$\Omega_{a}$ is not a point; Chapter~\ref{ch:operads} counts arities this
+way. The Hamiltonian enters $\Tint$ and
 nowhere else. Chapter~\ref{ch:localization} is the one place in the book
 where $\Tint$ is not an enumeration --- there it is a Schur complement,
 Eq.~\eqref{eq:schur} --- and Eq.~\eqref{eq:chyop} is why nothing else in that
@@ -414,9 +424,9 @@ Eqs.~\eqref{eq:ensplus}--\eqref{eq:ensminus} about the trivial fixed point,
 $\otimes$ contributes a factor one per relay and $\Tint_{l}$ contributes one
 derivative per leg. There are two kinds of leg, so two numbers per layer:
 \begin{equation}
-  u'_{l}=\frac{\del u}{\del h_{j}}\Big|_{\mathrm{triv}},
+  u'_{l}=\frac{\partial u}{\partial h_{j}}\Big|_{\mathrm{triv}},
   \qquad
-  \hat u'_{l}=\frac{\del u}{\del\hat h}\Big|_{\mathrm{triv}},
+  \hat u'_{l}=\frac{\partial u}{\partial\hat h}\Big|_{\mathrm{triv}},
   \label{eq:ownleg}
 \end{equation}
 the first on a member leg --- it is the $u'$ of Eq.~\eqref{eq:uprime} --- and
@@ -430,10 +440,14 @@ $\hat u'_{l}$ on the channel that passes through a complex's own state. When
 no layer has both a state and a container, $\hat u'$ never enters and the
 $2L^{2}$ operator reduces to the $L\times L$ branching matrix of
 Eq.~\eqref{eq:branch}, which is why Part~III could work with the smaller
-index set. Nested satisfiability is the case in the book where
-$\hat u'\ne0$ --- the $\delta$ of Eq.~\eqref{eq:nestedwp} is a warning
-passing through a clause's own truth value --- and the reason the percolation
-index set, not the $L\times L$ one, is the general form.
+index set. The three cases in the book are the three values the own-leg
+derivative can take. Percolation is $\hat u'\equiv1$: reachability passes
+through a complex's own state unchanged, so every entry of the tensor is a
+plain moment. Part~III is $\hat u'$ absent. Nested satisfiability is
+$\hat u'\in(0,1)$ --- the $\delta$ of Eq.~\eqref{eq:nestedwp} is a
+warning passing through a clause's own truth value with a weight --- and it
+is the reason the percolation index set, not the $L\times L$ one, is the
+general form.
 
 \paragraph{The readout.} The classical pair on a graph is one message
 equation and one marginal. On a chygraph the message equation splits in two

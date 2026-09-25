@@ -22,7 +22,7 @@ structure is a sequence of collapses; and that the transition
 Chapter~\ref{ch:exactness} found has a companion in random topology.
 
 The field on the other side is applied topology, and the connection runs
-through one author. \citet{peltre2020,peltre2021} write generalised belief
+through one author. \citet{peltre2019,peltre2020,peltre2021} write generalised belief
 propagation as a flow on a cochain complex over the poset of regions, with
 the counting numbers of \citet{yedidia2005} as the M\"obius function of that
 poset. Everything here is that construction with the poset chosen for it: not
@@ -89,7 +89,7 @@ Eq.~\eqref{eq:mb-treecount} over the vertices of the incidence structure. The
 number of vertices is the number of atoms plus the number of complexes, and
 $\sum_{x}\kappa_{x}$ counts every inclusion once, so
 \begin{equation}
-  \sum_{x}c_{x}=V-E=\chi(\text{incidence graph})=b_{0}-b_{1},
+  \sum_{x}c_{x}=V-E=b_{0}-b_{1},
   \label{eq:mb-euler}
 \end{equation}
 the Euler characteristic of the incidence graph, which for a graph is the
@@ -97,18 +97,18 @@ number of connected components less the number of independent cycles. On a
 connected forest it is one. The counting numbers of the inclusion order
 therefore sum to one exactly when the incidence structure has no loops,
 which is the condition Sec.~\ref{sec:mergeerror} showed the chygraph
-recursion itself needs: \emph{the recursion on $\chi$ is exact when
-$b_{1}=0$ of the incidence structure}, and the counting numbers are the
-local quantities whose total is that Betti number. It is a stronger
-condition than the one Chapter~\ref{ch:exactness} gave three names to.
-Two triangles sharing an edge are $\alpha$-acyclic, and the join-tree
-calculation is exact on them, but their incidence structure has a loop;
-the next paragraph is that example, and what the two repairs of Part~IV do
-to its counting numbers is exactly the difference between the two
-conditions. Here the letter $\chi$ is the Euler characteristic, in the
-same spirit as Sec.~\ref{sec:response}'s susceptibility: no chygraph is
-named by a letter in this chapter, and the standard symbol costs the reader
-less than a new one.
+recursion itself needs: \emph{the recursion on the chygraph itself is
+exact when $b_{1}=0$ of the incidence structure}, and the counting numbers
+are the local quantities whose total is that Betti number. In the
+hierarchy of \citet{fagin1983} that condition is \emph{Berge-acyclicity}
+of the complex family, the strongest of the four he orders, and the three
+names of Chapter~\ref{ch:exactness} are $\alpha$-acyclicity, the weakest;
+the chain runs Berge, $\gamma$, $\beta$, $\alpha$, each implying the
+next. Two triangles sharing an edge are $\alpha$-acyclic, and the
+join-tree calculation is exact on them, but their incidence structure has
+a loop; the next paragraph is that example, and what the two repairs of
+Part~IV do to its counting numbers is exactly the difference between the
+two conditions.
 
 \paragraph{Two triangles.} The example Part~IV opened with makes the
 arithmetic visible (Fig.~\ref{fig:mobiusposet}). Two triangles $a=\{1,2,3\}$
@@ -272,14 +272,21 @@ recursion on a clique chygraph is, in the language of
 Eq.~\eqref{eq:mb-loopseries}, the loop series of the graph with every
 generalised loop that lives inside a single clique resummed into the leading
 term, and the remaining series runs only over loops between cliques.
-Chapter~\ref{ch:overlap}'s error on two triangles sharing an edge,
-Table~\ref{tab:twotriangles}, is then the one term of the remaining series,
-the loop $2\,a\,3\,b\,2$ of Fig.~\ref{fig:mobiusposet}, and a calculation
-of $r_{C}$ for it from the two-triangle fixed point should return that
-table's numbers. The claim has not been tested; it is stated here because it
-is testable on the objects Part~IV already holds, and because if it holds it
-turns Part~IV's corrections from a list of cases into the successive terms
-of one expansion.
+Two things should be kept apart here. On two triangles sharing an edge
+the factor graph of $\alpha+I$ has exactly one generalised loop, the loop
+$2\,a\,3\,b\,2$ of Fig.~\ref{fig:mobiusposet}, and
+Eq.~\eqref{eq:mb-loopseries} is an identity on any finite factor graph, so
+$Z/Z_{\mathrm{BP}}-1=r_{C}$ is guaranteed to reproduce
+Table~\ref{tab:twotriangles}; computing it is a check of arithmetic, not
+a test. The claim that needs testing is the one above: that the loop
+series of the promoted factor graph is the loop series of the pairwise
+graph with every intra-clique loop resummed. That is not a term-by-term
+correspondence --- the two expansions are around different fixed points,
+and the four-cycle $1\,2\,4\,3$ of the pairwise graph has no single image
+in the promoted series --- and whether it holds as a statement about the
+two sums is what would be tested on the objects Part~IV already holds. If
+it does hold it turns Part~IV's corrections from a list of cases into the
+successive terms of one expansion.
 
 \section{Collapsibility}
 \label{sec:mb-collapse}
@@ -319,10 +326,10 @@ GYO cannot consume --- is an obstruction to a join tree and not to a collapse;
 the two conditions agree when they are both zero and differ on the wheel,
 and it is the join-tree condition that the recursion needs. What
 collapsibility does supply is a direction. The three conditions this part
-has met are strictly ordered: $b_{1}=0$ of the incidence structure, which
-Sec.~\ref{sec:mb-mobius} showed is what the chygraph recursion itself
-needs, implies $\alpha$-acyclicity, since an incidence forest is its own
-join tree; $\alpha$-acyclicity implies collapsibility, by the argument
+has met are strictly ordered: $b_{1}=0$ of the incidence structure,
+Berge-acyclicity, which Sec.~\ref{sec:mb-mobius} showed is what the
+chygraph recursion itself needs, implies $\alpha$-acyclicity, since an
+incidence forest is its own join tree; $\alpha$-acyclicity implies collapsibility, by the argument
 above; and neither converse holds, two triangles sharing an edge separating
 the first pair and the wheel the second.
 
@@ -360,9 +367,15 @@ topologist has had no reason to.
 
 \paragraph{What the two sides share.} The collapsibility threshold of
 \citet{aronshtam2013} and acyclicity percolation both sit in the sparse
-r\'egime, a bounded number of faces at a vertex, and both sit above the
-threshold at which the underlying graph first has a giant component. That is as far as
-the analogy has been carried. Whether the collapsibility threshold of a
+r\'egime, a bounded number of faces at an edge, and both sit above a
+percolation threshold of the faces themselves. For the random $2$-complex
+the underlying graph is complete, so the comparison is not with its giant
+component but with the giant component of triangles adjacent along shared
+edges: each edge lies in a Poisson number of triangles of mean $c$ and each
+triangle opens two new edges, so that giant appears at $c=1/2$, below the
+collapsibility threshold near $2.46$. On the chygraph side the loss of
+$\alpha$-acyclicity sits above the graph's own giant component in the
+same way. That is as far as the analogy has been carried. Whether the collapsibility threshold of a
 random complex is a percolation of non-collapsible islands in the same sense
 as Chapter~\ref{ch:exactness}'s $\ave{k}_{a}$, and whether the layered
 thresholds reduce to theirs on the uniform ensemble, are questions the
@@ -399,11 +412,22 @@ linearised recursion itself is not a Laplacian: it is the weighted
 non-backtracking operator of the incidence graph, one entry for each pair of
 consecutive directed inclusions, with the kernel derivatives as weights, and
 it is not symmetric. The sheaf Laplacian is the symmetric operator built from
-the same restriction maps, and the two are not the same operator; on an
-ordinary graph, with trivial stalks, the non-backtracking spectrum and the
-Laplacian's are related by the Ihara--Bass identity rather than equal, and
-the weighted sheaf version of that identity is not something this chapter
-claims. So the claim is not that
+restriction maps that go from a cell to its cofaces, vertex to edge on the
+incidence graph, whereas the kernel derivative carries a perturbation from
+one directed inclusion to the next through a vertex. For the two to come
+from one sheaf the kernel derivative has to factor through the stalk at the
+vertex, $F(j\to a)\to F(a)\to F(a\to i)$, which is exactly the statement
+that a perturbation passes through the complex's own state; where the
+complex has no state that factorisation is the claim to be checked, and
+until it is the connection is an analogy. What is in print is the pairwise
+case: \citet{watanabe2009} prove that the linearised belief-propagation
+operator and the Hessian of the Bethe free energy are related through a
+weighted graph zeta function, the weighted Ihara--Bass identity, and
+\citet{saade2014} use the same identity to read the stability of the
+fixed point off the Bethe Hessian. That is the closest thing to the
+programme of this section already carried out, on factor graphs with
+pairwise factors, and it is the result the chygraph version would
+generalise. So the claim is not that
 Eq.~\eqref{eq:branch} \emph{is} a sheaf Laplacian, but that both are
 determined by one sheaf --- stalks the message spaces, restriction maps the
 kernel derivatives --- and that the threshold, a property of that sheaf, is

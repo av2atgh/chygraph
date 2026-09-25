@@ -145,25 +145,31 @@ independently at the leaves,
 the pairs $(X_{j},X'_{j})$ independent and identically distributed, and ask
 whether the only solution whose margins are the given fixed point
 is the one concentrated on the diagonal $X=X'$. \citet{aldous2005} call
-this \emph{bivariate uniqueness}, and prove that under a continuity
-condition it is equivalent to endogeny. The criterion is a population
-dynamics with two entries per element: start the pair independent, iterate,
-and see whether it is driven to agree.
+this \emph{bivariate uniqueness}, and their Theorem~11 has three parts.
+Endogeny implies bivariate uniqueness with no condition. The converse holds
+when the bivariate map is weakly continuous. And, whether or not it is,
+endogeny holds if and only if the iterates of the bivariate map started
+from the product law $\mu\otimes\mu$ converge to the diagonal, which is
+part~(c) of the theorem and the definition made computable: a population
+dynamics with two entries per element, started independent, iterated, and
+watched for whether it is driven to agree.
 
 \paragraph{Where a failure can come from.} On a chygraph the split of
 Sec.~\ref{sec:rde-connection} localises the answer. The commutative step
 preserves the diagonal trivially: if every pair $(u_{n},u'_{n})$ agrees then
 so does the pair of products, and conversely a difference in the product is
 a sum of differences in the factors. So a failure of endogeny can come only
-from the interior operator, and it is decided by how $\Tint_{l}$ transmits a
-difference between its two arguments. Linearise Eq.~\eqref{eq:rde-bivariate}
+from the interior operator --- for the full map, not only its
+linearisation, since the argument used nothing but the commutativity of the
+relay --- and it is decided by how $\Tint_{l}$ transmits a difference
+between its two arguments. Linearise Eq.~\eqref{eq:rde-bivariate}
 about the diagonal, writing $D=X-X'$ for the difference on an inclusion.
 Through the up step a difference is relayed unchanged, one factor of one
 per container. Through the down step it is transmitted with the kernel
 derivative,
 \begin{equation}
   D_{a\to i}=\sum_{j\in\del a,\,j\ne i}
-    \frac{\del u}{\del h_{j}}\Big|_{\mathrm{fp}}\,D_{j\to a}
+    \frac{\partial u}{\partial h_{j}}\Big|_{\mathrm{fp}}\,D_{j\to a}
   +O(D^{2}),
   \label{eq:rde-diff}
 \end{equation}
@@ -181,11 +187,12 @@ Sec.~\ref{sec:ce-yields} with $u'$ replaced by $u'^{2}$ --- \emph{is}
 bivariate uniqueness for this class of equations, at the linear level. The
 qualification matters and is stated as what it is. Linear stability of the
 diagonal is necessary for bivariate uniqueness, and its loss, where the
-mean-square difference grows, is a proof that the replica-symmetric fixed
-point is not endogenous; it is not sufficient, because a
-pair started far from the diagonal can fail to converge to it while every
-small perturbation decays. The nonlinear test, Eq.~\eqref{eq:rde-bivariate}
-run as two coupled populations on each model of
+mean-square difference grows, is an argument --- about second moments under
+the linearised map, where the theorem's convergence is in law --- that the
+replica-symmetric fixed point is not endogenous; it is not sufficient,
+because a pair started far from the diagonal can fail to converge to it
+while every small perturbation decays. The nonlinear test, part~(c) of
+the theorem run as two coupled populations on each model of
 Table~\ref{tab:ce-substitutions}, has not been done, and it is the one
 place in this chapter where a computation is called for. What it would
 decide is whether the de Almeida--Thouless line, which
@@ -206,11 +213,15 @@ copies,
 \end{equation}
 with random non-negative weights $A_{n}$ and a random shift $C$, is the
 \emph{smoothing transform}, and its fixed points are classified by
-\citet{alsmeyer2012}. The classification is stated in terms of the function
+\citet{alsmeyer2012}. The classification is stated in terms of
 $m(\beta)=\ave{\sum_{n}A_{n}^{\beta}}$, the growth rate of the $\beta$-th
-moment of a product of weights along a branch, and the boundary of the
-region where the homogeneous equation, $C=0$, has a non-zero fixed point
-is where $\min_{\beta}m(\beta)$ passes through one.
+moment of a product of weights along a branch, and its standing assumption
+is a \emph{characteristic exponent}: a $\beta^{*}>0$ with
+$m(\beta^{*})=1$ and $m>1$ below it. Since $m(0)=\ave{N}>1$, such an
+exponent exists exactly when $m$ dips to one, $\min_{\beta}m(\beta)\le1$,
+and then the homogeneous equation, $C=0$, has non-degenerate fixed points,
+mixtures of $\beta^{*}$-stable laws; when $\min_{\beta}m(\beta)>1$ it has
+none.
 
 The book meets an affine down step once. Chapter~\ref{ch:localization}'s
 message is a resolvent, its interior is the Schur complement of
@@ -222,25 +233,38 @@ is a sum over the other members of the imaginary parts they carry,
 weighted by the positive random numbers $t^{2}v_{j}^{2}$. That is
 Eq.~\eqref{eq:rde-smoothing} with $C=0$, $N$ the number of other members
 across all containers, and $A_{n}$ the squared entries of the inverse
-interior matrix. The localised phase is the zero solution, and the extended
-phase is where a non-zero solution --- widths that survive as the absorber
-at infinity is removed --- exists. Section~\ref{sec:mobility} locates the
-edge between them by the growth rate $\lambda(\beta)$ of the $\beta$-th
-moment, at $\min_{\beta}\lambda(\beta)=1$ \citep{abouchacra1973}. That
-$\lambda(\beta)$ is $m(\beta)$, and the criterion is the boundary of the
-smoothing transform's classification. The mobility edge is therefore a
-statement about the fixed points of a smoothing transform whose weights are
-Chapter~\ref{ch:localization}'s Schur complements; and the position of the
-minimum, $\beta=1/2$ on a tree by the symmetry of the kernel
+interior matrix. Section~\ref{sec:mobility} locates the mobility edge by
+the growth rate $\lambda(\beta)$ of the $\beta$-th moment, at
+$\min_{\beta}\lambda(\beta)=1$ \citep{abouchacra1973}. That
+$\lambda(\beta)$ is $m(\beta)$, and the two sides of the edge are the two
+sides of the classification, in an order that has to be stated because it
+is the reverse of the naive one. On the localised side
+$\min_{\beta}\lambda<1$, a characteristic exponent $\beta^{*}<1/2$ exists,
+and the linearised equation has the non-degenerate fixed points of
+\citeauthor{alsmeyer2012}: they are the laws of the widths scaled by the
+absorber, heavy-tailed with exponent $\beta^{*}$, which is the known form
+of the imaginary part of the Green's function in the localised phase of
+the Bethe lattice \citep{abouchacra1973,mirlin1991}. On the extended side
+$\min_{\beta}\lambda>1$, no exponent exists and the homogeneous linear
+equation has no non-degenerate fixed point at all: the widths grow until
+the nonlinear terms of the full recursion, Eq.~\eqref{eq:schur}, set them,
+which is the physics of an extended state. The mobility edge is the
+boundary case, $\min_{\beta}m(\beta)=1$ attained at the characteristic
+exponent, and it is in that sense a statement about the fixed points of a
+smoothing transform whose weights are Chapter~\ref{ch:localization}'s
+Schur complements. The position of the minimum, $\beta=1/2$ on a tree by the symmetry of the kernel
 \citep{mirlin1991}, is a property of the weights and not of the criterion,
 which is why Sec.~\ref{sec:mobility} checks it on the ensembles with
 triangles rather than assuming it.
 
 Two remarks and no more. The de Almeida--Thouless line of the previous
-section is the same criterion at $\beta=2$: a difference of random sign,
-squared, transmitted with $u'^{2}$. Section~\ref{sec:mobility} said so in
-the book's words, a fractional power in place of the square. And the
-non-negativity of the weights is what puts both inside the classified
+section is a first-moment criterion at a fixed exponent and not a minimum
+over $\beta$: the difference $D$ has random sign, so it is not a smoothing
+transform on the non-negative cone, and what propagates is $D^{2}$ with
+weights $u'^{2}$, whose condition is $m(1)=1$ for those weights.
+Section~\ref{sec:mobility}'s ``a fractional power in place of the square''
+is the comparison between that fixed exponent and the minimising one. And
+the non-negativity of the weights is what puts both inside the classified
 class; the hard-core maps of Chapter~\ref{ch:hittingset}, whose Jacobian
 entries are non-positive (Sec.~\ref{sec:fixedpoint}), are not smoothing
 transforms in this sense, and Sec.~\ref{sec:rde-connection} already placed
@@ -310,7 +334,9 @@ factor graph with a general kernel and no nesting, which in the vocabulary
 of Sec.~\ref{sec:ce-representation} is the two-level chygraph: variables
 inside complexes, no complex inside another, $\Omega_{a}$ a point.
 Everything in Part~III that runs on such an object is within reach of
-their argument, subject to their conditions on the kernel; nothing in
+their argument, subject to their conditions on the kernel and on the fixed
+point of the recursion on the limit tree, which is the part endogeny is
+about; nothing in
 Sec.~\ref{sec:nested} or in Part~II above two levels is.
 
 \paragraph{What nesting adds.} Two things that the objective-method
@@ -327,7 +353,7 @@ intra-complex component $s$ is smaller than the cardinality $c$, the
 inclusion a message travels along has internal structure --- which
 component of the interior it enters --- so the edges of the limit tree
 carry marks of their own. Both are unimodular random trees in the sense of
-\citet{aldous2004}; neither has a name there, and the second in particular
+\citet{aldouslyons2007}; neither has a name there, and the second in particular
 does not appear to have been studied.
 
 \section{What it gives the book}
@@ -353,7 +379,7 @@ Almeida--Thouless line: whether the local boundary is the whole boundary.
 On the hitting set problem of Chapter~\ref{ch:hittingset}, where the
 entropy criterion and the stability line are the two tests the book has and
 they do not coincide, this is the third test and the one with a theorem
-behind it.
+behind it, part~(c) of \citeauthor{aldous2005}'s Theorem~11.
 
 \emph{A target statement.} That the chygraph equation is the recursive
 distributional equation of the multitype branching process that is the

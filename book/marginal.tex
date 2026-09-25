@@ -5,13 +5,19 @@
 % Sec. 9 (category theory and the marginal problem). Nothing is computed here.
 % The chapter attributes Ch. 17's exactness condition to the marginal problem
 % of the 1960s, reads Part IV's error as a cohomological obstruction, and
-% states one conjecture, the level-wise gluing theorem, as a conjecture.
+% states the level-wise gluing theorem as a corollary of Vorob'ev-Kellerer
+% modulo one definition check (the two notions of consistency coincide).
+% Revised 2026-09-25 after ~/Downloads/chygraph_book_review.md, items A1-A3,
+% A5 and B.
 
 Chapter~\ref{ch:chyequation} put every calculation in the book on one
 bipartite graph, the factor graph of $\alpha+I$, and said that the recursion
-is exact when that graph is a tree. Chapter~\ref{ch:exactness} had already
-found the condition from the other side, by measurement, and given it three
-names. This chapter says where the condition comes from. It is not a fact
+is exact when that graph is a tree, which is Berge-acyclicity of the
+complex family. Chapter~\ref{ch:exactness} had found a weaker condition
+from the other side, by measurement, for the region-graph calculation of
+Chapter~\ref{ch:gbp}, and given it three names, of which
+$\alpha$-acyclicity is the one this chapter needs. This chapter says where
+that condition comes from. It is not a fact
 about belief propagation. It is a fact about probability measures on a
 hypergraph --- when a family of marginals, one per hyperedge, is the shadow of
 a single joint law --- and it was settled in the early 1960s, twenty years
@@ -129,18 +135,27 @@ direction is the reverse of a GYO run.
 \paragraph{In the book's vocabulary.} Section~\ref{sec:threenames} stated
 the chain chordal $=$ join tree $=$ $\alpha$-acyclic for the maximal-clique
 family of a graph and certified it by leaf removal on the incidence
-structure. That chain is the Vorob'ev--Kellerer theorem's hypothesis, and the
-theorem is its conclusion in the form the book needs. The messages of
-Eqs.~\eqref{eq:chyup}--\eqref{eq:chydown} at a fixed point define a law on
-every complex, the $b_{a}$ of Eq.~\eqref{eq:chyread} extended to the members
-of $a$, and by construction those laws agree on the atoms two complexes
-share --- the marginal at atom $i$ is the same whichever complex it is read
-from, which is what the fixed point condition enforces. They are therefore a
-consistent family on the hypergraph whose hyperedges are the complexes. When
-that hypergraph is $\alpha$-acyclic they glue, the glued law is the
-Boltzmann measure, and the Bethe free energy of Eq.~\eqref{eq:bethe} is
-exact. When it is not, there is a consistent family with no extension, and
-the recursion can converge to one.
+structure. That chain is the Vorob'ev--Kellerer theorem's hypothesis, and
+the theorem is its conclusion in the form the book needs, with one care
+about which fixed point it applies to. The theorem's consistency is
+agreement on the \emph{whole} overlap $e\cap e'$ of two hyperedges. The
+messages of Eqs.~\eqref{eq:chyup}--\eqref{eq:chydown} enforce agreement on
+single atoms only --- the marginal at atom $i$ is the same whichever
+complex it is read from --- so on two triangles sharing the pair
+$\{2,3\}$ the two beliefs need not agree on the pair, and the chygraph
+fixed point is not a consistent family in the theorem's sense. The
+region-graph fixed point of Chapter~\ref{ch:gbp} is: closing the family
+under intersection, rule~2 of Sec.~\ref{sec:regions}, makes every overlap a
+region with a belief of its own, and the parent-to-child messages of
+Eq.~\eqref{eq:p2c} enforce agreement on it. That family, when the
+hypergraph is $\alpha$-acyclic, glues to a joint law. That the joint law is
+the Boltzmann measure, and Eq.~\eqref{eq:bethe}'s free energy exact, is a
+second step: it needs the junction-tree factorisation of the joint law as
+a product of clique marginals over a product of separator marginals,
+together with \citeauthor{lauritzen1988}'s result that the fixed point on a
+join tree is the true marginals. When the hypergraph is not
+$\alpha$-acyclic there exists a consistent family with no extension, and
+nothing prevents the recursion from converging to one.
 
 So the exactness theorem of Chapter~\ref{ch:exactness} is sixty years older
 than belief propagation, and older than the region-graph repair by the same
@@ -149,8 +164,10 @@ exact, which is the algorithmic form; the probabilistic form, that a join
 tree is precisely when there is something exact to compute, is
 \citeauthor{vorobev1962}'s. Chapter~\ref{ch:gbp} measured it without naming
 it: Sec.~\ref{sec:gbpverdict} found the region-graph fixed point exact on
-every chordal instance and on no other, which is the theorem's two directions
-read off $240$ runs. And the closure under intersection that the region
+every chordal instance and on no other over $240$ runs, which is consistent
+with both directions of the theorem, though the ``only if'' asserts the
+existence of some consistent family with no extension and not the
+inexactness of one particular fixed point. And the closure under intersection that the region
 graph performs, rule~2 of Sec.~\ref{sec:regions}, is the construction that
 turns a family of complexes into one on which consistency can be stated at
 all: without the intersections as regions, ``agree on the overlap'' is not a
@@ -185,35 +202,40 @@ a \emph{presheaf} over the hypergraph, assigning to each hyperedge its law
 and to each inclusion $e'\subset e$ the marginalisation map; a global law is
 a \emph{global section} of that presheaf; and the non-existence of one is a
 failure of the presheaf to be a sheaf, which is the kind of failure
-cohomology measures. \citet{abramsky2015} make the measurement: an
-obstruction class in the first \v{C}ech cohomology of the presheaf, non-zero
-whenever the family is contextual in the strong sense, computed on the
-standard paradoxes.
+cohomology measures. \citet{abramsky2012} make the measurement: an
+obstruction class in the first \v{C}ech cohomology of the presheaf, which
+when non-zero certifies that the family is contextual in the strong sense.
+The implication runs one way only: there are strongly contextual families
+whose class vanishes, their Kochen--Specker example among them, so a
+vanishing class settles nothing. \citet{abramsky2015} compute the class on
+the standard paradoxes.
 
 \paragraph{Part IV's error as a class.} This is the language for what
-happens under overlap. Chapter~\ref{ch:overlap} measured the error of the
-chygraph recursion on two triangles sharing an edge, Table~\ref{tab:twotriangles},
-and on a ring of triangles glued at single atoms, Fig.~\ref{fig:ring} and
+happens under overlap, with a caveat that governs the paragraph: whether
+the fixed points of Part~IV glue has not been checked, and the two
+diagnostics need not coincide, since a family can glue and still be wrong.
+Chapter~\ref{ch:overlap} measured the error of the chygraph recursion on
+two triangles sharing an edge, Table~\ref{tab:twotriangles}, and on a ring
+of triangles glued at single atoms, Fig.~\ref{fig:ring} and
 Table~\ref{tab:ring}, as a number: the discrepancy in $\ln Z$ or in a
-magnetisation. In the presheaf reading the recursion's fixed point is a
-consistent family on the complexes, and the question the sheaf asks of it
+magnetisation. In the presheaf reading the question asked of a fixed point
 is a different one from the question the number answers: not how far the
 beliefs are from the true marginals, but whether they are the marginals of
-\emph{any} law at all. The object that answers is a cohomology class
-supported on the cycle. On the two triangles the cycle is the four-cycle
-through their outer vertices, whose chord the recursion cannot see because
-the chord's edge belongs to both complexes and is counted twice; on the ring
-it is the ring itself. Two things should be said about the class that the
-number does not carry. It vanishes for every consistent family when the
-hypergraph is $\alpha$-acyclic, which covers every instance
-Chapter~\ref{ch:gbp} found exact; on a cyclic hypergraph it can be non-zero,
-and Part~IV's instances are where to look for it. And it is a class in a
-vector space with one generator per independent cycle over complexes, so
-the obstruction on a network with several disjoint loops is not one number
-but one component per generator, which is the count Chapter~\ref{ch:mobius}
-makes homologically and the count its loop series expands in. The two
-diagnostics need not coincide: a family can glue and still be wrong, and
-whether the fixed points of Part~IV glue has not been checked.
+\emph{any} law at all. The object that answers, when it is non-zero, is a
+cohomology class supported on the cycle. On the two triangles the cycle is
+the four-cycle through their outer vertices, whose chord the recursion
+cannot see because the chord's edge belongs to both complexes and is
+counted twice; on the ring it is the ring itself. Two things should be
+said about the class that the number does not carry. It vanishes for every
+consistent family when the hypergraph is $\alpha$-acyclic, which covers
+every instance Chapter~\ref{ch:gbp} found exact; on a cyclic hypergraph it
+can be non-zero, and Part~IV's instances are where to look for it, with the
+one-way implication above in mind. And its support lies on the cycles over
+complexes, so the number of independent such cycles, which
+Chapter~\ref{ch:mobius} counts homologically and expands the loop series
+in, bounds where the obstruction can live; it is not the dimension of the
+cohomology group, which is that of a presheaf of formal sums of local
+sections and not of the nerve.
 
 The repairs of Part~IV read the same way. Merging the complexes that share
 two atoms, Sec.~\ref{sec:merging}, replaces the two hyperedges on which the
@@ -241,31 +263,40 @@ that member's own law on itself, at every level, and the question is whether
 such a nested family glues to one law on all the atoms and all the complex
 states.
 
-\paragraph{The conjecture.} The natural statement, and the one this chapter
-puts forward without a proof:
+\paragraph{The level-wise statement.} The natural statement is
 
 \begin{center}
 \emph{a consistent nested family of marginals glues to a global law\\
-if and only if the factor graph of $\alpha+I$ is acyclic.}
+if and only if the flattened family $\{\{a\}\cup\del a\}$ is
+$\alpha$-acyclic,}
 \end{center}
 
-This is a level-wise Vorob'ev theorem. It is plausible because the join-tree
-argument does not use anything about the levels: the factor graph of rule~3
-is a hypergraph whose hyperedges are the sets $\{a\}\cup\del a$, one per
-complex, and the theorem applied to \emph{that} hypergraph is the statement
-above, provided the consistency condition on the nested family is the same
-as consistency on the flattened one. That proviso is what has not been
-checked. A complex's own state is a variable in the flattened hypergraph and
-enters two hyperedges, its own and its container's; the nested family
-specifies its law twice, once from below and once from above, and whether
-``consistent'' as defined level by level is the same as ``consistent'' on
-the flattened family is a bookkeeping question that has to be answered
-before the theorem is claimed. Section~\ref{sec:nested} is the one place in
-the book where the flattening is done, and there it costs: CNF flattening of
-a nested clause is \emph{not} the flattening of rule~3, because it
-eliminates the clause's state rather than keeping it as a variable, and
-Sec.~\ref{sec:flatteningcost} measured what that costs. The conjecture says
-that the rule-3 flattening, which keeps the state, costs nothing.
+the flattened family being the hyperedges of the factor graph of rule~3,
+one per complex, with the complex's own state kept as a variable. It is
+not a conjecture. The join-tree argument uses nothing about levels, so
+Vorob'ev and Kellerer apply to the flattened family as it stands, and
+what remains is a definition check: that ``consistent'' as defined level by
+level --- a container's law on a member complex agrees with that complex's
+own law on itself, and laws agree on shared atoms --- is the same as
+consistency on the flattened family. It is worth being precise about which
+acyclicity, because the weaker one fails: with ``the factor graph of
+$\alpha+I$ is a tree'' in place of $\alpha$-acyclicity the ``only if''
+is false, two triangles sharing an edge with their states kept having an
+$\alpha$-acyclic flattened family, so that every consistent family glues,
+and a factor graph with a cycle. On the check itself, a complex's own state
+enters exactly two hyperedges of the flattened family, its own and its
+container's, and their overlap is the single vertex $\{a\}$; level-wise
+consistency is pairwise agreement on that overlap together with agreement
+on shared atoms. So the two notions coincide wherever overlaps are single
+vertices, and the check reduces to overlaps of two or more vertices, which
+is the same place the care of Sec.~\ref{sec:mg-marginal} lives.
+Section~\ref{sec:nested} is the one place in the book where a flattening
+is done, and there it costs: CNF flattening of a nested clause is
+\emph{not} the flattening of rule~3, because it eliminates the clause's
+state rather than keeping it as a variable, and
+Sec.~\ref{sec:flatteningcost} measured what that costs. The statement
+above says that the rule-3 flattening, which keeps the state, costs
+nothing.
 
 \paragraph{Contextuality on a hierarchy.} The same move in
 \citeauthor{abramsky2011}'s setting gives nested measurement scenarios:
@@ -275,7 +306,7 @@ sheaf-theoretic account forbids that, and the obstruction class would live
 on the factor graph of $\alpha+I$ as before. What the chygraph then offers
 is an \emph{ensemble} of scenarios: a layered random chygraph is a random
 measurement scenario, the question ``does a random scenario admit a global
-section'' is the question ``is the factor graph acyclic'', and
+section'' is the question ``is the flattened family $\alpha$-acyclic'', and
 Chapter~\ref{ch:exactness}'s acyclicity percolation is a contextuality
 threshold --- below it a random scenario is non-contextual with probability
 tending to one, above it a finite fraction of its contexts sit on an
@@ -288,10 +319,14 @@ relied on, because it may already exist under another name. The
 for rewriting string diagrams in monoidal closed categories are hypergraphs
 whose hyperedges may contain hypergraphs, to any depth, with the containing
 edge acting as an interface to the contained one. That is close to a
-chygraph, and may be one: a complex is a hyperedge, its members are the
-vertices and hyperedges it contains, and the interface is the complex's own
-state. Whether the two definitions coincide, or which is the more general,
-has not been checked. If they do, each side has something for the other.
+chygraph: a complex is a hyperedge, its members are the vertices and
+hyperedges it contains, and the interface is the complex's own state. One
+difference is visible from the definitions as far as they can be read from
+here: their nesting appears to be strict, a hyperedge owning the hypergraph
+it contains, whereas a chygraph lets an atom lie in several complexes of
+the same level, which is the whole of Part~IV. Whether the two coincide on
+the strictly nested case, or which is the more general, has not been
+checked. If they do, each side has something for the other.
 The chygraph supplies that community with random instances --- the
 ensembles of Sec.~\ref{sec:ensembles} --- and with a statistical mechanics
 of string diagrams, thresholds and free energies read off the four moment
@@ -336,9 +371,10 @@ by loop rather than by instance.
 \label{sec:mg-field}
 
 \emph{A hierarchy.} The marginal problem has been posed on one level for
-sixty years. The chygraph poses it on a hierarchy, and offers the
-conjecture of Sec.~\ref{sec:mg-nested} with a definite route to a proof and
-a definite thing to check first.
+sixty years. The chygraph poses it on a hierarchy, and
+Sec.~\ref{sec:mg-nested} states the level-wise theorem as a corollary of
+the one-level one, with the one definition check that turns it into a
+stated result.
 
 \emph{An ensemble.} Contextuality is studied one scenario at a time. A
 layered random chygraph is a random scenario, and the acyclicity transition

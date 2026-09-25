@@ -37,9 +37,9 @@ ending on the routine that executes it.
 | 19 | `chyequation.tex` | The recursion written once: the factor graph of α+I (every complex a variable and a factor), chygraph belief propagation, and the chygraph equation as its density evolution; what the pair yields (the 2L² threshold operator with the own-leg derivative û′, the readout, the counting numbers) |
 | 20 | `rde.tex` | Probability: the chygraph equation as a system of recursive distributional equations; endogeny = replica symmetry, bivariate uniqueness = the AT line at the linear level; the smoothing transform and Ch. 18's mobility edge; the local weak limit as a multitype branching process whose mean matrix is the threshold tensor |
 | 21 | `species.tex` | Combinatorics: the excess functions are derivatives of a species, the excess bracket a partial derivative by sort; two kinds of hole; Lagrange inversion for the whole component distribution; analytic functors on the Giry monad; the Hopf side (Dyson–Schwinger with two grafting operators) |
-| 22 | `operads.tex` | A complex is an operation; percolation is Com; the excess bracket is partial composition; treelike is cyclic, Part IV is modular (self-gluing, genus); compound complexes are properads |
-| 23 | `marginal.tex` | Category theory: sum-product in a monoidal category; treelike as conditional independence; the marginal problem of Vorob'ev and Kellerer as Ch. 17's theorem sixty years early; sheaf obstruction; the level-wise conjecture |
-| 24 | `mobius.tex` | Topology: the counting numbers are the Möbius function of the inclusion poset; exactness is first Betti number zero; the loop series and motif promotion as partial resummation; GYO as collapsibility; acyclicity percolation beside Linial–Meshulam; the threshold as a sheaf-Laplacian gap |
+| 22 | `operads.tex` | A complex is an operation; percolation is Com; the excess bracket is partial composition; treelike is cyclic, Part IV is modular (self-gluing, genus); a coloured operad; compound complexes are disconnected operations |
+| 23 | `marginal.tex` | Category theory: sum-product in a monoidal category; treelike as conditional independence; the marginal problem of Vorob'ev and Kellerer as Ch. 17's theorem sixty years early; sheaf obstruction (one-way); the level-wise statement as a corollary of Vorob'ev modulo a definition check |
+| 24 | `mobius.tex` | Topology: the counting numbers are the Möbius function of the inclusion poset; the chygraph recursion is exact iff b₁ = 0 (Berge-acyclic), the region-graph one iff α-acyclic; the loop series and motif promotion as partial resummation; GYO as collapsibility; acyclicity percolation beside Linial–Meshulam; the threshold as a sheaf-Laplacian gap |
 | 25 | `outlook.tex` | One recursion, many models; the two running threads; what is not done |
 | — | `software.tex` | Back matter. Repo links; equation-to-method-to-test table; how to reproduce a figure |
 
@@ -61,7 +61,7 @@ propagation at `m = 0`. PDFs of the references are under
 ## Status
 
 `main.pdf` builds with **0 errors, 0 undefined references and 0
-multiply-defined labels, across 478 pages.** Not box-clean: **four overfull
+multiply-defined labels, across 482 pages.** Not box-clean: **four overfull
 hboxes** — `cover.tex:483--493` (1.99pt, "Which replica-symmetry-breaking
 point"), `metacomplex.tex:383--389` (3.16pt) and two of 0.66pt in
 `software.tex`'s Table 1 (lines 255–256, the Ch. 18 handle rows, present
@@ -69,7 +69,7 @@ since that commit) — and 66 underfull vboxes, every one of them `while
 \output is active`, which is page-breaking around floats and not a line
 running into the margin.
 
-73 figures, 35 numbered tables, 212 numbered equations, 129 references and a
+73 figures, 35 numbered tables, 212 numbered equations, 139 references and a
 173-term index. Both checks under *Two checks the build cannot make* print
 nothing.
 

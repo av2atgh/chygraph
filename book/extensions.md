@@ -362,3 +362,46 @@ finite-component distribution by layer from Good's inversion, Eq. (21.7),
 against simulation; (d) the level-wise Vorob'ev proviso (consistency on the
 nested family vs on the flattened one); (e) whether Foissy's classification
 covers the (layer, direction) decoration.
+
+## 2026-09-25: Part V reviewed (`~/Downloads/chygraph_book_review.md`)
+
+Applied. A1: "exact when the factor graph is a tree" is Ch. 16's forest =
+Berge-acyclicity (Fagin 1983), stated as such in Chs. 19, 22, 23, 24; Ch. 17's
+three names are α-acyclicity and belong to the region-graph calculation. A2:
+the Vorob'ev paragraph now runs on the region-graph fixed point (chygraph BP
+agrees on single atoms only), gluing gives *a* law, Boltzmann needs the
+junction-tree factorisation + Lauritzen–Spiegelhalter; "consistent with" the
+240 runs. A3: the level-wise statement uses α-acyclicity of the flattened
+family and is a corollary of Vorob'ev–Kellerer modulo the consistency-notion
+check, which reduces to overlaps of size ≥ 2; no longer called a conjecture
+(also in the Outlook). A4: smoothing transform — the α-stable fixed points
+live on the localised side (min λ ≤ 1, characteristic exponent β* < 1/2),
+the extended side is outside the class; AT line is m(1) = 1 at fixed exponent
+on D² with weights u'², not a min over β. A5: Abramsky obstruction is
+one-way (abramsky2012 for the class, abramsky2015 for paradoxes); support
+bound, not dimension. A6: Aldous–Bandyopadhyay Thm 11(c) cited as the test.
+B: arity c−1 + own leg; û' ≡ 1 / absent / (0,1) for the three cases; node vs
+edge perspective = Φ vs Φ̄; Aldous–Lyons for unimodular; DMS conditions on
+the fixed point; ν mass zero; "heuristically" on the power law; chygraph
+readout for the component distribution; stochastic species: composite
+exists (Pitman 2006, Diaconis–Pang–Ram 2014), fixed-point question new;
+Giry 1982; character claim restricted to Com; coloured operad on the
+positive cone; atoms as Com vertices explain the genus count; Getzler–
+Kapranov 1995; Vallette 2007 and the properad section shortened
+("disconnected operation"); hierarchical hypergraphs' strict nesting
+flagged; two-triangle r_C is an identity check, the resummation claim is
+about two series around different fixed points; Linial–Meshulam comparison
+is with the giant of edge-adjacent triangles at c = 1/2; sheaf: the
+F(j→a)→F(a)→F(a→i) factorisation named as the thing to check, Watanabe–
+Fukumizu 2009 and Saade et al. 2014 cited; Peltre 2019 added. C: ∂ for
+derivatives, `\del` only for members; χ no longer used for the Euler
+characteristic (unlettered), kernel χ_a kept since Eq. (Xichy) already uses
+χ_l; every "acyclic" qualified.
+
+Open calculations, re-ranked by the review: (1) the two-population endogeny
+test, Thm 11(c), hitting set first; (2) the finite-component distribution by
+layer from Good's inversion against simulation; (3) the consistency-notion
+check on overlaps of size ≥ 2 (turns the level-wise statement into a stated
+corollary); (4) whether Part IV's region-graph fixed points are
+Vorob'ev-consistent on pair overlaps (one-line check on the Ch. 15 runs);
+(5) the term-by-term question of Sec. 24.2.
