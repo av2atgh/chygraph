@@ -405,3 +405,23 @@ check on overlaps of size ≥ 2 (turns the level-wise statement into a stated
 corollary); (4) whether Part IV's region-graph fixed points are
 Vorob'ev-consistent on pair overlaps (one-line check on the Ch. 15 runs);
 (5) the term-by-term question of Sec. 24.2.
+
+## 2026-09-25: the component distribution by layer, computed (Sec. 21.4)
+
+`percolation/src/percolation/components.py`: the marked map of Eq. (21.6)
+solved on a circle |x_l| = r < 1 (Cauchy's integral on a grid, forward
+FFT / N / r^s; joint over two layers by a 2D grid), plus two exact routes
+for polynomial pgfs (`symbolic_series`, rational iteration; `good_by_layer`,
+Good's inversion with the rational determinant series-expanded). Tests
+`tests/test_components.py` (5). `book/figs/components.py` (45 s): Borel to
+1e-15; series = transform to 1e-17; Good 2/35, 6/245, 12/1225; households
+{1:1/5, 3:1/2, 5:3/10}, p_H = 1/2, k = 2, T_c = 0.1569: theory = simulation
+(12 × 1e5 households) at every s to 60, S 0.4895 vs 0.4893, households
+touched 2.30 vs 2.31 at s = 8; nine real networks (Table 21.1): binary
+interactomes S within 3% (clique closer on yeast), finite tail low by 2–4×
+from s = 4; Collins (AP-MS) fails outright (S 0.99–1.00 vs 0.62) because its
+finite components are isolated complexes — the cardinality–chy-degree
+correlation of Sec. 5.5, on data. Marking does not support site thinning.
+
+Open: measure the joint (cardinality, member chy-degree) distribution on the
+interactomes and run the marked map on Sec. 5.5's joint construction.

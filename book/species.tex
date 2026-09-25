@@ -2,7 +2,9 @@
 \label{ch:species}
 
 % Part V, added 2026-09-25 from ~/Downloads/chygraph_master_equation/draft.tex,
-% Sec. 7. Nothing is computed here. The two things this chapter shows by
+% Sec. 7. One thing is computed here, Sec. sp-computed: the distribution
+% itself, by percolation.components and figs/components.py (added after the
+% review of 2026-09-25). The two things this chapter shows by
 % calculation -- that the excess functions are derivatives, and that the
 % Jacobian at threshold is the second derivative -- are identities between
 % generating functions the book already carries; the rest is where the same
@@ -294,11 +296,144 @@ factor $\delta_{ij}-w_{j}\partial_{j}\varphi_{i}/\varphi_{i}$ at $w=1$ is
 $I-J$, and its vanishing at threshold is, heuristically --- the determinant
 sits inside the coefficient extraction, so this is a saddle-point reading
 and not a consequence --- what makes the coefficients of
-Eq.~\eqref{eq:sp-good} decay as a power law there. It should be said plainly
-that the book does not compute this distribution anywhere: what
-Chapter~\ref{ch:giant} reports is $S$ and $B$, and the finite-component
-distribution by layer is a calculation Eq.~\eqref{eq:sp-good} makes routine
-and the book leaves undone.
+Eq.~\eqref{eq:sp-good} decay as a power law there. What
+Chapter~\ref{ch:giant} reports is $S$ and $B$; the next section computes
+the distribution itself.
+
+
+\section{The distribution, computed}
+\label{sec:sp-computed}
+\index{component size distribution|textbf}
+\index{households}
+\index{interactome}
+
+The marked system, Eq.~\eqref{eq:sp-system}, is solved the way every map in
+Part~II is solved, by iteration from zero, with one change: the marking
+variables are placed on a circle $|x_{l}|=r<1$ in the complex plane. There
+the iteration converges to the power-series fixed point, and the
+coefficients are Cauchy's integral on a grid --- the discrete Fourier
+transform of the fixed point around the circle, divided by $r^{s}$. The
+cost is one evaluation of the map per grid point per iteration, vectorised,
+and a distribution to $s=400$ on a two-layer chygraph takes well under a
+second; the absolute accuracy is the floating-point floor divided by
+$r^{s}$, so the radius is chosen close to one when the tail is wanted.
+\code{percolation.\allowbreak components.\allowbreak
+Component\allowbreak Distribution} is the routine, with \code{joint} for
+the distribution over two layers at once.
+
+Two exact routes check it, both for polynomial generating functions:
+\code{symbolic\_\allowbreak series} iterates the marked map in rational
+arithmetic to a fixed total degree, and \code{good\_\allowbreak by\_\allowbreak
+layer} is Eq.~\eqref{eq:sp-good}, with one marking variable per unknown and
+the determinant expanded as a series before the coefficient is read. On an
+Erd\H{o}s--R\'enyi graph the transform returns the Borel distribution,
+$P(s)=e^{-cs}(cs)^{s-1}/s!$, to $10^{-15}$ at $\ave{k}=0.5$, $1.5$ and
+$2.5$, below and above the threshold alike, with the mass of the finite
+components equal to $1-S$. On a two-layer chygraph with degrees $1$, $2$,
+$3$ and cardinalities $2$, $3$ the exact series and the transform agree to
+$10^{-17}$, and Good's formula returns the series' coefficients ---
+$2/35$, $6/245$, $12/1225$ for a root with one hyperedge and one, two and
+two further nodes --- as rational numbers.
+
+\begin{figure}[tp]
+\centering
+\includegraphics[width=0.84\linewidth]{figs/fig-components.pdf}
+\caption{\textbf{The finite-component distribution, by layer.} (a) The
+outbreak-size distribution of an SIR epidemic with two levels of mixing,
+Chapter~\ref{ch:epidemics}'s construction: households of size $1$, $3$ and
+$5$ with weights $1/5$, $1/2$, $3/10$, within-household transmission
+$p_{H}=1/2$, a Poisson global contact network of mean degree $2$, and
+$T_{c}=0.157$ at $R^{*}=1$. Lines are Eq.~\eqref{eq:sp-system} with
+individuals marked; points are bond percolation on the same structure,
+twelve realisations of $10^{5}$ households, with the giant removed above
+the threshold. The peaks at $s=1$, $3$, $5$ are the household sizes. (b)
+Nine real networks against the same calculation, two of them drawn: the
+fraction of nodes in finite components of size $s$ in the yeast and
+\emph{C.~elegans} interactomes, against the prediction from the degree
+distribution alone (dotted) and from the clique chygraph of
+Chapter~\ref{ch:data} (solid). Table~\ref{tab:components} has the numbers.
+\code{figs/\allowbreak components.\allowbreak py}.}
+\label{fig:components}
+\end{figure}
+
+\paragraph{Household epidemics.} Figure~\ref{fig:components}a is the
+quantity Chapter~\ref{ch:epidemics} could not give. That chapter's
+construction, households as complexes whose interior is bond percolation on
+a clique and global contacts as complexes of two, returned the final size
+of a major outbreak and the threshold $R^{*}=1$; the marked map returns the
+whole distribution of outbreak sizes, and Chapter~\ref{ch:epidemics}'s
+mapping of SIR to percolation makes it exact for final sizes. Below the
+threshold, at $T=0.6\,T_{c}$, the prediction matches bond percolation on
+the same structure at every size to within the simulation's scatter:
+$P(10)=3.04\times10^{-2}$ against $3.04\times10^{-2}$, $P(40)=1.35\times10^{-3}$
+against $1.46\times10^{-3}$ from some forty outbreaks of that size. Above it,
+at $T=1.5\,T_{c}$, the finite components carry $0.506$ of the mass against
+a giant of $0.4895$, the simulation's giant is $0.4893$, and the
+finite-component distribution agrees as before. The joint distribution
+over individuals and households, from \code{joint}, says how many
+households an outbreak of $s$ people touches: $1.06$ at $s=2$ or $3$,
+$1.15$ at $s=5$, $2.30$ at $s=8$, $3.65$ at $s=12$ and $5.75$ at $s=20$
+against $1.06$, $1.06$, $1.15$, $2.31$, $3.65$ and $5.70$ in the
+simulation --- an outbreak stays inside one household until it is larger
+than a household, and then spreads over roughly one household per three
+further cases.
+
+\begin{table}[t]
+\centering\small
+\begin{adjustbox}{max width=\linewidth}
+\input{figs/tab-components}
+\end{adjustbox}
+\caption{\textbf{Finite components of nine real networks.} The largest
+component as a fraction of the nodes, against the giant fraction $S$
+predicted from the degree distribution (graph) and from the maximal-clique
+chygraph (clique); and the fraction of nodes in components of two and of
+three, real and predicted from the clique chygraph; the degree-distribution
+prediction of the last two differs from it by at most $0.03$ on every
+network except the affinity-purification one, where both are essentially
+zero. Every network in the cache of
+Chapter~\ref{ch:data} with at least five components. Seven are binary
+interactomes; the last two are an affinity-purification interactome, whose
+finite components are isolated complexes, and a road network.
+\code{figs/\allowbreak components.\allowbreak py}.}
+\label{tab:components}
+\end{table}
+
+\paragraph{Interactomes.} Figure~\ref{fig:components}b and
+Table~\ref{tab:components} put the same calculation against data, on the
+networks of Chapter~\ref{ch:data} that have finite components to compare
+with: the seven binary interactomes, one affinity-purification interactome
+and the road network. The prediction is read off each network's own
+degree distribution, and off its own clique chygraph --- the chy-degree
+distribution of the maximal cliques and their size-biased cardinalities,
+Sec.~\ref{sec:ensembles}'s four families measured rather than assumed.
+Three things come out. On the binary interactomes the giant is predicted
+within three per cent by either route, the clique chygraph closer on the
+yeast network ($0.793$ against $0.790$, where the degree distribution gives
+$0.820$), and the two predictions differ little because the maximal
+cliques of a binary interactome are mostly edges. The finite components
+are heavier than either prediction: at $s=2$ the prediction is high by
+twenty to thirty per cent and from $s=4$ on it is low by a factor of two to
+four, on every one of the seven. And on the affinity-purification network
+the calculation fails outright, predicting a giant of $0.99$ to $1.00$
+where the real largest component holds $0.62$ of the proteins and $0.38$
+of them sit in $192$ finite components of mean size $3.2$.
+
+The failure is informative, and it is Sec.~\ref{sec:joint}'s finding on
+data. The finite components of the Collins network are isolated protein
+complexes, cliques every one of whose members has chy-degree one; the
+finite components of the binary interactomes are, in a milder form, the
+same thing, small groups whose members belong to nothing else. A layered
+ensemble with independent margins cannot hold that: it draws a clique's
+cardinality and its members' chy-degrees separately, so the probability
+that a five-member complex is isolated is the fifth power of the
+probability that one member is, which is why the predicted $S$ is
+essentially one. The cardinality and the chy-degrees of the members are
+correlated in the data, and Sec.~\ref{sec:joint} showed that a correlation
+of exactly that kind moves the threshold with the margins held fixed. The
+joint construction of Sec.~\ref{sec:joint} is the ensemble that could carry
+it, and the marked map runs on it unchanged; measuring the joint
+distribution on the interactomes and running it is the calculation this
+section stops short of.
 
 \section{The analytic functor and the Giry monad}
 \label{sec:sp-giry}
@@ -485,7 +620,10 @@ the derivative, and arriving along an inclusion was already one.
 
 The full finite-component distribution by layer, Eq.~\eqref{eq:sp-good},
 where Chapter~\ref{ch:giant} has the amplitude. This is the one item on the
-list that is a calculation rather than a reading, and it is not done.
+list that is a calculation rather than a reading, and Sec.~\ref{sec:sp-computed}
+does it: outbreak sizes to the simulation's scatter, and on real
+interactomes a giant within three per cent and a finite-component tail the
+ensemble underestimates, for a reason the calculation names.
 
 And, stated with the caution Sec.~\ref{sec:sp-hopf} gave it, a candidate
 meaning for the Birkhoff decomposition at a percolation threshold.
@@ -521,3 +659,37 @@ The physics of Parts~II and~III solves those systems --- thresholds,
 amplitudes, free energies --- before the algebra has been written down, and
 the algebra, once written, would say which of the book's fixed-point
 equations close on a subalgebra and which do not.
+
+\section{Checks}
+\label{sec:sp-checks}
+
+\checkhead{Known results}
+\code{figs/\allowbreak components.\allowbreak py} runs, before it draws
+anything: the marked map on an Erd\H{o}s--R\'enyi graph against the Borel
+distribution at $\ave{k}=0.5$, $1.5$ and $2.5$, to $10^{-15}$, with the
+mass of the finite components equal to $1-S$; the exact series of the
+marked map against the transform on a two-layer chygraph with polynomial
+generating functions, to $10^{-17}$; and Good's inversion,
+Eq.~\eqref{eq:sp-good}, against that series, exactly, for three
+coefficients. \code{percolation/\allowbreak tests/\allowbreak
+test\_\allowbreak components.\allowbreak py} pins the same three and adds
+the joint distribution's margins and its support.
+
+\checkhead{New results}
+The distribution by layer on a chygraph, and the two applications. The
+household outbreak-size distribution is checked against bond percolation
+on the same structure, twelve realisations of $10^{5}$ households at two
+transmissibilities, below and above $R^{*}=1$, size by size to $s=60$ and
+through the mean number of households an outbreak touches; the interactome
+predictions are checked against the data in Table~\ref{tab:components},
+where the giant is reproduced and the finite tail is not.
+
+\checkhead{Partial results}
+The marking assumes that every complex reached is present, so the module
+does not take site-thinned generating functions; bond-type thinning inside
+the intra-complex functions, which is what every construction used here
+does, is the supported form. The interactome tail is a negative result
+with a named cause and no repair run: the joint construction of
+Sec.~\ref{sec:joint} would carry the cardinality--chy-degree correlation,
+and the marked map accepts it, but the correlation has not been measured
+on the interactomes and the calculation has not been done.

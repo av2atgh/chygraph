@@ -39,7 +39,7 @@ be reached without knowing which of the two defines it. Table~\ref{tab:map}
 names the defining package throughout, since that is what a reader looking for
 the source wants.
 
-A third source is the book's own \code{figs/} directory, which holds seventeen
+A third source is the book's own \code{figs/} directory, which holds eighteen
 scripts covering Chapter~\ref{ch:data} onward, most of them named for the
 chapter they serve. Those scripts generate the figures, and for
 Chapters~\ref{ch:potts}, \ref{ch:colouring} and~\ref{ch:satisfiability} they
@@ -259,6 +259,11 @@ Eq. & what it is & evaluated by & checked in\\
 \eqref{eq:lltmap} & landscape percolation as a dependent layer & \code{statmech/\allowbreak probe/\allowbreak anderson.\allowbreak Ensemble.\allowbreak percolation\_\allowbreak growth} & Sec.~\ref{sec:loc-checks}\\
 \eqref{eq:imlinear} & the linearised imaginary parts & \code{resolvent.\allowbreak linearised\_\allowbreak imaginary}; its growth in \code{anderson.\allowbreak Ensemble.\allowbreak imaginary\_\allowbreak growth} & \code{test\_\allowbreak resolvent}; Sec.~\ref{sec:loc-checks}\\
 \eqref{eq:branchingloc} & the incidence tree's branching & \code{Chygraph.\allowbreak incidence\_\allowbreak branching} & \code{test\_\allowbreak resolvent}\\
+\multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:species}, the component distribution}}\\
+\eqref{eq:sp-system} & the marked map, on a circle & \code{components.\allowbreak Component\allowbreak Distribution} & \code{test\_\allowbreak components}: Borel; Sec.~\ref{sec:sp-checks}\\
+\eqref{eq:sp-system} & the marked map, exact & \code{components.\allowbreak symbolic\_\allowbreak series} & \code{test\_\allowbreak components}\\
+\eqref{eq:sp-good} & Good's inversion & \code{components.\allowbreak good\_\allowbreak by\_\allowbreak layer} & \code{test\_\allowbreak components}\\
+\eqref{eq:sp-lagrange} & the Borel anchor & \code{components.\allowbreak borel} & \code{test\_\allowbreak components}\\
 \end{longtable}
 }
 

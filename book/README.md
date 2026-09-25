@@ -36,14 +36,16 @@ ending on the routine that executes it.
 | **V** | | **The math connection** |
 | 19 | `chyequation.tex` | The recursion written once: the factor graph of α+I (every complex a variable and a factor), chygraph belief propagation, and the chygraph equation as its density evolution; what the pair yields (the 2L² threshold operator with the own-leg derivative û′, the readout, the counting numbers) |
 | 20 | `rde.tex` | Probability: the chygraph equation as a system of recursive distributional equations; endogeny = replica symmetry, bivariate uniqueness = the AT line at the linear level; the smoothing transform and Ch. 18's mobility edge; the local weak limit as a multitype branching process whose mean matrix is the threshold tensor |
-| 21 | `species.tex` | Combinatorics: the excess functions are derivatives of a species, the excess bracket a partial derivative by sort; two kinds of hole; Lagrange inversion for the whole component distribution; analytic functors on the Giry monad; the Hopf side (Dyson–Schwinger with two grafting operators) |
+| 21 | `species.tex` | Combinatorics: the excess functions are derivatives of a species, the excess bracket a partial derivative by sort; two kinds of hole; Lagrange inversion for the whole component distribution, **computed** in Sec. 21.4 (households against simulation, interactomes against data, Table 21.1); analytic functors on the Giry monad; the Hopf side (Dyson–Schwinger with two grafting operators) |
 | 22 | `operads.tex` | A complex is an operation; percolation is Com; the excess bracket is partial composition; treelike is cyclic, Part IV is modular (self-gluing, genus); a coloured operad; compound complexes are disconnected operations |
 | 23 | `marginal.tex` | Category theory: sum-product in a monoidal category; treelike as conditional independence; the marginal problem of Vorob'ev and Kellerer as Ch. 17's theorem sixty years early; sheaf obstruction (one-way); the level-wise statement as a corollary of Vorob'ev modulo a definition check |
 | 24 | `mobius.tex` | Topology: the counting numbers are the Möbius function of the inclusion poset; the chygraph recursion is exact iff b₁ = 0 (Berge-acyclic), the region-graph one iff α-acyclic; the loop series and motif promotion as partial resummation; GYO as collapsibility; acyclicity percolation beside Linial–Meshulam; the threshold as a sheaf-Laplacian gap |
 | 25 | `outlook.tex` | One recursion, many models; the two running threads; what is not done |
 | — | `software.tex` | Back matter. Repo links; equation-to-method-to-test table; how to reproduce a figure |
 
-**Part V computes nothing and its chapters carry no Checks section.** They
+**Part V computes one thing: Sec. 21.4's finite-component distribution by
+layer** (`percolation/src/percolation/components.py`, `figs/components.py`);
+Ch. 21 has a Checks section and the other five chapters do not. They
 were written on 2026-09-25 from `~/Downloads/chygraph_master_equation/draft.tex`
 (Secs. 1–5 → Ch. 19, Secs. 6–10 → Chs. 20–24), anchored on the book's
 equations; the figures in it are TikZ in the chapter files. The draft's
@@ -61,16 +63,16 @@ propagation at `m = 0`. PDFs of the references are under
 ## Status
 
 `main.pdf` builds with **0 errors, 0 undefined references and 0
-multiply-defined labels, across 482 pages.** Not box-clean: **four overfull
+multiply-defined labels, across 490 pages.** Not box-clean: **four overfull
 hboxes** — `cover.tex:483--493` (1.99pt, "Which replica-symmetry-breaking
 point"), `metacomplex.tex:383--389` (3.16pt) and two of 0.66pt in
 `software.tex`'s Table 1 (lines 255–256, the Ch. 18 handle rows, present
-since that commit) — and 66 underfull vboxes, every one of them `while
+since that commit) — and 69 underfull vboxes, every one of them `while
 \output is active`, which is page-breaking around floats and not a line
 running into the margin.
 
-73 figures, 35 numbered tables, 212 numbered equations, 139 references and a
-173-term index. Both checks under *Two checks the build cannot make* print
+74 figures, 36 numbered tables, 212 numbered equations, 139 references and a
+174-term index. Both checks under *Two checks the build cannot make* print
 nothing.
 
 **These counts are re-measured, not maintained by hand** — the recipes are
@@ -338,6 +340,17 @@ and triangles (1e-15), and the pure-hopping band bottoms -2 sqrt(2) and
 chapter. The band-centre benchmark (W_c = 18.17 on the K = 2 Bethe lattice)
 and the two lines at W = 1.5 against Tonetti et al. are the tests from
 outside the formalism.
+`figs/components.py` generates Figure 21.2 and Table 21.1 from
+`percolation.components`: the marked map of Eq. (21.6) solved on a circle in
+the complex plane (Cauchy's integral on a grid) and, as checks, the exact
+series and Good's inversion. It runs the checks first — Borel on
+Erdős–Rényi to 1e-15, the exact series against the transform, Good's
+coefficients 2/35, 6/245, 12/1225 against the series, the joint
+(individuals, households) distribution against simulation — then the
+household outbreak-size distribution against bond-percolation simulation
+(12 realisations of 1e5 households) and the finite components of the nine
+cached networks with at least five components against the degree-distribution
+and clique-chygraph predictions. About 45 s.
 `figs/onestep.py` generates Figure 13.4 from
 `../statmech/probe/results/onestep_sat.csv`, the cached output of
 `../statmech/probe/onestep_sat.py scan` — the one-step calculation at
