@@ -309,3 +309,17 @@ Eq. (sherman) and the cost sentence now says linear; the software chapter has
 a Ch. 18 block and handle rows.  Note for the rerun: λ(1/2) at (3,0), W=18,
 P=2e5, seed 0 is 0.9775 with both old and new code, not the 0.967 the text
 quotes, so that number came from another run.
+
+## 2026-09-25: Ch. 18 rerun from one code version (review item 2)
+
+`anderson.py rerun` (108 min on 8 cores): scan at β = 1/2 only, repeats at
+seed 1 (six points) and seeds 2–3 (cactus W = 6), the bias triple at three
+seeds, a β scan 0.3–0.7 on tree and cactus, and the side data.  Percolation
+thresholds identical to the previous scan at all 30 points (their scatter is
+below the bisection grid of 0.003–0.007); mobility edges move by ≤ 0.09;
+W_c unchanged to 0.1.  Seed scatter of the mobility edge: 0.005 at W = 1.5,
+0.03 at 4.5, 0.06 on the cactus at W = 6 (−3.72, −3.69, −3.66, −3.66).
+Bias triple: λ(1/2) = 0.98 ± 0.01 at 2e5, 1e6, 3e6 alike; no resolvable
+trend with P.  β scan: flat to 0.002 on the cactus at its band-centre W_c;
+on the tree the β-dependence (0.03) changes sign between seeds.  Secs.
+18.4–18.7 rewritten from these; new CSVs anderson_repeats/bias/beta.

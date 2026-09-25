@@ -467,8 +467,7 @@ at the bottom of the band, which by the symmetry of the tree's spectrum is
 $3.106$ at the top against \citeauthor{tonetti2026}'s $3.165$, two per cent
 apart. The triangle ensembles are not bipartite and their spectra are not
 symmetric, so everything here is done at the bottom of the band and
-compared there. The population threshold is precise to $0.002$ between
-runs and less accurate than that: a single instance of $60\,000$ sites
+compared there. The population threshold is precise to its bisection grid, a few thousandths, and less accurate than that: a single instance of $60\,000$ sites
 with its landscape solved exactly puts the onset at $E'\approx0.45$ at
 $W=1.5$ and $2.1$ at $W=6$ against the population's $0.473$ and $2.30$,
 so the threshold is known to a few hundredths.
@@ -511,21 +510,15 @@ $\lambda(\beta)<1$ for some $\beta\in(0,1)$, where $\lambda(\beta)$ is the
 growth factor per generation of $\langle(\operatorname{Im}\Sigma)^{\beta}\rangle$
 under Eq.~\eqref{eq:imlinear}, and the transition is where
 $\min_{\beta}\lambda(\beta)=1$ \citep{abouchacra1973}. That minimum sits at
-$\beta=1/2$ on the tree by a symmetry of the kernel \citep{mirlin1991},
-and the population
-estimate here scans $\beta$ over $0.4$ to $0.6$. This is the de
+$\beta=1/2$ on the tree by a symmetry of the kernel \citep{mirlin1991}, and the population estimate here evaluates it there. A scan of $\beta$ from $0.3$ to $0.7$ checks the choice: on the cactus at the band centre near its $W_{c}$, where the symmetry is not guaranteed, the estimate is flat in $\beta$ to $0.002$, and on the tree its variation with $\beta$, $0.03$ at $W=17$, changes sign between seeds and population sizes, so a minimum taken over $\beta$ would read the sampling noise of the heavy tail rather than the kernel. This is the de
 Almeida--Thouless argument of Sec.~\ref{sec:atline} with a fractional
 power in place of the square: a perturbation of random size, transmitted
 with a random factor, whose typical growth decides.
 
 The estimate is biased by the population. At the band centre of $(3,0)$,
 where the transition is at $W_{c}=18.17$ \citep{tikhonov2019,parisi2019},
-$\lambda(1/2)$ at $W=18$ is $0.967$, $0.977$ and $0.986$ with $2\times10^{5}$,
-$10^{6}$ and $3\times10^{6}$ elements, rising towards one as the heavy tail
-of the moment is sampled better, and the threshold read from
-$10^{6}$ elements is a few per cent low. At the bottom of the band the
-bias is smaller: $(3,0)$ at $W=1.5$ gives $E_{c}^{\mathrm{loc}}=-3.111$
-against \citeauthor{tonetti2026}'s $-3.152$, a bias of $0.04$. The comparisons that matter
+$\lambda(1/2)$ at $W=18$ is $0.98\pm0.01$ with $2\times10^{5}$, $10^{6}$ and $3\times10^{6}$ elements alike, three seeds each: the spread between seeds, $0.01$ to $0.02$, is larger than any trend with population size, so the shortfall from one, which makes the threshold read from the population a few per cent low, is not removed by populations of this size and is quoted rather than corrected. At the bottom of the band the
+bias is smaller: $(3,0)$ at $W=1.5$ gives $E_{c}^{\mathrm{loc}}=-3.11$, two seeds giving $-3.115$ and $-3.109$, against \citeauthor{tonetti2026}'s $-3.152$, a bias of $0.04$. The comparisons that matter
 below are between ensembles at the same population, where the bias is
 common.
 
@@ -538,13 +531,7 @@ prints them. Both lines are energies at the
 bottom of the band, a state being extended for $E>E_{c}^{\mathrm{loc}}$ and
 the landscape percolating for $E>E_{c}^{\mathrm{perc}}$; the gap
 $E_{c}^{\mathrm{perc}}-E_{c}^{\mathrm{loc}}$ is positive where the LLT misses
-extended states and negative where it invents them. Six of the thirty
-points were computed twice. On five the percolation threshold repeats to
-$0.002$ and the mobility edge to $0.003$ at $W=1.5$ and $0.03$ at $W=6$,
-which are the error bars. On the sixth, the cactus at $W=6$, the two runs
-differ by $0.15$ in the percolation threshold, a change in the code
-between them rather than in the population; the figures show the first
-run, and the point awaits a rerun.
+extended states and negative where it invents them. Every point comes from one version of the code at one seed, and six of the thirty were repeated at a second seed, the cactus at $W=6$ at four. The percolation threshold is located by bisection on a grid of $0.003$ to $0.007$, and the repeats land in the same bin at every point but one, which moves by one bin: its scatter is below the grid. The mobility edge scatters between seeds by $0.005$ at $W=1.5$, $0.03$ at $W=4.5$ and up to $0.06$ on the cactus at $W=6$, where four seeds give $-3.72$, $-3.69$, $-3.66$ and $-3.66$. Those are the error bars, and the gap inherits the mobility edge's.
 
 \paragraph{The lines, measured from the band edge.}
 Figure~\ref{fig:anderson} plots both lines as their distance above
@@ -554,9 +541,7 @@ climbs away from the band edge roughly linearly in $W$ on every ensemble:
 the localised skin at the bottom of the band thickens with disorder. The
 percolation line climbs faster on every ensemble, so the two cross where
 they are going to cross, and the gap that opens does not close again,
-though on the degree-three tree it dips by $0.07$ between $W=9$ and
-$12$. On the degree-three tree they start together: the gap at $W=1.5$
-is $+0.006$ here and $-0.013$ in \citeauthor{tonetti2026}, the landscape
+though on the degree-three tree it dips by $0.05$ between $W=9$ and $12$. On the degree-three tree they start together: the gap at $W=1.5$ is $+0.009$ here, $+0.004$ at the second seed, and $-0.013$ in \citeauthor{tonetti2026}, the landscape
 missing states in one and inventing them in the other, and the two are
 not in conflict, because the population bias on the mobility edge at
 this point, $0.04$ (Sec.~\ref{sec:mobility}), is several times either
@@ -566,10 +551,7 @@ resolves. On
 the degree-four tree, which they do not treat, the percolation line
 starts below the mobility edge and crosses it once, near $W=4.3$. And the
 triangle ensembles lie above the trees on both lines, further above on
-the percolation line: at degree three the two mobility edges are $0.04$ apart at $W=1.5$
-and $0.24$ at $W=3$ while the percolation lines are $0.23$ and $0.41$
-apart, and at degree four, at $W=12$, the three mobility edges
-spread over $0.9$ and the three percolation lines over $1.5$. Both lines
+the percolation line: at degree three the two mobility edges are $0.04$ apart at $W=1.5$ and $0.23$ at $W=3$ while the percolation lines are $0.23$ and $0.41$ apart, and at degree four, at $W=12$, the three mobility edges spread over $1.0$ and the three percolation lines over $1.5$. Both lines
 move with the loops; the landscape's moves about twice as far.
 
 \paragraph{The phase diagram.} Figure~\ref{fig:andersonphase} redraws
@@ -602,12 +584,10 @@ compute.
 
 \paragraph{The gap.} Figure~\ref{fig:andersongap} is the difference, and
 it is the chapter's result in one panel. At every disorder but one the gap increases with the number of
-triangles at fixed degree --- the exception is $W=6$ at degree three,
-where the two ensembles are within the repeat spread of each other ---
+triangles at fixed degree --- the exception is $W=6$ at degree three, where the cactus's gap, $0.86\pm0.03$ over four seeds, sits at the tree's $0.89$ ---
 and it does so by moving the crossing to weaker disorder: $W\approx4.3$ on the degree-four
 tree, $3.0$ with one triangle per site, $1.7$ with two. Above the crossing
-the ordering never changes --- $0.27$, $0.49$, $0.75$ at $W=6$ and $1.3$,
-$1.5$, $1.9$ at $W=12$ --- and at degree three the cactus opens a gap of
+the ordering never changes --- $0.26$, $0.49$, $0.77$ at $W=6$ and $1.3$, $1.5$, $1.8$ at $W=12$ --- and at degree three the cactus opens a gap of
 $0.20$ where the tree has none. Then the cactus does something the tree
 does not. At $W=9$ its curve stops: the imaginary parts decay at every
 energy, the whole band is localised, and the landscape still percolates,
@@ -652,8 +632,7 @@ term in a self-energy, and nothing about branching.
 
 \paragraph{The two mechanisms, checked.} Figure~\ref{fig:andersonmech}
 shows the two criteria at work. On the left, $\lambda(1/2)$ against energy
-at $W=3$ for the tree and the cactus: a smooth crossing of one, at
-$0.78$ above the band edge on the tree and $1.02$ on the cactus, which is
+at $W=3$ for the tree and the cactus: a smooth crossing of one, at $0.80$ above the band edge on the tree and $1.04$ on the cactus, which is
 the mobility edge as a stability line, with the cactus's localised skin
 thicker by a quarter of a unit. On the right, the percolation growth
 factor against $E'$ on the tree at $W=1.5$, with the $(\Sigma,\eta,p)$
@@ -788,9 +767,7 @@ object cannot tell the difference.
 
 What is not done is the critical behaviour, which \citeauthor{tonetti2026}
 find to differ between the two transitions on the tree; nothing here
-computes an exponent, and the lines are located to a few hundredths where they were
-repeated, the mobility edge less well than the threshold, with one
-repeated point still open (Sec.~\ref{sec:loops}). The population bias on the mobility edge is a few
+computes an exponent, and the lines are located to a few thousandths for the threshold and a few hundredths for the mobility edge (Sec.~\ref{sec:loops}). The population bias on the mobility edge is a few
 per cent and common to the comparisons made. And the ensembles are
 regular; a chygraph of the maximal cliques of a real network, with the
 degree and cardinality distributions of Chapter~\ref{ch:data}, is the same

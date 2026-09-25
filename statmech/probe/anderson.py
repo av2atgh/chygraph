@@ -324,7 +324,7 @@ def _lines(args):
     Epc = e.percolation_threshold(pops, Emin, 0.02, 1.5 * abs(Emin), iters=11, sweeps=250, transient=100)
     # mobility edge: localised at the very bottom, extended at the band centre for W < W_c
     e = Ensemble(s, t, W, P=P, seed=seed)
-    Ecl = e.mobility_edge(Emin + 0.02, 0.0, iters=11, betas=(0.4, 0.5, 0.6), sweeps=400, transient=200)
+    Ecl = e.mobility_edge(Emin + 0.02, 0.0, iters=11, betas=(0.5,), sweeps=400, transient=200)
     row = dict(s=s, t=t, degree=s + 2 * t, W=W, P=P, seed=seed, Emin=Emin, band_bottom=e.band_bottom(),
                Eprime_c=Epc, Ec_perc=Emin + Epc, Ec_loc=Ecl, gap=(Emin + Epc) - Ecl, sec=round(time.time() - t0))
     print(' '.join(f'{k}={v:.5g}' if isinstance(v, float) else f'{k}={v}' for k, v in row.items()), flush=True)
@@ -339,7 +339,7 @@ def _wc(args):
 
     def f(W):
         e.W = W
-        return min(e.imaginary_growth(0.0, betas=(0.4, 0.5, 0.6), sweeps=400, transient=200).values()) - 1
+        return e.imaginary_growth(0.0, betas=(0.5,), sweeps=400, transient=200)[0.5] - 1
     lo, hi = 5.0, 40.0
     for _ in range(10):
         mid = 0.5 * (lo + hi)
@@ -350,6 +350,14 @@ def _wc(args):
     row = dict(s=s, t=t, degree=s + 2 * t, P=P, seed=seed, Wc=0.5 * (lo + hi), sec=round(time.time() - t0))
     print(' '.join(f'{k}={v:.5g}' if isinstance(v, float) else f'{k}={v}' for k, v in row.items()), flush=True)
     return row
+
+
+def _write(name, rows):
+    import csv
+    with open(OUT / name, 'w', newline='') as f:
+        w = csv.DictWriter(f, fieldnames=list(rows[0]))
+        w.writeheader()
+        w.writerows(rows)
 
 
 def scan(P=1000000, seed=0, procs=8):
@@ -443,3 +451,76 @@ if __name__ == '__main__' and len(sys.argv) > 1 and sys.argv[1] == 'side':
     side_data()
 if __name__ == '__main__' and len(sys.argv) > 1 and sys.argv[1] == 'growth':
     side_growth()
+
+
+# ------------------------------------------------------- reruns (2026-09-25)
+# The scan above is the chapter's data.  These add what the independent
+# review asked for: repeats at distinct seeds, the population-bias triple at
+# several seeds, and a check that the fractional-moment growth is minimal
+# near beta = 1/2 on the cactus, where the tree's symmetry is not guaranteed.
+
+REPEATS = [(3, 0, 1.5, 1), (3, 0, 6.0, 1), (1, 1, 1.5, 1), (1, 1, 3.0, 1),
+           (1, 1, 4.5, 1), (1, 1, 6.0, 1), (1, 1, 6.0, 2), (1, 1, 6.0, 3)]
+
+
+def repeats(P=1000000, procs=8):
+    from multiprocessing import Pool
+    jobs = [(s, t, W, P, seed) for (s, t, W, seed) in REPEATS]
+    with Pool(min(procs, len(jobs))) as pool:
+        rows = pool.map(_lines, jobs)
+    _write('anderson_repeats.csv', rows)
+
+
+def _bias(args):
+    P, seed = args
+    t0 = time.time()
+    e = Ensemble(3, 0, 18.0, P=P, seed=seed)
+    lam = e.imaginary_growth(0.0, betas=(0.5,), sweeps=400, transient=200)[0.5]
+    row = dict(s=3, t=0, W=18.0, E=0.0, P=P, seed=seed, lam=lam, sec=round(time.time() - t0))
+    print(' '.join(f'{k}={v:.5g}' if isinstance(v, float) else f'{k}={v}' for k, v in row.items()), flush=True)
+    return row
+
+
+def bias(procs=8):
+    """lambda(1/2) at the band centre of (3,0), W = 18, against population size and seed."""
+    from multiprocessing import Pool
+    jobs = [(P, seed) for P in (200000, 1000000, 3000000) for seed in (0, 1, 2)]
+    with Pool(min(procs, len(jobs))) as pool:
+        rows = pool.map(_bias, jobs)
+    _write('anderson_bias.csv', rows)
+
+
+def _beta(args):
+    s, t, W, E, P, seed = args
+    e = Ensemble(s, t, W, P=P, seed=seed)
+    if E is None:
+        E = e.E_min() + 1.0
+    lams = e.imaginary_growth(E, betas=(0.3, 0.4, 0.5, 0.6, 0.7), sweeps=400, transient=200)
+    rows = [dict(s=s, t=t, W=W, E=E, P=P, seed=seed, beta=b, lam=l) for b, l in lams.items()]
+    print(f'beta ({s},{t}) W={W} E={E:.3f}: ' + ' '.join(f'{b}:{l:.4f}' for b, l in lams.items()), flush=True)
+    return rows
+
+
+def beta_check(P=1000000, seed=0, procs=8):
+    """The growth factor against beta at the band centre and near the mobility
+    edge, on the tree and the cactus."""
+    from multiprocessing import Pool
+    jobs = [(3, 0, 17.0, 0.0, P, seed), (1, 1, 8.5, 0.0, P, seed),
+            (3, 0, 3.0, None, P, seed), (1, 1, 3.0, None, P, seed)]
+    with Pool(min(procs, len(jobs))) as pool:
+        rows = sum(pool.map(_beta, jobs), [])
+    _write('anderson_beta.csv', rows)
+
+
+def rerun():
+    """Everything the chapter quotes, from one version of the code."""
+    for name, f in (('scan', scan), ('repeats', repeats), ('bias', bias),
+                    ('beta', beta_check), ('side', side_data)):
+        t0 = time.time()
+        print(f'=== {name} start', time.strftime('%Y-%m-%d %H:%M:%S'), flush=True)
+        f()
+        print(f'=== {name} done in {round(time.time() - t0)} s', flush=True)
+
+
+if __name__ == '__main__' and len(sys.argv) > 1 and sys.argv[1] == 'rerun':
+    rerun()

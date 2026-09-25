@@ -1,0 +1,160 @@
+=== scan start 2026-09-25 10:06:53
+s=3 t=0 degree=3 W=4.5 P=1000000 seed=0 Emin=-5.0785 band_bottom=-2.8285 Eprime_c=1.6764 Ec_perc=-3.402 Ec_loc=-3.9877 gap=0.58571 sec=554
+s=3 t=0 degree=3 W=1.5 P=1000000 seed=0 Emin=-3.5785 band_bottom=-2.8285 Eprime_c=0.47304 Ec_perc=-3.1054 Ec_loc=-3.1145 gap=0.0091004 sec=563
+s=3 t=0 degree=3 W=12 P=1000000 seed=0 Emin=-8.8285 band_bottom=-2.8285 Eprime_c=4.8332 Ec_perc=-3.9952 Ec_loc=-5.3698 gap=1.3746 sec=563
+s=3 t=0 degree=3 W=3 P=1000000 seed=0 Emin=-4.3285 band_bottom=-2.8285 Eprime_c=1.074 Ec_perc=-3.2544 Ec_loc=-3.548 gap=0.29352 sec=567
+s=3 t=0 degree=3 W=9 P=1000000 seed=0 Emin=-7.3285 band_bottom=-2.8285 Eprime_c=3.5481 Ec_perc=-3.7804 Ec_loc=-5.2012 gap=1.4208 sec=569
+s=3 t=0 degree=3 W=6 P=1000000 seed=0 Emin=-5.8285 band_bottom=-2.8285 Eprime_c=2.2965 Ec_perc=-3.532 Ec_loc=-4.4202 gap=0.8882 sec=602
+s=4 t=0 degree=4 W=1.5 P=1000000 seed=0 Emin=-4.2141 band_bottom=-3.4641 Eprime_c=0.12922 Ec_perc=-4.0849 Ec_loc=-3.6688 gap=-0.41607 sec=711
+s=1 t=1 degree=3 W=1.5 P=1000000 seed=0 Emin=-3.7155 band_bottom=-2.9655 Eprime_c=0.70466 Ec_perc=-3.0108 Ec_loc=-3.2128 gap=0.20198 sec=1301
+s=1 t=1 degree=3 W=3 P=1000000 seed=0 Emin=-4.4655 band_bottom=-2.9655 Eprime_c=1.489 Ec_perc=-2.9765 Ec_loc=-3.4567 gap=0.48028 sec=1333
+s=4 t=0 degree=4 W=3 P=1000000 seed=0 Emin=-4.9641 band_bottom=-3.4641 Eprime_c=0.63462 Ec_perc=-4.3295 Ec_loc=-4.1197 gap=-0.2098 sec=734
+s=1 t=1 degree=3 W=12 P=1000000 seed=0 Emin=-8.9655 band_bottom=-2.9655 Eprime_c=6.6784 Ec_perc=-2.2871 Ec_loc=-0.002184 gap=-2.2849 sec=1346
+s=1 t=1 degree=3 W=9 P=1000000 seed=0 Emin=-7.4655 band_bottom=-2.9655 Eprime_c=4.8859 Ec_perc=-2.5796 Ec_loc=-0.0018177 gap=-2.5777 sec=1357
+s=1 t=1 degree=3 W=4.5 P=1000000 seed=0 Emin=-5.2155 band_bottom=-2.9655 Eprime_c=2.3042 Ec_perc=-2.9113 Ec_loc=-3.6214 gap=0.71007 sec=1380
+s=1 t=1 degree=3 W=6 P=1000000 seed=0 Emin=-5.9655 band_bottom=-2.9655 Eprime_c=3.1479 Ec_perc=-2.8175 Ec_loc=-3.6883 gap=0.87079 sec=1371
+s=4 t=0 degree=4 W=4.5 P=1000000 seed=0 Emin=-5.7141 band_bottom=-3.4641 Eprime_c=1.1077 Ec_perc=-4.6064 Ec_loc=-4.6307 gap=0.02421 sec=730
+s=4 t=0 degree=4 W=6 P=1000000 seed=0 Emin=-6.4641 band_bottom=-3.4641 Eprime_c=1.5579 Ec_perc=-4.9062 Ec_loc=-5.1651 gap=0.25882 sec=719
+s=4 t=0 degree=4 W=12 P=1000000 seed=0 Emin=-9.4641 band_bottom=-3.4641 Eprime_c=3.3322 Ec_perc=-6.132 Ec_loc=-7.4174 gap=1.2855 sec=702
+s=4 t=0 degree=4 W=9 P=1000000 seed=0 Emin=-7.9641 band_bottom=-3.4641 Eprime_c=2.4512 Ec_perc=-5.5129 Ec_loc=-6.2704 gap=0.75747 sec=715
+s=0 t=2 degree=4 W=1.5 P=1000000 seed=0 Emin=-4.5785 band_bottom=-3.8285 Eprime_c=0.48643 Ec_perc=-4.092 Ec_loc=-4.0565 gap=-0.035488 sec=936
+s=0 t=2 degree=4 W=3 P=1000000 seed=0 Emin=-5.3285 band_bottom=-3.8285 Eprime_c=1.0964 Ec_perc=-4.2321 Ec_loc=-4.4311 gap=0.19899 sec=976
+s=2 t=1 degree=4 W=9 P=1000000 seed=0 Emin=-8.1477 band_bottom=-3.6477 Eprime_c=2.8767 Ec_perc=-5.2709 Ec_loc=-6.2803 gap=1.0094 sec=1733
+s=2 t=1 degree=4 W=6 P=1000000 seed=0 Emin=-6.6477 band_bottom=-3.6477 Eprime_c=1.8689 Ec_perc=-4.7788 Ec_loc=-5.2669 gap=0.48809 sec=1825
+s=2 t=1 degree=4 W=3 P=1000000 seed=0 Emin=-5.1477 band_bottom=-3.6477 Eprime_c=0.83791 Ec_perc=-4.3098 Ec_loc=-4.3077 gap=-0.0020677 sec=1842
+s=2 t=1 degree=4 W=1.5 P=1000000 seed=0 Emin=-4.3977 band_bottom=-3.6477 Eprime_c=0.29456 Ec_perc=-4.1031 Ec_loc=-3.87 gap=-0.23311 sec=1852
+s=2 t=1 degree=4 W=4.5 P=1000000 seed=0 Emin=-5.8977 band_bottom=-3.6477 Eprime_c=1.3539 Ec_perc=-4.5438 Ec_loc=-4.7742 gap=0.23039 sec=1848
+s=2 t=1 degree=4 W=12 P=1000000 seed=0 Emin=-9.6477 band_bottom=-3.6477 Eprime_c=3.8975 Ec_perc=-5.7502 Ec_loc=-7.2607 gap=1.5105 sec=1799
+s=0 t=2 degree=4 W=4.5 P=1000000 seed=0 Emin=-6.0785 band_bottom=-3.8285 Eprime_c=1.7147 Ec_perc=-4.3637 Ec_loc=-4.8411 gap=0.4774 sec=875
+s=0 t=2 degree=4 W=6 P=1000000 seed=0 Emin=-6.8285 band_bottom=-3.8285 Eprime_c=2.3286 Ec_perc=-4.4999 Ec_loc=-5.2676 gap=0.76771 sec=885
+s=0 t=2 degree=4 W=9 P=1000000 seed=0 Emin=-8.3285 band_bottom=-3.8285 Eprime_c=3.5736 Ec_perc=-4.7548 Ec_loc=-6.0508 gap=1.296 sec=532
+s=0 t=2 degree=4 W=12 P=1000000 seed=0 Emin=-9.8285 band_bottom=-3.8285 Eprime_c=4.8473 Ec_perc=-4.9812 Ec_loc=-6.8128 gap=1.8316 sec=519
+s=3 t=0 degree=3 P=1000000 seed=0 Wc=17.39 sec=299
+s=4 t=0 degree=4 P=1000000 seed=0 Wc=32.258 sec=359
+s=0 t=2 degree=4 P=1000000 seed=0 Wc=18.142 sec=414
+s=1 t=1 degree=3 P=1000000 seed=0 Wc=8.5718 sec=543
+s=2 t=1 degree=4 P=1000000 seed=0 Wc=26.208 sec=743
+=== scan done in 5024 s
+=== repeats start 2026-09-25 11:30:37
+s=3 t=0 degree=3 W=1.5 P=1000000 seed=1 Emin=-3.5785 band_bottom=-2.8285 Eprime_c=0.47304 Ec_perc=-3.1054 Ec_loc=-3.1093 gap=0.0038878 sec=578
+s=3 t=0 degree=3 W=6 P=1000000 seed=1 Emin=-5.8285 band_bottom=-2.8285 Eprime_c=2.2965 Ec_perc=-3.532 Ec_loc=-4.4258 gap=0.89387 sec=596
+s=1 t=1 degree=3 W=1.5 P=1000000 seed=1 Emin=-3.7155 band_bottom=-2.9655 Eprime_c=0.70466 Ec_perc=-3.0108 Ec_loc=-3.2092 gap=0.19837 sec=1204
+s=1 t=1 degree=3 W=3 P=1000000 seed=1 Emin=-4.4655 band_bottom=-2.9655 Eprime_c=1.489 Ec_perc=-2.9765 Ec_loc=-3.4654 gap=0.48897 sec=1230
+s=1 t=1 degree=3 W=6 P=1000000 seed=2 Emin=-5.9655 band_bottom=-2.9655 Eprime_c=3.1479 Ec_perc=-2.8175 Ec_loc=-3.6622 gap=0.84467 sec=1231
+s=1 t=1 degree=3 W=6 P=1000000 seed=1 Emin=-5.9655 band_bottom=-2.9655 Eprime_c=3.1436 Ec_perc=-2.8219 Ec_loc=-3.7174 gap=0.89546 sec=1231
+s=1 t=1 degree=3 W=6 P=1000000 seed=3 Emin=-5.9655 band_bottom=-2.9655 Eprime_c=3.1479 Ec_perc=-2.8175 Ec_loc=-3.6564 gap=0.83886 sec=1233
+s=1 t=1 degree=3 W=4.5 P=1000000 seed=1 Emin=-5.2155 band_bottom=-2.9655 Eprime_c=2.3042 Ec_perc=-2.9113 Ec_loc=-3.6569 gap=0.74559 sec=1258
+=== repeats done in 1259 s
+=== bias start 2026-09-25 11:51:35
+s=3 t=0 W=18 E=0 P=200000 seed=0 lam=0.97751 sec=7
+s=3 t=0 W=18 E=0 P=200000 seed=1 lam=0.98847 sec=6
+s=3 t=0 W=18 E=0 P=200000 seed=2 lam=0.96969 sec=7
+s=3 t=0 W=18 E=0 P=1000000 seed=0 lam=0.96783 sec=31
+s=3 t=0 W=18 E=0 P=1000000 seed=2 lam=0.98269 sec=31
+s=3 t=0 W=18 E=0 P=1000000 seed=1 lam=0.98206 sec=32
+s=3 t=0 W=18 E=0 P=3000000 seed=0 lam=0.99296 sec=102
+s=3 t=0 W=18 E=0 P=3000000 seed=1 lam=0.98254 sec=103
+s=3 t=0 W=18 E=0 P=3000000 seed=2 lam=0.98141 sec=100
+=== bias done in 108 s
+=== beta start 2026-09-25 11:53:23
+beta (3,0) W=17.0 E=0.000: 0.3:1.0009 0.4:1.0051 0.5:1.0147 0.6:1.0246 0.7:1.0333
+beta (3,0) W=3.0 E=-3.328: 0.3:1.1435 0.4:1.1962 0.5:1.2531 0.6:1.3143 0.7:1.3787
+beta (1,1) W=8.5 E=0.000: 0.3:1.0044 0.4:1.0058 0.5:1.0061 0.6:1.0055 0.7:1.0049
+beta (1,1) W=3.0 E=-3.465: 0.3:0.9967 0.4:0.9951 0.5:0.9927 0.6:0.9902 0.7:0.9880
+=== beta done in 78 s
+=== side start 2026-09-25 11:54:42
+stability (3,0) E=-4.228 lambda=0.4334
+stability (3,0) E=-4.028 lambda=0.4778
+stability (3,0) E=-3.828 lambda=0.5444
+stability (3,0) E=-3.628 lambda=0.8562
+stability (3,0) E=-3.428 lambda=1.1560
+stability (3,0) E=-3.228 lambda=1.2957
+stability (3,0) E=-3.028 lambda=1.3599
+stability (3,0) E=-2.828 lambda=1.3540
+stability (3,0) E=-2.628 lambda=1.3817
+stability (3,0) E=-2.428 lambda=1.3824
+stability (3,0) E=-2.228 lambda=1.3878
+stability (3,0) E=-2.028 lambda=1.3946
+stability (3,0) E=-1.828 lambda=1.3973
+stability (1,1) E=-4.365 lambda=0.3997
+stability (1,1) E=-4.165 lambda=0.4459
+stability (1,1) E=-3.965 lambda=0.5317
+stability (1,1) E=-3.765 lambda=0.7215
+stability (1,1) E=-3.565 lambda=0.9231
+stability (1,1) E=-3.365 lambda=1.0369
+stability (1,1) E=-3.165 lambda=1.1098
+stability (1,1) E=-2.965 lambda=1.1418
+stability (1,1) E=-2.765 lambda=1.1549
+stability (1,1) E=-2.565 lambda=1.1578
+stability (1,1) E=-2.365 lambda=1.1658
+stability (1,1) E=-2.165 lambda=1.1675
+stability (1,1) E=-1.965 lambda=1.1695
+growth E'=0.350 joint=0.3938 indep=0.0062
+growth E'=0.375 joint=0.5371 indep=0.0343
+growth E'=0.400 joint=0.6470 indep=0.2524
+growth E'=0.425 joint=0.7668 indep=0.4150
+growth E'=0.450 joint=0.8896 indep=0.5592
+growth E'=0.475 joint=1.0125 indep=0.7028
+growth E'=0.500 joint=1.1333 indep=0.8738
+growth E'=0.525 joint=1.2515 indep=1.0286
+growth E'=0.550 joint=1.3680 indep=1.1818
+growth E'=0.575 joint=1.4785 indep=1.3293
+growth E'=0.600 joint=1.5799 indep=1.4631
+growth E'=0.625 joint=1.6738 indep=1.5921
+growth E'=0.650 joint=1.7547 indep=1.6954
+centre (3,0) W=4.0 lambda=1.3934
+centre (3,0) W=6.0 lambda=1.3726
+centre (3,0) W=8.0 lambda=1.3344
+centre (3,0) W=10.0 lambda=1.2556
+centre (3,0) W=12.0 lambda=1.1782
+centre (3,0) W=15.0 lambda=1.0745
+centre (3,0) W=18.0 lambda=0.9751
+centre (3,0) W=22.0 lambda=0.8765
+centre (3,0) W=26.0 lambda=0.7697
+centre (3,0) W=30.0 lambda=0.6947
+centre (3,0) W=35.0 lambda=0.6055
+centre (1,1) W=4.0 lambda=1.1517
+centre (1,1) W=6.0 lambda=1.1023
+centre (1,1) W=8.0 lambda=1.0248
+centre (1,1) W=10.0 lambda=0.9480
+centre (1,1) W=12.0 lambda=0.8488
+centre (1,1) W=15.0 lambda=0.7537
+centre (1,1) W=18.0 lambda=0.6683
+centre (1,1) W=22.0 lambda=0.5789
+centre (1,1) W=26.0 lambda=0.4991
+centre (1,1) W=30.0 lambda=0.4442
+centre (1,1) W=35.0 lambda=0.3897
+centre (4,0) W=4.0 lambda=1.7045
+centre (4,0) W=6.0 lambda=1.6930
+centre (4,0) W=8.0 lambda=1.6807
+centre (4,0) W=10.0 lambda=1.6597
+centre (4,0) W=12.0 lambda=1.5631
+centre (4,0) W=15.0 lambda=1.4821
+centre (4,0) W=18.0 lambda=1.3699
+centre (4,0) W=22.0 lambda=1.2620
+centre (4,0) W=26.0 lambda=1.1357
+centre (4,0) W=30.0 lambda=1.0676
+centre (4,0) W=35.0 lambda=0.9693
+centre (2,1) W=4.0 lambda=1.5802
+centre (2,1) W=6.0 lambda=1.5743
+centre (2,1) W=8.0 lambda=1.5209
+centre (2,1) W=10.0 lambda=1.5058
+centre (2,1) W=12.0 lambda=1.4232
+centre (2,1) W=15.0 lambda=1.3103
+centre (2,1) W=18.0 lambda=1.2081
+centre (2,1) W=22.0 lambda=1.0974
+centre (2,1) W=26.0 lambda=0.9931
+centre (2,1) W=30.0 lambda=0.9048
+centre (2,1) W=35.0 lambda=0.8206
+centre (0,2) W=4.0 lambda=1.3892
+centre (0,2) W=6.0 lambda=1.3665
+centre (0,2) W=8.0 lambda=1.3074
+centre (0,2) W=10.0 lambda=1.2636
+centre (0,2) W=12.0 lambda=1.1912
+centre (0,2) W=15.0 lambda=1.0880
+centre (0,2) W=18.0 lambda=0.9896
+centre (0,2) W=22.0 lambda=0.8863
+centre (0,2) W=26.0 lambda=0.7958
+centre (0,2) W=30.0 lambda=0.7060
+centre (0,2) W=35.0 lambda=0.6373
+=== side done in 628 s
