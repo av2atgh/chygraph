@@ -325,10 +325,20 @@ such hop and the block is a number, which is the tree recursion.}
 
 Two things follow. On any chygraph whose incidence structure is a tree
 Eq.~\eqref{eq:schur} is exact, and Sec.~\ref{sec:loc-checks} confirms it to
-$10^{-15}$ against direct inversion. And the cost is polynomial in the
-cardinality --- a $(c-1)\times(c-1)$ inverse rather than a sum over $2^{c}$
-states --- so the hard ceiling of Sec.~\ref{sec:notdone} does not apply to
-this model: a complex of thirty members is a $29\times29$ matrix.
+$10^{-15}$ against direct inversion. And the cost is linear in the
+cardinality rather than a sum over $2^{c}$ states, so the hard ceiling of
+Sec.~\ref{sec:notdone} does not apply to this model. The clique's adjacency
+is $\mathbf{1}\mathbf{1}^{\mathsf T}-I$, so the matrix of
+Eq.~\eqref{eq:schur} is a diagonal minus a rank-one term and its inverse is
+a Sherman--Morrison formula,
+\begin{equation}
+  \Sigma_{a\to i}=t^{2}\,\frac{S}{1-tS},
+  \qquad S=\sum_{j\in J}\frac{1}{m_{j}+t},
+  \label{eq:sherman}
+\end{equation}
+with $m_{j}=\epsilon_{j}-z-\Sigma_{j\to a}$ as in Eq.~\eqref{eq:triangleG},
+which is this formula at two members. No matrix is inverted at any
+cardinality, and the pole $tS=1$ is the resonance of the complex.
 
 \paragraph{The ensembles.} The Bethe lattice is the regular chygraph with
 every atom in three edges. Beside it this chapter puts the regular chygraphs
@@ -761,8 +771,8 @@ localization.\allowbreak py}.}
 
 A Green's function is a message like any other in this book: the recursion
 is the two steps, the interior of a complex is summed exactly, and what
-changes is that the sum is a Schur complement, polynomial in the
-cardinality where every other chapter paid $2^{c}$. On that footing the
+changes is that the sum is a Schur complement in closed form, linear in
+the cardinality where every other chapter paid $2^{c}$. On that footing the
 two problems of \citet{tonetti2026} close on any chygraph of cliques, and
 on regular graphs of edges and triangles they answer the question their
 paper raised. Loops separate the landscape percolation line from the
@@ -792,8 +802,15 @@ calculation with populations of populations by layer and is not run here.
 \code{figs/\allowbreak localization.\allowbreak py} runs, before it draws
 anything: the cavity of Eq.~\eqref{eq:schur} against direct inversion of
 $\hat H-z$ on finite incidence trees of edges and triangles, to $10^{-15}$;
-the pure-hopping band bottoms of $(3,0)$ and $(4,0)$ against $-2\sqrt2$ and
-$-2\sqrt3$. \code{statmech/\allowbreak probe/\allowbreak anderson.\allowbreak
+the pure-hopping band bottoms of $(3,0)$, $(4,0)$ and $(0,2)$ against
+$-2\sqrt2$, $-2\sqrt3$ and $-(2\sqrt2+1)$. The message type itself lives in
+the package, as \code{statmech.\allowbreak resolvent}, and its suite
+\code{test\_\allowbreak resolvent} pins the same things and more: the closed
+form of Eq.~\eqref{eq:sherman} against the explicit inverse at cardinalities
+two to thirteen, exactness on incidence trees of edges and triangles, the
+landscape against a direct solve, the clean tree against
+Eq.~\eqref{eq:kestenmckay}, and the branching eigenvalues of
+Table~\ref{tab:andersonwc}. \code{statmech/\allowbreak probe/\allowbreak anderson.\allowbreak
 py check} adds the random instances: on $600$ atoms the error of the
 cavity resolvent at $\operatorname{Im}z=0.2$ is $4\times10^{-2}$, the
 long loops of the instance, which a larger imaginary part damps, and the

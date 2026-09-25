@@ -288,3 +288,24 @@ iteration from a uniform p because renormalised power iteration goes
 extinct in the subcritical phase of a finite population. Error bars from
 seven points computed twice: 0.002 on the threshold, 0.003–0.03 on the
 mobility edge.
+
+## 2026-09-25: the resolvent is a first-class message
+
+`statmech/src/statmech/resolvent.py` now holds the message type of Ch. 18:
+`transmit` (the Schur-complement down step, in Sherman–Morrison closed form
+Σ = t²S/(1−tS), S = Σ_j 1/(m_j+t), linear in the cardinality; also returns
+v = M⁻¹1 and the landscape row sum), `linearised_imaginary` (Eq. imlinear),
+`cavity_instance`, `landscape_instance`, `hamiltonian`, `regular_instance`,
+`incidence_tree`, `uniform_fixed_point`, `band_bottom`, `spectral_bottom`,
+`clean_tree`, `kesten_mckay`, `incidence_branching`.  `Chygraph` gained
+`instance`, `incidence_branching`, `band_bottom`, `spectral_bottom`,
+`resolvent_instance`, `landscape_instance`.  `tests/test_resolvent.py` pins
+all of it (26 tests).  `statmech/probe/anderson.py` keeps only the population
+dynamics (`Ensemble`) and the scans, and routes every interior through
+`transmit`; `anderson.py check` reproduces its numbers exactly and the
+population regression at (3,0) W=18 agrees with the old code to 7 digits.
+`figs/localization.py` imports the package, not the probe.  Sec. 18.2 gained
+Eq. (sherman) and the cost sentence now says linear; the software chapter has
+a Ch. 18 block and handle rows.  Note for the rerun: λ(1/2) at (3,0), W=18,
+P=2e5, seed 0 is 0.9775 with both old and new code, not the 0.967 the text
+quotes, so that number came from another run.

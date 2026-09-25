@@ -27,8 +27,10 @@ symbolic throughout, on \code{sympy}.
 
 \code{statmech/} carries everything from Chapter~\ref{ch:statmech} onward: the
 cavity recursion with a general interior, the branching matrix, the Ising and
-hitting-set and core-percolation solvers, the Bethe free energy, and the
-region-graph calculation of Chapter~\ref{ch:gbp}. It depends on the first ---
+hitting-set and core-percolation solvers, the Bethe free energy, the
+region-graph calculation of Chapter~\ref{ch:gbp}, and the resolvent message
+of Chapter~\ref{ch:localization}, whose interior is a Schur complement in
+closed form rather than a sum over states. It depends on the first ---
 \code{statmech.\allowbreak stability} imports \code{Percolation\allowbreak Matrix}
 --- which is why the two live together.
 
@@ -37,7 +39,7 @@ be reached without knowing which of the two defines it. Table~\ref{tab:map}
 names the defining package throughout, since that is what a reader looking for
 the source wants.
 
-A third source is the book's own \code{figs/} directory, which holds thirteen
+A third source is the book's own \code{figs/} directory, which holds seventeen
 scripts covering Chapter~\ref{ch:data} onward, most of them named for the
 chapter they serve. Those scripts generate the figures, and for
 Chapters~\ref{ch:potts}, \ref{ch:colouring} and~\ref{ch:satisfiability} they
@@ -62,7 +64,10 @@ behind Fig.~\ref{fig:gbp}, the placed-motif instances of
 Sec.~\ref{sec:karrer}, the real neighbourhoods behind Fig.~\ref{fig:gbpreal},
 the meta-complex error of Fig.~\ref{fig:mergeerror}, the propagation cores of
 Figs.~\ref{fig:corebonds} and~\ref{fig:coremeta}, and the branching sweep of
-Fig.~\ref{fig:coretransition}. Those fourteen are the only places
+Fig.~\ref{fig:coretransition} --- and the Anderson scan of
+Chapter~\ref{ch:localization} behind Figs.~\ref{fig:anderson}
+to~\ref{fig:andersonmech} and Table~\ref{tab:andersonwc}. Those fifteen are
+the only places
 where the book quotes a number it does not recompute at build time, and each
 says so where it is used. The real-network probe needs graph-tool and a network
 connection the first time it runs, to pull its networks from Netzschleuder; it
@@ -244,6 +249,16 @@ Eq. & what it is & evaluated by & checked in\\
 \eqref{eq:branching} & the incidence branching & \code{statmech/\allowbreak probe/\allowbreak karrer\_\allowbreak core\_\allowbreak sweep.\allowbreak py} & \code{check\_\allowbreak core\_\allowbreak transition}\\
 \eqref{eq:corea} & the pruning fixed point & \code{statmech/\allowbreak probe/\allowbreak karrer\_\allowbreak core\_\allowbreak sweep.\allowbreak core\_\allowbreak closed\_\allowbreak form} & \code{check\_\allowbreak closed\_\allowbreak form}\\
 \eqref{eq:corefrac} & the core fraction & \code{statmech/\allowbreak probe/\allowbreak karrer\_\allowbreak core\_\allowbreak sweep.\allowbreak core\_\allowbreak closed\_\allowbreak form} & \code{check\_\allowbreak closed\_\allowbreak form}\\
+\multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:localization}, localization}}\\
+\eqref{eq:lineg} & the clean line, by the recursion & \code{resolvent.\allowbreak clean\_\allowbreak tree} at $K=1$ & \code{test\_\allowbreak resolvent}\\
+\eqref{eq:treeG} & the two steps with a self-energy & \code{resolvent.\allowbreak cavity\_\allowbreak instance} & \code{test\_\allowbreak resolvent}\\
+\eqref{eq:cleantree}, \eqref{eq:kestenmckay} & the clean tree and its density of states & \code{resolvent.\allowbreak clean\_\allowbreak tree}, \code{resolvent.\allowbreak kesten\_\allowbreak mckay} & \code{test\_\allowbreak resolvent}\\
+\eqref{eq:schur}, \eqref{eq:sherman} & the Schur complement, in closed form & \code{resolvent.\allowbreak transmit} & \code{test\_\allowbreak resolvent}\\
+\eqref{eq:triangleG} & the triangle & \code{resolvent.\allowbreak transmit} at two members & \code{test\_\allowbreak resolvent}\\
+\eqref{eq:landscape} & the landscape by linearity & \code{resolvent.\allowbreak landscape\_\allowbreak instance} & \code{test\_\allowbreak resolvent}\\
+\eqref{eq:lltmap} & landscape percolation as a dependent layer & \code{statmech/\allowbreak probe/\allowbreak anderson.\allowbreak Ensemble.\allowbreak percolation\_\allowbreak growth} & Sec.~\ref{sec:loc-checks}\\
+\eqref{eq:imlinear} & the linearised imaginary parts & \code{resolvent.\allowbreak linearised\_\allowbreak imaginary}; its growth in \code{anderson.\allowbreak Ensemble.\allowbreak imaginary\_\allowbreak growth} & \code{test\_\allowbreak resolvent}; Sec.~\ref{sec:loc-checks}\\
+\eqref{eq:branchingloc} & the incidence tree's branching & \code{Chygraph.\allowbreak incidence\_\allowbreak branching} & \code{test\_\allowbreak resolvent}\\
 \end{longtable}
 }
 
@@ -299,6 +314,12 @@ handle on \code{Chygraph} & module it returns\\
 \code{hitting\_set\_bp} & \code{softfield.\allowbreak HittingSetBP}\\
 \code{population} & \code{population.\allowbreak CavityPopulation}\\
 \code{region\_gbp} & \code{gbp.\allowbreak GBP}\\
+\code{instance} & \code{resolvent.\allowbreak regular\_\allowbreak instance}\\
+\code{incidence\_branching} & \code{resolvent.\allowbreak incidence\_\allowbreak branching}\\
+\code{band\_bottom} & \code{resolvent.\allowbreak band\_\allowbreak bottom}\\
+\code{spectral\_bottom} & \code{resolvent.\allowbreak spectral\_\allowbreak bottom}\\
+\code{resolvent\_instance} & \code{resolvent.\allowbreak cavity\_\allowbreak instance}\\
+\code{landscape\_instance} & \code{resolvent.\allowbreak landscape\_\allowbreak instance}\\
 \code{regions}, \code{overlap\_profile} & \code{region}\\
 \code{simplicial} & \code{simplicial}\\
 \code{solve\_anti\_monotone} & \code{antimonotone}\\
