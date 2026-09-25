@@ -323,3 +323,42 @@ Bias triple: λ(1/2) = 0.98 ± 0.01 at 2e5, 1e6, 3e6 alike; no resolvable
 trend with P.  β scan: flat to 0.002 on the cactus at its band-centre W_c;
 on the tree the β-dependence (0.03) changes sign between seeds.  Secs.
 18.4–18.7 rewritten from these; new CSVs anderson_repeats/bias/beta.
+
+## 2026-09-25: Part V, the math connection
+
+Six chapters written from `~/Downloads/chygraph_master_equation/draft.tex`
+(the "master equation" note): Secs. 1–5 → Ch. 19 `chyequation.tex`; Secs.
+6–10 → Chs. 20–24 `rde.tex`, `species.tex`, `operads.tex`, `marginal.tex`,
+`mobius.tex`, one field each. Placed after Part IV, before the Outlook, which
+still closes the book (now Ch. 25). Part V computes nothing and carries no
+Checks sections; four TikZ figures (the factor graph of α+I, the two holes,
+cyclic vs modular gluing, the Möbius numbers on two triangles).
+
+Preamble gained `\Tint`, `\conv`, `\act`, `\push`, `\del`; `references.bib`
+gained thirty entries (the draft's, checked; `foissy2011` renamed
+`foissy2010`, its year; Peltre's thesis title and GSI pages least certain);
+Notation's χ row lists the Euler characteristic and the kernel χ_a.
+
+Corrections made to the draft while anchoring it on the book:
+- Ch. 24: "exactness is collapsibility" weakened to an implication (the
+  four-spoke wheel is collapsible and not α-acyclic); "exactness is b₁ = 0
+  of the incidence structure" is the chygraph recursion's own condition
+  (Ch. 16's forest), strictly stronger than Ch. 17's α-acyclicity (two
+  triangles sharing an edge: α-acyclic, b₁ = 1); the ordering is
+  b₁ = 0 ⇒ α-acyclic ⇒ collapsible with both converses false. The
+  linearised recursion is a weighted non-backtracking operator, not a
+  sheaf Laplacian; both come from one sheaf.
+- Ch. 23: the sheaf class and the BP error are different diagnostics (a
+  family can glue and still be wrong); whether Part IV's fixed points glue
+  is not checked.
+- Ch. 20: the AT-tensor = bivariate-uniqueness identification is stated for
+  the linearised problem only; the two-population nonlinear test is the
+  one computation Part V calls for.
+
+Open, in order of cost: (a) the bivariate-uniqueness populations on the
+models of Table 25.1; (b) r_C for the two-triangle loop from the loop
+series, against Table 14.1 (the resummation claim of Sec. 24.2); (c) the
+finite-component distribution by layer from Good's inversion, Eq. (21.7),
+against simulation; (d) the level-wise Vorob'ev proviso (consistency on the
+nested family vs on the flattened one); (e) whether Foissy's classification
+covers the (layer, direction) decoration.

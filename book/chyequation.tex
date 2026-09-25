@@ -1,0 +1,461 @@
+\chapter{The chygraph equation}
+\label{ch:chyequation}
+
+% Part V, added 2026-09-25 from ~/Downloads/chygraph_master_equation/draft.tex,
+% Secs. 1-5. No numbers are computed here; every equation is either one the
+% book already carries, re-indexed, or the general form the earlier chapters
+% are special cases of.
+
+Every chapter of Parts~II and~III runs the same recursion, and
+Chapter~\ref{ch:outlook}'s Table~\ref{tab:through} lists what changes from one
+to the next: what the message carries, and what is summed inside a complex.
+This part writes the recursion down once, in a form general enough that every
+row of that table is a substitution into it, gives its two levels the two
+names they have in the literature, and then asks where else in mathematics the
+same equations appear. The answer is in more places than the earlier chapters
+acknowledged, and each place supplies something --- a theorem, a word, a
+criterion --- that the book has been reaching for.
+
+This chapter fixes the object. Sections~\ref{sec:ce-known}
+to~\ref{sec:ce-yields} state what was known, what is added, the representation
+the recursion runs on, the instance-level pair, the ensemble pair, and what
+the pair yields. The five chapters after it are the connections, one per
+field, each opened by a paragraph saying what the connection is and closed by
+what it gives the book and what the book gives back.
+
+\section{What was known and what is added}
+\label{sec:ce-known}
+\index{density evolution|textbf}
+\index{belief propagation!on a chygraph|textbf}
+
+The recursion has two levels, and the literature keeps them apart.
+
+\emph{Chygraph belief propagation} is the instance-level pair,
+Eqs.~\eqref{eq:chyup} and~\eqref{eq:chydown} below: messages on one
+realisation, each updated from every incoming message but the one it answers.
+Once the factor graph of Sec.~\ref{sec:ce-representation} is named, this is
+belief propagation on it, and the chapter says so. What is added at this level
+is not the recursion but the factor graph, which is canonical given the
+chy-adjacency matrix alone, and in which every complex appears once as a
+variable and once as a factor, so that the same object is iterated at every
+level of nesting.
+
+\emph{The chygraph equation} is the ensemble pair,
+Eqs.~\eqref{eq:ensplus} and~\eqref{eq:ensminus} below: the same recursion
+averaged over a layered random chygraph, with generating functions acting
+on laws and the excess bracket falling on the layer of arrival. In coding theory the ensemble version of
+belief propagation is called \emph{density evolution} \citep{richardson2008},
+and the chygraph equation is the density evolution of chygraph belief
+propagation. This is the level at which the book's thresholds, amplitudes and
+free energies are computed, and the one the book can claim.
+
+One precedent to acknowledge before claiming it. Multi-edge-type ensembles of
+low-density parity-check codes \citep[Ch.~7]{richardson2008} already carry
+layer-indexed degree distributions, node-perspective and edge-perspective
+generating functions, and a density-evolution recursion in which the excess
+falls on the edge type of arrival. That is the two-level chygraph ---
+variables inside checks --- with a parity kernel and a log-likelihood message.
+What the chygraph equation adds relative to it is the general kernel; the
+nesting, with a complex's own state and its derivative at threshold
+(Sec.~\ref{sec:ce-yields}); the compound complexes on which component and
+cardinality differ; and the physics readout.
+
+\section{The representation}
+\label{sec:ce-representation}
+\index{factor graph!of a chygraph|textbf}
+
+Three commitments, each implicit somewhere in the book and here made at once.
+
+\begin{model}{The factor graph of a chygraph}
+\begin{rules}
+\rl{1}{State} Every vertex is a variable. Atom or complex, vertex $i$
+carries a state $\sigma_{i}\in\Omega_{i}$.
+\rl{2}{Kernel} Every complex is also a factor. Complex $a$ carries a
+non-negative function $\chi_{a}(\sigma_{a};\sigma_{\del a})$ of its own state
+and of the states of its members $\del a$.
+\rl{3}{Wiring} The factor graph is $\alpha+I$. Its variable nodes are all
+vertices, its factor nodes are the complexes, and factor $a$ is joined to
+variable $a$ and to the variables in $\del a$.
+\end{rules}
+\end{model}
+
+What the rules produce is one bipartite graph, drawn in
+Fig.~\ref{fig:factorgraph}, on which the recursion of the next section is
+ordinary belief propagation, whatever the depth of nesting.
+
+
+Rule~1 is where the models differ. For an Ising atom $\Omega_{i}=\{\pm1\}$.
+For a nested clause of Sec.~\ref{sec:nested}, $\Omega_{a}$ is the clause's
+truth value. For a hypergraph interaction with no state of its own,
+$\Omega_{a}$ is a single point and everything below collapses to the two steps
+of Chapter~\ref{ch:statmech}. For percolation, $\Omega_{a}$ records whether
+$a$ is in the giant component, which is a state of every complex, atom or not.
+
+Rule~2 is where the Hamiltonian lives, and nowhere else. An atom has
+$\del i=\emptyset$ and its kernel is its own weight,
+$\chi_{i}(\sigma_{i})=e^{\beta B\sigma_{i}}$ for the Ising field $B$ of
+Eq.~\eqref{eq:Hising}. The distinction Chapter~\ref{ch:chygraphs} drew
+between cardinality $c$ and intra-complex component $s$ lives inside
+$\chi_{a}$: if the kernel factorises over the components of the interior
+hypergraph, the message a member receives only ever sees that member's
+component, which is why the intra-complex generating functions $G$ of
+Sec.~\ref{sec:ensembles} count components and not members.
+
+Rule~3 is the statement the book has been making in words since
+Sec.~\ref{sec:treelike}. With $\alpha_{ij}=1$ when $i\in\del j$, the
+bipartite graph of rule~3 has incidence matrix $\alpha+I_{C}$, the identity on
+the complexes; \emph{treelike over complexes} is the statement that this
+factor graph is locally a tree. Every inclusion $i\in a$ carries two messages,
+both functions of $\sigma_{i}$,
+\begin{align*}
+  h_{i\to a}&\colon \Omega_{i}\to\mathbb{R}_{+}
+  &&\text{member to container; percolation's } Q^{ai}_{+},\\
+  u_{a\to i}&\colon \Omega_{i}\to\mathbb{R}_{+}
+  &&\text{container to member; percolation's } Q^{ia}_{-},
+\end{align*}
+each defined up to a positive factor. The letters are
+Chapter~\ref{ch:statmech}'s, and for an Ising variable the two functions are
+the two exponentials $e^{h\sigma}$ and $e^{u\sigma}$ whose exponents that
+chapter iterates.
+
+
+\section{Chygraph belief propagation}
+\label{sec:ce-bp}
+\index{interior operator|textbf}
+\index{exterior product|textbf}
+
+On the factor graph of rule~3 the sum-product update is one equation per
+direction of an inclusion:
+\begin{align}
+  h_{i\to a}(\sigma_{i}) &=
+    \prod_{b\ni i,\; b\ne a} u_{b\to i}(\sigma_{i})\;
+    \sum_{\sigma_{\del i}} \chi_{i}(\sigma_{i};\sigma_{\del i})
+    \prod_{j\in\del i} h_{j\to i}(\sigma_{j}),
+  \label{eq:chyup}\\
+  u_{a\to i}(\sigma_{i}) &=
+    \sum_{\sigma_{a}}\ \sum_{\sigma_{\del a\setminus i}}
+    \chi_{a}(\sigma_{a};\sigma_{\del a})
+    \prod_{j\in\del a,\; j\ne i} h_{j\to a}(\sigma_{j})
+    \prod_{b\ni a} u_{b\to a}(\sigma_{a}),
+  \label{eq:chydown}
+\end{align}
+with the one-vertex marginal read off as
+\begin{equation}
+  b_{i}(\sigma_{i})\ \propto\ \prod_{b\ni i} u_{b\to i}(\sigma_{i})
+  \sum_{\sigma_{\del i}}\chi_{i}(\sigma_{i};\sigma_{\del i})
+  \prod_{j\in\del i} h_{j\to i}(\sigma_{j}).
+  \label{eq:chyread}
+\end{equation}
+The pair is belief propagation on the factor graph of $\alpha+I$, and is exact
+when that factor graph is a tree, which is the statement
+Chapter~\ref{ch:exactness} gave three names to.
+
+\begin{figure}[tb]
+\centering
+\begin{adjustbox}{max width=0.96\linewidth}
+\begin{tikzpicture}[x=1.15cm,y=1.05cm]
+% ---- left: the inclusion diagram (Sec. 2.7 convention) ----
+\begin{scope}
+  \node[atm] (a1) at (0,0) {};
+  \node[atm] (a2) at (0.8,0) {};
+  \node[atm] (a3) at (1.6,0) {};
+  \node[atm] (a4) at (2.6,0) {};
+  \node[cpx] (A)  at (0.8,1.1) {};
+  \node[cpx] (Bc) at (1.7,2.2) {};
+  \draw[inc] (a1)--(A) (a2)--(A) (a3)--(A);
+  \draw[inc] (A)--(Bc) (a4)--(Bc);
+  \node[lb,below=1pt of a1] {$1$};
+  \node[lb,below=1pt of a2] {$2$};
+  \node[lb,below=1pt of a3] {$3$};
+  \node[lb,below=1pt of a4] {$4$};
+  \node[lb,left=2pt of A] {$a$};
+  \node[lb,left=2pt of Bc] {$b$};
+  \node[tb,anchor=north] at (1.3,-0.55) {inclusion diagram};
+\end{scope}
+% ---- right: the factor graph alpha + I ----
+\begin{scope}[xshift=5.4cm]
+  % variables (all vertices)
+  \node[atm] (v1) at (0,0) {};
+  \node[atm] (v2) at (0.8,0) {};
+  \node[atm] (v3) at (1.6,0) {};
+  \node[atm] (v4) at (3.4,0) {};
+  \node[cpx] (vA) at (1.6,1.7) {};
+  \node[cpx] (vB) at (2.8,3.6) {};
+  % factors (one per complex)
+  \node[cpxc] (fA) at (0.8,0.9) {};
+  \node[cpxc] (fB) at (2.6,2.7) {};
+  \draw[inc] (v1)--(fA) (v2)--(fA) (v3)--(fA) (fA)--(vA);
+  \draw[inc] (vA)--(fB) (v4)--(fB) (fB)--(vB);
+  \node[lb,below=1pt of v1] {$1$};
+  \node[lb,below=1pt of v2] {$2$};
+  \node[lb,below=1pt of v3] {$3$};
+  \node[lb,below=1pt of v4] {$4$};
+  \node[lb,left=2pt of vA] {$\sigma_{a}$};
+  \node[lb,right=2pt of vB] {$\sigma_{b}$};
+  \node[lb,left=2pt of fA] {$\chi_{a}$};
+  \node[lb,right=2pt of fB] {$\chi_{b}$};
+  % the two messages on the inclusion a in b, as parallel arrows offset
+  % to either side of the edge from sigma_a to chi_b
+  \draw[msg] ($(vA)!0.18!(fB)+(0.16,-0.16)$) -- ($(vA)!0.82!(fB)+(0.16,-0.16)$)
+     node[lb,pos=0.55,below right=-1pt] {$h_{a\to b}$};
+  \draw[msg] ($(vA)!0.82!(fB)+(-0.16,0.16)$) -- ($(vA)!0.18!(fB)+(-0.16,0.16)$)
+     node[lb,pos=0.45,above left=-1pt] {$u_{b\to a}$};
+  \node[tb,anchor=north] at (1.7,-0.55) {factor graph of $\alpha+I$};
+\end{scope}
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{The representation.} Left: a chygraph with a triangle $a$ on
+atoms $1,2,3$ and a complex $b$ containing $a$ and atom $4$, drawn as an
+inclusion diagram in the convention of Sec.~\ref{sec:drawing}. Right: the
+factor graph of rule~3. Every vertex, atom or complex, is a variable node
+(circles and open squares); every complex is in addition a factor node (filled
+squares), joined to its own variable and to its members. The complex $a$
+therefore appears twice, once as a variable carrying $\sigma_{a}$ and once as
+the kernel $\chi_{a}$, and the inclusion $a\in b$ carries the two messages of
+Sec.~\ref{sec:ce-representation}. Treelike over complexes is the statement
+that this bipartite graph is locally a tree. The wiring is the chy-adjacency
+matrix with the identity added on the complexes, and nothing else.}
+\label{fig:factorgraph}
+\end{figure}
+
+The empty cases are the ones the book has used so far. For an atom the sum in
+Eq.~\eqref{eq:chyup} is the single term $\chi_{i}(\sigma_{i})$, and
+Eq.~\eqref{eq:chyup} is the up step, Eq.~\eqref{eq:up}, in exponential form:
+a product of functions of one Ising variable is a sum of fields. For a complex
+nothing includes, the last product in Eq.~\eqref{eq:chydown} is empty; if in
+addition $\Omega_{a}$ is a point, the sum over $\sigma_{a}$ disappears and
+Eq.~\eqref{eq:chydown} is the emitted field, Eq.~\eqref{eq:emitted}, whose
+$\bar Z(\sigma_{0})$ is the right-hand side evaluated at the two values of
+$\sigma_{i}$. Everything in Part~III is one or other of these two cases, and
+the two are one equation.
+
+\paragraph{Operator form.} The same pair written without indices separates
+what is structure from what is model. Let $\otimes$ be the pointwise product
+of functions on $\Omega_{i}$ --- the \emph{exterior} product, addition of
+fields, a relay with no model in it --- and let $\Tint_{a}$ be the
+\emph{interior} operator, the contraction of $\chi_{a}$ against the messages
+on all of its legs but one. Then
+\begin{equation}
+  \begin{aligned}
+  h_{i\to a}
+    &=\Bigl(\bigotimes_{b\ni i,\,b\ne a} u_{b\to i}\Bigr)\otimes
+      \Tint_{i}\bigl[h_{\cdot\to i}\bigr],\\
+  u_{a\to i}
+    &=\Tint^{(i)}_{a}\Bigl[h_{\cdot\to a}\,;\ \bigotimes_{b\ni a}u_{b\to a}\Bigr],
+  \end{aligned}
+  \label{eq:chyop}
+\end{equation}
+the semicolon separating the member legs from the complex's own leg, and the
+superscript $(i)$ naming the leg left open. The Hamiltonian enters $\Tint$ and
+nowhere else. Chapter~\ref{ch:localization} is the one place in the book
+where $\Tint$ is not an enumeration --- there it is a Schur complement,
+Eq.~\eqref{eq:schur} --- and Eq.~\eqref{eq:chyop} is why nothing else in that
+chapter had to change.
+
+\paragraph{Term by term against the percolation pair.} Percolation was solved
+first because it is the case in which every one of these objects is a
+number, and Table~\ref{tab:ce-termbyterm} reads the two pairs against each
+other.
+
+\begin{table}[tb]
+\centering\small
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{lll}
+\hline\hline
+in Eqs.~\eqref{eq:chyup}--\eqref{eq:chydown}
+  & in Eqs.~\eqref{eq:Qminus}--\eqref{eq:Qplus} & role\\
+\hline
+$\prod_{b\ni i,\,b\ne a}$ & $[\bar\Phi^{l}_{k}]_{k=m}$
+  & other containers, excess on the arrival layer\\
+$\sum_{\sigma_{\del i}}\chi_{i}\prod_{j\in\del i}$ & $G^{l}_{k}$
+  & all members\\
+$\prod_{b\ni a}$ & $\Phi^{l}_{k}$
+  & all containers\\
+$\sum_{\sigma_{\del a\setminus i}}\chi_{a}\prod_{j\ne i}$
+  & $[\bar G^{l}_{k}]_{k=m}$
+  & other members, excess on the arrival layer\\
+$\sum_{\sigma_{a}}$ & implicit
+  & the complex's own state\\
+\hline\hline
+\end{tabular}
+\end{adjustbox}
+\caption{\textbf{Term by term.} Each factor of the instance-level pair against
+the generating function that averages it in the percolation map of
+Chapter~\ref{ch:percolation}. The two excess brackets fall on the two sums
+that exclude the leg being answered, one over containers and one over
+members; the two ordinary functions fall on the two that do not. The last row
+is the one piece with no counterpart in Chapter~\ref{ch:statmech}.
+Percolation has it implicitly, because being in the giant component is a
+state of every complex; nested satisfiability, Sec.~\ref{sec:nested}, needs
+it explicitly, and its $\delta$ and $\gamma$ are that sum.}
+\label{tab:ce-termbyterm}
+\end{table}
+
+\section{The chygraph equation}
+\label{sec:ce-equation}
+\index{chygraph equation|textbf}
+\index{generating function!acting on a law|textbf}
+
+Section~\ref{sec:substitution} made one substitution to pass from a
+realisation to an ensemble: the argument of a generating function becomes a
+measure, and the product becomes a convolution, Eq.~\eqref{eq:conv}. That
+covered the up step and left the down step in words. Here is the same
+substitution stated once for both.
+
+Let a generating function act on a law $P$ over messages through a symmetric
+multilinear map $T=(T_{n})_{n\ge0}$ by pushing forward product measures:
+\begin{equation}
+  F\act{T}P\;=\;\sum_{n}f_{n}\,(T_{n})\push\,P^{\otimes n},
+  \qquad F(x)=\sum_{n}f_{n}x^{n}.
+  \label{eq:act}
+\end{equation}
+With $T=\otimes$ this is the convolution of Eq.~\eqref{eq:conv},
+$F\conv P=\sum_{n}f_{n}P^{\ast n}$, since the law of a product of independent
+messages is the convolution of their laws. With $T=\Tint_{l}$ it is the down
+step: draw $n$ independent fields from $P$, push them through the interior of
+a layer-$l$ complex, and weight by the probability that the complex offers
+$n$ legs. Both steps are therefore a generating function acting through a
+multilinear map, and the asymmetry between them is only which map.
+
+Write $P^{ml}_{+}$ for the law of the message a layer-$l$ complex sends to a
+layer-$m$ container and $P^{ml}_{-}$ for the law of the message it sends to a
+layer-$m$ member, $2L^{2}$ laws in all, which is Chapter~\ref{ch:percolation}'s
+index set with a law in place of a number. Write $P^{l\cdot}_{+}$ for the
+family over the source layer. Then, with the member count in the second line
+drawn from the joint intra-complex generating function $\bar G^{l}$ over
+target layers, excess on layer $m$,
+\begin{align}
+  P^{ml}_{+} &= \Bigl(\mathop{\conv}_{k}\,[\bar\Phi^{l}_{k}]_{k=m}\conv P^{lk}_{-}\Bigr)
+               \conv \Bigl(G^{l}\act{\Tint_{l}} P^{l\cdot}_{+}\Bigr),
+  \label{eq:ensplus}\\
+  P^{ml}_{-} &= [\bar G^{l}]_{k=m}\act{\Tint^{(m)}_{l}}
+               \Bigl(P^{l\cdot}_{+}\,;\ \mathop{\conv}_{k}\Phi^{l}_{k}\conv P^{lk}_{-}\Bigr),
+  \label{eq:ensminus}
+\end{align}
+with the readout, no excess anywhere,
+\begin{equation}
+  P^{l}=\Bigl(\mathop{\conv}_{k}\Phi^{l}_{k}\conv P^{lk}_{-}\Bigr)\conv
+        \Bigl(G^{l}\act{\Tint_{l}}P^{l\cdot}_{+}\Bigr).
+  \label{eq:ensread}
+\end{equation}
+The pair is the density evolution of chygraph belief propagation over a
+layered random chygraph, and it is what this part calls the \emph{chygraph
+equation}. Each line is one line of Eq.~\eqref{eq:chyop} with every product
+over a random number of legs replaced by the action Eq.~\eqref{eq:act}, and
+the bracket $[\,\cdot\,]_{k=m}$ is Fig.~\ref{fig:themap}'s: excess on the
+layer arrived through, ordinary on every other.
+
+\paragraph{Substitutions.} Table~\ref{tab:ce-substitutions} lists what
+$\otimes$ and $\Tint_{l}$ are in each of the book's calculations. In the first
+row reachability factorises, so $\Tint_{l}$ is itself a product,
+$(T_{n})\push\,\delta_{Q}^{\otimes n}=\delta_{Q^{n}}$, and
+Eqs.~\eqref{eq:ensplus}--\eqref{eq:ensminus} reduce to compositions of
+generating functions: they \emph{are} Eqs.~\eqref{eq:Qplus}--\eqref{eq:Qminus}.
+That is the precise sense in which percolation is the case that compresses,
+and the sense in which Chapter~\ref{ch:potts}'s $q\to1$ limit lands on a
+generating function. In the third row, with one atom layer and no complex
+having a container, Eq.~\eqref{eq:ensplus} is the ensemble map
+Eq.~\eqref{eq:ensemblemap} and Eq.~\eqref{eq:ensminus} is the sentence
+Sec.~\ref{sec:substitution} left in words: ``$Q^{lk}$ is the law of the field
+a complex emits when its other members carry fields drawn from $P$''. The
+fourth row is Sec.~\ref{sec:replicas-chy}: the replica saddle point iterates
+a function on the $2^{n}$ replica states, and its interior sum is
+Eq.~\eqref{eq:Xichy}. The fifth is Sec.~\ref{sec:onestep}, where the
+substitution is made a second time and the law is a law over laws. The last
+row is the one that needs the sum over $\sigma_{a}$.
+
+\begin{table}[tb]
+\centering\small
+\begin{adjustbox}{max width=\linewidth}
+\begin{tabular}{L{0.95in}L{1.25in}L{0.85in}L{1.55in}}
+\hline\hline
+model & object iterated & $\otimes$ & $\Tint_{l}$\\
+\hline
+percolation (Chs.~\ref{ch:percolation}--\ref{ch:epidemics})
+  & a number, $P=\delta_{Q}$ & $\times$ & $\times$ over the component\\
+Ising, one instance (Sec.~\ref{sec:cavity})
+  & a field $h$, i.e.\ $\nu_{h}(\sigma)$ & field addition
+  & the emitted field $u(h_{1},\dots,h_{c-1})$\\
+replica-symmetric ensemble (Sec.~\ref{sec:substitution})
+  & a law over fields & convolution & pushforward of the emitted field\\
+replica saddle point (Sec.~\ref{sec:replicas-chy})
+  & a function on $2^{n}$ replica states & pointwise product
+  & $\Xi_{l}$, the interior sum in replica space\\
+one-step RSB (Sec.~\ref{sec:onestep})
+  & a law over laws, a survey & convolution of surveys
+  & pushforward, reweighted by $e^{-m\Delta F}$\\
+nested satisfiability (Sec.~\ref{sec:nested})
+  & a warning on a clause's truth value & AND of warnings
+  & one forbidden assignment on $(\sigma_{a};\text{literals})$\\
+\hline\hline
+\end{tabular}
+\end{adjustbox}
+\caption{\textbf{Substitutions.} What the exterior product and the interior
+operator are in each of the book's calculations. Read downwards the second
+column is Table~\ref{tab:through}'s second column again --- a number, a field,
+a law, a function on replica states, a law over laws --- and the third and
+fourth columns are the two things Table~\ref{tab:through} said change from
+row to row, now named as the two arguments of Eq.~\eqref{eq:act}.}
+\label{tab:ce-substitutions}
+\end{table}
+
+\section{What the pair yields}
+\label{sec:ce-yields}
+\index{threshold tensor}
+\index{counting numbers}
+
+Three things, each of which an earlier chapter obtained for one row of
+Table~\ref{tab:ce-substitutions} and which the pair gives for every row at
+once.
+
+\paragraph{The threshold.} Linearising
+Eqs.~\eqref{eq:ensplus}--\eqref{eq:ensminus} about the trivial fixed point,
+$\otimes$ contributes a factor one per relay and $\Tint_{l}$ contributes one
+derivative per leg. There are two kinds of leg, so two numbers per layer:
+\begin{equation}
+  u'_{l}=\frac{\del u}{\del h_{j}}\Big|_{\mathrm{triv}},
+  \qquad
+  \hat u'_{l}=\frac{\del u}{\del\hat h}\Big|_{\mathrm{triv}},
+  \label{eq:ownleg}
+\end{equation}
+the first on a member leg --- it is the $u'$ of Eq.~\eqref{eq:uprime} --- and
+the second on the complex's own leg, $\hat h$ being the field on
+$\sigma_{a}$.
+The resulting linear operator acts on the $2L^{2}$ unknowns of the
+percolation tensor $A$ of Sec.~\ref{sec:threshold}, with the elementwise
+reweighting of Eq.~\eqref{eq:reweight}, $\ave{s}\to\ave{s\,u'}$ and
+$\ave{\sbar}\to\ave{\sbar\,u'}$, on the member channel and a new weight
+$\hat u'_{l}$ on the channel that passes through a complex's own state. When
+no layer has both a state and a container, $\hat u'$ never enters and the
+$2L^{2}$ operator reduces to the $L\times L$ branching matrix of
+Eq.~\eqref{eq:branch}, which is why Part~III could work with the smaller
+index set. Nested satisfiability is the case in the book where
+$\hat u'\ne0$ --- the $\delta$ of Eq.~\eqref{eq:nestedwp} is a warning
+passing through a clause's own truth value --- and the reason the percolation
+index set, not the $L\times L$ one, is the general form.
+
+\paragraph{The readout.} The classical pair on a graph is one message
+equation and one marginal. On a chygraph the message equation splits in two
+by direction and the marginal stays one: Eq.~\eqref{eq:chyread} on an
+instance, Eq.~\eqref{eq:ensread} on the ensemble, Eq.~\eqref{eq:Sl} for
+percolation, where it is $S_{l}=1-P^{l}$.
+
+\paragraph{The functional.} Equations~\eqref{eq:chyup}--\eqref{eq:chydown}
+are the stationarity conditions of the Bethe free energy on the factor graph
+of $\alpha+I$. Its counting numbers are $+1$ for each factor and $1-\deg(i)$
+for each variable; a complex $a$ sits in its own factor and in $\kappa_{a}$
+container factors, so its variable term carries $-\kappa_{a}$, an atom's
+carries $1-\kappa_{i}$, and the total is one per complex, one per atom, minus
+one per inclusion. These are the weights Eq.~\eqref{eq:bethe} carries and
+Eq.~\eqref{eq:Fchy} derived from the replica side, and the region graph of
+Chapter~\ref{ch:gbp} produces in the treelike case, now from a third route.
+Chapter~\ref{ch:mobius} says what they are.
+
+\paragraph{What is not in the pair.} Two things the book does that the pair
+does not do for it. The pair is exact on a tree and silent off one; Part~IV
+and Chapter~\ref{ch:exactness} are about where the factor graph of rule~3
+stops being a tree, and Chapter~\ref{ch:mobius} gives that failure its
+algebraic name. And the pair carries one law per directed inclusion type,
+which is replica symmetry; where that is wrong the substitution has to be
+made again, and Chapter~\ref{ch:rde} says what the assumption is called in
+probability and what test decides it.

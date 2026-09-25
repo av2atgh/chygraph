@@ -33,8 +33,22 @@ ending on the routine that executes it.
 | 16 | `metacomplex.tex` | The repair that stays inside the formalism: merge complexes sharing two or more atoms; exact iff the merged incidence structure is a forest; and Sec. 16.3, the core-percolation transition at incidence branching one |
 | 17 | `exactness.tex` | When the method is exact: chordal = join tree = α-acyclic, GYO reduction as leaf removal on the incidence structure; the ensemble version is local (short chordless cycles, φ) and its loss is acyclicity percolation; 1D geometric graphs exact at every density, 2D and 3D not, HRG exact outside the centre; sixteen real networks against a rewired control |
 | 18 | `localization.tex` | The recursion with a Green's function for a message: the interior of a complex is a Schur complement (polynomial in the cardinality); Anderson localisation and the Localization Landscape on regular chygraphs with triangles, after Tonetti, Cugliandolo and Tarzia; the mobility edge as a stability line, LLT percolation as a dependent layer; what loops do to the gap between them |
-| 19 | `outlook.tex` | One recursion, many models; the two running threads; what is not done |
+| **V** | | **The math connection** |
+| 19 | `chyequation.tex` | The recursion written once: the factor graph of α+I (every complex a variable and a factor), chygraph belief propagation, and the chygraph equation as its density evolution; what the pair yields (the 2L² threshold operator with the own-leg derivative û′, the readout, the counting numbers) |
+| 20 | `rde.tex` | Probability: the chygraph equation as a system of recursive distributional equations; endogeny = replica symmetry, bivariate uniqueness = the AT line at the linear level; the smoothing transform and Ch. 18's mobility edge; the local weak limit as a multitype branching process whose mean matrix is the threshold tensor |
+| 21 | `species.tex` | Combinatorics: the excess functions are derivatives of a species, the excess bracket a partial derivative by sort; two kinds of hole; Lagrange inversion for the whole component distribution; analytic functors on the Giry monad; the Hopf side (Dyson–Schwinger with two grafting operators) |
+| 22 | `operads.tex` | A complex is an operation; percolation is Com; the excess bracket is partial composition; treelike is cyclic, Part IV is modular (self-gluing, genus); compound complexes are properads |
+| 23 | `marginal.tex` | Category theory: sum-product in a monoidal category; treelike as conditional independence; the marginal problem of Vorob'ev and Kellerer as Ch. 17's theorem sixty years early; sheaf obstruction; the level-wise conjecture |
+| 24 | `mobius.tex` | Topology: the counting numbers are the Möbius function of the inclusion poset; exactness is first Betti number zero; the loop series and motif promotion as partial resummation; GYO as collapsibility; acyclicity percolation beside Linial–Meshulam; the threshold as a sheaf-Laplacian gap |
+| 25 | `outlook.tex` | One recursion, many models; the two running threads; what is not done |
 | — | `software.tex` | Back matter. Repo links; equation-to-method-to-test table; how to reproduce a figure |
+
+**Part V computes nothing and its chapters carry no Checks section.** They
+were written on 2026-09-25 from `~/Downloads/chygraph_master_equation/draft.tex`
+(Secs. 1–5 → Ch. 19, Secs. 6–10 → Chs. 20–24), anchored on the book's
+equations; the figures in it are TikZ in the chapter files. The draft's
+bibliography was checked entry by entry before it was merged into
+`references.bib`; the two Peltre items are the least certain.
 
 **Chapters 12 and 13 have no manuscript behind them.** Every other chapter is
 exposition of work that exists elsewhere; for these two the calculations are
@@ -47,21 +61,23 @@ propagation at `m = 0`. PDFs of the references are under
 ## Status
 
 `main.pdf` builds with **0 errors, 0 undefined references and 0
-multiply-defined labels, across 401 pages.** Not box-clean: **two overfull
+multiply-defined labels, across 478 pages.** Not box-clean: **four overfull
 hboxes** — `cover.tex:483--493` (1.99pt, "Which replica-symmetry-breaking
-point") and `metacomplex.tex:383--389` (3.16pt) — and 52 underfull vboxes,
-every one of them `while \output is active`, which is page-breaking around
-floats and not a line running into the margin.
+point"), `metacomplex.tex:383--389` (3.16pt) and two of 0.66pt in
+`software.tex`'s Table 1 (lines 255–256, the Ch. 18 handle rows, present
+since that commit) — and 66 underfull vboxes, every one of them `while
+\output is active`, which is page-breaking around floats and not a line
+running into the margin.
 
-68 figures, 33 numbered tables, 173 numbered equations, 92 references and a
-124-term index. Both checks under *Two checks the build cannot make* print
+73 figures, 35 numbered tables, 212 numbered equations, 129 references and a
+175-term index. Both checks under *Two checks the build cannot make* print
 nothing.
 
 **These counts are re-measured, not maintained by hand** — the recipes are
 under Building, below. Re-measure rather than trust them after any edit.
 
-`software.tex` sits in the **back matter**, after Ch. 17 and before the index,
-and is unnumbered — "The software", page 325, arabic. It carries the two
+`software.tex` sits in the **back matter**, after Ch. 25 and before the index,
+and is unnumbered — "The software", page 431, arabic. It carries the two
 repository URLs and **Table 1: every computed equation, the routine that
 evaluates it, and the test or script that checks it**. If a routine is renamed,
 that table is where it has to be fixed.

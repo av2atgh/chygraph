@@ -191,6 +191,16 @@
 \newcommand{\sbar}{\bar s}
 \newcommand{\code}[1]{\texttt{#1}}
 
+% Part V (the math connection). The interior operator, the two actions of a
+% generating function on a law, the pushforward and the member set of a
+% complex. \del is the boundary-style "members of" operator, so that
+% \del a reads "the members of a" in the same way \partial reads "boundary".
+\newcommand{\Tint}{\mathcal{T}}          % interior operator
+\newcommand{\conv}{\circledast}          % a generating function acting through convolution
+\newcommand{\act}[1]{\star_{#1}}         % a generating function acting through a map
+\newcommand{\push}{_{\#}}                % pushforward of a measure
+\DeclareMathOperator{\del}{\partial}
+
 % Every Checks section carries the same three headings, in the same order, each
 % on a line of its own: what reproduces published work, what is new here, and
 % what is incomplete or not fully right.
@@ -365,6 +375,24 @@ SISSA}
 % message; Anderson localisation and the localisation landscape on regular
 % chygraphs with triangles, after Tonetti, Cugliandolo and Tarzia (2025).
 \include{localization}
+
+\part{The math connection}
+
+% Part V, added 2026-09-25 from ~/Downloads/chygraph_master_equation/draft.tex.
+% Ch. 19 fixes the object (the draft's Secs. 1-5): the factor graph of
+% alpha + I, chygraph belief propagation, and the chygraph equation as its
+% density evolution. Chs. 20-24 are the draft's Secs. 6-10, one field each,
+% every one anchored on the equations of Parts II-IV: probability (recursive
+% distributional equations), combinatorics (species), operads, category theory
+% (the marginal problem) and topology (Moebius numbers). No numbers are
+% computed in this part, so its chapters carry no Checks section. The Outlook
+% still closes the book.
+\include{chyequation}
+\include{rde}
+\include{species}
+\include{operads}
+\include{marginal}
+\include{mobius}
 
 \include{outlook}
 

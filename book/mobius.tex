@@ -1,0 +1,471 @@
+\chapter{M\"obius numbers and loops}
+\label{ch:mobius}
+
+% Part V, added 2026-09-25 from ~/Downloads/chygraph_master_equation/draft.tex,
+% Sec. 10. Nothing is computed here. The one place the chapter goes beyond
+% the draft is Sec. mb-collapse, where the draft's "exactness is
+% collapsibility" is weakened to an implication, with the wheel as the
+% witness that the converse fails.
+
+Section~\ref{sec:ce-yields} ended on a promise: the counting numbers that the
+Bethe free energy carries --- one per complex, one per atom, minus one per
+inclusion --- were obtained in this book three times, from the replica
+calculation of Sec.~\ref{sec:replicas-chy}, from the region graph of
+Chapter~\ref{ch:gbp}, and from the factor graph of $\alpha+I$, and the
+promise was to say what they are. They are the M\"obius function of the
+inclusion order. That one sentence is the connection this chapter makes, and
+the rest of the chapter is what follows from it: that their sum is an Euler
+characteristic, so that exactness reads as the vanishing of a Betti number;
+that the error of Part~IV is a sum over the generators of a homology group;
+that the leaf removal Chapter~\ref{ch:exactness} runs on the incidence
+structure is a sequence of collapses; and that the transition
+Chapter~\ref{ch:exactness} found has a companion in random topology.
+
+The field on the other side is applied topology, and the connection runs
+through one author. \citet{peltre2020,peltre2021} write generalised belief
+propagation as a flow on a cochain complex over the poset of regions, with
+the counting numbers of \citet{yedidia2005} as the M\"obius function of that
+poset. Everything here is that construction with the poset chosen for it: not
+a family of regions given by hand, but the inclusion order of a chygraph,
+which is canonical and comes with an ensemble.
+
+\section{The counting numbers are a M\"obius function}
+\label{sec:mb-mobius}
+\index{M\"obius function|textbf}
+\index{counting numbers|textbf}
+\index{Euler characteristic|textbf}
+
+Take the vertices of a chygraph, atoms and complexes alike, ordered by
+inclusion. Chapter~\ref{ch:gbp}'s rule~3, Eq.~\eqref{eq:mobius}, assigns to
+every element $R$ of a family closed under intersection the number
+\begin{equation}
+  c_{R}=1-\sum_{R'\supsetneq R}c_{R'},
+  \label{eq:mb-count}
+\end{equation}
+working down from the maximal elements, which take $c_{R}=1$. Add a top
+element $\hat1$ above everything and Eq.~\eqref{eq:mb-count} is the defining
+recursion of the M\"obius function of the resulting poset, $c_{R}=-\mu(R,\hat1)$
+\citep{yedidia2005}; that is what ``M\"obius inversion'' in
+Chapter~\ref{ch:gbp} meant, and the recursion is how it is computed. So far
+nothing is specific to chygraphs. What is specific is what happens when the
+family is the inclusion order itself, with no closure taken.
+
+\paragraph{The treelike case.} Suppose the incidence structure of
+Sec.~\ref{sec:treelike} --- the bipartite graph of atoms and complexes, or
+of complexes and their containers at every level --- is a forest. Let
+$S(x)$ be the sum in Eq.~\eqref{eq:mb-count}, taken over every element
+strictly above $x$. A vertex $x$ has $\kappa_{x}$ immediate containers
+$b_{1},\dots,b_{\kappa_{x}}$, and in a forest the sets of elements above two
+different containers are disjoint, since a common container of $b_{1}$ and
+$b_{2}$ would close a loop $x\,b_{1}\,c\,b_{2}\,x$. So the sum splits by
+container,
+\begin{equation}
+  S(x)=\sum_{j}\bigl[c_{b_{j}}+S(b_{j})\bigr]
+      =\sum_{j}\bigl[1-S(b_{j})+S(b_{j})\bigr]=\kappa_{x},
+  \label{eq:mb-forest}
+\end{equation}
+and therefore
+\begin{equation}
+  c_{x}=1-\kappa_{x}
+  \qquad\text{for every vertex, atom or complex, at every depth.}
+  \label{eq:mb-treecount}
+\end{equation}
+That is Eq.~\eqref{eq:bethe}: $1-\kappa$ on every atom, and on every complex
+$1-\kappa_{a}$, which is the $+1$ of its factor together with the
+$-\kappa_{a}$ of its variable that Sec.~\ref{sec:ce-yields} counted on the
+factor graph of $\alpha+I$. Averaged over a layer it is $n_{l}=\ave{\kappa_{l}}/c_{l}$
+complexes per atom carrying weight one, and $\ave{1-\kappa}$ on the atoms,
+which are the coefficients of the two terms of Eq.~\eqref{eq:bethe} and,
+term for term, the three terms of the replica free energy
+Eq.~\eqref{eq:Fchy} --- one per complex, one per atom, one subtracted per
+inclusion. Three derivations, one M\"obius function, and the reason the three
+agreed is that each of them was computing it.
+
+\paragraph{The sum is an Euler characteristic.} Sum
+Eq.~\eqref{eq:mb-treecount} over the vertices of the incidence structure. The
+number of vertices is the number of atoms plus the number of complexes, and
+$\sum_{x}\kappa_{x}$ counts every inclusion once, so
+\begin{equation}
+  \sum_{x}c_{x}=V-E=\chi(\text{incidence graph})=b_{0}-b_{1},
+  \label{eq:mb-euler}
+\end{equation}
+the Euler characteristic of the incidence graph, which for a graph is the
+number of connected components less the number of independent cycles. On a
+connected forest it is one. The counting numbers of the inclusion order
+therefore sum to one exactly when the incidence structure has no loops,
+which is the condition Sec.~\ref{sec:mergeerror} showed the chygraph
+recursion itself needs: \emph{the recursion on $\chi$ is exact when
+$b_{1}=0$ of the incidence structure}, and the counting numbers are the
+local quantities whose total is that Betti number. It is a stronger
+condition than the one Chapter~\ref{ch:exactness} gave three names to.
+Two triangles sharing an edge are $\alpha$-acyclic, and the join-tree
+calculation is exact on them, but their incidence structure has a loop;
+the next paragraph is that example, and what the two repairs of Part~IV do
+to its counting numbers is exactly the difference between the two
+conditions. Here the letter $\chi$ is the Euler characteristic, in the
+same spirit as Sec.~\ref{sec:response}'s susceptibility: no chygraph is
+named by a letter in this chapter, and the standard symbol costs the reader
+less than a new one.
+
+\paragraph{Two triangles.} The example Part~IV opened with makes the
+arithmetic visible (Fig.~\ref{fig:mobiusposet}). Two triangles $a=\{1,2,3\}$
+and $b=\{2,3,4\}$ share the pair $\{2,3\}$. On the inclusion order of the
+chygraph, the two complexes take $c=1$, atoms $1$ and $4$ take
+$1-1=0$, and atoms $2$ and $3$ take $1-2=-1$. The sum is $0$: the incidence
+graph has six vertices and six inclusions, and the loop $2\,a\,3\,b\,2$ is its
+one independent cycle. The bond $(2,3)$ is inside both complexes and is
+counted twice, which is the double count of Sec.~\ref{sec:twotriangles}, and
+the sum of the counting numbers has recorded the fact before any free energy
+is evaluated.
+
+Both repairs of Part~IV restore the sum to one, from opposite sides, and
+they restore it to different objects.
+Chapter~\ref{ch:gbp} closes the family under intersection, inserting the pair
+$\{2,3\}$ as an element of the order. Its counting number is $1-2=-1$, and
+the atoms below it now have $1-(1+1-1)=0$; the sum is $1+1-1=1$, and the
+Hasse diagram of the closed family, with seven elements and six covering
+relations, is a tree. That is Fig.~\ref{fig:regiongraph} read as a poset.
+Chapter~\ref{ch:metacomplex} instead merges the two triangles into one
+complex $\{1,2,3,4\}$, which takes $c=1$ while every atom takes $0$; the sum
+is again one, and the incidence structure is a star. One repair adds an
+element below the loop and the other removes the loop by replacing its two
+complexes with one; either way the sum returns to one, and the counting
+numbers say so before either calculation is run. The two are not the same
+condition. The closed family's Hasse diagram is a tree here and need not be
+in general --- three cliques in a path, $\{1,2,3\}$, $\{2,3,4\}$,
+$\{3,4,5\}$, close to a family in which atom $3$ lies below two separators
+and the diagram has a cycle, while the family is chordal, the calculation is
+exact and the counting numbers still sum to one, three cliques less two
+separators. On a junction tree the sum is always cliques minus separators,
+which is one; what the sum reads on the closed family is the join-tree
+condition of Chapter~\ref{ch:exactness}, and what it reads on the inclusion
+order itself is the forest condition of Chapter~\ref{ch:metacomplex}.
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{width=0.97\linewidth}
+\begin{tikzpicture}[x=1cm,y=1cm]
+% ---- left: the inclusion order of the chygraph ----
+\begin{scope}
+  \node[atm] (p1) at (0,0) {};
+  \node[atm] (p2) at (0.9,0) {};
+  \node[atm] (p3) at (1.8,0) {};
+  \node[atm] (p4) at (2.7,0) {};
+  \node[cpx] (A) at (0.9,1.4) {};
+  \node[cpx] (B) at (1.8,1.4) {};
+  \draw[inc] (p1)--(A) (p2)--(A) (p3)--(A);
+  \draw[inc] (p2)--(B) (p3)--(B) (p4)--(B);
+  \node[lb,below=1pt of p1] {$0$};
+  \node[lb,below=1pt of p2] {$-1$};
+  \node[lb,below=1pt of p3] {$-1$};
+  \node[lb,below=1pt of p4] {$0$};
+  \node[lb,above=1pt of A] {$1$};
+  \node[lb,above=1pt of B] {$1$};
+  \node[lb,left=2pt of A] {$a$};
+  \node[lb,right=2pt of B] {$b$};
+  \node[tb,anchor=north,align=center] at (1.35,-0.55)
+    {inclusion order\\ $\sum c=0$, $b_{1}=1$};
+\end{scope}
+% ---- middle: closed under intersection (the region graph) ----
+\begin{scope}[xshift=4.6cm]
+  \node[atm] (p1) at (0,0) {};
+  \node[atm] (p2) at (0.9,0) {};
+  \node[atm] (p3) at (1.8,0) {};
+  \node[atm] (p4) at (2.7,0) {};
+  \node[cpxb] (S) at (1.35,0.8) {};
+  \node[cpx] (A) at (0.7,1.7) {};
+  \node[cpx] (B) at (2.0,1.7) {};
+  \draw[inc] (p1)--(A) (p2)--(S) (p3)--(S) (p4)--(B);
+  \draw[inc] (S)--(A) (S)--(B);
+  \node[lb,below=1pt of p1] {$0$};
+  \node[lb,below=1pt of p2] {$0$};
+  \node[lb,below=1pt of p3] {$0$};
+  \node[lb,below=1pt of p4] {$0$};
+  \node[lb,right=2pt of S] {$-1$};
+  \node[lb,above=1pt of A] {$1$};
+  \node[lb,above=1pt of B] {$1$};
+  \node[tb,anchor=north,align=center] at (1.35,-0.55)
+    {closed under intersection\\ $\sum c=1$, $b_{1}=0$};
+\end{scope}
+% ---- right: merged ----
+\begin{scope}[xshift=9.2cm]
+  \node[atm] (p1) at (0,0) {};
+  \node[atm] (p2) at (0.9,0) {};
+  \node[atm] (p3) at (1.8,0) {};
+  \node[atm] (p4) at (2.7,0) {};
+  \node[cpx] (M) at (1.35,1.4) {};
+  \draw[inc] (p1)--(M) (p2)--(M) (p3)--(M) (p4)--(M);
+  \node[lb,below=1pt of p1] {$0$};
+  \node[lb,below=1pt of p2] {$0$};
+  \node[lb,below=1pt of p3] {$0$};
+  \node[lb,below=1pt of p4] {$0$};
+  \node[lb,above=1pt of M] {$1$};
+  \node[tb,anchor=north,align=center] at (1.35,-0.55)
+    {merged\\ $\sum c=1$, $b_{1}=0$};
+\end{scope}
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{The counting numbers as a M\"obius function.} Two triangles
+sharing the pair $\{2,3\}$, drawn as inclusion orders with the number
+Eq.~\eqref{eq:mb-count} assigns written at each element. Left: the chygraph
+itself. The shared atoms carry $-1$, the sum is zero, and the incidence
+graph has one independent cycle. Middle: the family closed under
+intersection, Chapter~\ref{ch:gbp}'s region graph, with the shared pair
+(shaded) inserted below the two triangles carrying $-1$; the Hasse diagram is
+a tree and the sum is one. Right: the merge closure of
+Chapter~\ref{ch:metacomplex}, one complex on four atoms, a star, sum one.
+The sum is the Euler characteristic of the incidence structure,
+Eq.~\eqref{eq:mb-euler}, so it reads the loop before any free energy does,
+and both repairs of Part~IV are ways of removing it.}
+\label{fig:mobiusposet}
+\end{figure}
+
+\section{The loop series}
+\label{sec:mb-loops}
+\index{loop series|textbf}
+\index{generalised loop}
+
+If exactness is $b_{1}=0$, the error when $b_{1}>0$ ought to be organised by
+the generators of $H_{1}$, and it is. \citet{chertkov2006} expand the
+partition function of a model on a factor graph around the belief-propagation
+fixed point,
+\begin{equation}
+  Z=Z_{\mathrm{BP}}\Bigl(1+\sum_{C}r_{C}\Bigr),
+  \label{eq:mb-loopseries}
+\end{equation}
+the sum running over the \emph{generalised loops} of the factor graph --- the
+subgraphs in which no vertex has degree one --- with each term $r_{C}$ a
+product over the vertices of $C$ of connected correlations evaluated at the
+fixed point. A tree has no generalised loop and the series is the single term
+one, which is exactness again. On the factor graph of $\alpha+I$ the
+generalised loops are the loops \emph{over complexes}, and the series is the
+natural home for the error terms Part~IV measured one at a time.
+
+\paragraph{The one-loop term.} The ring of $k$ triangles glued at single
+atoms, Fig.~\ref{fig:ring}, is the smallest object on which the series has
+exactly one term beyond the leading one. Its incidence structure is a single
+cycle of $2k$ steps, so $b_{1}=1$ and there is one generalised loop, the ring
+itself. Table~\ref{tab:ring} measured the error of the cavity method on it at
+$k=4$ to $8$ and found it falling with $k$ at fixed coupling, a short-loop
+effect and not a defect of the scheme. In Eq.~\eqref{eq:mb-loopseries} that
+is the statement that $r_{C}$ for the one loop is a product of $2k$ factors
+each less than one in magnitude, and the rate at which the error falls with
+$k$ is the logarithm of the typical factor. The book did not compute
+$r_{C}$; Table~\ref{tab:ring} measured $Z$ and $Z_{\mathrm{BP}}$ and took
+the difference, and the loop series says what that difference is a series
+in.
+
+\paragraph{Motif promotion is a partial resummation.} Here is the claim the
+connection makes, and it is a concrete one. A graph rich in triangles has, on
+its own factor graph, a generalised loop for every triangle and for every
+combination of triangles, and the loop series of the graph is a sum over all
+of them. Promote each triangle to a complex, as Sec.~\ref{sec:promoting}
+does, and the triangle is a single factor of $\alpha+I$: the loop that ran
+around its three edges is now \emph{inside} a factor, and it is not a
+generalised loop of the new factor graph at all. Its contribution has not
+been dropped. It has been summed exactly by the interior sum, Eq.~\eqref{eq:emitted},
+which is where Chapter~\ref{ch:statmech} said the loops went. So the chygraph
+recursion on a clique chygraph is, in the language of
+Eq.~\eqref{eq:mb-loopseries}, the loop series of the graph with every
+generalised loop that lives inside a single clique resummed into the leading
+term, and the remaining series runs only over loops between cliques.
+Chapter~\ref{ch:overlap}'s error on two triangles sharing an edge,
+Table~\ref{tab:twotriangles}, is then the one term of the remaining series,
+the loop $2\,a\,3\,b\,2$ of Fig.~\ref{fig:mobiusposet}, and a calculation
+of $r_{C}$ for it from the two-triangle fixed point should return that
+table's numbers. The claim has not been tested; it is stated here because it
+is testable on the objects Part~IV already holds, and because if it holds it
+turns Part~IV's corrections from a list of cases into the successive terms
+of one expansion.
+
+\section{Collapsibility}
+\label{sec:mb-collapse}
+\index{collapsibility|textbf}
+\index{GYO reduction}
+
+Chapter~\ref{ch:exactness}'s certificate is the GYO reduction, Sec.~\ref{sec:threenames}:
+delete an atom that lies in one complex only, delete a complex contained in
+another, repeat, and the family is $\alpha$-acyclic if and only if nothing
+is left. Read the family as a simplicial complex --- every complex a facet,
+every subset of a complex a face --- and the two rules are two things a
+topologist already has a name for.
+
+An atom that lies in one complex only is a vertex whose star is a single
+simplex, and removing it is a sequence of \emph{elementary collapses}: each
+face of that simplex containing the vertex is a free face of the face one
+dimension up, and can be removed together with it without changing the
+homotopy type. A complex contained in another is a face of a facet, and
+removing it from the \emph{family} changes nothing in the simplicial complex
+at all, since every face of a facet is present already. So a GYO reduction
+that empties the family is a sequence of elementary collapses that reduces
+the simplicial complex to a point: \emph{an $\alpha$-acyclic family is
+collapsible}. Collapsibility is stronger than contractibility, and it is
+combinatorial, decided by a finite sequence of moves rather than by a
+homotopy, which is what makes it a certificate.
+
+The converse fails, and the draft this part grew out of stated the
+equivalence; the statement here is the implication, for a reason the book
+has already met. A wheel with four spokes, the hub joined to every vertex of
+a four-cycle, has as its clique family the four triangles at the hub. GYO
+cannot start: every atom lies in two triangles and no triangle is contained
+in another, so the family is not $\alpha$-acyclic, which is why
+Sec.~\ref{sec:threenames} named the wheel as a structure the join tree
+cannot handle. But its simplicial complex is a cone over the rim, a disc,
+and a disc is collapsible. So the residue of Sec.~\ref{sec:residue} --- what
+GYO cannot consume --- is an obstruction to a join tree and not to a collapse;
+the two conditions agree when they are both zero and differ on the wheel,
+and it is the join-tree condition that the recursion needs. What
+collapsibility does supply is a direction. The three conditions this part
+has met are strictly ordered: $b_{1}=0$ of the incidence structure, which
+Sec.~\ref{sec:mb-mobius} showed is what the chygraph recursion itself
+needs, implies $\alpha$-acyclicity, since an incidence forest is its own
+join tree; $\alpha$-acyclicity implies collapsibility, by the argument
+above; and neither converse holds, two triangles sharing an edge separating
+the first pair and the wheel the second.
+
+\section{Random topology}
+\label{sec:mb-random}
+\index{acyclicity percolation}
+\index{random simplicial complex|textbf}
+
+Chapter~\ref{ch:exactness} turned ``is the family acyclic'' into a question
+about an ensemble and found a transition: the vertices on short chordless
+cycles, Eq.~\eqref{eq:phishort}, form finite islands at low density and a
+giant piece above a threshold $\ave{k}_{a}$ that lies well above the graph's
+own percolation threshold, Figs.~\ref{fig:acyclicity} and~\ref{fig:fss}.
+That transition has stood alone in the book. In random topology it has a
+family.
+
+\citet{linial2006} take the complete graph on $n$ vertices, add each
+triangle independently with probability $p$, and ask when the first homology
+of the resulting $2$-complex vanishes; the threshold is at $p$ of order
+$\ln n/n$, the two-dimensional version of the connectivity threshold of a
+random graph. \citet{aronshtam2013} ask the sparser question, $p=c/n$, and
+find thresholds in $c$ for collapsibility and for the vanishing of the top
+homology, which do not coincide, the complex ceasing to be collapsible
+before its top homology appears; \citet{kahle2014} surveys the subject.
+Those are uniform faces on a complete vertex set: every $d$-simplex is
+equally likely. The chygraph is the heterogeneous, layered and nested version
+of the same object, with a cardinality distribution in place of a fixed $d$
+and a chy-degree distribution in place of a fixed $p$, and its thresholds are
+fixed by the four moment matrices of Eq.~\eqref{eq:moments} rather than by a
+single constant. Acyclicity percolation is the first of those thresholds,
+and it is a threshold of a different kind from Linial--Meshulam's: not where
+a homology group vanishes, but where the set on which the local homology is
+non-trivial percolates, which is the question a cavity method asks and a
+topologist has had no reason to.
+
+\paragraph{What the two sides share.} The collapsibility threshold of
+\citet{aronshtam2013} and acyclicity percolation both sit in the sparse
+r\'egime, a bounded number of faces at a vertex, and both sit above the
+threshold at which the underlying graph first has a giant component. That is as far as
+the analogy has been carried. Whether the collapsibility threshold of a
+random complex is a percolation of non-collapsible islands in the same sense
+as Chapter~\ref{ch:exactness}'s $\ave{k}_{a}$, and whether the layered
+thresholds reduce to theirs on the uniform ensemble, are questions the
+present book leaves open.
+
+\section{Sheaf Laplacians}
+\label{sec:mb-sheaf}
+\index{sheaf Laplacian|textbf}
+
+The connection has so far been to the free energy and to exactness. The
+linearised recursion, the threshold tensor of Sec.~\ref{sec:threshold} and
+the branching matrix of Eq.~\eqref{eq:branch}, has its own topological
+reading. \citet{hansen2019} attach to a cell complex a \emph{cellular sheaf}:
+a vector space on every cell, the stalk, and a linear restriction map from a
+cell to each cell in its boundary, and define the sheaf Laplacian
+$L=\delta^{\top}\delta$ built from those maps. Its kernel is the space of
+\emph{harmonic sections}, assignments to the cells that agree with one
+another under every restriction, and its spectral gap measures how far the
+sheaf is from admitting one.
+
+Put the message spaces on the incidence structure. A directed inclusion
+carries a message space, the tangent space at the trivial fixed point of the
+law on that inclusion, and the kernel derivatives of Eq.~\eqref{eq:ownleg}
+--- $u'_{l}$ on a member leg, $\hat u'_{l}$ on a complex's own leg --- are
+the maps that carry a perturbation from one inclusion to the next through
+the interior of a complex. Those are restriction maps, and a harmonic
+section is a consistent local assignment: a perturbation of the messages
+that every complex reproduces, which is a marginal direction of the
+recursion. The threshold is where such a direction first exists, which is
+the statement $\lambda=1$ of Eq.~\eqref{eq:Lambdalambda}.
+
+One thing has to be said precisely, because the draft said it loosely. The
+linearised recursion itself is not a Laplacian: it is the weighted
+non-backtracking operator of the incidence graph, one entry for each pair of
+consecutive directed inclusions, with the kernel derivatives as weights, and
+it is not symmetric. The sheaf Laplacian is the symmetric operator built from
+the same restriction maps, and the two are not the same operator; on an
+ordinary graph, with trivial stalks, the non-backtracking spectrum and the
+Laplacian's are related by the Ihara--Bass identity rather than equal, and
+the weighted sheaf version of that identity is not something this chapter
+claims. So the claim is not that
+Eq.~\eqref{eq:branch} \emph{is} a sheaf Laplacian, but that both are
+determined by one sheaf --- stalks the message spaces, restriction maps the
+kernel derivatives --- and that the threshold, a property of that sheaf, is
+readable from either. A random chygraph makes it a random sheaf, an object
+\citet{hansen2019} define and do not randomise; the four moment matrices
+would then fix the expected spectral gap, and the transition of every
+chapter in Parts~II and~III would be the closing of that gap.
+
+\section{What it gives the book}
+\label{sec:mb-gives}
+
+Three things, in decreasing order of how settled they are.
+
+\emph{One sentence in place of three derivations.} The counting numbers of
+Eqs.~\eqref{eq:bethe}, \eqref{eq:Fchy} and~\eqref{eq:mobius} are the
+M\"obius function of the inclusion order, and they were bound to agree. Their
+sum over the inclusion order is the Euler characteristic of the incidence
+structure, so the condition under which the chygraph recursion itself is
+exact, Chapter~\ref{ch:metacomplex}'s forest, has a name, $b_{1}=0$; the
+weaker condition of Chapter~\ref{ch:exactness} is read off the same
+numbers on the closed family, and the two repairs of Part~IV are the two
+ways of returning the sum to one that Fig.~\ref{fig:mobiusposet} draws.
+
+\emph{A systematic expansion for Part~IV.} The loop series of
+Eq.~\eqref{eq:mb-loopseries} organises the corrections that
+Chapters~\ref{ch:overlap} to~\ref{ch:metacomplex} measured case by case,
+with the ring of Table~\ref{tab:ring} as its one-loop term and motif
+promotion as a partial resummation of it. That last reading is the one
+claim in this chapter that a calculation on the book's own examples would
+confirm or refute.
+
+\emph{A companion for the acyclicity transition.} It is no longer the only
+transition of its kind: the thresholds of \citet{linial2006} and
+\citet{aronshtam2013} are the uniform case of the same question, and the
+chygraph is their heterogeneous and nested generalisation, with a
+percolation question they have not asked.
+
+\section{What the field could get}
+\label{sec:mb-field}
+
+Peltre's region poset is given by hand, and every application of
+generalised belief propagation chooses its regions. The chygraph gives a
+canonical poset from data, the inclusion order, and comes with an ensemble
+over it, so the expected Euler characteristic, its fluctuations and the
+transition in the first Betti number become computable from the four moment
+matrices: a statistical topology of region graphs, of which acyclicity
+percolation is the first result.
+
+On the loop series, the resummation claim of Sec.~\ref{sec:mb-loops} cuts
+both ways. If motif promotion removes from the expansion every loop inside a
+complex, then the loop series over a clique chygraph is shorter than the
+series over the graph by every term that a clique absorbs, which is a
+statement about the convergence of the series and not only about its leading
+term, and it is one that the overlap examples of Chapter~\ref{ch:overlap} can
+test at small size.
+
+On random topology, the thresholds of \citet{linial2006} and
+\citet{aronshtam2013} are for uniform faces on a complete vertex set. The
+chygraph supplies the layered, nested and degree-heterogeneous version of
+both, with thresholds fixed by Eq.~\eqref{eq:moments}, and a new question,
+whether the loss of collapsibility is a percolation of non-collapsible
+islands, which Chapter~\ref{ch:exactness} answered for the join-tree
+condition and nobody has asked for the topological one.
+
+And on sheaves, the linearised recursion determines a random cellular sheaf
+on the incidence structure whose restriction maps are kernel derivatives.
+Its spectral gap is a threshold that this book computes model by model; a
+theory of random sheaf Laplacians would compute it once.

@@ -1,0 +1,507 @@
+\chapter{Species and analytic functors}
+\label{ch:species}
+
+% Part V, added 2026-09-25 from ~/Downloads/chygraph_master_equation/draft.tex,
+% Sec. 7. Nothing is computed here. The two things this chapter shows by
+% calculation -- that the excess functions are derivatives, and that the
+% Jacobian at threshold is the second derivative -- are identities between
+% generating functions the book already carries; the rest is where the same
+% objects live in combinatorics, and what would follow if the identification
+% were carried through.
+
+Equation~\eqref{eq:act} is a generating function acting on a law through a
+family of symmetric multilinear maps. Combinatorics has a name for a
+generating function whose coefficients are families of structures acted on
+by the symmetric groups: it is the \emph{analytic functor} of \citet{joyal1986},
+the functor a species of structures induces, and Eq.~\eqref{eq:act} is that
+functor evaluated on a probability space that carries a symmetric multilinear
+structure. Once the identification is made, three things the book found by
+calculation acquire a reason.
+
+The first is that the excess bracket is a derivative. Species have a
+derivative, it is a structure with one extra distinguished element, and
+``arrived along an inclusion'' is that element. The second is that the
+action on laws is a species composed with the functor that sends a space to
+its probability measures, so that the two steps of Chapter~\ref{ch:statmech}
+--- a convolution and a pushforward --- are one construction with two
+choices of the multilinear map. The third is that the pair is a
+Dyson--Schwinger equation in the sense of renormalisation, whose solutions
+are sums over rooted trees, which is what a cavity recursion is when written
+out. The chapter takes the three in that order, and then says what each
+gives the book and what the book gives back.
+
+\section{The connection}
+\label{sec:sp-connection}
+\index{species|textbf}
+\index{analytic functor|textbf}
+
+A \emph{species} $F$ \citep{joyal1981} assigns to every finite set $U$ of
+labels a set $F[U]$ of structures on those labels --- the graphs on $U$, the
+rooted trees on $U$, the subsets of $U$ --- in a way that respects
+relabelling: a bijection $U\to V$ carries $F[U]$ to $F[V]$. Its exponential
+generating function is $\sum_{n}|F[n]|\,x^{n}/n!$, and the point of the
+theory is that the operations one performs on generating functions --- sum,
+product, composition, derivative --- are shadows of operations on the
+structures themselves, so that an identity between series is a bijection
+between structures. \citet{bergeron1998} is the standard account, and its
+title, \emph{Combinatorial Species and Tree-like Structures}, is the subject
+of this book in four words.
+
+The generating functions of Sec.~\ref{sec:ensembles} are species in this
+sense with one adjustment. $\Phi^{l}_{k}(x)=\sum_{n}p^{lk}_{n}x^{n}$ has for
+its coefficients probabilities rather than counts of structures. That is a
+\emph{weighted} species \citep{bergeron1998}: the species of finite
+sets --- a layer-$l$ complex's set of layer-$k$ containers --- with each set
+of $n$ elements carrying the weight $n!\,p^{lk}_{n}$, so that the weighted
+exponential series is $\Phi^{l}_{k}$. Nothing in the calculus of species
+depends on the weights being counts, and every statement below about
+derivatives and compositions holds for weighted species verbatim.
+
+Joyal's analytic functor sends a set $X$ to the set of $F$-structures whose
+labels are elements of $X$,
+\begin{equation}
+  F(X)=\sum_{n}F[n]\times_{S_{n}}X^{n},
+  \label{eq:sp-analytic}
+\end{equation}
+the quotient by $S_{n}$ forgetting the order in which the $n$ labels were
+listed. Set this against Eq.~\eqref{eq:act},
+$F\act{T}P=\sum_{n}f_{n}(T_{n})\push P^{\otimes n}$. The set $X$ has become
+a probability measure $P$ on the message space; the power $X^{n}$ has become
+the product measure $P^{\otimes n}$; the quotient by $S_{n}$ is automatic
+because the maps $T_{n}$ are symmetric; and the pushforward through $T_{n}$
+lands the result back in the message space, where the next application can
+act on it. The action of a generating function on a law that
+Sec.~\ref{sec:substitution} introduced by fiat, and Chapter~\ref{ch:chyequation}
+generalised to any multilinear map, is therefore the analytic functor of the
+chy-degree species, evaluated not on a set but on a law.
+
+Three consequences follow, and Secs.~\ref{sec:sp-holes}, \ref{sec:sp-giry}
+and~\ref{sec:sp-hopf} take them one at a time: the excess bracket is a
+derivative, the action on laws is a species composed with a monad, and the
+pair is a Dyson--Schwinger equation.
+
+\section{One derivative, two holes}
+\label{sec:sp-holes}
+\index{species!derivative of|textbf}
+\index{excess generating function}
+\index{multisort species|textbf}
+
+The derivative of a species is defined on structures, not on series:
+\begin{equation}
+  F'[U]=F[U\cup\{\ast\}],
+  \label{eq:sp-derivative}
+\end{equation}
+an $F$-structure on the labels $U$ together with one extra, distinguished
+element $\ast$ that is not a label --- the \emph{hole}. Its generating
+function is $dF/dx$: a structure of size $n+1$ with one of its $n+1$ elements
+singled out and removed from the count contributes $(n+1)x^{n}$. That is what
+``arrived along an inclusion'' means. A complex reached along an inclusion is
+a complex with one slot already spoken for, and the excess functions of
+Sec.~\ref{sec:ensembles} are the derivatives, normalised to be probability
+generating functions:
+\begin{equation}
+  \bar\Phi(x)=\frac{\Phi'(x)}{\Phi'(1)},\qquad
+  \bar G(x)=\frac{G'(x)}{G'(1)} .
+  \label{eq:sp-excessderiv}
+\end{equation}
+The book has been using Eq.~\eqref{eq:sp-excessderiv} since
+Chapter~\ref{ch:chygraphs} without calling it a derivative, and the moments
+of Eq.~\eqref{eq:moments} say so. The first moment of the derivative species
+is the second derivative of the original,
+\[
+  \bar\Phi'(1)=\frac{\Phi''(1)}{\Phi'(1)}
+              =\frac{\ave{\kappa(\kappa-1)}}{\ave{\kappa}}=\ave{\kbar},
+\]
+which is Eq.~\eqref{eq:excess} read from right to left. The size-biased
+average that Sec.~\ref{sec:ensembles} explained in words --- an author
+picked at random has $\ave{\kappa}_{01}$ papers, an author reached by walking
+in along a paper has $\ave{\kbar}_{01}+1$ of them, because the paper walked in
+along is the hole and is not among those then found --- is the statement
+that pointing a structure and then counting its elements is differentiating
+its generating function. The publications chygraph of Sec.~\ref{sec:paper} is
+a species with two sorts of label, authors and papers, and walking in along a
+paper is a derivative with respect to the paper sort.
+
+\paragraph{The excess bracket is a partial derivative.} That last remark is
+the general case. Layers are sorts, and a layered ensemble is a
+\emph{multisort} species in the sense of \citet{bergeron1998}: a
+layer-$l$ complex's containers are labels of $L$ sorts, one per layer they
+can lie in, and the joint generating function $\Phi^{l}(x_{1},\dots,x_{L})$
+of their numbers by sort is a series in $L$ variables. A complex reached
+through a layer-$m$ container has its hole among the sort-$m$ labels, so its
+container counts are generated by
+\begin{equation}
+  \frac{\del_{m}\Phi^{l}(x_{1},\dots,x_{L})}
+       {\del_{m}\Phi^{l}(1,\dots,1)},
+  \qquad \del_{m}=\frac{\del}{\del x_{m}},
+  \label{eq:sp-multisort}
+\end{equation}
+the partial derivative with respect to the sort arrived through. When the
+counts are independent across sorts, $\Phi^{l}=\prod_{k}\Phi^{l}_{k}(x_{k})$,
+the partial derivative differentiates the $k=m$ factor and leaves the others
+alone, and Eq.~\eqref{eq:sp-multisort} is
+$\prod_{k}[\bar\Phi^{l}_{k}]_{k=m}(x_{k})$: excess on the layer arrived
+through, ordinary on every other, which is the bracket of
+Fig.~\ref{fig:themap} and of every equation since. The sentence ``discount
+the inclusion you came in by, and only from routes back into that layer'' is
+the sentence ``differentiate with respect to that sort''. When the counts
+are not independent, which is the situation Sec.~\ref{sec:joint} constructs
+--- three joint distributions with the same marginals and thresholds sixty
+per cent apart --- Eq.~\eqref{eq:sp-multisort} is still right and the product
+form is not, and the multisort derivative is what the joint calculation of
+that section uses without the name.
+
+\paragraph{Two kinds of hole.} What is new relative to species as they stand
+is that a complex has two kinds of slot (Fig.~\ref{fig:sp-holes}). A
+complex reached from a member has its hole among the member slots, which is
+$\bar G$; a complex reached from a container has its hole among the
+container slots, which is $\bar\Phi$. An ordinary species has one kind of
+slot per structure and one derivative. A species of nested structures has
+up-ports and down-ports, and a derivative in each --- a \emph{directed}
+derivative --- and the two excess families of Sec.~\ref{sec:ensembles} are
+its two components. That is why the percolation map,
+Eqs.~\eqref{eq:Qminus}--\eqref{eq:Qplus}, has two lines where Newman's has
+one: each line carries the derivative in one direction and the ordinary
+function in the other, and Table~\ref{tab:ce-termbyterm} is the record of
+which is which.
+
+\begin{figure}[t]
+\centering
+\begin{adjustbox}{width=0.86\linewidth}
+\begin{tikzpicture}[x=1cm,y=1cm]
+% ---- left: hole among the members (arrived from a member): \bar G ----
+\begin{scope}
+  \node[cpx] (A) at (1.0,1.2) {};
+  \node[cpx] (C1) at (0.4,2.4) {};
+  \node[cpx] (C2) at (1.6,2.4) {};
+  \node[atm] (m1) at (0.0,0) {};
+  \node[atm] (m2) at (1.0,0) {};
+  \node[circle,draw=black!60,dashed,fill=white,minimum size=2.2mm,inner sep=0pt]
+        (m3) at (2.0,0) {};
+  \draw[inc] (A)--(C1) (A)--(C2) (A)--(m1) (A)--(m2);
+  \draw[incd] (A)--(m3);
+  \node[lb,right=2pt of A] {$a$};
+  \node[lb,below=1pt of m3] {$\ast$};
+  \node[tb,anchor=north,align=center] at (1.0,-0.55)
+    {arrived from a member:\\ the hole is a member slot, $\bar G$};
+\end{scope}
+% ---- right: hole among the containers (arrived from a container): \bar\Phi ----
+\begin{scope}[xshift=5.0cm]
+  \node[cpx] (A) at (1.0,1.2) {};
+  \node[cpx] (C1) at (0.4,2.4) {};
+  \node[rectangle,draw=black!60,dashed,fill=white,minimum size=2.9mm,inner sep=0pt,line width=.5pt]
+        (C2) at (1.6,2.4) {};
+  \node[atm] (m1) at (0.0,0) {};
+  \node[atm] (m2) at (1.0,0) {};
+  \node[atm] (m3) at (2.0,0) {};
+  \draw[inc] (A)--(C1) (A)--(m1) (A)--(m2) (A)--(m3);
+  \draw[incd] (A)--(C2);
+  \node[lb,right=2pt of A] {$a$};
+  \node[lb,above=1pt of C2] {$\ast$};
+  \node[tb,anchor=north,align=center] at (1.0,-0.55)
+    {arrived from a container:\\ the hole is a container slot, $\bar\Phi$};
+\end{scope}
+\end{tikzpicture}
+\end{adjustbox}
+\caption{\textbf{Two kinds of hole.} A complex $a$ drawn as an inclusion
+diagram, its containers above and its members below. The derivative of a
+species is a structure with one distinguished element removed from the
+count, the hole $\ast$, shown dashed. An ordinary species has one kind of
+element and one derivative. A complex has two: reached from a member (left)
+the hole is a member slot and the remaining members are generated by
+$\bar G$; reached from a container (right) the hole is a container slot and
+the remaining containers by $\bar\Phi$. The two excess families of
+Sec.~\ref{sec:ensembles} are the two components of this directed
+derivative, and the two lines of the percolation map are the two ways of
+taking it.}
+\label{fig:sp-holes}
+\end{figure}
+
+\section{Lagrange inversion}
+\label{sec:sp-lagrange}
+\index{Lagrange inversion|textbf}
+\index{component size distribution}
+
+The practical payoff of the species reading is an inversion formula. A
+species equation of the form $A=X\cdot R(A)$ --- Cayley's rooted trees are
+$A=X\cdot E(A)$, a root and a set of subtrees --- has its coefficients in
+closed form, and the equation for the size of the component reached along an
+edge is of that shape. On a graph, with $\bar\Phi$ the excess degree
+generating function, the generating function $H(x)$ of the number of nodes
+in the component reached along an edge satisfies $H(x)=x\bar\Phi(H(x))$
+\citep{newman2001}: the node reached, marked by $x$, and a set of further
+components, one per excess edge. Lagrange inversion then gives every
+coefficient, not only the singular part:
+\begin{equation}
+  H(x)=x\,\bar\Phi\bigl(H(x)\bigr)
+  \quad\Longrightarrow\quad
+  [x^{s}]\,H=\frac{1}{s}\,[y^{s-1}]\,\bar\Phi(y)^{s},
+  \label{eq:sp-lagrange}
+\end{equation}
+the full distribution of the size of the component reached along an edge
+\citep{bergeron1998}, and with it the distribution of the size of
+the component a random node belongs to, $x\Phi(H(x))$.
+
+On a chygraph the equation is a system, one unknown per directed inclusion
+type, and it is the percolation map with a marking variable. Let $H^{ml}_{i}$
+be the generating function of the number of complexes, by layer, in the
+finite component reached at a layer-$l$ complex from layer $m$ in direction
+$i$, with $x_{l}$ marking each layer-$l$ complex counted. Then
+\begin{equation}
+  \begin{aligned}
+  H^{ml}_{-}&=x_{l}\prod_{k}\Phi^{l}_{k}\bigl(H^{lk}_{-}\bigr)
+              \prod_{k}\bigl[\bar G^{l}_{k}\bigr]_{k=m}\bigl(H^{lk}_{+}\bigr),\\
+  H^{ml}_{+}&=x_{l}\prod_{k}\bigl[\bar\Phi^{l}_{k}\bigr]_{k=m}\bigl(H^{lk}_{-}\bigr)
+              \prod_{k}G^{l}_{k}\bigl(H^{lk}_{+}\bigr),
+  \end{aligned}
+  \label{eq:sp-system}
+\end{equation}
+which at $x\equiv1$ is Eqs.~\eqref{eq:Qminus}--\eqref{eq:Qplus} with $Q$ the
+probability that the component is finite. The system is of Lagrange type in
+$2L^{2}$ variables, $w_{j}=x_{j}\varphi_{j}(w)$ with one $\varphi$ per
+directed inclusion type, and the multivariate inversion of \citet{good1960}
+gives its coefficients: for any function $f$ of the unknowns,
+\begin{equation}
+  [x^{\mathbf n}]\,f(w)
+  =[w^{\mathbf n}]\;f(w)\,\prod_{j}\varphi_{j}(w)^{n_{j}}\,
+   \det\Bigl(\delta_{ij}-\frac{w_{j}}{\varphi_{i}(w)}
+             \frac{\del\varphi_{i}}{\del w_{j}}\Bigr),
+  \label{eq:sp-good}
+\end{equation}
+the determinant being the multivariate replacement for the $1/s$ of
+Eq.~\eqref{eq:sp-lagrange}. What Eq.~\eqref{eq:sp-good} returns is the joint
+distribution of how many layer-$k$ complexes a finite component contains,
+resolved by layer and by the direction in which each was entered.
+
+Chapter~\ref{ch:giant} obtained the leading singular term of that
+distribution by hand. Section~\ref{sec:jacobian} linearised the map about the
+trivial fixed point, whose Jacobian is the threshold tensor, and
+Sec.~\ref{sec:amplitude} carried the expansion to second order to get the
+critical amplitude $B$ in $S=B\Lambda+O(\Lambda^{2})$: the moment hierarchy
+of that chapter is the statement that each order of the expansion of
+Eq.~\eqref{eq:sp-system} about $x=1$ costs one further order of moment data.
+The whole distribution is available from the same pair, at any distance from
+the threshold, through Eq.~\eqref{eq:sp-good}, and the determinant in it is
+the same matrix whose Perron root Sec.~\ref{sec:jacobian} tracks --- the
+factor $\delta_{ij}-w_{j}\del_{j}\varphi_{i}/\varphi_{i}$ at $w=1$ is
+$I-J$, and its vanishing at threshold is what makes the coefficients of
+Eq.~\eqref{eq:sp-good} decay as a power law there. It should be said plainly
+that the book does not compute this distribution anywhere: what
+Chapter~\ref{ch:giant} reports is $S$ and $B$, and the finite-component
+distribution by layer is a calculation Eq.~\eqref{eq:sp-good} makes routine
+and the book leaves undone.
+
+\section{The analytic functor and the Giry monad}
+\label{sec:sp-giry}
+\index{Giry monad|textbf}
+\index{stochastic species|textbf}
+
+Return to Eq.~\eqref{eq:sp-analytic}. The Giry monad is the functor that
+sends a measurable space $M$ to the space $\mathcal{G}(M)$ of probability
+measures on $M$, with the point mass $m\mapsto\delta_{m}$ as its unit and
+averaging --- a measure on measures collapsed to a measure --- as its
+multiplication. The message space $M$ of any row of
+Table~\ref{tab:ce-substitutions} is such a space, and the law $P$ that
+Chapter~\ref{ch:chyequation} iterates is a point of $\mathcal{G}(M)$. So
+$P\mapsto F\act{T}P$ is an endomap of $\mathcal{G}(M)$, obtained by
+evaluating the analytic functor of the species $F$ not on $M$ but on the
+object the Giry monad returns from it, with the symmetric multilinear maps
+$T_{n}$ supplying what the analytic functor needs to land back in $M$. The
+chygraph equation, Eqs.~\eqref{eq:ensplus}--\eqref{eq:ensminus}, is a
+fixed-point equation for that endomap on $2L^{2}$ copies of
+$\mathcal{G}(M)$, one per directed inclusion type; the ensemble map
+Eq.~\eqref{eq:ensemblemap} is the same on $L^{2}$ copies with $T=\otimes$;
+the population dynamics of Chapters~\ref{ch:hittingset}
+to~\ref{ch:satisfiability} is the endomap iterated on a sample.
+
+\emph{Stochastic species} is a name for the composite --- a species whose
+structures are assembled from labels drawn from a law, and whose evaluation
+is again a law. It does not appear to have been studied as such. Random
+generation of species structures exists, Boltzmann samplers being the
+standard instance, but that samples a fixed species with a size parameter
+rather than composing a species with a law and asking for the fixed points
+of the composite, which is what density evolution does.
+
+\paragraph{Why it might matter.} Species composition has a calculus ---
+Fa\`a di Bruno for the composition of series, its plethystic form for the
+composition of species --- and the derivative of an analytic functor is the
+analytic functor of the derivative species. If that lifts through the Giry
+monad, then linearising the ensemble map about a point mass produces the
+derivative species automatically, and Sec.~\ref{sec:sp-holes} has just
+shown that the derivative species is the excess function.
+
+At the level of generating functions the lift is a two-line calculation
+rather than a possibility, and it is worth writing out because it is the
+structural reason for something the book found by computation. Perturb the
+law about the point mass $\delta_{0}$ at the trivial message,
+$P=\delta_{0}+\epsilon\,\nu$, and expand Eq.~\eqref{eq:act} to first order:
+by multilinearity and symmetry of $T_{n}$, each of the $n$ factors can carry
+the perturbation, so
+\[
+  F\act{T}(\delta_{0}+\epsilon\nu)
+  =F\act{T}\delta_{0}
+   +\epsilon\sum_{n}n f_{n}\,(T_{n})\push
+     \bigl(\nu\otimes\delta_{0}^{\otimes(n-1)}\bigr)+O(\epsilon^{2}),
+\]
+and the coefficient $n f_{n}$ is the coefficient of $x^{n-1}$ in $F'$. The
+linearisation of the action of $F$ is the action of $F'$, with $T_{n}$
+evaluated on one perturbed leg and $n-1$ trivial ones --- which is the
+kernel derivative $u'$ of Eq.~\eqref{eq:uprime}, one leg at a time. Applied
+to a message that arrived along an inclusion the series is already
+$\bar\Phi=\Phi'/\Phi'(1)$, and linearising differentiates it once more:
+\[
+  \bar\Phi'(1)=\frac{\Phi''(1)}{\Phi'(1)}=\ave{\kbar},
+  \qquad
+  \bar G'(1)=\frac{G''(1)}{G'(1)}=\ave{\sbar}.
+\]
+That is why the Jacobian at threshold, Eq.~\eqref{eq:branch} and the tensor
+of Sec.~\ref{sec:threshold}, is built from the excess moments $\ave{\kbar}$
+and $\ave{\sbar}$ and not from $\ave{\kappa}$ and $\ave{s}$: ``linearise
+about the trivial fixed point'' and ``arrive along an inclusion'' are the
+same derivative taken twice, and the elementwise reweighting of
+Eq.~\eqref{eq:reweight} is the second derivative's leg carrying $u'$. The
+functorial statement --- that this is the derivative of an analytic functor
+commuting with the Giry monad, so that it holds for any species and any
+monad-compatible multilinear structure and not only for the series at hand
+--- is the part that remains to be written down, and it is stated here as
+a possibility and not a result.
+
+\section{The Hopf side}
+\label{sec:sp-hopf}
+\index{Connes--Kreimer Hopf algebra|textbf}
+\index{Dyson--Schwinger equation|textbf}
+
+The third consequence takes the cavity recursion apart tree by tree. The
+Hopf algebra of \citet{connes1998} is the polynomial algebra on rooted
+trees, with a coproduct that cuts a tree into a trunk containing the root
+and the forest of pruned branches. The grafting operator $B_{+}$ takes a
+forest and puts a new root above it, and its defining property is that it is
+a Hochschild $1$-cocycle, which is what makes it compatible with the
+coproduct \citep{bergbauer2006}: cutting a grafted tree is either cutting
+below the new root or cutting inside the branches. A combinatorial
+Dyson--Schwinger equation is
+\begin{equation}
+  X=B_{+}\bigl(f(X)\bigr),
+  \label{eq:sp-dse}
+\end{equation}
+with $f$ a formal power series, and its solution is a formal sum over all
+rooted trees with coefficients fixed by $f$: $f$ says how many branches a
+vertex may carry and with what weight, and $B_{+}$ closes the recursion by
+supplying the vertex.
+
+Newman's equation, the left-hand side of Eq.~\eqref{eq:sp-lagrange}, is
+Eq.~\eqref{eq:sp-dse} with $B_{+}$ in the role of the factor $x$ --- the node
+reached, placed above the components hanging from it --- and $\bar\Phi$ in
+the role of $f$. Its solution is the branching-process tree written out as a
+weighted sum over trees, one term per shape of finite component. The cavity
+recursion, which assigns a message to each tree by recursing from the
+leaves, is then a \emph{character} of the Hopf algebra in the same way that
+Feynman rules are: a map from trees to numbers that is multiplicative on
+forests, because on a tree the message at the root is a product over the
+subtrees below it. The cuts of the coproduct are the decompositions of a
+cavity tree into sub-cavity trees, which is the object the recursion is
+built on and the object the excess bracket keeps track of --- the cut edge
+is the inclusion arrived through.
+
+\citet{foissy2010} classifies systems of such equations, one unknown per
+decoration, in the Hopf algebra of trees whose vertices carry decorations.
+Layers are decorations, so a layered chygraph with a single direction ---
+Part~II's constructions in which nothing is entered from above --- is
+covered by that classification as it stands. The nested chygraph needs two
+things beyond it.
+
+First, a vertex is reached either from a container or from a member and its
+children are of both kinds, so the grafting has to record the direction of
+each edge: two grafting operators, one per direction, which are the two
+lines of Eq.~\eqref{eq:sp-system}. This may reduce to Foissy's setting by
+decorating each vertex with the pair (layer, direction of arrival), which is
+the $2L^{2}$ index set of Chapter~\ref{ch:percolation}, and that is why it
+should be checked before it is claimed: the classification would then apply
+to the whole percolation theory of Part~II, and would say which of its
+systems are Hopf subalgebras --- which fixed-point equations close on a
+subalgebra of trees --- and which are not.
+
+Second, and this is the genuine gap, $f$ in Eq.~\eqref{eq:sp-dse} is a power
+series only when the weight of a tree factorises over the children of each
+vertex. For percolation it does, because reachability factorises: that is
+the first row of Table~\ref{tab:ce-substitutions}, $\Tint_{l}$ itself a
+product, and it is why the character is multiplicative. For a general kernel
+the interior operator couples the children --- the emitted field of
+Eq.~\eqref{eq:emitted} is not a product of one-field terms --- and the
+weight at a vertex is an operation from an operad rather than a coefficient.
+Trees whose vertices are decorated by an operad have their own
+Connes--Kreimer construction \citep{moerdijk2001,vanderlaan2003}, and that is
+where the nested chygraph lives: a tree of operadically decorated vertices,
+with a complex as the operation at a vertex. Chapter~\ref{ch:operads} takes
+that up.
+
+\paragraph{A remark on renormalisation.} The Birkhoff decomposition that
+renormalisation uses on this Hopf algebra separates the character into a
+divergent part and a finite part, factor by factor over the coproduct. At
+the percolation threshold the sum over finite trees diverges --- the
+coefficients of Eq.~\eqref{eq:sp-good} stop being summable when $I-J$ is
+singular --- and the giant component is the part that has to be subtracted
+to make the finite-component distribution a probability again. Whether the
+subtraction is a Birkhoff decomposition in the technical sense, with the
+giant component as the counterterm, is not known; it is recorded here as an
+analogy and nothing more.
+
+\section{What it gives the book}
+\label{sec:sp-gives}
+
+Four things, in decreasing order of how immediately they can be used.
+
+A one-line account of the excess bracket,
+Eq.~\eqref{eq:sp-excessderiv}, which the book explains by a figure and a
+paragraph in Chapter~\ref{ch:percolation}: excess is the derivative, the
+bracket is the partial derivative with respect to the sort arrived through,
+and the two excess families are the two components of a directed derivative.
+Section~\ref{sec:joint}'s joint distributions, which the product form cannot
+hold, are covered by the multisort form Eq.~\eqref{eq:sp-multisort} without
+further apparatus.
+
+A name for what Eq.~\eqref{eq:act} is, so that the convolution of
+Eq.~\eqref{eq:conv} and the pushforward of the interior sum are seen to be
+one construction --- an analytic functor evaluated on a law --- with two
+choices of multilinear map, and a derivation of why the Jacobian at threshold
+carries the excess moments: the linearisation of an action is the action of
+the derivative, and arriving along an inclusion was already one.
+
+The full finite-component distribution by layer, Eq.~\eqref{eq:sp-good},
+where Chapter~\ref{ch:giant} has the amplitude. This is the one item on the
+list that is a calculation rather than a reading, and it is not done.
+
+And, stated with the caution Sec.~\ref{sec:sp-hopf} gave it, a candidate
+meaning for the Birkhoff decomposition at a percolation threshold.
+
+\section{What the field could get}
+\label{sec:sp-gets}
+
+Three objects that do not appear to exist in the theory of species, each of
+which the book has already used.
+
+\emph{The directed derivative.} A species with two kinds of hole, up-ports
+and down-ports, with a derivative in each and a Lagrange inversion in two
+hole types, Eq.~\eqref{eq:sp-system} with Eq.~\eqref{eq:sp-good}. Species
+theory has multisort species and their partial derivatives, which is the
+layer index; what it does not have is a structure whose elements are
+themselves structures with elements, so that a hole can be on either side
+of an inclusion. The chygraph is the natural example, and its percolation
+theory is the calculus of that derivative worked out.
+
+\emph{The stochastic species.} An analytic functor composed with the Giry
+monad, with the chygraph equation as its fixed-point equation and density
+evolution as its calculus. The questions such an object raises --- when does
+the fixed point exist, when is it unique, what is the derivative of the
+composite --- are the questions Chapters~\ref{ch:rde}
+and~\ref{ch:chyequation} answer in the physics vocabulary: existence by
+iteration from the trivial law, uniqueness by the stability of that fixed
+point, the derivative by Sec.~\ref{sec:sp-giry}.
+
+\emph{Dyson--Schwinger systems with two grafting operators over operadically
+decorated trees.} The Hopf-algebraic setting in which the nested chygraph
+with a general kernel would be a system of Eq.~\eqref{eq:sp-dse}'s type.
+The physics of Parts~II and~III solves those systems --- thresholds,
+amplitudes, free energies --- before the algebra has been written down, and
+the algebra, once written, would say which of the book's fixed-point
+equations close on a subalgebra and which do not.

@@ -1,0 +1,402 @@
+\chapter{Recursive distributional equations}
+\label{ch:rde}
+
+% Part V, added 2026-09-25 from ~/Downloads/chygraph_master_equation/draft.tex,
+% Sec. 6 (probability). Nothing is computed here: the chapter rewrites
+% equations the book already carries in the vocabulary of Aldous and
+% Bandyopadhyay's recursive distributional equations and of the objective
+% method, and says which of the book's tests is which of theirs. The one
+% claim made for the first time -- that the de Almeida--Thouless tensor is
+% bivariate uniqueness at the linear level -- is stated for the linearised
+% problem only, and the nonlinear test it calls for has not been run.
+
+The chygraph equation of Chapter~\ref{ch:chyequation} says that an unknown
+law is reproduced by a random number of independent copies of itself, passed
+through a random map. Probability has a name for an equation of that shape,
+a survey of what is known about it, and two notions --- \emph{endogeny} and
+\emph{bivariate uniqueness} --- that turn out to be the replica-symmetric
+assumption and the de Almeida--Thouless test, said in a language where the
+first is a property to be proved rather than an ansatz and the second is a
+criterion rather than a stability calculation.
+
+This chapter makes the identification equation by equation. The ensemble map
+of Sec.~\ref{sec:substitution} and the pair of Sec.~\ref{sec:ce-equation}
+are written in the form the probabilists use; the assumption each fixed
+point carries is named; the affine case, which the book meets once, in
+Chapter~\ref{ch:localization}, is matched to the smoothing transform; and
+the random object the ensemble converges to locally is identified, with its
+mean matrix, which is the threshold tensor of Chapter~\ref{ch:percolation}.
+The chapter closes with what the book gets from this and what the field
+could get back.
+
+\section{The connection}
+\label{sec:rde-connection}
+\index{recursive distributional equation|textbf}
+\index{population dynamics}
+
+\citet{aldous2005} survey equations of the form
+\begin{equation}
+  X\ \stackrel{d}{=}\ g\bigl(\xi;\,X_{1},X_{2},\dots,X_{N}\bigr),
+  \label{eq:rde-form}
+\end{equation}
+in which $X_{1},X_{2},\dots$ are independent copies of the unknown law, $N$
+is a random number of them, $\xi$ is independent randomness carried by the
+map, and $\stackrel{d}{=}$ asserts equality of laws. They call it a
+\emph{recursive distributional equation}, and the survey's title names the
+case they treat in most detail, in which $g$ is a maximum or a minimum. The
+book has been solving equations of this form since Chapter~\ref{ch:statmech},
+and its population dynamics is the standard numerical method for them: a
+sample of the law, updated by drawing $N$ and $\xi$ and applying $g$, which
+is what every population in Chapters~\ref{ch:hittingset}
+to~\ref{ch:satisfiability} does.
+
+\paragraph{The ensemble map is one of them.} Take Eq.~\eqref{eq:ensemblemap}
+with a single container layer, so that the bracket is a single excess
+function $\bar\Phi$. It says that $P$, the law of the field a node sends up
+into a complex, satisfies
+\begin{equation}
+  h\ \stackrel{d}{=}\ B+\sum_{n=1}^{N}u_{n},
+  \qquad N\sim\bar\Phi,\quad u_{n}\sim Q\ \text{independent},
+  \label{eq:rde-up}
+\end{equation}
+and that $Q$, the law of what a complex emits, satisfies
+\begin{equation}
+  u\ \stackrel{d}{=}\ u\bigl(h_{1},\dots,h_{c-1}\bigr),
+  \qquad c\sim\bar G,\quad h_{j}\sim P\ \text{independent},
+  \label{eq:rde-down}
+\end{equation}
+with $u(\cdot)$ the emitted field of Eq.~\eqref{eq:emitted}. Substituting
+the second into the first gives one equation of the form
+\eqref{eq:rde-form} for $P$ alone, with $\xi=(N;c_{1},\dots,c_{N})$ the
+counts, $g$ the composition of the two steps, and the copies of $X$ the
+fields on the members of the $N$ complexes. The sum in Eq.~\eqref{eq:rde-up}
+is what makes the ensemble version a convolution, exactly as
+Sec.~\ref{sec:upstep} said, and the map $u(\cdot)$ is the whole of the
+model.
+
+\paragraph{The chygraph equation is a system of them.} With layers and
+nesting, Eqs.~\eqref{eq:ensplus} and~\eqref{eq:ensminus} are one equation
+of the form \eqref{eq:rde-form} for each directed inclusion type $(m,l,\pm)$,
+$2L^{2}$ of them, coupled in the way Fig.~\ref{fig:themap} draws: the
+unknown of type $(m,l,+)$ is built from copies of the unknowns of types
+$(l,k,-)$, one per container of layer $k$ other than the one answered, and
+of types $(l,k,+)$, one per member; the unknown of type $(m,l,-)$ from the
+same two families with the excess on the other side. The randomness $\xi$
+is the vector of counts, drawn from the four families of generating
+functions of Sec.~\ref{sec:ensembles}, and $g$ is Eq.~\eqref{eq:chyop}. The
+survey treats systems of this kind in passing, as a single equation on a
+product space; the index set is what makes the chygraph version a system in
+its own right, and Sec.~\ref{sec:rde-local} says what the index set is.
+
+\paragraph{The split.} A general recursive distributional equation is one
+opaque map $g$. The chygraph equation is not. Its $g$ is the composition of
+two things of different character: a commutative step, the product over
+containers, which is the exterior product $\otimes$ of Eq.~\eqref{eq:chyop}
+and carries no model; and one nonlinear map of bounded arity, the interior
+operator $\Tint_{l}$, which carries all of it and acts on at most $c_{l}$
+arguments. Everything this chapter says beyond the survey follows from that
+split. Table~\ref{tab:ce-substitutions} lists what the two steps are in each
+of the book's calculations, and reading it as a table of recursive
+distributional equations is reading it as the survey would: the first row
+is degenerate, a point mass reproduced by a point mass; the second and
+third are sum-type, with $g$ smooth; the hard-field rows of
+Chapters~\ref{ch:hittingset} to~\ref{ch:satisfiability}, where a message is
+an integer and the interior is a maximum or a minimum over forbidden
+assignments, are the max-type equations the survey is about.
+
+\section{Endogeny and replica symmetry}
+\label{sec:rde-endogeny}
+\index{endogeny|textbf}
+\index{bivariate uniqueness|textbf}
+\index{replica symmetry}
+\index{de Almeida--Thouless line}
+
+A solution of Eq.~\eqref{eq:rde-form} is a law. Behind it is a random
+object: unroll the recursion and the copies $X_{1},\dots,X_{N}$ each have
+their own copies, so that a solution lives on a random tree whose vertices
+carry the innovations $\xi$, and the question the survey asks is whether the
+value at the root is determined by that tree. A solution is
+\emph{endogenous} when $X$ is a measurable function of the innovations
+$\{\xi_{v}\}$ on the tree below it --- no randomness enters from infinity.
+When it is not, the same tree of innovations supports many values at the
+root, differing by something that is not visible at any finite depth.
+
+That is the replica-symmetric assumption, stated as a property. The
+fixed point of Sec.~\ref{sec:substitution} carries one field per inclusion,
+a function of the chygraph below the inclusion and of nothing else; that is
+Sec.~\ref{sec:replicas}'s first assumption, that the message has one thing
+to say, and it is endogeny. Its failure is where Sec.~\ref{sec:onestep}
+begins: the space of solutions shatters into clusters, each cluster would
+send its own field along the same inclusion, and the field at the root is
+no longer fixed by the innovations below it but by which cluster the
+boundary at infinity selects. The survey of Sec.~\ref{sec:onestep}, a law
+over fields at fixed realisation, is the probabilist's non-endogenous
+solution seen from the physics side.
+
+\paragraph{The test.} What makes this more than a translation is that
+endogeny has a computable criterion. Run two copies of the recursion on
+the same tree of innovations, with the copies of the unknown drawn
+independently at the leaves,
+\begin{equation}
+  (X,X')\ \stackrel{d}{=}\
+  \Bigl(g(\xi;X_{1},\dots,X_{N}),\ g(\xi;X'_{1},\dots,X'_{N})\Bigr),
+  \label{eq:rde-bivariate}
+\end{equation}
+the pairs $(X_{j},X'_{j})$ independent and identically distributed, and ask
+whether the only solution whose margins are the given fixed point
+is the one concentrated on the diagonal $X=X'$. \citet{aldous2005} call
+this \emph{bivariate uniqueness}, and prove that under a continuity
+condition it is equivalent to endogeny. The criterion is a population
+dynamics with two entries per element: start the pair independent, iterate,
+and see whether it is driven to agree.
+
+\paragraph{Where a failure can come from.} On a chygraph the split of
+Sec.~\ref{sec:rde-connection} localises the answer. The commutative step
+preserves the diagonal trivially: if every pair $(u_{n},u'_{n})$ agrees then
+so does the pair of products, and conversely a difference in the product is
+a sum of differences in the factors. So a failure of endogeny can come only
+from the interior operator, and it is decided by how $\Tint_{l}$ transmits a
+difference between its two arguments. Linearise Eq.~\eqref{eq:rde-bivariate}
+about the diagonal, writing $D=X-X'$ for the difference on an inclusion.
+Through the up step a difference is relayed unchanged, one factor of one
+per container. Through the down step it is transmitted with the kernel
+derivative,
+\begin{equation}
+  D_{a\to i}=\sum_{j\in\del a,\,j\ne i}
+    \frac{\del u}{\del h_{j}}\Big|_{\mathrm{fp}}\,D_{j\to a}
+  +O(D^{2}),
+  \label{eq:rde-diff}
+\end{equation}
+one derivative per member leg, and $\hat u'$ on the own leg where there is
+one. The differences on distinct legs are independent and of either sign,
+so the quantity that propagates is the mean square: at the trivial fixed
+point $\ave{D^{2}}$ is multiplied by $u'^{2}$ per member leg and by
+$\ave{\sbar}$ legs per complex, which is Eq.~\eqref{eq:branch} with $u'$
+replaced by $u'^{2}$. That is Sec.~\ref{sec:atline}'s de Almeida--Thouless
+line, and the reweighting of Eq.~\eqref{eq:reweight} says that nothing else
+in the tensor moves.
+
+So the de Almeida--Thouless tensor --- the $2L^{2}$ operator of
+Sec.~\ref{sec:ce-yields} with $u'$ replaced by $u'^{2}$ --- \emph{is}
+bivariate uniqueness for this class of equations, at the linear level. The
+qualification matters and is stated as what it is. Linear stability of the
+diagonal is necessary for bivariate uniqueness, and its loss, where the
+mean-square difference grows, is a proof that the replica-symmetric fixed
+point is not endogenous; it is not sufficient, because a
+pair started far from the diagonal can fail to converge to it while every
+small perturbation decays. The nonlinear test, Eq.~\eqref{eq:rde-bivariate}
+run as two coupled populations on each model of
+Table~\ref{tab:ce-substitutions}, has not been done, and it is the one
+place in this chapter where a computation is called for. What it would
+decide is whether the de Almeida--Thouless line, which
+Sec.~\ref{sec:atline} obtained from a local argument and
+Chapter~\ref{ch:hittingset} used as a warning, is the whole boundary of
+endogeny or only its local part.
+
+\section{The smoothing transform}
+\label{sec:rde-smoothing}
+\index{smoothing transform|textbf}
+\index{mobility edge}
+
+The linear case of Eq.~\eqref{eq:rde-form}, in which $g$ is affine in the
+copies,
+\begin{equation}
+  X\ \stackrel{d}{=}\ \sum_{n=1}^{N}A_{n}X_{n}+C,
+  \label{eq:rde-smoothing}
+\end{equation}
+with random non-negative weights $A_{n}$ and a random shift $C$, is the
+\emph{smoothing transform}, and its fixed points are classified by
+\citet{alsmeyer2012}. The classification is stated in terms of the function
+$m(\beta)=\ave{\sum_{n}A_{n}^{\beta}}$, the growth rate of the $\beta$-th
+moment of a product of weights along a branch, and the boundary of the
+region where the homogeneous equation, $C=0$, has a non-zero fixed point
+is where $\min_{\beta}m(\beta)$ passes through one.
+
+The book meets an affine down step once. Chapter~\ref{ch:localization}'s
+message is a resolvent, its interior is the Schur complement of
+Eq.~\eqref{eq:schur}, and the localised phase is the fixed point at which
+every message is real. The question of whether that fixed point is stable
+is asked of the imaginary parts, with the real parts frozen at their
+distribution, and Eq.~\eqref{eq:imlinear} is the answer: an imaginary part
+is a sum over the other members of the imaginary parts they carry,
+weighted by the positive random numbers $t^{2}v_{j}^{2}$. That is
+Eq.~\eqref{eq:rde-smoothing} with $C=0$, $N$ the number of other members
+across all containers, and $A_{n}$ the squared entries of the inverse
+interior matrix. The localised phase is the zero solution, and the extended
+phase is where a non-zero solution --- widths that survive as the absorber
+at infinity is removed --- exists. Section~\ref{sec:mobility} locates the
+edge between them by the growth rate $\lambda(\beta)$ of the $\beta$-th
+moment, at $\min_{\beta}\lambda(\beta)=1$ \citep{abouchacra1973}. That
+$\lambda(\beta)$ is $m(\beta)$, and the criterion is the boundary of the
+smoothing transform's classification. The mobility edge is therefore a
+statement about the fixed points of a smoothing transform whose weights are
+Chapter~\ref{ch:localization}'s Schur complements; and the position of the
+minimum, $\beta=1/2$ on a tree by the symmetry of the kernel
+\citep{mirlin1991}, is a property of the weights and not of the criterion,
+which is why Sec.~\ref{sec:mobility} checks it on the ensembles with
+triangles rather than assuming it.
+
+Two remarks and no more. The de Almeida--Thouless line of the previous
+section is the same criterion at $\beta=2$: a difference of random sign,
+squared, transmitted with $u'^{2}$. Section~\ref{sec:mobility} said so in
+the book's words, a fractional power in place of the square. And the
+non-negativity of the weights is what puts both inside the classified
+class; the hard-core maps of Chapter~\ref{ch:hittingset}, whose Jacobian
+entries are non-positive (Sec.~\ref{sec:fixedpoint}), are not smoothing
+transforms in this sense, and Sec.~\ref{sec:rde-connection} already placed
+them with the max-type equations.
+
+\section{The local weak limit}
+\label{sec:rde-local}
+\index{local weak limit|textbf}
+\index{objective method|textbf}
+\index{branching process!multitype}
+\index{threshold tensor}
+
+A random chygraph is a finite object and the chygraph equation is an
+equation on an infinite tree. What connects them is the \emph{local weak
+limit} of \citet{aldous2004}: pick a vertex of a large random structure
+uniformly, look at its neighbourhood to a fixed depth, and take the limit of
+the law of what is seen. For a random graph with a given degree distribution
+the limit is a Galton--Watson tree whose root has the degree distribution
+and whose other vertices have the excess-degree distribution, which is the
+picture Sec.~\ref{sec:percolation-intro} used without the name. For a
+layered random chygraph the limit is a multitype branching process, and the
+types are the directed inclusions.
+
+\paragraph{The types and their offspring.} A vertex of the limit tree is
+an inclusion with a direction: type $(m,l,+)$ is a layer-$l$ complex reached
+from a layer-$m$ container, type $(m,l,-)$ one reached from a layer-$m$
+member. A vertex of type $(m,l,+)$ has, for each layer $k$, a number of
+children of type $(l,k,-)$ drawn from $[\bar\Phi^{l}_{k}]_{k=m}$ --- its
+other containers, excess on the layer arrived through --- and a number of
+children of type $(l,k,+)$ drawn from $G^{l}_{k}$, its members. A vertex of
+type $(m,l,-)$ has children of type $(l,k,-)$ from $\Phi^{l}_{k}$ and of type
+$(l,k,+)$ from $[\bar G^{l}_{k}]_{k=m}$. That is Fig.~\ref{fig:themap} read
+as an offspring rule, and the root is a vertex with no direction of arrival,
+whose offspring are drawn from the ordinary functions on both sides, which
+is the readout Eq.~\eqref{eq:ensread}.
+
+\paragraph{The mean matrix.} The process has $2L^{2}$ types, and its mean
+matrix --- the expected number of children of each type from a parent of
+each type --- has entries $\ave{\kbar}_{lk}$ or $\ave{\kappa}_{lk}$ on the
+container side and $\ave{\sbar}_{lk}$ or $\ave{s}_{lk}$ on the member side,
+the four moment matrices of Eq.~\eqref{eq:moments}. This is the threshold
+tensor of Sec.~\ref{sec:threshold}, and Chapter~\ref{ch:giant} already
+proved the statement from the other direction: Eq.~\eqref{eq:AisJ} says the
+published tensor is the Jacobian of the percolation map at its trivial
+fixed point, and the Jacobian of Eqs.~\eqref{eq:Qminus}--\eqref{eq:Qplus}
+at $Q\equiv1$ is, entry by entry, the expected number of onward inclusions
+of each type. A multitype branching process survives with positive
+probability exactly when the Perron root of its mean matrix exceeds one,
+and Eq.~\eqref{eq:Lambdalambda}, $\Lambda=\lambda-1$, is that statement.
+So the threshold tensor lives on $2L^{2}$ unknowns because the local limit
+has $2L^{2}$ types, and the reason Part~III could work with the $L\times L$
+matrix of Eq.~\eqref{eq:branch} is that on a two-level chygraph with no
+state on the complexes half of the types are relays, which
+Sec.~\ref{sec:ce-yields} said in terms of $\hat u'$.
+
+\paragraph{The rigorous target.} With the limit identified, the chygraph
+equation is its recursive distributional equation: the message on an
+inclusion of the limit tree is a function of the subtree below it, and its
+law satisfies Eqs.~\eqref{eq:ensplus}--\eqref{eq:ensminus} by construction.
+What is not by construction is that the fixed point of that equation gives
+the free energy of the finite random chygraph, which is what every number in
+Parts~II and~III assumes. The statement a probabilist would need is that
+the Bethe free energy of Sec.~\ref{sec:freeenergy} is the limit of the
+finite-size free energy, and it has been proved for a class of factor
+models on locally treelike graphs by \citet{dembo2013}. Their setting is a
+factor graph with a general kernel and no nesting, which in the vocabulary
+of Sec.~\ref{sec:ce-representation} is the two-level chygraph: variables
+inside complexes, no complex inside another, $\Omega_{a}$ a point.
+Everything in Part~III that runs on such an object is within reach of
+their argument, subject to their conditions on the kernel; nothing in
+Sec.~\ref{sec:nested} or in Part~II above two levels is.
+
+\paragraph{What nesting adds.} Two things that the objective-method
+literature does not, as far as the published work goes, contain. A vertex of
+type $(m,l,-)$ has among its children the members of the complex it
+represents, and the message it sends to one of them passes through the
+complex's own state $\sigma_{l}$: a \emph{self channel}, in which a type's
+offspring includes a leg that is neither a container nor a member but the
+complex itself, weighted at threshold by the $\hat u'$ of
+Eq.~\eqref{eq:ownleg}. That is a multitype branching process in which a
+type is also its own mark, and it is what the third level of
+Sec.~\ref{sec:nested} needs. And on a compound complex, where the
+intra-complex component $s$ is smaller than the cardinality $c$, the
+inclusion a message travels along has internal structure --- which
+component of the interior it enters --- so the edges of the limit tree
+carry marks of their own. Both are unimodular random trees in the sense of
+\citet{aldous2004}; neither has a name there, and the second in particular
+does not appear to have been studied.
+
+\section{What it gives the book}
+\label{sec:rde-gives}
+
+Three things, in the order the chapter reached them.
+
+\emph{A language in which replica symmetry and its breaking are theorems
+rather than ans\"atze.} Endogeny is what the replica-symmetric solution
+asserts, and its failure is where Sec.~\ref{sec:onestep} begins. The book
+has treated the number of fields a message carries as a choice justified
+after the fact by an entropy going negative (Chapter~\ref{ch:hittingset})
+or a stability line being crossed (Chapter~\ref{ch:ising}); in the
+probabilistic language the choice is a property of the solution, with a
+definition, and the two signals are two of its consequences.
+
+\emph{A criterion that could be run on every model in
+Table~\ref{tab:through}.} Bivariate uniqueness, Eq.~\eqref{eq:rde-bivariate},
+is a population dynamics with two entries per element, and every population
+the book already runs could carry the second entry at no change to the
+update. Section~\ref{sec:rde-endogeny} says what it would add to the de
+Almeida--Thouless line: whether the local boundary is the whole boundary.
+On the hitting set problem of Chapter~\ref{ch:hittingset}, where the
+entropy criterion and the stability line are the two tests the book has and
+they do not coincide, this is the third test and the one with a theorem
+behind it.
+
+\emph{A target statement.} That the chygraph equation is the recursive
+distributional equation of the multitype branching process that is the
+local weak limit of the layered ensemble, with the threshold tensor as its
+mean matrix, is what a probabilist would need to be told before extending
+\citet{dembo2013} from factor graphs to nested complexes; and
+Sec.~\ref{sec:rde-local} says which two features of the limit --- the self
+channel and the marked edge --- the extension would have to handle.
+
+\section{What the field could get}
+\label{sec:rde-field}
+
+The survey's equations are opaque maps, and its results are results about
+maps in general. The chygraph offers a class in which the map has a
+structure, and the structure localises the hard questions.
+
+First, the split. Convolution preserves the diagonal of the bivariate
+recursion, so a failure of endogeny can come only from the interior
+operator, and at the linear level it is decided by the kernel derivative
+alone: Sec.~\ref{sec:rde-endogeny}'s identification of the de
+Almeida--Thouless tensor with linearised bivariate uniqueness is a
+statement about every equation of the class at once, not a computation on
+one model. A criterion statable for a family, with the four moment matrices
+and the two kernel derivatives $u'$ and $\hat u'$ as its only inputs, is
+what the class supplies.
+
+Second, the limit object. The local weak limit of a nested ensemble is a
+multitype branching process with a self channel, a type whose offspring
+includes the complex's own state feeding its members; and compound
+complexes give it marked edges. The objective method has been applied to
+graphs and to hypergraphs; a limit whose vertices have a state of their own
+that the messages pass through is a different object, and
+\citet{dembo2013}'s argument does not cover it. Stating what it is, which
+Sec.~\ref{sec:rde-local} does, is the first step toward the theorem, and
+the chygraph equation is the recursion that theorem would have to prove
+exact.
+
+Third, the affine case. Chapter~\ref{ch:localization} puts the Anderson
+mobility edge on a clustered graph inside the classification of
+\citet{alsmeyer2012}, with weights that are Schur complements and a
+kernel whose symmetry is broken by the triangles. The smoothing transform
+has been studied with weights that are independent of one another; the
+weights of Eq.~\eqref{eq:imlinear} on a triangle are not, since the two
+members of the same complex share the interior matrix, and what the
+classification says about correlated weights within a bounded arity is a
+question the book's ensembles pose in a concrete form.
