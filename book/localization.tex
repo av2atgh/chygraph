@@ -2,7 +2,7 @@
 \label{ch:localization}
 
 % Added 2026-09-25.  Numbers from statmech/probe/anderson.py (scan); figure and
-% tables from figs/anderson.py.  See book/extensions.md.
+% tables from figs/localization.py.  See book/extensions.md.
 
 Every message so far has been a probability, a field, a survey or a count.
 This chapter carries the recursion with a message that is a Green's
@@ -16,8 +16,9 @@ a classical landscape computed from the same Hamiltonian, and find that the
 two lines do not coincide and are of different universality classes. They
 attribute the discrepancy to interference, which the landscape cannot see,
 and note that the agreement they and others find in three dimensions
-deteriorates with dimension and on tree-like structures --- which makes the
-tree the worst case and suggests that loops should help. A chygraph with
+deteriorates with dimension and on tree-like structures. If the tree is
+the worst case, loops should help; that inference is this chapter's, not
+theirs. A chygraph with
 triangles has the shortest loops, and treats them exactly. So the question
 this chapter asks is the one their paper leaves: do loops bring the two
 lines together. They do not; they part them further.
@@ -47,7 +48,7 @@ and the spreading becomes diffusive. A strong one pins each state to a
 few sites, with an amplitude that decays exponentially away from its
 centre, and a particle put on a site stays near it for ever
 \citep{anderson1958}. States of the first kind are called extended and of
-the second localised. In between, above two dimensions and on the tree,
+the second localised. In between, in three dimensions and above, and on the tree,
 the spectrum holds both at once, sorted by energy: the states in the
 middle of the band of allowed energies are extended, and those in its
 tails, where a state exists only on an unlikely run of site energies, are
@@ -243,8 +244,8 @@ imaginary part over $\pi$,
   \qquad |E|\le2\sqrt{K}\,t,
   \label{eq:kestenmckay}
 \end{equation}
-is the density of states of the clean tree, and at $K=1$ it is
-Eq.~\eqref{eq:linedos}. So the stationary states of
+is the Kesten--McKay density of states of the clean tree
+\citep{kesten1959,mckay1981}, and at $K=1$ it is Eq.~\eqref{eq:linedos}. So the stationary states of
 the tree of degree $K+1$ have energies in the band $|E|\le2\sqrt{K}\,t$
 and nowhere else, and every one of them is extended: the fixed point with
 a finite imaginary part is the only one inside the band, and there is
@@ -373,7 +374,9 @@ operator positive, and \citet{arnold2016} show that $1/u$ is an effective
 confining potential: eigenstates of $\hat H-E_{\min}$ at energy $E'$ live
 where $1/u\le E'$. The reason is a bound. Since
 $\psi=(\hat H-E_{\min})^{-1}E'\psi$ and the resolvent at $E_{\min}$ has
-no negative entries, $|\psi(i)|\le E'\,u_{i}\max_{j}|\psi(j)|$: where
+no negative entries --- $\hat H-E_{\min}$ is positive with non-positive
+off-diagonal entries, an M-matrix, and the inverse of an M-matrix is
+non-negative --- $|\psi(i)|\le E'\,u_{i}\max_{j}|\psi(j)|$: where
 $u$ is small no state of energy $E'$ can have much amplitude, so $1/u$
 acts as a wall and $u$ is a map of the wells. Physically $u$ is the
 response of the graph to a unit source on every site, a membrane under a
@@ -399,10 +402,10 @@ vector of the members' cavity row sums,
   \label{eq:landscape}
 \end{equation}
 where $\eta_{j\to a}=1+\sum_{b\ni j,\,b\ne a}\eta_{b\to j}$. On an incidence
-tree this is exact, and on random instances of $3000$ atoms it reproduces
-the direct solve to a relative error of $10^{-8}$ on the trees and
-$3\times10^{-3}$ on the densest triangle ensemble, the residue being the
-long loops of the instance. The landscape is smooth: $u$ at neighbouring
+tree this is exact, and on random instances of $600$ atoms it reproduces
+the direct solve to a relative error of $10^{-8}$ on the trees and on
+$(0,2)$, $10^{-15}$ on the cactus $(1,1)$, and $3\times10^{-3}$ on
+$(2,1)$, the residue being the long loops of the instance. The landscape is smooth: $u$ at neighbouring
 atoms is strongly correlated, because both are dominated by the same
 branches, and Sec.~\ref{sec:lltperc} has to carry that correlation or it
 gets the percolation threshold wrong.
@@ -437,22 +440,28 @@ reaches the infinite cluster through $a$ if any other member does. The
 landscape $u_{j}$ in the first line is the full one --- it includes the
 complex $a$ through which $j$ is reached, since $u$ is a property of the
 site --- and the message $\Sigma_{a\to j}$, $\eta_{a\to j}$ that completes
-it is computed from the other members' cavity data in the same draw.
+it is computed from the cavity data of $i$ and the other members in the
+same draw.
 Every population element is therefore a triple $(\Sigma,\eta,p)$ generated
 from one cavity draw. Generating $p$ separately, with the same marginals,
-moves the threshold by a tenth (Fig.~\ref{fig:andersonmech}), which is the
+moves the threshold by a tenth of its value (Fig.~\ref{fig:andersonmech}), which is the
 smoothness of $u$ at work: open sites are found next to open sites.
 
 The threshold is located by the growth rate of a small $p$ under
 Eq.~\eqref{eq:lltmap}, renormalised each generation, which is the
 linearisation of Sec.~\ref{sec:threshold} done numerically because the
-$\theta$ makes the joint law awkward to write. On $(3,0)$ at $W=1.5$ the
-threshold is $E'_{c}=0.473$, that is $E_{c}^{\mathrm{perc}}=E_{\min}+E'_{c}=-3.106$
+$\theta$ makes the joint law awkward to write, with populations of
+$3\times10^{5}$ triples. On $(3,0)$ at $W=1.5$ the threshold is
+$E'_{c}=0.473$, that is $E_{c}^{\mathrm{perc}}=E_{\min}+E'_{c}=-3.106$
 at the bottom of the band, which by the symmetry of the tree's spectrum is
 $3.106$ at the top against \citeauthor{tonetti2025}'s $3.165$, two per cent
 apart. The triangle ensembles are not bipartite and their spectra are not
 symmetric, so everything here is done at the bottom of the band and
-compared there.
+compared there. The population threshold is precise to $0.002$ between
+runs and less accurate than that: a single instance of $60\,000$ sites
+with its landscape solved exactly puts the onset at $E'\approx0.45$ at
+$W=1.5$ and $2.1$ at $W=6$ against the population's $0.473$ and $2.30$,
+so the threshold is known to a few hundredths.
 
 \section{The mobility edge as a stability line}
 \label{sec:mobility}
@@ -492,7 +501,8 @@ $\lambda(\beta)<1$ for some $\beta\in(0,1)$, where $\lambda(\beta)$ is the
 growth factor per generation of $\langle(\operatorname{Im}\Sigma)^{\beta}\rangle$
 under Eq.~\eqref{eq:imlinear}, and the transition is where
 $\min_{\beta}\lambda(\beta)=1$ \citep{abouchacra1973}. That minimum sits at
-$\beta=1/2$ on the tree by a symmetry of the kernel, and the population
+$\beta=1/2$ on the tree by a symmetry of the kernel \citep{mirlin1991},
+and the population
 estimate here scans $\beta$ over $0.4$ to $0.6$. This is the de
 Almeida--Thouless argument of Sec.~\ref{sec:atline} with a fractional
 power in place of the square: a perturbation of random size, transmitted
@@ -504,24 +514,27 @@ $\lambda(1/2)$ at $W=18$ is $0.967$, $0.977$ and $0.986$ with $2\times10^{5}$,
 $10^{6}$ and $3\times10^{6}$ elements, rising towards one as the heavy tail
 of the moment is sampled better, and the threshold read from
 $10^{6}$ elements is a few per cent low. At the bottom of the band the
-bias is smaller: $(3,0)$ at $W=1.5$ gives $E_{c}^{\mathrm{loc}}=-3.106$
-against \citeauthor{tonetti2025}'s $-3.152$. The comparisons that matter
+bias is smaller: $(3,0)$ at $W=1.5$ gives $E_{c}^{\mathrm{loc}}=-3.111$
+against \citeauthor{tonetti2025}'s $-3.152$, a bias of $0.04$. The comparisons that matter
 below are between ensembles at the same population, where the bias is
 common.
 
 \section{What loops do}
 \label{sec:loops}
 
-Three figures carry the result; the numbers behind them are cached with
+Four figures carry the result; the numbers behind them are cached with
 the probe's results and \code{figs/\allowbreak localization.\allowbreak py}
 prints them. Both lines are energies at the
 bottom of the band, a state being extended for $E>E_{c}^{\mathrm{loc}}$ and
 the landscape percolating for $E>E_{c}^{\mathrm{perc}}$; the gap
 $E_{c}^{\mathrm{perc}}-E_{c}^{\mathrm{loc}}$ is positive where the LLT misses
-extended states and negative where it invents them. Seven of the thirty
-points were computed twice from independent populations: the percolation
-threshold repeats to $0.002$ and the mobility edge to $0.003$ at $W=1.5$
-and $0.03$ at $W=6$, which are the error bars.
+extended states and negative where it invents them. Six of the thirty
+points were computed twice. On five the percolation threshold repeats to
+$0.002$ and the mobility edge to $0.003$ at $W=1.5$ and $0.03$ at $W=6$,
+which are the error bars. On the sixth, the cactus at $W=6$, the two runs
+differ by $0.15$ in the percolation threshold, a change in the code
+between them rather than in the population; the figures show the first
+run, and the point awaits a rerun.
 
 \paragraph{The lines, measured from the band edge.}
 Figure~\ref{fig:anderson} plots both lines as their distance above
@@ -530,23 +543,29 @@ the disorder does. Three things are visible at once. The mobility edge
 climbs away from the band edge roughly linearly in $W$ on every ensemble:
 the localised skin at the bottom of the band thickens with disorder. The
 percolation line climbs faster on every ensemble, so the two cross where
-they are going to cross and separate thereafter. On the degree-three tree
-they start together, a gap of $0.006$ at $W=1.5$ against
-\citeauthor{tonetti2025}'s $0.013$, which is their small-disorder
-agreement; the double crossing they find there below $W\approx2.5$, at
-the level of a hundredth, is below the resolution of this calculation. On
+they are going to cross, and the gap that opens does not close again,
+though on the degree-three tree it dips by $0.07$ between $W=9$ and
+$12$. On the degree-three tree they start together: the gap at $W=1.5$
+is $+0.006$ here and $-0.013$ in \citeauthor{tonetti2025}, the landscape
+missing states in one and inventing them in the other, and the two are
+not in conflict, because the population bias on the mobility edge at
+this point, $0.04$ (Sec.~\ref{sec:mobility}), is several times either
+gap. The same bias puts the double crossing they find below
+$W\approx2.5$, at the level of a hundredth, below what this calculation
+resolves. On
 the degree-four tree, which they do not treat, the percolation line
 starts below the mobility edge and crosses it once, near $W=4.3$. And the
 triangle ensembles lie above the trees on both lines, further above on
-the percolation line: at degree three the two mobility edges are within
-$0.1$ of each other up to $W=3$ while the percolation lines are $0.1$ to
-$0.5$ apart, and at degree four, at $W=12$, the three mobility edges
+the percolation line: at degree three the two mobility edges are $0.04$ apart at $W=1.5$
+and $0.24$ at $W=3$ while the percolation lines are $0.23$ and $0.41$
+apart, and at degree four, at $W=12$, the three mobility edges
 spread over $0.9$ and the three percolation lines over $1.5$. Both lines
 move with the loops; the landscape's moves about twice as far.
 
 \paragraph{The gap.} Figure~\ref{fig:andersongap} is the difference, and
-it is the chapter's result in one panel. At every disorder but one --- the two degree-three ensembles tie at
-$W=6$ --- the gap increases with the number of triangles at fixed degree,
+it is the chapter's result in one panel. At every disorder but one the gap increases with the number of
+triangles at fixed degree --- the exception is $W=6$ at degree three,
+where the two ensembles are within the repeat spread of each other ---
 and it does so by moving the crossing to weaker disorder: $W\approx4.3$ on the degree-four
 tree, $3.0$ with one triangle per site, $1.7$ with two. Above the crossing
 the ordering never changes --- $0.27$, $0.49$, $0.75$ at $W=6$ and $1.3$,
@@ -562,13 +581,16 @@ and the LLT has no way of knowing it.
 gives the reason, at the band centre where it is cleanest: the growth rate
 $\lambda(1/2)$ of Eq.~\eqref{eq:imlinear} against disorder for the five
 ensembles, the transition being where it crosses one.
-Table~\ref{tab:andersonwc} lists the crossings: $17.4$ on the degree-three
+Table~\ref{tab:andersonwc} lists the crossings, at $E=0$, the band
+centre of the trees: $17.4$ on the degree-three
 tree, $8.6$ on the cactus at the same degree; $32.3$, $26.2$ and $18.1$ at
-degree four as edges become triangles. The last number is within a unit of
-the degree-three tree's, and that is the mechanism in one line. It is not
-a matter of walks on the graph --- walks that never turn back grow as
-$2$ per step on any graph of degree three, triangles or not --- but of
-the tree the recursion runs on. A site reached through an edge passes the
+degree four as edges become triangles. The last number is within the
+population bias of the degree-three tree's, and that is the mechanism in
+one line. It is not a matter of walks on the graph --- walks that never
+turn back grow as $2$ per step on any graph of degree three, triangles
+or not, and they count the hop between two members of a triangle, which
+the Schur complement has already summed --- but of the tree the
+recursion runs on. A site reached through an edge passes the
 imaginary part on through $s-1$ edges and $t$ triangles; a triangle
 reaches two sites, each of which passes it on through $s$ edges and $t-1$
 triangles. So the numbers of edge and triangle messages grow by the matrix
@@ -623,7 +645,8 @@ threshold $E_{c}^{\mathrm{perc}}$ (dashed, filled), each measured from the
 bottom of the spectrum $E_{\min}(W)$, against disorder, for regular
 chygraphs with $s$ edges and $t$ triangles per site at degree three (top)
 and four (bottom). A mobility-edge curve that stops is a band that has
-localised entirely. Generated by \code{figs/\allowbreak
+localised entirely. Percolation populations $3\times10^{5}$,
+mobility-edge populations $10^{6}$. Generated by \code{figs/\allowbreak
 localization.\allowbreak py} from \code{statmech/\allowbreak
 probe/\allowbreak anderson.\allowbreak py}.}
 \label{fig:anderson}
@@ -636,7 +659,8 @@ probe/\allowbreak anderson.\allowbreak py}.}
 against disorder for the five ensembles, dark for degree three and light
 for degree four: positive where the landscape misses extended states,
 negative where it invents them. At fixed degree the gap grows with the
-number of triangles at every disorder, and the cactus $(1,1)$ leaves the
+number of triangles at every disorder but $W=6$ at degree three, where
+the two ensembles tie, and the cactus $(1,1)$ leaves the
 plot at $W=9$ because its band has localised entirely while its landscape
 still percolates. Generated by \code{figs/\allowbreak
 localization.\allowbreak py}.}
@@ -710,8 +734,9 @@ object cannot tell the difference.
 
 What is not done is the critical behaviour, which \citeauthor{tonetti2025}
 find to differ between the two transitions on the tree; nothing here
-computes an exponent, and the lines are located to a few hundredths, the
-mobility edge less well than the threshold. The population bias on the mobility edge is a few
+computes an exponent, and the lines are located to a few hundredths where they were
+repeated, the mobility edge less well than the threshold, with one
+repeated point still open (Sec.~\ref{sec:loops}). The population bias on the mobility edge is a few
 per cent and common to the comparisons made. And the ensembles are
 regular; a chygraph of the maximal cliques of a real network, with the
 degree and cardinality distributions of Chapter~\ref{ch:data}, is the same
@@ -726,10 +751,10 @@ $\hat H-z$ on finite incidence trees of edges and triangles, to $10^{-15}$;
 the pure-hopping band bottoms of $(3,0)$ and $(4,0)$ against $-2\sqrt2$ and
 $-2\sqrt3$. \code{statmech/\allowbreak probe/\allowbreak anderson.\allowbreak
 py check} adds the random instances: on $600$ atoms the error of the
-cavity resolvent falls from $4\times10^{-2}$ to $6\times10^{-6}$ as the
-imaginary part of $z$ goes from $0.2$ to $3$, which is what long loops do
-and short ones do not, and the landscape agrees with the direct solve to
-$10^{-8}$ on the trees. The percolation threshold is located by renormalised
+cavity resolvent at $\operatorname{Im}z=0.2$ is $4\times10^{-2}$, the
+long loops of the instance, which a larger imaginary part damps, and the
+landscape agrees with the direct solve to $10^{-8}$ on the trees and
+$10^{-15}$ on the cactus. The percolation threshold is located by renormalised
 iteration of Eq.~\eqref{eq:lltmap}, whose subcritical side shows as
 extinction --- the support of a small $p$ shrinks geometrically in a
 finite population --- so the growth curve of Fig.~\ref{fig:andersonmech}
@@ -738,6 +763,6 @@ which cannot go extinct and gives the same crossing. The two benchmarks
 against \citet{tonetti2025} and the band-centre $W_{c}$ are the tests from
 outside the formalism, and the population bias is quoted rather than
 hidden. Everything in this chapter is
-at the level of the mobility edge and the threshold; nothing here computes
-a critical exponent, and \citeauthor{tonetti2025}'s finding that the two
-transitions differ in class is taken from them, not reproduced.
+at the level of the mobility edge and the threshold, and
+\citeauthor{tonetti2025}'s finding that the two transitions differ in
+class is taken from them, not reproduced.
