@@ -70,7 +70,7 @@ since that commit) — and 66 underfull vboxes, every one of them `while
 running into the margin.
 
 73 figures, 35 numbered tables, 212 numbered equations, 129 references and a
-175-term index. Both checks under *Two checks the build cannot make* print
+173-term index. Both checks under *Two checks the build cannot make* print
 nothing.
 
 **These counts are re-measured, not maintained by hand** — the recipes are
