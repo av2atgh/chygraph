@@ -28,9 +28,14 @@ symbolic throughout, on \code{sympy}.
 \code{statmech/} carries everything from Chapter~\ref{ch:statmech} onward: the
 cavity recursion with a general interior, the branching matrix, the Ising and
 hitting-set and core-percolation solvers, the Bethe free energy, the
-region-graph calculation of Chapter~\ref{ch:gbp}, and the resolvent message
+region-graph calculation of Chapter~\ref{ch:gbp}, the resolvent message
 of Chapter~\ref{ch:localization}, whose interior is a Schur complement in
-closed form rather than a sum over states. It depends on the first ---
+closed form rather than a sum over states, and the four modules Part~V
+computes with: belief propagation and the loop series on a binary factor
+graph (\code{loopseries}), the two coupled populations of the endogeny
+test (\code{endogeny}), the linearised recursion and the Bethe Hessian of
+a chygraph (\code{bethehessian}), and the loop series on the ensemble
+(\code{ensembleloops}). It depends on the first ---
 \code{statmech.\allowbreak stability} imports \code{Percolation\allowbreak Matrix}
 --- which is why the two live together.
 
@@ -39,9 +44,9 @@ be reached without knowing which of the two defines it. Table~\ref{tab:map}
 names the defining package throughout, since that is what a reader looking for
 the source wants.
 
-A third source is the book's own \code{figs/} directory, which holds twenty
-scripts covering Chapter~\ref{ch:data} onward, most of them named for the
-chapter they serve. Those scripts generate the figures, and for
+A third source is the book's own \code{figs/} directory, which holds
+twenty-two scripts covering Chapter~\ref{ch:data} onward, most of them named
+for the chapter they serve. Those scripts generate the figures, and for
 Chapters~\ref{ch:potts}, \ref{ch:colouring} and~\ref{ch:satisfiability} they
 also carry the calculations themselves --- the last two having no manuscript
 behind them at all.
@@ -64,12 +69,22 @@ behind Fig.~\ref{fig:gbp}, the placed-motif instances of
 Sec.~\ref{sec:karrer}, the real neighbourhoods behind Fig.~\ref{fig:gbpreal},
 the meta-complex error of Fig.~\ref{fig:mergeerror}, the propagation cores of
 Figs.~\ref{fig:corebonds} and~\ref{fig:coremeta}, and the branching sweep of
-Fig.~\ref{fig:coretransition} --- and the Anderson scan of
+Fig.~\ref{fig:coretransition} --- the Anderson scan of
 Chapter~\ref{ch:localization} behind Figs.~\ref{fig:anderson}
-to~\ref{fig:andersonmech} and Table~\ref{tab:andersonwc}. Those fifteen are
-the only places
-where the book quotes a number it does not recompute at build time, and each
-says so where it is used. The real-network probe needs graph-tool and a network
+to~\ref{fig:andersonmech} and Table~\ref{tab:andersonwc}, and the
+measurements Part~V added: the endogeny scan of Sec.~\ref{sec:rde-computed},
+the split of Chapter~\ref{ch:overlap}'s error on its real neighbourhoods and
+the spread over bond assignments behind Table~\ref{tab:loopseries-real},
+the finite-size scan of the Bethe Hessian's threshold behind
+Fig.~\ref{fig:bethehessian}b and the instance averages of the ensemble
+loop series behind Fig.~\ref{fig:ensembleloops}, and the three reruns of
+Part~IV at the stable fixed point --- the recursion with each bond in one
+clique (Fig.~\ref{fig:cavityassigned}), the merged families
+(Table~\ref{tab:mergeerr}, whose file is patched in place with the
+paramagnetic original kept beside it) and the agreement of clique beliefs
+on shared pairs (Sec.~\ref{sec:mg-checks}). Those twenty-three are the only
+places where the book quotes a number it does not recompute at build time,
+and each says so where it is used. The real-network probe needs graph-tool and a network
 connection the first time it runs, to pull its networks from Netzschleuder; it
 caches their edge lists beside the other dumps the book uses, and after that
 needs neither.
@@ -107,7 +122,7 @@ and the check is in the same file.
 {\scriptsize\setlength{\tabcolsep}{3pt}
 \begin{longtable}{@{}L{0.085\textwidth} L{0.235\textwidth} L{0.36\textwidth} L{0.18\textwidth}@{}}
 \caption{\textbf{Every computed equation, and what checks it.} Routines are in
-\code{percolation/} for Part~II and \code{statmech/} for Parts~III and~IV
+\code{percolation/} for Part~II and \code{statmech/} for Parts~III to~V
 unless a path is given. Tests are the packages' own suites; \code{figs/} entries are the
 book's scripts, which run their checks on every invocation.}
 \label{tab:map}\\
@@ -247,6 +262,7 @@ Sec.~\ref{sec:cavityfail} & the recursion at the stable fixed point, with each b
 \eqref{eq:mobius} & M\"obius counting numbers & \code{region.\allowbreak RegionGraph} & \code{test\_\allowbreak region}\\
 \eqref{eq:p2c} & the parent-to-child update & \code{gbp.\allowbreak GBP} & \code{test\_\allowbreak gbp}\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:metacomplex}, meta-complexes}}\\
+Sec.~\ref{sec:mergeerror} & the merged-family recursion at the stable fixed point & \code{statmech/\allowbreak probe/\allowbreak merge\_\allowbreak stable.\allowbreak py} & \code{figs/\allowbreak overlap.\allowbreak py:\allowbreak check\_\allowbreak merge\_\allowbreak error}\\
 \eqref{eq:branching} & the incidence branching & \code{statmech/\allowbreak probe/\allowbreak karrer\_\allowbreak core\_\allowbreak sweep.\allowbreak py} & \code{check\_\allowbreak core\_\allowbreak transition}\\
 \eqref{eq:corea} & the pruning fixed point & \code{statmech/\allowbreak probe/\allowbreak karrer\_\allowbreak core\_\allowbreak sweep.\allowbreak core\_\allowbreak closed\_\allowbreak form} & \code{check\_\allowbreak closed\_\allowbreak form}\\
 \eqref{eq:corefrac} & the core fraction & \code{statmech/\allowbreak probe/\allowbreak karrer\_\allowbreak core\_\allowbreak sweep.\allowbreak core\_\allowbreak closed\_\allowbreak form} & \code{check\_\allowbreak closed\_\allowbreak form}\\
@@ -389,6 +405,14 @@ expect the last digit to move.
 \code{figs/\allowbreak satisfiability.\allowbreak py} takes about five minutes,
 also for its survey propagation;
 \code{figs/\allowbreak merge.\allowbreak py},
-\code{figs/\allowbreak ising.\allowbreak py} and
-\code{figs/\allowbreak potts.\allowbreak py} take a few minutes each. The rest
-run in seconds.
+\code{figs/\allowbreak ising.\allowbreak py},
+\code{figs/\allowbreak potts.\allowbreak py},
+\code{figs/\allowbreak loopseries.\allowbreak py} and
+\code{figs/\allowbreak bethehessian.\allowbreak py} take a few minutes each.
+Two of Part~V's scripts would be slow and are not, because they read a
+cache: \code{figs/\allowbreak endogeny.\allowbreak py} draws from a
+seventy-minute population scan and
+\code{figs/\allowbreak ensembleloops.\allowbreak py} from a fifty-minute
+enumeration of cycles, both under
+\code{statmech/\allowbreak probe/\allowbreak results/}, and each recomputes
+only its checks unless the cache is removed. The rest run in seconds.
