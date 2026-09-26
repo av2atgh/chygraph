@@ -80,7 +80,13 @@ but a hierarchy of them. Part~IV is the accounting: one chapter measures the
 price, one runs the repair the literature already has and reports what it does
 and does not recover, one merges the offending complexes and finds the condition
 under which that is exact, and all three state plainly what is not yet done at
-the level of the ensemble.
+the level of the ensemble. Part~V comes back to that price and finds most of
+it was bookkeeping rather than structure --- a bond lying inside two complexes
+counted by both, and a fixed point the iteration kept because nothing had
+broken its symmetry --- so that once each bond is given to one complex and
+the stable fixed point is the one reported, what the overlap costs the
+recursion on the same instances is a few tenths in $\ln Z$. That remainder is
+the loop between complexes, and it is the part that cannot be patched.
 
 Who is this for? Anyone who has met the cavity method and wondered what to do
 about clustering, and anyone who works with data whose interactions are
@@ -179,7 +185,7 @@ Landscape on graphs with triangles, where loops separate the two
 transitions instead of joining them. Every number in those chapters comes
 out of the same package as before.
 
-The fourth addition, Part~V, computes three things. Chapter~\ref{ch:chyequation}
+The fourth addition, Part~V, computes as much as it connects. Chapter~\ref{ch:chyequation}
 writes the recursion down once --- belief propagation on a factor graph
 that is the chy-adjacency matrix with the identity added, every complex a
 variable and a factor at once, so that nesting costs nothing --- and its
@@ -202,17 +208,29 @@ form that holds. What
 each field supplies is a theorem, a word or a criterion the earlier chapters
 had been reaching for; what the chygraph gives back is a random instance
 of an object each field had only by hand, and a calculation the physics
-finished before the mathematics was written down. The three things it computes are
+finished before the mathematics was written down. What Part~V computes is
 the finite-component distribution by layer, which Chapter~\ref{ch:giant}
 had only the leading term of, on household epidemics against simulation
-and on interactomes against the data; the loop series on the factor graph
-of $\alpha+I$, which splits Part~IV's error into a bond counted twice and
-a loop, and finds the double count the larger; and the endogeny test of
-the probabilists, two populations on one structure, which sides with
+and on interactomes against the data; the endogeny test of the
+probabilists, two populations on one structure, which sides with
 Chapter~\ref{ch:hittingset}'s hard-field line over its entropy and finds
-that a replica-symmetric answer can be endogenous and wrong. Part~V ends,
-as the Outlook does, with what it does not do: two further calculations
-it calls for, neither run here.
+that a replica-symmetric answer can be endogenous and wrong; the loop
+series on the factor graph of $\alpha+I$, which splits Part~IV's error
+into a bond counted twice and a loop, finds the double count the larger,
+and on a random chygraph sums to a closed form in the branching matrix
+that diverges exactly at the threshold of Chapter~\ref{ch:statmech}; the
+Bethe Hessian of a chygraph, the symmetric operator whose gap closes where
+the recursion loses stability, one rank-one term per complex, obtained
+from the linearised recursion by a graph zeta function and needing, off
+the trivial fixed point, a stalk at each complex of a dimension the book
+computes; and the two measurements the marginal problem asks for, that
+the region-graph beliefs agree on every overlap and the chygraph beliefs
+do not. Two of those calculations reach back into Part~IV and change its
+numbers: the fixed point Chapter~\ref{ch:overlap} reported was the
+symmetric one, unstable on most of its instances, and with each bond in
+one complex and the stable fixed point the price of overlap falls from a
+median of seven in $\ln Z$ to a third. Part~V ends, as the Outlook does,
+with what it does not do.
 
 \vspace{1em}
 \noindent Alexei Vazquez
