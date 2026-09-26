@@ -148,7 +148,18 @@ fixed point is not a consistent family in the theorem's sense. The
 region-graph fixed point of Chapter~\ref{ch:gbp} is: closing the family
 under intersection, rule~2 of Sec.~\ref{sec:regions}, makes every overlap a
 region with a belief of its own, and the parent-to-child messages of
-Eq.~\eqref{eq:p2c} enforce agreement on it. That family, when the
+Eq.~\eqref{eq:p2c} enforce agreement on it. Both statements are measured
+(Sec.~\ref{sec:mg-checks}). On the $240$ runs of Chapter~\ref{ch:overlap}
+at the stable fixed point, the beliefs of two cliques sharing a pair of
+atoms agree on each atom to $10^{-13}$ and differ on the pair by up to
+$0.15$ with every bond in every clique and $0.33$ with each bond in one,
+on $101$ and $200$ of the $240$ by more than $10^{-6}$; the disagreement
+lives at the weaker coupling, since at the stronger one every belief is
+concentrated on the ordered configuration. On the $186$ runs of
+Chapter~\ref{ch:gbp} whose region-graph iteration reached a fixed point,
+the beliefs agree on every overlap to $10^{-8}$ or better, chordal or not:
+on the $51$ non-chordal ones among them the family is consistent and is
+not the family of true marginals, its $\ln Z$ being off by up to $12$. That family, when the
 hypergraph is $\alpha$-acyclic, glues to a joint law. That the joint law is
 the Boltzmann measure, and Eq.~\eqref{eq:bethe}'s free energy exact, is a
 second step: it needs the junction-tree factorisation of the joint law as
@@ -276,24 +287,48 @@ the flattened family being the hyperedges of the factor graph of rule~3,
 one per complex, with the complex's own state kept as a variable. It is
 not a conjecture. The join-tree argument uses nothing about levels, so
 Vorob'ev and Kellerer apply to the flattened family as it stands, and
-what remains is a definition check: that ``consistent'' as defined level by
-level --- a container's law on a member complex agrees with that complex's
-own law on itself, and laws agree on shared atoms --- is the same as
-consistency on the flattened family. It is worth being precise about which
-acyclicity, because the weaker one fails: with ``the factor graph of
-$\alpha+I$ is a tree'' in place of $\alpha$-acyclicity the ``only if''
-is false, two triangles sharing an edge with their states kept having an
-$\alpha$-acyclic flattened family, so that every consistent family glues,
-and a factor graph with a cycle. On the check itself, a complex's own state
-enters $\kappa_{a}+1$ hyperedges of the flattened family, its own and
-those of its $\kappa_{a}$ containers; its own hyperedge meets each
-container's in the single vertex $\{a\}$, and two containers' hyperedges
-meet in $\{a\}$ together with whatever members they share. Level-wise
-consistency is pairwise agreement on the single-vertex overlaps together
-with agreement on shared atoms. So the two notions coincide wherever
-overlaps are single vertices, and the check reduces to overlaps of two or
-more vertices, which is the same place the care of
-Sec.~\ref{sec:mg-marginal} lives.
+what remained was a definition check: whether ``consistent'' as defined
+level by level --- a container's law on a member complex agrees with that
+complex's own law on itself, and laws agree on shared atoms --- is the
+same as consistency on the flattened family. It is worth being precise
+about which acyclicity, because the weaker one fails: with ``the factor
+graph of $\alpha+I$ is a tree'' in place of $\alpha$-acyclicity the
+``only if'' is false, two triangles sharing an edge with their states kept
+having an $\alpha$-acyclic flattened family, so that every consistent
+family glues, and a factor graph with a cycle.
+
+\paragraph{The check, done.} Two hyperedges of the flattened family,
+$\{a\}\cup\del a$ and $\{b\}\cup\del b$, overlap in one of two ways up to
+symmetry. If $b\in\del a$ the overlap is $\{b\}\cup(\del a\cap\del b)$: the member's
+own state, together with anything $a$ holds that is also a member of $b$.
+If neither contains the other the overlap is $\del a\cap\del b$, the
+members they share. Level-wise consistency is pairwise agreement on
+single vertices --- the state $\{b\}$, or one shared member at a time ---
+so the two notions coincide exactly when every pairwise overlap of the
+flattened family is a single vertex, and differ as soon as one has two or
+more: two containers sharing two members, or a container holding a
+member together with one of that member's members. Where they differ the
+level-wise notion is the weaker one, and a level-wise consistent family
+need not be consistent, for the same reason as on two triangles sharing
+an edge: agreement on $\{2\}$ and on $\{3\}$ says nothing about the law on
+$(\sigma_{2},\sigma_{3})$, and the two complexes can carry opposite
+correlations on the pair and still agree atom by atom, which is the
+disagreement Sec.~\ref{sec:mg-marginal} measured. So the statement is:
+
+\begin{center}
+\emph{a nested family of marginals that agrees on every pairwise overlap
+of the flattened family glues to a global law if and only if that family
+is $\alpha$-acyclic; and level-wise agreement is the same hypothesis
+exactly when every such overlap is a single vertex.}
+\end{center}
+
+The first clause is Vorob'ev and Kellerer verbatim; the second is the
+check. For a strictly layered chygraph, where a container's members all
+sit one level down, the single-vertex condition says that no two
+containers share two members and no two complexes share two atoms, which
+is Part~IV's pairwise condition carried up the levels; and where it fails
+the remedy is the one Chapter~\ref{ch:gbp} applied at the bottom level,
+to take the overlaps as regions and demand agreement on them jointly.
 Section~\ref{sec:nested} is the one place in the book where a flattening
 is done, and there it costs: CNF flattening of a nested clause is
 \emph{not} the flattening of rule~3, because it eliminates the clause's
@@ -377,8 +412,9 @@ by loop rather than by instance.
 \emph{A hierarchy.} The marginal problem has been posed on one level for
 sixty years. The chygraph poses it on a hierarchy, and
 Sec.~\ref{sec:mg-nested} states the level-wise theorem as a corollary of
-the one-level one, with the one definition check that turns it into a
-stated result.
+the one-level one, the definition check done: level-wise agreement is the
+theorem's hypothesis exactly when the flattened family's overlaps are
+single vertices.
 
 \emph{An ensemble.} Contextuality is studied one scenario at a time. A
 layered random chygraph is a random scenario, and the acyclicity transition
@@ -394,3 +430,41 @@ thresholds --- and Part~IV is the theory of when a diagram can be rewritten
 to a tree. The merge closure is a rewriting system whose confluence and
 termination have been measured and not proved; a rewriting theory would
 prove them, or say on which chygraphs they fail.
+
+\section{Checks}
+\label{sec:mg-checks}
+
+\checkhead{Known results}
+The Vorob'ev--Kellerer theorem is quoted, not re-proved; its two directions
+are illustrated on a tree and a triangle of pairwise marginals in
+Sec.~\ref{sec:mg-marginal}, and its hypothesis is identified with the
+chain of Sec.~\ref{sec:threenames} by citation to \citet{beeri1983}.
+
+\checkhead{New results}
+The two measurements of Sec.~\ref{sec:mg-marginal}.
+\code{statmech/\allowbreak probe/\allowbreak pair\_\allowbreak consistency.\allowbreak py}
+takes the $240$ runs of Chapter~\ref{ch:overlap} (Karrer--Newman and real
+instances as there, hyperbolic redrawn, Sec.~\ref{sec:cavityfail}) at the
+stable fixed point of the chygraph recursion, with the double count and
+with each bond in one clique, and for every pair of cliques sharing two or
+more atoms compares the two clique beliefs marginalised to the shared
+atoms, and to each atom singly. Single atoms agree to $3\times10^{-13}$
+throughout; pairs differ by up to $0.149$ and $0.328$. The region-graph
+side reads the consistency the runs of Chapter~\ref{ch:gbp} recorded, the
+largest violation of parent-to-child marginalisation over the region
+graph's edges, which on a family closed under intersection is agreement on
+every overlap: on the $186$ of $240$ runs whose iteration settled it is
+below $10^{-12}$ on the chordal instances and below $8.5\times10^{-8}$ on
+all but one non-chordal instance (that one at $0.057$). The $54$ runs that
+did not settle are not consistent and are not quoted. The definition
+check of Sec.~\ref{sec:mg-nested} is a case analysis and needs no
+computation.
+
+\checkhead{Partial results}
+Where the region-graph iteration did not settle nothing is claimed. The
+magnetisations recorded for the Karrer--Newman and real runs of
+Chapter~\ref{ch:gbp} are zero on most of them, so those fixed points are
+the symmetric one, which on a junction tree is the exact answer and off
+it is a fixed point whose stability was not checked; Sec.~\ref{sec:cavityfail}
+found the same point unstable for the chygraph recursion on most of the
+same instances.

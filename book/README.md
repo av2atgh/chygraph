@@ -38,7 +38,7 @@ ending on the routine that executes it.
 | 20 | `rde.tex` | Probability: the chygraph equation as a system of recursive distributional equations; endogeny = replica symmetry, bivariate uniqueness = the AT line at the linear level and the trivial fixed point; the smoothing transform and Ch. 18's mobility edge; the local weak limit as a multitype branching process whose mean matrix is the threshold tensor; the test **run** in Sec. 20.5 (spin-glass anchor with the H^(2/3) law; hitting set: sides with the hard-field line within 4%, entropy silent; regular cases endogenous and wrong) |
 | 21 | `species.tex` | Combinatorics: the excess functions are derivatives of a species, the excess bracket a partial derivative by sort; two kinds of hole; Lagrange inversion for the whole component distribution, **computed** in Sec. 21.4 (households against simulation, interactomes against data, Table 21.1); analytic functors on the Giry monad; the Hopf side (Dyson–Schwinger with two grafting operators) |
 | 22 | `operads.tex` | A complex is an operation; percolation is Com; the excess bracket is partial composition; treelike is cyclic, Part IV is modular (self-gluing, genus); a coloured operad; compound complexes are disconnected operations |
-| 23 | `marginal.tex` | Category theory: sum-product in a monoidal category; treelike as conditional independence; the marginal problem of Vorob'ev and Kellerer as Ch. 17's theorem sixty years early; sheaf obstruction (one-way); the level-wise statement as a corollary of Vorob'ev modulo a definition check |
+| 23 | `marginal.tex` | Category theory: sum-product in a monoidal category; treelike as conditional independence; the marginal problem of Vorob'ev and Kellerer as Ch. 17's theorem sixty years early; sheaf obstruction (one-way); the level-wise statement as a stated corollary of Vorob'ev (level-wise = flattened consistency iff every overlap is a single vertex); **measured** 2026-09-26: chygraph fixed points disagree on shared pairs (up to 0.15 / 0.33), region-graph ones agree on every overlap where they settle |
 | 24 | `mobius.tex` | Topology: the counting numbers are the Möbius function of the inclusion poset; the chygraph recursion is exact iff b₁ = 0 (Berge-acyclic), the region-graph one iff α-acyclic; the loop series **computed** in Sec. 24.3 on both factor graphs (rings, forty clustered instances) and Ch. 14's error split into double count + loop, the double count the larger, and on the ensemble in closed form, −½ Σ_j (−1)^{j+1}/j [ln det(I−B_j) + tr B_j], diverging at Eq. (8.det); GYO as collapsibility; acyclicity percolation beside Linial–Meshulam; the chygraph Bethe Hessian **computed** in Sec. 24.6 (weighted Ihara–Bass on the incidence graph, one rank-one term per complex, reduces to Saade's on a graph; the block factorises for ≤ 3 members and at trivial points, not for 4 off them; the matrix-weighted identity with a stalk of the minimal-completion rank, generically ⌈c − √(2c)⌉-ish, indefinite metric) |
 | 25 | `outlook.tex` | One recursion, many models; the two running threads; what is not done |
 | — | `software.tex` | Back matter. Repo links; equation-to-method-to-test table; how to reproduce a figure |
@@ -52,8 +52,8 @@ ending on the routine that executes it.
 `figs/ensembleloops.py`) **and Sec. 24.6's Bethe Hessian**
 (`statmech/src/statmech/bethehessian.py`, `figs/bethehessian.py`, with the
 matrix-weighted identity and the stalk dimension);
-Chs. 20, 21 and 24 have Checks sections and the other
-three chapters do not. They
+Chs. 20, 21, 23 and 24 have Checks sections and the other
+two chapters do not. They
 were written on 2026-09-25 from `~/Downloads/chygraph_master_equation/draft.tex`
 (Secs. 1–5 → Ch. 19, Secs. 6–10 → Chs. 20–24), anchored on the book's
 equations; the figures in it are TikZ in the chapter files. The draft's

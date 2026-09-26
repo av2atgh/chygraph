@@ -675,3 +675,37 @@ Sec. 16.2 paragraphs (fixed point; merge vs assignment), conclusions range.
 
 Open: an optimised bond-assignment rule; the two Vorob'ev checks; the rest of
 the list.
+
+## 2026-09-26: the two Vorob'ev checks (Ch. 23)
+
+**(4) Region-graph fixed points consistent on overlaps.** The Ch. 15 caches
+record `consistency` (worst parent→child marginalisation violation; the
+region graph is intersection-closed, so this is agreement on every overlap).
+Split by residual < 1e-9: 186/240 settled — chordal ≤ 1.3e-12, non-chordal
+≤ 8.5e-8 except one real run at 0.057; the 54 unsettled reach 0.5–1.0
+(damping 0.999 makes the residual meaningless there). So the non-chordal
+settled fixed points are consistent families that are not the true
+marginals (ln Z off by up to 12). Side finding: `mean_abs_m` median 0 on
+Karrer/real GBP runs → symmetric point; exact on junction trees, stability
+unchecked elsewhere (open, Ch. 15).
+
+**Chygraph fixed point not consistent on pairs.** `probe/pair_consistency.py`
+(~2 min, `results/pair_consistency.json`) on the `cavity_assigned` instances
+at the stable fixed point: single atoms agree to 3e-13; shared pairs differ
+by up to 0.149 (double count; > 1e-6 on 101/240) and 0.328 (assigned;
+> 1e-6 on 200/240, > 0.01 on 92); all at βJ = 0.3 — at 0.8 the beliefs are
+concentrated on the ordered configuration.
+
+**(3) Definition check.** Overlaps of {a}∪∂a and {b}∪∂b: {b}∪(∂a∩∂b) if b ∈
+∂a, else ∂a∩∂b. Level-wise consistency = agreement on single vertices, so
+the notions coincide iff every pairwise overlap of the flattened family is
+a single vertex (no two containers share two members; no container holds a
+member with one of its members); otherwise level-wise is strictly weaker
+(two triangles sharing an edge, one level up). Stated corollary in Sec. 23.4;
+for strictly layered chygraphs the condition is Part IV's pairwise
+condition at every level. Ch. 23 now has a Checks section; software row;
+README.
+
+Open: Ch. 15's GBP fixed points' stability on non-chordal instances; an
+optimised bond-assignment rule; Foissy's classification (Ch. 21); Ch. 17's
+list; Sec. 8.10's list; Ch. 18's list.
