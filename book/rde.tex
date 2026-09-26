@@ -2,16 +2,18 @@
 \label{ch:rde}
 
 % Part V, added 2026-09-25 from ~/Downloads/chygraph_master_equation/draft.tex,
-% Sec. 6 (probability). Nothing is computed here: the chapter rewrites
-% equations the book already carries in the vocabulary of Aldous and
-% Bandyopadhyay's recursive distributional equations and of the objective
-% method, and says which of the book's tests is which of theirs. The one
-% claim made for the first time -- that the de Almeida--Thouless tensor is
-% bivariate uniqueness at the linear level -- holds at the trivial fixed
-% point; Sec. rde-computed runs both the linearised and the nonlinear test
-% (statmech.endogeny, probe/endogeny.py, figs/endogeny.py) and finds that
-% away from the trivial fixed point the perturbation must be carried with
-% the field, the annealed substitution overstating stability.
+% Sec. 6 (probability). Secs. 1-4 rewrite equations the book already
+% carries in the vocabulary of Aldous and Bandyopadhyay's recursive
+% distributional equations and of the objective method; Sec. rde-computed
+% runs both the linearised and the nonlinear test (statmech.endogeny,
+% probe/endogeny.py, figs/endogeny.py). The relation between endogeny and
+% replica symmetry breaking is in the literature (Aldous-Bandyopadhyay's
+% open problems; Bandyopadhyay 2011), and carrying the perturbation with the
+% field is the standard way of computing the RS stability line (Montanari-
+% Ricci-Tersenghi 2003; Rivoire et al. 2004; Zdeborova-Krzakala 2007); what
+% is new here is the Theorem 11(c) framing, the localisation of a failure to
+% the interior operator, and the hitting-set application. Revised 2026-09-26
+% after ~/Downloads/book_review.md.
 
 The chygraph equation of Chapter~\ref{ch:chyequation} says that an unknown
 law is reproduced by a random number of independent copies of itself, passed
@@ -124,7 +126,9 @@ $\{\xi_{v}\}$ on the tree below it --- no randomness enters from infinity.
 When it is not, the same tree of innovations supports many values at the
 root, differing by something that is not visible at any finite depth.
 
-That is the replica-symmetric assumption, stated as a property. The
+That is the replica-symmetric assumption, stated as a property, and the
+relation is not new: the survey raises it among its open problems, and
+\citet{bandyopadhyay2011} works it out for the logistic equation. The
 fixed point of Sec.~\ref{sec:substitution} carries one field per inclusion,
 a function of the chygraph below the inclusion and of nothing else; that is
 Sec.~\ref{sec:replicas}'s first assumption, that the message has one thing
@@ -192,12 +196,20 @@ So the de Almeida--Thouless tensor --- the $2L^{2}$ operator of
 Sec.~\ref{sec:ce-yields} with $u'$ replaced by $u'^{2}$ --- \emph{is}
 bivariate uniqueness for this class of equations, at the linear level. The
 qualification matters and is stated as what it is. Linear stability of the
-diagonal is necessary for bivariate uniqueness, and its loss, where the
-mean-square difference grows, is an argument --- about second moments under
-the linearised map, where the theorem's convergence is in law --- that the
-replica-symmetric fixed point is not endogenous; it is not sufficient,
-because a pair started far from the diagonal can fail to converge to it
-while every small perturbation decays. The nonlinear test, part~(c) of
+diagonal is necessary for endogeny: by part~(c) of the theorem, if the
+diagonal is unstable the iterates from $\mu\otimes\mu$ cannot converge
+to it, and bivariate uniqueness then fails through part~(b) when the map
+is weakly continuous. Its loss, where the mean-square difference grows, is
+an argument --- about second moments under the linearised map, where the
+theorem's convergence is in law --- that the replica-symmetric fixed point
+is not endogenous; it is not sufficient, because a pair started far from
+the diagonal can fail to converge to it while every small perturbation
+decays. Carrying the perturbation through the recursion in this way, as a
+second entry alongside the field, is how the replica-symmetric stability
+line has been computed on diluted models since \citet{montanari2003} and
+\citet{rivoire2004}, and \citet{zdeborova2007} say explicitly that the
+factorised average overstates stability; what the theorem adds is the
+statement that the same computation decides endogeny. The nonlinear test, part~(c) of
 the theorem run as two coupled populations, is done in
 Sec.~\ref{sec:rde-computed} for two of the models of
 Table~\ref{tab:ce-substitutions}, and on both the boundary it finds is the
@@ -226,9 +238,15 @@ moment of a product of weights along a branch, and its standing assumption
 is a \emph{characteristic exponent}: a $\beta^{*}>0$ with
 $m(\beta^{*})=1$ and $m>1$ below it. Since $m(0)=\ave{N}>1$, such an
 exponent exists exactly when $m$ dips to one, $\min_{\beta}m(\beta)\le1$,
-and then the homogeneous equation, $C=0$, has non-degenerate fixed points,
-mixtures of $\beta^{*}$-stable laws; when $\min_{\beta}m(\beta)>1$ it has
-none.
+and then, provided $\beta^{*}\le1$, the homogeneous equation, $C=0$, has
+non-degenerate non-negative fixed points, mixtures of $\beta^{*}$-stable
+laws \citep{durrett1983,alsmeyer2012}; when $\min_{\beta}m(\beta)>1$ it has
+none. The physical width, the imaginary part of the Green's function over
+the absorber, solves the inhomogeneous equation with $C=|G_{i}|^{2}$, whose
+fixed point is a perpetuity-type sum with a power-law tail of exponent
+$\beta^{*}$ by the Kesten--Goldie mechanism; the homogeneous fixed points
+are its scaling limit, not the object Chapter~\ref{ch:localization}
+iterates.
 
 The book meets an affine down step once. Chapter~\ref{ch:localization}'s
 message is a resolvent, its interior is the Schur complement of
@@ -398,7 +416,10 @@ $\beta J=0.881$, with the $H^{2/3}$ law of a de Almeida--Thouless line: a
 fit $\beta J_{c}+aH^{2/3}$ to the three smallest fields has residuals of
 $0.003$. And the pair boundary lies within two to five per cent of it, the
 gap largest at the smallest fields, where the decay is slowest and a fixed
-sweep budget under-reads the boundary. On this model endogeny is lost
+sweep budget under-reads the boundary: at $H=0.02$ doubling the budget
+from $600$ to $1200$ sweeps moves the pair boundary from $0.886$ to
+$0.902$, a third of the way to the linearised $0.936$, in the direction
+the attribution requires. On this model endogeny is lost
 exactly where the linearised test says, and the nonlinear test adds
 nothing to it.
 
@@ -417,7 +438,7 @@ simpler, and the two populations compute it at no extra cost.
 
 \begin{figure}[tp]
 \centering
-\includegraphics[width=0.82\linewidth]{figs/fig-endogeny.pdf}
+\includegraphics[width=0.66\linewidth]{figs/fig-endogeny.pdf}
 \caption{\textbf{The endogeny test.} (a) The $\pm J$ spin glass on a
 random regular graph of degree three in a field: the three boundaries in
 $\beta J$ bisected at each field. Circles, two copies started from
@@ -429,7 +450,10 @@ the three smallest fields. (b) The hitting set on Poisson hypergraphs of
 cardinality two, three and four: the stationary rate of a perturbation, per
 sweep, against the mean chy-degree in units of the hard-field line
 $\ave{k}(c-1)=e$ of Eq.~\eqref{eq:kc}. The three cardinalities fall on one
-curve and cross zero at $1.03$ to $1.04$. Populations of $10^{5}$;
+curve and cross zero at $1.03$ to $1.04$. Past the crossing a growing
+perturbation saturates within the window, so the values there are lower
+bounds on the growth rate and the points beyond $1.2$ are not drawn.
+Populations of $10^{5}$;
 \code{statmech/\allowbreak probe/\allowbreak endogeny.\allowbreak py} and
 \code{figs/\allowbreak endogeny.\allowbreak py}.}
 \label{fig:endogeny}
@@ -443,22 +467,32 @@ Eq.~\eqref{eq:sgen}, which on vertex cover is still positive at
 $\ave{k}=3$ where the hard-field line has been crossed at $e$.
 Figure~\ref{fig:endogeny}b and Table~\ref{tab:endogeny} run the test on
 the soft-field population of Sec.~\ref{sec:soft} itself, at $\mu=60$, for
-Poisson hypergraphs of cardinality two, three and four. Near the boundary
-the perturbation's decay slows to a crawl, so the rate is read from long
-stationary windows and the two halves of the window are checked against
-each other; measured that way it does not move with the chemical potential
-between $30$ and $120$ nor with the damping, and the pair started from
-independent draws settles at a size-independent plateau on the far side,
-a fifth of the pairs differing by more than one at $\ave{k}=2.9$ on
-vertex cover, at $5\times10^{4}$, $2\times10^{5}$ and $4\times10^{5}$
-elements alike. The rate crosses zero at $1.034$, $1.040$ and $1.029$
-times the hard-field line for the three cardinalities, which is
-$\ave{k}=2.81$ against $e=2.72$ for vertex cover, and the entropy at the
-crossing is still positive on all three. So the two criteria are sorted:
-the endogeny of the soft-field solution is lost within four per cent of
-the hard-field line, and the entropy is silent there because it is
-sufficient and not necessary, which Sec.~\ref{sec:hsrsb} said and could
-not weigh. That the three cardinalities collapse on one curve in the
+Poisson hypergraphs of cardinality two, three and four. Near
+the boundary the perturbation's decay slows to a crawl, so the rate is
+read from long stationary windows and the two halves of the window are
+checked against each other; measured that way it does not move with the
+chemical potential between $30$ and $120$ nor with the damping. The pair
+started from independent draws has to be read with the same patience. At
+the hard-field line itself it is still $10^{-2}$, $4\times10^{-3}$ and
+$2\times10^{-3}$ apart after $600$ sweeps for the three cardinalities,
+which a budget of $600$ sweeps and a threshold of $10^{-2}$, the
+spin-glass reading, would call a boundary at or below the line; after
+$2000$ sweeps it is $8\times10^{-6}$, $4\times10^{-5}$ and
+$4\times10^{-5}$ and still falling at $0.003$ to $0.006$ per sweep, so
+the pair converges there and the slowness is the approach to the
+boundary, not the boundary. Beyond it the pair settles at a
+size-independent plateau, a fifth of the pairs differing by more than
+one at $\ave{k}=2.9$ on vertex cover, at $5\times10^{4}$, $2\times10^{5}$
+and $4\times10^{5}$ elements alike. The rate crosses zero at $1.034$,
+$1.040$ and $1.029$ times the hard-field line for the three
+cardinalities, which is $\ave{k}=2.81$ against $e=2.72$ for vertex
+cover. The entropy at the crossing is positive on two of the three,
+$0.086\pm0.024$ and $0.038\pm0.013$, and consistent with zero on vertex
+cover, $0.11\pm0.08$, where the estimator is noisiest. So the two criteria
+are sorted as far as they can be: the endogeny of the soft-field solution
+is lost within four per cent of the hard-field line, and the entropy has
+not turned negative there, which is what a sufficient and not necessary
+criterion does, as Sec.~\ref{sec:hsrsb} said and could not weigh. That the three cardinalities collapse on one curve in the
 variable $\ave{k}(c-1)/e$ is Eq.~\eqref{eq:kc}'s claim that the
 hard-field line is the one thing the cardinality enters through, now
 measured on the soft fields.
@@ -604,8 +638,10 @@ regular cases of Table~\ref{tab:endogeny}. The rate is read from
 stationary windows of $600$ sweeps at damping one half, its two halves
 agreeing to $0.001$ per sweep near the boundary; the boundary is
 unchanged at chemical potentials $30$, $60$ and $120$ and at damping
-$0.2$, and the plateau of a non-converging pair is unchanged between
-$5\times10^{4}$ and $4\times10^{5}$ elements.
+$0.2$; the plateau of a non-converging pair is unchanged between
+$5\times10^{4}$ and $4\times10^{5}$ elements; and the pair at and below
+the hard-field line is followed to $2000$ sweeps, where it is still
+converging.
 
 \checkhead{Partial results}
 The pair boundary of the spin glass is bisected on a fixed budget of

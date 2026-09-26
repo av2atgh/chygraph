@@ -1,0 +1,26 @@
+{
+ "hyperbolic_0.3": {
+  "spread_mean": 0.10169412266901005,
+  "spread_max": 0.5575299673762544,
+  "abs_err_mean": 0.46257923383213584,
+  "shared_bonds_mean": 5.65
+ },
+ "hyperbolic_0.8": {
+  "spread_mean": 0.19177541091415923,
+  "spread_max": 1.4750964177366441,
+  "abs_err_mean": 0.7634545329671968,
+  "shared_bonds_mean": 5.65
+ },
+ "clustered_0.3": {
+  "spread_mean": 0.044646345853349347,
+  "spread_max": 0.17020909226011582,
+  "abs_err_mean": 0.15283050241422164,
+  "shared_bonds_mean": 3.525
+ },
+ "clustered_0.8": {
+  "spread_mean": 0.6007977402635833,
+  "spread_max": 1.8274464192043762,
+  "abs_err_mean": 1.0176838312056726,
+  "shared_bonds_mean": 3.525
+ }
+}

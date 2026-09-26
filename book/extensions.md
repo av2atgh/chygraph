@@ -324,7 +324,7 @@ trend with P.  β scan: flat to 0.002 on the cactus at its band-centre W_c;
 on the tree the β-dependence (0.03) changes sign between seeds.  Secs.
 18.4–18.7 rewritten from these; new CSVs anderson_repeats/bias/beta.
 
-## 2026-09-25: Part V, the math connection
+## 2026-09-25: Part V, the math connection (superseded on the computing: see the three entries below, Part V now computes three things and Chs. 20, 21, 24 carry Checks)
 
 Six chapters written from `~/Downloads/chygraph_master_equation/draft.tex`
 (the "master equation" note): Secs. 1–5 → Ch. 19 `chyequation.tex`; Secs.
@@ -490,3 +490,36 @@ under-reads the boundary where decay is slow.
 
 Open: the ensemble loop series; the Bethe-Hessian check of Sec. 24.5;
 Part IV rerun with bonds assigned once.
+
+## 2026-09-26: second Part V review (`~/Downloads/book_review.md`) applied
+
+A1 Ch. 17's conclusions and opening now say the join-tree calculation is
+exact iff chordal, the recursion on atoms iff Berge-acyclic. A2 Sec. 21.4's
+interactome paragraph rewritten from Table 21.1 (giant within 4%, Vidal the
+worst; small components scattered both ways; Figeys tenfold; road network a
+10% miss, tied to Ch. 17's geometry). A3 hitting-set pair followed to 2000
+sweeps at 0.95 and 1.00 of the hard-field line: converges at the line
+(8e-6, 4e-5, 4e-5, rates −0.003 to −0.006/sweep), so the 600-sweep reading
+was slow decay, not a plateau; Fig. 20.1b cut at 1.2 with a caption note on
+saturation; Table 20.1 carries the entropy scatter, vertex cover's 0.11±0.08
+called consistent with zero. A4 citations (Montanari–Ricci-Tersenghi 2003,
+Rivoire et al. 2004, Zdeborová–Krzakala 2007, Bandyopadhyay 2011) and the
+header comment; what is new stated narrowly. A5 "necessary for endogeny",
+chain through 11(c) then 11(b). A6 β* ≤ 1 condition (Durrett–Liggett 1983),
+inhomogeneous equation and Kesten–Goldie tail. A7 κ_a + 1 hyperedges. A8
+Euler sum stated for two levels / the factor-graph count. A9 "intermediate
+coupling". A10 truncation at s = 60 said. B19 pendant complex variables for
+Part III; exactness sentence as a definition. B21 typo, weights on
+structures, household check in the software table. B22 cyclic operad needs
+an exchangeable kernel. B23 Kellerer → Math. Ann. 153 (1964). B24 Pakzad–
+Anantharam for c_R = −μ; assignment spread measured (hyperbolic 0.10/0.19
+against 0.46/0.76; clustered 0.04/0.60 against 0.15/1.02 — comparable at
+strong coupling); the split run on Ch. 14's 120 real neighbourhoods
+(`probe/loopseries_real.py`): the loop part is −ln 2 to three decimals on
+five of six networks — the polarised sector, checked: assigned-once ln Z_BP
+= exact ln Z with the centre fixed up to four digits — so beyond ln 2 the
+real-network error was the double count and nothing else; Ch. 14's
+conclusion and the Outlook's ladder now say so. C forward references from
+Chs. 6, 10, 14, 17; figure widths 0.76; first Part V entry marked
+superseded; marginal.tex comment fixed. Not done: the Bethe-Hessian check
+(Sec. 24.5); an optimised bond-assignment rule.

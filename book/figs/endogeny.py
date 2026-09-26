@@ -95,12 +95,15 @@ def boundaries(d):
         else:
             kb = float('nan')
         ent_all = np.array([r['entropy'] for r in rows])
-        ok = np.isfinite(ent_all)
+        se_all = np.array([r['entropy_se'] for r in rows])
+        ok = np.isfinite(ent_all) & np.isfinite(se_all)
         ent = np.interp(kb, k[ok], ent_all[ok]) if kb == kb else float('nan')
+        se = np.interp(kb, k[ok], se_all[ok]) if kb == kb else float('nan')
         out[c] = dict(hard=hard, boundary=float(kb), ratio=float(kb / hard), entropy=float(ent),
+                      entropy_se=float(se),
                       entropy_hard=float(np.interp(hard, k[ok], ent_all[ok])))
         print(f'  c={c}: hard-field line {hard:.4f}, endogeny boundary {kb:.4f} '
-              f'({kb / hard:.3f} x), entropy there {ent:+.3f}')
+              f'({kb / hard:.3f} x), entropy there {ent:+.3f} ({se:.3f})')
     return out
 
 
@@ -128,7 +131,8 @@ def panel_spin_glass(ax, d, a):
 
 def panel_hitting_set(ax, d):
     for c, mk, col in ((2, 'o', DARK), (3, 's', MID), (4, '^', LIGHT)):
-        rows = sorted((r for r in d['hitting_set'] if r['c'] == c), key=lambda r: r['k'])
+        rows = sorted((r for r in d['hitting_set'] if r['c'] == c and r['ratio'] <= 1.2),
+                      key=lambda r: r['k'])
         x = np.array([r['ratio'] for r in rows])
         y = np.array([r['rate'] for r in rows])
         ax.plot(x, y, mk + '-', color=col, ms=3.5, mfc='white', mew=0.9, lw=0.8,
@@ -160,7 +164,7 @@ def table(d, b):
         f.write('Poisson, cardinality $c$ & hard-field line & endogeny boundary & ratio & entropy there\\\\\n\\hline\n')
         for c in sorted(b):
             r = b[c]
-            f.write(f"$c={c}$ & {r['hard']:.3f} & {r['boundary']:.3f} & {r['ratio']:.3f} & ${r['entropy']:+.3f}$\\\\\n")
+            f.write(f"$c={c}$ & {r['hard']:.3f} & {r['boundary']:.3f} & {r['ratio']:.3f} & ${r['entropy']:+.3f}\\pm{r['entropy_se']:.3f}$\\\\\n")
         f.write('\\hline\n')
         f.write('regular, $L$ complexes of $K$ & entropy & pair distance & rate & \\\\\n\\hline\n')
         for r in d['regular']:

@@ -28,7 +28,7 @@ The field on the other side is applied topology, and the connection runs
 through one author. \citet{peltre2019,peltre2020,peltre2021} write generalised belief
 propagation as a flow on a cochain complex over the poset of regions, with
 the counting numbers of \citet{yedidia2005} as the M\"obius function of that
-poset. Everything here is that construction with the poset chosen for it: not
+poset, the identification \citet{pakzad2005} state. Everything here is that construction with the poset chosen for it: not
 a family of regions given by hand, but the inclusion order of a chygraph,
 which is canonical and comes with an ensemble.
 
@@ -51,7 +51,7 @@ every element $R$ of a family closed under intersection the number
 working down from the maximal elements, which take $c_{R}=1$. Add a top
 element $\hat1$ above everything and Eq.~\eqref{eq:mb-count} is the defining
 recursion of the M\"obius function of the resulting poset, $c_{R}=-\mu(R,\hat1)$
-\citep{yedidia2005}; that is what ``M\"obius inversion'' in
+\citep{pakzad2005}; that is what ``M\"obius inversion'' in
 Chapter~\ref{ch:gbp} meant, and the recursion is how it is computed. So far
 nothing is specific to chygraphs. What is specific is what happens when the
 family is the inclusion order itself, with no closure taken.
@@ -87,17 +87,25 @@ Eq.~\eqref{eq:Fchy} --- one per complex, one per atom, one subtracted per
 inclusion. Three derivations, one M\"obius function, and the reason the three
 agreed is that each of them was computing it.
 
-\paragraph{The sum is an Euler characteristic.} Sum
-Eq.~\eqref{eq:mb-treecount} over the vertices of the incidence structure. The
-number of vertices is the number of atoms plus the number of complexes, and
-$\sum_{x}\kappa_{x}$ counts every inclusion once, so
+\paragraph{The sum is an Euler characteristic.} On a two-level chygraph
+the counting numbers are $c_{a}=1$ on every complex and $c_{i}=1-\kappa_{i}$
+on every atom whatever the loops, since no element lies above a complex;
+and on the factor graph of $\alpha+I$ at any depth the Bethe counting
+numbers of Sec.~\ref{sec:ce-yields}, one per factor and $1-\deg$ per
+variable, are unconditional too. Either way the number of vertices is the
+number of atoms plus the number of complexes and $\sum_{x}\kappa_{x}$
+counts every inclusion once, so
 \begin{equation}
   \sum_{x}c_{x}=V-E=b_{0}-b_{1},
   \label{eq:mb-euler}
 \end{equation}
 the Euler characteristic of the incidence graph, which for a graph is the
 number of connected components less the number of independent cycles. On a
-connected forest it is one. The counting numbers of the inclusion order
+connected forest it is one. For a nested inclusion order with loops the
+M\"obius recursion sums over every element above $x$ and not only its
+immediate containers, Eq.~\eqref{eq:mb-treecount} is the forest case, and
+the sum is not $V-E$ in general; it is the factor-graph count, not the
+order's, that reads the loop unconditionally. The counting numbers of the inclusion order
 therefore sum to one exactly when the incidence structure has no loops,
 which is the condition Sec.~\ref{sec:mergeerror} showed the chygraph
 recursion itself needs: \emph{the recursion on the chygraph itself is
@@ -428,13 +436,68 @@ instances that cuts the mean error by a factor of three at $\beta J=0.3$
 and six at $0.8$, and it is the smaller error on fifteen and nineteen of
 the twenty. What is left is the loop part proper, the Berge loops of
 Sec.~\ref{sec:mb-mobius} that no kernel assignment removes; on two
-triangles at weak coupling it is larger than the recursion's error, because
-there the recursion's two parts happen to cancel, which the table shows and
-Chapter~\ref{ch:overlap} could not have. Chapter~\ref{ch:gbp}'s region
+triangles at intermediate coupling, $\beta J=0.5$ and $1$, it is larger
+than the recursion's error, because there the recursion's two parts happen
+to cancel, which the table shows and Chapter~\ref{ch:overlap} could not
+have; at $\beta J=0.2$ it is the smaller. Chapter~\ref{ch:gbp}'s region
 graph and Chapter~\ref{ch:metacomplex}'s merging both remove the double
 count and the loop together, at their respective costs; the assignment
 removes the double count alone, for nothing, and leaves the loop series to
-say what remains.
+say what remains. Two cautions before it is relied on. The assignment is
+not unique --- a bond shared by two cliques can go to either --- and the
+error depends on the choice: over ten random assignments per instance the
+spread of the assigned error is a fifth to a quarter of its size on the
+hyperbolic instances, $0.10$ and $0.19$ against $0.46$ and $0.76$ at the
+two couplings, and on the clustered instances of Fig.~\ref{fig:loopseries}b
+it is $0.04$ against $0.15$ at $\beta J=0.3$ but $0.60$ against $1.02$ at
+$0.8$, comparable to the error itself. The largest-clique rule of
+Table~\ref{tab:loopseries-dc} is one choice, and a rule that minimises the
+loop part is a question the series poses and this section does not
+answer. And the instances here are fourteen atoms; the repair costs
+nothing, so Table~\ref{tab:loopseries-real} runs it on the $120$ real
+neighbourhoods Chapter~\ref{ch:overlap} measured, through the same
+pipeline.
+
+\begin{table}[tb]
+\centering\small
+\begin{adjustbox}{max width=\linewidth}
+\input{figs/tab-loopseries-real}
+\end{adjustbox}
+\caption{\textbf{The split on Chapter~\ref{ch:overlap}'s real
+neighbourhoods.} The same $120$ ego-networks, ten per network, regenerated
+from the same cache and seeds: medians over the ten of the recursion's
+error, its double-count and loop parts, and the error with every bond
+assigned to its largest clique; and the share of the ten on which the
+assigned error is within $0.05$ of $-\ln2$. The medians of the recursion's
+error are larger than the $5.06$ Chapter~\ref{ch:overlap} quotes because
+that chapter kept the best fixed point over a ladder of dampings and this
+table keeps the one reached at damping one half; the split does not depend
+on the choice. \code{statmech/\allowbreak probe/\allowbreak
+loopseries\_\allowbreak real.\allowbreak py}.}
+\label{tab:loopseries-real}
+\end{table}
+
+\paragraph{On the real neighbourhoods.} Table~\ref{tab:loopseries-real}
+is the same split on the neighbourhoods themselves, and it is sharper than
+on the hyperbolic instances because these are denser: an ego-network has
+its centre in every clique, so bonds shared by two cliques are the rule.
+The double count is the whole of the recursion's error but for one
+number. On five of the six networks and at both couplings the loop part
+is $-\ln2$ to three decimals, and the assigned error is $-\ln2$ to within
+$0.05$ on half to all of the ten. That number is not a loop over
+complexes at all. At these couplings the neighbourhoods are ordered, the
+fixed point the recursion reaches is polarised --- every magnetisation
+within $10^{-2}$ of one --- and its $\ln Z_{\mathrm{BP}}$ equals, to four
+digits, the exact $\ln Z$ of the sector in which the centre points up:
+belief propagation with each bond in one clique is exact on the sector,
+and misses only the $\ln2$ of the other. What Chapter~\ref{ch:overlap}
+measured on real networks was therefore, beyond that $\ln2$, the bond
+counted twice and nothing else. The one exception is the co-authorship
+network at weak coupling, whose neighbourhoods are the sparsest and the
+least ordered: there the recursion's error is $0.10$, the double count
+$0.78$, the assigned error $-0.17$, and none of the ten sits at $-\ln2$;
+the loop part proper is visible only where the double count is small
+enough to let it be.
 
 \section{Collapsibility}
 \label{sec:mb-collapse}
@@ -669,8 +732,15 @@ partition function.
 \checkhead{New results}
 The series on the promoted factor graph, its single term on the rings
 against Table~\ref{tab:ring}, the comparison of the two series on forty
-clustered instances, and the split of Eq.~\eqref{eq:mb-decomposition} on
-two triangles and on twenty hyperbolic instances. The hyperbolic instances
+clustered instances, the split of Eq.~\eqref{eq:mb-decomposition} on two
+triangles, on twenty hyperbolic instances and on Chapter~\ref{ch:overlap}'s
+$120$ real neighbourhoods (\code{statmech/\allowbreak probe/\allowbreak
+loopseries\_\allowbreak real.\allowbreak py}, regenerating them from the
+same cache and seeds), and the spread of the assigned error over ten random
+bond assignments per instance. The $-\ln2$ of Table~\ref{tab:loopseries-real}
+was checked to be the sector: on a Facebook neighbourhood the assigned
+$\ln Z_{\mathrm{BP}}$ equals the exact $\ln Z$ with the centre fixed up,
+$23.7547$ against $23.7547$ at $\beta J=0.3$. The hyperbolic instances
 are fresh draws at $n=14$, $\ave{k}=3.5$, $\tau=2.5$ from a sampler in the
 script, since the generator behind Chapter~\ref{ch:overlap}'s instances is
 no longer on disk; they are the same ensemble and not the same graphs.
@@ -678,6 +748,11 @@ no longer on disk; they are the same ensemble and not the same graphs.
 \checkhead{Partial results}
 Loop enumeration is exponential in the number of factors, so every
 instance here is small enough to enumerate exactly, and the ensemble
-version of the series is not attempted. The identity has been checked on
+version of the series is not attempted. The bond assignment is not
+unique and no rule for choosing it has been optimised; the largest-clique
+rule is reported, with the spread over random rules beside it. The
+fixed point on ordered instances is polarised, so its loop part carries
+the $\ln2$ of the sector, which the symmetric average would recover and
+which is not a loop over complexes. The identity has been checked on
 binary variables only, which is what Chertkov and Chernyak's form covers.
 The Bethe-Hessian half of Sec.~\ref{sec:mb-sheaf} is not computed.

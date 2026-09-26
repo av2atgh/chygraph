@@ -83,7 +83,10 @@ variable $a$ and to the variables in $\del a$.
 
 What the rules produce is one bipartite graph, drawn in
 Fig.~\ref{fig:factorgraph}, on which the recursion of the next section is
-ordinary belief propagation, whatever the depth of nesting.
+ordinary belief propagation, whatever the depth of nesting. For Part~III,
+where no complex has a container, the complex variables are pendant and
+the graph is the ordinary factor graph of the hypergraph model; the
+construction earns its keep only when complexes contain complexes.
 
 
 Rule~1 is where the models differ. For an Ising atom $\Omega_{i}=\{\pm1\}$.
@@ -149,11 +152,12 @@ with the one-vertex marginal read off as
   \prod_{j\in\del i} h_{j\to i}(\sigma_{j}).
   \label{eq:chyread}
 \end{equation}
-The pair is belief propagation on the factor graph of $\alpha+I$, and is exact
-when that factor graph is a tree, which is the forest condition of
-Sec.~\ref{sec:mergeerror}: the incidence structure has no loops, which in
-the hierarchy of \citet{fagin1983} is \emph{Berge-acyclicity} of the
-complex family. That is a stronger condition than the three names of
+The pair is belief propagation on the factor graph of $\alpha+I$, and is
+exact iff that factor graph is a forest, which is iff the complex family is
+\emph{Berge-acyclic}: \citet{fagin1983} define Berge-acyclicity as the
+acyclicity of the incidence graph, so the second ``iff'' is a definition
+and the first is the tree exactness of belief propagation. It is the
+forest condition of Sec.~\ref{sec:mergeerror}. That is a stronger condition than the three names of
 Chapter~\ref{ch:exactness}, which are $\alpha$-acyclicity and belong to
 the region-graph calculation of Chapter~\ref{ch:gbp}; two triangles
 sharing an edge separate the two, and Chapter~\ref{ch:mobius} says how.

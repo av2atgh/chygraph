@@ -53,9 +53,10 @@ The generating functions of Sec.~\ref{sec:ensembles} are species in this
 sense with one adjustment. $\Phi^{l}_{k}(x)=\sum_{n}p^{lk}_{n}x^{n}$ has for
 its coefficients probabilities rather than counts of structures. That is a
 \emph{weighted} species \citep{bergeron1998}: the species of finite
-sets --- a layer-$l$ complex's set of layer-$k$ containers --- with each set
-of $n$ elements carrying the weight $n!\,p^{lk}_{n}$, so that the weighted
-exponential series is $\Phi^{l}_{k}$. Nothing in the calculus of species
+sets --- a layer-$l$ complex's set of layer-$k$ containers --- with the
+weight $n!\,p^{lk}_{n}$ attached to each set of $n$ elements, a weight on
+the structures and not on the species, so that the weighted exponential
+series is $\Phi^{l}_{k}$. Nothing in the calculus of species
 depends on the weights being counts, and every statement below about
 derivatives and compositions holds for weighted species verbatim.
 
@@ -332,12 +333,12 @@ $2.5$, below and above the threshold alike, with the mass of the finite
 components equal to $1-S$. On a two-layer chygraph with degrees $1$, $2$,
 $3$ and cardinalities $2$, $3$ the exact series and the transform agree to
 $10^{-17}$, and Good's formula returns the series' coefficients ---
-$2/35$, $6/245$, $12/1225$ for a root with one hyperedge and one, two and
-two further nodes --- as rational numbers.
+$2/35$, $6/245$, $12/1225$ for a root with one, two and three further nodes and one, one and two
+hyperedges --- as rational numbers.
 
 \begin{figure}[tp]
 \centering
-\includegraphics[width=0.84\linewidth]{figs/fig-components.pdf}
+\includegraphics[width=0.76\linewidth]{figs/fig-components.pdf}
 \caption{\textbf{The finite-component distribution, by layer.} (a) The
 outbreak-size distribution of an SIR epidemic with two levels of mixing,
 Chapter~\ref{ch:epidemics}'s construction: households of size $1$, $3$ and
@@ -367,8 +368,9 @@ threshold, at $T=0.6\,T_{c}$, the prediction matches bond percolation on
 the same structure at every size to within the simulation's scatter:
 $P(10)=3.04\times10^{-2}$ against $3.04\times10^{-2}$, $P(40)=1.35\times10^{-3}$
 against $1.46\times10^{-3}$ from some forty outbreaks of that size. Above it,
-at $T=1.5\,T_{c}$, the finite components carry $0.506$ of the mass against
-a giant of $0.4895$, the simulation's giant is $0.4893$, and the
+at $T=1.5\,T_{c}$, the finite components carry $1-S=0.5105$ of the mass
+against a giant of $0.4895$, of which $0.506$ sits at sizes up to the
+sixty the figure shows; the simulation's giant is $0.4893$, and the
 finite-component distribution agrees as before. The joint distribution
 over individuals and households, from \code{joint}, says how many
 households an outbreak of $s$ people touches: $1.06$ at $s=2$ or $3$,
@@ -406,17 +408,25 @@ and the road network. The prediction is read off each network's own
 degree distribution, and off its own clique chygraph --- the chy-degree
 distribution of the maximal cliques and their size-biased cardinalities,
 Sec.~\ref{sec:ensembles}'s four families measured rather than assumed.
-Three things come out. On the binary interactomes the giant is predicted
-within three per cent by either route, the clique chygraph closer on the
-yeast network ($0.793$ against $0.790$, where the degree distribution gives
-$0.820$), and the two predictions differ little because the maximal
-cliques of a binary interactome are mostly edges. The finite components
-are heavier than either prediction: at $s=2$ the prediction is high by
-twenty to thirty per cent and from $s=4$ on it is low by a factor of two to
-four, on every one of the seven. And on the affinity-purification network
-the calculation fails outright, predicting a giant of $0.99$ to $1.00$
-where the real largest component holds $0.62$ of the proteins and $0.38$
-of them sit in $192$ finite components of mean size $3.2$.
+Three things come out. On the seven binary interactomes the giant is
+predicted within four per cent by either route --- the worst is Vidal,
+$0.958$ against $0.921$ --- the clique chygraph closer on the yeast network
+($0.793$ against $0.790$, where the degree distribution gives $0.820$), and
+the two predictions differ little because the maximal cliques of a binary
+interactome are mostly edges. The small components are not predicted to
+the same standard, and they scatter in both directions: at $s=2$ the
+prediction is high by a quarter to a third on five of the seven, by two
+thirds on Stelzl and tenfold on Figeys, and low by a fifth on Vidal; at
+$s=3$ four are within thirty per cent, PDZ is high and Vidal low by a
+factor of four. On the two networks the figure draws, the real tail from
+$s=4$ on lies above both predictions by a factor of two to three. And on
+the affinity-purification network the calculation fails outright,
+predicting a giant of $0.99$ to $1.00$ where the real largest component
+holds $0.62$ of the proteins and $0.38$ of them sit in $192$ finite
+components of mean size $3.2$. The road network, the one spatial graph in
+the table, is a ten per cent miss on the giant, $0.97$ against $0.885$,
+which is Chapter~\ref{ch:exactness}'s finding on the power grid seen from
+the other side: geometry makes short loops the ensemble does not hold.
 
 The failure is informative, and it is Sec.~\ref{sec:joint}'s finding on
 data. The finite components of the Collins network are isolated protein

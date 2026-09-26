@@ -7,8 +7,9 @@
 % of the 1960s, reads Part IV's error as a cohomological obstruction, and
 % states the level-wise gluing theorem as a corollary of Vorob'ev-Kellerer
 % modulo one definition check (the two notions of consistency coincide).
-% Revised 2026-09-25 after ~/Downloads/chygraph_book_review.md, items A1-A3,
-% A5 and B.
+% Revised 2026-09-25 after the first Part V review (items A1-A3, A5, B; the
+% review file is gone, extensions.md records what changed) and 2026-09-26
+% after ~/Downloads/book_review.md (A7, B23).
 
 Chapter~\ref{ch:chyequation} put every calculation in the book on one
 bipartite graph, the factor graph of $\alpha+I$, and said that the recursion
@@ -284,12 +285,15 @@ $\alpha+I$ is a tree'' in place of $\alpha$-acyclicity the ``only if''
 is false, two triangles sharing an edge with their states kept having an
 $\alpha$-acyclic flattened family, so that every consistent family glues,
 and a factor graph with a cycle. On the check itself, a complex's own state
-enters exactly two hyperedges of the flattened family, its own and its
-container's, and their overlap is the single vertex $\{a\}$; level-wise
-consistency is pairwise agreement on that overlap together with agreement
-on shared atoms. So the two notions coincide wherever overlaps are single
-vertices, and the check reduces to overlaps of two or more vertices, which
-is the same place the care of Sec.~\ref{sec:mg-marginal} lives.
+enters $\kappa_{a}+1$ hyperedges of the flattened family, its own and
+those of its $\kappa_{a}$ containers; its own hyperedge meets each
+container's in the single vertex $\{a\}$, and two containers' hyperedges
+meet in $\{a\}$ together with whatever members they share. Level-wise
+consistency is pairwise agreement on the single-vertex overlaps together
+with agreement on shared atoms. So the two notions coincide wherever
+overlaps are single vertices, and the check reduces to overlaps of two or
+more vertices, which is the same place the care of
+Sec.~\ref{sec:mg-marginal} lives.
 Section~\ref{sec:nested} is the one place in the book where a flattening
 is done, and there it costs: CNF flattening of a nested clause is
 \emph{not} the flattening of rule~3, because it eliminates the clause's

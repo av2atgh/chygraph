@@ -67,15 +67,15 @@ propagation at `m = 0`. PDFs of the references are under
 ## Status
 
 `main.pdf` builds with **0 errors, 0 undefined references and 0
-multiply-defined labels, across 498 pages.** Not box-clean: **four overfull
+multiply-defined labels, across 506 pages.** Not box-clean: **four overfull
 hboxes** — `cover.tex:483--493` (1.99pt, "Which replica-symmetry-breaking
 point"), `metacomplex.tex:383--389` (3.16pt) and two of 0.66pt in
 `software.tex`'s Table 1 (lines 255–256, the Ch. 18 handle rows, present
-since that commit) — and 69 underfull vboxes, every one of them `while
+since that commit) — and 73 underfull vboxes, every one of them `while
 \output is active`, which is page-breaking around floats and not a line
 running into the margin.
 
-76 figures, 39 numbered tables, 213 numbered equations, 139 references and a
+76 figures, 40 numbered tables, 213 numbered equations, 144 references and a
 175-term index. Both checks under *Two checks the build cannot make* print
 nothing.
 
@@ -365,6 +365,13 @@ shuffled pair and the entropy at eight mean chy-degrees for cardinalities
 `scan regular` reruns the regular block alone. The figure script checks the
 H^(2/3) approach to the exact zero-field transition (residuals < 0.03) and
 that the pair boundary is within 8% of the linearised one.
+`figs/loopseries.py` also writes Table 24.3 from
+`../statmech/probe/results/loopseries_real.json`, the cache of
+`../statmech/probe/loopseries_real.py` (100 s): the double-count/loop split
+and the assigned-once error on Ch. 14's 120 real neighbourhoods, regenerated
+from `probe/gbp_real.py`'s cache and seeds; and reports the spread of the
+assigned error over ten random bond assignments per instance
+(`../statmech/probe/results/loopseries_assignments.json`).
 `figs/loopseries.py` generates Figure 24.2 and Tables 24.1–24.2 from
 `statmech.loopseries`: the Chertkov–Chernyak loop series enumerated exactly
 on the pairwise and the promoted (α+I, bonds assigned once) factor graphs.

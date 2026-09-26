@@ -8,7 +8,9 @@
 Part~IV so far has measured where the recursion fails, repaired it one
 instance at a time, and identified the cause as complexes sharing two or more
 atoms. This chapter turns that around. The condition under which the
-calculation is exact has a name, in fact three, and once it is named the
+join-tree calculation is exact has a name, in fact three --- the recursion
+on atoms needs a fourth, stronger one, Sec.~\ref{sec:mb-mobius} --- and
+once it is named the
 question stops being ``how large is the error'' and becomes ``on which
 ensembles is there none''. The answer is a transition of the same kind as the
 core percolation of Chapter~\ref{ch:cover}, with leaf removal once more as the
@@ -82,7 +84,9 @@ Chapter~\ref{ch:metacomplex}'s merged recursion is exact iff the merge closure
 of $\mathcal{C}$ has that property.
 
 Nothing in the statement is new; it is Dirac, Gavril, Beeri--Fagin--Maier--%
-Yannakakis and Lauritzen--Spiegelhalter placed side by side. What is new is
+Yannakakis and Lauritzen--Spiegelhalter placed side by side, and
+Sec.~\ref{sec:mg-marginal} traces the gluing half of it twenty years
+further back, to Vorob'ev and Kellerer. What is new is
 where it puts the book. Every calculation of Parts~II and~III is a
 join-tree calculation on an ensemble whose join tree is assumed; Part~IV
 measures what happens when the assumption fails; and the statement says the
@@ -368,9 +372,13 @@ acyclicity.\allowbreak py}.}
 \section{Conclusions}
 \label{sec:exactness-conclusions}
 
-The chygraph recursion is exact on an instance iff the clique family has a
-join tree, which is iff the graph is chordal, which is iff leaf removal on the
-incidence structure consumes everything. On an ensemble the condition is
+The join-tree calculation is exact on an instance iff the clique family
+has a join tree, which is iff the graph is chordal, which is iff leaf
+removal on the incidence structure consumes everything; the chygraph
+recursion itself, with its messages on atoms, needs the stronger condition
+that every separator be a single atom, which is Berge-acyclicity, the
+forest of Chapter~\ref{ch:metacomplex}, and Sec.~\ref{sec:mb-mobius}
+separates the two. On an ensemble the condition is
 local: no short chordless cycles, $\phi\to0$. Karrer--Newman satisfies it at
 every branching ratio and one-dimensional geometry at every density.
 Two-dimensional geometry never does, and is exact anyway at a finite cost up

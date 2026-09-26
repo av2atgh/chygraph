@@ -292,7 +292,9 @@ vertex, trees of triangles --- the same solver returns the exact $\ln Z$ to
 $2\times10^{-15}$, at every coupling tried and with no bond lying in two
 complexes. The recursion and its implementation are therefore not what is
 failing on the three ensembles of Fig.~\ref{fig:cavityfail}, and what is left to
-fail is the condition those instances violate.
+fail is the condition those instances violate. Section~\ref{sec:mb-computed}
+splits that failure in two, a bond counted twice and a loop, and finds the
+double count the larger part on instances like these.
 
 Two things that control is not. It is not the degree-matched rewiring of
 Sec.~\ref{sec:hrg}, which destroys the cliques rather than rearranging them.
