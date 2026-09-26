@@ -654,3 +654,24 @@ beyond the free repair) — next item. `gbp_*` (Ch. 15) use static counting
 and GBP, not this iteration.
 
 Open: Ch. 16 rerun as above; an optimised bond-assignment rule.
+
+## 2026-09-26: Ch. 16 merged-family recursion at the stable fixed point
+
+`statmech/probe/merge_stable.py`: reruns the 60 Karrer–Newman runs of
+`merge_lnz.py` on the merged family with the paramagnetic point's stability
+and the polarised fixed point; patches the stable-point error into
+`results/merge_lnz.json` (original kept as `merge_lnz_paramagnetic.json`;
+the paramagnetic values reproduce the old file to 1e-8), and sets beside it
+the unmerged double-count and assigned errors from `cavity_assigned.json`
+(same instances). Hyperbolic and real merged families are acyclic → unique
+fixed point → unchanged.
+
+Paramagnetic point unstable on 9/60 merged runs (all cyclic): merging moves
+the instance threshold. Cyclic 40: merged median 0.182 either way, max
+2.25 → 0.71 (= ln 2, the sector). Merged vs unmerged at stable points: median
+0.033 vs 5.28 (was "0.289 → 0.033" at the paramagnetic point); vs the free
+assignment 0.406, merged smaller on 52/60. Text: Table 16.1, Fig. 16.x caption,
+Sec. 16.2 paragraphs (fixed point; merge vs assignment), conclusions range.
+
+Open: an optimised bond-assignment rule; the two Vorob'ev checks; the rest of
+the list.
