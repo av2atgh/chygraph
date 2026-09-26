@@ -523,3 +523,46 @@ conclusion and the Outlook's ladder now say so. C forward references from
 Chs. 6, 10, 14, 17; figure widths 0.76; first Part V entry marked
 superseded; marginal.tex comment fixed. Not done: the Bethe-Hessian check
 (Sec. 24.5); an optimised bond-assignment rule.
+
+## 2026-09-26: the Bethe Hessian, computed (Sec. 24.6; the notes above call it 24.5, before Collapsibility was inserted)
+
+`statmech/src/statmech/bethehessian.py`: the linearised recursion in field
+coordinates on the factor graph of α+I (`jacobian_block`: M^a_vu =
+∂h_{a→v}/∂h_{u→a} = Cov_a(σ_v,σ_u)/(1−m_v²), by enumeration;
+`linearised_operator`: non-backtracking on the incidence graph with a
+*block* per complex), the product-form test (`factorise`, alternating least
+squares off the diagonal), the Bethe Hessian on atoms + complexes from the
+weighted Ihara–Bass identity (`bethe_hessian`), its Schur complement on the
+atoms (`vertex_hessian`, `trivial_vertex_hessian`), `instance_threshold`
+(bisection on ρ(T) = 1 or λ_min(H_V) = 0), `random_chygraph` (Poisson or
+exactly regular layers). Tests `tests/test_bethehessian.py` (7, ~1 s).
+`figs/bethehessian.py` (~100 s, cache `probe/results/bethehessian.json`).
+
+Results. (1) At the trivial point of a homogeneous complex every block entry
+is u'(c) (c = 2..5), so T is edge-weighted non-backtracking and
+Watanabe–Fukumizu's identity gives det(I−T) = ∏(1−u')^{c−1}(1+(c−1)u') det H_V
+with H_V = I + Σ_a u'/(1−u') [P_a − 1_a1_aᵀ/(1+(c−1)u')] — one rank-one term
+per complex; on a graph this is t²/(1−t²) × Saade's (r²−1)I − rA + D at
+r = 1/t (deviation 0). (2) Ferromagnet: H_V(0) = I and det > 0 until the
+Perron root hits 1, so the trivial fixed point is stable iff H_V ≻ 0; the
+instance threshold by ρ(T) and by λ_min(H_V) agree to 1e-9. (3) Instance
+vs Eq. (branch): regular chygraphs exact at every n (all-ones Perron
+vector; 1e-9 on 4-regular and two triangles per atom); Poisson graph ⟨k⟩=4,
+Poisson triangles ⟨κ⟩=2, mixed links/triangles/4-cliques (1.5, 0.7, 0.3):
+n = 3200 means within 0.02 / 0.45 / 0.07 % of the ensemble, seed spread
+0.7–1.8 % shrinking ~n^{−1/2}. (4) The factorisation F(u→a)→F(a)→F(a→v)
+(one-dimensional stalk) holds for c ≤ 3 at *any* fixed point (one cycle
+condition, satisfied because M = D·C with C symmetric) and at the trivial
+point of a homogeneous complex; from c = 4 it is the condition
+C12C34 = C13C24 = C14C23 and fails: residual 1.2e-2 (c=4) / 3.7e-3 (c=5) at
+field spread 0.4, 8e-2 / 1.2e-1 at 1.6; ±J at zero field 0.21 / 0.39. The
+identity then fails by the same order (1.4% on a small instance).
+
+Text: Sec. 24.6 rewritten around Eqs. (mb-block), (mb-iharabass),
+(mb-hessian), Fig. 24.x and Table 24.x; "What it gives the book" has a
+fourth item; the field paragraph names the matrix-weighted identity as the
+missing piece; Checks; software table (three rows); README.
+
+Open: the matrix-weighted Ihara–Bass identity for blocks that do not
+factorise (what stalk dimension a 4-member complex needs); the ensemble
+loop series; Part IV rerun with bonds assigned once.

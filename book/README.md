@@ -39,16 +39,18 @@ ending on the routine that executes it.
 | 21 | `species.tex` | Combinatorics: the excess functions are derivatives of a species, the excess bracket a partial derivative by sort; two kinds of hole; Lagrange inversion for the whole component distribution, **computed** in Sec. 21.4 (households against simulation, interactomes against data, Table 21.1); analytic functors on the Giry monad; the Hopf side (Dyson–Schwinger with two grafting operators) |
 | 22 | `operads.tex` | A complex is an operation; percolation is Com; the excess bracket is partial composition; treelike is cyclic, Part IV is modular (self-gluing, genus); a coloured operad; compound complexes are disconnected operations |
 | 23 | `marginal.tex` | Category theory: sum-product in a monoidal category; treelike as conditional independence; the marginal problem of Vorob'ev and Kellerer as Ch. 17's theorem sixty years early; sheaf obstruction (one-way); the level-wise statement as a corollary of Vorob'ev modulo a definition check |
-| 24 | `mobius.tex` | Topology: the counting numbers are the Möbius function of the inclusion poset; the chygraph recursion is exact iff b₁ = 0 (Berge-acyclic), the region-graph one iff α-acyclic; the loop series **computed** in Sec. 24.3 on both factor graphs (rings, forty clustered instances) and Ch. 14's error split into double count + loop, the double count the larger; GYO as collapsibility; acyclicity percolation beside Linial–Meshulam; the threshold as a sheaf-Laplacian gap |
+| 24 | `mobius.tex` | Topology: the counting numbers are the Möbius function of the inclusion poset; the chygraph recursion is exact iff b₁ = 0 (Berge-acyclic), the region-graph one iff α-acyclic; the loop series **computed** in Sec. 24.3 on both factor graphs (rings, forty clustered instances) and Ch. 14's error split into double count + loop, the double count the larger; GYO as collapsibility; acyclicity percolation beside Linial–Meshulam; the chygraph Bethe Hessian **computed** in Sec. 24.6 (weighted Ihara–Bass on the incidence graph, one rank-one term per complex, reduces to Saade's on a graph; the block factorises for ≤ 3 members and at trivial points, not for 4 off them) |
 | 25 | `outlook.tex` | One recursion, many models; the two running threads; what is not done |
 | — | `software.tex` | Back matter. Repo links; equation-to-method-to-test table; how to reproduce a figure |
 
-**Part V computes three things: Sec. 20.5's endogeny test**
+**Part V computes four things: Sec. 20.5's endogeny test**
 (`statmech/src/statmech/endogeny.py`, `statmech/probe/endogeny.py`,
 `figs/endogeny.py`), **Sec. 21.4's finite-component distribution by layer**
-(`percolation/src/percolation/components.py`, `figs/components.py`) **and
-Sec. 24.3's loop series** (`statmech/src/statmech/loopseries.py`,
-`figs/loopseries.py`); Chs. 20, 21 and 24 have Checks sections and the other
+(`percolation/src/percolation/components.py`, `figs/components.py`),
+**Sec. 24.3's loop series** (`statmech/src/statmech/loopseries.py`,
+`figs/loopseries.py`) **and Sec. 24.6's Bethe Hessian**
+(`statmech/src/statmech/bethehessian.py`, `figs/bethehessian.py`);
+Chs. 20, 21 and 24 have Checks sections and the other
 three chapters do not. They
 were written on 2026-09-25 from `~/Downloads/chygraph_master_equation/draft.tex`
 (Secs. 1–5 → Ch. 19, Secs. 6–10 → Chs. 20–24), anchored on the book's
@@ -406,6 +408,14 @@ it produces are numbers: the finite-size sweep behind Table 15.2
 (`check_placed_finite_size`), the merge closure on the six real networks, and
 the two-triangle and diamond checks. It runs in about 17 s. It needs
 `PYTHONPATH` to carry both `src` trees, or it fails at import.
+
+`figs/bethehessian.py` generates Figure 24.x and Table 24.x from
+`statmech.bethehessian`: the analytic Jacobian of chygraph BP in field
+coordinates, the product-form test on each complex's block, the Bethe
+Hessian on the incidence graph by the weighted Ihara–Bass identity and its
+Schur complement on the atoms (Eq. 24.mb-hessian), the instance threshold by
+Perron root or Hessian gap, and the finite-size scan against Eq. (8.branch)
+(cached in `statmech/probe/results/bethehessian.json`, ~100 s).
 
 ## Conventions
 

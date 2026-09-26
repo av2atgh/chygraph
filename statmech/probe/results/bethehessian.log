@@ -1,0 +1,30 @@
+checks
+  c = 2: block entry 0.462117 = u'(c) 0.462117
+  c = 3: block entry 0.614979 = u'(c) 0.614979
+  c = 4: block entry 0.782783 = u'(c) 0.782783
+  c = 5: block entry 0.907730 = u'(c) 0.907730
+  trivial point, c up to 4: det(I-T) = -0.062859636025, identity -0.062859636025, closed form -0.062859636025
+  random field, c <= 3: 0.944388191943 = 0.944388191943, residual 3.1e-16
+  polarised, c <= 3, m = 0.998: 0.999344314498 = 0.999344314498, residual 5.4e-16
+  random field with a 4-clique: 0.850125 vs 0.838292, residual 0.045
+  Saade on a 3-regular graph: max deviation 0.0e+00
+  n = 400 instance: beta* by Perron root 0.345978545, by Hessian gap 0.345978545
+  4-regular graph, n = 102: beta* = 0.346573590, ensemble 0.346573590 (exact: the all-ones Perron vector)
+  two triangles per atom, n = 102: beta* = 0.402359478, ensemble 0.402359478 (exact: the all-ones Perron vector)
+panel (a)
+  beta* = 0.23945, ensemble 0.22443
+panel (b)
+panel (c)
+  c = 3: field residual at sigma = 0.4: 2.91e-16, at 1.6: 1.31e-15; +-J at beta J = 0.4: 1.61e-17
+  c = 4: field residual at sigma = 0.4: 1.17e-02, at 1.6: 8.43e-02; +-J at beta J = 0.4: 2.09e-01
+  c = 5: field residual at sigma = 0.4: 3.70e-03, at 1.6: 1.24e-01; +-J at beta J = 0.4: 3.91e-01
+\begin{tabular}{@{}lccc@{}}
+\hline\hline
+ensemble & $\beta_{c}J$, Eq.~\eqref{eq:branch} & $\beta^{*}J$, $n=3200$ & gap\\
+\hline
+Poisson graph, $\langle k\rangle=4$ & 0.25541 & $0.25537\pm0.00185$ & 0.02\%\\
+Poisson triangles, $\langle\kappa\rangle=2$ & 0.21182 & $0.21088\pm0.00366$ & 0.45\%\\
+Poisson links, triangles, 4-cliques & 0.22443 & $0.22458\pm0.00400$ & 0.07\%\\
+\hline\hline
+\end{tabular}
+done in 2 s

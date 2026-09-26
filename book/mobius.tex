@@ -618,39 +618,167 @@ that every complex reproduces, which is a marginal direction of the
 recursion. The threshold is where such a direction first exists, which is
 the statement $\lambda=1$ of Eq.~\eqref{eq:Lambdalambda}.
 
-One thing has to be said precisely, because the draft said it loosely. The
-linearised recursion itself is not a Laplacian: it is the weighted
-non-backtracking operator of the incidence graph, one entry for each pair of
-consecutive directed inclusions, with the kernel derivatives as weights, and
-it is not symmetric. The sheaf Laplacian is the symmetric operator built from
-restriction maps that go from a cell to its cofaces, vertex to edge on the
-incidence graph, whereas the kernel derivative carries a perturbation from
-one directed inclusion to the next through a vertex. For the two to come
-from one sheaf the kernel derivative has to factor through the stalk at the
-vertex, $F(j\to a)\to F(a)\to F(a\to i)$, which is exactly the statement
-that a perturbation passes through the complex's own state; where the
-complex has no state that factorisation is the claim to be checked, and
-until it is the connection is an analogy. What is in print is the pairwise
-case: \citet{watanabe2009} prove that the linearised belief-propagation
-operator and the Hessian of the Bethe free energy are related through a
-weighted graph zeta function, the weighted Ihara--Bass identity, and
-\citet{saade2014} use the same identity to read the stability of the
-fixed point off the Bethe Hessian. That is the closest thing to the
-programme of this section already carried out, on factor graphs with
-pairwise factors, and it is the result the chygraph version would
-generalise. So the claim is not that
-Eq.~\eqref{eq:branch} \emph{is} a sheaf Laplacian, but that both are
-determined by one sheaf --- stalks the message spaces, restriction maps the
-kernel derivatives --- and that the threshold, a property of that sheaf, is
-readable from either. A random chygraph makes it a random sheaf, an object
-\citet{hansen2019} define and do not randomise; the four moment matrices
-would then fix the expected spectral gap, and the transition of every
-chapter in Parts~II and~III would be the closing of that gap.
+One thing has to be said precisely, because the draft said it loosely,
+and it has now been computed. Write every message as a field,
+$h=\tfrac12\ln[m(+)/m(-)]$. A variable relays,
+$h_{v\to a}=\sum_{b\ne a}h_{b\to v}$, with derivative one on every leg; a
+complex $a$ sends $h_{a\to v}$ as a function of the fields on its other
+members, and at any fixed point
+\begin{equation}
+  M^{a}_{vu}=\frac{\partial h_{a\to v}}{\partial h_{u\to a}}
+  =\frac{\mathrm{Cov}_{a}(\sigma_{v},\sigma_{u})}{1-m_{v}^{2}},
+  \qquad u\ne v,
+  \label{eq:mb-block}
+\end{equation}
+the covariance taken under the factor belief $b_{a}$. So the linearised
+recursion is the non-backtracking operator $T$ of the incidence graph ---
+one row per directed inclusion, $T_{(a\to v),(u\to a)}=M^{a}_{vu}$ and
+$T_{(v\to a),(b\to v)}=1$ --- with a \emph{block} on every complex rather
+than a weight on every edge, and it is not symmetric. At the trivial fixed
+point of a homogeneous complex every entry of the block is the one number
+$u'(c)$ of Eq.~\eqref{eq:uprime}, which is how Eq.~\eqref{eq:branch} came
+to carry one number per traversal. The sheaf Laplacian, by contrast, is
+the symmetric operator built from restriction maps that go from a cell to
+its cofaces, atom to complex on the incidence graph. For the two to come
+from one sheaf the block has to factor through the stalk at the complex,
+$F(u\to a)\to F(a)\to F(a\to v)$.
+
+\paragraph{The factorisation.} $T$ is similar to a non-backtracking
+operator with one weight per directed edge, $w_{a\to v}=\alpha^{a}_{v}$
+and $w_{v\to a}=\beta^{a}_{v}$, exactly when every block has the product
+form $M^{a}_{vu}=\alpha^{a}_{v}\beta^{a}_{u}$ off its diagonal; the
+diagonal never enters, since the operator does not backtrack. That is the
+factorisation through a one-dimensional stalk at the complex. It holds for
+any complex of two or three members --- six off-diagonal entries, one
+cycle condition $M_{12}M_{23}M_{31}=M_{13}M_{32}M_{21}$, satisfied because
+$M^{a}$ is a symmetric matrix rescaled row by row --- and at the trivial
+fixed point of a homogeneous complex of any size, where every entry is
+$u'$. From four members on it is a condition,
+$C_{12}C_{34}=C_{13}C_{24}=C_{14}C_{23}$ on the belief's covariance, and
+it fails off the trivial point: Fig.~\ref{fig:bethehessian}c measures the
+distance of the block from the nearest product form, zero at rounding for
+three members whatever the fields, growing with the field spread for four
+and five, and of order one at zero field as soon as the couplings inside
+the complex have both signs. At $\beta J=0.5$
+with fields of spread $0.4$ the residual is $1.2\times10^{-2}$ for four
+members and $3.7\times10^{-3}$ for five, $8\times10^{-2}$ and
+$1.2\times10^{-1}$ at spread $1.6$; with couplings of both signs at zero
+field and $\beta J=0.4$ it is $0.21$ and $0.39$; for three members it
+stays at $10^{-15}$.
+
+\paragraph{The identity.} With factorised weights the weighted
+Ihara--Bass identity of \citet{watanabe2009}, applied to the incidence
+graph, gives
+\begin{equation}
+  \det(I-T)
+  =\prod_{(v,a)}\bigl(1-\alpha^{a}_{v}\beta^{a}_{v}\bigr)\,\det H,
+  \qquad
+  H=I+\hat D-\hat A,
+  \label{eq:mb-iharabass}
+\end{equation}
+with $\hat A_{va}=\beta^{a}_{v}/(1-\alpha^{a}_{v}\beta^{a}_{v})$,
+$\hat A_{av}=\alpha^{a}_{v}/(1-\alpha^{a}_{v}\beta^{a}_{v})$ and $\hat D$
+the diagonal matrix of the row sums of $\alpha\beta/(1-\alpha\beta)$: a
+matrix on the vertices of the incidence graph, one per atom and one per
+complex, similar to a symmetric one whenever every $\alpha\beta$ is
+positive. This $H$ is the Bethe Hessian of the chygraph. Eliminating the
+complexes --- their block of $H$ is diagonal, since no complex of Part~III
+is a member of another --- leaves an operator on the atoms, which at the
+trivial fixed point is
+\begin{equation}
+  H_{V}=I+\sum_{a}\frac{u'_{a}}{1-u'_{a}}
+  \Bigl[P_{a}-\frac{\mathbf 1_{a}\mathbf 1_{a}^{\top}}{1+(c_{a}-1)u'_{a}}\Bigr],
+  \label{eq:mb-hessian}
+\end{equation}
+$P_{a}$ the projector on the members of $a$ and $\mathbf 1_{a}$ their
+indicator, with
+\[
+  \det(I-T)=\prod_{a}(1-u'_{a})^{c_{a}-1}\bigl(1+(c_{a}-1)u'_{a}\bigr)
+  \det H_{V}:
+\]
+each complex couples its members all to all through one rank-one term. On a graph, $c_{a}=2$ and $u'=t$, this is $t^{2}/(1-t^{2})$
+times the Bethe Hessian $(r^{2}-1)I-rA+D$ of \citet{saade2014} at $r=1/t$,
+which is the check that the generalisation is the right one.
+
+\paragraph{What it gives.} $H_{V}=I$ at $\beta=0$; on a ferromagnet $T$ is
+non-negative and its Perron root real, so $\det(I-T)>0$ until that root
+reaches one, and by continuity no eigenvalue of $H_{V}$ crosses zero
+before it. The trivial fixed point of the recursion on an instance is
+therefore stable iff the chygraph Bethe Hessian is positive definite, and
+the instance's threshold is where its gap closes,
+Fig.~\ref{fig:bethehessian}a, which is \citet{saade2014}'s reading carried
+from graphs to chygraphs. The ensemble statement is Eq.~\eqref{eq:branch}:
+on random chygraphs the point where the gap closes converges to the
+branching-matrix threshold as the instance grows,
+Fig.~\ref{fig:bethehessian}b and Table~\ref{tab:bethehessian}.
+On the instance of
+Fig.~\ref{fig:bethehessian}a, three hundred atoms with Poisson layers of
+links, triangles and $4$-cliques at $\ave{\kappa}=1.5$, $0.7$ and $0.3$,
+the two curves cross at $\beta J=0.2394$ against $0.2244$ for the
+ensemble; at $n=3200$ the means over eight instances are within
+$0.02\%$, $0.45\%$ and $0.07\%$ of Eq.~\eqref{eq:branch} on the three
+ensembles of the table, with spreads across instances of $0.7$ to $1.8\%$
+that shrink as $n^{-1/2}$. On a regular chygraph there is no finite-size
+gap at all: the all-ones vector is the Perron vector of $T$, so the
+instance threshold is Eq.~\eqref{eq:branch} at every $n$, which
+\code{figs/\allowbreak bethehessian.\allowbreak py} checks to $10^{-9}$ on
+a $4$-regular graph and on two triangles per atom.
+
+\begin{figure}[tp]
+\centering
+\includegraphics[width=0.8\linewidth]{figs/fig-bethehessian.pdf}
+\caption{\textbf{The Bethe Hessian of a chygraph.} (a) One random
+chygraph of three hundred atoms with Poisson layers of links, triangles
+and $4$-cliques: the Perron root of the linearised recursion less one,
+and the smallest eigenvalue of the vertex Bethe Hessian of
+Eq.~\eqref{eq:mb-hessian}, against the coupling. They cross zero at the
+same point, the dotted line; the grey line is the ensemble threshold of
+Eq.~\eqref{eq:branch}. (b) The instance threshold less the ensemble one
+against the number of atoms, eight instances per point, three Poisson
+ensembles. (c) The distance of a complex's block from the nearest product
+form $\alpha_{v}\beta_{u}$: solid, a homogeneous complex at $\beta J=0.5$
+with random fields of the given spread on its members; dashed, couplings
+of both signs at zero field against the coupling. Three members factorise
+whatever the fields; four and five do not.
+\code{figs/\allowbreak bethehessian.\allowbreak py}.}
+\label{fig:bethehessian}
+\end{figure}
+
+\begin{table}[tb]
+\centering
+\begin{adjustbox}{width=\linewidth}
+\input{figs/tab-bethehessian}
+\end{adjustbox}
+\caption{\textbf{Instance against ensemble.} The threshold at which the
+chygraph Bethe Hessian's gap closes on instances of $3200$ atoms, mean and
+spread over eight instances, against the branching-matrix threshold of
+Eq.~\eqref{eq:branch}. Generated by
+\code{figs/\allowbreak bethehessian.\allowbreak py}.}
+\label{tab:bethehessian}
+\end{table}
+
+So the claim of the section is this. The linearised recursion and the
+Bethe Hessian are determined by one sheaf on the incidence structure ---
+stalks the message spaces, restriction maps the kernel derivatives ---
+whenever the stalk at a complex is one-dimensional, which is the case at
+every trivial fixed point of Parts~II and~III and at every fixed point
+when no complex has more than three members; there the threshold is
+readable from either, and Eq.~\eqref{eq:mb-hessian} is the symmetric
+operator whose gap it is. A complex of four or more members at a
+polarised or random-field fixed point, or with couplings of both signs
+inside it, needs a stalk of higher dimension, and what stands on it is the
+block of Eq.~\eqref{eq:mb-block}, not a weight; the identity that would
+cover it is Watanabe and Fukumizu's matrix-weighted one, and it is not
+carried out here. A random chygraph makes the sheaf a random sheaf, an
+object \citet{hansen2019} define and do not randomise; the four moment
+matrices fix the expected gap through Eq.~\eqref{eq:branch}, and the
+transition of every chapter in Parts~II and~III is the closing of that
+gap.
 
 \section{What it gives the book}
 \label{sec:mb-gives}
 
-Three things, in decreasing order of how settled they are.
+Four things, in decreasing order of how settled they are.
 
 \emph{One sentence in place of three derivations.} The counting numbers of
 Eqs.~\eqref{eq:bethe}, \eqref{eq:Fchy} and~\eqref{eq:mobius} are the
@@ -672,6 +800,14 @@ error into a double count and a loop part, Eq.~\eqref{eq:mb-decomposition},
 and finds the double count the larger on the overlapping instances: what
 Part~IV paid for was mostly the bond counted twice, and assigning each
 bond to one clique recovers most of it for nothing.
+
+\emph{A symmetric operator for the threshold.} The chygraph Bethe Hessian
+of Eq.~\eqref{eq:mb-hessian}, one rank-one term per complex, is positive
+definite exactly while the trivial fixed point is stable, on an instance;
+on the ensemble its gap closes at Eq.~\eqref{eq:branch}. The condition
+under which it exists, one number per traversal, is the condition
+Part~III worked under, and it is now known where it stops: four members
+and a non-trivial fixed point.
 
 \emph{A companion for the acyclicity transition.} It is no longer the only
 transition of its kind: the thresholds of \citet{linial2006} and
@@ -706,9 +842,13 @@ islands, which Chapter~\ref{ch:exactness} answered for the join-tree
 condition and nobody has asked for the topological one.
 
 And on sheaves, the linearised recursion determines a random cellular sheaf
-on the incidence structure whose restriction maps are kernel derivatives.
-Its spectral gap is a threshold that this book computes model by model; a
-theory of random sheaf Laplacians would compute it once.
+on the incidence structure whose restriction maps are kernel derivatives,
+and Eq.~\eqref{eq:mb-hessian} is its Laplacian where the stalks are
+one-dimensional. Its spectral gap is a threshold that this book computes
+model by model; a theory of random sheaf Laplacians would compute it once,
+and the matrix-weighted identity that covers a complex of four or more
+members off the trivial fixed point would say what dimension the stalk at
+a complex has to have.
 
 \section{Checks}
 \label{sec:mb-checks}
@@ -730,6 +870,24 @@ factor graph with bonds assigned once has the pairwise model's exact
 partition function.
 
 \checkhead{New results}
+The chygraph Bethe Hessian of Sec.~\ref{sec:mb-sheaf}
+(\code{statmech/\allowbreak src/\allowbreak statmech/\allowbreak
+bethehessian.\allowbreak py}, seven tests in \code{test\_\allowbreak
+bethehessian.\allowbreak py}): the block of Eq.~\eqref{eq:mb-block} against
+finite differences of the message map to $10^{-8}$ and against the
+belief covariance to $10^{-12}$; its entries at the trivial point against
+$u'(c)$ for $c=2$ to $5$; the identity of Eq.~\eqref{eq:mb-iharabass} to
+$10^{-12}$ at the trivial point, at a polarised and at a random-field
+fixed point with complexes of at most three members, and its failure by
+$1.4\%$ with a $4$-clique at a random-field fixed point; the closed form
+of Eq.~\eqref{eq:mb-hessian} against the Schur complement and against
+Saade's Hessian on a $3$-regular graph; the instance threshold by the
+Perron root and by the Hessian gap to $10^{-9}$; and exact equality with
+Eq.~\eqref{eq:branch} on regular chygraphs. The finite-size scan of
+Fig.~\ref{fig:bethehessian}b takes ninety seconds and is cached in
+\code{statmech/\allowbreak probe/\allowbreak results/\allowbreak
+bethehessian.\allowbreak json}.
+
 The series on the promoted factor graph, its single term on the rings
 against Table~\ref{tab:ring}, the comparison of the two series on forty
 clustered instances, the split of Eq.~\eqref{eq:mb-decomposition} on two
@@ -755,4 +913,6 @@ fixed point on ordered instances is polarised, so its loop part carries
 the $\ln2$ of the sector, which the symmetric average would recover and
 which is not a loop over complexes. The identity has been checked on
 binary variables only, which is what Chertkov and Chernyak's form covers.
-The Bethe-Hessian half of Sec.~\ref{sec:mb-sheaf} is not computed.
+The Bethe Hessian of Sec.~\ref{sec:mb-sheaf} is computed for
+one-dimensional stalks only: the matrix-weighted identity for a
+four-member complex off the trivial fixed point is not.
