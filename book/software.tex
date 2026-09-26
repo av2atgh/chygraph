@@ -82,7 +82,8 @@ Part~IV at the stable fixed point --- the recursion with each bond in one
 clique (Fig.~\ref{fig:cavityassigned}), the merged families
 (Table~\ref{tab:mergeerr}, whose file is patched in place with the
 paramagnetic original kept beside it) and the agreement of clique beliefs
-on shared pairs (Sec.~\ref{sec:mg-checks}). Those twenty-three are the only
+on shared pairs (Sec.~\ref{sec:mg-checks}), and the region-graph fixed points' stability
+(Sec.~\ref{sec:gbpverdict}). Those twenty-four are the only
 places where the book quotes a number it does not recompute at build time,
 and each says so where it is used. The real-network probe needs graph-tool and a network
 connection the first time it runs, to pull its networks from Netzschleuder; it
@@ -261,6 +262,7 @@ Sec.~\ref{sec:cavityfail} & the recursion at the stable fixed point, with each b
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:gbp}, generalised belief propagation}}\\
 \eqref{eq:mobius} & M\"obius counting numbers & \code{region.\allowbreak RegionGraph} & \code{test\_\allowbreak region}\\
 \eqref{eq:p2c} & the parent-to-child update & \code{gbp.\allowbreak GBP} & \code{test\_\allowbreak gbp}\\
+Sec.~\ref{sec:gbpverdict} & the region-graph fixed point's stability, and the polarised one beside it & \code{statmech/\allowbreak probe/\allowbreak gbp\_\allowbreak stable.\allowbreak py} & \code{figs/\allowbreak overlap.\allowbreak py:\allowbreak check\_\allowbreak gbp\_\allowbreak against\_\allowbreak bp}\\
 \multicolumn{4}{@{}l}{\rule{0pt}{2.9ex}\textit{Chapter~\ref{ch:metacomplex}, meta-complexes}}\\
 Sec.~\ref{sec:mergeerror} & the merged-family recursion at the stable fixed point & \code{statmech/\allowbreak probe/\allowbreak merge\_\allowbreak stable.\allowbreak py} & \code{figs/\allowbreak overlap.\allowbreak py:\allowbreak check\_\allowbreak merge\_\allowbreak error}\\
 \eqref{eq:branching} & the incidence branching & \code{statmech/\allowbreak probe/\allowbreak karrer\_\allowbreak core\_\allowbreak sweep.\allowbreak py} & \code{check\_\allowbreak core\_\allowbreak transition}\\

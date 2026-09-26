@@ -709,3 +709,33 @@ README.
 Open: Ch. 15's GBP fixed points' stability on non-chordal instances; an
 optimised bond-assignment rule; Foissy's classification (Ch. 21); Ch. 17's
 list; Sec. 8.10's list; Ch. 18's list.
+
+## 2026-09-27: Ch. 15's GBP fixed points, stability (Sec. 15.x)
+
+`statmech/probe/gbp_stable.py` (results `gbp_stable.json`, ~70 min with the
+cap; a first attempt with full Jacobians on every run was killed after 5 h
+— the hospital neighbourhoods have message vectors up to 1.3e5). Symmetric
+ladder reproduced from the probes (130/139 cached settled runs to 1e-6; the
+9 others are Football/Hospital runs where the symmetric iteration broke
+symmetry in one run and not the other — the chapter's "run twice" runs);
+stability = spectral radius of the undamped sweep by finite differences,
+gauge eigenvalues at 1 excluded, formed when D ≤ 3000; polarised start
+beside it; reported point = symmetric if stable (or, unassessed, if the
+polarised start returns), else the polarised one. Arnoldi on FD matvecs and
+a belief-growth test were tried and rejected (defective gauge cluster at 1;
+nearby fixed points with different beliefs).
+
+Findings: symmetric point stable on 66/78 assessed non-chordal runs (real
+24/24, Karrer 34/43, hyperbolic 8/11) — the opposite of the chygraph
+recursion (222/240 unstable); on the 12 unstable the polarised point's
+error is ≤ ln 2 (median 0.27). 52 non-chordal runs have no fixed point
+from either start. GBP vs BP at stable points on the 84 non-chordal pairs:
+medians 0.030 vs 6.49 (was 0.31 vs 2.73), GBP worse on 6/84 (was 39/142),
+corr −0.45; vs the assigned recursion 0.39, GBP worse on 23/84. Text: new
+paragraph "The fixed point" in Sec. 15.6, verdict numbers, figure caption,
+Checks; Outlook pitfall; software row (24 caches); README.
+
+Open: an optimised bond-assignment rule; Foissy (Ch. 21); joint
+(cardinality, chy-degree) on the interactomes (Ch. 21); Ch. 17's list;
+Sec. 8.10's list; Ch. 18's list; O(1/n) corrections and the ordered phase
+of the ensemble series (Ch. 24).

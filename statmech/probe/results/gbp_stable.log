@@ -1,0 +1,32 @@
+hyperbolic n = 14 done, 39 s
+hyperbolic n = 18 done, 255 s
+hyperbolic n = 20 done, 1596 s
+karrer done, 2896 s
+  140 rows, 2898 s
+  160 rows, 2987 s
+  180 rows, 3082 s
+  200 rows, 3722 s
+  220 rows, 4122 s
+  240 rows, 5783 s
+real done, 5783 s
+240 runs; cached settled fixed points reproduced to 1.4e+01 on 139
+hyperbolic: 60 valid, 46 chordal (all symmetric settled and stable: True), 14 non-chordal:
+   symmetric point settled on 11, Jacobian formed on 11, unstable on 3 (polarised start returns to it on 6); polarised settled on 6, of which stable 4
+   reported point: {'symmetric': 8, 'none': 3, 'symmetric, unstable': 3}
+   non-chordal with a fixed point (11): GBP median 0.000 max 0.48; symmetric-point median 0.000; BP stable median 21.69; assigned median 0.296; GBP worse than BP on 0, worse than assigned on 2
+karrer: 60 valid, 2 chordal (all symmetric settled and stable: True), 58 non-chordal:
+   symmetric point settled on 43, Jacobian formed on 43, unstable on 9 (polarised start returns to it on 18); polarised settled on 38, of which stable 38
+   reported point: {'symmetric': 34, 'polarised': 7, 'symmetric, unstable': 2, 'none': 15}
+   non-chordal with a fixed point (43): GBP median 0.325 max 1.60; symmetric-point median 0.384; BP stable median 2.65; assigned median 0.437; GBP worse than BP on 6, worse than assigned on 17
+Traceback (most recent call last):
+  File "/Users/avazquez/av2atg/chygraph/statmech/probe/gbp_stable.py", line 370, in <module>
+    main()
+  File "/Users/avazquez/av2atg/chygraph/statmech/probe/gbp_stable.py", line 335, in main
+    summarise(rows)
+  File "/Users/avazquez/av2atg/chygraph/statmech/probe/gbp_stable.py", line 347, in summarise
+    f'{all(r["sym_settled"] and r["rho"] < 1 for r in ch)}), {len(nc)} non-chordal:')
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/avazquez/av2atg/chygraph/statmech/probe/gbp_stable.py", line 347, in <genexpr>
+    f'{all(r["sym_settled"] and r["rho"] < 1 for r in ch)}), {len(nc)} non-chordal:')
+                                ^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'NoneType' and 'int'

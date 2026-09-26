@@ -647,23 +647,21 @@ def figure_core_bonds():
 
 
 def _paired_runs():
-    """BP_chi and GBP on the same run, joined by iteration order.
+    """BP_chi and GBP on the same run, both at the stable fixed point.
 
-    cavity_clique.py and the three GBP probes walk the same instance lists in
-    the same order, so the rows correspond.  That is asserted on (n, beta_J)
-    rather than trusted, and the assertion fires if either order ever changes.
+    ``probe/gbp_stable.py`` reruns the three GBP probes with the stability of
+    the symmetric fixed point and the polarised one beside it, and carries
+    the chygraph recursion's stable-point errors from
+    ``probe/cavity_assigned.py`` on the same instances (hyperbolic redrawn).
+    Runs where GBP reached no fixed point are dropped.
     """
-    cav = _cavity()
-    gbp = _runs() + _karrer() + _real()
-    if not cav or len(cav) != len(gbp):
+    f = PROBE / 'gbp_stable.json'
+    if not f.exists():
         return []
-    for a, b in zip(cav, gbp):
-        assert a['n'] == b['n'] and abs(a['beta_J'] - b['beta_J']) < 1e-12, \
-            'cavity and GBP probe outputs are no longer in the same order'
-    return [dict(ensemble=a['ensemble'],
-                 doubled=a['doubled_bonds'] / a['n_bonds'],
-                 bp=abs(a['cavity']), gbp=abs(b['gbp']),
-                 chordal=b['chordal']) for a, b in zip(cav, gbp)]
+    return [dict(ensemble=r['ensemble'], doubled=r['doubled'],
+                 bp=abs(r['bp']), bp_once=abs(r['bp_once']), gbp=abs(r['gbp']),
+                 chordal=r['chordal'], point=r['point'])
+            for r in json.load(open(f)) if r.get('gbp') is not None]
 
 
 def check_gbp_against_bp():
@@ -687,6 +685,13 @@ def check_gbp_against_bp():
           f'{np.corrcoef(g, b)[0, 1]:+.2f}: the two do not track, and GBP is')
     print('    the better number nearly everywhere. What it does not reach off')
     print('    the chordal instances is exactness')
+    o = [r['bp_once'] for r in nc]
+    worse = sum(1 for r in nc if r['gbp'] >= r['bp_once'])
+    pts = {}
+    for r in nc:
+        pts[r['point']] = pts.get(r['point'], 0) + 1
+    print(f'    against the recursion with each bond in one clique: median '
+          f'{np.median(o):.2f}, GBP worse on {worse} of {len(nc)}; fixed points {pts}')
 
 
 def figure_gbp_against_bp():
