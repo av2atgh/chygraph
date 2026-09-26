@@ -38,7 +38,8 @@ sys.path.insert(0, str(ROOT / 'percolation' / 'src'))
 from statmech.bethehessian import (  # noqa: E402
     BinaryFactorGraph, bethe_hessian, clique_factor_graph, edge_weights,
     factorise, instance_threshold, jacobian_block, linearised_operator,
-    random_chygraph, smallest_eigenvalue, spectral_radius, trivial_blocks,
+    matrix_bethe_hessian, random_chygraph, smallest_eigenvalue,
+    spectral_radius, stalk_dimension, symmetric_block, trivial_blocks,
     trivial_vertex_hessian, vertex_hessian,
 )
 from statmech.ising import clique_derivative, critical_coupling  # noqa: E402
@@ -145,6 +146,17 @@ def checks():
     bT, bH = instance_threshold(cx, via='T'), instance_threshold(cx, via='H')
     print(f"  n = 400 instance: beta* by Perron root {bT:.9f}, "
           f"by Hessian gap {bH:.9f}")
+    fg = clique_factor_graph(mixed, 0.6, fields=rng.normal(0, 0.7, 8)).bp()
+    blocks = [symmetric_block(fg, a) for a in range(len(fg.factors))]
+    T = linearised_operator(fg, blocks)
+    lhs = np.linalg.det(np.eye(T.shape[0]) - T.toarray())
+    comp = []
+    for a in range(len(fg.factors)):
+        d, x = stalk_dimension(blocks[a], rng=rng)
+        comp.append((x, d))
+    H, pref, dims = matrix_bethe_hessian(fg, blocks, comp)
+    print(f"  matrix-weighted identity with minimal stalks {dims}: "
+          f"{lhs:.12f} = {pref * np.linalg.det(H):.12f}")
     for name, spec in REGULAR.items():
         rng = np.random.default_rng(7)
         cx = random_chygraph(102, spec["cards"], spec["means"], rng,
@@ -304,6 +316,59 @@ def panel_residual(ax, cache):
                  if str(c) in r['disorder'] else ''))
 
 
+def count_bound(c):
+    return next(d for d in range(1, c + 1) if (c - d) * (c - d + 1) <= 2 * c)
+
+
+def _signature(Ms, d, x):
+    w = np.linalg.eigvalsh(Ms + np.diag(x))
+    w = w[np.argsort(-np.abs(w))[:d]]
+    return '+' if (w > 0).all() else '-' if (w < 0).all() else r'$\pm$'
+
+
+def table_stalks(cache, reps=3):
+    key = 'stalks'
+    if key not in cache:
+        rng = np.random.default_rng(5)
+        rows = {}
+        for c in range(3, 8):
+            t0 = time.time()
+            field, pm = [], []
+            for _ in range(reps):
+                fg = clique_factor_graph([tuple(range(c))], 0.5)
+                h = rng.normal(0, 0.5, c)
+                for v in range(c):
+                    fg.m_va[(v, 0)] = h[v] * SPIN
+                Ms = symmetric_block(fg, 0)
+                d, x = stalk_dimension(Ms, rng=rng)
+                field.append(f"{d}{_signature(Ms, d, x)}")
+            for _ in range(reps):
+                fg = pm_clique(c, rng.choice([-1.0, 1.0], c * (c - 1) // 2), 0.4)
+                Ms = symmetric_block(fg, 0)
+                d, x = stalk_dimension(Ms, rng=rng)
+                pm.append(f"{d}{_signature(Ms, d, x)}")
+            fg = clique_factor_graph([tuple(range(c))], 0.5)
+            Ms = symmetric_block(fg, 0)
+            d, x = stalk_dimension(Ms, rng=rng)
+            rows[str(c)] = dict(bound=count_bound(c), field=field, pm=pm,
+                                homog=f"{d}{_signature(Ms, d, x)}")
+            print(f"  c = {c}: bound {count_bound(c)}, field {field}, "
+                  f"+-J {pm}, homogeneous {rows[str(c)]['homog']} "
+                  f"({time.time() - t0:.0f} s)")
+        cache[key] = rows
+    rows = cache[key]
+    lines = [r'\begin{tabular}{@{}ccccc@{}}', r'\hline\hline',
+             r'$c$ & count & random field & $\pm J$, zero field & '
+             r'homogeneous, zero field\\', r'\hline']
+    for c in range(3, 8):
+        r = rows[str(c)]
+        lines.append(f"{c} & {r['bound']} & {', '.join(r['field'])} & "
+                     f"{', '.join(r['pm'])} & {r['homog']}\\\\")
+    lines += [r'\hline\hline', r'\end{tabular}']
+    (OUT / 'tab-stalks.tex').write_text('\n'.join(lines) + '\n')
+    print('\n'.join(lines))
+
+
 def table(res):
     lines = [r'\begin{tabular}{@{}lccc@{}}', r'\hline\hline',
              r'ensemble & $\beta_{c}J$, Eq.~\eqref{eq:branch} & '
@@ -337,6 +402,9 @@ def main():
     fig.tight_layout()
     fig.savefig(OUT / 'fig-bethehessian.pdf')
     table(res)
+    print('stalks')
+    table_stalks(cache)
+    CACHE.write_text(json.dumps(cache))
     print(f'done in {time.time() - t0:.0f} s')
 
 

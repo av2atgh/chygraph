@@ -9,6 +9,7 @@ checks
   random field with a 4-clique: 0.850125 vs 0.838292, residual 0.045
   Saade on a 3-regular graph: max deviation 0.0e+00
   n = 400 instance: beta* by Perron root 0.345978545, by Hessian gap 0.345978545
+  matrix-weighted identity with minimal stalks [1, 1, 1, 2, 1]: 0.981921896513 = 0.981921896513
   4-regular graph, n = 102: beta* = 0.346573590, ensemble 0.346573590 (exact: the all-ones Perron vector)
   two triangles per atom, n = 102: beta* = 0.402359478, ensemble 0.402359478 (exact: the all-ones Perron vector)
 panel (a)
@@ -27,4 +28,21 @@ Poisson triangles, $\langle\kappa\rangle=2$ & 0.21182 & $0.21088\pm0.00366$ & 0.
 Poisson links, triangles, 4-cliques & 0.22443 & $0.22458\pm0.00400$ & 0.07\%\\
 \hline\hline
 \end{tabular}
-done in 2 s
+stalks
+  c = 3: bound 1, field ['1+', '1+', '1+'], +-J ['1+', '1-', '1-'], homogeneous 1+ (0 s)
+  c = 4: bound 2, field ['2$\\pm$', '2$\\pm$', '2$\\pm$'], +-J ['2$\\pm$', '2$\\pm$', '2$\\pm$'], homogeneous 1+ (11 s)
+  c = 5: bound 3, field ['3$\\pm$', '3$\\pm$', '3$\\pm$'], +-J ['2$\\pm$', '2+', '3$\\pm$'], homogeneous 1+ (23 s)
+  c = 6: bound 3, field ['4$\\pm$', '3$\\pm$', '3$\\pm$'], +-J ['3$\\pm$', '3+', '3$\\pm$'], homogeneous 1+ (36 s)
+  c = 7: bound 4, field ['4$\\pm$', '4$\\pm$', '4$\\pm$'], +-J ['4$\\pm$', '4$\\pm$', '3+'], homogeneous 1+ (51 s)
+\begin{tabular}{@{}ccccc@{}}
+\hline\hline
+$c$ & count & random field & $\pm J$, zero field & homogeneous, zero field\\
+\hline
+3 & 1 & 1+, 1+, 1+ & 1+, 1-, 1- & 1+\\
+4 & 2 & 2$\pm$, 2$\pm$, 2$\pm$ & 2$\pm$, 2$\pm$, 2$\pm$ & 1+\\
+5 & 3 & 3$\pm$, 3$\pm$, 3$\pm$ & 2$\pm$, 2+, 3$\pm$ & 1+\\
+6 & 3 & 4$\pm$, 3$\pm$, 3$\pm$ & 3$\pm$, 3+, 3$\pm$ & 1+\\
+7 & 4 & 4$\pm$, 4$\pm$, 4$\pm$ & 4$\pm$, 4$\pm$, 3+ & 1+\\
+\hline\hline
+\end{tabular}
+done in 125 s

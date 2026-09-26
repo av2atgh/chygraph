@@ -443,3 +443,115 @@ def instance_threshold(complexes, lo=0.02, hi=3.0, tol=1e-9, via='T'):
 
     from scipy.optimize import brentq
     return brentq(gap, lo, hi, xtol=tol)
+
+
+# ---------------------------------------------------------------------------
+# the matrix-weighted identity: stalks of dimension d at the complexes
+# ---------------------------------------------------------------------------
+#
+# Write a block as a completion minus its diagonal, ``M = R - diag(R)`` with
+# ``R = A B^T`` of rank ``d``.  On the two spaces X (atom-to-complex fields)
+# and Y (complex-to-atom fields), both indexed by the inclusions, the map is
+# ``T = [[0, G], [F, 0]]`` with ``F = R - D`` (``D = diag R``) and
+# ``G = P^T P - I``, ``P`` the atom incidence.  With ``E = (I - D)^{-1}`` the
+# matrix determinant lemma gives
+#
+#     det(I - T) = det(I - D) det [[ I + P D E P^T,  -P E A     ],
+#                                  [ -B^T E P^T,     I + B^T E A ]],
+#
+# a matrix on the atoms plus a ``d_a``-dimensional stalk at every complex.
+# For a symmetric completion ``R = Q L Q^T`` take ``A = Q |L|^{1/2}`` and
+# ``B = Q sign(L) |L|^{1/2}``; conjugating the stalk block by ``sign(L)``
+# makes the matrix symmetric, with the signature of the completion as the
+# metric on the stalk.  Rank one is the edge-weighted identity above.
+
+from scipy.optimize import minimize
+
+
+def symmetric_block(fg, a):
+    """The block conjugated to symmetric form: the correlation matrix of the
+    factor belief with its diagonal removed.  ``T`` built from these blocks
+    is conjugate to the one built from :func:`jacobian_block`."""
+    C, m = belief_covariance(fg, a)
+    s = 1.0 / np.sqrt(1.0 - m ** 2)
+    R = s[:, None] * C * s[None, :]
+    np.fill_diagonal(R, 0.0)
+    return R
+
+
+def _tail_singular(Ms, d, x):
+    sv = np.linalg.svd(Ms + np.diag(x), compute_uv=False)
+    return float(np.sum(sv[d:] ** 2))
+
+
+def min_rank_completion(Ms, d, rng=None, starts=12, tol=1e-18):
+    """The diagonal ``x`` that brings ``Ms + diag(x)`` closest to rank ``d``
+    (sum of squares of the trailing singular values), by multistart BFGS
+    polished with Nelder--Mead; returns ``(x, misfit)`` with the misfit
+    relative to ``|Ms|_F^2``."""
+    rng = np.random.default_rng(0) if rng is None else rng
+    n = Ms.shape[0]
+    norm = float(np.sum(Ms ** 2))
+    best, bx = np.inf, None
+    f = lambda x: _tail_singular(Ms, d, x)  # noqa: E731
+    for k in range(starts):
+        x0 = np.zeros(n) if k == 0 else rng.normal(0, 0.5, n)
+        r = minimize(f, x0, method='BFGS', options=dict(gtol=1e-14))
+        r = minimize(f, r.x, method='Nelder-Mead',
+                     options=dict(xatol=1e-13, fatol=1e-24, maxiter=4000))
+        if r.fun < best:
+            best, bx = r.fun, r.x
+        if best / norm < tol:
+            break
+    return bx, best / norm
+
+
+def stalk_dimension(Ms, tol=1e-12, rng=None):
+    """The smallest ``d`` admitting a real diagonal completion of rank
+    ``d`` (misfit below ``tol``), with that completion."""
+    n = Ms.shape[0]
+    for d in range(1, n + 1):
+        x, mis = min_rank_completion(Ms, d, rng=rng)
+        if mis < tol:
+            return d, x
+    raise RuntimeError('unreachable')
+
+
+def completion_factors(R, d):
+    """``A, B, S`` with ``R = A B^T`` of rank ``d`` from the symmetric
+    eigendecomposition, ``S`` the signs of the kept eigenvalues."""
+    w, Q = np.linalg.eigh(R)
+    keep = np.argsort(-np.abs(w))[:d]
+    w, Q = w[keep], Q[:, keep]
+    A = Q * np.sqrt(np.abs(w))
+    S = np.sign(w)
+    return A, A * S, S
+
+
+def matrix_bethe_hessian(fg, blocks, completions):
+    """``H`` of the matrix-weighted identity and the prefactor
+    ``prod (1 - r)``, from symmetric ``blocks`` and ``completions``: per
+    complex a diagonal ``x`` and a rank ``d`` (``R = M + diag(x)``).  Also
+    returns the block dimensions."""
+    nv = len(fg.nodes)
+    pos = {v: i for i, v in enumerate(fg.nodes)}
+    dims = [d for _, d in completions]
+    off = nv + np.concatenate([[0], np.cumsum(dims)[:-1]]).astype(int)
+    N = nv + sum(dims)
+    H = np.eye(N)
+    pref = 1.0
+    for a, (sc, _) in enumerate(fg.factors):
+        x, d = completions[a]
+        R = blocks[a] + np.diag(x)
+        A, B, _ = completion_factors(R, d)
+        r = np.diag(R)
+        e = 1.0 / (1.0 - r)
+        pref *= float(np.prod(1.0 - r))
+        idx = [pos[v] for v in sc]
+        sl = slice(off[a], off[a] + d)
+        for i, v in enumerate(sc):
+            H[idx[i], idx[i]] += r[i] * e[i]
+            H[idx[i], sl] -= e[i] * A[i]
+            H[sl, idx[i]] -= e[i] * B[i]
+        H[sl, sl] += B.T @ (e[:, None] * A)
+    return H, pref, dims

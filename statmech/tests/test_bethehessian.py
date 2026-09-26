@@ -130,3 +130,28 @@ def test_instance_threshold_by_either_route_and_near_the_ensemble():
     assert abs(bT - bH) < 1e-7
     bc = critical_coupling([2, 3], [1.5, 0.7])
     assert abs(bT - bc) / bc < 0.1
+
+
+# -- the matrix-weighted identity -------------------------------------------
+
+def test_matrix_weighted_identity_with_any_completion():
+    from statmech.bethehessian import (
+        matrix_bethe_hessian, stalk_dimension, symmetric_block,
+    )
+    rng = np.random.default_rng(0)
+    fg = clique_factor_graph(MIXED, 0.6, fields=rng.normal(0, 0.7, 8)).bp()
+    blocks = [symmetric_block(fg, a) for a in range(len(fg.factors))]
+    T = linearised_operator(fg, blocks)
+    lhs = np.linalg.det(np.eye(T.shape[0]) - T.toarray())
+    T0 = linearised_operator(fg)
+    assert abs(lhs - np.linalg.det(np.eye(T0.shape[0]) - T0.toarray())) < 1e-12
+    full = [(2.0 * np.ones(len(sc)), len(sc)) for sc, _ in fg.factors]
+    H, pref, dims = matrix_bethe_hessian(fg, blocks, full)
+    assert abs(lhs - pref * np.linalg.det(H)) < 1e-12
+    minimal = []
+    for a, (sc, _) in enumerate(fg.factors):
+        d, x = stalk_dimension(blocks[a], rng=rng)
+        assert d == (2 if len(sc) == 4 else 1)
+        minimal.append((x, d))
+    H, pref, dims = matrix_bethe_hessian(fg, blocks, minimal)
+    assert abs(lhs - pref * np.linalg.det(H)) < 1e-12

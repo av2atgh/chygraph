@@ -1,0 +1,43 @@
+checks
+  n = 16, seed 0: exact 0.004405, cycles 0.004405, full series 0.004405, cycles by length {4: 1}
+  n = 16, seed 1: exact 0.126212, cycles 0.130194, full series 0.126212, cycles by length {3: 2, 2: 1}
+  n = 16, seed 2: exact 0.000016, cycles 0.000016, full series 0.000016, cycles by length {8: 1}
+  n = 16, seed 3: exact 0.000000, cycles 0.000000, full series 0.000000, cycles by length {}
+  n = 16, seed 4: exact -0.000000, cycles 0.000000, full series 0.000000, cycles by length {}
+  n = 16, seed 5: exact 0.030575, cycles 0.030796, full series 0.030575, cycles by length {6: 2, 4: 3, 3: 1}
+  truncated at 6: 0.38802 against closed form 0.47223
+  truncated at 10: 0.44309 against closed form 0.47223
+  truncated at 14: 0.46112 against closed form 0.47223
+links and triangles
+  beta J = 0.050: n = 18 exact 0.0026, cycles on the same instances 0.0026
+  beta J = 0.098: n = 18 exact 0.0101, cycles on the same instances 0.0101
+  beta J = 0.146: n = 18 exact 0.0212, cycles on the same instances 0.0214
+  beta J = 0.194: n = 18 exact 0.0437, cycles on the same instances 0.0443
+  beta J = 0.243: n = 18 exact 0.0693, cycles on the same instances 0.0709
+  beta J = 0.291: n = 18 exact 0.1248, cycles on the same instances 0.1310
+  beta J = 0.339: n = 18 exact 0.1551, cycles on the same instances 0.1658
+  beta J = 0.387: n = 18 exact 0.2096, cycles on the same instances 0.2293
+links, triangles, 4-cliques
+  beta J = 0.050: n = 18 exact 0.0020, cycles on the same instances 0.0020
+  beta J = 0.092: n = 18 exact 0.0061, cycles on the same instances 0.0062
+  beta J = 0.134: n = 18 exact 0.0166, cycles on the same instances 0.0167
+  beta J = 0.176: n = 18 exact 0.0303, cycles on the same instances 0.0306
+  beta J = 0.218: n = 18 exact 0.0495, cycles on the same instances 0.0503
+  beta J = 0.260: n = 18 exact 0.0667, cycles on the same instances 0.0691
+  beta J = 0.302: n = 18 exact 0.1068, cycles on the same instances 0.1171
+  beta J = 0.344: n = 18 exact 0.1291, cycles on the same instances 0.1390
+\begin{tabular}{@{}lcccccc@{}}
+\hline\hline
+ensemble & $\beta J$ & closed form & $\ell\le10$ & cycles, $n=300$ & exact, $n=18$ & cycles, $n=18$\\
+\hline
+links and triangles & 0.098 & 0.015 & 0.015 & $0.014\pm0.001$ & $0.0101\pm0.0006$ & $0.0101\pm0.0006$\\
+ & 0.243 & 0.138 & 0.138 & $0.136\pm0.004$ & $0.0693\pm0.0042$ & $0.0709\pm0.0045$\\
+ & 0.339 & 0.413 & 0.395 & $0.377\pm0.010$ & $0.1551\pm0.0097$ & $0.1658\pm0.0112$\\
+ & 0.387 & 0.799 & 0.654 & $0.588\pm0.015$ & $0.2096\pm0.0111$ & $0.2293\pm0.0134$\\
+links, triangles, 4-cliques & 0.092 & 0.014 & 0.014 & $0.015\pm0.001$ & $0.0061\pm0.0005$ & $0.0062\pm0.0005$\\
+ & 0.218 & 0.130 & 0.130 & $0.118\pm0.004$ & $0.0495\pm0.0034$ & $0.0503\pm0.0035$\\
+ & 0.302 & 0.397 & 0.381 & $0.348\pm0.010$ & $0.1068\pm0.0091$ & $0.1171\pm0.0123$\\
+ & 0.344 & 0.775 & 0.641 & $0.548\pm0.016$ & $0.1291\pm0.0090$ & $0.1390\pm0.0107$\\
+\hline\hline
+\end{tabular}
+done in 1 s

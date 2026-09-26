@@ -566,3 +566,51 @@ missing piece; Checks; software table (three rows); README.
 Open: the matrix-weighted Ihara–Bass identity for blocks that do not
 factorise (what stalk dimension a 4-member complex needs); the ensemble
 loop series; Part IV rerun with bonds assigned once.
+
+## 2026-09-26: the stalk dimension and the ensemble loop series (Secs. 24.6, 24.3)
+
+**Matrix-weighted identity** (`bethehessian.py`: `symmetric_block`,
+`min_rank_completion`, `stalk_dimension`, `completion_factors`,
+`matrix_bethe_hessian`; 1 more test). Up to a diagonal conjugation the
+block is the belief's correlation matrix with the diagonal removed. Write
+M = R − diag R with R = ABᵀ of rank d; the matrix determinant lemma on the
+two-step form of I − T gives det(I−T) = ∏(1−r) det [[I + P diag(r) E Pᵀ,
+−PEA], [−BᵀEPᵀ, I + BᵀEA]], E = diag(1−r)⁻¹: atoms + a d-dim stalk per
+complex, symmetric after conjugating the stalk block by the completion's
+eigenvalue signs (indefinite metric). Verified to 1e-12 with a full-rank
+completion and with minimal ones on the 4-clique instance where rank one
+failed by 1.4%. Stalk dimension = minimal rank of a real symmetric diagonal
+completion; count: smallest d with (c−d)(c−d+1) ≤ 2c → 1,2,3,3,4 for
+c = 3..7 (Table 24.x, `tab-stalks.tex`): found numerically (multistart
+BFGS + Nelder–Mead over the diagonal) at random-field points: 1,2,3,3,4
+(one c = 6 draw at 4); ±J zero field: at or below the count (gauge);
+homogeneous zero field: 1 always. Metric: definite for c ≤ 3, indefinite
+from 4 on.
+
+**Ensemble loop series** (`ensembleloops.py`: `ensemble_series`,
+`branching_power`, `cycle_sum`, `exact_minus_bethe`; 4 tests;
+`figs/ensembleloops.py`, ~50 min, cache `probe/results/ensembleloops.json`).
+Only unicyclic loops survive as n → ∞; r_C = ∏ u'(c_a) over the cycle
+(μ_i = 1, μ_a = ⟨σ_vσ_u⟩_a = u'); Poisson cycle counts with weighted means
+tr(Bˡ)/2ℓ, B = Eq. (branch). Closed form:
+E[ln Z − ln Z_BP] → −½ Σ_j (−1)^{j+1}/j [ln det(I − B_j) + tr B_j], B_j with
+u'^j. j = 1 is the Gaussian correction −½ ln det(I−B), diverging at
+Eq. (det) = the Bethe Hessian on the ensemble; j = 2 carries the AT matrix;
+the alternating sum turns −ln(1−r) into ln(1+r) (exact on a ring). Checks:
+links+triangles (1.2, 0.5; β_c = 0.4208) and links+triangles+4-cliques
+(1.0, 0.4, 0.15; β_c = 0.3739): n = 300 cycle sums (400 instances, ℓ ≤ 10)
+match the closed form within errors up to ~0.6 β_c (0.136±0.004 vs 0.138
+at βJ = 0.243); near β_c the truncation (0.654 vs 0.799 at 0.92 β_c) and
+finite size (0.588 vs 0.654) both bite. n = 18 exact vs cycle sum on the
+same instances: 2% to 0.6 β_c, 10% at 0.92 β_c (cyclomatic-two loops).
+First attempt used a denser second ensemble (1.5, 0.7, 0.3): cycle
+enumeration to ℓ = 10 with branching ≈ 3.8 is hopeless (>1 h, killed).
+
+Text: Sec. 24.6 "The stalk dimension" paragraph + Table (stalks), closing
+paragraph and field paragraph updated; Sec. 24.3 "The series on the
+ensemble" + Fig. + Table; Checks; software (3 rows); README.
+
+Open: O(1/n) corrections (cyclomatic-two loops) on the ensemble; the
+ensemble series in the ordered phase (polarised fixed point, r_C with
+nonzero m); Part IV rerun with bonds assigned once; an optimised
+bond-assignment rule.
