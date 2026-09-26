@@ -614,3 +614,43 @@ Open: O(1/n) corrections (cyclomatic-two loops) on the ensemble; the
 ensemble series in the ordered phase (polarised fixed point, r_C with
 nonzero m); Part IV rerun with bonds assigned once; an optimised
 bond-assignment rule.
+
+## 2026-09-26: Part IV rerun with bonds assigned once (Sec. 14.3) — and the fixed point
+
+`statmech/probe/cavity_assigned.py` (results `cavity_assigned.json`, ~100 s):
+`cavity_clique.ChygraphBP` gained `assign='all'|'once'` (default unchanged,
+`validate()` still exact on trees of triangles; `'once'` reproduces
+`loopseries.BinaryFactorGraph.promoted(..., 'once')` on two triangles). Same
+Karrer–Newman and real instances as Ch. 14 (same caches, same seeds);
+hyperbolic ones are fresh draws from `figs/loopseries.hyperbolic_graph`
+(the generator in `computational_complexity/code/hrg.py` is gone with that
+repo, and `figs/merge.py` imports it at module level — stubbed in the probe).
+
+**Finding 1, the fixed point.** Ch. 14's solver starts symmetric and its
+damping ladder starts at 0.0, so it converges in two sweeps to the
+paramagnetic fixed point on every run (|m| = 0 exactly) whether stable or
+not. Stability from `bethehessian.linearised_operator` at the trivial
+blocks: unstable on 222/240 (double count), 191/240 (assigned). At the
+stable fixed point (polarised start, damping ladder from 0.5) the
+double-count medians are 2.45/8.90 (hyperbolic, 0.3/0.8), 2.57/9.70
+(Karrer), 7.70/22.1 (real) vs the paramagnetic 0.32/4.04, 0.18/1.31,
+1.60/13.9 quoted in the chapter. Story survives with larger numbers. This
+also explains Table 24.3's "larger than 5.06" (caption corrected) and the
+two non-unique hospital runs (rounding broke the symmetry).
+
+**Finding 2, the assignment.** At the stable fixed point, each bond in its
+largest clique: median over 240 runs 7.31 → 0.35, smaller on 214/240; max
+at βJ = 0.8 is 0.70 = ln 2 (the sector) on every class; 227/240 below
+ln 2 + 0.05. So Ch. 14 priced double count + fixed point together; the loop
+part proper is a few tenths. Fig. 14.x (fig-cavity-assigned), new paragraph
+in Sec. 14.3, Checks note, Ch. 16 conclusion qualified, software row, README.
+
+**Consequence not yet applied.** `merge_lnz.py` (Ch. 16) uses the same
+symmetric ChygraphBP iteration, so its 40 cyclic Karrer runs (median 0.18)
+are paramagnetic-point errors too; the 200 acyclic ones are exact at any
+fixed point (unique on a forest). Rerun Ch. 16 at the stable fixed point and
+against the assigned recursion (merging vs assignment: what merging buys
+beyond the free repair) — next item. `gbp_*` (Ch. 15) use static counting
+and GBP, not this iteration.
+
+Open: Ch. 16 rerun as above; an optimised bond-assignment rule.

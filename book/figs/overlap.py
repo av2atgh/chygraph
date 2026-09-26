@@ -410,6 +410,73 @@ def figure_cavity():
 
 
 # ------------------------------- (2c-bis) the pairwise condition is not enough
+def _assigned():
+    f = PROBE / 'cavity_assigned.json'
+    return json.load(open(f)) if f.exists() else []
+
+
+def check_cavity_assigned():
+    """Ch. 14: the fixed point, and the same recursion with each bond in one
+    clique.  The symmetric iteration of `cavity_clique.py` keeps the
+    paramagnetic fixed point whether or not it is stable; this file records
+    its stability from the linearised recursion and the polarised fixed point
+    beside it, and reports the stable one."""
+    d = _assigned()
+    if not d:
+        print('  (probe/results/cavity_assigned.json not present)')
+        return
+    tot_unstable = sum(not r['cavity_stable_para'] for r in d)
+    print(f'  paramagnetic fixed point unstable on {tot_unstable}/{len(d)} runs '
+          f'(double count), {sum(not r["cavity_once_stable_para"] for r in d)} (assigned)')
+    for ens in ('hyperbolic', 'karrer', 'real'):
+        for bJ in (0.3, 0.8):
+            sel = [r for r in d if r['ensemble'] == ens and r['beta_J'] == bJ]
+            para = np.array([abs(r['cavity_para']) for r in sel])
+            e = np.array([abs(r['cavity']) for r in sel])
+            o = np.array([abs(r['cavity_once']) for r in sel])
+            print(f'    {ens:<11} bJ={bJ}: double count, paramagnetic median {np.median(para):.2f}, '
+                  f'stable point median {np.median(e):.2f} (max {e.max():.0f}); '
+                  f'assigned, stable point median {np.median(o):.2f} (max {o.max():.2f}), '
+                  f'below ln 2 + 0.05 on {int(np.sum(o < np.log(2) + 0.05))}/{len(sel)}, '
+                  f'smaller on {int(np.sum(o < e))}/{len(sel)}')
+    o = np.array([abs(r['cavity_once']) for r in d])
+    e = np.array([abs(r['cavity']) for r in d])
+    print(f'  all 240: assigned below ln 2 + 0.05 on {int(np.sum(o < np.log(2) + 0.05))}, '
+          f'smaller than the double count on {int(np.sum(o < e))}; '
+          f'medians {np.median(e):.2f} against {np.median(o):.2f}')
+    assert all(r['cavity_pol_residual'] < 1e-9 and r['cavity_once_pol_residual'] < 1e-9
+               for r in d), 'a polarised run did not settle'
+
+
+def figure_cavity_assigned():
+    """Ch. 14: the two errors side by side, instance by instance."""
+    plt = _mpl()
+    d = _assigned()
+    if not d:
+        return
+    fig, ax = plt.subplots(figsize=(3.4, 3.2))
+    for name, ens, mk, col in (('hyperbolic', 'hyperbolic', 'o', DARK),
+                               ('Karrer--Newman', 'karrer', '^', MID),
+                               ('real', 'real', 's', LIGHT)):
+        sel = [r for r in d if r['ensemble'] == ens]
+        x = np.maximum([abs(r['cavity']) for r in sel], 1e-3)
+        y = np.maximum([abs(r['cavity_once']) for r in sel], 1e-3)
+        ax.loglog(x, y, mk, ms=3.4, mew=0.9, mfc='white', color=col,
+                  label=f'{name} ({len(sel)})')
+    lim = (1e-3, 1e3)
+    ax.plot(lim, lim, color='0.75', lw=0.7)
+    ax.axhline(np.log(2), color='0.75', lw=0.7, ls=':')
+    ax.set_xlim(lim)
+    ax.set_ylim(1e-3, 10)
+    ax.set_xlabel(r'error in $\ln Z$, every bond in every clique', fontsize=8)
+    ax.set_ylabel(r'error in $\ln Z$, each bond in one clique', fontsize=8)
+    ax.legend(fontsize=6.6, frameon=False, loc='upper left')
+    _tidy(ax)
+    fig.tight_layout()
+    fig.savefig(OUT / 'fig-cavity-assigned.pdf')
+    print(f'  wrote {OUT / "fig-cavity-assigned.pdf"}')
+
+
 def ring_of_triangles(k):
     """k triangles glued in a ring, each meeting the next at a single vertex."""
     import networkx as nx
@@ -869,6 +936,8 @@ if __name__ == '__main__':
     check_two_triangles()
     print('the cavity failure, across the three ensembles:')
     check_cavity()
+    print('the same recursion with each bond in one clique:')
+    check_cavity_assigned()
     print('sixty clique region graphs:')
     check_gbp_instances()
     print('real clustered neighbourhoods:')
@@ -887,6 +956,7 @@ if __name__ == '__main__':
     check_ensemble()
     print('figures:')
     figure_cavity()
+    figure_cavity_assigned()
     figure_gbp()
     figure_gbp_real()
     figure_merge_error()

@@ -58,38 +58,57 @@ def _norm(v):
 class ChygraphBP:
     """Belief propagation on the atom--complex incidence structure."""
 
-    def __init__(self, complexes, bJ, damping=0.5, edges=None):
+    def __init__(self, complexes, bJ, damping=0.5, edges=None, assign='all'):
         """`edges` is the bond set; without it every pair inside a complex is
         taken to be one, which holds for maximal cliques and fails for anything
         built out of them -- a merged meta-complex is a union of cliques, not a
-        clique, and assuming otherwise invents bonds that are not there."""
+        clique, and assuming otherwise invents bonds that are not there.
+
+        `assign='all'` gives every complex every bond inside it, the double
+        count the chapter prices; `'once'` gives each bond to the largest
+        complex containing it (ties to the first), so that the factor graph
+        represents the pairwise model exactly (Sec. 24.3's free repair)."""
         self.A = [tuple(sorted(c)) for c in complexes]
         self.bonds = None if edges is None else {
             tuple(sorted(e)) for e in edges}
+        self.owner = None
+        if assign == 'once':
+            self.owner = {}
+            order = sorted(range(len(self.A)), key=lambda a: (-len(self.A[a]), a))
+            for a in order:
+                for e in combinations(self.A[a], 2):
+                    if (self.bonds is None or e in self.bonds) and e not in self.owner:
+                        self.owner[e] = a
+        elif assign != 'all':
+            raise ValueError(assign)
         self.bJ = float(bJ)
         self.damping = float(damping)
         self.nodes = sorted({v for c in self.A for v in c})
         self.k = {v: sum(1 for c in self.A if v in c) for v in self.nodes}
-        self.logf = [self._factor(c) for c in self.A]
+        self.logf = [self._factor(c, a) for a, c in enumerate(self.A)]
         self.m_va = {(v, a): np.zeros(2) for a, c in enumerate(self.A)
                      for v in c}
         self.m_av = {(a, v): np.zeros(2) for a, c in enumerate(self.A)
                      for v in c}
         self.residual = np.inf
 
-    def _factor(self, c):
+    def _factor(self, c, a=None):
         """exp(bJ sum_{bonds inside c} s_i s_j) as a log-table over 2^|c|.
 
-        A bond lying inside two complexes is summed by both.  That is the
-        double count the chapter is about, and it is deliberate here.
+        With `assign='all'` a bond lying inside two complexes is summed by
+        both.  That is the double count the chapter is about, and it is
+        deliberate there.
         """
         n = len(c)
         s = np.array([[1 if (i >> b) & 1 == 0 else -1 for b in range(n)]
                       for i in range(2 ** n)], dtype=float)
         e = np.zeros(2 ** n)
         for p, q in combinations(range(n), 2):
-            if self.bonds is None or (c[p], c[q]) in self.bonds:
-                e += s[:, p] * s[:, q]
+            if self.bonds is not None and (c[p], c[q]) not in self.bonds:
+                continue
+            if self.owner is not None and self.owner.get((c[p], c[q])) != a:
+                continue
+            e += s[:, p] * s[:, q]
         return (self.bJ * e).reshape((2,) * n)
 
     def _sweep(self):

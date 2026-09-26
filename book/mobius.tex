@@ -470,9 +470,10 @@ error, its double-count and loop parts, and the error with every bond
 assigned to its largest clique; and the share of the ten on which the
 assigned error is within $0.05$ of $-\ln2$. The medians of the recursion's
 error are larger than the $5.06$ Chapter~\ref{ch:overlap} quotes because
-that chapter kept the best fixed point over a ladder of dampings and this
-table keeps the one reached at damping one half; the split does not depend
-on the choice. \code{statmech/\allowbreak probe/\allowbreak
+that chapter's iteration stayed at the paramagnetic fixed point, which is
+unstable on most of these runs (Sec.~\ref{sec:cavityfail}), and this table
+keeps the one reached at damping one half from an iteration that breaks the
+symmetry; the split does not depend on the choice. \code{statmech/\allowbreak probe/\allowbreak
 loopseries\_\allowbreak real.\allowbreak py}.}
 \label{tab:loopseries-real}
 \end{table}

@@ -1,0 +1,23 @@
+hyperbolic done, 16 s
+karrer done, 43 s
+real done, 95 s
+hyperbolic  bJ=0.3: 30 runs; paramagnetic point unstable on 28 (double count) / 19 (assigned); polarised runs settled on 30;
+    double count: paramagnetic median 0.325, stable-point median 2.446 (max 23.0);
+    assigned: stable-point median 0.228 (max 1.14), within 0.05 of ln 2 on 0, below ln 2 + 0.05 on 25, smaller than the double count on 27
+hyperbolic  bJ=0.8: 30 runs; paramagnetic point unstable on 29 (double count) / 29 (assigned); polarised runs settled on 30;
+    double count: paramagnetic median 4.040, stable-point median 8.902 (max 63.3);
+    assigned: stable-point median 0.309 (max 0.69), within 0.05 of ln 2 on 3, below ln 2 + 0.05 on 30, smaller than the double count on 29
+karrer      bJ=0.3: 30 runs; paramagnetic point unstable on 25 (double count) / 16 (assigned); polarised runs settled on 30;
+    double count: paramagnetic median 0.184, stable-point median 2.571 (max 21.8);
+    assigned: stable-point median 0.264 (max 0.61), within 0.05 of ln 2 on 0, below ln 2 + 0.05 on 30, smaller than the double count on 26
+karrer      bJ=0.8: 30 runs; paramagnetic point unstable on 30 (double count) / 30 (assigned); polarised runs settled on 30;
+    double count: paramagnetic median 1.309, stable-point median 9.698 (max 60.1);
+    assigned: stable-point median 0.515 (max 0.70), within 0.05 of ln 2 on 4, below ln 2 + 0.05 on 30, smaller than the double count on 27
+real        bJ=0.3: 60 runs; paramagnetic point unstable on 54 (double count) / 42 (assigned); polarised runs settled on 60;
+    double count: paramagnetic median 1.599, stable-point median 7.697 (max 171.5);
+    assigned: stable-point median 0.259 (max 2.02), within 0.05 of ln 2 on 3, below ln 2 + 0.05 on 52, smaller than the double count on 49
+real        bJ=0.8: 60 runs; paramagnetic point unstable on 56 (double count) / 55 (assigned); polarised runs settled on 60;
+    double count: paramagnetic median 13.917, stable-point median 22.106 (max 458.5);
+    assigned: stable-point median 0.459 (max 0.69), within 0.05 of ln 2 on 3, below ln 2 + 0.05 on 60, smaller than the double count on 56
+
+wrote /Users/avazquez/av2atg/chygraph/statmech/probe/results/cavity_assigned.json
