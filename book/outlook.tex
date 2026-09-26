@@ -114,6 +114,20 @@ The lesson is about null models rather than chygraphs. It recurs here because
 promoting motifs to complexes makes it easy to build a control that differs in
 more than one thing at once.
 
+\paragraph{A converged iteration is not a stable fixed point.} An
+iteration started from symmetric messages stays symmetric, and it settles
+at the paramagnetic fixed point in a few sweeps whether or not that point
+is stable, its residual at rounding. Chapter~\ref{ch:overlap}'s
+measurement of the price of overlap was taken there, and the point is
+unstable on $222$ of its $240$ runs (Sec.~\ref{sec:cavityfail}); the
+cyclic families of Chapter~\ref{ch:metacomplex} were priced at the same
+point. The fix is the linearised recursion of Sec.~\ref{sec:mb-sheaf}: its
+Perron root says whether the point reached is the one to report, and off
+it the fixed point reached from a polarised start is. Where the error
+moved it moved up, so no conclusion of Part~IV was reversed, but the
+numbers are larger than first quoted and the residual alone never
+certified them.
+
 \paragraph{A linear instability is not always the transition.} The branching
 condition $\det(I-B)=0$ locates the loss of stability of a trivial fixed point.
 When the transition is continuous that is the transition; when it is not, it is
@@ -249,7 +263,11 @@ which Chapter~\ref{ch:exactness} measures but does not derive, and what the
 clique-to-clique update becomes when averaged over it. One warning is
 already in hand --- six of twenty non-chordal instances do not converge at
 damping $0.999$, so an ensemble treatment inherits an instability that
-damping alone will not fix.
+damping alone will not fix --- and one bookkeeping item is now settled
+before it: with each bond in one clique and the stable fixed point, the
+error the recursion is left with on overlapping cliques is a few tenths in
+$\ln Z$ (Sec.~\ref{sec:cavityfail}), so it is that remainder, the loops
+between complexes, that the ensemble treatment has to reach.
 
 \emph{Replica symmetry breaking, in general.} The book detects it and does not
 do it. Chapter~\ref{ch:hittingset} gives an entropy that proves the
@@ -360,8 +378,12 @@ with one end answered. Whether the ladder has a fourth rung worth climbing,
 a local treatment of the islands themselves, is open. One rung below the
 first turned out to be missing: Sec.~\ref{sec:mb-computed} finds that
 most of what Part~IV paid on overlapping cliques was the bond counted
-twice, and that giving each bond to one clique, at no cost, removes it
-before any repair is needed.
+twice, and Sec.~\ref{sec:cavityfail} runs the repair on Part~IV's own
+instances --- each bond in one clique, at no cost, and the stable fixed
+point --- and takes the median error from seven in $\ln Z$ to a third,
+before any merge is made; the merge then does better still where it
+applies, since it removes the loop inside a shared pair as well as the
+double count (Sec.~\ref{sec:mergeerror}).
 
 \emph{The mathematics.} Part~V matches the recursion to five fields and
 leaves in each a statement that the physics has computed before the
@@ -374,15 +396,27 @@ whole finite-component distribution by layer where Chapter~\ref{ch:giant}
 has the amplitude (Chapter~\ref{ch:species}); a random cyclic operad whose
 loops are Part~IV (Chapter~\ref{ch:operads}); a level-wise marginal
 problem, which glues exactly when the flattened family is
-$\alpha$-acyclic, a corollary of Vorob'ev's theorem once two notions of
-consistency are shown to coincide (Chapter~\ref{ch:marginal}); and a loop series in which motif
-promotion is a shorter series around a closer fixed point, measured on the
-overlap examples of Chapter~\ref{ch:overlap} (Chapter~\ref{ch:mobius}). The first is done, in Sec.~\ref{sec:rde-computed}, where the test sides
-with Chapter~\ref{ch:hittingset}'s hard-field line and finds a
+$\alpha$-acyclic, a corollary of Vorob'ev's theorem (Chapter~\ref{ch:marginal});
+a loop series in which motif promotion is a shorter series around a closer
+fixed point, measured on the overlap examples of Chapter~\ref{ch:overlap}
+and summed on the ensemble to a closed form in the branching matrix
+(Chapter~\ref{ch:mobius}); and the Bethe Hessian of a chygraph, the
+symmetric operator on the incidence graph whose gap closes where the
+recursion loses stability, tied to the linearised recursion by a graph
+zeta function (Sec.~\ref{sec:mb-sheaf}). The first is done, in
+Sec.~\ref{sec:rde-computed}, where the test sides with
+Chapter~\ref{ch:hittingset}'s hard-field line and finds a
 replica-symmetric answer that is endogenous and wrong; the second in
-Sec.~\ref{sec:sp-computed}; and the fifth in Sec.~\ref{sec:mb-computed},
-where it turns out that most of Part~IV's error was the double count and
-not the loops; the other two are not.
+Sec.~\ref{sec:sp-computed}; the fourth in Sec.~\ref{sec:mg-nested}, where
+the two notions of consistency coincide exactly when every overlap of the
+flattened family is a single vertex, and in Sec.~\ref{sec:mg-marginal},
+where the region-graph beliefs are measured to agree on every overlap and
+the chygraph beliefs not to; the fifth in Sec.~\ref{sec:mb-computed},
+where most of Part~IV's error is the double count, and on the ensemble
+the series diverges exactly at Eq.~\eqref{eq:det}; and the sixth in
+Sec.~\ref{sec:mb-sheaf}, with the stalk dimension a complex needs off the
+trivial fixed point. The operads are the one field left with a statement
+and no computation.
 
 \emph{Inference on the same object.} Everything here runs the recursion
 forward: given an ensemble, compute a threshold. Run backwards it is what
