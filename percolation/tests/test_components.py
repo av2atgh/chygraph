@@ -84,3 +84,45 @@ def test_household_distribution_mass_is_one_minus_S():
         P = D.distribution(300, radius=0.99)
         S = M.node_fraction(subs)
         assert abs(P.sum() - (1 - S)) < 1e-6
+
+
+def test_joint_clique_model_reduces_to_independent_layers():
+    """With both measured laws replaced by independent draws, Sec. 5.5's joint
+    construction is the single-layer clique chygraph, whatever the graph."""
+    import networkx as nx
+    from collections import Counter
+    from sympy import Rational
+    from percolation.giant import Chygraph, _tables, finite_pgf
+    from percolation.components import (ComponentDistribution, joint_clique_model,
+                                        atom_distribution, atom_finite_fraction)
+    g = nx.Graph()
+    # a small clustered graph: two isolated triangles, an isolated edge, and
+    # a chain of cliques of sizes 2, 3, 4 sharing single vertices
+    g.add_edges_from([(0, 1), (1, 2), (0, 2), (3, 4), (4, 5), (3, 5), (6, 7),
+                      (8, 9), (9, 10), (9, 11), (10, 11), (11, 12), (11, 13),
+                      (11, 14), (12, 13), (12, 14), (13, 14)])
+    cliques = [c for c in nx.find_cliques(g) if len(c) >= 2]
+    kappa = Counter(v for c in cliques for v in c)
+    n = g.number_of_nodes()
+    kap = Counter(kappa.get(v, 0) for v in g)
+    pk = {k: Rational(c, n) for k, c in kap.items()}
+    mean = sum(k * v for k, v in pk.items())
+    exc = {k - 1: k * v / mean for k, v in pk.items() if k >= 1}
+    card = Counter(len(c) for c in cliques)
+    m = len(cliques)
+    pc = {c: Rational(v, m) for c, v in card.items()}
+    cmean = sum(c * v for c, v in pc.items())
+    biased = {c: c * v / cmean for c, v in pc.items()}
+    phi, phibar, g_, gbar = _tables(2)
+    phi[0][1], phibar[0][1] = finite_pgf(pk), finite_pgf(exc)
+    g_[1][0] = finite_pgf(biased)
+    gbar[1][0] = finite_pgf({c - 1: v for c, v in biased.items()})
+    Dc = ComponentDistribution(Chygraph(phi, phibar, g_, gbar))
+    Dt = ComponentDistribution(joint_clique_model(g, thinned=True))
+    Pc, Pt = Dc.distribution(10, radius=0.9), atom_distribution(Dt, 10)
+    assert abs(Dc.finite_fraction() - atom_finite_fraction(Dt)) < 1e-10
+    assert float(abs(Pc - Pt).max()) < 1e-10
+    # the measured laws reproduce the isolated cliques exactly
+    Dj = ComponentDistribution(joint_clique_model(g))
+    Pj = atom_distribution(Dj, 10)
+    assert abs(Pj[2] - 2 / n) < 1e-10 and abs(Pj[3] - 6 / n) < 1e-10

@@ -764,3 +764,33 @@ row (25 caches); README.
 Open: Foissy (Ch. 21); joint (cardinality, chy-degree) on the interactomes
 (Ch. 21); Ch. 17's list; Sec. 8.10's list; Ch. 18's list; O(1/n) corrections
 and the ordered phase of the ensemble series (Ch. 24).
+
+## 2026-09-27: the joint laws measured on the interactomes (Sec. 21.4)
+
+`percolation.components.joint_clique_model(g, bins, types, complexes,
+thinned)` + `atom_distribution`, `atom_finite_fraction` (several atom
+layers: mark all, mix root laws by node fractions); `figs/components.py`
+`table_joint`, `check_joint_reduces`, `merged_family`; test in
+`test_components.py` (thinned = clique model to 1e-10; isolated cliques
+exact). Construction: cliques in layers by cardinality (2,3,4,5+ or binned
+to 33 for Collins), atoms in two layers (κ = 1, κ ≥ 2); Φ per atom type =
+measured joint law over classes; G per class = measured joint law over
+member types (JointChygraph derives the excess by differentiation; the
+convention matches clique_model's size-biased G exactly — reduction 1e-16).
+
+Findings (Table 21.2): node-level law alone barely moves the tails (yeast
+0.026 → 0.027 vs 0.060). Both laws: P(2) exact on all nine (by
+construction — the laws record isolated pairs); S within 1% on 6/7 binary
+interactomes; Collins S 1.00 → 0.77 (real 0.62), tail 0 → 0.04 (0.19):
+isolated complexes there are knots of overlapping maximal cliques (4870 on
+1622 nodes) → members κ ≥ 2. On Ch. 16's merged family (476 meta-complexes,
+one of 575 = the giant): S 0.606 vs 0.619, P(3) 0.051 vs 0.054, tail 0.181
+vs 0.186 — repaired; caveat: the merge swallows the giant there. Binary
+interactomes on the merged family: S within 1%, tail deficit halved (yeast
+0.047 vs 0.060). So the failure was correlation (Sec. 5.5) + overlap
+(Ch. 16), not loops. Text: Sec. 21.4 paragraph + Table 21.2, Checks, Sec.
+5.5 pointer, software row, README.
+
+Open: the remaining binary-interactome tail deficit (a third to a half);
+finer bins/types; Foissy (Ch. 21); Ch. 17's list; Sec. 8.10's list;
+Ch. 18's list; O(1/n) corrections and the ordered phase (Ch. 24).

@@ -296,3 +296,247 @@ def borel(mean, nmax):
 
 __all__ = ["ComponentDistribution", "symbolic_series", "good_coefficient",
            "good_by_layer", "borel"]
+
+
+# ---------------------------------------------------------------------------
+# Sec. 5.5's joint laws measured on a graph's clique chygraph (Sec. 21.4)
+# ---------------------------------------------------------------------------
+
+from collections import Counter  # noqa: E402
+from sympy import Rational  # noqa: E402
+
+
+def _clique_classes(cliques, bins):
+    """Class index of every clique from ``bins``, a list of (lo, hi)."""
+    def cls(c):
+        for i, (lo, hi) in enumerate(bins):
+            if lo <= c <= hi:
+                return i
+        raise ValueError(c)
+    return [cls(len(c)) for c in cliques]
+
+
+def default_bins(g, cliques=None):
+    """One class per cardinality up to four and one for the rest, unless the
+    cliques run large, when they are binned by size."""
+    import networkx as nx
+    top = max(len(c) for c in (cliques or nx.find_cliques(g)))
+    if top <= 8:
+        return [(2, 2), (3, 3), (4, 4), (5, top)] if top >= 5 else [(c, c) for c in range(2, top + 1)]
+    return [(2, 2), (3, 3), (4, 4), (5, 7), (8, 14), (15, 24), (25, 49), (50, 99), (100, top)][: (3 + (top >= 5) + (top >= 8) + (top >= 15) + (top >= 25) + (top >= 50) + (top >= 100))]
+
+
+def joint_clique_model(g, bins=None, thinned=False, types=None, complexes=None):
+    """Sec. 5.5's joint construction on the clique chygraph of ``g``.
+
+    Atoms are split into layers by chy-degree (``types``, a list of
+    ``(lo, hi)`` bins; the default is one layer for chy-degree one and one
+    for the rest) and cliques into layers by cardinality (``bins``).  Each
+    atom layer carries the joint distribution of the numbers of cliques of
+    each cardinality class containing an atom of that type, and each clique
+    layer the joint distribution of the numbers of members of each atom
+    type, both measured, so that a node's chy-degree and the cardinalities
+    of its cliques are correlated as in the data and so are the chy-degrees
+    of the members of one clique -- an isolated complex is a clique all of
+    whose members are of the chy-degree-one type.  ``types=[(1, 10**9)]``
+    keeps the atoms in one layer, the node-level law alone;
+    ``thinned=True`` replaces both measured laws by independent draws, the
+    ensemble of :func:`clique_model`, which the marked map must reproduce.
+    """
+    import networkx as nx
+    from percolation.joint import JointChygraph
+    cliques = ([c for c in nx.find_cliques(g) if len(c) >= 2] if complexes is None
+               else [tuple(c) for c in complexes if len(c) >= 2])
+    bins = bins or default_bins(g, cliques)
+    types = types or [(1, 1), (2, 10 ** 9)]
+    A, L = len(types), len(bins)
+    cls = _clique_classes(cliques, bins)
+    n = g.number_of_nodes()
+    kappa = Counter()
+    for c in cliques:
+        for v in c:
+            kappa[v] += 1
+
+    def atype(v):
+        for i, (lo, hi) in enumerate(types):
+            if lo <= kappa[v] <= hi:
+                return i
+        raise ValueError(kappa[v])
+
+    vec = {v: [0] * L for v in g}
+    for c, k in zip(cliques, cls):
+        for v in c:
+            vec[v][k] += 1
+    # atom layers 0..A-1, clique layers A..A+L-1
+    Phi = [None] * (A + L)
+    for t in range(A):
+        nodes = [v for v in g if atype(v) == t]
+        count = Counter(tuple(vec[v]) for v in nodes)
+        tot = len(nodes)
+        if thinned:
+            # global inclusion fractions by class: no correlation kept
+            incl = [sum(vec[v][l] for v in g) for l in range(L)]
+            w = [Rational(m, sum(incl)) for m in incl]
+            kap = Counter(sum(vec[v]) for v in nodes)
+
+            def phi(x, w=w, kap=kap, tot=tot):
+                z = sum(w[l] * x[A + l] for l in range(L))
+                return sum(Rational(m, tot) * z ** k for k, m in kap.items())
+        else:
+            def phi(x, count=count, tot=tot):
+                out = 0
+                for v, m in count.items():
+                    term = Rational(m, tot)
+                    for l in range(L):
+                        term = term * x[A + l] ** v[l]
+                    out = out + term
+                return out
+        Phi[t] = phi
+    G = [None] * (A + L)
+    for l in range(L):
+        members = [Counter(atype(v) for v in c) for c, k in zip(cliques, cls) if k == l]
+        tot = len(members)
+        if thinned:
+            # global type fractions of inclusions: no correlation kept
+            incl = [sum(1 for c in cliques for v in c if atype(v) == t) for t in range(A)]
+            w = [Rational(x, sum(incl)) for x in incl]
+            card = Counter(sum(m.values()) for m in members)
+
+            def gg(y, w=w, card=card, tot=tot):
+                z = sum(w[t] * y[t] for t in range(A))
+                return sum(Rational(m, tot) * z ** c for c, m in card.items())
+        else:
+            count = Counter(tuple(m[t] for t in range(A)) for m in members)
+
+            def gg(y, count=count, tot=tot):
+                out = 0
+                for v, m in count.items():
+                    term = Rational(m, tot)
+                    for t in range(A):
+                        term = term * y[t] ** v[t]
+                    out = out + term
+                return out
+        G[A + l] = gg
+    model = JointChygraph(Phi=Phi, G=G)
+    model.atom_layers = A
+    model.atom_weights = [sum(1 for v in g if atype(v) == t) / n for t in range(A)]
+    return model
+
+
+def atom_distribution(D, nmax, radius=0.9):
+    """``P(s)`` over atoms for a model with several atom layers: mark every
+    atom layer and mix the root laws by the node fractions."""
+    A = getattr(D.model, 'atom_layers', 1)
+    wts = getattr(D.model, 'atom_weights', [1.0])
+    mark = [1] * A + [0] * (D.L - A)
+    return sum(w * D.distribution(nmax, weights=mark, layer=t, radius=radius)
+               for t, w in enumerate(wts))
+
+
+def atom_finite_fraction(D):
+    A = getattr(D.model, 'atom_layers', 1)
+    wts = getattr(D.model, 'atom_weights', [1.0])
+    return sum(w * D.finite_fraction(layer=t) for t, w in enumerate(wts))
+
+
+def atom_distribution(D, nmax, radius=0.9):
+    """``P(s)`` over atoms for a model with several atom layers: mark every
+    atom layer and mix the root laws by the node fractions."""
+    A = getattr(D.model, 'atom_layers', 1)
+    wts = getattr(D.model, 'atom_weights', [1.0])
+    mark = [1] * A + [0] * (D.L - A)
+    return sum(w * D.distribution(nmax, weights=mark, layer=t, radius=radius)
+               for t, w in enumerate(wts))
+
+
+def atom_finite_fraction(D):
+    A = getattr(D.model, 'atom_layers', 1)
+    wts = getattr(D.model, 'atom_weights', [1.0])
+    return sum(w * D.finite_fraction(layer=t) for t, w in enumerate(wts))
+
+
+def interactome_panel(ax, nmax=16):
+    import networkx as nx
+    from real_chygraphs import load
+    out = {}
+    for (name, stem), style in zip(INTERACTOMES, (('o', DARK), ('s', MID))):
+        g = load(stem)
+        n = g.number_of_nodes()
+        comps = sorted((len(c) for c in nx.connected_components(g)), reverse=True)
+        lcc = comps[0] / n
+        real = np.zeros(nmax + 1)
+        for s in comps[1:]:
+            if s <= nmax:
+                real[s] += s / n
+        Pg = ComponentDistribution(graph_model(g), {'p': 1, 'q': 1}).distribution(nmax, radius=0.9)
+        Sg = 1 - ComponentDistribution(graph_model(g), {'p': 1, 'q': 1}).finite_fraction()
+        Dc = ComponentDistribution(clique_model(g))
+        Pc = Dc.distribution(nmax, radius=0.9)
+        Sc = 1 - Dc.finite_fraction()
+        Dj = ComponentDistribution(joint_clique_model(g, complexes=merged_family(g)))
+        Pj = atom_distribution(Dj, nmax)
+        out[name] = dict(n=n, lcc=lcc, Sg=Sg, Sc=Sc, real=real, Pg=Pg, Pc=Pc,
+                         Pj=Pj, Sj=1 - atom_finite_fraction(Dj), small=sum(comps[1:]))
+        print(f'  {name}: n = {n}, largest component {lcc:.3f} of the nodes; '
+              f'graph model S = {Sg:.3f}, clique chygraph S = {Sc:.3f}; '
+              f'{sum(comps[1:])} nodes in {len(comps) - 1} finite components')
+        for s in (1, 2, 3, 4, 6, 8):
+            print(f'    P({s}): real {real[s]:.4f}  graph {Pg[s]:.4f}  clique {Pc[s]:.4f}')
+        ss = np.arange(1, nmax + 1)
+        ax.plot(ss, Pg[1:], ':', color=style[1], lw=1.0)
+        ax.plot(ss, Pc[1:], '-', color=style[1], lw=1.0)
+        ax.plot(ss, Pj[1:], '--', color=style[1], lw=1.0)
+        mask = real[1:] > 0
+        ax.plot(ss[mask], real[1:][mask], style[0], color=style[1], ms=3.2,
+                mfc='white', mew=0.8, label=name)
+    ax.plot([], [], ':', color=DARK, lw=1.0, label='degree distribution')
+    ax.plot([], [], '-', color=DARK, lw=1.0, label='clique chygraph')
+    ax.plot([], [], '--', color=DARK, lw=1.0, label='merged, joint laws')
+    ax.set_yscale('log')
+    ax.set_xlabel('finite component size $s$', fontsize=8)
+    ax.set_ylabel('fraction of nodes', fontsize=8)
+    ax.set_ylim(1e-3, 1)
+    ax.set_xlim(0.5, 16)
+    ax.set_xticks(range(2, 17, 2))
+    ax.legend(fontsize=6.5, frameon=False)
+    _tidy(ax)
+    return out
+
+
+def table(nmax=30):
+    """Table 21.1: real against predicted components, nine networks."""
+    import networkx as nx
+    from real_chygraphs import load
+    rows = []
+    for name, stem in TABLE:
+        g = load(stem)
+        n = g.number_of_nodes()
+        comps = sorted((len(c) for c in nx.connected_components(g)), reverse=True)
+        real = np.zeros(nmax + 1)
+        for s in comps[1:]:
+            if s <= nmax:
+                real[s] += s / n
+        Dg = ComponentDistribution(graph_model(g), {'p': 1, 'q': 1})
+        Pg = Dg.distribution(nmax, radius=0.9)
+        Dc = ComponentDistribution(clique_model(g))
+        Pc = Dc.distribution(nmax, radius=0.9)
+        rows.append((name, n, comps[0] / n, 1 - Dg.finite_fraction(),
+                     1 - Dc.finite_fraction(), real[2], Pg[2], Pc[2],
+                     real[3], Pg[3], Pc[3]))
+        print(f'  {name:20s} n={n:5d} largest {comps[0] / n:.3f} | S graph '
+              f'{1 - Dg.finite_fraction():.3f} clique {1 - Dc.finite_fraction():.3f} | '
+              f'P2 {real[2]:.3f} {Pg[2]:.3f} {Pc[2]:.3f} | P3 {real[3]:.3f} {Pg[3]:.3f} {Pc[3]:.3f}')
+    with open(OUT / 'tab-components.tex', 'w') as f:
+        f.write('% generated by figs/components.py; do not edit\n')
+        f.write('\\begin{tabular}{lrrrrrrrr}\n\\hline\\hline\n')
+        f.write('network & $n$ & largest & \\multicolumn{2}{c}{$S$} '
+                '& \\multicolumn{2}{c}{$P(2)$} & \\multicolumn{2}{c}{$P(3)$}\\\\\n')
+        f.write(' & & real & graph & clique & real & clique & real & clique\\\\\n\\hline\n')
+        for r in rows:
+            name, n, lcc, Sg, Sc, r2, g2, c2, r3, g3, c3 = r
+            vals = ' & '.join(f'{v:.3f}' for v in (lcc, Sg, Sc, r2, c2, r3, c3))
+            f.write(f'{name} & {n} & {vals}\\\\\n')
+        f.write('\\hline\\hline\n\\end{tabular}\n')
+    print('  wrote tab-components.tex')
+
+

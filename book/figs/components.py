@@ -32,7 +32,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from percolation import household_epidemic, hypergraph_giant  # noqa: E402
 from percolation.giant import Chygraph, _tables, finite_pgf  # noqa: E402
 from percolation.components import (  # noqa: E402
-    ComponentDistribution, borel, symbolic_series, good_by_layer,
+    ComponentDistribution, atom_distribution, atom_finite_fraction, borel,
+    default_bins, good_by_layer, joint_clique_model, symbolic_series,
 )
 
 OUT = Path(__file__).resolve().parent
@@ -270,8 +271,10 @@ def interactome_panel(ax, nmax=16):
         Dc = ComponentDistribution(clique_model(g))
         Pc = Dc.distribution(nmax, radius=0.9)
         Sc = 1 - Dc.finite_fraction()
+        Dj = ComponentDistribution(joint_clique_model(g, complexes=merged_family(g)))
+        Pj = atom_distribution(Dj, nmax)
         out[name] = dict(n=n, lcc=lcc, Sg=Sg, Sc=Sc, real=real, Pg=Pg, Pc=Pc,
-                         small=sum(comps[1:]))
+                         Pj=Pj, Sj=1 - atom_finite_fraction(Dj), small=sum(comps[1:]))
         print(f'  {name}: n = {n}, largest component {lcc:.3f} of the nodes; '
               f'graph model S = {Sg:.3f}, clique chygraph S = {Sc:.3f}; '
               f'{sum(comps[1:])} nodes in {len(comps) - 1} finite components')
@@ -280,11 +283,13 @@ def interactome_panel(ax, nmax=16):
         ss = np.arange(1, nmax + 1)
         ax.plot(ss, Pg[1:], ':', color=style[1], lw=1.0)
         ax.plot(ss, Pc[1:], '-', color=style[1], lw=1.0)
+        ax.plot(ss, Pj[1:], '--', color=style[1], lw=1.0)
         mask = real[1:] > 0
         ax.plot(ss[mask], real[1:][mask], style[0], color=style[1], ms=3.2,
                 mfc='white', mew=0.8, label=name)
     ax.plot([], [], ':', color=DARK, lw=1.0, label='degree distribution')
     ax.plot([], [], '-', color=DARK, lw=1.0, label='clique chygraph')
+    ax.plot([], [], '--', color=DARK, lw=1.0, label='merged, joint laws')
     ax.set_yscale('log')
     ax.set_xlabel('finite component size $s$', fontsize=8)
     ax.set_ylabel('fraction of nodes', fontsize=8)
@@ -333,6 +338,78 @@ def table(nmax=30):
     print('  wrote tab-components.tex')
 
 
+def check_joint_reduces(stem='interactome_yeast__interactome_yeast', nmax=16):
+    """The joint model with independent class draws is the clique model."""
+    from real_chygraphs import load
+    g = load(stem)
+    Dc = ComponentDistribution(clique_model(g))
+    Dt = ComponentDistribution(joint_clique_model(g, thinned=True))
+    Pc, Pt = Dc.distribution(nmax, radius=0.9), atom_distribution(Dt, nmax)
+    dS = abs(Dc.finite_fraction() - atom_finite_fraction(Dt))
+    dP = float(np.abs(Pc - Pt).max())
+    print(f'  thinned joint model against the clique model: S differs by {dS:.1e}, '
+          f'P(s) by {dP:.1e}')
+    assert dS < 1e-8 and dP < 1e-8
+
+
+def merged_family(g):
+    """Chapter 16's merge closure of the maximal cliques of ``g``."""
+    import sys
+    import types
+    import networkx as nx
+    sys.modules.setdefault('hrg', types.SimpleNamespace(hrg_calibrated=None))
+    from merge import merge_closure
+    merged, _ = merge_closure([frozenset(c) for c in nx.find_cliques(g) if len(c) >= 2])
+    return [tuple(sorted(c)) for c in merged]
+
+
+def table_joint(nmax=30):
+    """Table 21.2: the measured joint law against the clique model, on the
+    maximal cliques and on their merge closure."""
+    import networkx as nx
+    from real_chygraphs import load
+    rows = []
+    for name, stem in TABLE:
+        g = load(stem)
+        n = g.number_of_nodes()
+        comps = sorted((len(c) for c in nx.connected_components(g)), reverse=True)
+        real = np.zeros(nmax + 1)
+        for s in comps[1:]:
+            if s <= nmax:
+                real[s] += s / n
+        Dc = ComponentDistribution(clique_model(g))
+        Pc = Dc.distribution(nmax, radius=0.9)
+        Dn = ComponentDistribution(joint_clique_model(g, types=[(1, 10 ** 9)]))
+        Pn = atom_distribution(Dn, nmax)
+        Dj = ComponentDistribution(joint_clique_model(g))
+        Pj = atom_distribution(Dj, nmax)
+        merged = merged_family(g)
+        Dm = ComponentDistribution(joint_clique_model(g, complexes=merged))
+        Pm = atom_distribution(Dm, nmax)
+        S = [comps[0] / n, 1 - Dc.finite_fraction(), 1 - atom_finite_fraction(Dn),
+             1 - atom_finite_fraction(Dj), 1 - atom_finite_fraction(Dm)]
+        P2 = [real[2], Pc[2], Pn[2], Pj[2], Pm[2]]
+        tail = [real[4:].sum(), Pc[4:].sum(), Pn[4:].sum(), Pj[4:].sum(), Pm[4:].sum()]
+        rows.append((name, len(merged), max(len(c) for c in merged), S, P2, tail))
+        print(f'  {name:20s} ({len(merged)} meta-complexes, largest {max(len(c) for c in merged)}): '
+              f'S ' + ' '.join(f'{v:.3f}' for v in S) + ' | P2 ' + ' '.join(f'{v:.3f}' for v in P2)
+              + f' | tail(4..{nmax}) ' + ' '.join(f'{v:.3f}' for v in tail)
+              + '   [real, independent, node law, both laws, merged + both laws]')
+    with open(OUT / 'tab-components-joint.tex', 'w') as f:
+        f.write('% generated by figs/components.py; do not edit\n')
+        f.write('\\begin{tabular}{lrrrrrrrrrrrr}\n\\hline\\hline\n')
+        f.write('network & \\multicolumn{4}{c}{$S$} & \\multicolumn{4}{c}{$P(2)$} '
+                '& \\multicolumn{4}{c}{$\\sum_{s\\ge4}P(s)$}\\\\\n')
+        f.write(' & real & ind. & joint & merged & real & ind. & joint & merged '
+                '& real & ind. & joint & merged\\\\\n\\hline\n')
+        for name, nm, top, S, P2, tail in rows:
+            vals = [S[0], S[1], S[3], S[4], P2[0], P2[1], P2[3], P2[4], tail[0], tail[1], tail[3], tail[4]]
+            f.write(f'{name} & ' + ' & '.join(f'{v:.3f}' for v in vals) + '\\\\\n')
+        f.write('\\hline\\hline\n\\end{tabular}\n')
+    print('  wrote tab-components-joint.tex')
+    return rows
+
+
 def figure():
     plt = _mpl()
     fig, axes = plt.subplots(2, 1, figsize=(3.4, 4.0))
@@ -351,5 +428,7 @@ if __name__ == '__main__':
     print('exact routes:'); check_exact_routes()
     print('joint distribution:'); check_joint()
     print('table:'); table()
+    print('the joint laws reduce:'); check_joint_reduces()
+    print('table, joint laws:'); table_joint()
     print('figure:'); figure()
     print(f'done in {time.time() - t0:.0f} s')
