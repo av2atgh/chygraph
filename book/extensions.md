@@ -794,3 +794,21 @@ interactomes on the merged family: S within 1%, tail deficit halved (yeast
 Open: the remaining binary-interactome tail deficit (a third to a half);
 finer bins/types; Foissy (Ch. 21); Ch. 17's list; Sec. 8.10's list;
 Ch. 18's list; O(1/n) corrections and the ordered phase (Ch. 24).
+
+## 2026-09-27: the remaining binary-interactome tail (Sec. 21.4)
+
+Refining the atom types (2 → 3 → 5 → 7 by chy-degree) on the merged joint
+model makes the tail *smaller* (yeast 0.047 → 0.033 vs 0.060) and S larger;
+five-type thinned still reduces to the clique model (1e-16). Diagnostic
+(`figs/components.py:table_periphery`, `tab-components-periphery.tex`,
+Table 21.3): P(neighbour κ ≤ 2 | κ = 1) is 0.73–0.91 inside finite
+components vs 0.04–0.16 inside the giant (max neighbour κ 1.4–2.1 vs
+10–65); the giant holds 70–99% of the κ ≤ 2 nodes, so any whole-network
+member law is the giant's and routes the periphery into it. The residual
+is a component-scale correlation (which component a node is in), beyond
+any one-step law — the network-scale version of Sec. 5.5's correlation.
+Text: paragraph "What remains, and why it is not local" + Table 21.3;
+Checks partial results. Closed as attributed, not repaired.
+
+Open: Foissy (Ch. 21); Ch. 17's list; Sec. 8.10's list; Ch. 18's list;
+O(1/n) corrections and the ordered phase of the ensemble series (Ch. 24).
