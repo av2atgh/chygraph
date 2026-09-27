@@ -29,18 +29,21 @@
 %
 % Second edition, 2026-09-27: at 535 pages the book crossed the next step,
 % 500 pages, where the required gutter becomes 0.75in. The outer margin was
-% already at its floor, so the measure narrows: inner 0.75in, outer 0.3in,
-% text width 3.95in instead of 4.05in. Everything reflows; fixed-width
+% already at its floor, so the measure narrows: inner 0.77in (0.75 plus a
+% little slack the check asked for), outer 0.3in, text width 3.93in instead
+% of 4.05in; character protrusion is off so no ink hangs past the line. Everything reflows; fixed-width
 % tables were refitted to the new measure.
 \usepackage[paperwidth=5in,paperheight=8in,includehead,
-            inner=0.75in,outer=0.3in,top=0.56in,bottom=0.64in]{geometry}
+            inner=0.77in,outer=0.3in,top=0.56in,bottom=0.64in]{geometry}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{adjustbox}
 \usepackage[round,authoryear]{natbib}
 \usepackage[hidelinks]{hyperref}
-\usepackage{microtype}
+% protrusion off: hung punctuation crossed the gutter line on a print check
+\usepackage[protrusion=false]{microtype}
+\setlength{\emergencystretch}{1.2em}   % a looser line rather than one over the gutter
 \usepackage{makeidx}
 \makeindex
 

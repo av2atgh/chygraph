@@ -15,14 +15,14 @@ numbered equation the book actually computes with.
 One repository, holding two packages that install separately and carry their
 own test suites:
 
-\begin{quote}
-\footnotesize\url{https://github.com/av2atgh/chygraph}
-\end{quote}
+\begin{center}
+\small\url{https://github.com/av2atgh/chygraph}
+\end{center}
 
 \noindent
-\code{percolation/} carries percolation on chygraphs: the self-consistency map,
+\code{percolation/} carries percolation on chygraphs: the self-con\-sis\-tency map,
 the threshold tensor, the critical amplitude, correlated layers, and the
-constructions of Chapters~\ref{ch:percolation}--\ref{ch:epidemics}. It is
+constructions of Chapters~\ref{ch:percolation} to \ref{ch:epidemics}. It is
 symbolic throughout, on \code{sympy}.
 
 \code{statmech/} carries everything from Chapter~\ref{ch:statmech} onward: the
@@ -121,7 +121,8 @@ Table~\ref{tab:map} is the map. Where a chapter has no manuscript behind it the
 ``evaluated by'' column names a function in the book's own \code{figs/} script,
 and the check is in the same file.
 
-{\scriptsize\setlength{\tabcolsep}{3pt}
+{\scriptsize\setlength{\tabcolsep}{3pt}\setlength{\LTcapwidth}{\textwidth}
+\setlength\LTleft{\fill}\setlength\LTright{\fill}
 \begin{longtable}{@{}L{0.11\textwidth} L{0.215\textwidth} L{0.325\textwidth} L{0.21\textwidth}@{}}
 \caption{\textbf{Every computed equation, and what checks it.} Routines are in
 \code{percolation/} for Part~II and \code{statmech/} for Parts~III to~V
