@@ -43,15 +43,18 @@ ending on the routine that executes it.
 | 25 | `outlook.tex` | One recursion, many models; the two running threads; what is not done |
 | — | `software.tex` | Back matter. Repo links; equation-to-method-to-test table; how to reproduce a figure |
 
-**Part V computes four things: Sec. 20.5's endogeny test**
+**Part V computes six things: Sec. 20.5's endogeny test**
 (`statmech/src/statmech/endogeny.py`, `statmech/probe/endogeny.py`,
 `figs/endogeny.py`), **Sec. 21.4's finite-component distribution by layer**
 (`percolation/src/percolation/components.py`, `figs/components.py`),
 **Sec. 24.3's loop series** (`statmech/src/statmech/loopseries.py`,
 `figs/loopseries.py`; on the ensemble, `statmech/src/statmech/ensembleloops.py`,
-`figs/ensembleloops.py`) **and Sec. 24.6's Bethe Hessian**
+`figs/ensembleloops.py`) **Sec. 24.6's Bethe Hessian**
 (`statmech/src/statmech/bethehessian.py`, `figs/bethehessian.py`, with the
-matrix-weighted identity and the stalk dimension);
+matrix-weighted identity and the stalk dimension) **and Sec. 23.2's two
+Vorob'ev measurements** (`statmech/probe/pair_consistency.py`); it also
+reruns Part IV at the stable fixed point (`probe/cavity_assigned.py`,
+`merge_stable.py`, `gbp_stable.py`);
 Chs. 20, 21, 23 and 24 have Checks sections and the other
 two chapters do not. They
 were written on 2026-09-25 from `~/Downloads/chygraph_master_equation/draft.tex`

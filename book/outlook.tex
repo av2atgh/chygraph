@@ -114,7 +114,7 @@ The lesson is about null models rather than chygraphs. It recurs here because
 promoting motifs to complexes makes it easy to build a control that differs in
 more than one thing at once.
 
-\paragraph{A converged iteration is not a stable fixed point.} An
+\paragraph{A converged iteration is not a stable fixed point.}\index{fixed point!symmetric, kept by the iteration} An
 iteration started from symmetric messages stays symmetric, and it settles
 at the paramagnetic fixed point in a few sweeps whether or not that point
 is stable, its residual at rounding. Chapter~\ref{ch:overlap}'s
@@ -245,6 +245,18 @@ threshold well above the graph's own; hyperbolic random graphs fail only at
 the centre. On real networks a rewired control sorts the short loops into
 those the groups absorb, those the degree sequence makes and those the
 geometry makes.
+
+\emph{The price of overlap is bookkeeping first and structure second.}
+Chapter~\ref{ch:overlap} priced the recursion on overlapping cliques at a
+median of seven in $\ln Z$ over $240$ runs, once its fixed point is the
+stable one. Two things that are not the overlap account for most of it: a
+bond lying inside two complexes counted by both, and the symmetric fixed
+point the iteration kept where it was unstable. With each bond in one
+clique and the stable fixed point the median is a third, at most $\ln2$ at
+the stronger coupling, and what remains is the loop that runs between
+complexes, which the merge of Chapter~\ref{ch:metacomplex} halves again
+and the region graph of Chapter~\ref{ch:gbp}, whose symmetric fixed point
+is stable where the recursion's is not, takes to a few hundredths.
 
 \section{What the book does not do}
 \label{sec:notdone}

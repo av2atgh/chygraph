@@ -84,11 +84,15 @@ class BinaryFactorGraph:
         ``assign='once'`` gives each bond to the largest complex containing
         it (ties to the first), so that the model is the pairwise model;
         ``'all'`` gives every complex every bond inside it, the chygraph
-        recursion's double count.
+        recursion's double count; a dict ``{bond: complex index}`` is an
+        explicit assignment of the bonds it names, the rest by ``'once'``.
         """
         cx = [tuple(sorted(int(v) for v in c)) for c in complexes]
         bonds = {tuple(sorted(map(int, e))) for e in edges}
         owner = {}
+        if isinstance(assign, dict):
+            owner = {tuple(sorted(map(int, k))): int(v) for k, v in assign.items()}
+            assign = 'once'
         if assign == 'once':
             order = sorted(range(len(cx)), key=lambda a: (-len(cx[a]), a))
             for a in order:

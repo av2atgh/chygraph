@@ -72,8 +72,12 @@ class ChygraphBP:
         self.bonds = None if edges is None else {
             tuple(sorted(e)) for e in edges}
         self.owner = None
+        if isinstance(assign, dict):
+            self.owner = {tuple(sorted(k)): int(v) for k, v in assign.items()}
+            assign = 'once'
         if assign == 'once':
-            self.owner = {}
+            if self.owner is None:
+                self.owner = {}
             order = sorted(range(len(self.A)), key=lambda a: (-len(self.A[a]), a))
             for a in order:
                 for e in combinations(self.A[a], 2):

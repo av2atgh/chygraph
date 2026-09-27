@@ -11,6 +11,7 @@ two representations of the same model with different loops.
 import math
 
 import networkx as nx
+import numpy as np
 
 from statmech.loopseries import (
     BinaryFactorGraph, generalised_loops, loop_series, partial_sums,
@@ -97,3 +98,19 @@ def test_max_edges_cutoff_is_a_prefix():
     full = {loop for loop in generalised_loops(fg)}
     cut = {loop for loop in generalised_loops(fg, max_edges=8)}
     assert cut == {l for l in full if sum(len(x) for _, x in l) <= 8}
+
+
+def test_explicit_assignment_fills_the_unshared_bonds():
+    # two triangles sharing the bond (1, 2): naming an owner for that bond
+    # alone must leave every other bond in place, so the exact model does
+    # not change and the bond moves from one table to the other
+    cx, e = [(0, 1, 2), (1, 2, 3)], [(0, 1), (0, 2), (1, 2), (1, 3), (2, 3)]
+    fgs = [BinaryFactorGraph.promoted(cx, e, 0.5, {(1, 2): a}) for a in (0, 1)]
+    exact = [fg.exact_log_Z() for fg in fgs]
+    assert abs(exact[0] - exact[1]) < 1e-12
+    assert abs(exact[0] - BinaryFactorGraph.pairwise(e, 0.5).exact_log_Z()) < 1e-12
+    weight = [[float(np.abs(t).sum()) for _, t in fg.factors] for fg in fgs]
+    assert weight[0][0] > weight[1][0] and weight[0][1] < weight[1][1]
+    assert abs(sum(weight[0]) - sum(weight[1])) < 1e-12
+    once = BinaryFactorGraph.promoted(cx, e, 0.5, 'once').bp()
+    assert abs(fgs[0].bp().log_Z_bethe() - once.log_Z_bethe()) < 1e-12
