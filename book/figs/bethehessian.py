@@ -388,7 +388,7 @@ def main():
     checks()
     cache = json.loads(CACHE.read_text()) if CACHE.exists() else {}
     plt = _mpl()
-    fig, axes = plt.subplots(3, 1, figsize=(3.4, 7.2))
+    fig, axes = plt.subplots(3, 1, figsize=(3.4, 4.6))
     print('panel (a)')
     inst = panel_instance(axes[0])
     print(f"  beta* = {inst['beta_star']:.5f}, ensemble {inst['beta_c']:.5f}")

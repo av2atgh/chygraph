@@ -73,7 +73,7 @@ container,
 and therefore
 \begin{equation}
   c_{x}=1-\kappa_{x}
-  \qquad\text{for every vertex, atom or complex, at every depth.}
+  \qquad\text{for every vertex, at every depth,}
   \label{eq:mb-treecount}
 \end{equation}
 That is Eq.~\eqref{eq:bethe}: $1-\kappa$ on every atom, and on every complex
@@ -897,20 +897,18 @@ a $4$-regular graph and on two triangles per atom.
 
 \begin{figure}[tp]
 \centering
-\includegraphics[width=0.8\linewidth]{figs/fig-bethehessian.pdf}
+\includegraphics[width=0.75\linewidth]{figs/fig-bethehessian.pdf}
 \caption{\textbf{The Bethe Hessian of a chygraph.} (a) One random
 chygraph of three hundred atoms with Poisson layers of links, triangles
-and $4$-cliques: the Perron root of the linearised recursion less one,
-and the smallest eigenvalue of the vertex Bethe Hessian of
-Eq.~\eqref{eq:mb-hessian}, against the coupling. They cross zero at the
-same point, the dotted line; the grey line is the ensemble threshold of
-Eq.~\eqref{eq:branch}. (b) The instance threshold less the ensemble one
-against the number of atoms, eight instances per point, three Poisson
-ensembles. (c) The distance of a complex's block from the nearest product
-form $\alpha_{v}\beta_{u}$: solid, a homogeneous complex at $\beta J=0.5$
-with random fields of the given spread on its members; dashed, couplings
-of both signs at zero field against the coupling. Three members factorise
-whatever the fields; four and five do not.
+and $4$-cliques: the Perron root of the linearised recursion less one and
+the smallest eigenvalue of the vertex Bethe Hessian, Eq.~\eqref{eq:mb-hessian},
+against the coupling; both cross zero at the dotted line, the grey line
+being the ensemble threshold of Eq.~\eqref{eq:branch}. (b) The instance
+threshold less the ensemble one against the number of atoms, eight
+instances per point, three Poisson ensembles. (c) The distance of a
+complex's block from the nearest product form: a homogeneous complex at
+$\beta J=0.5$ with random fields of the given spread (solid), and
+couplings of both signs at zero field against the coupling (dashed).
 \code{figs/\allowbreak bethehessian.\allowbreak py}.}
 \label{fig:bethehessian}
 \end{figure}
