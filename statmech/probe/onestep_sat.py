@@ -408,17 +408,18 @@ def check_m0_threshold(alphas=(4.15, 4.25, 4.35), seed=0):
 # ------------------------------------------------------------------ scan
 
 def _point(args):
-    alpha, m, seed, M, P, sweeps, nsamp = args
+    alpha, m, seed, M, P, sweeps, nsamp, *rest = args
+    k = rest[0] if rest else K
     t0 = time.time()
-    r = OneStep(alpha, m, M=M, P=P, seed=seed).run(sweeps).potential(nsamp, reps=2)
-    r.update(alpha=alpha, m=m, seed=seed, sec=round(time.time() - t0, 1))
+    r = OneStep(alpha, m, M=M, P=P, seed=seed, k=k).run(sweeps).potential(nsamp, reps=2)
+    r.update(alpha=alpha, m=m, seed=seed, k=k, sec=round(time.time() - t0, 1))
     print(' '.join(f'{k}={v:.5g}' if isinstance(v, float) else f'{k}={v}' for k, v in r.items()), flush=True)
     return r
 
 
 def scan(alphas=(3.7, 3.8, 3.86, 3.9, 3.95, 4.0, 4.05, 4.1, 4.15, 4.2, 4.25),
          ms=(0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0),
-         seeds=(0, 1), M=1000, P=200, sweeps=300, nsamp=400000, procs=8, out=OUT):
+         seeds=(0, 1), M=1000, P=200, sweeps=300, nsamp=400000, procs=8, out=OUT, k=K):
     # resume: skip the points already in the log of a previous, interrupted run
     done = set()
     log = out.with_name(out.stem + '_scan.log') if out == OUT else out.with_suffix('.log')
@@ -427,7 +428,7 @@ def scan(alphas=(3.7, 3.8, 3.86, 3.9, 3.95, 4.0, 4.05, 4.1, 4.15, 4.2, 4.25),
             if line.startswith('F='):
                 r = dict(tok.split('=') for tok in line.split())
                 done.add((float(r['alpha']), float(r['m']), int(r['seed'])))
-    jobs = [(a, m, s, M, P, sweeps, nsamp) for a in alphas for m in ms for s in seeds
+    jobs = [(a, m, s, M, P, sweeps, nsamp, k) for a in alphas for m in ms for s in seeds
             if (a, m, s) not in done]
     with Pool(procs) as pool:
         rows = pool.map(_point, jobs) if jobs else []

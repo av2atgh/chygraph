@@ -849,3 +849,28 @@ n = 2000 instance; layer sequences from the branching matrix; counts
 tr(B₀ˡ)/2ℓ): 0.31, 0.14, 0.09 — matches at 1.5 and 2 β_c, low at 1.2 (finite
 n on the instance side). Below threshold reproduces u'^ℓ to 1e-10. Text:
 Sec. 24.3 paragraph "The ordered phase", Checks, software row.
+
+## 2026-09-27: status of the research-scale items (not closed)
+
+- **Ch. 17 (a), the ensemble past k̄_a** (separator-typed messages over a
+  random join tree): needs the joint law of separator sizes and island
+  shapes in the ensemble (measured in `acyclicity_*.csv` as sizes only) and
+  a message per separator type; a new recursion, not a rerun. Not started.
+- **Ch. 17 (b), HRG layer data from the geometry**: the clique-layer
+  moments of a hyperbolic graph as functions of (n, k̄, τ) — an analytic
+  derivation from the disc model. Not started; the moments are measured in
+  `probe/clique_moments.py`.
+- **Sec. 8.10 / 13.10, hard fields at m → 0**: a delta weight in the survey
+  population = survey propagation at finite m; the current population
+  freezes for the reason Sec. 13.10 gives. Not implemented. **k ≥ 4**: scan
+  running (`probe/onestep_k4.py`). **Block density at large N by
+  equilibrium sampling**: needs an unbiased solution sampler (MCMC in the
+  clustered phase mixes badly); WalkSAT samples are biased. Not started.
+- **Ch. 18, exponents**: no finite-size scaling of the mobility edge was
+  attempted; the population's growth rate near the edge would give a
+  localisation-length exponent only with a scaling ansatz Tonetti et al.
+  supply for the tree. **Explicit hard fields for the imaginary parts**: not
+  implemented. **Real-network clique chygraphs by layer**: instance attempt
+  on yeast (hub-dominated spectrum; cavity landscape 60% off on the loopy
+  instance) written into Sec. 18.8; the population by layer (extension of
+  `anderson.Ensemble` from (s, t) to a layer table) not implemented.

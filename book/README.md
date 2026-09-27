@@ -428,6 +428,12 @@ instances (networkx simple cycles of the incidence graph) and the exact
 ln Z − ln Z_BP by enumeration on small instances (cached in
 `statmech/probe/results/ensembleloops.json`).
 
+Further probes of 2026-09-27: `statmech/probe/phi_growing.py` (φ on rewired,
+replicated degree sequences; Table 17.x), `fss_big.py` (a fourth size for the
+d = 2 acyclicity scaling), `onestep_k4.py` (the one-step SAT scan at k = 4),
+`assignment_rules.py`, `gbp_stable.py`, `merge_stable.py`, `cavity_assigned.py`,
+`pair_consistency.py`; `ensembleloops.quenched_series` for the ordered phase.
+
 ## Conventions
 
 - Drawing vocabulary is fixed once, in `main.tex`: `nd` (node), `ndf` (filled
