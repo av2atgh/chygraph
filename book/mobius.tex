@@ -617,6 +617,35 @@ of four or more members admit two cycles through disjoint member pairs,
 whose union carries a four-point correlation in place of the product,
 which is where the hard-core rule stops and the general case begins.
 
+\paragraph{The ordered phase.} Above the threshold the fixed point is
+polarised and the weight of a cycle carries the atom factors
+$\mu_{i}=1/(1-m_{i}^{2})$ of Eq.~\eqref{eq:mb-loopseries}, which grow
+without bound as the atoms order, against complex factors that are
+connected correlations and vanish as they do. The two are anticorrelated
+along a cycle: at twice the threshold on the first ensemble of
+Fig.~\ref{fig:ensembleloops} the atom factor averages $196$ on instances
+of three hundred atoms while the cycle sum has fallen to $0.09$, so no
+product of means represents the ordered phase, and the annealed form of
+Eq.~\eqref{eq:mb-ensembleseries} with $u'$ replaced by an average
+correlation is wrong by an order of magnitude (a cycle of three triangles
+at $1.2\,\beta_{c}$ has $\langle r_{C}\rangle=0.037$ against $u'^{3}=0.24$).
+The ensemble average has to be quenched: draw a cycle of $\ell$ complexes
+with its hanging trees, every off-cycle message taken from the message
+population of the polarised fixed point, solve that unicyclic instance
+exactly, and take the loop term there
+(\code{ensembleloops.\allowbreak quenched\_\allowbreak series}, with the
+population read off one instance of two thousand atoms). Below the
+threshold this returns $u'^{\ell}$ to $10^{-10}$; above it, with the
+cycle counts of the branching matrix and the layer sequences drawn from
+it, it gives $0.31$, $0.14$ and $0.09$ at $1.2$, $1.5$ and $2$ times the
+threshold, against $0.41\pm0.05$, $0.15\pm0.04$ and $0.09\pm0.04$ from
+the cycle sums on instances of three hundred atoms at their polarised
+fixed point: within the scatter at the two stronger couplings, and below
+the instance value near the threshold, where three hundred atoms are less
+ordered than the limit. The loop part of the ordered phase is a few
+hundredths to a few tenths, on top of the $\ln2$ of the sector, and it
+falls with the coupling.
+
 \begin{figure}[tp]
 \centering
 \includegraphics[width=\linewidth]{figs/fig-ensembleloops.pdf}
@@ -1086,7 +1115,13 @@ gas of Eq.~\eqref{eq:mb-hardcore} against exact enumeration on forty-one
 instances, and its first Mayer term's $1/n$ scaling on instances of $100$
 to $3000$ atoms (\code{ensembleloops.\allowbreak hardcore\_\allowbreak
 log\_\allowbreak sum}, \code{pair\_\allowbreak correction},
-\code{pair\_\allowbreak correction\_\allowbreak ensemble}).
+\code{pair\_\allowbreak correction\_\allowbreak ensemble}). The
+quenched cycle average of the ordered phase returns $u'^{\ell}$ below the
+threshold to $10^{-10}$ (\code{test\_\allowbreak ensembleloops}) and is
+checked above it against instance cycle sums at three couplings, on one
+ensemble, with the population read off a single instance; the identity
+of Eq.~\eqref{eq:mb-loopseries} itself holds at the polarised fixed
+point to $10^{-14}$ on thirty-seven instances.
 
 The chygraph Bethe Hessian of Sec.~\ref{sec:mb-sheaf}
 (\code{statmech/\allowbreak src/\allowbreak statmech/\allowbreak

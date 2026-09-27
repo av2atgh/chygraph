@@ -199,3 +199,117 @@ def pair_correction_ensemble(cardinalities, means, n, beta_J, lmax=10):
         S += P
         P = P @ B
     return float(sum(S[m, m] ** 2 / (8 * M[m]) for m in range(L)))
+
+
+# ---------------------------------------------------------------------------
+# the ordered phase: a quenched cycle average
+# ---------------------------------------------------------------------------
+#
+# Above the threshold the weight of a cycle at the polarised fixed point is a
+# product of atom factors 1/(1 - m_i^2), which grow without bound as the
+# atoms order, and complex factors, connected correlations, which vanish as
+# they do; the two are anticorrelated along the cycle and the annealed
+# product of their means is not the mean of the product.  The quenched
+# average draws a cycle with its hanging trees -- every off-cycle message
+# from the message population of the fixed point -- solves that unicyclic
+# instance exactly, and takes the loop term there.
+
+def message_population(complexes, beta_J, h=0.5, damping=0.5):
+    """The complex-to-atom fields of the polarised fixed point of one large
+    instance, grouped by cardinality, and the atoms' chy-degree means per
+    cardinality: an empirical population."""
+    from statmech.bethehessian import clique_factor_graph
+    from statmech.loopseries import SPIN
+    fg = clique_factor_graph(complexes, beta_J)
+    for k in fg.m_va:
+        fg.m_va[k] = h * SPIN
+    fg.bp(damping=damping)
+    pop = {}
+    for (a, v), m in fg.m_av.items():
+        c = len(fg.factors[a][0])
+        pop.setdefault(c, []).append(0.5 * float(m[0] - m[1]))
+    return {c: np.array(vals) for c, vals in pop.items()}, fg
+
+
+def quenched_cycle_terms(pop, means_by_card, layer_seq, beta_J, rng, samples=200):
+    """``<ln(1 + r_C)>`` and ``<r_C>`` over cycles through complexes of the
+    cardinalities in ``layer_seq``, each atom on the cycle carrying
+    Poisson(``means_by_card[c]``) further cliques of each cardinality whose
+    fields are drawn from ``pop``, and each off-cycle member likewise."""
+    from statmech.loopseries import BinaryFactorGraph, loop_term, ising_factors
+    from itertools import combinations
+    ell = len(layer_seq)
+    out_ln, out_r = [], []
+    for _ in range(samples):
+        # atoms 0..ell-1 on the cycle; complex k joins atoms k and k+1 mod ell
+        complexes, nxt = [], ell
+        field = {}
+        for k, c in enumerate(layer_seq):
+            members = [k, (k + 1) % ell] + list(range(nxt, nxt + c - 2))
+            nxt += c - 2
+            complexes.append(tuple(members))
+        for v in range(nxt):
+            f = 0.0
+            for c, mu in means_by_card.items():
+                # an on-cycle atom has excess cliques; an off-cycle member too,
+                # both Poisson (the excess of a Poisson is itself)
+                for _ in range(rng.poisson(mu)):
+                    f += float(rng.choice(pop[c]))
+            field[v] = f
+        edges = [e for cx in complexes for e in combinations(cx, 2)]
+        fg = BinaryFactorGraph.promoted(complexes, edges, beta_J, 'all',
+                                        field=0.0)
+        # external fields: add to every factor containing the atom, split evenly
+        deg = {v: sum(1 for cx in complexes if v in cx) for v in field}
+        for a, (sc, t) in enumerate(fg.factors):
+            for p, v in enumerate(sc):
+                if field[v]:
+                    sh = [1] * len(sc)
+                    sh[p] = 2
+                    t = t + (field[v] * np.array([1.0, -1.0])).reshape(sh) / deg[v]
+            fg.factors[a] = (sc, t)
+        fg.bp(damping=0.5)
+        loop = tuple((a, (k, (k + 1) % ell)) for a, k in enumerate(range(ell)))
+        r = loop_term(fg, loop)
+        out_ln.append(math.log1p(r) if r > -1 else float('nan'))
+        out_r.append(r)
+    return float(np.nanmean(out_ln)), float(np.mean(out_r))
+
+
+def quenched_series(pop, cardinalities, means, beta_J, rng, lmax=8, samples=200):
+    """``E[ln Z - ln Z_BP]`` at the polarised fixed point: the cycle counts of
+    the unweighted branching matrix times the quenched cycle terms, the
+    layer sequence of each cycle sampled from the branching matrix."""
+    from statmech.ising import branching_matrix
+    B = branching_matrix(cardinalities, means, 1e-9)  # u' -> 0: counts only
+    B = B / np.array([clique_derivative(int(c), 1e-9) for c in cardinalities])[None, :]
+    L = len(cardinalities)
+    means_by_card = {int(c): float(mu) for c, mu in zip(cardinalities, means)}
+    total = 0.0
+    detail = {}
+    for ell in range(2, lmax + 1):
+        P = np.linalg.matrix_power(B, ell)
+        count = np.trace(P) / (2 * ell)
+        # sample layer sequences with weight prod B along a closed walk
+        seqs = []
+        for _ in range(samples):
+            l = rng.integers(L)
+            start = l
+            seq = [l]
+            for _ in range(ell - 1):
+                w = B[l]
+                l = rng.choice(L, p=w / w.sum())
+                seq.append(l)
+            seqs.append(seq)
+        # importance: closed walks only; accept sequences returning to start
+        terms = []
+        for seq in seqs:
+            if B[seq[-1], seq[0]] <= 0:
+                continue
+            terms.append(quenched_cycle_terms(pop, means_by_card,
+                                              [int(cardinalities[l]) for l in seq],
+                                              beta_J, rng, samples=1)[0])
+        mean = float(np.nanmean(terms)) if terms else 0.0
+        detail[ell] = (count, mean)
+        total += count * mean
+    return total, detail

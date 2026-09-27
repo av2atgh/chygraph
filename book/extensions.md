@@ -834,3 +834,18 @@ within 30% (undercount: path-sharing pairs correlated). Diverges as
 (1−λ)⁻² → expansion valid for 1−λ ≫ n^{−1/2}. 4-cliques: two cycles through
 disjoint pairs carry a 4-point term — not covered. Text: Sec. 24.3
 paragraph "The next order", Eq. (mb-hardcore), Checks, software row.
+
+## 2026-09-27: the ordered phase of the ensemble series (Sec. 24.3)
+
+`ensembleloops.message_population / quenched_cycle_terms / quenched_series`
+(+ test). Instance facts (n = 18 exact, polarised start): the full loop
+series is exact at the polarised point (1e-14); the cycle sum leaves a
+remainder growing with β (0.05, 0.13, 0.21 at 1.2, 1.5, 2 β_c; n = 18 is
+only weakly ordered, <|m|> 0.08–0.27). n = 300 cycle sums at the polarised
+point: 0.41, 0.15, 0.09 (±0.04). Atom factor 1/(1−m²) averages 196 at 2β_c:
+annealed ∏<μ> fails (3-triangle cycle <r> 0.037 vs u'^3 0.24 at 1.2 β_c).
+Quenched MC (cycle + hanging trees from the message population of an
+n = 2000 instance; layer sequences from the branching matrix; counts
+tr(B₀ˡ)/2ℓ): 0.31, 0.14, 0.09 — matches at 1.5 and 2 β_c, low at 1.2 (finite
+n on the instance side). Below threshold reproduces u'^ℓ to 1e-10. Text:
+Sec. 24.3 paragraph "The ordered phase", Checks, software row.

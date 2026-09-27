@@ -86,3 +86,14 @@ def test_hardcore_gas_of_cycles_is_exact_at_the_trivial_point():
         assert prod >= ex - 1e-12 and prod - pair_correction(cycles) <= ex + 1e-12
         seen += 1
     assert seen >= 10
+
+
+def test_quenched_cycle_average_reduces_below_threshold():
+    from statmech.ensembleloops import message_population, quenched_cycle_terms
+    rng = np.random.default_rng(0)
+    big = random_chygraph(600, [2, 3], [1.2, 0.5], rng)
+    pop, fg = message_population(big, 0.25)
+    assert max(abs(fg.magnetisation(v)) for v in fg.nodes) < 1e-6
+    _, r = quenched_cycle_terms(pop, {2: 1.2, 3: 0.5}, [3, 2, 3], 0.25, rng, samples=20)
+    u2, u3 = clique_derivative(2, 0.25), clique_derivative(3, 0.25)
+    assert abs(r - u2 * u3 * u3) < 1e-10
