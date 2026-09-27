@@ -739,3 +739,28 @@ Open: an optimised bond-assignment rule; Foissy (Ch. 21); joint
 (cardinality, chy-degree) on the interactomes (Ch. 21); Ch. 17's list;
 Sec. 8.10's list; Ch. 18's list; O(1/n) corrections and the ordered phase
 of the ensemble series (Ch. 24).
+
+## 2026-09-27: the bond-assignment rule (Sec. 14.3)
+
+`statmech/probe/assignment_rules.py` (results `assignment_rules.json`,
+~30 min with the oracle capped at 40 evaluations; an uncapped first run was
+killed after 2.5 h on the hospital neighbourhoods). `BinaryFactorGraph.promoted`
+and `ChygraphBP` accept an explicit `{bond: clique}` assignment (test: the
+exact model is unchanged; a first version of the hook dropped the unshared
+bonds, which made the stability test pass wrongly — caught by the mismatch
+with `cavity_assigned` on the runs with an unstable symmetric point).
+Protocol = Sec. 14.3's stable point (the uniform-start BP of Sec. 24.3 sits
+at the unstable symmetric point on these instances — its errors are the
+paramagnetic ones). Medians over 240 runs: largest 0.343 (= cavity_assigned's
+0.35), strongest indirect correlation 0.354 (picks the largest clique almost
+always), smallest 0.438, weakest 0.454, balance 0.465, random median 0.440,
+random best-of-10 0.285, oracle 0.190 (agrees with largest on 71% of shared
+bonds; at βJ = 0.3 the oracle reaches 0.06, the sign of the error being
+tunable; at 0.8 the ln 2 floor holds it at 0.31). Verdict: keep the
+largest-clique rule; the assignment matters at the factor-of-two level and
+nothing structural captures it. Text in Sec. 14.3 and Sec. 24.9; software
+row (25 caches); README.
+
+Open: Foissy (Ch. 21); joint (cardinality, chy-degree) on the interactomes
+(Ch. 21); Ch. 17's list; Sec. 8.10's list; Ch. 18's list; O(1/n) corrections
+and the ordered phase of the ensemble series (Ch. 24).

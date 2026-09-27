@@ -1,0 +1,28 @@
+hyperbolic done, 264 s
+karrer done, 643 s
+  130 rows, 650 s
+  140 rows, 658 s
+  150 rows, 696 s
+  160 rows, 727 s
+  170 rows, 804 s
+  180 rows, 971 s
+  190 rows, 1029 s
+  200 rows, 1046 s
+  210 rows, 1116 s
+  220 rows, 1196 s
+  230 rows, 1416 s
+  240 rows, 1816 s
+real done, 1816 s
+wrote /Users/avazquez/av2atg/chygraph/statmech/probe/results/assignment_rules.json
+240 runs; median |error| by rule, and how often each rule ties the oracle within 0.01:
+  hyperbolic bJ=0.3: n= 30  largest 0.228  smallest 0.252  strongest 0.230  weakest 0.245  balance 0.295  random_median 0.229  random_best 0.109  oracle 0.012  | ties {'largest': 7, 'smallest': 9, 'strongest': 8, 'weakest': 6, 'balance': 6}
+  hyperbolic bJ=0.8: n= 30  largest 0.309  smallest 0.539  strongest 0.310  weakest 0.505  balance 0.611  random_median 0.469  random_best 0.326  oracle 0.175  | ties {'largest': 8, 'smallest': 3, 'strongest': 9, 'weakest': 4, 'balance': 2}
+  karrer     bJ=0.3: n= 30  largest 0.264  smallest 0.325  strongest 0.275  weakest 0.307  balance 0.298  random_median 0.286  random_best 0.175  oracle 0.079  | ties {'largest': 7, 'smallest': 5, 'strongest': 3, 'weakest': 3, 'balance': 5}
+  karrer     bJ=0.8: n= 30  largest 0.515  smallest 0.560  strongest 0.510  weakest 0.575  balance 0.627  random_median 0.600  random_best 0.492  oracle 0.452  | ties {'largest': 4, 'smallest': 4, 'strongest': 3, 'weakest': 6, 'balance': 3}
+  real       bJ=0.3: n= 60  largest 0.260  smallest 0.273  strongest 0.259  weakest 0.273  balance 0.311  random_median 0.317  random_best 0.147  oracle 0.064  | ties {'largest': 17, 'smallest': 10, 'strongest': 14, 'weakest': 12, 'balance': 16}
+  real       bJ=0.8: n= 60  largest 0.450  smallest 0.607  strongest 0.469  weakest 0.601  balance 0.624  random_median 0.614  random_best 0.476  oracle 0.320  | ties {'largest': 33, 'smallest': 4, 'strongest': 27, 'weakest': 6, 'balance': 8}
+  all        bJ=0.3: n=120  largest 0.259  smallest 0.291  strongest 0.260  weakest 0.285  balance 0.304  random_median 0.279  random_best 0.145  oracle 0.057  | ties {'largest': 31, 'smallest': 24, 'strongest': 25, 'weakest': 21, 'balance': 27}
+  all        bJ=0.8: n=120  largest 0.466  smallest 0.567  strongest 0.470  weakest 0.552  balance 0.621  random_median 0.560  random_best 0.466  oracle 0.312  | ties {'largest': 45, 'smallest': 11, 'strongest': 39, 'weakest': 16, 'balance': 13}
+  all        bJ=None: n=240  largest 0.343  smallest 0.438  strongest 0.354  weakest 0.454  balance 0.465  random_median 0.440  random_best 0.285  oracle 0.190  | ties {'largest': 76, 'smallest': 35, 'strongest': 64, 'weakest': 37, 'balance': 40}
+  oracle agrees with rule on fraction of shared bonds: {'largest': np.float64(0.71), 'smallest': np.float64(0.42), 'strongest': np.float64(0.66)}
+  oracle evaluations per run, median 38.5

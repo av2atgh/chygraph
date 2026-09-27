@@ -316,6 +316,22 @@ costs the recursion once neither is in the way is what Chapter~\ref{ch:mobius}
 calls the loop part: a few tenths in $\ln Z$ on these instances.
 \code{statmech/\allowbreak probe/\allowbreak cavity\_\allowbreak assigned.\allowbreak py}.
 
+The rule --- the largest clique, ties to the first --- was then set against
+four others on the same $240$ runs, at the same stable fixed point
+(\code{statmech/\allowbreak probe/\allowbreak assignment\_\allowbreak
+rules.\allowbreak py}): the smallest clique, the clique in which the pair
+is most or least correlated at zero field through the clique's other
+bonds, a greedy rule that balances the share of its own bonds each clique
+keeps, and ten uniform draws. Its median error is $0.34$; the most
+correlated clique ties it at $0.35$, because it is almost always the
+largest; the others sit at $0.44$ to $0.47$, where a random draw does. An
+oracle that flips one bond's owner at a time while the exact error falls
+--- a floor and not a rule, since it needs the answer --- reaches $0.19$,
+agreeing with the largest-clique choice on $71$ per cent of the shared
+bonds. So the choice of clique matters at the level of a factor of two,
+and nothing in the structure alone recovers what the oracle sees; the
+book's rule is the right one to use without the answer in hand.
+
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.8\linewidth]{figs/fig-cavity-assigned.pdf}
