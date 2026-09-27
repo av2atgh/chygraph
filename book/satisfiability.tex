@@ -657,7 +657,19 @@ overstating itself without them.
 parameter is right for --- counting clusters of zero-energy solutions --- and
 here is the thing it is wrong for: the condensation transition that sits between
 $\alpha_{d}$ and $\alpha_{s}$ for $k\ge4$. That needs $m\ne0$, and Sec.~\ref{sec:sat-m}
-does it for $k=3$.
+does it for $k=3$. At $k=4$ it was tried and the soft population cannot do
+it: at $\alpha=9.2$, $9.45$, $9.65$ and $9.9$ and $m$ from $0.2$ to $0.8$
+the surveys collapse to a spread of $10^{-12}$ and a complexity at machine
+zero, the freezing Sec.~\ref{sec:sat-m} met above the rigidity point at
+$k=3$, now at every density from $\alpha_{d}$ down, and where the
+population unfreezes it does so into a divergent potential. The one reading
+that survives is $\Sigma(1)<0$ at $9.65$ and $9.9$, above
+$\alpha_{c}=9.55$, which is what condensation requires and says nothing
+about where it sets in
+(\code{statmech/\allowbreak probe/\allowbreak onestep\_\allowbreak k4.\allowbreak py}).
+At $k=4$ the clusters are frozen from $\alpha_{d}$ on, and the calculation
+needs the hard fields the population cannot hold, which is the same gap as
+Sec.~\ref{sec:sat-m}'s.
 
 \emph{It is still treelike.} Equation~\eqref{eq:sp} inherits
 Eq.~\eqref{eq:up}'s assumption unchanged: surveys from a variable's clauses are

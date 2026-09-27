@@ -883,3 +883,18 @@ Sec. 24.3 paragraph "The ordered phase", Checks, software row.
 8.7, 8.4 → k̄_a = 8.4 ± 0.3 (was "a little below 8"); at k̄ = 8 the piece
 still falls at the fourth size (0.54, 0.54, 0.29, 0.19), at 9 it holds.
 Text and caption updated.
+
+## 2026-09-27: the one-step scan at k = 4 (Sec. 13.10)
+
+`probe/onestep_k4.py` (two low-priority workers, M = 500, one seed, α = 9.2,
+9.45, 9.65, 9.9; `results/onestep_sat_k4.csv`; `figs/onestep.py:table_k4`).
+Negative: the soft population freezes (spread ~1e-12, Σ = 0 at machine
+precision) at every α and every m ≤ 0.8; where it unfreezes (9.65 at
+m = 0.4, 0.6; 9.9 at 0.4) the potential diverges. Σ(1) = −0.010, −0.008 at
+9.65, 9.9 (above α_c = 9.547): consistent with condensation, no m* bracket
+anywhere. Conclusion in Sec. 13.10: at k = 4 the clusters are frozen from
+α_d on and the calculation needs the hard fields at m → 0 — the same open
+item. Closed as tried, not achieved.
+
+The extensions list is now worked through: every item is either done, or
+recorded above with what it needs.

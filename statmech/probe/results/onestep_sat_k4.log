@@ -1,0 +1,24 @@
+F=0.063231 s=0.079038 Sigma=-2.9851e-14 spread=1.3825e-12 dead=0 alpha=9.2 m=0.8 seed=0 k=4 sec=405.7
+F=0.015808 s=0.079038 Sigma=-3.3758e-15 spread=3.6998e-14 dead=0 alpha=9.2 m=0.2 seed=0 k=4 sec=408.2
+/Users/avazquez/av2atg/chygraph/statmech/probe/onestep_sat.py:280: RuntimeWarning: divide by zero encountered in log1p
+  a, b = self._wterm(m, np.log1p(-np.exp(logprod)), logw)
+F=2.144 s=-0.20709 Sigma=2.3511 spread=0.033891 dead=0 alpha=9.2 m=1 seed=0 k=4 sec=392.8
+F=0.031615 s=0.079038 Sigma=6.3907e-15 spread=1.4971e-11 dead=0 alpha=9.2 m=0.4 seed=0 k=4 sec=428.6
+F=0.016548 s=0.08274 Sigma=7.8167e-15 spread=1.9785e-12 dead=0 alpha=9.45 m=0.2 seed=0 k=4 sec=453.8
+F=0.047423 s=0.079038 Sigma=-1.741e-14 spread=7.7163e-13 dead=0 alpha=9.2 m=0.6 seed=0 k=4 sec=440.7
+F=0.033096 s=0.08274 Sigma=7.8132e-15 spread=9.6302e-12 dead=0 alpha=9.45 m=0.4 seed=0 k=4 sec=428.3
+F=0.08274 s=0.08274 Sigma=1.7764e-14 spread=4.5243e-08 dead=0 alpha=9.45 m=1 seed=0 k=4 sec=427.5
+F=0.049644 s=0.08274 Sigma=1.5909e-11 spread=1.3747e-05 dead=0 alpha=9.45 m=0.6 seed=0 k=4 sec=427.4
+F=0.014324 s=0.071619 Sigma=3.1971e-15 spread=8.9614e-10 dead=0 alpha=9.65 m=0.2 seed=0 k=4 sec=428.6
+/Users/avazquez/av2atg/chygraph/statmech/probe/onestep_sat.py:280: RuntimeWarning: divide by zero encountered in log1p
+  a, b = self._wterm(m, np.log1p(-np.exp(logprod)), logw)
+F=0.066192 s=0.08274 Sigma=-2.8422e-14 spread=7.8266e-10 dead=0 alpha=9.45 m=0.8 seed=0 k=4 sec=421.3
+F=-0.44194 s=-0.1524 Sigma=-0.38098 spread=0.2247 dead=0 alpha=9.65 m=0.4 seed=0 k=4 sec=427.1
+F=-1.0579 s=-0.30265 Sigma=-0.87629 spread=0.19227 dead=0 alpha=9.65 m=0.6 seed=0 k=4 sec=434
+F=0.0093579 s=0.046789 Sigma=-2.132e-15 spread=2.4728e-07 dead=0 alpha=9.9 m=0.2 seed=0 k=4 sec=443.3
+F=0.057365 s=0.071705 Sigma=1.0645e-06 spread=0.0010816 dead=0 alpha=9.65 m=0.8 seed=0 k=4 sec=432.4
+F=-0.06717 s=-0.0067072 Sigma=-0.064487 spread=0.23304 dead=0 alpha=9.9 m=0.4 seed=0 k=4 sec=440.4
+F=0.024419 s=0.034361 Sigma=-0.0099414 spread=0.18088 dead=0 alpha=9.65 m=1 seed=0 k=4 sec=483
+F=0.00457 s=0.019785 Sigma=-0.0073009 spread=0.22169 dead=0 alpha=9.9 m=0.6 seed=0 k=4 sec=468.3
+F=0.015801 s=0.029574 Sigma=-0.0078578 spread=0.20017 dead=0 alpha=9.9 m=0.8 seed=0 k=4 sec=484
+F=0.025455 s=0.03382 Sigma=-0.0083649 spread=0.1878 dead=0 alpha=9.9 m=1 seed=0 k=4 sec=490.1
