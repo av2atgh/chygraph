@@ -874,3 +874,12 @@ Sec. 24.3 paragraph "The ordered phase", Checks, software row.
   on yeast (hub-dominated spectrum; cavity landscape 60% off on the loopy
   instance) written into Sec. 18.8; the population by layer (extension of
   `anderson.Ensemble` from (s, t) to a layer table) not implemented.
+
+## 2026-09-27: d = 2 finite-size scaling of k̄_a (Ch. 17 (d))
+
+`probe/fss_big.py`: n = 320000 at k̄ = 5..10 (two seeds, ~5 min each);
+`figs/exactness.py:fss_collapse` scales the largest piece by n^{5/48}
+(2D percolation β/ν) and takes the crossings of consecutive sizes: 7.2,
+8.7, 8.4 → k̄_a = 8.4 ± 0.3 (was "a little below 8"); at k̄ = 8 the piece
+still falls at the fourth size (0.54, 0.54, 0.29, 0.19), at 9 it holds.
+Text and caption updated.
