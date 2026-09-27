@@ -66,3 +66,23 @@ def test_series_diverges_at_the_branching_threshold():
     below = ensemble_series([2, 3], [1.2, 0.5], 0.999 * bc)[0]
     assert math.isfinite(below) and below > 1.0
     assert ensemble_series([2, 3], [1.2, 0.5], 1.001 * bc)[0] == math.inf
+
+
+def test_hardcore_gas_of_cycles_is_exact_at_the_trivial_point():
+    from statmech.ensembleloops import (cycle_gas, hardcore_log_sum,
+                                        pair_correction)
+    rng = np.random.default_rng(3)
+    seen = 0
+    for _ in range(40):
+        cx = random_chygraph(16, [2, 3], [1.4, 0.7], rng)
+        cycles = cycle_gas(cx, 0.35, lmax=16)
+        if not 3 <= len(cycles) <= 14:
+            continue
+        ex = exact_minus_bethe(clique_factor_graph(cx, 0.35))
+        assert abs(hardcore_log_sum(cycles) - ex) < 1e-10
+        prod = sum(math.log1p(r) for _, r in cycles)
+        # the product form is above the exact value, the first Mayer term
+        # brackets it from below
+        assert prod >= ex - 1e-12 and prod - pair_correction(cycles) <= ex + 1e-12
+        seen += 1
+    assert seen >= 10

@@ -112,3 +112,90 @@ def exact_minus_bethe(fg):
     for k in fg.m_av:
         fg.m_av[k] = np.zeros(2)
     return fg.exact_log_Z() - fg.log_Z_bethe()
+
+
+# ---------------------------------------------------------------------------
+# the hard-core gas of cycles, and the O(1/n) term
+# ---------------------------------------------------------------------------
+#
+# At the trivial fixed point every atom on a cycle has mu_i = 1 when its
+# degree in the loop is even and mu_i = 0 when it is odd, and a complex
+# carries the correlation of the members the loop uses, which vanishes for
+# an odd number of them.  On a family of edges and triangles no complex can
+# hold two cycles without an odd vertex, so the generalised loops that
+# survive are the collections of cycles pairwise sharing no complex --
+# sharing atoms is free -- and the series is the partition function of a
+# hard-core gas of cycles,
+#
+#     Z / Z_BP = sum_{S: pairwise complex-disjoint} prod_{C in S} r_C,
+#
+# exactly.  Its Mayer expansion gives ln(Z / Z_BP) = sum_C ln(1 + r_C)
+# - sum_{incompatible pairs} r_C r_C' + ..., the pair sum being O(1/n) on
+# a sparse random chygraph.  Cliques of four or more members admit two
+# cycles through disjoint member pairs, with the four-point correlation
+# in place of the product; that case is not covered here.
+
+def cycle_gas(complexes, beta_J, lmax=10):
+    """The cycles through at most ``lmax`` complexes, as ``(complexes, r)``."""
+    G = incidence_graph(complexes)
+    u = {a: clique_derivative(len(c), beta_J) for a, c in enumerate(complexes)}
+    out = []
+    for cyc in nx.simple_cycles(G, length_bound=2 * lmax):
+        cs = frozenset(x[1] for x in cyc if x[0] == 'a')
+        out.append((cs, float(np.prod([u[a] for a in cs]))))
+    return out
+
+
+def incompatible_pairs(cycles):
+    by = {}
+    for i, (cs, _) in enumerate(cycles):
+        for a in cs:
+            by.setdefault(a, []).append(i)
+    pairs = set()
+    for lst in by.values():
+        for i in range(len(lst)):
+            for j in range(i + 1, len(lst)):
+                pairs.add((lst[i], lst[j]))
+    return pairs
+
+
+def hardcore_log_sum(cycles):
+    """``ln sum_S prod r`` over pairwise complex-disjoint collections, by
+    the independence-polynomial recursion (fine while conflicts are sparse)."""
+    pairs = incompatible_pairs(cycles)
+    adj = {i: set() for i in range(len(cycles))}
+    for i, j in pairs:
+        adj[i].add(j)
+        adj[j].add(i)
+
+    def Z(alive):
+        if not alive:
+            return 1.0
+        v = max(alive, key=lambda i: len(adj[i] & alive))
+        rest = alive - {v}
+        return Z(rest) + cycles[v][1] * Z(rest - adj[v])
+
+    return math.log(Z(frozenset(range(len(cycles)))))
+
+
+def pair_correction(cycles):
+    """``sum_{incompatible pairs} r_C r_C'``, the first Mayer term."""
+    return sum(cycles[i][1] * cycles[j][1] for i, j in incompatible_pairs(cycles))
+
+
+def pair_correction_ensemble(cardinalities, means, n, beta_J, lmax=10):
+    """The annealed estimate: cycles through a given layer-``m`` complex
+    number ``sum_l (B^l)_{mm} / 2 M_m`` on average, ``M_m = n <kappa>_m / c_m``
+    complexes in the layer, so unordered pairs at a complex sum to
+    ``sum_m [sum_l (B^l)_{mm}]^2 / 8 M_m``.  Pairs sharing a path are
+    counted once per shared complex and correlated pairs are not, so the
+    estimate is a leading-order one."""
+    B = branching_power(cardinalities, means, beta_J, 1)
+    L = len(cardinalities)
+    M = [n * means[m] / cardinalities[m] for m in range(L)]
+    S = np.zeros((L, L))
+    P = np.linalg.matrix_power(B, 2)
+    for _ in range(2, lmax + 1):
+        S += P
+        P = P @ B
+    return float(sum(S[m, m] ** 2 / (8 * M[m]) for m in range(L)))

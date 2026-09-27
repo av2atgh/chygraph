@@ -668,13 +668,34 @@ things beyond it.
 First, a vertex is reached either from a container or from a member and its
 children are of both kinds, so the grafting has to record the direction of
 each edge: two grafting operators, one per direction, which are the two
-lines of Eq.~\eqref{eq:sp-system}. This may reduce to Foissy's setting by
-decorating each vertex with the pair (layer, direction of arrival), which is
-the $2L^{2}$ index set of Chapter~\ref{ch:percolation}, and that is why it
-should be checked before it is claimed: the classification would then apply
-to the whole percolation theory of Part~II, and would say which of its
-systems are Hopf subalgebras --- which fixed-point equations close on a
-subalgebra of trees --- and which are not.
+lines of Eq.~\eqref{eq:sp-system}. This does reduce to Foissy's setting,
+and the reduction is worth stating because it settles what the
+classification covers. \citeauthor{foissy2010}'s systems are
+$X_{i}=B^{+}_{i}\bigl(f_{i}(X_{1},\dots,X_{N})\bigr)$ for an arbitrary
+finite set of decorations $i$, one grafting operator per decoration,
+which creates a root carrying $i$, and one formal power series $f_{i}$
+per decoration in all the unknowns. Take the decorations to be the pairs
+(layer arrived at, direction of arrival), the $2L^{2}$ index set of
+Sec.~\ref{sec:threshold} with the layer arrived from folded into the
+series: then the root created by $B^{+}_{(l,\pm)}$ records which of the
+two lines of Eq.~\eqref{eq:sp-system} produced it, and the series
+$f_{(l,\pm)}$ is that line's right-hand side, the product of the
+generating functions of the two kinds of children, which is a power
+series in the unknowns because for percolation every generating function
+is one. Nothing in the classification requires the decorations to be
+layers rather than layer--direction pairs, or the series to be the same
+in every direction. So the whole of Part~II's percolation theory is a
+system of the classified kind, and the classification says which of its
+systems generate Hopf subalgebras: by \citeauthor{foissy2010}'s theorem
+those whose series are, up to the normalisation of each unknown, of the
+form $(1-\beta_{i}\sum_{j}a_{ij}X_{j})^{-1/\beta_{i}}$ or its
+$\beta\to0$ exponential limit, with the linear forms compatible across
+decorations. A layered chygraph with Poisson chy-degrees and fixed
+cardinalities is exactly the exponential case, layer by layer, so its
+percolation system closes on a Hopf subalgebra; a finite chy-degree
+distribution, a polynomial generating function, in general does not.
+What is new for the nested chygraph is therefore not the two directions
+but the second point.
 
 Second, and this is the genuine gap, $f$ in Eq.~\eqref{eq:sp-dse} is a power
 series only when the weight of a tree factorises over the children of each

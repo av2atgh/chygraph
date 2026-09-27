@@ -812,3 +812,25 @@ Checks partial results. Closed as attributed, not repaired.
 
 Open: Foissy (Ch. 21); Ch. 17's list; Sec. 8.10's list; Ch. 18's list;
 O(1/n) corrections and the ordered phase of the ensemble series (Ch. 24).
+
+## 2026-09-27: Foissy's classification (Ch. 21) and the O(1/n) term (Ch. 24)
+
+**Foissy.** Resolved in the text: (layer, direction of arrival) is a valid
+decoration set, one B⁺ per decoration and one power series per decoration
+is exactly Foissy's setting, so Part II's percolation systems are all
+classified; Poisson chy-degrees with fixed cardinalities are the
+exponential case (Hopf subalgebra), finite chy-degree pgfs in general not.
+The genuine gap remains the non-multiplicative interior (second point).
+
+**O(1/n).** `ensembleloops.cycle_gas / incompatible_pairs /
+hardcore_log_sum / pair_correction / pair_correction_ensemble` (+ test).
+At the trivial point on edge+triangle families Z/Z_BP = Σ over collections
+of cycles pairwise sharing no complex of ∏ r_C, exactly (3e-14 on 41
+n = 16 instances): odd loop degrees kill μ_i and odd member correlations;
+sharing atoms is free (μ = 1 at even degree). First Mayer term = pair sum
+over incompatible pairs, O(1/n): n × pair sum ≈ 0.8–1.06 on [2,3],(1.2,0.5)
+at βJ = 0.3 for n = 100..3000. Annealed estimate Σ_m [B²(I−B)⁻¹]_mm²/(8M_m)
+within 30% (undercount: path-sharing pairs correlated). Diverges as
+(1−λ)⁻² → expansion valid for 1−λ ≫ n^{−1/2}. 4-cliques: two cycles through
+disjoint pairs carry a 4-point term — not covered. Text: Sec. 24.3
+paragraph "The next order", Eq. (mb-hardcore), Checks, software row.
