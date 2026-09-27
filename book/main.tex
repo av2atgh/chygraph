@@ -24,10 +24,16 @@
 % the trim is the flag instead of the gutter, so if the gutter still fails the
 % answer is a narrower measure, not a bigger slide.
 %
-% LocalNetworkGrowth needs none of this at 283 pages; this book is 364, and
+% LocalNetworkGrowth needs none of this at 283 pages; this book was 364, and
 % printers step the required gutter up at 300.
+%
+% Second edition, 2026-09-27: at 535 pages the book crossed the next step,
+% 500 pages, where the required gutter becomes 0.75in. The outer margin was
+% already at its floor, so the measure narrows: inner 0.75in, outer 0.3in,
+% text width 3.95in instead of 4.05in. Everything reflows; fixed-width
+% tables were refitted to the new measure.
 \usepackage[paperwidth=5in,paperheight=8in,includehead,
-            inner=0.6625in,outer=0.2875in,top=0.56in,bottom=0.64in]{geometry}
+            inner=0.75in,outer=0.3in,top=0.56in,bottom=0.64in]{geometry}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}

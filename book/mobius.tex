@@ -1101,13 +1101,13 @@ factor graph with bonds assigned once has the pairwise model's exact
 partition function.
 
 \checkhead{New results}
-The loop series on the ensemble (\code{statmech/\allowbreak src/\allowbreak
-statmech/\allowbreak ensembleloops.\allowbreak py}, four tests): the cycle
+The loop series on the ensemble, in the module \code{ensembleloops} with
+four tests: the cycle
 sum equals the exact $\ln Z-\ln Z_{\mathrm{BP}}$ on a ring of three
 triangles and whenever the cycles of an instance are disjoint, and the full
 series equals it always; the truncated sum converges to the closed form,
-which on one layer is $\sum_{\ell}(\lambda^{\ell}/2\ell)\ln(1+u'^{\ell})$ by
-hand; the series is finite below Eq.~\eqref{eq:det} and infinite above.
+which on one layer is the sum over $\ell$ of $(\lambda^{\ell}/2\ell)$ times
+$\ln(1+u'^{\ell})$, by hand; the series is finite below Eq.~\eqref{eq:det} and infinite above.
 The matrix-weighted identity, Eq.~\eqref{eq:mb-matrixweighted}, to
 $10^{-12}$ with a full-rank completion and with the minimal ones on the
 instance with a $4$-clique, whose stalk is two-dimensional. The hard-core

@@ -389,10 +389,11 @@ does not appear to have been studied.
 \index{hitting set problem}
 
 The test of Sec.~\ref{sec:rde-endogeny} is two populations with one
-structure. \code{statmech.\allowbreak endogeny} carries two copies of every
+structure. The module \code{endogeny} carries two copies of every
 message, draws the containers, the members and the couplings once per
-update and applies the draw to both, and records the distance between the
-copies, $\ave{|h-h'|}/\ave{|h|}$, sweep by sweep. Started from independent
+update and applies the draw to both, and records, sweep by sweep, the
+distance between the copies relative to the field,
+$\ave{|h-h'|}/\ave{|h|}$. Started from independent
 draws of the fixed-point law, which is a shuffle of one population against
 the other, the copies either converge to the diagonal or settle at a finite
 distance: part~(c) of Theorem~11, run. Started from a small perturbation
