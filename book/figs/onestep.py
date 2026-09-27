@@ -43,10 +43,13 @@ def _tidy(ax):
         ax.spines[sp].set_visible(False)
 
 
+ROWS_FILE = 'onestep_sat.csv'
+
+
 def _rows():
-    rows = list(csv.DictReader(open(PROBE / 'onestep_sat.csv')))
+    rows = list(csv.DictReader(open(PROBE / ROWS_FILE)))
     extra = PROBE / 'onestep_sat_extra.csv'
-    if extra.exists():
+    if ROWS_FILE == 'onestep_sat.csv' and extra.exists():
         rows += list(csv.DictReader(open(extra)))
     return rows
 
@@ -219,6 +222,30 @@ def table_onestep():
         print(f'Sigma scatter between populations (alpha >= 3.9): mean sd {np.mean(sds):.5f}, max {np.max(sds):.5f}; '
               f'mean standard error of the mean {np.mean(ses):.5f}')
     print('block density 0.55 inside the bracket at alpha = ' + ', '.join(f'{a:g}' for a, lo, hi in mstars if np.isfinite(lo) and lo <= 0.55 <= hi))
+    return mstars
+
+
+ALPHA_D4, ALPHA_C4, ALPHA_S4 = 9.38, 9.547, 9.931   # Montanari, Ricci-Tersenghi, Semerjian 2008
+
+
+def table_k4():
+    """Sec. 13.10 at k = 4, where alpha_d and alpha_c differ: the same table
+    from probe/onestep_k4.py's scan (results/onestep_sat_k4.csv, or its log
+    if the scan was interrupted)."""
+    global ROWS_FILE
+    import onestep_sat as o
+    f = PROBE / 'onestep_sat_k4.csv'
+    if not f.exists():
+        o.log_to_csv(PROBE / 'onestep_sat_k4.log')
+    ROWS_FILE = 'onestep_sat_k4.csv'
+    try:
+        print(f'k = 4: alpha_d = {ALPHA_D4}, alpha_c = {ALPHA_C4}, alpha_s = {ALPHA_S4}')
+        mstars = table_onestep()
+        cond = [a for a, lo, hi in mstars if np.isfinite(lo) and hi < 1.0]
+        unc = [a for a, lo, hi in mstars if np.isfinite(lo) and lo >= 1.0]
+        print(f'  m* < 1 (condensed) at alpha = {cond}; uncondensed at {unc}')
+    finally:
+        ROWS_FILE = 'onestep_sat.csv'
     return mstars
 
 
