@@ -110,7 +110,7 @@ def figure_fss():
     # stacked, not side by side: two panels across the 4.05in measure are
     # illegible at the 5x8 trim
     fig, axes = plt.subplots(2, 1, figsize=(4.3, 4.6), sharex=False)
-    shades = {5000.0: LIGHT, 20000.0: MID, 80000.0: DARK}
+    shades = {5000.0: '0.80', 20000.0: LIGHT, 80000.0: MID, 320000.0: DARK}
     for ax, d in zip(axes, (2.0, 3.0)):
         sub = [r for r in rows if r['ensemble'] == 'rgg' and float(r['param']) == d]
         g = _avg(sub, ('n', 'kbar'), ('giant_short', 'gc'))
@@ -145,6 +145,51 @@ def table_real():
             float(r['phi_short_ctrl']), float(r['giant_short']), float(r['residue'])))
     lines += [r'\hline\hline', r'\end{tabular}']
     (OUT / 'tab-real-acyclicity.tex').write_text('\n'.join(lines) + '\n')
+
+
+def table_growing():
+    """Table 17.x: phi on rewirings of the real degree sequences replicated
+    k times (probe/phi_growing.py)."""
+    rows = list(csv.DictReader(open(PROBE / 'phi_growing.csv')))
+    nets = []
+    for r in rows:
+        if r['network'] not in nets:
+            nets.append(r['network'])
+    lines = [r'\begin{tabular}{lrrrrr}', r'\hline\hline',
+             r'network & real & $k=1$ & $k=2$ & $k=4$ & $k=8$\\', r'\hline']
+    for net in nets:
+        d = {int(r['k']): float(r['phi']) for r in rows if r['network'] == net}
+        lines.append('%s & %.2f & %.2f & %.2f & %.2f & %.2f\\\\' % (
+            net, d[0], d[1], d[2], d[4], d[8]))
+    lines += [r'\hline\hline', r'\end{tabular}']
+    (OUT / 'tab-phi-growing.tex').write_text('\n'.join(lines) + '\n')
+    print('  wrote tab-phi-growing.tex')
+
+
+def fss_collapse():
+    """The largest piece at four sizes in d = 2, scaled with the exponents of
+    two-dimensional percolation: the crossing locates the threshold."""
+    rows = _read('fss')
+    sub = [r for r in rows if r['ensemble'] == 'rgg' and float(r['param']) == 2.0]
+    g = _avg(sub, ('n', 'kbar'), ('giant_short',))
+    ns = sorted({k[0] for k in g})
+    beta_nu = 5.0 / 48.0
+    print('  d = 2, largest piece x n^{beta/nu} (beta/nu = 5/48):')
+    for kb in sorted({k[1] for k in g}):
+        vals = [(n, g[(n, kb)]['giant_short'] * n ** beta_nu) for n in ns if (n, kb) in g]
+        print(f'    kbar = {kb:4.1f}: ' + '  '.join(f'n={int(n)}: {v:.3f}' for n, v in vals))
+    # crossing between consecutive sizes, by linear interpolation in kbar
+    out = {}
+    for n1, n2 in zip(ns[:-1], ns[1:]):
+        ks = sorted(k for (n, k) in g if n == n1 and (n2, k) in g)
+        diff = [g[(n1, k)]['giant_short'] * n1 ** beta_nu - g[(n2, k)]['giant_short'] * n2 ** beta_nu for k in ks]
+        for i in range(len(ks) - 1):
+            if diff[i] * diff[i + 1] < 0:
+                kc = ks[i] + (ks[i + 1] - ks[i]) * diff[i] / (diff[i] - diff[i + 1])
+                out[(n1, n2)] = kc
+                print(f'    crossing of n = {int(n1)} and {int(n2)}: kbar_a = {kc:.2f}')
+                break
+    return out
 
 
 # -------------------------------------------------------------- checks
@@ -238,5 +283,7 @@ if __name__ == '__main__':
     check_join_tree_exact()
     figure_acyclicity()
     figure_fss()
+    fss_collapse()
+    table_growing()
     table_real()
     print('wrote fig-acyclicity.pdf, fig-acyclicity-fss.pdf, tab-real-acyclicity.tex')

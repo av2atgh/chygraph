@@ -1,0 +1,64 @@
+Collins yeast          k=1 n=  1004 phi=0.8930 giant=0.8930 (real phi 0.4651) 1s
+Collins yeast          k=2 n=  2008 phi=0.8929 giant=0.8929 (real phi 0.4651) 4s
+Collins yeast          k=4 n=  4016 phi=0.8932 giant=0.8932 (real phi 0.4651) 12s
+Collins yeast          k=8 n=  8032 phi=0.8892 giant=0.8892 (real phi 0.4651) 33s
+Yeast (Y2H)            k=1 n=  1458 phi=0.2562 giant=0.2562 (real phi 0.1797) 0s
+Yeast (Y2H)            k=2 n=  2916 phi=0.2047 giant=0.2047 (real phi 0.1797) 0s
+Yeast (Y2H)            k=4 n=  5832 phi=0.1601 giant=0.1598 (real phi 0.1797) 0s
+Yeast (Y2H)            k=8 n= 11664 phi=0.1200 giant=0.1200 (real phi 0.1797) 1s
+Human (Vidal)          k=1 n=  2783 phi=0.5280 giant=0.5280 (real phi 0.4923) 1s
+Human (Vidal)          k=2 n=  5566 phi=0.4834 giant=0.4834 (real phi 0.4923) 1s
+Human (Vidal)          k=4 n= 11132 phi=0.4423 giant=0.4423 (real phi 0.4923) 3s
+Human (Vidal)          k=8 n= 22264 phi=0.3883 giant=0.3883 (real phi 0.4923) 8s
+Human (Stelzl)         k=1 n=  1615 phi=0.4564 giant=0.4564 (real phi 0.3882) 0s
+Human (Stelzl)         k=2 n=  3230 phi=0.4364 giant=0.4364 (real phi 0.3882) 1s
+Human (Stelzl)         k=4 n=  6460 phi=0.4133 giant=0.4133 (real phi 0.3882) 2s
+Human (Stelzl)         k=8 n= 12920 phi=0.3771 giant=0.3771 (real phi 0.3882) 3s
+Human (Figeys)         k=1 n=  2217 phi=0.5241 giant=0.5241 (real phi 0.5169) 1s
+Human (Figeys)         k=2 n=  4434 phi=0.5252 giant=0.5252 (real phi 0.5169) 4s
+Human (Figeys)         k=4 n=  8868 phi=0.5327 giant=0.5327 (real phi 0.5169) 11s
+Human (Figeys)         k=8 n= 17736 phi=0.5231 giant=0.5231 (real phi 0.5169) 27s
+PDZ domains            k=1 n=   161 phi=0.3514 giant=0.3514 (real phi 0.3540) 0s
+PDZ domains            k=2 n=   322 phi=0.2879 giant=0.2879 (real phi 0.3540) 0s
+PDZ domains            k=4 n=   644 phi=0.2687 giant=0.2687 (real phi 0.3540) 0s
+PDZ domains            k=8 n=  1288 phi=0.2336 giant=0.2336 (real phi 0.3540) 0s
+C. elegans WI8         k=1 n=  2214 phi=0.3692 giant=0.3692 (real phi 0.2864) 0s
+C. elegans WI8         k=2 n=  4428 phi=0.3437 giant=0.3437 (real phi 0.2864) 1s
+C. elegans WI8         k=4 n=  8856 phi=0.3101 giant=0.3101 (real phi 0.2864) 1s
+C. elegans WI8         k=8 n= 17712 phi=0.2727 giant=0.2727 (real phi 0.2864) 3s
+C. elegans 2007        k=1 n=  1108 phi=0.2978 giant=0.2978 (real phi 0.2265) 0s
+C. elegans 2007        k=2 n=  2216 phi=0.2766 giant=0.2766 (real phi 0.2265) 0s
+C. elegans 2007        k=4 n=  4432 phi=0.2564 giant=0.2564 (real phi 0.2265) 0s
+C. elegans 2007        k=8 n=  8864 phi=0.2320 giant=0.2320 (real phi 0.2265) 1s
+Power grid             k=1 n=  4941 phi=0.0216 giant=0.0041 (real phi 0.2860) 0s
+Power grid             k=2 n=  9882 phi=0.0133 giant=0.0024 (real phi 0.2860) 0s
+Power grid             k=4 n= 19764 phi=0.0068 giant=0.0007 (real phi 0.2860) 1s
+Power grid             k=8 n= 39528 phi=0.0034 giant=0.0002 (real phi 0.2860) 2s
+Euroroad               k=1 n=  1039 phi=0.0238 giant=0.0062 (real phi 0.2560) 0s
+Euroroad               k=2 n=  2078 phi=0.0091 giant=0.0038 (real phi 0.2560) 0s
+Euroroad               k=4 n=  4156 phi=0.0092 giant=0.0016 (real phi 0.2560) 0s
+Euroroad               k=8 n=  8312 phi=0.0029 giant=0.0006 (real phi 0.2560) 0s
+Co-authorship          k=1 n=   379 phi=0.7730 giant=0.7730 (real phi 0.0765) 0s
+Co-authorship          k=2 n=   758 phi=0.7018 giant=0.7018 (real phi 0.0765) 0s
+Co-authorship          k=4 n=  1516 phi=0.6113 giant=0.6113 (real phi 0.0765) 0s
+Co-authorship          k=8 n=  3032 phi=0.5043 giant=0.5043 (real phi 0.0765) 0s
+Les Mis. scenes        k=1 n=    77 phi=0.7467 giant=0.7467 (real phi 0.3117) 0s
+Les Mis. scenes        k=2 n=   154 phi=0.7516 giant=0.7516 (real phi 0.3117) 0s
+Les Mis. scenes        k=4 n=   308 phi=0.7566 giant=0.7566 (real phi 0.3117) 0s
+Les Mis. scenes        k=8 n=   616 phi=0.7486 giant=0.7486 (real phi 0.3117) 0s
+Jazz bands             k=1 n=   198 phi=0.9714 giant=0.9714 (real phi 0.9091) 0s
+Jazz bands             k=2 n=   396 phi=0.9739 giant=0.9739 (real phi 0.9091) 1s
+Jazz bands             k=4 n=   792 phi=0.9739 giant=0.9739 (real phi 0.9091) 2s
+Jazz bands             k=8 n=  1584 phi=0.9745 giant=0.9745 (real phi 0.9091) 6s
+Football               k=1 n=   115 phi=1.0000 giant=1.0000 (real phi 1.0000) 0s
+Football               k=2 n=   230 phi=1.0000 giant=1.0000 (real phi 1.0000) 0s
+Football               k=4 n=   460 phi=1.0000 giant=1.0000 (real phi 1.0000) 0s
+Football               k=8 n=   920 phi=1.0000 giant=1.0000 (real phi 1.0000) 0s
+Facebook               k=1 n=   329 phi=0.9230 giant=0.9230 (real phi 0.7234) 0s
+Facebook               k=2 n=   658 phi=0.9214 giant=0.9214 (real phi 0.7234) 0s
+Facebook               k=4 n=  1316 phi=0.9207 giant=0.9207 (real phi 0.7234) 1s
+Facebook               k=8 n=  2632 phi=0.9166 giant=0.9166 (real phi 0.7234) 3s
+Hospital contacts      k=1 n=    75 phi=1.0000 giant=1.0000 (real phi 1.0000) 0s
+Hospital contacts      k=2 n=   150 phi=1.0000 giant=1.0000 (real phi 1.0000) 0s
+Hospital contacts      k=4 n=   300 phi=1.0000 giant=1.0000 (real phi 1.0000) 1s
+Hospital contacts      k=8 n=   600 phi=1.0000 giant=1.0000 (real phi 1.0000) 2s
